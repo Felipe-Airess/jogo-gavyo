@@ -17,11 +17,12 @@
 <div id="touch-controls" class="touch-controls" aria-label="Controles de toque">
 <div id="dpad" class="dpad" role="group" aria-label="Direcional: deslize para mover em qualquer direção"><span data-dir="up">↑</span><span data-dir="left">←</span><span class="pad-center">+</span><span data-dir="right">→</span><span data-dir="down">↓</span></div>
 <div class="touch-actions"><button type="button" data-action="run">Correr</button><button type="button" data-action="guard">Defender</button><button type="button" data-action="grab">Agarrar</button><button type="button" class="strike" data-action="attack">Soco</button><button type="button" class="strike" data-action="kick">Chute</button><button type="button" id="touch-pause">Pausa</button></div></div></div>
-      <div class="toolbar"><span id="status" role="status">Entre no corredor para começar.</span><div><label class="training-label">Treino<select id="training"><option value="reaction">Reações</option><option value="guard">Defesa do alvo</option><option value="sparring">Combate</option></select></label><button id="play" type="button">Jogar</button><button id="toggle-touch" type="button" aria-pressed="false">Toque</button><button id="debug" type="button" aria-pressed="false">Colisões</button><button id="blood" type="button" aria-pressed="true">Sangue: sim</button><button id="audio" type="button" aria-pressed="true">Som: sim</button><button id="reset" type="button">Reiniciar</button></div></div>
+      <div class="toolbar"><span id="status" role="status">Entre no corredor para começar.</span><div><label class="training-label">Treino<select id="training"><option value="reaction">Reações</option><option value="guard">Defesa do alvo</option><option value="sparring">Combate</option></select></label><label class="training-label">Miguel<select id="miguel-pose"><option value="idle">Idle</option><option value="guard">Guarda</option></select></label><button id="play" type="button">Jogar</button><button id="toggle-touch" type="button" aria-pressed="false">Toque</button><button id="debug" type="button" aria-pressed="false">Colisões</button><button id="blood" type="button" aria-pressed="true">Sangue: sim</button><button id="audio" type="button" aria-pressed="true">Som: sim</button><button id="reset" type="button">Reiniciar</button></div></div>
     </section>
     <footer>
       <p><kbd>WASD</kbd> / setas mover <i></i><kbd>Shift</kbd> correr <i></i><kbd>J</kbd> soco <i></i><kbd>K</kbd> chute/joelhada <i></i><kbd>G</kbd> clinch <i></i><kbd>L</kbd> defender</p>
       <p class="touch-hint">Use dois dedos para mover e atacar. Segure Correr ou Defender; baixo + Soco/Chute muda o golpe.</p><details><summary>Controles e treino</summary>
+        <p>Miguel está no corredor com os 10 quadros de idle e os 16 de guarda enviados. Use o seletor Miguel para alternar. Por enquanto ele acompanha o treino sem participar do combate.</p>
         <p><kbd>J → K</kbd> emenda soco e chute alto; <kbd>K → J</kbd> retorna com soco. Prepare um próximo comando por golpe: acertar, errar e bater na guarda têm saídas diferentes. A barra abaixo da vida é o fôlego. Errar com energia recupera normalmente; tropeçar exige errar com a reserva no fim. <kbd>Frente + J</kbd>: pesado que carrega o alvo; <kbd>trás + J</kbd>: golpe para trás; <kbd>baixo + J</kbd>: golpe no corpo.</p>
         <p><kbd>Shift + direção</kbd> corre. Com velocidade, <kbd>Shift + J</kbd> compromete o corpo no soco e pode levar Sorriso ao chão junto com o alvo. <kbd>K</kbd> dá chute circular; <kbd>baixo + K</kbd> ataca a perna. Se houver um alvo caído ao alcance, esse comando usa o chute no chão. Finalizados não levantam; <kbd>R</kbd> reinicia o treino.</p>
         <p>No clinch: <kbd>J</kbd> soco curto, <kbd>baixo + J</kbd> cotovelada, <kbd>K</kbd> joelhada, <kbd>Shift + J</kbd> golpe para derrubar. Setas/WASD arrastam o alvo; <kbd>G</kbd> solta. Os acertos renovam a pega; parar permite escapar.</p>
@@ -31,7 +32,7 @@
     </footer>
   </main>
   <script src="vendor/phaser.min.js"></script>
-  <script type="module" src="src/main.js?v=070"></script>
+  <script type="module" src="src/main.js?v=070-miguel"></script>
   <noscript>Ative JavaScript para jogar GAVIÃO.</noscript>
 </body>
 </html>

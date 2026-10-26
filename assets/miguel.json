@@ -1,0 +1,580 @@
+{
+  "name": "Miguel",
+  "frame": [
+    128,
+    96
+  ],
+  "columns": 8,
+  "root": [
+    64,
+    88
+  ],
+  "clips": [
+    {
+      "id": "idle",
+      "loop": true,
+      "frames": [
+        {
+          "index": 0,
+          "duration": 350,
+          "sourceFacing": 1,
+          "source": [
+            29,
+            0,
+            162,
+            380
+          ],
+          "draw": [
+            52,
+            19,
+            24,
+            70
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 1,
+          "duration": 350,
+          "sourceFacing": 1,
+          "source": [
+            178,
+            0,
+            328,
+            380
+          ],
+          "draw": [
+            50,
+            19,
+            28,
+            70
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 2,
+          "duration": 350,
+          "sourceFacing": 1,
+          "source": [
+            328,
+            0,
+            467,
+            381
+          ],
+          "draw": [
+            51,
+            19,
+            26,
+            70
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 3,
+          "duration": 350,
+          "sourceFacing": 1,
+          "source": [
+            472,
+            0,
+            615,
+            381
+          ],
+          "draw": [
+            51,
+            19,
+            26,
+            70
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 4,
+          "duration": 350,
+          "sourceFacing": 1,
+          "source": [
+            621,
+            0,
+            751,
+            381
+          ],
+          "draw": [
+            52,
+            19,
+            24,
+            70
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 5,
+          "duration": 350,
+          "sourceFacing": 1,
+          "source": [
+            763,
+            0,
+            925,
+            380
+          ],
+          "draw": [
+            49,
+            19,
+            30,
+            70
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 6,
+          "duration": 350,
+          "sourceFacing": 1,
+          "source": [
+            930,
+            0,
+            1079,
+            381
+          ],
+          "draw": [
+            51,
+            19,
+            27,
+            70
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 7,
+          "duration": 350,
+          "sourceFacing": 1,
+          "source": [
+            1079,
+            0,
+            1223,
+            381
+          ],
+          "draw": [
+            51,
+            19,
+            27,
+            70
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 8,
+          "duration": 350,
+          "sourceFacing": 1,
+          "source": [
+            1228,
+            4,
+            1364,
+            380
+          ],
+          "draw": [
+            52,
+            20,
+            25,
+            69
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 9,
+          "duration": 350,
+          "sourceFacing": 1,
+          "source": [
+            1373,
+            0,
+            1515,
+            383
+          ],
+          "draw": [
+            51,
+            18,
+            26,
+            71
+          ],
+          "root": [
+            64,
+            88
+          ]
+        }
+      ],
+      "totalMs": 3500,
+      "source": "miguel_idle_10_quadros.png",
+      "scale": 0.18421052631578946
+    },
+    {
+      "id": "guard",
+      "loop": true,
+      "frames": [
+        {
+          "index": 10,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            16,
+            0,
+            165,
+            241
+          ],
+          "draw": [
+            44,
+            23,
+            41,
+            66
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 11,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            180,
+            0,
+            346,
+            241
+          ],
+          "draw": [
+            41,
+            23,
+            46,
+            66
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 12,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            356,
+            2,
+            515,
+            241
+          ],
+          "draw": [
+            42,
+            23,
+            44,
+            66
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 13,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            538,
+            3,
+            711,
+            241
+          ],
+          "draw": [
+            40,
+            24,
+            48,
+            65
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 14,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            721,
+            3,
+            946,
+            241
+          ],
+          "draw": [
+            33,
+            24,
+            62,
+            65
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 15,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            954,
+            0,
+            1150,
+            241
+          ],
+          "draw": [
+            37,
+            23,
+            54,
+            66
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 16,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            1150,
+            0,
+            1343,
+            241
+          ],
+          "draw": [
+            38,
+            23,
+            53,
+            66
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 17,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            1357,
+            0,
+            1533,
+            241
+          ],
+          "draw": [
+            40,
+            23,
+            48,
+            66
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 18,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            9,
+            241,
+            171,
+            464
+          ],
+          "draw": [
+            42,
+            28,
+            45,
+            61
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 19,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            176,
+            241,
+            341,
+            464
+          ],
+          "draw": [
+            42,
+            28,
+            45,
+            61
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 20,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            345,
+            241,
+            521,
+            464
+          ],
+          "draw": [
+            40,
+            28,
+            48,
+            61
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 21,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            523,
+            241,
+            708,
+            464
+          ],
+          "draw": [
+            39,
+            28,
+            51,
+            61
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 22,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            727,
+            241,
+            913,
+            464
+          ],
+          "draw": [
+            39,
+            28,
+            51,
+            61
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 23,
+          "duration": 150,
+          "sourceFacing": 1,
+          "source": [
+            934,
+            241,
+            1140,
+            464
+          ],
+          "draw": [
+            36,
+            28,
+            57,
+            61
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 24,
+          "duration": 150,
+          "sourceFacing": -1,
+          "source": [
+            1140,
+            244,
+            1359,
+            464
+          ],
+          "draw": [
+            34,
+            28,
+            60,
+            61
+          ],
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 25,
+          "duration": 150,
+          "sourceFacing": -1,
+          "source": [
+            1371,
+            245,
+            1531,
+            464
+          ],
+          "draw": [
+            42,
+            29,
+            44,
+            60
+          ],
+          "root": [
+            64,
+            88
+          ]
+        }
+      ],
+      "totalMs": 2400,
+      "source": "miguel_guarda_16_quadros.png",
+      "scale": 0.275
+    }
+  ],
+  "reference": "Sorriso: guarda 66 px; Miguel em pé 70 px.",
+  "preparation": "Recorte, máscara do fundo e redução proporcional por nearest-neighbor. Sem poses novas."
+}
