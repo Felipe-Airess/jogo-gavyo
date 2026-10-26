@@ -1,6 +1,6 @@
 import{MOVES}from'./battle.mjs';
 // Profiles keep the historical simulator fixtures intact while the playable build uses the reviewed art.
-export const BUILD_VERSION='0.7.0';
+export const BUILD_VERSION='0.8.0';
 export function createBuildMoves(clips){
  const moves=Object.fromEntries(Object.entries(MOVES).map(([id,m])=>[id,{...m,frames:[...m.frames],times:[...m.times],active:[...m.active],sequence:m.sequence?.map(p=>[...p])}]));
  moves.jabHead={...moves.jab,name:'JAB NA CABECA'};moves.crossBody={...moves.cross,name:'DIRETO NO TRONCO'};moves.highKick={...moves.kick,name:'CIRCULAR ALTO'};

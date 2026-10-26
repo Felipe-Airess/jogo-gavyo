@@ -31,6 +31,7 @@ export function worldMarkers(m, f) {
   return {
     head: toWorld(m.head, f),
     headR: (m.head?.r || 9) * (f.scale || 1),
+    chin: m.head?.chin != null ? f.y + m.head.chin * (f.scale || 1) : null,
     torso: toWorld(m.torso, f),
     torsoTop: m.torso ? f.y + m.torso.top : null,
     hip: toWorld(m.hip, f),
@@ -47,8 +48,10 @@ export function hurtboxes(w) {
   if (!w) return {};
   const out = {};
   if (w.head) {
-    const s = Math.max(9, w.headR * 1.5);
-    out.head = centerBox(w.head.x, w.head.y + 1, s, s);
+    // Do alto do cabelo (sem todo o volume) até o queixo: o soco no rosto conta.
+    const s = Math.max(9, w.headR * 1.5), top = w.head.y - w.headR * 0.75;
+    const bottom = w.chin ?? w.head.y + s / 2;
+    out.head = { x: w.head.x - s / 2, y: top, w: s, h: Math.max(s * 0.8, bottom - top) };
   }
   if (w.torso && w.hip) {
     const top = Math.min(w.torsoTop ?? w.torso.y - 8, w.hip.y - 6);
@@ -64,7 +67,7 @@ export function hurtboxes(w) {
   return out;
 }
 
-// Pushbox: só o corpo em pé empurra. Largura fixa centrada no quadril.
+// Pushbox (desenho de depuração): largura fixa centrada no quadril, como em Duel.separate.
 export const pushbox = (f, w) => ({ x: (w?.hip?.x ?? f.x) - 8, y: f.y - 40, w: 16, h: 40 });
 
 // Zona de guarda: braços à frente da cabeça e do tronco.

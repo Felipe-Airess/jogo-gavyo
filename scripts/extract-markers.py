@@ -113,6 +113,7 @@ def analyse(cell):
         head_box = (hx0 - 2, hy0, hx1 + 2, max(hy1, max((y for _, y in face), default=hy1)) + 1)
         head = local(cx, cy)
         head['r'] = round(max(hx1 - hx0, head_box[3] - hy0) / 2, 2)
+        head['chin'] = round(head_box[3] - PIVOT[1], 2)  # base do rosto
     else:
         limits.append('head: cabelo não separado no topo')
 

@@ -217,9 +217,21 @@ export class Duel {
     const boxes = this.hurtboxesOf(d), [hw, hh] = LIMB_SIZE[m.limb].map(v => v / 2);
     let best = null;
     const legsOnly = m.targets.length === 1 && m.targets[0] === 'legs';
+    // Chute na perna mira a coxa: a caixa sobe um pouco acima da linha da calça.
+    const zoneBox = zone => legsOnly && boxes.legs ? { ...boxes.legs, y: boxes.legs.y - 8, h: boxes.legs.h + 8 } : boxes[zone];
+    // Primeiro, onde o membro está agora (maior sobreposição). A varredura em
+    // linha reta só entra quando o membro passou inteiro entre dois ticks:
+    // num chute circular a reta entre a perna dobrada e a estendida cortaria o
+    // tronco, embora o pé desenhado chegue na cabeça.
+    const limb = { x: tip.x - hw, y: tip.y - hh, w: hw * 2, h: hh * 2 };
     for (const zone of m.targets) {
-      // Chute na perna mira a coxa: a caixa sobe um pouco acima da linha da calça.
-      const box = legsOnly && boxes.legs ? { ...boxes.legs, y: boxes.legs.y - 8, h: boxes.legs.h + 8 } : boxes[zone];
+      const box = zoneBox(zone);
+      if (!box || !overlap(limb, box)) continue;
+      const area = (Math.min(limb.x + limb.w, box.x + box.w) - Math.max(limb.x, box.x)) * (Math.min(limb.y + limb.h, box.y + box.h) - Math.max(limb.y, box.y));
+      if (!best || area > best.area) best = { zone, t: 1, area, box };
+    }
+    if (!best) for (const zone of m.targets) {
+      const box = zoneBox(zone);
       const t = box && sweep(from, tip, hw, hh, box);
       if (t !== null && t !== undefined && (!best || t < best.t)) best = { zone, t, box };
     }
@@ -332,9 +344,13 @@ export class Duel {
   separate() {
     const [a, b] = this.fighters;
     if (DOWN.has(a.state) || DOWN.has(b.state) || a.clinch || b.clinch) return;
-    const min = STAGE.half * 2, gap = Math.abs(b.x - a.x);
+    // Centro do corpo pelo quadril desenhado: o passo à frente de um golpe
+    // pesado empurra o outro, em vez de atravessá-lo.
+    const hip = f => this.markersOf(f)?.hip?.x ?? f.x;
+    const ha = hip(a), hb = hip(b), dir = b.x >= a.x ? 1 : -1;
+    const min = STAGE.half * 2, gap = Math.min(Math.abs(b.x - a.x), (hb - ha) * dir);
     if (gap >= min) return;
-    const dir = b.x >= a.x ? 1 : -1, push = (min - gap) / 2;
+    const push = (min - gap) / 2;
     let ax = a.x - dir * push, bx = b.x + dir * push;
     if (ax < STAGE.minX) { bx += STAGE.minX - ax; ax = STAGE.minX; }
     if (ax > STAGE.maxX) { bx -= ax - STAGE.maxX; ax = STAGE.maxX; }

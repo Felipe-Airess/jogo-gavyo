@@ -10,14 +10,14 @@
 </head>
 <body>
   <main>
-    <header><div><span class="eyebrow">TREINO / BUILD 0.7.0</span><h1>GAVIÃO<span>Depois do sinal.</span></h1></div><span class="chapter">SORRISO<br><small>CORREDOR B · 17:46</small></span></header>
+    <header><div><span class="eyebrow">TREINO / BUILD 0.8.0</span><h1>GAVIÃO<span>Depois do sinal.</span></h1></div><span class="chapter">SORRISO<br><small>CORREDOR B · 17:46</small></span></header>
     <section aria-label="Jogo GAVIÃO">
 <div class="play-layout">
       <div id="viewport"><div id="game" tabindex="0" aria-label="Área do jogo. Enter para começar. WASD ou setas para mover, Shift para correr, J para combo e K para chute."></div><p id="loading" role="status">Abrindo o corredor…</p></div>
 <div id="touch-controls" class="touch-controls" aria-label="Controles de toque">
 <div id="dpad" class="dpad" role="group" aria-label="Direcional: deslize para mover em qualquer direção"><span data-dir="up">↑</span><span data-dir="left">←</span><span class="pad-center">+</span><span data-dir="right">→</span><span data-dir="down">↓</span></div>
 <div class="touch-actions"><button type="button" data-action="run">Correr</button><button type="button" data-action="guard">Defender</button><button type="button" data-action="grab">Agarrar</button><button type="button" class="strike" data-action="attack">Soco</button><button type="button" class="strike" data-action="kick">Chute</button><button type="button" id="touch-pause">Pausa</button></div></div></div>
-      <div class="toolbar"><span id="status" role="status">Entre no corredor para começar.</span><div><label class="training-label">Treino<select id="training"><option value="reaction">Reações</option><option value="guard">Defesa do alvo</option><option value="sparring">Combate</option></select></label><label class="training-label">Miguel<select id="miguel-pose"><option value="idle">Idle</option><option value="guard">Guarda</option></select></label><button id="play" type="button">Jogar</button><button id="toggle-touch" type="button" aria-pressed="false">Toque</button><button id="debug" type="button" aria-pressed="false">Colisões</button><button id="blood" type="button" aria-pressed="true">Sangue: sim</button><button id="audio" type="button" aria-pressed="true">Som: sim</button><button id="reset" type="button">Reiniciar</button></div></div>
+      <div class="toolbar"><span id="status" role="status">Entre no corredor para começar.</span><div><label class="training-label">Modo<select id="game-mode"><option value="corridor">Corredor</option><option value="duel">Duelo 1×1</option></select></label><label class="training-label">Treino<select id="training"><option value="reaction">Reações</option><option value="guard">Defesa do alvo</option><option value="sparring">Combate</option></select></label><label class="training-label">Miguel<select id="miguel-pose"><option value="idle">Idle</option><option value="guard">Guarda</option></select></label><button id="play" type="button">Jogar</button><button id="toggle-touch" type="button" aria-pressed="false">Toque</button><button id="debug" type="button" aria-pressed="false">Colisões</button><button id="blood" type="button" aria-pressed="true">Sangue: sim</button><button id="audio" type="button" aria-pressed="true">Som: sim</button><button id="reset" type="button">Reiniciar</button></div></div>
     </section>
     <footer>
       <p><kbd>WASD</kbd> / setas mover <i></i><kbd>Shift</kbd> correr <i></i><kbd>J</kbd> soco <i></i><kbd>K</kbd> chute/joelhada <i></i><kbd>G</kbd> clinch <i></i><kbd>L</kbd> defender</p>
@@ -27,12 +27,13 @@
         <p><kbd>Shift + direção</kbd> corre. Com velocidade, <kbd>Shift + J</kbd> compromete o corpo no soco e pode levar Sorriso ao chão junto com o alvo. <kbd>K</kbd> dá chute circular; <kbd>baixo + K</kbd> ataca a perna. Se houver um alvo caído ao alcance, esse comando usa o chute no chão. Finalizados não levantam; <kbd>R</kbd> reinicia o treino.</p>
         <p>No clinch: <kbd>J</kbd> soco curto, <kbd>baixo + J</kbd> cotovelada, <kbd>K</kbd> joelhada, <kbd>Shift + J</kbd> golpe para derrubar. Setas/WASD arrastam o alvo; <kbd>G</kbd> solta. Os acertos renovam a pega; parar permite escapar.</p>
         <p>No modo <strong>Combate</strong>, aperte <kbd>L</kbd> pouco antes do contato para aparar. O sinal junto ao personagem indica a abertura: <kbd>J</kbd> contra-ataca; <kbd>baixo + J</kbd> responde no corpo. Segurar L mantém a defesa comum. Perto de um caído: <kbd>J</kbd> soco, <kbd>baixo + K</kbd> chute, <kbd>Shift + K</kbd> pisada. Depois de acertar socos, ficar parado permite limpar as mãos; mover ou atacar interrompe.</p>
+        <p><strong>Duelo 1×1</strong> (seletor Modo): Sorriso contra uma versão de roupa escura controlada pela IA, em linha lateral. <kbd>J</kbd> jab, <kbd>baixo + J</kbd> jab no corpo, <kbd>frente + J</kbd> direto, <kbd>trás + J</kbd> gancho no corpo, <kbd>Shift + J</kbd> golpe pesado (correndo: soco de impulso). <kbd>K</kbd> circular, <kbd>cima + K</kbd> circular alto, <kbd>baixo + K</kbd> chute na perna. Segurar baixo agacha e tira a cabeça da linha. <kbd>L</kbd> guarda alta, que não cobre a perna. Um comando pode ser preparado pouco antes do fim de uma ação; golpes que tocam emendam o próximo da sequência, até três. <kbd>G</kbd> agarra de perto: <kbd>K</kbd> joelhada, <kbd>J</kbd> soco curto, direção arrasta, <kbd>G</kbd> solta. Preso, aperte golpes ou puxe para trás. Barras: C cabeça, T tronco, P pernas, E equilíbrio, F fôlego. O nocaute é anunciado com o motivo.</p>
         <p>Barras: <strong>C</strong> cabeça, <strong>T</strong> tronco, <strong>B</strong> braços, <strong>P</strong> pernas. Pernas esgotadas derrubam; braços perdem defesa e ataque; tronco cede; cabeça esgotada desmaia. <strong>Combate</strong> varia as respostas dos alvos. <kbd>B</kbd> liga/desliga sangue; <kbd>F2</kbd> mostra caixas; <kbd>H</kbd> testa dano; <kbd>Esc</kbd> pausa. No celular, use os botões de toque.</p>
       </details>
     </footer>
   </main>
   <script src="vendor/phaser.min.js"></script>
-  <script type="module" src="src/main.js?v=070-miguel"></script>
+  <script type="module" src="src/main.js?v=080-duelo"></script>
   <noscript>Ative JavaScript para jogar GAVIÃO.</noscript>
 </body>
 </html>
