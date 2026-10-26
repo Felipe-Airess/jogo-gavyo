@@ -134,8 +134,8 @@
     },
     {
       "path": "style.css",
-      "bytes": 5680,
-      "sha256": "3a108f32d07be68fdc31ccd0d6d50d2c5b2f8883e5c8d3ec98f482fe57803664"
+      "bytes": 5761,
+      "sha256": "6434b836a160c2cde13f960b0243bea0e3aa11b91711056a7c554a0c83cb644d"
     },
     {
       "path": "vendor/PHASER-LICENSE.md",
@@ -148,5 +148,5 @@
       "sha256": "e92ddef111ba42e92d316979c732311757093688ea1810591cb7aa2858eba7a7"
     }
   ],
-  "bytes": 4279085
+  "bytes": 4279166
 }
