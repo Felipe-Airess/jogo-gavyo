@@ -4,17 +4,19 @@ import{Battle,MOVES,CLINCH}from'./battle.mjs';
 import{spriteFrame,spriteFlip,spriteMeta}from'./sprite-player.mjs';
 import{createArt,lettering}from'./art.js';
 import{TargetView}from'./target-view.mjs';
-import{SORRISO_ASSET}from'./assets.js';
+import{SORRISO_ASSET,MIGUEL_ASSET}from'./assets.js';
+import{MiguelView}from'./miguel-view.mjs';
 import{Blood}from'./blood.mjs';
 import{CombatAudio}from'./combat-audio.mjs';
 const $=id=>document.getElementById(id),ui={play:$('play'),debug:$('debug'),reset:$('reset'),status:$('status'),game:$('game'),training:$('training')};
 class Corridor extends Phaser.Scene{
  constructor(){super('Corridor');this.mode='title';this.debugVisible=false;this.hudClock=0;this.cameraPosition=0;}
- preload(){this.load.spritesheet('sorriso-sheet',SORRISO_ASSET.image,{frameWidth:SORRISO_ASSET.frameWidth,frameHeight:SORRISO_ASSET.frameHeight});this.load.json('sorriso-data',SORRISO_ASSET.data);}
+ preload(){this.load.spritesheet('sorriso-sheet',SORRISO_ASSET.image,{frameWidth:SORRISO_ASSET.frameWidth,frameHeight:SORRISO_ASSET.frameHeight});this.load.json('sorriso-data',SORRISO_ASSET.data);this.load.spritesheet('miguel-sheet',MIGUEL_ASSET.image,{frameWidth:MIGUEL_ASSET.frameWidth,frameHeight:MIGUEL_ASSET.frameHeight});this.load.json('miguel-data',MIGUEL_ASSET.data);}
  create(){
-  if(!this.textures.exists('sorriso-sheet')){$('loading').textContent='Não foi possível carregar a folha. Reabra pelo INICIAR.cmd.';return;}
+  if(!this.textures.exists('sorriso-sheet')||!this.textures.exists('miguel-sheet')||!this.cache.json.get('miguel-data')){$('loading').textContent='Não foi possível carregar a folha. Reabra pelo INICIAR.cmd.';return;}
   this.clips=Object.fromEntries(this.cache.json.get('sorriso-data').clips.map(c=>[c.id,c]));createArt(this);this.model=new Battle(2,731,createBuildMoves(this.clips));this.model.artClips=this.clips;this.blood=new Blood();this.combatAudio=new CombatAudio();this.add.image(0,0,'hallway').setOrigin(0);
   this.shadow=this.add.ellipse(76,146,25,4,0x172723,0.6);this.sorriso=this.add.image(76,146,'sorriso-sheet',0).setOrigin(SORRISO_ASSET.originX,SORRISO_ASSET.originY);
+  this.miguel=new MiguelView(this,this.cache.json.get('miguel-data'));$('miguel-pose').onchange=()=>{this.miguel.setPose($('miguel-pose').value);ui.game.focus({preventScroll:true});};
   this.enemyViews=this.model.enemies.map(()=>({view:new TargetView(this,this.clips),shadow:this.add.ellipse(0,146,25,5,0x172723,0.6)}));
   this.bars=this.add.graphics().setDepth(650);this.effects=this.add.graphics().setDepth(700);this.debugLayer=this.add.graphics().setDepth(720);
   this.cameras.main.setBounds(0,0,640,180);this.cameras.main.roundPixels=true;
@@ -32,11 +34,11 @@ class Corridor extends Phaser.Scene{
   $('touch-pause').onclick=()=>this.toggle();$('toggle-touch').onclick=()=>{document.body.classList.toggle('touch-mode');$('toggle-touch').setAttribute('aria-pressed',String(document.body.classList.contains('touch-mode')));this.touch.clear();requestAnimationFrame(fit);};
   ui.play.onclick=()=>{this.toggle();ui.game.focus({preventScroll:true});};ui.reset.onclick=()=>{this.restart();ui.game.focus({preventScroll:true});};ui.debug.onclick=()=>{this.debugVisible=!this.debugVisible;ui.debug.setAttribute('aria-pressed',String(this.debugVisible));ui.game.focus({preventScroll:true});};ui.training.onchange=()=>{this.model.setMode(ui.training.value);ui.game.focus({preventScroll:true});};
   this.renderWorld(0);this.paintHud();this.paintOverlay();$('loading').remove();
-  window.gaviao={game:this.game,snapshot:()=>({version:BUILD_VERSION,touch:this.touch.held(),sprite:{frame:this.sorriso.frame.name,flip:this.sorriso.flipX},mode:this.mode,debug:this.debugVisible,player:{...this.model.player},enemies:this.model.enemies.map(d=>({...d,ragdoll:d.ragdoll?{nodes:d.ragdoll.nodes.map(n=>({...n})),age:d.ragdoll.age}:null})),target:this.model.nearest?.id,combo:{...this.model.combo},lastHit:this.model.lastHit,attack:this.model.attackBox(),message:this.model.message,fps:this.game.loop.actualFps,renderer:this.game.renderer.type,canvas:[this.game.canvas.width,this.game.canvas.height]})};
+  window.gaviao={game:this.game,snapshot:()=>({version:BUILD_VERSION,touch:this.touch.held(),sprite:{frame:this.sorriso.frame.name,flip:this.sorriso.flipX},mode:this.mode,debug:this.debugVisible,miguel:this.miguel.snapshot(),player:{...this.model.player},enemies:this.model.enemies.map(d=>({...d,ragdoll:d.ragdoll?{nodes:d.ragdoll.nodes.map(n=>({...n})),age:d.ragdoll.age}:null})),target:this.model.nearest?.id,combo:{...this.model.combo},lastHit:this.model.lastHit,attack:this.model.attackBox(),message:this.model.message,fps:this.game.loop.actualFps,renderer:this.game.renderer.type,canvas:[this.game.canvas.width,this.game.canvas.height]})};
  }
  changeMode(mode){this.mode=mode;this.input.keyboard.resetKeys();this.pressed?.clear();this.touch?.clear();ui.play.textContent=mode==='playing'?'Pausar':mode==='title'?'Jogar':mode==='dead'?'Tentar de novo':'Continuar';this.paintOverlay();}
  toggle(){this.combatAudio?.unlock();if(this.mode==='dead')this.restart();else this.changeMode(this.mode==='playing'?'paused':'playing');}
- restart(){this.model.reset();this.model.setMode(ui.training.value);this.blood.reset();this.lastBloodHit=null;this.cameraPosition=0;this.changeMode('playing');this.renderWorld(0);this.paintHud();}
+ restart(){this.miguel.setPose($('miguel-pose').value);this.model.reset();this.model.setMode(ui.training.value);this.blood.reset();this.lastBloodHit=null;this.cameraPosition=0;this.changeMode('playing');this.renderWorld(0);this.paintHud();}
  update(time,delta){
   if(!this.model)return;const touch=this.touch.read(),pressed=this.pressed;this.pressed=new Set();const tap=key=>pressed.has(key);
   if(tap('F2')){this.debugVisible=!this.debugVisible;ui.debug.setAttribute('aria-pressed',String(this.debugVisible));}
@@ -54,6 +56,7 @@ class Corridor extends Phaser.Scene{
   this.renderWorld(delta);this.hudClock+=delta;if(this.hudClock>=90){this.paintHud();this.hudClock=0;}
  }
  renderWorld(delta){
+  this.miguel.render(this.mode==='playing'?delta:0);
   const p=this.model.player;this.sorriso.setPosition(Math.round(p.x+(p.visualOffsetX||0)),Math.round(p.y-(p.fallHeight||0))).setFrame(spriteFrame(p,this.clips,this.model.moves)).setFlipX(spriteFlip(p)).setDepth(p.y+0.6).setAlpha(p.invulnerable>0&&Math.floor(p.invulnerable/70)%2===0?.5:1);this.shadow.setPosition(Math.round(p.x),p.y).setDepth(p.y-1);
   this.bars.clear();this.effects.clear();this.debugLayer.clear();
   for(let i=0;i<this.model.enemies.length;i++){

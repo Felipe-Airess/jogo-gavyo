@@ -10,6 +10,11 @@ No computador, execute `npm start` ou abra `INICIAR.cmd`. Node.js 18+ é necess�
 
 ## Comandos
 
+Miguel agora acompanha o treino no corredor. O seletor **Miguel** alterna os
+10 quadros de idle e os 16 de guarda enviados, com altura e pivô adequados ao
+jogo. Ele ainda não participa do combate. A preparação dos sprites e as fontes
+estão em [arte/personagens/miguel](arte/personagens/miguel/README.md).
+
 | No celular | No teclado | Ação |
 | --- | --- | --- |
 | Direcional | WASD / setas | Mover e ajustar a posição no corredor |
