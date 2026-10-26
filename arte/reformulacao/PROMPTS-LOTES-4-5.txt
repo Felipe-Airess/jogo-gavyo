@@ -1,12 +1,13 @@
 GAVIÃO — LOTES 04 (DEFESA + REAÇÕES) E 05 (CLINCH) — PROMPTS
-Mesmo formato do lote 3. Anexar SEMPRE a referência: 03-SOCOS-CHUTES/base-aprovada.png
-(e 01-BASE-IDLE/base-fonte.png para rosto/cabelo). Para o clinch, anexar também a prévia
+Mesmo formato do lote 3. Anexar SEMPRE: KIT-REFERENCIA.png e 03-SOCOS-CHUTES/base-aprovada.png
+(e 01-BASE-IDLE/base-fonte.png para rosto/cabelo). Cabeçalho comum COPIADO SEM ALTERAR.
+Uma conversa por lote, uma folha por vez; se o estilo mudar, nova conversa com o kit (ver PEDIDO, seção 1.1). Para o clinch, anexar também a prévia
 composta dos dois atores quando existir. Um prompt = uma ação = uma folha.
 Detalhes, prioridades e tempos: PEDIDO-LOTES-4-5.md.
 
 === CABEÇALHO COMUM (colar no início de todo prompt) ===
 Use case: stylized-concept. Production 2D pixel-art animation sheet for the GAVIÃO beat-em-up.
-Reference image is the ONLY APPROVED model of SORRISO. Copy EXACT face, anatomical proportions, hair size and costume: slim white fair pale teenager, BLACK curly hair with full volume on sides/nape, white polo school uniform green collar/cuffs/shoulder trim and lower green panel, yellow shoulder accent and diagonal, small blue crest, blue jeans, off-white sneakers. No brown hair, tan skin, shaved sides, adult muscles or chibi redesign. Head remains same size through action. Same pixel clusters and SAME COLORS as the reference, no painterly blur.
+The attached KIT-REFERENCIA sheet and base-aprovada image are the ONLY APPROVED model of SORRISO and the ONLY palette: match head size, outline thickness, pixel density and colors exactly; standing guard height is the blue line. This sheet must look like the same artist drew it on the same day as the reference frames. Copy EXACT face, anatomical proportions, hair size and costume: slim white fair pale teenager, BLACK curly hair with full volume on sides/nape, white polo school uniform green collar/cuffs/shoulder trim and lower green panel, yellow shoulder accent and diagonal, small blue crest, blue jeans, off-white sneakers. No brown hair, tan skin, shaved sides, adult muscles or chibi redesign. Head remains same size through action. Same pixel clusters and SAME COLORS as the reference, no painterly blur.
 Canvas: real alpha TRANSPARENT background; no black/gray painted background, no labels/numbers/grids/shadows/effects/blood/sparks/dust/opponent. Big transparent gutters. Every frame must show ENTIRE character including hands, all hair, BOTH shoes, knees. Fixed right-facing 3/4 side camera (NOT facing the viewer) and ONE model scale. Read left to right then next row.
 Human anatomical motion: weight carried by the feet, knee flexion, real joint bending. A planted foot does not slide; when the body is pushed, show the step. No whole-body scaling, stretching, liquifying or teleport. Distinct actual inbetweens, do not duplicate a pose to inflate count. First and last frames must match the reference combat guard (unless stated). Do not add costume details.
 

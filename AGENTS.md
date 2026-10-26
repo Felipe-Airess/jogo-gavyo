@@ -121,6 +121,16 @@ logado na conta Felipe-Airess; pode não estar no PATH do shell.
 5. Medir no T400 e em celular físico (preparar medidor de FPS/tempo de quadro).
 6. Revisão/merge do PR #2 quando o usuário aprovar.
 
+## Consistência dos sprites (problema recorrente do usuário)
+
+O usuário gera os sprites no ChatGPT e **cada lote costuma sair num estilo
+diferente**. Ao pedir ou integrar arte nova: exigir o
+`arte/reformulacao/KIT-REFERENCIA.png` + `base-aprovada.png` em todo pedido,
+cabeçalho de prompt idêntico, folhas pequenas; ao receber, comparar cada
+quadro com a base (tamanho da cabeça, altura em guarda ~66 px, paleta,
+contorno) antes de integrar, e normalizar só cor e escala por código. Ver
+`arte/reformulacao/PEDIDO-LOTES-4-5.md`, seção 1.1.
+
 ## Armadilhas encontradas
 
 * **Painel de navegador oculto não roda `requestAnimationFrame`:** o loop do

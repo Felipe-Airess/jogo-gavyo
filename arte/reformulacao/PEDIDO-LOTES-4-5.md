@@ -30,6 +30,33 @@ traço e outra proporção. É isso que deixa o combate “travado” e os sprit
 Durações abaixo são **o tempo no jogo**; o desenho pode ter mais quadros
 mestres, desde que cada um seja uma pose diferente.
 
+## 1.1 Consistência entre lotes — o problema principal
+
+Ao gerar no ChatGPT, cada lote tende a sair de um jeito: cabeça de outro
+tamanho, outro contorno, cores diferentes, outra densidade de pixel. É a causa
+dos “sprites todos diferentes”. Para segurar o estilo:
+
+1. **Anexe sempre as mesmas duas imagens**, em todo pedido:
+   [`KIT-REFERENCIA.png`](KIT-REFERENCIA.png) (pose aprovada, quadros do lote 3
+   na escala do jogo, linhas de chão/altura/pivô e a paleta por material) e
+   `03-SOCOS-CHUTES/base-aprovada.png`.
+2. **Cole o cabeçalho comum de `PROMPTS-LOTES-4-5.txt` sem mudar nenhuma
+   palavra.** Mude só o bloco da animação.
+3. **Uma conversa por lote**, e dentro dela peça uma folha por vez. Se a
+   conversa começar a “derivar”, abra outra e anexe de novo o kit.
+4. **Folhas pequenas (4 a 8 quadros).** Folhas grandes derivam mais no fim.
+   Para ações longas, peça em partes (ex.: 0–7 e 8–13) e anexe o último
+   quadro da parte anterior como ponto de partida.
+5. **Anexe o primeiro/último quadro da animação vizinha** (ex.: o quadro 0 do
+   idle) para a entrada e a saída baterem.
+6. **Confira antes de seguir**, lado a lado com o kit: tamanho da cabeça,
+   altura em guarda (~66 px), cores, contorno. Se uma folha saiu com outra cara
+   ou escala, **refaça** — não tente consertar só alguns quadros.
+7. Ao entregar, o agente confere cada quadro contra a base (cabeça, altura,
+   paleta) e pode **normalizar por código**: trocar cada cor pela mais próxima
+   da paleta aprovada e ajustar a escala inteira pelo tamanho da cabeça.
+   Escala/cor sim; membro esticado ou redesenhado, não.
+
 ## 2. Prioridade
 
 | Prioridade | O que | Por quê |
