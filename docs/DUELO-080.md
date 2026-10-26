@@ -120,6 +120,16 @@ as caixas confirmou: jab/direto no rosto, jab no corpo no tronco, circular alto
 na cabeça, chute na perna através da guarda, direto bloqueado na zona da guarda,
 jab passando sobre o agachado, joelhada no tronco.
 
+Toque (emulação de celular no Chromium, 375×812 e 740×360, eventos de ponteiro
+sintéticos): direcional anda, dois dedos (direção + Soco) dão o direto, baixo +
+Chute dá o chute na perna, Defender segurado mantém a guarda, segurar Soco gera
+um golpe só, Agarrar + Chute faz a joelhada e Agarrar solta, Pausa limpa os
+toques. Correções desta rodada: a captura do ponteiro virou melhor esforço (se o
+navegador recusar `setPointerCapture`, o toque não se perde mais) e o seletor
+de modo foi para o cabeçalho, porque na barra de controles empurrava a página
+36 px para fora da tela na paisagem e reduzia o jogo. No duelo, Treino e Miguel
+ficam ocultos. Em 644×534 a barra ainda passa 9 px da tela — igual na 0.7.0.
+
 Custo da lógica: ≈ 2,6 µs por tick nesta máquina (IA × IA, 10 min simulados).
 **Não houve medição no ThinkPad T400**; não há afirmação de 60 FPS nele.
 
