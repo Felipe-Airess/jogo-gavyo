@@ -5,8 +5,8 @@ import{updateGait}from'./locomotion.mjs';
 export const LIMITS={minX:16,maxX:624,minY:122,maxY:164};
 export const PARTS={head:70,body:80,arms:60,legs:60};
 export const CLINCH={entry:240,grip:3200,maxGrip:4000,refresh:700,guardDamage:18};
-const PUNCHES=new Set(['jab','cross','drive','low','reverse','stepPunch','rush']);
-const KICKS=new Set(['kick','comboKick','lowKick','groundKick']);
+const PUNCHES=new Set(['jab','jabHead','cross','crossBody','drive','low','reverse','stepPunch','rush']);
+const KICKS=new Set(['kick','highKick','comboKick','lowKick','groundKick']);
 export const MOVES={
  jab:{name:'SOCO NO CORPO',clip:'jab',frames:[0,1,4,5],times:[90,60,75,115],active:[1],point:[24.5,-36.8],size:[8,6],lunge:4,damage:16,knock:48,stun:490,pause:20,unbalance:14,chain:220},
  cross:{name:'DIRETO NA ABERTURA',clip:'cross',frames:[0,2,3,4,5],times:[100,55,45,80,110],active:[2,3],point:[25,-36.8],size:[9,6],lunge:7,damage:18,knock:60,stun:540,pause:26,unbalance:18,chain:265},
@@ -38,7 +38,7 @@ export const overlap=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
 export function frameAt(time,m){let t=Math.max(0,time);for(let i=0;i<m.times.length;i++){if(t<m.times[i])return m.frames[i];t-=m.times[i];}return m.frames.at(-1);}
 export function enemy(id,x,y=146){return{id,x,y,facing:-1,state:'idle',parts:{...PARTS},vx:0,stun:0,timer:0,reaction:0,zone:null,lowered:false,unbalance:0,hits:0,guard:false,ragdoll:null,recoveryFrom:null,recovery:0,knockedOut:false,aiTimer:700+id*180};}
 export class Battle{
- constructor(count=2,seed=731){this.count=count;this.seed=seed;this.mode='reaction';this.reset();}
+ constructor(count=2,seed=731,moveSet=MOVES){this.moves=moveSet;this.count=count;this.seed=seed;this.mode='reaction';this.reset();}
  random(){this.rngState=(Math.imul(this.rngState,1664525)+1013904223)>>>0;return this.rngState/4294967296;}
  reset(){
   this.rngState=this.seed>>>0;
@@ -82,7 +82,7 @@ export class Battle{
   this.move(dx,dy);d.x+=p.x-x;d.y+=p.y-y;return Math.hypot(p.x-x,p.y-y);
  }
  attackBox(){
-  const p=this.player,m=MOVES[p.move];if(!['attack','knee'].includes(p.state)||!m||!m.active.includes(frameAt(p.elapsed,m)))return null;
+  const p=this.player,m=this.moves[p.move];if(!['attack','knee'].includes(p.state)||!m||!m.active.includes(frameAt(p.elapsed,m)))return null;
   const f=frameAt(p.elapsed,m),[clip,index]=m.sequence?.[f]||[m.clip,f],art=this.artClips?.[clip]?.frames[index];
   const kick=KICKS.has(p.move)||p.move==='groundStomp',tip=m.ground||p.move==='knee'?null:kick?art?.foot:art?.fist;
   const[w,h]=m.size,[x,y]=tip?[tip.x,tip.y]:m.point;return{x:p.x+p.facing*x-w/2,y:p.y+y-h/2,w,h};
@@ -92,6 +92,9 @@ export class Battle{
   const ground=(input.down&&input.kick)||(input.attack)||(input.run&&input.kick)?this.groundTarget:null;
   if(ground){p.facing=this.groundHead(ground).x>=p.x?1:-1;p.groundId=ground.id;return input.kick?(input.run?'groundStomp':'groundKick'):'groundPunch';}
   if(p.counterUntil>this.clock&&input.attack){const d=this.enemies.find(e=>e.id===p.counterTarget);if(d&&!d.knockedOut&&Math.abs(d.x-p.x)<52&&Math.abs(d.y-p.y)<9){p.facing=d.x>p.x?1:-1;p.counterUntil=0;return input.down?(p.parryArm==='right'?'counterBodyLeft':'counterBody'):p.parryArm==='right'?'counterLeft':'counterStraight';}}
+  if(input.up&&input.attack&&this.moves.jabHead)return'jabHead';
+  if(input.up&&input.kick&&this.moves.highKick)return'highKick';
+  if(input.down&&input.run&&input.attack&&this.moves.crossBody)return'crossBody';
   if(input.kick&&input.down)return'lowKick';
   if(input.kick)return recent&&PUNCHES.has(p.move)?'comboKick':'kick';
   if(input.run&&Math.hypot(p.vx,p.vy)>60)return'rush';
@@ -100,11 +103,11 @@ export class Battle{
   const a=this.advantage;if(a&&this.clock-a.at<750&&a.target.parts.head>0)return a.zone==='body'?'cross':a.zone==='head'?'drive':'jab';return'jab';
  }
  begin(name){
-  const p=this.player,m=MOVES[name];if(!m||p.stamina<m.cost){this.buffer=null;this.message='Sem fôlego: recupere a base.';return false;}
+  const p=this.player,m=this.moves[name];if(!m||p.stamina<m.cost){this.buffer=null;this.message='Sem fôlego: recupere a base.';return false;}
   const chaining=p.state==='attack';p.chainCount=m.clinch?0:chaining?p.chainCount+1:1;p.stamina-=m.cost;p.exhaustedAttack=p.stamina<=FATIGUE.exhaustedBelow;p.runMomentum=Math.hypot(p.vx,p.vy);
   if(name==='reverse')p.facing*=-1;
   if(m.clinch){const d=this.enemies.find(e=>e.id===p.grabbed);if(d){d.clinchMove=name;d.clinchProgress=0;}}
-  p.linkFrom=p.move;p.actionAt=this.clock;p.releaseId=null;p.queuedClinch=null;p.queuedKnee=false;p.state=m.clinch?'knee':'attack';p.move=name;p.elapsed=0;p.travel=0;p.hit=false;p.confirmed=false;p.grabUntil=0;p.fallTrigger=0;p.idleTime=0;p.vx*=m.rush?1:.3;p.vy=0;p.guard=false;p.previousTip=null;p.sweptBox=null;p.activeHand=name==='cross'||name==='counterLeft'||name==='counterBodyLeft'?'left':'right';this.buffer=null;this.attackId++;return true;
+  p.linkFrom=p.move;p.actionAt=this.clock;p.releaseId=null;p.queuedClinch=null;p.queuedKnee=false;p.state=m.clinch?'knee':'attack';p.move=name;p.elapsed=0;p.travel=0;p.hit=false;p.confirmed=false;p.grabUntil=0;p.fallTrigger=0;p.idleTime=0;p.vx*=m.rush?1:.3;p.vy=0;p.guard=false;p.previousTip=null;p.sweptBox=null;p.activeHand=name==='cross'||name==='crossBody'||name==='counterLeft'||name==='counterBodyLeft'?'left':'right';this.buffer=null;this.attackId++;return true;
  }
  hurt(direction=-this.player.facing){
   const p=this.player;if(p.invulnerable>0||p.hp<=0)return false;
@@ -142,12 +145,12 @@ export class Battle{
   const moved=this.movePair(d,dx);d.facing=-c.direction;
   if(t>=1||Math.abs(dx)>.02&&moved<.001)this.endCarry();return true;
  }
- endCarry(interrupted=false){const c=this.carry;if(!c)return;this.carry=null;const d=this.enemies.find(e=>e.id===c.target);if(!d||d.dead)return;if(interrupted){if(d.parts.head===0){d.knockedOut=true;this.launch(d,'head',this.pose(d)[0],18,10);}else{d.state='bodyStagger';d.stun=220;d.vx=0;}}else this.finishImpact(d,MOVES[c.move],c.zone,{x:d.x,y:d.y+(c.point.y-this.player.y)});}
+ endCarry(interrupted=false){const c=this.carry;if(!c)return;this.carry=null;const d=this.enemies.find(e=>e.id===c.target);if(!d||d.dead)return;if(interrupted){if(d.parts.head===0){d.knockedOut=true;this.launch(d,'head',this.pose(d)[0],18,10);}else{d.state='bodyStagger';d.stun=220;d.vx=0;}}else this.finishImpact(d,this.moves[c.move],c.zone,{x:d.x,y:d.y+(c.point.y-this.player.y)});}
  finishGround(d,m){const p=this.player,h=this.groundHead(d);d.dead=true;d.knockedOut=true;d.parts.head=0;d.timer=Infinity;d.ragdoll.impulseAt(h,p.facing,12,0);p.hit=p.confirmed=true;this.hitstop=m.pause;this.lastHit={id:this.attackId,move:p.move,target:d.id,zone:'head',point:{...h},damage:m.damage,blocked:false,blood:true,finisher:true,at:this.clock};if(p.move==='groundPunch')p.handBlood.right=Math.min(4,p.handBlood.right+2);this.event('hit',{heavy:true});this.message='Finalizado. R reinicia o treino.';}
  contact(){
   let box=this.attackBox();const p=this.player;if(p.hit)return;
-  if(!box){const m=MOVES[p.move];if(m)p.previousTip={x:p.x+p.facing*6,y:p.y+m.point[1]};return;}
-  const m=MOVES[p.move],tip={x:box.x+box.w/2,y:box.y+box.h/2},old=p.previousTip||tip;
+  if(!box){const m=this.moves[p.move];if(m)p.previousTip={x:p.x+p.facing*6,y:p.y+m.point[1]};return;}
+  const m=this.moves[p.move],tip={x:box.x+box.w/2,y:box.y+box.h/2},old=p.previousTip||tip;
   box={x:Math.min(old.x,tip.x)-box.w/2,y:Math.min(old.y,tip.y)-box.h/2,w:Math.abs(tip.x-old.x)+box.w,h:Math.abs(tip.y-old.y)+box.h};p.sweptBox=box;p.previousTip=tip;
   if(m.ground){const d=this.enemies.find(e=>e.id===p.groundId)||this.groundTarget;if(!d||d.dead||d.state!=='fallen'||d.ragdoll.age<450||Math.abs(d.y-p.y)>8)return;const h=this.groundHead(d);if(overlap(box,{x:h.x-6,y:h.y-6,w:12,h:12}))this.finishGround(d,m);return;}
   for(const d of [...this.enemies].sort((a,b)=>Math.abs(a.x-p.x)-Math.abs(b.x-p.x))){
@@ -160,7 +163,7 @@ export class Battle{
  }
  grab(){
   const p=this.player;if(['clinchEntry','clinch','knee'].includes(p.state)){this.release();return;}
-  if(p.state==='attack'){p.grabUntil=Math.max(MOVES[p.move].chain,p.elapsed)+260;this.message='Agarrão preparado após o golpe.';return;}
+  if(p.state==='attack'){p.grabUntil=Math.max(this.moves[p.move].chain,p.elapsed)+260;this.message='Agarrão preparado após o golpe.';return;}
   if(!['idle','walk','run','brake','guard'].includes(p.state))return;
   const d=this.nearest;if(!d||d.knockedOut||['fallen','recovering','carried'].includes(d.state)||Math.abs(d.x-p.x)>30||Math.abs(d.y-p.y)>8){this.message='Aproxime-se para agarrar.';return;}
   if(d.guard)d.parts.arms=Math.max(0,d.parts.arms-CLINCH.guardDamage);
@@ -176,7 +179,7 @@ export class Battle{
    const dx=Number(!!input.right)-Number(!!input.left),dy=Number(!!input.down)-Number(!!input.up),len=Math.hypot(dx,dy)||1,speed=21/(d.mass||1);
    p.clinchWalking=!!(dx||dy);if(p.clinchWalking){const moved=this.movePair(d,dx/len*speed*s,dy/len*speed*s*.65);p.clinchDistance+=moved;p.grip-=dt*.25;p.stamina=Math.max(0,p.stamina-s*FATIGUE.dragPerSecond);if(!p.stamina)this.release();}return;
   }
-  p.clinchWalking=false;const m=MOVES[p.move];d.clinchProgress=p.elapsed;
+  p.clinchWalking=false;const m=this.moves[p.move];d.clinchProgress=p.elapsed;
   if(!p.hit&&m.active.includes(frameAt(p.elapsed,m))){
    const zone=m.zone||'body',box=this.attackBox(),target=this.hurtboxes(d)[zone];
    if(!box||!overlap(box,target))return;
@@ -213,7 +216,7 @@ export class Battle{
  tick(input,dt){
   const p=this.player,s=dt/1000;this.clock+=dt;const pulse=input.attack||input.kick,guardPress=input.guard&&!this.guardHeld;this.guardHeld=!!input.guard;
   if(guardPress&&this.clock>=this.parryReady&&['idle','walk','run','brake','guard','wipe'].includes(p.state)){p.parryUntil=this.clock+PARRY.window;this.parryReady=this.clock+PARRY.rearm;p.guard=true;p.state='guard';p.elapsed=0;}
-  if(pulse&&p.state==='attack'&&!this.buffer){const m=MOVES[p.move],mixed=(input.kick&&PUNCHES.has(p.move))||(input.attack&&KICKS.has(p.move));if(canLink(m,p,mixed)&&(mixed||p.elapsed>=m.times[0]))this.buffer={move:this.choose(input),until:Math.max(m.linkAt,p.elapsed)+180,mixed};}
+  if(pulse&&p.state==='attack'&&!this.buffer){const m=this.moves[p.move],mixed=(input.kick&&PUNCHES.has(p.move))||(input.attack&&KICKS.has(p.move));if(canLink(m,p,mixed)&&(mixed||p.elapsed>=m.times[0]))this.buffer={move:this.choose(input),until:Math.max(m.linkAt,p.elapsed)+180,mixed};}
   if(pulse&&(p.state==='clinchEntry'||p.state==='knee'&&p.hit)&&!p.queuedClinch)p.queuedClinch=clinchChoice(input);
   if(pulse&&p.state==='parry'&&!p.counterQueued)p.counterQueued={attack:!!input.attack,kick:!!input.kick,down:!!input.down};
   if(this.buffer&&this.buffer.until<p.elapsed)this.buffer=null;
@@ -230,8 +233,8 @@ export class Battle{
   if(['gettingUp','attackRecover','winded'].includes(p.state)){p.vx=approach(p.vx,0,240*s);if(p.elapsed>(p.state==='gettingUp'?420:p.state==='winded'?550:p.recoverDuration||180)){p.state='idle';p.elapsed=0;p.chainCount=0;}return;}
   if(['hurt','stumble','recover'].includes(p.state)){p.vx=approach(p.vx,0,(p.state==='stumble'?100:200)*s);this.move(p.vx*s);if(p.elapsed>({hurt:360,stumble:330,recover:220}[p.state])){p.state='idle';p.elapsed=0;}return;}
   if(p.state==='attack'){
-   const m=MOVES[p.move];if(this.carry){p.elapsed-=dt;this.updateCarry(dt);return;}
-   const t=clamp(p.elapsed/(m.times[0]+m.times[1]),0,1),travel=m.lunge*t*t*(3-2*t);this.move((travel-p.travel)*p.facing);p.travel=travel;
+   const m=this.moves[p.move];if(this.carry){p.elapsed-=dt;this.updateCarry(dt);return;}
+   const t=clamp(p.elapsed/(m.lungeUntil||(m.times[0]+m.times[1])),0,1),travel=m.lunge*t*t*(3-2*t);this.move((travel-p.travel)*p.facing);p.travel=travel;
    if(m.rush){this.move(p.vx*s);p.vx=approach(p.vx,0,60*s);}this.contact();if(this.carry)return;
    if(m.rush&&p.confirmed&&p.fallTrigger&&p.elapsed>=p.fallTrigger){this.startPlayerFall();return;}
    if(p.grabUntil>=p.elapsed&&p.elapsed>=m.chain){p.grabUntil=0;p.state='idle';this.grab();return;}

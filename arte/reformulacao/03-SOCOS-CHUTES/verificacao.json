@@ -1,9 +1,9 @@
 {
-  "date": "2026-10-26T04:02:08.085Z",
+  "date": "2026-10-26T10:20:45.793Z",
   "checks": [
     "13 sequências, 179 quadros selecionados e nearest-neighbor",
     "reprodução, pausa e passo de quadro",
-    "todas as sequências selecionáveis; fases de contato propostas identificadas e sem alegar integração",
+    "todas as sequências selecionáveis; fases de contato propostas identificadas e integração 0.7.0 identificada",
     "ação termina no último quadro e pode reiniciar",
     "câmera lenta, sobreposição do quadro anterior, fundo e guias",
     "tempos, 179 recortes completos e uma única escala uniforme por folha",
@@ -95,10 +95,10 @@
   "technicalOnly": true,
   "artStatus": "candidato para revisão",
   "gameRegression": {
-    "passed": 76,
+    "passed": 87,
     "failed": 0,
-    "gameVersion": "0.6.1",
-    "runtimeChanged": false
+    "gameVersion": "0.7.0",
+    "runtimeChanged": true
   },
-  "mobileImplemented": false
+  "mobileImplemented": true
 }

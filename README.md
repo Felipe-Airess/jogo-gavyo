@@ -1,94 +1,57 @@
-# GAVIÃO — protótipo 0.6.1
+# GAVIÃO 0.7.0 — primeiro treino mobile
 
-## Rodada atual de arte
-
-As novas animações estão em [arte/reformulacao](arte/reformulacao/PLANO.md), separadas da versão jogável para revisão. O lote 1 contém a base e o idle aprovados; o lote 2 contém locomoção; o lote 3 entrega treze sequências de socos/chutes e suas ligações. Consulte o [lote 3](arte/reformulacao/03-SOCOS-CHUTES/README.md) para folhas, fontes, prompts, tempos e limitações. Para ver sua prévia local, execute `node arte/reformulacao/03-SOCOS-CHUTES/servidor.cjs` e abra http://127.0.0.1:4182 . Não é necessário instalar pacotes.
-
-O jogo ainda exige teclado. Uma adaptação para navegador de celular é viável, mas controles de toque e acesso por endereço remoto foram adiados a pedido do usuário. O envio ao GitHub não publica automaticamente um jogo acessível pelo telefone. Não há GitHub Pages ou túnel habilitado por este trabalho.
-
-Treino jogável com Sorriso e dois manequins em um corredor escolar. Esta versão acrescenta contato que carrega o alvo, parry com resposta contextual, variações no clinch, arrasto, três ações no chão e limpeza das mãos. Gelado, Bola e Alice não estão implementados.
+Sorriso em um corredor escolar, com dois manequins de treino e controles para navegador de computador ou celular. Gelado, Bola e Alice permanecem fora desta build.
 
 ## Jogar
 
-Abra **INICIAR.cmd**, ou execute `npm start` nesta pasta. Node.js 18+ e um navegador de desktop são necessários. Não é preciso instalar pacotes para jogar.
+Endereço da publicação: https://Felipe-Airess.github.io/jogo-gavyo/ . No celular, abra em um navegador atual e toque em **Jogar**. A paisagem deixa o direcional e os golpes nas laterais da cena. Não é preciso instalar aplicativo. A primeira interação permite liberar o áudio.
 
-Endereço: **http://127.0.0.1:4173/?v=ajustes-061**. Se uma versão antiga estiver aberta, recarregue a página. Para servir sem abrir outra janela, use `npm run serve`. Ctrl+C encerra o servidor. O jogo não deve ser aberto por file://. Phaser e assets estão incluídos; não precisa de internet durante a partida.
+No computador, execute `npm start` ou abra `INICIAR.cmd`. Node.js 18+ é necessário apenas para esse servidor local; não há pacotes a instalar. O endereço local é http://127.0.0.1:4173 . Não abra `index.html` por `file://`.
 
-## Controles
+## Comandos
 
-| Comando | Ação |
-| --- | --- |
-| Enter / Esc | Entrar, pausar e continuar |
-| WASD / setas | Mover |
-| Shift + direção | Correr; soltar provoca freada curta |
-| J | Soco; continuação depende do contato e da abertura anterior |
-| Frente + J | Golpe pesado com avanço e contato que carrega |
-| Trás + J | Virar e golpear para trás |
-| Baixo + J | Soco no corpo |
-| K | Chute circular |
-| Baixo + K | Chute na perna; perto de caído, chute no chão |
-| J → K / K → J | Combinações mistas com transições próprias |
-| Shift + J com velocidade | Soco de impulso; pode derrubar ambos |
-| G de perto | Entrar no clinch, abrindo a guarda; novamente solta |
-| J no clinch | Soco curto na cabeça |
-| Baixo + J no clinch | Cotovelada |
-| K no clinch | Joelhada no tronco |
-| Shift + J no clinch | Puxar para baixo, golpear e soltar em queda |
-| Direções no clinch | Arrastar devagar; consome a duração da pega |
-| L segurado | Defender pela frente |
-| L no instante do contato | Aparar no modo Combate; segurar não renova a janela |
-| J após aparo | Responder com o braço livre; baixo + J procura o tronco |
-| J perto de caído | Soco no chão |
-| Shift + K perto de caído | Pisada |
-| Parado após sujar as mãos | Limpar; mover, defender ou atacar interrompe |
-| F2 / R / B / H | Colisões / reiniciar / sangue / dano de teste |
+| No celular | No teclado | Ação |
+| --- | --- | --- |
+| Direcional | WASD / setas | Mover e ajustar a posição no corredor |
+| Segurar Correr + direção | Shift + direção | Correr |
+| Soco | J | Direto no corpo; continuações dependem do contato |
+| Frente + Soco | Frente + J | Golpe pesado |
+| Trás + Soco | Trás + J | Virar e golpear |
+| Baixo + Soco | Baixo + J | Soco baixo no corpo |
+| Cima + Soco | Cima + J | Jab na cabeça |
+| Correr + baixo + Soco | Shift + baixo + J | Direto no tronco |
+| Chute | K | Circular médio |
+| Baixo / cima + Chute | Baixo / cima + K | Chute na perna / circular alto |
+| Soco → Chute / Chute → Soco | J → K / K → J | Ligações mistas, sem repetir a primeira ação inteira |
+| Segurar Defender | Segurar L | Guarda; pressionar perto do contato permite aparar |
+| Agarrar | G | Clinch próximo; novamente solta |
+| Correr + Soco com velocidade | Shift + J com velocidade | Soco de impulso, com comprometimento do corpo |
+| Pausa / Reiniciar | Esc / R | Pausar ou reiniciar o treino |
 
-O botão **Som** liga ou desliga o áudio. A primeira interação libera o som no navegador. Teclado necessário; não há controles por toque.
+Use dois ou três dedos para combinar direção, corrida, defesa e golpe. Segurar Soco não gera ataques automáticos. Comandos são limpos ao pausar, trocar de aplicativo ou cancelar o toque. O botão **Toque** permite mostrar os controles mesmo em uma sessão remota que se identifique como computador.
 
-## Correções 0.6.1
+No clinch, Soco, baixo + Soco e Chute mantêm as variações existentes. Correr + Soco derruba e solta; o direcional arrasta o alvo. Perto de um caído, Soco, baixo + Chute e Correr + Chute usam as três ações de chão. Defesa, clinch, reações, chão e limpeza ainda usam parte da arte anterior, até os próximos lotes.
 
-Custos de fôlego reduzidos aproximadamente pela metade; recuperação de 36 pontos por segundo em repouso e 14 durante recuperação de ataques. Corrida gasta 0,8 ponto por segundo. Tropeço só ocorre ao errar usando a última reserva; golpes defendidos não provocam tropeço. O soco de impulso ainda pode derrubar ambos quando conecta.
+## Ritmo e treino
 
-A corrida foi recortada pela silhueta inteira, preservando a perna que ultrapassava a divisão da folha. O atlas usa uma paleta compartilhada de pele clara, aplicada sem alterar as poses. Comparação dos quadros: [revisao-v61.png](docs/revisao-v61.png).
+Os treze golpes do lote 3 usam seus novos desenhos. Preparação, contato e recuperação foram alongados: direto no corpo de 340 para 553 ms, soco baixo de 400 para 684 ms, pesado de 555 para 920 ms e circular médio de 535 para 889 ms. O impacto ainda é curto e possui pausa própria. Essa mudança afeta a animação e o instante das colisões, não apenas a velocidade de uma prévia.
 
-## Ritmo e contato
+As combinações começam no recolhimento da primeira ação. A região atingida nas continuações depende do ponto que realmente toca o alvo; um alvo dobrado pode receber na cabeça um chute que passaria pelo tronco se estivesse em pé. A guarda continua desgastando braços e impedindo o carregamento normal. Um golpe produz um contato, com recuperação e gasto de fôlego.
 
-Há uma única continuação preparada por golpe. Acertar, errar e ser bloqueado têm consequências diferentes. Não existe mais uma trava universal depois da terceira ação: alcance, recuperação, guarda e fôlego limitam as sequências. Repetir a tecla durante recuperação não cancela o compromisso do movimento. Tropeçar por erro exige terminar o golpe com o fôlego no fim (até 6 pontos). Com energia, um erro usa recuperação normal; uma defesa não conta como golpe no vazio.
+O seletor **Treino** oferece Reações, Defesa do alvo e Combate. Cada manequim tem barras independentes de cabeça, tronco, braços e pernas. Colisões e FPS continuam disponíveis para revisão. A primeira build usa os manequins existentes, sem introduzir personagens narrativos.
 
-Direto/cruzado, soco no corpo, pesado e contra-ataques aproveitam aberturas diferentes. As misturas soco → chute e chute → soco preservam seus desenhos de ligação. O contato usa caixas ativas e varredura entre poses; não causa dano fora do alcance ou da mesma faixa do corredor.
+## Build e fontes
 
-Nos golpes com carregamento, os atores avançam juntos durante um intervalo curto, mantendo a distância do contato. Só então o alvo recebe a velocidade de saída ou cai. A ligação respeita as bordas e pode ser interrompida por dano no jogador. Guarda válida desgasta braços e impede o arrasto.
+`npm run build` cria `build/`, com aproximadamente 4,3 MB de arquivos: jogo estático, atlas combinado, Phaser, servidor local opcional e manifesto de integridade. `npm run serve:build -- --port=4175` permite testar esse pacote isoladamente. O ZIP da release contém somente os arquivos necessários para jogar, não todo o histórico de arte.
 
-## Parry e clinch
+O repositório guarda código, testes e [lotes de arte](arte/reformulacao/PLANO.md). A base e o idle do lote 1, a locomoção do lote 2 e os ataques do lote 3 estão no atlas da build. Reações e ações antigas foram preservadas onde a reformulação ainda não foi produzida. Os PNGs originais e os prompts permanecem nos lotes.
 
-No seletor **Combate**, o alvo avisa antes de atacar. Apertar L até 115 ms antes do contato permite aparar. A abertura de resposta dura 620 ms; um sinal junto ao personagem indica essa oportunidade. O braço que defendeu determina o braço da resposta. Há uma memória curta para J apertado durante a própria deflexão. L segurado mantém defesa comum e não produz aparos repetidos automaticamente.
+Mantivemos Phaser 3.90, `Phaser.CANVAS`, resolução lógica 320×180 e nearest-neighbor. Não há React, Electron, requisito de WebGL ou dependência de execução adicional. No celular, a ampliação CSS se ajusta ao espaço disponível; o desenho lógico permanece 320×180.
 
-O clinch tem entrada, duração limitada e golpes com seus próprios intervalos ativos. Soco curto e cotovelo atingem cabeça; joelho atinge tronco. Acertos renovam a pega; parar ou ficar sem fôlego permite escapar. Arrastar reduz sua duração mais depressa. Shift + J baixa a postura do alvo antes do contato e solta na pancada; Sorriso completa o gesto antes de recuperar a guarda.
+## Verificação e limites
 
-## Regiões e ações no chão
+`npm test` executa os testes históricos e o novo perfil de combate/toque. A versão foi verificada em Chromium com viewport mobile e eventos reais de toque via CDP, incluindo mover e atacar juntos, aproximação, dano no alvo, guarda sustentada, cancelamento, pausa e retrato/paisagem. Os relatórios de navegador estão em `docs/browser-test-*-070.json` no repositório.
 
-As barras de cada alvo são independentes: **C** cabeça, **T** tronco, **B** braços e **P** pernas. Cabeça esgotada causa nocaute, tronco cede, braços deixam de sustentar guarda/ataque e pernas esgotadas provocam queda. Bloqueio preserva cabeça e tronco e desgasta os braços; não protege pelas costas nem intercepta chute baixo com uma guarda alta.
+Isso não equivale a teste em aparelho físico nem a medição no ThinkPad T400. Alguns desenhos e retrações ainda podem exigir polimento depois de jogar. A arte de defesa, clinch e chão permanece provisória.
 
-As três ações no chão exigem alvo já caído, alcance e alinhamento; a caixa precisa tocar a cabeça. Não funcionam como dano remoto nem finalizam alguém ainda voando. Um finalizado não levanta até reiniciar.
-
-## Apresentação e limites
-
-A corrida usa oito poses novas, largada e freada, distância própria e apoio dos pés com correção limitada. A velocidade do desenho acompanha a distância percorrida. Oito poses escolhidas substituem o ciclo anterior de doze; aumentar a contagem, sozinho, não corrigia sua continuidade.
-
-Socos confirmados acumulam sangue por mão. Depois de repousar, Sorriso usa uma sequência de limpeza; a sujeira diminui durante a ação e um comando pode interrompê-la. B oculta os efeitos. Partículas e marcas continuam limitadas.
-
-Os novos sprites foram produzidos com a ferramenta integrada de imagens, recortados e calibrados em escala fixa por fonte. A paleta de cabelo escuro foi ajustada para preto/carvão. O atlas atual é `assets/sorriso-v61.png` + `.json`; as fontes anteriores foram preservadas. A folha de integração é [folha-contexto-v6.png](docs/folha-contexto-v6.png), e os prompts/fontes estão em [SPRITES-PROMPTS-V6.txt](docs/SPRITES-PROMPTS-V6.txt).
-
-Ainda é arte de protótipo: diferenças de desenho permanecem entre folhas antigas e novas; o alvo usa poses provisórias, especialmente durante o arrasto. Não há esqueleto visual completo nem animação física de cada membro. A volta à guarda e algumas combinações reaproveitam desenhos. Os sons são impactos e passos sintéticos provisórios. Não são animações ou áudio finais de produção.
-
-## Tecnologia e verificação
-
-Phaser 3.90, JavaScript, **Phaser.CANVAS**, 320×180, ampliação inteira e nearest-neighbor. Sem React, Electron, WebGL obrigatório ou nova dependência de execução. Som curto gerado localmente pela Web Audio API; nenhum serviço externo.
-
-Execute **npm test**. Há testes de contato, carregamento, interrupções, bordas, defesa, parry, respostas por braço, clinch, arrasto, dano regional, chão, limpeza, entrada e equivalência de movimento a 30/60 quadros. Os testes de navegador estão registrados em [browser-test-v6.json](docs/browser-test-v6.json), quando concluídos.
-
-Os testes de lógica não comprovam naturalidade artística. O ThinkPad T400 ainda precisa de medição real; FPS observado em outro computador não é promessa para esse hardware.
-
-## Trocar assets
-
-As imagens ficam em células 128×96, raiz (64,88). As durações e regras dos novos golpes ficam em `src/context-moves.mjs`; seleção de desenhos em `src/sprite-player.mjs`; marcadores e índices ficam no JSON. Preserve escala, pivô, orientação e os marcadores de mãos/pés ao substituir quadros. Não recorte uma ficha de apresentação como se fosse uma sequência pronta para animar.
+Referências de implementação: [entrada no Phaser](https://docs.phaser.io/phaser/concepts/input) e [publicação no GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).

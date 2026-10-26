@@ -1,5 +1,5 @@
 {
-  "status": "candidato para revisão",
+  "status": "desenhos aceitos pelo usuário; ritmo revisto e integrado na build 0.7.0",
   "frame": {
     "width": 128,
     "height": 96
@@ -19,7 +19,7 @@
         4,
         5
       ],
-      "mechanicsIntegrated": false,
+      "mechanicsIntegrated": true,
       "registration": "rearFoot",
       "columns": 4,
       "rows": 3,
@@ -45,7 +45,7 @@
           "index": 0,
           "sourceIndex": 0,
           "file": "quadros/hook_body_000.png",
-          "duration": 45,
+          "duration": 77,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -70,13 +70,14 @@
             "y": 22.591160220994468,
             "w": 48.86187845303868,
             "h": 66
-          }
+          },
+          "authoringDuration": 45
         },
         {
           "index": 1,
           "sourceIndex": 1,
           "file": "quadros/hook_body_001.png",
-          "duration": 30,
+          "duration": 51,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -101,13 +102,14 @@
             "y": 31.16022099447514,
             "w": 50.13812154696133,
             "h": 57.43093922651934
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 2,
           "sourceIndex": 2,
           "file": "quadros/hook_body_002.png",
-          "duration": 25,
+          "duration": 43,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -132,13 +134,14 @@
             "y": 28.972375690607734,
             "w": 52.14364640883978,
             "h": 59.61878453038674
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 3,
           "sourceIndex": 3,
           "file": "quadros/hook_body_003.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -163,13 +166,14 @@
             "y": 28.790055248618785,
             "w": 52.508287292817684,
             "h": 59.80110497237569
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 4,
           "sourceIndex": 4,
           "file": "quadros/hook_body_004.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -194,13 +198,14 @@
             "y": 30.613259668508285,
             "w": 52.32596685082873,
             "h": 57.97790055248619
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 5,
           "sourceIndex": 5,
           "file": "quadros/hook_body_005.png",
-          "duration": 40,
+          "duration": 68,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -225,13 +230,14 @@
             "y": 30.977900552486183,
             "w": 54.69613259668508,
             "h": 57.61325966850829
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 6,
           "sourceIndex": 6,
           "file": "quadros/hook_body_006.png",
-          "duration": 35,
+          "duration": 60,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -256,13 +262,14 @@
             "y": 30.066298342541437,
             "w": 52.32596685082873,
             "h": 58.52486187845304
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 7,
           "sourceIndex": 7,
           "file": "quadros/hook_body_007.png",
-          "duration": 30,
+          "duration": 51,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -287,13 +294,14 @@
             "y": 30.248618784530386,
             "w": 52.69060773480663,
             "h": 58.34254143646409
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 8,
           "sourceIndex": 8,
           "file": "quadros/hook_body_008.png",
-          "duration": 30,
+          "duration": 51,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -318,13 +326,14 @@
             "y": 26.78453038674033,
             "w": 49.408839779005525,
             "h": 61.806629834254146
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 9,
           "sourceIndex": 9,
           "file": "quadros/hook_body_009.png",
-          "duration": 35,
+          "duration": 60,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -349,13 +358,14 @@
             "y": 26.78453038674033,
             "w": 47.22099447513812,
             "h": 61.806629834254146
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 10,
           "sourceIndex": 10,
           "file": "quadros/hook_body_010.png",
-          "duration": 40,
+          "duration": 68,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -380,13 +390,14 @@
             "y": 26.78453038674033,
             "w": 47.03867403314917,
             "h": 61.806629834254146
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 11,
           "sourceIndex": 11,
           "file": "quadros/hook_body_011.png",
-          "duration": 50,
+          "duration": 85,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -411,10 +422,14 @@
             "y": 26.78453038674033,
             "w": 46.67403314917127,
             "h": 61.806629834254146
-          }
+          },
+          "authoringDuration": 50
         }
       ],
-      "totalMs": 400
+      "totalMs": 684,
+      "originalTotalMs": 400,
+      "timingRevision": "0.7.0",
+      "integrationBuild": "0.7.0"
     },
     {
       "id": "jab_head",
@@ -426,7 +441,7 @@
         4,
         5
       ],
-      "mechanicsIntegrated": false,
+      "mechanicsIntegrated": true,
       "columns": 4,
       "rows": 3,
       "file": "jab_head-atlas.png",
@@ -450,7 +465,7 @@
         {
           "index": 0,
           "file": "quadros/jab_head_000.png",
-          "duration": 35,
+          "duration": 56,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -475,12 +490,13 @@
             "y": 22.595652173913038,
             "w": 46.10434782608696,
             "h": 66
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 1,
           "file": "quadros/jab_head_001.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -505,12 +521,13 @@
             "y": 22.595652173913038,
             "w": 46.29565217391305,
             "h": 66
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 2,
           "file": "quadros/jab_head_002.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -535,12 +552,13 @@
             "y": 22.595652173913038,
             "w": 46.48695652173913,
             "h": 66
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 3,
           "file": "quadros/jab_head_003.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -565,12 +583,13 @@
             "y": 22.595652173913038,
             "w": 47.63478260869565,
             "h": 66
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 4,
           "file": "quadros/jab_head_004.png",
-          "duration": 35,
+          "duration": 56,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -595,12 +614,13 @@
             "y": 22.97826086956522,
             "w": 56.434782608695656,
             "h": 65.61739130434783
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 5,
           "file": "quadros/jab_head_005.png",
-          "duration": 30,
+          "duration": 48,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -625,12 +645,13 @@
             "y": 23.552173913043475,
             "w": 57.77391304347826,
             "h": 65.04347826086956
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 6,
           "file": "quadros/jab_head_006.png",
-          "duration": 25,
+          "duration": 40,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -655,12 +676,13 @@
             "y": 22.97826086956522,
             "w": 48.97391304347826,
             "h": 65.61739130434783
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 7,
           "file": "quadros/jab_head_007.png",
-          "duration": 25,
+          "duration": 40,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -685,12 +707,13 @@
             "y": 22.78695652173913,
             "w": 47.82608695652174,
             "h": 65.80869565217391
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 8,
           "file": "quadros/jab_head_008.png",
-          "duration": 25,
+          "duration": 40,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -715,12 +738,13 @@
             "y": 23.360869565217385,
             "w": 47.25217391304348,
             "h": 65.23478260869565
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 9,
           "file": "quadros/jab_head_009.png",
-          "duration": 30,
+          "duration": 48,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -745,12 +769,13 @@
             "y": 23.552173913043475,
             "w": 47.63478260869565,
             "h": 65.04347826086956
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 10,
           "file": "quadros/jab_head_010.png",
-          "duration": 35,
+          "duration": 56,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -775,12 +800,13 @@
             "y": 22.404347826086948,
             "w": 46.48695652173913,
             "h": 66.19130434782609
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 11,
           "file": "quadros/jab_head_011.png",
-          "duration": 40,
+          "duration": 64,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -805,10 +831,14 @@
             "y": 23.16956521739131,
             "w": 47.060869565217395,
             "h": 65.42608695652174
-          }
+          },
+          "authoringDuration": 40
         }
       ],
-      "totalMs": 340
+      "totalMs": 553,
+      "originalTotalMs": 340,
+      "timingRevision": "0.7.0",
+      "integrationBuild": "0.7.0"
     },
     {
       "id": "jab_body",
@@ -820,7 +850,7 @@
         4,
         5
       ],
-      "mechanicsIntegrated": false,
+      "mechanicsIntegrated": true,
       "columns": 4,
       "rows": 3,
       "file": "jab_body-atlas.png",
@@ -844,7 +874,7 @@
         {
           "index": 0,
           "file": "quadros/jab_body_000.png",
-          "duration": 35,
+          "duration": 56,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -869,12 +899,13 @@
             "y": 22.590659340659343,
             "w": 47.14285714285714,
             "h": 66
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 1,
           "file": "quadros/jab_body_001.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -899,12 +930,13 @@
             "y": 26.035714285714285,
             "w": 46.96153846153846,
             "h": 62.55494505494505
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 2,
           "file": "quadros/jab_body_002.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -929,12 +961,13 @@
             "y": 31.293956043956044,
             "w": 48.77472527472527,
             "h": 57.29670329670329
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 3,
           "file": "quadros/jab_body_003.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -959,12 +992,13 @@
             "y": 32.20054945054945,
             "w": 54.214285714285715,
             "h": 56.39010989010989
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 4,
           "file": "quadros/jab_body_004.png",
-          "duration": 35,
+          "duration": 56,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -989,12 +1023,13 @@
             "y": 34.92032967032967,
             "w": 60.01648351648351,
             "h": 53.67032967032967
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 5,
           "file": "quadros/jab_body_005.png",
-          "duration": 30,
+          "duration": 48,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -1019,12 +1054,13 @@
             "y": 35.82692307692308,
             "w": 61.285714285714285,
             "h": 52.76373626373626
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 6,
           "file": "quadros/jab_body_006.png",
-          "duration": 25,
+          "duration": 40,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -1049,12 +1085,13 @@
             "y": 31.112637362637365,
             "w": 47.505494505494504,
             "h": 57.47802197802198
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 7,
           "file": "quadros/jab_body_007.png",
-          "duration": 25,
+          "duration": 40,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -1079,12 +1116,13 @@
             "y": 27.667582417582416,
             "w": 45.51098901098901,
             "h": 60.92307692307692
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 8,
           "file": "quadros/jab_body_008.png",
-          "duration": 25,
+          "duration": 40,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -1109,12 +1147,13 @@
             "y": 25.854395604395606,
             "w": 45.32967032967033,
             "h": 62.73626373626374
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 9,
           "file": "quadros/jab_body_009.png",
-          "duration": 30,
+          "duration": 48,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -1139,12 +1178,13 @@
             "y": 25.854395604395606,
             "w": 44.42307692307692,
             "h": 62.73626373626374
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 10,
           "file": "quadros/jab_body_010.png",
-          "duration": 35,
+          "duration": 56,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -1169,12 +1209,13 @@
             "y": 26.035714285714285,
             "w": 44.785714285714285,
             "h": 62.55494505494505
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 11,
           "file": "quadros/jab_body_011.png",
-          "duration": 40,
+          "duration": 64,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -1199,10 +1240,14 @@
             "y": 25.854395604395606,
             "w": 45.87362637362637,
             "h": 62.73626373626374
-          }
+          },
+          "authoringDuration": 40
         }
       ],
-      "totalMs": 340
+      "totalMs": 553,
+      "originalTotalMs": 340,
+      "timingRevision": "0.7.0",
+      "integrationBuild": "0.7.0"
     },
     {
       "id": "cross_head",
@@ -1214,7 +1259,7 @@
         5,
         6
       ],
-      "mechanicsIntegrated": false,
+      "mechanicsIntegrated": true,
       "columns": 4,
       "rows": 3,
       "file": "cross_head-atlas.png",
@@ -1238,7 +1283,7 @@
         {
           "index": 0,
           "file": "quadros/cross_head_000.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -1263,12 +1308,13 @@
             "y": 22.592957746478874,
             "w": 46.66478873239436,
             "h": 66
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 1,
           "file": "quadros/cross_head_001.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -1293,12 +1339,13 @@
             "y": 22.964788732394368,
             "w": 49.82535211267606,
             "h": 65.6281690140845
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 2,
           "file": "quadros/cross_head_002.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -1323,12 +1370,13 @@
             "y": 22.964788732394368,
             "w": 48.709859154929575,
             "h": 65.6281690140845
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 3,
           "file": "quadros/cross_head_003.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -1353,12 +1401,13 @@
             "y": 23.336619718309862,
             "w": 50.19718309859155,
             "h": 65.25633802816901
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 4,
           "file": "quadros/cross_head_004.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -1383,12 +1432,13 @@
             "y": 23.894366197183103,
             "w": 59.307042253521125,
             "h": 64.69859154929577
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 5,
           "file": "quadros/cross_head_005.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -1413,12 +1463,13 @@
             "y": 24.638028169014085,
             "w": 65.25633802816901,
             "h": 63.95492957746479
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 6,
           "file": "quadros/cross_head_006.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -1443,12 +1494,13 @@
             "y": 24.823943661971832,
             "w": 62.83943661971831,
             "h": 63.76901408450704
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 7,
           "file": "quadros/cross_head_007.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -1473,12 +1525,13 @@
             "y": 24.266197183098598,
             "w": 55.774647887323944,
             "h": 64.32676056338028
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 8,
           "file": "quadros/cross_head_008.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -1503,12 +1556,13 @@
             "y": 24.08028169014085,
             "w": 50.754929577464786,
             "h": 64.51267605633802
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 9,
           "file": "quadros/cross_head_009.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -1533,12 +1587,13 @@
             "y": 23.894366197183103,
             "w": 51.68450704225352,
             "h": 64.69859154929577
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 10,
           "file": "quadros/cross_head_010.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -1563,12 +1618,13 @@
             "y": 23.894366197183103,
             "w": 50.754929577464786,
             "h": 64.69859154929577
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 11,
           "file": "quadros/cross_head_011.png",
-          "duration": 50,
+          "duration": 83,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -1593,10 +1649,14 @@
             "y": 23.894366197183103,
             "w": 50.3830985915493,
             "h": 64.69859154929577
-          }
+          },
+          "authoringDuration": 50
         }
       ],
-      "totalMs": 390
+      "totalMs": 649,
+      "originalTotalMs": 390,
+      "timingRevision": "0.7.0",
+      "integrationBuild": "0.7.0"
     },
     {
       "id": "cross_body",
@@ -1608,7 +1668,7 @@
         5,
         6
       ],
-      "mechanicsIntegrated": false,
+      "mechanicsIntegrated": true,
       "columns": 4,
       "rows": 3,
       "file": "cross_body-atlas.png",
@@ -1632,7 +1692,7 @@
         {
           "index": 0,
           "file": "quadros/cross_body_000.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -1657,12 +1717,13 @@
             "y": 22.591412742382275,
             "w": 46.254847645429365,
             "h": 66
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 1,
           "file": "quadros/cross_body_001.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -1687,12 +1748,13 @@
             "y": 29.90443213296399,
             "w": 44.24376731301939,
             "h": 58.686980609418285
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 2,
           "file": "quadros/cross_body_002.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -1717,12 +1779,13 @@
             "y": 31.915512465373958,
             "w": 46.62049861495845,
             "h": 56.67590027700831
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 3,
           "file": "quadros/cross_body_003.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -1747,12 +1810,13 @@
             "y": 35.38919667590027,
             "w": 49.362880886426595,
             "h": 53.202216066481995
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 4,
           "file": "quadros/cross_body_004.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -1777,12 +1841,13 @@
             "y": 32.82963988919668,
             "w": 57.40720221606648,
             "h": 55.7617728531856
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 5,
           "file": "quadros/cross_body_005.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -1807,12 +1872,13 @@
             "y": 33.378116343490305,
             "w": 69.29085872576178,
             "h": 55.21329639889197
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 6,
           "file": "quadros/cross_body_006.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -1837,12 +1903,13 @@
             "y": 31.549861495844873,
             "w": 63.257617728531855,
             "h": 57.041551246537395
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 7,
           "file": "quadros/cross_body_007.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -1867,12 +1934,13 @@
             "y": 32.46398891966759,
             "w": 55.7617728531856,
             "h": 56.12742382271468
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 8,
           "file": "quadros/cross_body_008.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -1897,12 +1965,13 @@
             "y": 29.173130193905813,
             "w": 50.825484764542935,
             "h": 59.418282548476455
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 9,
           "file": "quadros/cross_body_009.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -1927,12 +1996,13 @@
             "y": 25.88227146814404,
             "w": 48.631578947368425,
             "h": 62.70914127423823
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 10,
           "file": "quadros/cross_body_010.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -1957,12 +2027,13 @@
             "y": 26.430747922437675,
             "w": 47.16897506925208,
             "h": 62.1606648199446
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 11,
           "file": "quadros/cross_body_011.png",
-          "duration": 50,
+          "duration": 83,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -1987,10 +2058,14 @@
             "y": 26.430747922437675,
             "w": 46.80332409972299,
             "h": 62.1606648199446
-          }
+          },
+          "authoringDuration": 50
         }
       ],
-      "totalMs": 390
+      "totalMs": 649,
+      "originalTotalMs": 390,
+      "timingRevision": "0.7.0",
+      "integrationBuild": "0.7.0"
     },
     {
       "id": "overhand_heavy",
@@ -2002,7 +2077,7 @@
         5,
         6
       ],
-      "mechanicsIntegrated": false,
+      "mechanicsIntegrated": true,
       "registration": "rearFoot",
       "columns": 4,
       "rows": 4,
@@ -2028,7 +2103,7 @@
           "index": 0,
           "sourceIndex": 0,
           "file": "quadros/overhand_heavy_000.png",
-          "duration": 45,
+          "duration": 74,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -2053,13 +2128,14 @@
             "y": 22.62890625,
             "w": 53.109375,
             "h": 66
-          }
+          },
+          "authoringDuration": 45
         },
         {
           "index": 1,
           "sourceIndex": 1,
           "file": "quadros/overhand_heavy_001.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -2084,13 +2160,14 @@
             "y": 23.40234375,
             "w": 61.1015625,
             "h": 65.2265625
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 2,
           "sourceIndex": 2,
           "file": "quadros/overhand_heavy_002.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -2115,13 +2192,14 @@
             "y": 29.07421875,
             "w": 59.296875,
             "h": 59.5546875
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 3,
           "sourceIndex": 3,
           "file": "quadros/overhand_heavy_003.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -2146,13 +2224,14 @@
             "y": 22.88671875,
             "w": 64.453125,
             "h": 65.7421875
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 4,
           "sourceIndex": 5,
           "file": "quadros/overhand_heavy_004.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -2177,13 +2256,14 @@
             "y": 24.43359375,
             "w": 69.609375,
             "h": 64.1953125
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 5,
           "sourceIndex": 6,
           "file": "quadros/overhand_heavy_005.png",
-          "duration": 50,
+          "duration": 83,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -2208,13 +2288,14 @@
             "y": 29.33203125,
             "w": 77.6015625,
             "h": 59.296875
-          }
+          },
+          "authoringDuration": 50
         },
         {
           "index": 6,
           "sourceIndex": 7,
           "file": "quadros/overhand_heavy_006.png",
-          "duration": 45,
+          "duration": 74,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -2239,13 +2320,14 @@
             "y": 24.94921875,
             "w": 67.8046875,
             "h": 63.6796875
-          }
+          },
+          "authoringDuration": 45
         },
         {
           "index": 7,
           "sourceIndex": 8,
           "file": "quadros/overhand_heavy_007.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -2270,13 +2352,14 @@
             "y": 24.94921875,
             "w": 72.703125,
             "h": 63.6796875
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 8,
           "sourceIndex": 9,
           "file": "quadros/overhand_heavy_008.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -2301,13 +2384,14 @@
             "y": 28.04296875,
             "w": 68.3203125,
             "h": 60.5859375
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 9,
           "sourceIndex": 10,
           "file": "quadros/overhand_heavy_009.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -2332,13 +2416,14 @@
             "y": 24.69140625,
             "w": 60.0703125,
             "h": 63.9375
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 10,
           "sourceIndex": 11,
           "file": "quadros/overhand_heavy_010.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -2363,13 +2448,14 @@
             "y": 23.66015625,
             "w": 58.78125,
             "h": 64.96875
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 11,
           "sourceIndex": 12,
           "file": "quadros/overhand_heavy_011.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -2394,13 +2480,14 @@
             "y": 23.40234375,
             "w": 60.328125,
             "h": 65.2265625
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 12,
           "sourceIndex": 13,
           "file": "quadros/overhand_heavy_012.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -2425,13 +2512,14 @@
             "y": 23.66015625,
             "w": 60.5859375,
             "h": 64.96875
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 13,
           "sourceIndex": 14,
           "file": "quadros/overhand_heavy_013.png",
-          "duration": 45,
+          "duration": 74,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -2456,13 +2544,14 @@
             "y": 23.40234375,
             "w": 58.265625,
             "h": 65.2265625
-          }
+          },
+          "authoringDuration": 45
         },
         {
           "index": 14,
           "sourceIndex": 15,
           "file": "quadros/overhand_heavy_014.png",
-          "duration": 60,
+          "duration": 99,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -2487,10 +2576,14 @@
             "y": 23.40234375,
             "w": 55.4296875,
             "h": 65.2265625
-          }
+          },
+          "authoringDuration": 60
         }
       ],
-      "totalMs": 555
+      "totalMs": 920,
+      "originalTotalMs": 555,
+      "timingRevision": "0.7.0",
+      "integrationBuild": "0.7.0"
     },
     {
       "id": "reverse_strike",
@@ -2502,7 +2595,7 @@
         5,
         6
       ],
-      "mechanicsIntegrated": false,
+      "mechanicsIntegrated": true,
       "registration": "hip",
       "columns": 4,
       "rows": 3,
@@ -2528,7 +2621,7 @@
           "index": 0,
           "sourceIndex": 0,
           "file": "quadros/reverse_strike_000.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "guarda à direita",
           "active": false,
           "contactMarker": null,
@@ -2553,13 +2646,14 @@
             "y": 22.5945558739255,
             "w": 52.383954154727796,
             "h": 66
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 1,
           "sourceIndex": 1,
           "file": "quadros/reverse_strike_001.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "gira",
           "active": false,
           "contactMarker": null,
@@ -2584,13 +2678,14 @@
             "y": 22.5945558739255,
             "w": 48.60171919770774,
             "h": 66
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 2,
           "sourceIndex": 2,
           "file": "quadros/reverse_strike_002.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "guarda à esquerda",
           "active": false,
           "contactMarker": null,
@@ -2615,13 +2710,14 @@
             "y": 22.4054441260745,
             "w": 52.762177650429805,
             "h": 66.189111747851
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 3,
           "sourceIndex": 3,
           "file": "quadros/reverse_strike_003.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "prepara",
           "active": false,
           "contactMarker": null,
@@ -2646,13 +2742,14 @@
             "y": 22.972779369627503,
             "w": 53.32951289398281,
             "h": 65.621776504298
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 4,
           "sourceIndex": 4,
           "file": "quadros/reverse_strike_004.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "acelera",
           "active": false,
           "contactMarker": null,
@@ -2677,13 +2774,14 @@
             "y": 27.700573065902574,
             "w": 54.65329512893983,
             "h": 60.893982808022926
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 5,
           "sourceIndex": 5,
           "file": "quadros/reverse_strike_005.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -2708,13 +2806,14 @@
             "y": 27.322349570200572,
             "w": 61.08309455587393,
             "h": 61.27220630372493
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 6,
           "sourceIndex": 6,
           "file": "quadros/reverse_strike_006.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -2739,13 +2838,14 @@
             "y": 27.133237822349564,
             "w": 65.810888252149,
             "h": 61.46131805157594
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 7,
           "sourceIndex": 7,
           "file": "quadros/reverse_strike_007.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -2770,13 +2870,14 @@
             "y": 27.322349570200572,
             "w": 56.922636103151866,
             "h": 61.27220630372493
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 8,
           "sourceIndex": 8,
           "file": "quadros/reverse_strike_008.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "recolhe",
           "active": false,
           "contactMarker": null,
@@ -2801,13 +2902,14 @@
             "y": 26.18767908309455,
             "w": 53.51862464183382,
             "h": 62.40687679083095
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 9,
           "sourceIndex": 9,
           "file": "quadros/reverse_strike_009.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "recupera",
           "active": false,
           "contactMarker": null,
@@ -2832,13 +2934,14 @@
             "y": 26.18767908309455,
             "w": 53.32951289398281,
             "h": 62.40687679083095
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 10,
           "sourceIndex": 10,
           "file": "quadros/reverse_strike_010.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "acomoda",
           "active": false,
           "contactMarker": null,
@@ -2863,13 +2966,14 @@
             "y": 26.18767908309455,
             "w": 52.95128939828081,
             "h": 62.40687679083095
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 11,
           "sourceIndex": 11,
           "file": "quadros/reverse_strike_011.png",
-          "duration": 55,
+          "duration": 91,
           "phase": "guarda à esquerda",
           "active": false,
           "contactMarker": null,
@@ -2894,10 +2998,14 @@
             "y": 26.18767908309455,
             "w": 52.383954154727796,
             "h": 62.40687679083095
-          }
+          },
+          "authoringDuration": 55
         }
       ],
-      "totalMs": 400
+      "totalMs": 663,
+      "originalTotalMs": 400,
+      "timingRevision": "0.7.0",
+      "integrationBuild": "0.7.0"
     },
     {
       "id": "running_punch",
@@ -2910,7 +3018,7 @@
         7,
         8
       ],
-      "mechanicsIntegrated": false,
+      "mechanicsIntegrated": true,
       "columns": 4,
       "rows": 4,
       "file": "running_punch-atlas.png",
@@ -2934,7 +3042,7 @@
         {
           "index": 0,
           "file": "quadros/running_punch_000.png",
-          "duration": 45,
+          "duration": 72,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -2959,12 +3067,13 @@
             "y": 30.4351145038168,
             "w": 55.923664122137396,
             "h": 58.19083969465648
-          }
+          },
+          "authoringDuration": 45
         },
         {
           "index": 1,
           "file": "quadros/running_punch_001.png",
-          "duration": 35,
+          "duration": 56,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -2989,12 +3098,13 @@
             "y": 30.183206106870237,
             "w": 54.41221374045801,
             "h": 58.44274809160305
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 2,
           "file": "quadros/running_punch_002.png",
-          "duration": 30,
+          "duration": 48,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3019,12 +3129,13 @@
             "y": 29.679389312977108,
             "w": 46.351145038167935,
             "h": 58.94656488549618
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 3,
           "file": "quadros/running_punch_003.png",
-          "duration": 25,
+          "duration": 40,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3049,12 +3160,13 @@
             "y": 28.16793893129772,
             "w": 53.65648854961832,
             "h": 60.45801526717557
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 4,
           "file": "quadros/running_punch_004.png",
-          "duration": 25,
+          "duration": 40,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3079,12 +3191,13 @@
             "y": 29.93129770992367,
             "w": 59.95419847328244,
             "h": 58.69465648854961
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 5,
           "file": "quadros/running_punch_005.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3109,12 +3222,13 @@
             "y": 29.679389312977108,
             "w": 60.9618320610687,
             "h": 58.94656488549618
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 6,
           "file": "quadros/running_punch_006.png",
-          "duration": 45,
+          "duration": 72,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -3139,12 +3253,13 @@
             "y": 29.679389312977108,
             "w": 77.58778625954197,
             "h": 58.94656488549618
-          }
+          },
+          "authoringDuration": 45
         },
         {
           "index": 7,
           "file": "quadros/running_punch_007.png",
-          "duration": 40,
+          "duration": 64,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -3169,12 +3284,13 @@
             "y": 29.93129770992367,
             "w": 82.62595419847328,
             "h": 58.69465648854961
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 8,
           "file": "quadros/running_punch_008.png",
-          "duration": 35,
+          "duration": 56,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -3199,12 +3315,13 @@
             "y": 29.679389312977108,
             "w": 82.3740458015267,
             "h": 58.94656488549618
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 9,
           "file": "quadros/running_punch_009.png",
-          "duration": 35,
+          "duration": 56,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -3229,12 +3346,13 @@
             "y": 29.679389312977108,
             "w": 52.90076335877862,
             "h": 58.94656488549618
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 10,
           "file": "quadros/running_punch_010.png",
-          "duration": 35,
+          "duration": 56,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -3259,12 +3377,13 @@
             "y": 29.679389312977108,
             "w": 50.8854961832061,
             "h": 58.94656488549618
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 11,
           "file": "quadros/running_punch_011.png",
-          "duration": 35,
+          "duration": 56,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -3289,12 +3408,13 @@
             "y": 29.42748091603054,
             "w": 45.343511450381676,
             "h": 59.19847328244274
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 12,
           "file": "quadros/running_punch_012.png",
-          "duration": 40,
+          "duration": 64,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -3319,12 +3439,13 @@
             "y": 22.37404580152672,
             "w": 42.57251908396946,
             "h": 66.25190839694656
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 13,
           "file": "quadros/running_punch_013.png",
-          "duration": 45,
+          "duration": 72,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -3349,12 +3470,13 @@
             "y": 23.38167938931298,
             "w": 45.847328244274806,
             "h": 65.2442748091603
-          }
+          },
+          "authoringDuration": 45
         },
         {
           "index": 14,
           "file": "quadros/running_punch_014.png",
-          "duration": 50,
+          "duration": 80,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -3379,12 +3501,13 @@
             "y": 22.625954198473295,
             "w": 52.14503816793893,
             "h": 66
-          }
+          },
+          "authoringDuration": 50
         },
         {
           "index": 15,
           "file": "quadros/running_punch_015.png",
-          "duration": 60,
+          "duration": 96,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -3409,10 +3532,14 @@
             "y": 22.625954198473295,
             "w": 48.36641221374045,
             "h": 66
-          }
+          },
+          "authoringDuration": 60
         }
       ],
-      "totalMs": 600
+      "totalMs": 963,
+      "originalTotalMs": 600,
+      "timingRevision": "0.7.0",
+      "integrationBuild": "0.7.0"
     },
     {
       "id": "low_kick",
@@ -3424,7 +3551,7 @@
         5,
         6
       ],
-      "mechanicsIntegrated": false,
+      "mechanicsIntegrated": true,
       "columns": 4,
       "rows": 3,
       "file": "low_kick-atlas.png",
@@ -3448,7 +3575,7 @@
         {
           "index": 0,
           "file": "quadros/low_kick_000.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3473,12 +3600,13 @@
             "y": 22.591412742382275,
             "w": 45.70637119113574,
             "h": 66
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 1,
           "file": "quadros/low_kick_001.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3503,12 +3631,13 @@
             "y": 24.968144044321328,
             "w": 49.18005540166205,
             "h": 63.62326869806094
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 2,
           "file": "quadros/low_kick_002.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3533,12 +3662,13 @@
             "y": 24.968144044321328,
             "w": 43.878116343490305,
             "h": 63.62326869806094
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 3,
           "file": "quadros/low_kick_003.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3563,12 +3693,13 @@
             "y": 24.054016620498615,
             "w": 42.04986149584487,
             "h": 64.53739612188366
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 4,
           "file": "quadros/low_kick_004.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3593,12 +3724,13 @@
             "y": 25.516620498614955,
             "w": 57.955678670360115,
             "h": 63.07479224376731
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 5,
           "file": "quadros/low_kick_005.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -3623,12 +3755,13 @@
             "y": 25.699445983379498,
             "w": 63.80609418282548,
             "h": 62.89196675900277
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 6,
           "file": "quadros/low_kick_006.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -3653,12 +3786,13 @@
             "y": 26.79639889196676,
             "w": 61.97783933518006,
             "h": 61.795013850415515
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 7,
           "file": "quadros/low_kick_007.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -3683,12 +3817,13 @@
             "y": 26.247922437673132,
             "w": 31.263157894736842,
             "h": 62.34349030470914
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 8,
           "file": "quadros/low_kick_008.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -3713,12 +3848,13 @@
             "y": 25.699445983379498,
             "w": 34.73684210526316,
             "h": 62.89196675900277
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 9,
           "file": "quadros/low_kick_009.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -3743,12 +3879,13 @@
             "y": 26.79639889196676,
             "w": 44.609418282548475,
             "h": 61.795013850415515
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 10,
           "file": "quadros/low_kick_010.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -3773,12 +3910,13 @@
             "y": 26.247922437673132,
             "w": 45.70637119113574,
             "h": 62.34349030470914
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 11,
           "file": "quadros/low_kick_011.png",
-          "duration": 50,
+          "duration": 83,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -3803,10 +3941,14 @@
             "y": 26.430747922437675,
             "w": 45.70637119113574,
             "h": 62.1606648199446
-          }
+          },
+          "authoringDuration": 50
         }
       ],
-      "totalMs": 395
+      "totalMs": 655,
+      "originalTotalMs": 395,
+      "timingRevision": "0.7.0",
+      "integrationBuild": "0.7.0"
     },
     {
       "id": "round_kick_body",
@@ -3818,7 +3960,7 @@
         6,
         7
       ],
-      "mechanicsIntegrated": false,
+      "mechanicsIntegrated": true,
       "columns": 4,
       "rows": 4,
       "file": "round_kick_body-atlas.png",
@@ -3842,7 +3984,7 @@
         {
           "index": 0,
           "file": "quadros/round_kick_body_000.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3867,12 +4009,13 @@
             "y": 22.608196721311472,
             "w": 45.87540983606557,
             "h": 66
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 1,
           "file": "quadros/round_kick_body_001.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3897,12 +4040,13 @@
             "y": 24.772131147540982,
             "w": 46.09180327868852,
             "h": 63.83606557377049
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 2,
           "file": "quadros/round_kick_body_002.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3927,12 +4071,13 @@
             "y": 24.988524590163934,
             "w": 42.41311475409836,
             "h": 63.61967213114754
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 3,
           "file": "quadros/round_kick_body_003.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3957,12 +4102,13 @@
             "y": 23.47377049180328,
             "w": 35.05573770491803,
             "h": 65.1344262295082
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 4,
           "file": "quadros/round_kick_body_004.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -3987,12 +4133,13 @@
             "y": 25.85409836065574,
             "w": 40.24918032786885,
             "h": 62.75409836065574
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 5,
           "file": "quadros/round_kick_body_005.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -4017,12 +4164,13 @@
             "y": 26.286885245901637,
             "w": 59.940983606557374,
             "h": 62.321311475409836
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 6,
           "file": "quadros/round_kick_body_006.png",
-          "duration": 45,
+          "duration": 74,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -4047,12 +4195,13 @@
             "y": 28.234426229508195,
             "w": 73.79016393442623,
             "h": 60.37377049180328
-          }
+          },
+          "authoringDuration": 45
         },
         {
           "index": 7,
           "file": "quadros/round_kick_body_007.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -4077,12 +4226,13 @@
             "y": 27.368852459016395,
             "w": 58.42622950819672,
             "h": 61.239344262295084
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 8,
           "file": "quadros/round_kick_body_008.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -4107,12 +4257,13 @@
             "y": 27.152459016393443,
             "w": 45.87540983606557,
             "h": 61.455737704918036
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 9,
           "file": "quadros/round_kick_body_009.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -4137,12 +4288,13 @@
             "y": 27.368852459016395,
             "w": 36.35409836065574,
             "h": 61.239344262295084
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 10,
           "file": "quadros/round_kick_body_010.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -4167,12 +4319,13 @@
             "y": 27.80163934426229,
             "w": 37.65245901639344,
             "h": 60.80655737704918
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 11,
           "file": "quadros/round_kick_body_011.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -4197,12 +4350,13 @@
             "y": 26.93606557377049,
             "w": 41.114754098360656,
             "h": 61.67213114754098
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 12,
           "file": "quadros/round_kick_body_012.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -4227,12 +4381,13 @@
             "y": 26.93606557377049,
             "w": 43.278688524590166,
             "h": 61.67213114754098
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 13,
           "file": "quadros/round_kick_body_013.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -4257,12 +4412,13 @@
             "y": 27.368852459016395,
             "w": 43.71147540983607,
             "h": 61.239344262295084
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 14,
           "file": "quadros/round_kick_body_014.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -4287,12 +4443,13 @@
             "y": 27.368852459016395,
             "w": 44.36065573770492,
             "h": 61.239344262295084
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 15,
           "file": "quadros/round_kick_body_015.png",
-          "duration": 55,
+          "duration": 91,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -4317,10 +4474,14 @@
             "y": 26.93606557377049,
             "w": 42.62950819672131,
             "h": 61.67213114754098
-          }
+          },
+          "authoringDuration": 55
         }
       ],
-      "totalMs": 535
+      "totalMs": 889,
+      "originalTotalMs": 535,
+      "timingRevision": "0.7.0",
+      "integrationBuild": "0.7.0"
     },
     {
       "id": "round_kick_head",
@@ -4332,7 +4493,7 @@
         6,
         7
       ],
-      "mechanicsIntegrated": false,
+      "mechanicsIntegrated": true,
       "columns": 4,
       "rows": 4,
       "file": "round_kick_head-atlas.png",
@@ -4356,7 +4517,7 @@
         {
           "index": 0,
           "file": "quadros/round_kick_head_000.png",
-          "duration": 45,
+          "duration": 74,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -4381,12 +4542,13 @@
             "y": 22.627413127413135,
             "w": 47.907335907335906,
             "h": 66
-          }
+          },
+          "authoringDuration": 45
         },
         {
           "index": 1,
           "file": "quadros/round_kick_head_001.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -4411,12 +4573,13 @@
             "y": 22.627413127413135,
             "w": 49.18146718146718,
             "h": 66
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 2,
           "file": "quadros/round_kick_head_002.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -4441,12 +4604,13 @@
             "y": 22.627413127413135,
             "w": 46.37837837837838,
             "h": 66
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 3,
           "file": "quadros/round_kick_head_003.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -4471,12 +4635,13 @@
             "y": 22.37258687258688,
             "w": 37.45945945945946,
             "h": 66.25482625482626
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 4,
           "file": "quadros/round_kick_head_004.png",
-          "duration": 25,
+          "duration": 41,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -4501,12 +4666,13 @@
             "y": 23.646718146718143,
             "w": 50.965250965250966,
             "h": 64.98069498069498
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 5,
           "file": "quadros/round_kick_head_005.png",
-          "duration": 20,
+          "duration": 35,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -4531,12 +4697,13 @@
             "y": 23.646718146718143,
             "w": 64.98069498069498,
             "h": 64.98069498069498
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 6,
           "file": "quadros/round_kick_head_006.png",
-          "duration": 45,
+          "duration": 74,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -4561,12 +4728,13 @@
             "y": 24.666023166023166,
             "w": 78.48648648648648,
             "h": 63.96138996138996
-          }
+          },
+          "authoringDuration": 45
         },
         {
           "index": 7,
           "file": "quadros/round_kick_head_007.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -4591,12 +4759,13 @@
             "y": 23.9015444015444,
             "w": 80.01544401544402,
             "h": 64.72586872586872
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 8,
           "file": "quadros/round_kick_head_008.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -4621,12 +4790,13 @@
             "y": 26.704633204633204,
             "w": 76.7027027027027,
             "h": 61.922779922779924
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 9,
           "file": "quadros/round_kick_head_009.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -4651,12 +4821,13 @@
             "y": 25.940154440154444,
             "w": 38.73359073359073,
             "h": 62.687258687258684
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 10,
           "file": "quadros/round_kick_head_010.png",
-          "duration": 30,
+          "duration": 50,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -4681,12 +4852,13 @@
             "y": 26.449806949806955,
             "w": 40.00772200772201,
             "h": 62.17760617760617
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 11,
           "file": "quadros/round_kick_head_011.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -4711,12 +4883,13 @@
             "y": 26.95945945945946,
             "w": 39.75289575289575,
             "h": 61.66795366795367
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 12,
           "file": "quadros/round_kick_head_012.png",
-          "duration": 35,
+          "duration": 58,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -4741,12 +4914,13 @@
             "y": 31.036679536679536,
             "w": 47.397683397683394,
             "h": 57.59073359073359
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 13,
           "file": "quadros/round_kick_head_013.png",
-          "duration": 40,
+          "duration": 66,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -4771,12 +4945,13 @@
             "y": 30.52702702702703,
             "w": 48.92664092664093,
             "h": 58.100386100386096
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 14,
           "file": "quadros/round_kick_head_014.png",
-          "duration": 45,
+          "duration": 74,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -4801,12 +4976,13 @@
             "y": 30.781853281853287,
             "w": 49.18146718146718,
             "h": 57.84555984555984
-          }
+          },
+          "authoringDuration": 45
         },
         {
           "index": 15,
           "file": "quadros/round_kick_head_015.png",
-          "duration": 60,
+          "duration": 99,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -4831,10 +5007,14 @@
             "y": 30.52702702702703,
             "w": 46.37837837837838,
             "h": 58.100386100386096
-          }
+          },
+          "authoringDuration": 60
         }
       ],
-      "totalMs": 570
+      "totalMs": 944,
+      "originalTotalMs": 570,
+      "timingRevision": "0.7.0",
+      "integrationBuild": "0.7.0"
     },
     {
       "id": "combo_punch_kick",
@@ -4847,7 +5027,7 @@
         10,
         11
       ],
-      "mechanicsIntegrated": false,
+      "mechanicsIntegrated": true,
       "registration": "hip",
       "columns": 4,
       "rows": 4,
@@ -4873,7 +5053,7 @@
           "index": 0,
           "sourceIndex": 0,
           "file": "quadros/combo_punch_kick_000.png",
-          "duration": 35,
+          "duration": 63,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -4898,13 +5078,14 @@
             "y": 22.627906976744185,
             "w": 52.95348837209303,
             "h": 66
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 1,
           "sourceIndex": 1,
           "file": "quadros/combo_punch_kick_001.png",
-          "duration": 20,
+          "duration": 36,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -4929,13 +5110,14 @@
             "y": 22.627906976744185,
             "w": 62.674418604651166,
             "h": 66
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 2,
           "sourceIndex": 2,
           "file": "quadros/combo_punch_kick_002.png",
-          "duration": 20,
+          "duration": 36,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -4960,13 +5142,14 @@
             "y": 22.883720930232556,
             "w": 74.18604651162791,
             "h": 65.74418604651163
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 3,
           "sourceIndex": 3,
           "file": "quadros/combo_punch_kick_003.png",
-          "duration": 20,
+          "duration": 36,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -4991,13 +5174,14 @@
             "y": 22.372093023255815,
             "w": 66.76744186046511,
             "h": 66.25581395348837
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 4,
           "sourceIndex": 4,
           "file": "quadros/combo_punch_kick_004.png",
-          "duration": 35,
+          "duration": 63,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -5022,13 +5206,14 @@
             "y": 20.837209302325576,
             "w": 70.09302325581396,
             "h": 67.79069767441861
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 5,
           "sourceIndex": 5,
           "file": "quadros/combo_punch_kick_005.png",
-          "duration": 25,
+          "duration": 45,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -5053,13 +5238,14 @@
             "y": 20.837209302325576,
             "w": 58.83720930232558,
             "h": 67.79069767441861
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 6,
           "sourceIndex": 6,
           "file": "quadros/combo_punch_kick_006.png",
-          "duration": 25,
+          "duration": 45,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -5084,13 +5270,14 @@
             "y": 20.581395348837205,
             "w": 44.25581395348837,
             "h": 68.04651162790698
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 7,
           "sourceIndex": 7,
           "file": "quadros/combo_punch_kick_007.png",
-          "duration": 25,
+          "duration": 45,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -5115,13 +5302,14 @@
             "y": 20.325581395348834,
             "w": 40.418604651162795,
             "h": 68.30232558139535
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 8,
           "sourceIndex": 8,
           "file": "quadros/combo_punch_kick_008.png",
-          "duration": 20,
+          "duration": 36,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -5146,13 +5334,14 @@
             "y": 27.23255813953488,
             "w": 39.395348837209305,
             "h": 61.395348837209305
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 9,
           "sourceIndex": 9,
           "file": "quadros/combo_punch_kick_009.png",
-          "duration": 20,
+          "duration": 36,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -5177,13 +5366,14 @@
             "y": 27.48837209302325,
             "w": 53.46511627906977,
             "h": 61.139534883720934
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 10,
           "sourceIndex": 10,
           "file": "quadros/combo_punch_kick_010.png",
-          "duration": 45,
+          "duration": 81,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -5208,13 +5398,14 @@
             "y": 27.48837209302325,
             "w": 76.23255813953489,
             "h": 61.139534883720934
-          }
+          },
+          "authoringDuration": 45
         },
         {
           "index": 11,
           "sourceIndex": 11,
           "file": "quadros/combo_punch_kick_011.png",
-          "duration": 35,
+          "duration": 63,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -5239,13 +5430,14 @@
             "y": 27.48837209302325,
             "w": 73.16279069767442,
             "h": 61.139534883720934
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 12,
           "sourceIndex": 12,
           "file": "quadros/combo_punch_kick_012.png",
-          "duration": 30,
+          "duration": 54,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -5270,13 +5462,14 @@
             "y": 22.627906976744185,
             "w": 43.74418604651163,
             "h": 66
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 13,
           "sourceIndex": 13,
           "file": "quadros/combo_punch_kick_013.png",
-          "duration": 35,
+          "duration": 63,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -5301,13 +5494,14 @@
             "y": 22.627906976744185,
             "w": 49.372093023255815,
             "h": 66
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 14,
           "sourceIndex": 14,
           "file": "quadros/combo_punch_kick_014.png",
-          "duration": 40,
+          "duration": 72,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -5332,13 +5526,14 @@
             "y": 22.372093023255815,
             "w": 57.81395348837209,
             "h": 66.25581395348837
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 15,
           "sourceIndex": 15,
           "file": "quadros/combo_punch_kick_015.png",
-          "duration": 55,
+          "duration": 99,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -5363,10 +5558,14 @@
             "y": 22.883720930232556,
             "w": 58.58139534883721,
             "h": 65.74418604651163
-          }
+          },
+          "authoringDuration": 55
         }
       ],
-      "totalMs": 485
+      "totalMs": 873,
+      "originalTotalMs": 485,
+      "timingRevision": "0.7.0",
+      "integrationBuild": "0.7.0"
     },
     {
       "id": "combo_kick_punch",
@@ -5379,7 +5578,7 @@
         9,
         10
       ],
-      "mechanicsIntegrated": false,
+      "mechanicsIntegrated": true,
       "registration": "hip",
       "columns": 4,
       "rows": 4,
@@ -5405,7 +5604,7 @@
           "index": 0,
           "sourceIndex": 0,
           "file": "quadros/combo_kick_punch_000.png",
-          "duration": 40,
+          "duration": 72,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -5430,13 +5629,14 @@
             "y": 22.612244897959187,
             "w": 49.16326530612245,
             "h": 66
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 1,
           "sourceIndex": 1,
           "file": "quadros/combo_kick_punch_001.png",
-          "duration": 25,
+          "duration": 45,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -5461,13 +5661,14 @@
             "y": 23.51020408163265,
             "w": 42.42857142857143,
             "h": 65.10204081632654
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 2,
           "sourceIndex": 2,
           "file": "quadros/combo_kick_punch_002.png",
-          "duration": 25,
+          "duration": 45,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -5492,13 +5693,14 @@
             "y": 23.959183673469383,
             "w": 33.224489795918366,
             "h": 64.65306122448979
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 3,
           "sourceIndex": 3,
           "file": "quadros/combo_kick_punch_003.png",
-          "duration": 20,
+          "duration": 36,
           "phase": "preparação",
           "active": false,
           "contactMarker": null,
@@ -5523,13 +5725,14 @@
             "y": 24.183673469387756,
             "w": 58.142857142857146,
             "h": 64.42857142857143
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 4,
           "sourceIndex": 4,
           "file": "quadros/combo_kick_punch_004.png",
-          "duration": 40,
+          "duration": 72,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -5554,13 +5757,14 @@
             "y": 24.183673469387756,
             "w": 64.42857142857143,
             "h": 64.42857142857143
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 5,
           "sourceIndex": 5,
           "file": "quadros/combo_kick_punch_005.png",
-          "duration": 25,
+          "duration": 45,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -5585,13 +5789,14 @@
             "y": 24.183673469387756,
             "w": 34.795918367346935,
             "h": 64.42857142857143
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 6,
           "sourceIndex": 6,
           "file": "quadros/combo_kick_punch_006.png",
-          "duration": 25,
+          "duration": 45,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -5616,13 +5821,14 @@
             "y": 24.183673469387756,
             "w": 52.97959183673469,
             "h": 64.42857142857143
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 7,
           "sourceIndex": 7,
           "file": "quadros/combo_kick_punch_007.png",
-          "duration": 25,
+          "duration": 45,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -5647,13 +5853,14 @@
             "y": 24.183673469387756,
             "w": 59.04081632653061,
             "h": 64.42857142857143
-          }
+          },
+          "authoringDuration": 25
         },
         {
           "index": 8,
           "sourceIndex": 8,
           "file": "quadros/combo_kick_punch_008.png",
-          "duration": 20,
+          "duration": 36,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -5678,13 +5885,14 @@
             "y": 23.734693877551024,
             "w": 62.857142857142854,
             "h": 64.87755102040816
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 9,
           "sourceIndex": 9,
           "file": "quadros/combo_kick_punch_009.png",
-          "duration": 20,
+          "duration": 36,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -5709,13 +5917,14 @@
             "y": 24.40816326530613,
             "w": 68.24489795918367,
             "h": 64.20408163265306
-          }
+          },
+          "authoringDuration": 20
         },
         {
           "index": 10,
           "sourceIndex": 10,
           "file": "quadros/combo_kick_punch_010.png",
-          "duration": 40,
+          "duration": 72,
           "phase": "contato",
           "active": true,
           "contactMarker": null,
@@ -5740,13 +5949,14 @@
             "y": 24.632653061224488,
             "w": 69.36734693877551,
             "h": 63.97959183673469
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 11,
           "sourceIndex": 11,
           "file": "quadros/combo_kick_punch_011.png",
-          "duration": 35,
+          "duration": 63,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -5771,13 +5981,14 @@
             "y": 24.183673469387756,
             "w": 51.183673469387756,
             "h": 64.42857142857143
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 12,
           "sourceIndex": 12,
           "file": "quadros/combo_kick_punch_012.png",
-          "duration": 30,
+          "duration": 54,
           "phase": "continuação",
           "active": false,
           "contactMarker": null,
@@ -5802,13 +6013,14 @@
             "y": 24.632653061224488,
             "w": 51.40816326530612,
             "h": 63.97959183673469
-          }
+          },
+          "authoringDuration": 30
         },
         {
           "index": 13,
           "sourceIndex": 13,
           "file": "quadros/combo_kick_punch_013.png",
-          "duration": 35,
+          "duration": 63,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -5833,13 +6045,14 @@
             "y": 23.734693877551024,
             "w": 49.83673469387755,
             "h": 64.87755102040816
-          }
+          },
+          "authoringDuration": 35
         },
         {
           "index": 14,
           "sourceIndex": 14,
           "file": "quadros/combo_kick_punch_014.png",
-          "duration": 40,
+          "duration": 72,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -5864,13 +6077,14 @@
             "y": 24.183673469387756,
             "w": 51.40816326530612,
             "h": 64.42857142857143
-          }
+          },
+          "authoringDuration": 40
         },
         {
           "index": 15,
           "sourceIndex": 15,
           "file": "quadros/combo_kick_punch_015.png",
-          "duration": 55,
+          "duration": 99,
           "phase": "recuperação",
           "active": false,
           "contactMarker": null,
@@ -5895,10 +6109,14 @@
             "y": 23.959183673469383,
             "w": 48.04081632653061,
             "h": 64.65306122448979
-          }
+          },
+          "authoringDuration": 55
         }
       ],
-      "totalMs": 500
+      "totalMs": 900,
+      "originalTotalMs": 500,
+      "timingRevision": "0.7.0",
+      "integrationBuild": "0.7.0"
     }
   ]
 }

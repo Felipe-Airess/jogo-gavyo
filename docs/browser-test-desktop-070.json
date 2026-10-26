@@ -1,0 +1,8 @@
+{
+  "checks": [
+    "teclado move e acerta o alvo",
+    "versão 0.7.0 e perfil novo",
+    "controles de toque ocultos por padrão no desktop"
+  ],
+  "errors": []
+}

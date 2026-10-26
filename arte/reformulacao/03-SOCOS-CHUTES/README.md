@@ -1,6 +1,6 @@
 # Lote 3 — socos e chutes
 
-**Candidato de arte para revisão.** Treze sequências usam a pose aprovada de Sorriso como referência. Os sprites continuam separados do jogo 0.6.1 até a revisão artística; exportar uma folha não aplica novos golpes ou colisões ao combate.
+**Desenhos aceitos pelo usuário; ritmo revisto para a build 0.7.0.** Treze sequências usam a pose aprovada de Sorriso como referência. Os desenhos e seus tempos revistos agora são usados no treino 0.7.0. A primeira exportação deste lote foi entregue separada do jogo; esta integração foi pedida depois da avaliação dos sprites.
 
 ## Ver e conferir
 
@@ -34,7 +34,7 @@ Células lógicas de 128×96, pivô (64,88), ampliação nearest-neighbor. Cada 
 
 Os desenhos completos são transladados para registrar o apoio. Nos golpes plantados para a direita, o registro usa a região visível do tênis traseiro; nos giros e combinações, o quadril. Este registro ajuda a revisão, mas não equivale a captura de movimento nem comprova que o pé esteja perfeitamente imóvel durante todas as rotações.
 
-Preparação, contato, continuação e recuperação têm tempos próprios. `active` e `contactFrames` no JSON indicam **poses propostas para contato durante a revisão**. Não são hitboxes já integradas ou garantias de dano. `contactMarker` permanece nulo: os pontos exatos de mão, cotovelo e canela precisam ser marcados junto ao adversário e validados antes de alterar as colisões do jogo. Não foram inventadas coordenadas em lugares que o desenho não ocupa.
+Preparação, contato, continuação e recuperação têm tempos próprios. `active` e `contactFrames` no JSON indicam **poses propostas para contato durante a revisão**. A primeira exportação não incluía hitboxes integradas; a build 0.7.0 deriva marcadores dos pixels e verifica os contatos no treino. `contactMarker` permanece nulo: os pontos exatos de mão, cotovelo e canela precisam ser marcados junto ao adversário e validados antes de alterar as colisões do jogo. Não foram inventadas coordenadas em lugares que o desenho não ocupa.
 
 ## Limitações que precisam de revisão visual
 
@@ -49,3 +49,7 @@ Os testes técnicos conferem PNGs, transparência, limites, escala e controles. 
 Depois da revisão: defesa e reações; depois clinch/chão, incluindo cotovelada; por último os extras do guia. Não foram acrescentadas mecânicas com base apenas nesta lista.
 
 É possível adaptar o protótipo web para testar no navegador do celular. Ainda seriam necessários comandos de toque e um endereço que o telefone alcance. `127.0.0.1` aponta para o próprio aparelho. A pedido do usuário, **controles móveis, túnel, hospedagem pública e publicação do jogo ficaram adiados**. Enviar o código ao GitHub não habilita automaticamente um endereço jogável.
+
+## Revisão de ritmo 0.7.0
+
+Por pedido do usuário, os tempos das fases aumentaram em aproximadamente 60–80%, com mínimo de 35 ms por desenho. `authoringDuration` preserva o tempo anterior e `timingRevision` identifica a revisão. A prévia mostra a ação completa; durante o jogo, as ligações mistas começam no recolhimento (quadro 5), pois o primeiro contato já aconteceu. Os GIFs foram atualizados.

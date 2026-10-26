@@ -1,0 +1,15 @@
+{
+  "url": "http://127.0.0.1:4175/?v=070",
+  "checks": [
+    "build 0.7.0, dois alvos, CANVAS 320×180 e controles no retrato",
+    "dois toques reais via CDP: mover e golpear simultaneamente",
+    "retirar os dedos libera os comandos",
+    "aproximação e dano no alvo usando somente toques",
+    "defesa sustentada e cancelamento de toque",
+    "pausa limpa entradas e segurar Soco não dispara golpes repetidos",
+    "paisagem com direcional e botões visíveis de pelo menos 44 pixels"
+  ],
+  "errors": [],
+  "device": "Chromium emulado com toque/CDP, 390×844 e 844×390; não é medição em aparelho físico",
+  "date": "2026-10-26T10:21:13.704Z"
+}

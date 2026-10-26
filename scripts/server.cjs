@@ -3,8 +3,8 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const { spawn } = require('node:child_process');
-const root = path.resolve(__dirname, '..');
-const port = Number(process.env.PORT || 4173);
+const root = path.resolve(__dirname, '..',process.argv.includes('--build')?'build':'');
+const port = Number(process.env.PORT || process.argv.find(v=>v.startsWith('--port='))?.slice(7) || 4173);
 const mime = { '.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.json':'application/json','.md':'text/plain; charset=utf-8' };
 const server = http.createServer((req, res) => {
   let pathname;

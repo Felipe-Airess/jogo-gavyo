@@ -1,0 +1,152 @@
+{
+  "version": "0.7.0",
+  "logicalResolution": [
+    320,
+    180
+  ],
+  "renderer": "CANVAS",
+  "mobile": true,
+  "files": [
+    {
+      "path": ".nojekyll",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "assets/sorriso-v70.json",
+      "bytes": 222800,
+      "sha256": "4a25bbb0337b0841d24ddc4ff90626377a8ccd9dd8afb1d23a23cd4315422c0d"
+    },
+    {
+      "path": "assets/sorriso-v70.png",
+      "bytes": 2758336,
+      "sha256": "c1a1429e9573bdfc5929f0687b540a704f620ecae8ad4efff5fd9ef1757e0541"
+    },
+    {
+      "path": "index.html",
+      "bytes": 4872,
+      "sha256": "66b84bbcc85afdf7ebbce3026dda2a99fa976944b402955844def51192504cd9"
+    },
+    {
+      "path": "INICIAR.cmd",
+      "bytes": 65,
+      "sha256": "2358b8ac099cfb4a9fe2960078655c82e21d11fcc0797e5b68e78501add8ad4a"
+    },
+    {
+      "path": "LEIA-ME.txt",
+      "bytes": 220,
+      "sha256": "cfa372d215869920a6be548bb750166dd88a7dd268ceb1b12d7bb3d7c571af62"
+    },
+    {
+      "path": "scripts/server.cjs",
+      "bytes": 2078,
+      "sha256": "3b44d06d3dda78afe0f4835416852baece4d31d4bf86f9e106d8d0f80cecc05e"
+    },
+    {
+      "path": "src/animation.mjs",
+      "bytes": 5115,
+      "sha256": "111ffc00e96f31205f61771908d8b802a663246aa05ed9577676d741cec4012d"
+    },
+    {
+      "path": "src/art.js",
+      "bytes": 3985,
+      "sha256": "f084186b148f28ef434b1d5737649fedfd074a12c86d72c184cdc444d0c79175"
+    },
+    {
+      "path": "src/assets.js",
+      "bytes": 241,
+      "sha256": "e221f60bc4416dea8eaf9d240cf1d6794d870071dbfcc37e373e202c68f31a30"
+    },
+    {
+      "path": "src/battle.mjs",
+      "bytes": 30555,
+      "sha256": "5c3839c2b83e660bca3bad3e48aec14a7327a60ed2c8b4dae143a7a826eeb1ef"
+    },
+    {
+      "path": "src/blood.mjs",
+      "bytes": 1854,
+      "sha256": "9bb26088c55621e21c4959ab5cfcbb7972520144b91374612b9838f31fd5ccc3"
+    },
+    {
+      "path": "src/build-moves.mjs",
+      "bytes": 2273,
+      "sha256": "a1420e8d3b5149eb73758afab38533e9217812de3375e15c5b8b8920c76f8492"
+    },
+    {
+      "path": "src/character.js",
+      "bytes": 4236,
+      "sha256": "46452620c0746dc21b0d319792fa3165042afff332c257220591c822b5917280"
+    },
+    {
+      "path": "src/combat-audio.mjs",
+      "bytes": 1646,
+      "sha256": "7b0452ef3dd0c08c10f69ad092d74d0cb74f825d6c7eb9de2ac2711e38a3be7a"
+    },
+    {
+      "path": "src/combat.mjs",
+      "bytes": 6583,
+      "sha256": "a6f950d29f6ce45af0901015d1e68ad121b64bfb99fb0309a5942007a72dad5f"
+    },
+    {
+      "path": "src/context-moves.mjs",
+      "bytes": 3194,
+      "sha256": "6529c66057bf85d2350cbdf3f8c90d5f38b736977c8434239e094002a2842ff0"
+    },
+    {
+      "path": "src/dummy-view.js",
+      "bytes": 2579,
+      "sha256": "2a3938fea2dc247756d3e8e8fd930d4cf4cd7a1713000b011b9e7c2a3df82cd9"
+    },
+    {
+      "path": "src/locomotion.mjs",
+      "bytes": 1556,
+      "sha256": "0fdf312785f6b216d2b7760e7e91a9f7a6127b455f2f41156e63475d566e7444"
+    },
+    {
+      "path": "src/main.js",
+      "bytes": 14129,
+      "sha256": "bd84515c625ea6007f3ec88ccac42c817dd54b9a8666fe78bd8eba0369c0fe26"
+    },
+    {
+      "path": "src/pose-state.mjs",
+      "bytes": 1455,
+      "sha256": "7e5034e5f8a49829b9545b8c4387c45bb60f4a074b0325464994bc32b921f8fe"
+    },
+    {
+      "path": "src/ragdoll.mjs",
+      "bytes": 2290,
+      "sha256": "e154aa624416bf075b7d9b8d64436a0ee2a965d4fb8d22e399e61d0b0611f348"
+    },
+    {
+      "path": "src/sprite-player.mjs",
+      "bytes": 2927,
+      "sha256": "5c56182855a61d8145a2d4d1136f201aea92ada71d6fa5d2f93312786ccb109e"
+    },
+    {
+      "path": "src/target-view.mjs",
+      "bytes": 1067,
+      "sha256": "16f4737458d0813b9b24851698afd19b92dd08193a7ca16de8417e66d17ca5f0"
+    },
+    {
+      "path": "src/touch-controls.mjs",
+      "bytes": 2107,
+      "sha256": "bb59d981d472dda870d3a44df957f2cc1d417e1917c00bf1a3c72fb3ec9def8e"
+    },
+    {
+      "path": "style.css",
+      "bytes": 5680,
+      "sha256": "3a108f32d07be68fdc31ccd0d6d50d2c5b2f8883e5c8d3ec98f482fe57803664"
+    },
+    {
+      "path": "vendor/PHASER-LICENSE.md",
+      "bytes": 1120,
+      "sha256": "080f3d5539e766bb556df5b8e86c4f5d581ece35c692b80956ca352b84d29134"
+    },
+    {
+      "path": "vendor/phaser.min.js",
+      "bytes": 1196122,
+      "sha256": "e92ddef111ba42e92d316979c732311757093688ea1810591cb7aa2858eba7a7"
+    }
+  ],
+  "bytes": 4279085
+}
