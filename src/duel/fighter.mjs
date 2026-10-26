@@ -3,6 +3,7 @@
 import { CommandBuffer } from '../core/command-buffer.mjs';
 import { freshCondition } from './damage.mjs';
 import { frameIndex } from './moves.mjs';
+import { R2_STRIDE, tableFrame } from '../locomotion.mjs';
 
 // O que cada personagem consegue mostrar com a arte existente. Uma ação sem
 // desenho próprio fica indisponível — não é emprestada de outro personagem.
@@ -18,10 +19,16 @@ export function capabilities(character, clips) {
   return out;
 }
 
-export const SPEED = { forward: 44, back: 36, run: 86, crouch: 0 };
-export const WALK_STRIDE = 40;
-export const RUN_STRIDE = 84;
-export const NEUTRAL = new Set(['idle', 'walk', 'run', 'guard', 'crouch']);
+// Velocidades escolhidas junto com a passada desenhada: a 120 px/s a corrida
+// troca de quadro a cada ~78 ms (desenho: 60 ms) sem o pé escorregar; andar a
+// 52 px/s dá ~146 ms por quadro. Mais devagar que isso, as pernas parecem em
+// câmera lenta; mais rápido, o espaço do duelo acaba.
+export const SPEED = { forward: 52, back: 42, run: 120, crouch: 0 };
+export const WALK_STRIDE = R2_STRIDE.walk;
+export const RUN_STRIDE = R2_STRIDE.run;
+// Arrancada inteira (os 8 quadros de r2_runStart, 490 ms no desenho) em 340 ms.
+export const RUN_START_MS = 340;
+export const NEUTRAL = new Set(['idle', 'walk', 'run', 'brake', 'guard', 'crouch']);
 
 export function createFighter(id, character, x, facing, clips) {
   return {
@@ -48,18 +55,33 @@ const loop = (clip, t) => {
 const timed = (times, t) => frameIndex({ times }, t);
 
 // Quadro a desenhar: {clip, frame} com `frame` relativo ao clip.
-export function animationRef(f, moves, clips) {
+// Deslocamento visual da locomoção: o sprite avança em degraus iguais ao recuo
+// do pé apoiado em cada quadro, em vez de deslizar continuamente com a pose
+// parada. A posição física (f.x) continua contínua; só o desenho e as caixas
+// usam x + offset, então o pé no chão fica fixo enquanto o quadro dura.
+export function gaitOffset(f, gait) {
+  if (!gait || (f.state !== 'walk' && !(f.state === 'run' && f.t >= RUN_START_MS))) return 0;
+  const table = f.state === 'run' ? gait.run : gait.walk, distance = f.state === 'run' ? f.runDistance : f.gait;
+  const phase = ((distance % table.stride) + table.stride) % table.stride;
+  return -(phase - table.start[tableFrame(table, distance)]) * f.facing;
+}
+
+// `gait`: tabelas de avanço por quadro (Duel.gait), medidas nos pés desenhados.
+export function animationRef(f, moves, clips, gait = null) {
   switch (f.state) {
     case 'walk': {
-      const n = clips.r2_walk.frames.length;
       // Fase pela distância percorrida: os pés acompanham o deslocamento.
       // Andar para trás percorre o ciclo ao contrário.
-      const phase = ((f.gait % WALK_STRIDE) + WALK_STRIDE) % WALK_STRIDE;
+      if (gait) return { clip: 'r2_walk', frame: tableFrame(gait.walk, f.gait) };
+      const n = clips.r2_walk.frames.length, phase = ((f.gait % WALK_STRIDE) + WALK_STRIDE) % WALK_STRIDE;
       return { clip: 'r2_walk', frame: Math.floor(phase / WALK_STRIDE * n) % n };
     }
     case 'run':
-      if (f.t < 280) return { clip: 'r2_runStart', frame: timed(clips.r2_runStart.durations, f.t) };
+      if (f.t < RUN_START_MS) return { clip: 'r2_runStart', frame: timed(clips.r2_runStart.durations, f.t * clips.r2_runStart.totalMs / RUN_START_MS) };
+      if (gait) return { clip: 'r2_run', frame: tableFrame(gait.run, f.runDistance) };
       return { clip: 'r2_run', frame: Math.floor((f.runDistance % RUN_STRIDE) / RUN_STRIDE * clips.r2_run.frames.length) % clips.r2_run.frames.length };
+    case 'brake':
+      return { clip: 'r2_runStop', frame: timed(clips.r2_runStop.durations, f.t) };
     case 'crouch':
       if (f.t < clips.r2_crouchDown.totalMs) return { clip: 'r2_crouchDown', frame: timed(clips.r2_crouchDown.durations, f.t) };
       return { clip: 'r2_crouchHold', frame: loop(clips.r2_crouchHold, f.t) };

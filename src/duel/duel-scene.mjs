@@ -7,6 +7,8 @@ import { hurtboxes, pushbox, guardBox, grabBox, LIMB_SIZE } from './markers.mjs'
 import { frameIndex } from './moves.mjs';
 import { lettering } from '../art.js';
 import { SORRISO_ASSET } from '../assets.js';
+import { Blood } from '../blood.mjs';
+import { ImpactFX } from './impact-fx.mjs';
 
 const WORLD_X = -80; // o corredor de 640 px fica centrado no palco
 const COLORS = { head: 0xd5ba79, body: 0x88bdc0, legs: 0x7f95c9, hit: 0xe36f5a, push: 0x9cad8a, guard: 0xb9cc8c, grab: 0xd59a4f, point: 0xf2efd2 };
@@ -38,13 +40,18 @@ export class DuelScene extends Phaser.Scene {
     this.touch = this.registry.get('touch');
     this.audio = this.registry.get('audio');
     this.add.image(WORLD_X, 0, 'hallway').setOrigin(0);
+    // Manchas no chão ficam por toda a luta; gotas e faíscas passam por cima dos lutadores.
+    this.blood = new Blood({ particles: 220, marks: 140, markLife: 1e9, palette: { drop: 0xb2302b, mark: 0x6e1d1b } });
+    this.fx = new ImpactFX(this.blood);
+    this.floor = this.add.graphics().setDepth(100);
+    this.flash = this.add.graphics().setDepth(760).setScrollFactor(0);
     this.views = this.model.fighters.map(() => ({
       shadow: this.add.ellipse(0, STAGE.ground, 25, 4, 0x172723, 0.6),
       image: this.add.image(0, 0, 'sorriso-sheet', 0).setOrigin(SORRISO_ASSET.originX, SORRISO_ASSET.originY),
     }));
     this.effects = this.add.graphics().setDepth(700);
     this.debugLayer = this.add.graphics().setDepth(720);
-    this.cameras.main.setBounds(WORLD_X, 0, 640, 180);
+    // Sem setBounds: o alvo da câmera já é limitado e a tremida precisa sair do eixo.
     this.cameras.main.roundPixels = true;
     this.cameraX = 80;
     this.hud = this.canvasImage('duel-hud', 320, 28, 0, 0, 800);
@@ -94,7 +101,7 @@ export class DuelScene extends Phaser.Scene {
   }
 
   toggle() { if (!this.model) return; this.audio?.unlock(); if (this.mode === 'over') this.restart(); else this.changeMode(this.mode === 'playing' ? 'paused' : 'playing'); }
-  restart() { if (!this.model) return; this.model.reset(); this.ai.reset(); this.cameraX = 80; this.changeMode('playing'); this.render(0); }
+  restart() { if (!this.model) return; this.model.reset(); this.ai.reset(); this.fx.reset(); this.blood.reset(); this.cameraX = 80; this.changeMode('playing'); this.render(0); }
   setDebug(on) { this.debugVisible = on; }
 
   readInput(pressed) {
@@ -112,10 +119,16 @@ export class DuelScene extends Phaser.Scene {
     this.pressed = new Set();
     if (pressed.has('F2')) { this.debugVisible = !this.debugVisible; this.ui.debug.setAttribute('aria-pressed', String(this.debugVisible)); }
     if (pressed.has('KeyR')) this.restart();
+    if (pressed.has('KeyB')) document.getElementById('blood')?.click();
+    this.blood.enabled = document.getElementById('blood')?.getAttribute('aria-pressed') !== 'false';
     if ((pressed.has('Enter') && !['BUTTON', 'SELECT'].includes(document.activeElement?.tagName)) || pressed.has('Escape')) this.toggle();
     if (this.mode === 'playing') {
       const input = this.readInput(pressed), m = this.model;
-      this.stepper.advance(delta, input, (sample, dt) => m.tick([sample, this.ai.input(m, m.rival, m.player)], dt));
+      // Câmera lenta do nocaute: menos tempo de jogo por quadro, mesmo passo fixo.
+      this.stepper.advance(delta * this.fx.timeScale(), input, (sample, dt) => m.tick([sample, this.ai.input(m, m.rival, m.player)], dt));
+      this.fx.consume(m);
+      this.fx.step(delta, m);
+      this.blood.step(delta * this.fx.timeScale());
       this.playAudio();
       if (m.result && this.mode !== 'over' && m.clock - m.result.at > 900) this.changeMode('over');
     }
@@ -135,10 +148,16 @@ export class DuelScene extends Phaser.Scene {
     const m = this.model, alpha = this.mode === 'playing' && m.hitstop <= 0 ? this.stepper.alpha : 1;
     this.effects.clear();
     this.debugLayer.clear();
+    this.floor.clear();
+    this.flash.clear();
+    this.blood.renderMarks(this.floor);
     m.fighters.forEach((f, i) => {
       const view = this.views[i], ref = m.animation(f), frame = this.clips[ref.clip].frames[ref.frame];
       // Interpolação só da posição: a pose continua sendo o quadro desenhado.
-      let x = lerp(f.prevX, f.x, alpha);
+      // Interpolação só fora da passada: na locomoção o degrau por quadro já
+      // define onde o sprite fica (pé apoiado parado).
+      const step = m.drawX(f) - f.x;
+      let x = step ? m.drawX(f) : lerp(f.prevX, f.x, alpha);
       if (m.hitstop > 0 && m.lastHit?.target === f.id) x += (Math.floor(m.hitstop / 33) % 2 ? 1 : -1);
       const index = frame.index;
       view.image.setTexture(i === 1 ? this.rivalFrame(index) : 'sorriso-sheet', i === 1 ? undefined : index);
@@ -146,16 +165,15 @@ export class DuelScene extends Phaser.Scene {
       view.shadow.setPosition(Math.round(x), f.y).setDepth(f.y - 1);
       if (this.debugVisible) this.drawDebug(f);
     });
-    const hit = m.lastHit;
-    if (hit && m.clock - hit.at < 90) {
-      const { point } = hit;
-      this.effects.lineStyle(1, hit.blocked ? 0xaecb8c : hit.counter ? 0xf0a060 : 0xe0c795);
-      this.effects.lineBetween(point.x - 3, point.y - 3, point.x + 3, point.y + 3);
-      this.effects.lineBetween(point.x + 3, point.y - 3, point.x - 3, point.y + 3);
-    }
+    this.blood.renderParticles(this.effects);
+    this.fx.renderWounds(this.effects, m);
+    this.fx.render(this.effects);
+    this.fx.renderFlash(this.flash);
     const [a, b] = m.fighters, target = Math.max(WORLD_X, Math.min(WORLD_X + 320, (a.x + b.x) / 2 - 160));
     this.cameraX += (target - this.cameraX) * 0.18;
-    this.cameras.main.scrollX = Math.round(this.cameraX);
+    const shake = this.fx.offset();
+    this.cameras.main.scrollX = Math.round(this.cameraX) + shake.x;
+    this.cameras.main.scrollY = shake.y;
   }
 
   drawDebug(f) {

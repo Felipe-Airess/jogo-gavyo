@@ -382,6 +382,7 @@ test('IA reage ao golpe pesado visível, mas não adivinha o jab', () => {
     for (const heavy of [true, false]) {
       const d = make(44), ai = new DuelAI(seed);
       ai.attackAt = 1e9;
+      ai.thinkAt = 1e9; // só reação: sem recuar para a distância preferida
       d.tick([heavy ? { attack: true, run: true } : { attack: true }, ai.input(d, d.rival, d.player)]);
       for (let t = 0; t < 900 && !d.lastHit; t += TICK) d.tick([{}, ai.input(d, d.rival, d.player)]);
       if (d.lastHit?.blocked) heavy ? guardedHeavy++ : guardedJab++;
@@ -429,4 +430,47 @@ test('marcadores ausentes não viram coordenadas: o golpe só procura o membro e
   const w = worldMarkers({ head: null, torso: null, hip: null, fists: [], feet: [], frontFist: null, frontFoot: null, frontKnee: null }, f);
   assert.equal(w.fist, null);
   assert.equal(w.foot, null);
+});
+
+// Deslizamento: entre dois quadros de apoio seguidos, o pé no chão deve ficar
+// quase parado no mundo. Mede-se o pé apoiado mais próximo do anterior.
+function footSlide(d, input, clip) {
+  const slides = [];
+  let last = null;
+  for (let t = 0; t < 2500; t += TICK) {
+    d.tick([input, {}]);
+    const ref = d.animation(d.player);
+    if (ref.clip !== clip) { last = null; continue; }
+    const mk = d.markers.frame(ref.clip, ref.frame);
+    const planted = mk.feet.filter(p => p.tipY >= -5).map(p => d.drawX(d.player) + p.tipX * d.player.facing);
+    // Compara também dentro do mesmo quadro: a pose parada não pode deslizar.
+    if (last && planted.length && last.planted.length) {
+      const prev = last.planted, now = planted;
+      const best = Math.min(...prev.flatMap(a => now.map(b => Math.abs(b - a))));
+      if (best < 15) slides.push(best);
+    }
+    last = { frame: ref.frame, planted };
+    if (d.player.x > 420) break;
+  }
+  slides.sort((a, b) => a - b);
+  return { median: slides[Math.floor(slides.length / 2)], n: slides.length };
+}
+
+test('corrida e caminhada: o pé apoiado não escorrega', () => {
+  const run = footSlide(make(400), { right: true, run: true }, 'r2_run');
+  const walk = footSlide(make(400), { right: true }, 'r2_walk');
+  assert.ok(run.n >= 4 && run.median < 3.5, 'corrida ' + JSON.stringify(run));
+  assert.ok(walk.n >= 4 && walk.median < 3.5, 'caminhada ' + JSON.stringify(walk));
+});
+
+test('arrancada completa e freada desenhada ao soltar a corrida', () => {
+  const d = make(400);
+  const seen = new Set();
+  for (let t = 0; t < 700; t += TICK) { d.tick([{ right: true, run: true }, {}]); const a = d.animation(d.player); if (a.clip === 'r2_runStart') seen.add(a.frame); }
+  assert.equal(seen.size, 8, 'os 8 quadros de saída aparecem');
+  d.tick([{}, {}]);
+  assert.equal(d.player.state, 'brake');
+  assert.equal(d.animation(d.player).clip, 'r2_runStop');
+  run(d, 700);
+  assert.equal(d.player.state, 'idle');
 });

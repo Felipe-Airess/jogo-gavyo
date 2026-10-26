@@ -133,6 +133,47 @@ ficam ocultos. Em 644×534 a barra ainda passa 9 px da tela — igual na 0.7.0.
 Custo da lógica: ≈ 2,6 µs por tick nesta máquina (IA × IA, 10 min simulados).
 **Não houve medição no ThinkPad T400**; não há afirmação de 60 FPS nele.
 
+## Corrida e efeitos de impacto (revisão após o primeiro teste)
+
+**Corrida e caminhada.** Medido nos marcadores dos pés: o pé apoiado recua
+~9,3 px por quadro na corrida (ciclo ≈ 112–114 px) e ~9,6 px na caminhada
+(≈ 76 px), mas o código usava 84 e 40 — o pé escorregava. Além disso, os
+quadros não avançam por igual (4, 14, 10 px…) e a pose fica parada enquanto o
+corpo desliza dentro de cada quadro. Agora, no duelo:
+
+* `gaitTable` (em `locomotion.mjs`) monta, a partir dos marcadores, quanto cada
+  quadro avança; distância → quadro segue essa tabela;
+* o sprite avança em degraus iguais ao recuo do pé apoiado (`gaitOffset`); a
+  posição física continua contínua e as caixas usam a posição desenhada;
+* arrancada com os 8 quadros de `r2_runStart` em 340 ms e aceleração no mesmo
+  tempo; o ciclo começa na fase do primeiro contato;
+* soltar a corrida em velocidade entra na freada `r2_runStop` (antes caía no
+  ciclo de andar girando);
+* velocidades: andar 52/42 px/s, correr 120 px/s.
+
+Teste novo mede o deslocamento do pé apoiado no mundo entre ticks: mediana
+< 3,5 px em corrida e caminhada. No corredor só a passada mudou (112/76) e foi
+retirada a correção de apoio baseada no campo `support` do atlas, que oscilava.
+
+**Sangue e impacto** (`src/duel/impact-fx.mjs`), com intensidade vinda do
+evento do golpe:
+
+* faísca radial no ponto de contato (maior conforme a força) e anel no
+  contra-ataque ou golpe pesado; faísca clara no bloqueio;
+* tremida de câmera proporcional (bloqueio < leve < médio < pesado < nocaute);
+* clarão na tela no contra-ataque e no nocaute; câmera lenta de 650 ms no
+  nocaute;
+* sangue: cabeça ×3, tronco só com força, perna pouco; contra-ataque e pesado
+  multiplicam; gotas maiores, vermelho mais vivo, manchas no chão espalhadas em
+  profundidade e permanentes durante a luta (até 140);
+* rosto: marcas que aumentam com o castigo da cabeça e acompanham o marcador do
+  quadro; acima de 45 de castigo, gotejamento periódico;
+* poeira na arrancada, na freada, na queda e no nocaute; suor/saliva claros em
+  golpes na cabeça.
+
+Tudo com retângulos de 1–2 px, sem texturas ou shaders. O botão Sangue/B
+desliga sangue e marcas também no duelo.
+
 ## Limites e arte necessária
 
 * **Reações**: o duelo usa poses únicas de `hurt` (cabeça, tronco, perna),

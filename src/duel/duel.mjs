@@ -1,7 +1,8 @@
 // Duelo lateral 1×1 sem profundidade jogável. Os dois lutadores passam pelas
 // mesmas funções: entrada → buffer → estado → golpe → contato → dano.
 import { commandFrom } from '../core/command-buffer.mjs';
-import { createFighter, animationRef, NEUTRAL, SPEED } from './fighter.mjs';
+import { gaitTable } from '../locomotion.mjs';
+import { createFighter, animationRef, gaitOffset, NEUTRAL, SPEED, RUN_START_MS } from './fighter.mjs';
 import { createDuelMoves, chooseMove, cancelTarget, frameIndex, MAX_CHAIN } from './moves.mjs';
 import { MarkerSet, worldMarkers, hurtboxes, guardBox, grabBox, LIMB_SIZE } from './markers.mjs';
 import { sweep, contactPoint, overlap } from './collision.mjs';
@@ -23,6 +24,7 @@ export class Duel {
     this.moves = createDuelMoves(clips);
     this.characters = characters;
     this.reach = this.measureReach();
+    this.gait = { run: gaitTable(this.markers.clips.r2_run), walk: gaitTable(this.markers.clips.r2_walk) };
     this.reset();
   }
 
@@ -65,8 +67,10 @@ export class Duel {
     return out;
   }
 
-  animation(f) { return animationRef(f, this.moves, this.clips); }
-  markersOf(f) { const ref = this.animation(f); return worldMarkers(this.markers.frame(ref.clip, ref.frame), f); }
+  animation(f) { return animationRef(f, this.moves, this.clips, this.gait); }
+  // Onde o sprite está desenhado (posição física + degrau da passada).
+  drawX(f) { return f.x + gaitOffset(f, this.gait); }
+  markersOf(f) { const ref = this.animation(f); return worldMarkers(this.markers.frame(ref.clip, ref.frame), { ...f, x: this.drawX(f) }); }
   hurtboxesOf(f) { return DOWN.has(f.state) ? {} : hurtboxes(this.markersOf(f)); }
 
   // inputs: [entrada do lutador 1, entrada do lutador 2]
@@ -114,8 +118,14 @@ export class Duel {
         this.slide(f, s, 10);
         if (f.t >= f.stun) this.toIdle(f);
         return;
-      case 'knockdown': this.slide(f, s, 5); if (f.t >= 450) this.setState(f, 'down'); return;
-      case 'ko': this.slide(f, s, 5); return;
+      case 'knockdown':
+        this.slide(f, s, 5);
+        if (f.t >= 450) { this.setState(f, 'down'); this.event('land', { fighter: f.id, x: f.x }); }
+        return;
+      case 'ko':
+        this.slide(f, s, 5);
+        if (!f.landed && f.t >= 340) { f.landed = true; this.event('land', { fighter: f.id, x: f.x, ko: true }); }
+        return;
       case 'down': if (f.t >= 700) this.setState(f, 'getup'); return;
       case 'getup':
         if (f.t >= 160 + 90 * 6) { this.toIdle(f); f.balance = Math.max(f.balance, 60); }
@@ -131,6 +141,17 @@ export class Duel {
         return;
       case 'clinch': return this.updateClinch(f, o, dt);
       case 'held': return this.updateHeld(f, o, dt);
+      case 'brake': {
+        // Freada da corrida: desacelera junto com os apoios de r2_runStop.
+        const cmd = f.buffer.peek(this.clock);
+        if (cmd && this.act(f, o, cmd)) { f.buffer.clear(); return; }
+        if ((f.input || {}).guard && f.can.guard) { this.setState(f, 'guard'); return; }
+        const s = dt / 1000;
+        f.vx = approach(f.vx, 0, SPEED.run / 0.42 * s);
+        this.slide(f, s, 0);
+        if (f.t >= this.clips.r2_runStop.totalMs || (Math.abs(f.vx) < 1 && f.t >= 330)) this.toIdle(f);
+        return;
+      }
       case 'rise': {
         const cmd = f.buffer.peek(this.clock);
         if (cmd && this.act(f, o, cmd)) { f.buffer.clear(); return; }
@@ -155,11 +176,17 @@ export class Duel {
     const running = input.run && rel > 0 && f.can.run && f.stamina > 5;
     const speed = running ? SPEED.run : rel > 0 ? SPEED.forward * legs : rel < 0 ? -SPEED.back * legs : 0;
     if (!f.can.walk && !running) { f.vx = 0; this.setState(f, f.state === 'guard' ? 'idle' : f.state); return; }
-    f.vx = approach(f.vx, speed * f.facing, 520 * s);
+    // Soltou a corrida em velocidade: freada desenhada, não o ciclo de andar girando.
+    if (f.state === 'run' && !running && Math.abs(f.vx) > 50) { this.setState(f, 'brake'); this.event('brake', { fighter: f.id, x: f.x }); return; }
+    if (running && f.state !== 'run') { f.state = 'run'; f.t = 0; f.runDistance = 0; this.event('dash', { fighter: f.id, x: f.x }); }
+    // Na arrancada a aceleração acompanha os 340 ms dos quadros de saída.
+    const accel = running && f.t < RUN_START_MS ? SPEED.run / (RUN_START_MS / 1000) : 520;
+    f.vx = approach(f.vx, speed * f.facing, accel * s);
     const before = f.x;
     f.x = clamp(f.x + f.vx * s, STAGE.minX, STAGE.maxX);
     const moved = (f.x - before) * f.facing;
-    if (running) { if (f.state !== 'run') { f.state = 'run'; f.t = 0; } f.runDistance += Math.abs(moved); }
+    // O ciclo começa depois da arrancada, na fase do primeiro contato.
+    if (running) { if (f.t >= RUN_START_MS) f.runDistance += Math.abs(moved); }
     else if (Math.abs(f.vx) > 2) { this.setState(f, 'walk'); f.gait += moved; }
     else this.setState(f, 'idle');
   }
@@ -256,7 +283,7 @@ export class Duel {
     applyHit(d, r);
     this.hitstop = blocked ? HITSTOP.block : r.kind !== 'hit' || m.power >= 3 ? HITSTOP.heavy : m.power === 2 ? HITSTOP.medium : HITSTOP.light;
     this.lastHit = { at: this.clock, attacker: a.id, target: d.id, move: m.id, zone: r.zone, kind: r.kind, damage: r.damage, counter, blocked, point };
-    this.event(r.kind === 'block' ? 'block' : 'hit', { attacker: a.id, target: d.id, move: m.id, zone: r.zone, kind: r.kind, counter, heavy: m.power >= 3 });
+    this.event(r.kind === 'block' ? 'block' : 'hit', { attacker: a.id, target: d.id, move: m.id, zone: r.zone, kind: r.kind, counter, heavy: m.power >= 3, power: m.power, damage: r.damage, point: { ...point } });
     if (r.reason) this.message = r.reason;
     else if (counter) this.message = 'Contra-ataque: ' + m.name + '.';
     else this.message = blocked ? 'Defendido.' : m.name + (zone === 'head' ? ' na cabeça.' : zone === 'body' ? ' no tronco.' : ' na perna.');
