@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-25T15:52:08.406Z",
+  "browser": "156.0.4314.42",
+  "tests": [
+    "Canvas 320x180",
+    "idle / walk / run / attack / hurt",
+    "ataque direito e esquerdo",
+    "um acerto por golpe",
+    "cinco acertos concluem treino",
+    "F2 colisões",
+    "H dano",
+    "pausa imobiliza",
+    "reinício restaura",
+    "390px sem overflow",
+    "sem erros JavaScript",
+    "sem requisições externas"
+  ],
+  "stats": {
+    "fps": 59.86020992763224,
+    "heap": 9051481,
+    "canvas": {
+      "x": 160,
+      "y": 122.375,
+      "width": 960,
+      "height": 540,
+      "top": 122.375,
+      "right": 1120,
+      "bottom": 662.375,
+      "left": 160
+    },
+    "smoothing": false,
+    "drawAudit": {
+      "count": 6780,
+      "smoothed": 0
+    },
+    "textureFilters": {
+      "sorriso": 1,
+      "dummy": 1,
+      "hallway": 1,
+      "hud": 1,
+      "note": 1,
+      "overlay": 1
+    }
+  },
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:4173/",
+    "http://127.0.0.1:4173/style.css",
+    "http://127.0.0.1:4173/vendor/phaser.min.js",
+    "http://127.0.0.1:4173/src/main.js",
+    "http://127.0.0.1:4173/src/combat.mjs",
+    "http://127.0.0.1:4173/src/art.js",
+    "http://127.0.0.1:4173/src/assets.js",
+    "http://127.0.0.1:4173/assets/sorriso-v2.png",
+    "blob:http://127.0.0.1:4173/78880d75-8d20-476b-b205-a255aad15c93"
+  ],
+  "art": {
+    "frame": [
+      64,
+      64
+    ],
+    "source": [
+      256,
+      256
+    ],
+    "origin": [
+      0.5,
+      0.9375
+    ]
+  }
+}

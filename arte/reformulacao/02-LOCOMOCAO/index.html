@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sorriso · Lote 2 — locomoção</title><link rel="icon" href="data:,"><link rel="stylesheet" href="style.css"></head>
+<body><main>
+<header><p class="eyebrow">GAVIÃO / REFORMULAÇÃO DE SPRITES / 02</p><h1>Sorriso em movimento.</h1><p class="intro">Compare a locomoção com a base aprovada. Observe o apoio, a troca de pernas e as transições.</p><span class="status">LOTE EM REVISÃO</span></header>
+<section class="chooser" aria-label="Escolher animação"><label>Movimento <select id="clip"><option>Carregando…</option></select></label><span id="cycle-info"></span></section>
+<section class="views" aria-label="Comparação com a base aprovada">
+<article><div class="label"><h2>Base aprovada</h2><span>LOTE 01</span></div><div class="stage"><canvas id="base" width="128" height="96" aria-label="Sorriso na pose aprovada"></canvas></div><p class="caption">Referência de rosto, uniforme e proporção.</p></article>
+<article><div class="label"><h2 id="clip-title">Locomoção</h2><span id="frame-label">…</span></div><div class="stage"><canvas id="motion" width="128" height="96" aria-label="Animação selecionada do Sorriso"></canvas></div><p class="caption" id="phase-label">Preparando a prévia…</p></article>
+</section>
+<section class="controls" aria-label="Controles da prévia"><div class="transport"><button id="play" type="button" aria-pressed="true">Pausar</button><button id="previous" type="button" aria-label="Quadro anterior">← Anterior</button><button id="next" type="button" aria-label="Próximo quadro">Próximo →</button><button id="restart" type="button">Reiniciar</button></div>
+<div class="options"><label>Velocidade <select id="speed"><option value="1">Normal</option><option value="0.5">Metade</option><option value="0.25">Um quarto</option></select></label><label>Ampliação <select id="zoom"><option value="4">4×</option><option value="6">6×</option></select></label><label>Fundo <select id="background"><option value="dark">Escuro</option><option value="light">Claro</option></select></label><label class="check"><input id="guides" type="checkbox"> Guias de apoio</label><label class="check"><input id="travel" type="checkbox"> Chão em movimento</label></div>
+<label class="scrubber">Escolher quadro <input id="scrub" type="range" min="0" max="7" value="0"><output id="position">01</output></label></section>
+<p id="notice" role="status">Ciclos repetem; transições param no último quadro. Espaço pausa; as setas trocam o quadro.</p>
+<nav aria-label="Arquivos do lote"><a id="sheet-link" href="folha-walk.png" target="_blank">Ver folha deste movimento ↗</a><a href="folha-geral.png" target="_blank">Visão geral ↗</a><a id="atlas-link" href="walk-atlas.png" download>Baixar folha sem guias</a><a href="README.md" target="_blank">Notas do lote</a></nav>
+<footer><strong>Sequência do trabalho</strong><p><span>01 Base + idle ✓</span><span class="current">02 Locomoção</span><span>03 Socos + chutes</span><span>04 Defesa + reações</span><span>05 Clinch + chão</span><span>06 Extras</span></p></footer>
+</main><script src="preview.js"></script></body></html>

@@ -1,0 +1,6 @@
+{
+  "description": "Pele clara neutra compartilhada entre as folhas; referência de correção de cor v6.1",
+  "colors": [[144,104,88],[200,154,135],[223,183,163],[239,203,183],[248,225,206]],
+  "redThresholds": [135,170,205,235],
+  "preserve": "Cabelo preto, jeans, verde/amarelo do uniforme, tênis e manequins. Sem alterar geometria."
+}

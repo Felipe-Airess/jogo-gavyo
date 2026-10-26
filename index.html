@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#141815">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <title>GAVIÃO · Depois do sinal</title>
+</head>
+<body>
+  <main>
+    <header><div><span class="eyebrow">ESTUDO JOGÁVEL / 006.1</span><h1>GAVIÃO<span>Depois do sinal.</span></h1></div><span class="chapter">SORRISO<br><small>CORREDOR B · 17:46</small></span></header>
+    <section aria-label="Jogo GAVIÃO">
+      <div id="viewport"><div id="game" tabindex="0" aria-label="Área do jogo. Enter para começar. WASD ou setas para mover, Shift para correr, J para combo e K para chute."></div><p id="loading" role="status">Abrindo o corredor…</p></div>
+      <div class="toolbar"><span id="status" role="status">Entre no corredor para começar.</span><div><label class="training-label">Treino<select id="training"><option value="reaction">Reações</option><option value="guard">Defesa do alvo</option><option value="sparring">Combate</option></select></label><button id="play" type="button">Entrar / Enter</button><button id="debug" type="button" aria-pressed="false">Colisões / F2</button><button id="blood" type="button" aria-pressed="true">Sangue: sim / B</button><button id="audio" type="button" aria-pressed="true">Som: sim</button><button id="reset" type="button">Reiniciar / R</button></div></div>
+    </section>
+    <footer>
+      <p><kbd>WASD</kbd> / setas mover <i></i><kbd>Shift</kbd> correr <i></i><kbd>J</kbd> soco <i></i><kbd>K</kbd> chute/joelhada <i></i><kbd>G</kbd> clinch <i></i><kbd>L</kbd> defender</p>
+      <details open><summary>Controles e treino</summary>
+        <p><kbd>J → K</kbd> emenda soco e chute alto; <kbd>K → J</kbd> retorna com soco. Prepare um próximo comando por golpe: acertar, errar e bater na guarda têm saídas diferentes. A barra abaixo da vida é o fôlego. Errar com energia recupera normalmente; tropeçar exige errar com a reserva no fim. <kbd>Frente + J</kbd>: pesado que carrega o alvo; <kbd>trás + J</kbd>: golpe para trás; <kbd>baixo + J</kbd>: golpe no corpo.</p>
+        <p><kbd>Shift + direção</kbd> corre. Com velocidade, <kbd>Shift + J</kbd> compromete o corpo no soco e pode levar Sorriso ao chão junto com o alvo. <kbd>K</kbd> dá chute circular; <kbd>baixo + K</kbd> ataca a perna. Se houver um alvo caído ao alcance, esse comando usa o chute no chão. Finalizados não levantam; <kbd>R</kbd> reinicia o treino.</p>
+        <p>No clinch: <kbd>J</kbd> soco curto, <kbd>baixo + J</kbd> cotovelada, <kbd>K</kbd> joelhada, <kbd>Shift + J</kbd> golpe para derrubar. Setas/WASD arrastam o alvo; <kbd>G</kbd> solta. Os acertos renovam a pega; parar permite escapar.</p>
+        <p>No modo <strong>Combate</strong>, aperte <kbd>L</kbd> pouco antes do contato para aparar. O sinal junto ao personagem indica a abertura: <kbd>J</kbd> contra-ataca; <kbd>baixo + J</kbd> responde no corpo. Segurar L mantém a defesa comum. Perto de um caído: <kbd>J</kbd> soco, <kbd>baixo + K</kbd> chute, <kbd>Shift + K</kbd> pisada. Depois de acertar socos, ficar parado permite limpar as mãos; mover ou atacar interrompe.</p>
+        <p>Barras: <strong>C</strong> cabeça, <strong>T</strong> tronco, <strong>B</strong> braços, <strong>P</strong> pernas. Pernas esgotadas derrubam; braços perdem defesa e ataque; tronco cede; cabeça esgotada desmaia. <strong>Combate</strong> varia as respostas dos alvos. <kbd>B</kbd> liga/desliga sangue; <kbd>F2</kbd> mostra caixas; <kbd>H</kbd> testa dano; <kbd>Esc</kbd> pausa. Teclado necessário.</p>
+      </details>
+    </footer>
+  </main>
+  <script src="vendor/phaser.min.js"></script>
+  <script type="module" src="src/main.js"></script>
+  <noscript>Ative JavaScript para jogar GAVIÃO.</noscript>
+</body>
+</html>

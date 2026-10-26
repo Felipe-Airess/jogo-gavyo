@@ -1,0 +1,2114 @@
+{
+  "status": "candidato para revisão",
+  "frame": {
+    "width": 128,
+    "height": 96
+  },
+  "root": {
+    "x": 64,
+    "y": 88
+  },
+  "clips": [
+    {
+      "id": "walk",
+      "label": "Caminhada",
+      "loop": true,
+      "columns": 4,
+      "rows": 2,
+      "file": "walk-atlas.png",
+      "scale": 0.1736842105263158,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 106,
+          "h": 82
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/walk_000.png",
+          "duration": 110,
+          "phase": "contato",
+          "lift": 0,
+          "supportSide": 0,
+          "support": {
+            "x": 11.858447107868685,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 67,
+            "y": 45,
+            "w": 313,
+            "h": 380
+          },
+          "draw": {
+            "x": 41.687368421052625,
+            "y": 22.58684210526316,
+            "w": 54.363157894736844,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/walk_001.png",
+          "duration": 110,
+          "phase": "absorção",
+          "lift": 0,
+          "supportSide": 0,
+          "support": {
+            "x": 4.941785206258892,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 567,
+            "y": 49,
+            "w": 204,
+            "h": 381
+          },
+          "draw": {
+            "x": 43.24473684210526,
+            "y": 22.41315789473684,
+            "w": 35.43157894736842,
+            "h": 66.17368421052632
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/walk_002.png",
+          "duration": 110,
+          "phase": "passagem",
+          "lift": 0,
+          "supportSide": 0,
+          "support": {
+            "x": 1.0899507876624608,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1028,
+            "y": 46,
+            "w": 150,
+            "h": 385
+          },
+          "draw": {
+            "x": 53.58364153627313,
+            "y": 21.71842105263157,
+            "w": 26.05263157894737,
+            "h": 66.86842105263159
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/walk_003.png",
+          "duration": 110,
+          "phase": "avanço",
+          "lift": 0,
+          "supportSide": 0,
+          "support": {
+            "x": -2.727366747552516,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1435,
+            "y": 48,
+            "w": 262,
+            "h": 382
+          },
+          "draw": {
+            "x": 48.98805120910383,
+            "y": 22.239473684210523,
+            "w": 45.50526315789474,
+            "h": 66.34736842105264
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/walk_004.png",
+          "duration": 110,
+          "phase": "contato oposto",
+          "lift": 0,
+          "supportSide": 1,
+          "support": {
+            "x": -9.137087446696654,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 67,
+            "y": 482,
+            "w": 325,
+            "h": 380
+          },
+          "draw": {
+            "x": 40.63783515392254,
+            "y": 22.58684210526316,
+            "w": 56.44736842105264,
+            "h": 66
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/walk_005.png",
+          "duration": 110,
+          "phase": "absorção",
+          "lift": 0,
+          "supportSide": 1,
+          "support": {
+            "x": 10.404980587654206,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 564,
+            "y": 485,
+            "w": 206,
+            "h": 378
+          },
+          "draw": {
+            "x": 47.13765880217785,
+            "y": 22.93421052631578,
+            "w": 35.77894736842106,
+            "h": 65.65263157894738
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/walk_006.png",
+          "duration": 110,
+          "phase": "passagem",
+          "lift": 0,
+          "supportSide": 1,
+          "support": {
+            "x": 6.168650851280124,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1047,
+            "y": 482,
+            "w": 137,
+            "h": 383
+          },
+          "draw": {
+            "x": 59.616623241271505,
+            "y": 22.065789473684205,
+            "w": 23.794736842105266,
+            "h": 66.52105263157895
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/walk_007.png",
+          "duration": 110,
+          "phase": "avanço",
+          "lift": 0,
+          "supportSide": 1,
+          "support": {
+            "x": -2.482559915413523,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1441,
+            "y": 484,
+            "w": 261,
+            "h": 381
+          },
+          "draw": {
+            "x": 50.14248120300753,
+            "y": 22.41315789473684,
+            "w": 45.33157894736843,
+            "h": 66.17368421052632
+          }
+        }
+      ],
+      "totalMs": 880
+    },
+    {
+      "id": "run",
+      "label": "Corrida",
+      "reverseSource": false,
+      "loop": true,
+      "columns": 4,
+      "rows": 3,
+      "file": "run-atlas.png",
+      "scale": 0.18808777429467086,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 60,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 114,
+          "h": 76
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/run_000.png",
+          "duration": 60,
+          "phase": "contato",
+          "lift": 0,
+          "supportSide": 0,
+          "support": {
+            "x": 17.567312684423946,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 54,
+            "y": 36,
+            "w": 266,
+            "h": 319
+          },
+          "draw": {
+            "x": 42.80703587600139,
+            "y": 28.59404388714733,
+            "w": 50.03134796238245,
+            "h": 60
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/run_001.png",
+          "duration": 60,
+          "phase": "compressão",
+          "lift": 0,
+          "supportSide": 0,
+          "support": {
+            "x": 17.002871736414054,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 442,
+            "y": 36,
+            "w": 226,
+            "h": 319
+          },
+          "draw": {
+            "x": 45.85676392572944,
+            "y": 28.59404388714733,
+            "w": 42.507836990595614,
+            "h": 60
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/run_002.png",
+          "duration": 60,
+          "phase": "passagem",
+          "lift": 0,
+          "supportSide": 0,
+          "support": {
+            "x": 4.4433914121163465,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 846,
+            "y": 37,
+            "w": 161,
+            "h": 318
+          },
+          "draw": {
+            "x": 56.5705329153605,
+            "y": 28.782131661442,
+            "w": 30.28213166144201,
+            "h": 59.811912225705335
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/run_003.png",
+          "duration": 60,
+          "phase": "impulso",
+          "lift": 1,
+          "supportSide": null,
+          "support": null,
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1208,
+            "y": 36,
+            "w": 171,
+            "h": 319
+          },
+          "draw": {
+            "x": 52.89927249068435,
+            "y": 27.594043887147336,
+            "w": 32.16300940438872,
+            "h": 60
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/run_004.png",
+          "duration": 60,
+          "phase": "voo",
+          "lift": 4,
+          "supportSide": null,
+          "support": null,
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 55,
+            "y": 398,
+            "w": 248,
+            "h": 298
+          },
+          "draw": {
+            "x": 39.68330085571465,
+            "y": 28.543887147335425,
+            "w": 46.645768025078375,
+            "h": 56.05015673981192
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/run_005.png",
+          "duration": 60,
+          "phase": "alcance",
+          "lift": 2,
+          "supportSide": null,
+          "support": null,
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 444,
+            "y": 401,
+            "w": 246,
+            "h": 275
+          },
+          "draw": {
+            "x": 42.198661863098295,
+            "y": 34.86990595611285,
+            "w": 46.26959247648903,
+            "h": 51.724137931034484
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/run_006.png",
+          "duration": 60,
+          "phase": "contato oposto",
+          "lift": 0,
+          "supportSide": 1,
+          "support": {
+            "x": 16.52645016497573,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 798,
+            "y": 398,
+            "w": 266,
+            "h": 313
+          },
+          "draw": {
+            "x": 41.36527839976115,
+            "y": 29.722570532915356,
+            "w": 50.03134796238245,
+            "h": 58.87147335423198
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/run_007.png",
+          "duration": 60,
+          "phase": "compressão",
+          "lift": 0,
+          "supportSide": 1,
+          "support": {
+            "x": 10.322628343443373,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1178,
+            "y": 398,
+            "w": 202,
+            "h": 306
+          },
+          "draw": {
+            "x": 44.59987460815047,
+            "y": 31.039184952978054,
+            "w": 37.993730407523515,
+            "h": 57.55485893416928
+          }
+        },
+        {
+          "index": 8,
+          "file": "quadros/run_008.png",
+          "duration": 60,
+          "phase": "passagem",
+          "lift": 0,
+          "supportSide": 1,
+          "support": {
+            "x": -8.510745564424909,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 121,
+            "y": 749,
+            "w": 163,
+            "h": 310
+          },
+          "draw": {
+            "x": 47.87460815047022,
+            "y": 30.286833855799372,
+            "w": 30.65830721003135,
+            "h": 58.307210031347964
+          }
+        },
+        {
+          "index": 9,
+          "file": "quadros/run_009.png",
+          "duration": 60,
+          "phase": "impulso",
+          "lift": 1,
+          "supportSide": null,
+          "support": null,
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 480,
+            "y": 747,
+            "w": 165,
+            "h": 315
+          },
+          "draw": {
+            "x": 52.60869748164357,
+            "y": 28.346394984326025,
+            "w": 31.03448275862069,
+            "h": 59.24764890282132
+          }
+        },
+        {
+          "index": 10,
+          "file": "quadros/run_010.png",
+          "duration": 60,
+          "phase": "voo",
+          "lift": 4,
+          "supportSide": null,
+          "support": null,
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 795,
+            "y": 750,
+            "w": 222,
+            "h": 281
+          },
+          "draw": {
+            "x": 45.92647477913935,
+            "y": 31.741379310344826,
+            "w": 41.75548589341693,
+            "h": 52.85266457680251
+          }
+        },
+        {
+          "index": 11,
+          "file": "quadros/run_011.png",
+          "duration": 60,
+          "phase": "alcance",
+          "lift": 2,
+          "supportSide": null,
+          "support": null,
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1185,
+            "y": 755,
+            "w": 240,
+            "h": 298
+          },
+          "draw": {
+            "x": 48.76291041082328,
+            "y": 30.543887147335397,
+            "w": 45.141065830721004,
+            "h": 56.05015673981192
+          }
+        }
+      ],
+      "totalMs": 720
+    },
+    {
+      "id": "runStart",
+      "label": "Largada",
+      "loop": false,
+      "columns": 4,
+      "rows": 2,
+      "file": "runStart-atlas.png",
+      "scale": 0.15207373271889402,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 147,
+          "h": 103
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/runStart_000.png",
+          "duration": 90,
+          "phase": "guarda",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 0.9218879143749071,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 67,
+            "y": 16,
+            "w": 294,
+            "h": 434
+          },
+          "draw": {
+            "x": 43.46700460829493,
+            "y": 22.576036866359445,
+            "w": 44.70967741935484,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/runStart_001.png",
+          "duration": 55,
+          "phase": "transfere peso",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -2.0976476707810465,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 510,
+            "y": 22,
+            "w": 279,
+            "h": 428
+          },
+          "draw": {
+            "x": 47.12482908796272,
+            "y": 23.48847926267281,
+            "w": 42.42857142857143,
+            "h": 65.08755760368663
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/runStart_002.png",
+          "duration": 55,
+          "phase": "carrega apoio",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 16.400807873926166,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 925,
+            "y": 27,
+            "w": 289,
+            "h": 423
+          },
+          "draw": {
+            "x": 52.13824884792626,
+            "y": 24.248847926267274,
+            "w": 43.94930875576037,
+            "h": 64.32718894009217
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/runStart_003.png",
+          "duration": 55,
+          "phase": "avança o joelho",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.250362972627865,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1354,
+            "y": 26,
+            "w": 348,
+            "h": 424
+          },
+          "draw": {
+            "x": 41.346716589861735,
+            "y": 24.096774193548384,
+            "w": 52.92165898617512,
+            "h": 64.47926267281106
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/runStart_004.png",
+          "duration": 55,
+          "phase": "impulsiona",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 11.628571428571433,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 44,
+            "y": 466,
+            "w": 330,
+            "h": 406
+          },
+          "draw": {
+            "x": 34.163133640553,
+            "y": 26.834101382488477,
+            "w": 50.184331797235025,
+            "h": 61.74193548387097
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/runStart_005.png",
+          "duration": 55,
+          "phase": "voo",
+          "lift": 2,
+          "supportSide": null,
+          "support": null,
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 458,
+            "y": 460,
+            "w": 437,
+            "h": 365
+          },
+          "draw": {
+            "x": 38.76218601934186,
+            "y": 31.06912442396313,
+            "w": 66.45622119815668,
+            "h": 55.50691244239631
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/runStart_006.png",
+          "duration": 55,
+          "phase": "alcance",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 20.376152073732705,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 978,
+            "y": 471,
+            "w": 308,
+            "h": 398
+          },
+          "draw": {
+            "x": 50.615783410138235,
+            "y": 28.05069124423963,
+            "w": 46.83870967741936,
+            "h": 60.52534562211982
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/runStart_007.png",
+          "duration": 70,
+          "phase": "contato",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 17.467597496389033,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1360,
+            "y": 471,
+            "w": 402,
+            "h": 398
+          },
+          "draw": {
+            "x": 38.06575417841667,
+            "y": 28.05069124423963,
+            "w": 61.133640552995395,
+            "h": 60.52534562211982
+          }
+        }
+      ],
+      "totalMs": 490
+    },
+    {
+      "id": "runStop",
+      "label": "Freada",
+      "loop": false,
+      "columns": 4,
+      "rows": 2,
+      "file": "runStop-atlas.png",
+      "scale": 0.13894736842105262,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 153,
+          "h": 102
+        },
+        "anchorFrame": 7
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/runStop_000.png",
+          "duration": 55,
+          "phase": "contato",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 14.907063700835456,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 6,
+            "y": 28,
+            "w": 417,
+            "h": 464
+          },
+          "draw": {
+            "x": 42.13612323491656,
+            "y": 24.097894736842107,
+            "w": 57.94105263157894,
+            "h": 64.47157894736841
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/runStop_001.png",
+          "duration": 65,
+          "phase": "freia com o calcanhar",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -0.7885912801806535,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 405,
+            "y": 24,
+            "w": 432,
+            "h": 473
+          },
+          "draw": {
+            "x": 42.308771929824566,
+            "y": 22.847368421052636,
+            "w": 60.025263157894734,
+            "h": 65.72210526315789
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/runStop_002.png",
+          "duration": 80,
+          "phase": "absorve",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 28.06130193905817,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 776,
+            "y": 41,
+            "w": 407,
+            "h": 453
+          },
+          "draw": {
+            "x": 45.363684210526316,
+            "y": 25.626315789473686,
+            "w": 56.55157894736842,
+            "h": 62.94315789473684
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/runStop_003.png",
+          "duration": 70,
+          "phase": "passo de apoio",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 16.7046537937418,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1174,
+            "y": 39,
+            "w": 331,
+            "h": 455
+          },
+          "draw": {
+            "x": 43.30439359267736,
+            "y": 25.34842105263158,
+            "w": 45.99157894736842,
+            "h": 63.22105263157894
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/runStop_004.png",
+          "duration": 60,
+          "phase": "ajusta a base",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -10.862479562191742,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 63,
+            "y": 505,
+            "w": 326,
+            "h": 490
+          },
+          "draw": {
+            "x": 43.84754813863928,
+            "y": 20.485263157894735,
+            "w": 45.29684210526315,
+            "h": 68.08421052631579
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/runStop_005.png",
+          "duration": 60,
+          "phase": "recupera a guarda",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -16.56728307254623,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 436,
+            "y": 516,
+            "w": 315,
+            "h": 474
+          },
+          "draw": {
+            "x": 42.57581792318635,
+            "y": 22.70842105263158,
+            "w": 43.768421052631574,
+            "h": 65.86105263157894
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/runStop_006.png",
+          "duration": 75,
+          "phase": "acomoda",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -16.534263157894728,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 795,
+            "y": 515,
+            "w": 335,
+            "h": 475
+          },
+          "draw": {
+            "x": 42.46489473684211,
+            "y": 22.569473684210536,
+            "w": 46.54736842105263,
+            "h": 66
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/runStop_007.png",
+          "duration": 120,
+          "phase": "guarda",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -15.767902514907966,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1184,
+            "y": 515,
+            "w": 331,
+            "h": 475
+          },
+          "draw": {
+            "x": 43.21082706766916,
+            "y": 22.569473684210536,
+            "w": 45.99157894736842,
+            "h": 66
+          }
+        }
+      ],
+      "totalMs": 585
+    },
+    {
+      "id": "turn",
+      "label": "Giro",
+      "loop": false,
+      "columns": 4,
+      "rows": 2,
+      "file": "turn-atlas.png",
+      "scale": 0.15102974828375287,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 152,
+          "h": 99
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/turn_000.png",
+          "duration": 45,
+          "phase": "guarda à direita",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 2.5235431855675596,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 62,
+            "y": 6,
+            "w": 293,
+            "h": 437
+          },
+          "draw": {
+            "x": 42.781578947368416,
+            "y": 22.575514874141874,
+            "w": 44.25171624713959,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/turn_001.png",
+          "duration": 45,
+          "phase": "inicia o pivô",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -3.5926633890358746,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 528,
+            "y": 10,
+            "w": 292,
+            "h": 433
+          },
+          "draw": {
+            "x": 44.03941530845748,
+            "y": 23.179633867276877,
+            "w": 44.100686498855836,
+            "h": 65.395881006865
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/turn_002.png",
+          "duration": 45,
+          "phase": "ombros giram",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -0.6538888405005308,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 954,
+            "y": 10,
+            "w": 294,
+            "h": 433
+          },
+          "draw": {
+            "x": 41.309877955758964,
+            "y": 23.179633867276877,
+            "w": 44.402745995423345,
+            "h": 65.395881006865
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/turn_003.png",
+          "duration": 45,
+          "phase": "frente",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 0.6902278299980394,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1395,
+            "y": 6,
+            "w": 293,
+            "h": 437
+          },
+          "draw": {
+            "x": 42.14838010357701,
+            "y": 22.575514874141874,
+            "w": 44.25171624713959,
+            "h": 66
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/turn_004.png",
+          "duration": 45,
+          "phase": "troca de apoio",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -1.184916113521144,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 72,
+            "y": 452,
+            "w": 303,
+            "h": 418
+          },
+          "draw": {
+            "x": 39.24304468264482,
+            "y": 25.44508009153318,
+            "w": 45.76201372997712,
+            "h": 63.1304347826087
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/turn_005.png",
+          "duration": 45,
+          "phase": "guarda à esquerda",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 18.953641394047168,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 509,
+            "y": 452,
+            "w": 315,
+            "h": 418
+          },
+          "draw": {
+            "x": 41.143265773128476,
+            "y": 25.44508009153318,
+            "w": 47.57437070938216,
+            "h": 63.1304347826087
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/turn_006.png",
+          "duration": 45,
+          "phase": "acomoda",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 15.740272209313575,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 952,
+            "y": 448,
+            "w": 314,
+            "h": 422
+          },
+          "draw": {
+            "x": 38.15556363480827,
+            "y": 24.84096109839816,
+            "w": 47.423340961098404,
+            "h": 63.73455377574371
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/turn_007.png",
+          "duration": 45,
+          "phase": "guarda à esquerda",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -1.9783446559401772,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1407,
+            "y": 448,
+            "w": 309,
+            "h": 422
+          },
+          "draw": {
+            "x": 38.4343623032737,
+            "y": 24.84096109839816,
+            "w": 46.66819221967964,
+            "h": 63.73455377574371
+          }
+        }
+      ],
+      "totalMs": 360
+    },
+    {
+      "id": "crouchDown",
+      "label": "Abaixar",
+      "loop": false,
+      "columns": 4,
+      "rows": 2,
+      "file": "crouchDown-atlas.png",
+      "scale": 0.12359550561797752,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 163,
+          "h": 109
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/crouchDown_000.png",
+          "duration": 55,
+          "phase": "guarda",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 1.0668869671599928,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 34,
+            "y": 31,
+            "w": 327,
+            "h": 534
+          },
+          "draw": {
+            "x": 45.74951148021495,
+            "y": 22.561797752808985,
+            "w": 40.41573033707865,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/crouchDown_001.png",
+          "duration": 55,
+          "phase": "flexiona",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 1.4260927484958679,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 433,
+            "y": 67,
+            "w": 311,
+            "h": 498
+          },
+          "draw": {
+            "x": 47.27340823970037,
+            "y": 27.01123595505618,
+            "w": 38.43820224719101,
+            "h": 61.550561797752806
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/crouchDown_002.png",
+          "duration": 55,
+          "phase": "quadril recua",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 7.712528281627498,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 833,
+            "y": 100,
+            "w": 294,
+            "h": 465
+          },
+          "draw": {
+            "x": 57.10337078651686,
+            "y": 31.08988764044944,
+            "w": 36.337078651685395,
+            "h": 57.47191011235955
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/crouchDown_003.png",
+          "duration": 55,
+          "phase": "desce",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 9.406029962546805,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1230,
+            "y": 151,
+            "w": 270,
+            "h": 414
+          },
+          "draw": {
+            "x": 59.735955056179776,
+            "y": 37.39325842696629,
+            "w": 33.37078651685393,
+            "h": 51.168539325842694
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/crouchDown_004.png",
+          "duration": 55,
+          "phase": "flexiona mais",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 6.718783243634532,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 72,
+            "y": 641,
+            "w": 250,
+            "h": 357
+          },
+          "draw": {
+            "x": 61.572231139646874,
+            "y": 44.438202247191015,
+            "w": 30.89887640449438,
+            "h": 44.12359550561798
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/crouchDown_005.png",
+          "duration": 55,
+          "phase": "agacha",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 5.554060634479768,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 476,
+            "y": 673,
+            "w": 240,
+            "h": 325
+          },
+          "draw": {
+            "x": 62.92295345104334,
+            "y": 48.39325842696629,
+            "w": 29.662921348314605,
+            "h": 40.168539325842694
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/crouchDown_006.png",
+          "duration": 55,
+          "phase": "acomoda",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 7.452354593522804,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 862,
+            "y": 686,
+            "w": 241,
+            "h": 312
+          },
+          "draw": {
+            "x": 62.81811797752809,
+            "y": 50,
+            "w": 29.786516853932582,
+            "h": 38.561797752808985
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/crouchDown_007.png",
+          "duration": 55,
+          "phase": "guarda baixa",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 7.523713778829097,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1253,
+            "y": 693,
+            "w": 239,
+            "h": 305
+          },
+          "draw": {
+            "x": 62.70224719101124,
+            "y": 50.86516853932584,
+            "w": 29.539325842696627,
+            "h": 37.69662921348314
+          }
+        }
+      ],
+      "totalMs": 440
+    },
+    {
+      "id": "crouchHold",
+      "label": "Agachado",
+      "loop": true,
+      "columns": 4,
+      "rows": 2,
+      "file": "crouchHold-atlas.png",
+      "scale": 0.09290953545232274,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 38,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 238,
+          "h": 132
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/crouchHold_000.png",
+          "duration": 160,
+          "phase": "apoio",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 11.578439022698504,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 45,
+            "y": 14,
+            "w": 321,
+            "h": 409
+          },
+          "draw": {
+            "x": 62.68378158109209,
+            "y": 50.54645476772616,
+            "w": 29.8239608801956,
+            "h": 38
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/crouchHold_001.png",
+          "duration": 160,
+          "phase": "inspira",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 12.475382328970706,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 489,
+            "y": 14,
+            "w": 321,
+            "h": 409
+          },
+          "draw": {
+            "x": 62.69926650366748,
+            "y": 50.54645476772616,
+            "w": 29.8239608801956,
+            "h": 38
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/crouchHold_002.png",
+          "duration": 160,
+          "phase": "inspira",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 12.414650410118227,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 933,
+            "y": 14,
+            "w": 322,
+            "h": 409
+          },
+          "draw": {
+            "x": 62.69926650366748,
+            "y": 50.54645476772616,
+            "w": 29.91687041564792,
+            "h": 38
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/crouchHold_003.png",
+          "duration": 160,
+          "phase": "transição",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 12.466135012305221,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1377,
+            "y": 11,
+            "w": 319,
+            "h": 412
+          },
+          "draw": {
+            "x": 62.70811503085341,
+            "y": 50.2677261613692,
+            "w": 29.638141809290953,
+            "h": 38.278728606356964
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/crouchHold_004.png",
+          "duration": 160,
+          "phase": "acomoda",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 10.44969549581032,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 46,
+            "y": 457,
+            "w": 320,
+            "h": 410
+          },
+          "draw": {
+            "x": 62.764849705163236,
+            "y": 50.45354523227384,
+            "w": 29.731051344743275,
+            "h": 38.09290953545232
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/crouchHold_005.png",
+          "duration": 160,
+          "phase": "expira",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 10.258676124201793,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 489,
+            "y": 461,
+            "w": 321,
+            "h": 406
+          },
+          "draw": {
+            "x": 62.69041797648155,
+            "y": 50.82518337408313,
+            "w": 29.8239608801956,
+            "h": 37.72127139364303
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/crouchHold_006.png",
+          "duration": 160,
+          "phase": "expira",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 10.287666395001345,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 933,
+            "y": 460,
+            "w": 321,
+            "h": 407
+          },
+          "draw": {
+            "x": 62.7095897853844,
+            "y": 50.73227383863081,
+            "w": 29.8239608801956,
+            "h": 37.81418092909535
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/crouchHold_007.png",
+          "duration": 160,
+          "phase": "retorna",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 8.490113745083454,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1377,
+            "y": 457,
+            "w": 319,
+            "h": 410
+          },
+          "draw": {
+            "x": 62.74572127139364,
+            "y": 50.45354523227384,
+            "w": 29.638141809290953,
+            "h": 38.09290953545232
+          }
+        }
+      ],
+      "totalMs": 1280
+    },
+    {
+      "id": "crouchUp",
+      "label": "Levantar",
+      "reverseSource": true,
+      "loop": false,
+      "columns": 4,
+      "rows": 2,
+      "file": "crouchUp-atlas.png",
+      "scale": 0.12359550561797752,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 163,
+          "h": 109
+        },
+        "anchorFrame": 7
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/crouchUp_000.png",
+          "duration": 70,
+          "phase": "agachado",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 7.523713778829097,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1253,
+            "y": 693,
+            "w": 239,
+            "h": 305
+          },
+          "draw": {
+            "x": 62.70224719101124,
+            "y": 50.86516853932584,
+            "w": 29.539325842696627,
+            "h": 37.69662921348314
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/crouchUp_001.png",
+          "duration": 55,
+          "phase": "pressiona o chão",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 7.452354593522804,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 862,
+            "y": 686,
+            "w": 241,
+            "h": 312
+          },
+          "draw": {
+            "x": 62.81811797752809,
+            "y": 50,
+            "w": 29.786516853932582,
+            "h": 38.561797752808985
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/crouchUp_002.png",
+          "duration": 55,
+          "phase": "quadril sobe",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 5.554060634479768,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 476,
+            "y": 673,
+            "w": 240,
+            "h": 325
+          },
+          "draw": {
+            "x": 62.92295345104334,
+            "y": 48.39325842696629,
+            "w": 29.662921348314605,
+            "h": 40.168539325842694
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/crouchUp_003.png",
+          "duration": 55,
+          "phase": "estende os joelhos",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 6.718783243634532,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 72,
+            "y": 641,
+            "w": 250,
+            "h": 357
+          },
+          "draw": {
+            "x": 61.572231139646874,
+            "y": 44.438202247191015,
+            "w": 30.89887640449438,
+            "h": 44.12359550561798
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/crouchUp_004.png",
+          "duration": 55,
+          "phase": "tronco sobe",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 9.406029962546805,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1230,
+            "y": 151,
+            "w": 270,
+            "h": 414
+          },
+          "draw": {
+            "x": 59.735955056179776,
+            "y": 37.39325842696629,
+            "w": 33.37078651685393,
+            "h": 51.168539325842694
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/crouchUp_005.png",
+          "duration": 55,
+          "phase": "recupera a guarda",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 7.712528281627498,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 833,
+            "y": 100,
+            "w": 294,
+            "h": 465
+          },
+          "draw": {
+            "x": 57.10337078651686,
+            "y": 31.08988764044944,
+            "w": 36.337078651685395,
+            "h": 57.47191011235955
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/crouchUp_006.png",
+          "duration": 65,
+          "phase": "acomoda",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 1.4260927484958679,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 433,
+            "y": 67,
+            "w": 311,
+            "h": 498
+          },
+          "draw": {
+            "x": 47.27340823970037,
+            "y": 27.01123595505618,
+            "w": 38.43820224719101,
+            "h": 61.550561797752806
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/crouchUp_007.png",
+          "duration": 100,
+          "phase": "guarda",
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 1.0668869671599928,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 34,
+            "y": 31,
+            "w": 327,
+            "h": 534
+          },
+          "draw": {
+            "x": 45.74951148021495,
+            "y": 22.561797752808985,
+            "w": 40.41573033707865,
+            "h": 66
+          }
+        }
+      ],
+      "totalMs": 510
+    }
+  ]
+}

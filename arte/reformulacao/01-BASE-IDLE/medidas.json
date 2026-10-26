@@ -1,0 +1,282 @@
+{
+  "metrics": [
+    {
+      "frame": 0,
+      "height": 66,
+      "width": 43.690140845070424,
+      "top": 23,
+      "bottom": 88,
+      "leftFootX": 48.68716075970609,
+      "rightFootX": 79.31283924029391,
+      "hairWidth": 21,
+      "draw": {
+        "x": 43.74088100215873,
+        "y": 22.592957746478874,
+        "w": 43.690140845070424,
+        "h": 66
+      },
+      "registration": "whole-frame translation only; fixed source scale"
+    },
+    {
+      "frame": 1,
+      "height": 65.81408450704225,
+      "width": 43.87605633802817,
+      "top": 23,
+      "bottom": 88,
+      "leftFootX": 48.56760386562645,
+      "rightFootX": 79.43239613437353,
+      "hairWidth": 20,
+      "draw": {
+        "x": 43.67935850561592,
+        "y": 22.77887323943662,
+        "w": 43.87605633802817,
+        "h": 65.81408450704225
+      },
+      "registration": "whole-frame translation only; fixed source scale"
+    },
+    {
+      "frame": 2,
+      "height": 65.81408450704225,
+      "width": 44.247887323943665,
+      "top": 23,
+      "bottom": 88,
+      "leftFootX": 48.51078575032805,
+      "rightFootX": 79.48921424967193,
+      "hairWidth": 20,
+      "draw": {
+        "x": 43.695086331477825,
+        "y": 22.77887323943662,
+        "w": 44.247887323943665,
+        "h": 65.81408450704225
+      },
+      "registration": "whole-frame translation only; fixed source scale"
+    },
+    {
+      "frame": 3,
+      "height": 65.81408450704225,
+      "width": 44.247887323943665,
+      "top": 23,
+      "bottom": 88,
+      "leftFootX": 48.446779252873476,
+      "rightFootX": 79.55322074712647,
+      "hairWidth": 20,
+      "draw": {
+        "x": 43.548010916715434,
+        "y": 22.77887323943662,
+        "w": 44.247887323943665,
+        "h": 65.81408450704225
+      },
+      "registration": "whole-frame translation only; fixed source scale"
+    },
+    {
+      "frame": 4,
+      "height": 66,
+      "width": 43.87605633802817,
+      "top": 23,
+      "bottom": 88,
+      "leftFootX": 48.66707473064809,
+      "rightFootX": 79.3329252693519,
+      "hairWidth": 20,
+      "draw": {
+        "x": 43.53705158977445,
+        "y": 22.592957746478874,
+        "w": 43.87605633802817,
+        "h": 66
+      },
+      "registration": "whole-frame translation only; fixed source scale"
+    },
+    {
+      "frame": 5,
+      "height": 66,
+      "width": 44.06197183098592,
+      "top": 23,
+      "bottom": 88,
+      "leftFootX": 48.56014251697895,
+      "rightFootX": 79.43985748302104,
+      "hairWidth": 20,
+      "draw": {
+        "x": 43.77266849250424,
+        "y": 22.592957746478874,
+        "w": 44.06197183098592,
+        "h": 66
+      },
+      "registration": "whole-frame translation only; fixed source scale"
+    },
+    {
+      "frame": 6,
+      "height": 66,
+      "width": 44.43380281690141,
+      "top": 23,
+      "bottom": 88,
+      "leftFootX": 48.487787603317884,
+      "rightFootX": 79.51221239668212,
+      "hairWidth": 21,
+      "draw": {
+        "x": 43.54182212130666,
+        "y": 22.592957746478874,
+        "w": 44.43380281690141,
+        "h": 66
+      },
+      "registration": "whole-frame translation only; fixed source scale"
+    },
+    {
+      "frame": 7,
+      "height": 66,
+      "width": 44.43380281690141,
+      "top": 23,
+      "bottom": 88,
+      "leftFootX": 48.46016652662862,
+      "rightFootX": 79.53983347337143,
+      "hairWidth": 21,
+      "draw": {
+        "x": 43.54664098510853,
+        "y": 22.592957746478874,
+        "w": 44.43380281690141,
+        "h": 66
+      },
+      "registration": "whole-frame translation only; fixed source scale"
+    },
+    {
+      "frame": 8,
+      "height": 65.6281690140845,
+      "width": 43.690140845070424,
+      "top": 23,
+      "bottom": 88,
+      "leftFootX": 48.715474016258725,
+      "rightFootX": 79.28452598374128,
+      "hairWidth": 21,
+      "draw": {
+        "x": 43.5273121881472,
+        "y": 22.964788732394368,
+        "w": 43.690140845070424,
+        "h": 65.6281690140845
+      },
+      "registration": "whole-frame translation only; fixed source scale"
+    },
+    {
+      "frame": 9,
+      "height": 65.6281690140845,
+      "width": 44.06197183098592,
+      "top": 23,
+      "bottom": 88,
+      "leftFootX": 48.58841121092587,
+      "rightFootX": 79.41158878907413,
+      "hairWidth": 21,
+      "draw": {
+        "x": 43.598494641445285,
+        "y": 22.964788732394368,
+        "w": 44.06197183098592,
+        "h": 65.6281690140845
+      },
+      "registration": "whole-frame translation only; fixed source scale"
+    },
+    {
+      "frame": 10,
+      "height": 65.6281690140845,
+      "width": 44.247887323943665,
+      "top": 23,
+      "bottom": 88,
+      "leftFootX": 48.488102534210825,
+      "rightFootX": 79.51189746578918,
+      "hairWidth": 21,
+      "draw": {
+        "x": 43.77029950952955,
+        "y": 22.964788732394368,
+        "w": 44.247887323943665,
+        "h": 65.6281690140845
+      },
+      "registration": "whole-frame translation only; fixed source scale"
+    },
+    {
+      "frame": 11,
+      "height": 65.6281690140845,
+      "width": 44.43380281690141,
+      "top": 23,
+      "bottom": 88,
+      "leftFootX": 48.47547007692597,
+      "rightFootX": 79.52452992307403,
+      "hairWidth": 21,
+      "draw": {
+        "x": 43.49412098762579,
+        "y": 22.964788732394368,
+        "w": 44.43380281690141,
+        "h": 65.6281690140845
+      },
+      "registration": "whole-frame translation only; fixed source scale"
+    }
+  ],
+  "changes": [
+    {
+      "frame": 0,
+      "legShape": 0,
+      "headShape": 0,
+      "legColor": 0
+    },
+    {
+      "frame": 1,
+      "legShape": 15,
+      "headShape": 65,
+      "legColor": 136
+    },
+    {
+      "frame": 2,
+      "legShape": 12,
+      "headShape": 62,
+      "legColor": 133
+    },
+    {
+      "frame": 3,
+      "legShape": 18,
+      "headShape": 73,
+      "legColor": 139
+    },
+    {
+      "frame": 4,
+      "legShape": 12,
+      "headShape": 35,
+      "legColor": 142
+    },
+    {
+      "frame": 5,
+      "legShape": 22,
+      "headShape": 35,
+      "legColor": 150
+    },
+    {
+      "frame": 6,
+      "legShape": 26,
+      "headShape": 55,
+      "legColor": 171
+    },
+    {
+      "frame": 7,
+      "legShape": 18,
+      "headShape": 52,
+      "legColor": 140
+    },
+    {
+      "frame": 8,
+      "legShape": 23,
+      "headShape": 34,
+      "legColor": 202
+    },
+    {
+      "frame": 9,
+      "legShape": 22,
+      "headShape": 49,
+      "legColor": 211
+    },
+    {
+      "frame": 10,
+      "legShape": 33,
+      "headShape": 51,
+      "legColor": 232
+    },
+    {
+      "frame": 11,
+      "legShape": 19,
+      "headShape": 41,
+      "legColor": 172
+    }
+  ]
+}

@@ -1,0 +1,5904 @@
+{
+  "status": "candidato para revisão",
+  "frame": {
+    "width": 128,
+    "height": 96
+  },
+  "root": {
+    "x": 64,
+    "y": 88
+  },
+  "clips": [
+    {
+      "id": "hook_body",
+      "label": "Soco baixo no corpo",
+      "reverseSource": false,
+      "loop": false,
+      "target": "body",
+      "contactFrames": [
+        4,
+        5
+      ],
+      "mechanicsIntegrated": false,
+      "registration": "rearFoot",
+      "columns": 4,
+      "rows": 3,
+      "file": "hook_body-atlas.png",
+      "scale": 0.18232044198895028,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 129,
+          "h": 85
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "quadros/hook_body_000.png",
+          "duration": 45,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 2.825916495861672,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 63,
+            "y": 6,
+            "w": 268,
+            "h": 362
+          },
+          "draw": {
+            "x": 43.762700444684,
+            "y": 22.591160220994468,
+            "w": 48.86187845303868,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "quadros/hook_body_001.png",
+          "duration": 30,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -5.855998836871186,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 408,
+            "y": 53,
+            "w": 275,
+            "h": 315
+          },
+          "draw": {
+            "x": 44.5860773480663,
+            "y": 31.16022099447514,
+            "w": 50.13812154696133,
+            "h": 57.43093922651934
+          }
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "quadros/hook_body_002.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -2.3991250902617893,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 753,
+            "y": 41,
+            "w": 286,
+            "h": 327
+          },
+          "draw": {
+            "x": 44.317284925019734,
+            "y": 28.972375690607734,
+            "w": 52.14364640883978,
+            "h": 59.61878453038674
+          }
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "quadros/hook_body_003.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -5.3061694290976025,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1102,
+            "y": 40,
+            "w": 288,
+            "h": 328
+          },
+          "draw": {
+            "x": 44.28038674033148,
+            "y": 28.790055248618785,
+            "w": 52.508287292817684,
+            "h": 59.80110497237569
+          }
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "file": "quadros/hook_body_004.png",
+          "duration": 20,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -2.5261094279094616,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 61,
+            "y": 402,
+            "w": 287,
+            "h": 318
+          },
+          "draw": {
+            "x": 44.00641596863304,
+            "y": 30.613259668508285,
+            "w": 52.32596685082873,
+            "h": 57.97790055248619
+          }
+        },
+        {
+          "index": 5,
+          "sourceIndex": 5,
+          "file": "quadros/hook_body_005.png",
+          "duration": 40,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -7.140045382793999,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 407,
+            "y": 404,
+            "w": 300,
+            "h": 316
+          },
+          "draw": {
+            "x": 44.219613259668506,
+            "y": 30.977900552486183,
+            "w": 54.69613259668508,
+            "h": 57.61325966850829
+          }
+        },
+        {
+          "index": 6,
+          "sourceIndex": 6,
+          "file": "quadros/hook_body_006.png",
+          "duration": 35,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -5.630801104972375,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 760,
+            "y": 399,
+            "w": 287,
+            "h": 321
+          },
+          "draw": {
+            "x": 44.25911602209945,
+            "y": 30.066298342541437,
+            "w": 52.32596685082873,
+            "h": 58.52486187845304
+          }
+        },
+        {
+          "index": 7,
+          "sourceIndex": 7,
+          "file": "quadros/hook_body_007.png",
+          "duration": 30,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 6.164487415592369,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1105,
+            "y": 398,
+            "w": 289,
+            "h": 320
+          },
+          "draw": {
+            "x": 43.1256906077348,
+            "y": 30.248618784530386,
+            "w": 52.69060773480663,
+            "h": 58.34254143646409
+          }
+        },
+        {
+          "index": 8,
+          "sourceIndex": 8,
+          "file": "quadros/hook_body_008.png",
+          "duration": 30,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 6.0272220168576585,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 64,
+            "y": 730,
+            "w": 271,
+            "h": 339
+          },
+          "draw": {
+            "x": 43.397440380446184,
+            "y": 26.78453038674033,
+            "w": 49.408839779005525,
+            "h": 61.806629834254146
+          }
+        },
+        {
+          "index": 9,
+          "sourceIndex": 9,
+          "file": "quadros/hook_body_009.png",
+          "duration": 35,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.64986187845304,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 436,
+            "y": 730,
+            "w": 259,
+            "h": 339
+          },
+          "draw": {
+            "x": 44.789364640883974,
+            "y": 26.78453038674033,
+            "w": 47.22099447513812,
+            "h": 61.806629834254146
+          }
+        },
+        {
+          "index": 10,
+          "sourceIndex": 10,
+          "file": "quadros/hook_body_010.png",
+          "duration": 40,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -0.7991194751381229,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 774,
+            "y": 730,
+            "w": 258,
+            "h": 339
+          },
+          "draw": {
+            "x": 44.23860497237568,
+            "y": 26.78453038674033,
+            "w": 47.03867403314917,
+            "h": 61.806629834254146
+          }
+        },
+        {
+          "index": 11,
+          "sourceIndex": 11,
+          "file": "quadros/hook_body_011.png",
+          "duration": 50,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.445597322285247,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1137,
+            "y": 730,
+            "w": 256,
+            "h": 339
+          },
+          "draw": {
+            "x": 44.947424701479235,
+            "y": 26.78453038674033,
+            "w": 46.67403314917127,
+            "h": 61.806629834254146
+          }
+        }
+      ],
+      "totalMs": 400
+    },
+    {
+      "id": "jab_head",
+      "label": "Jab na cabeça",
+      "reverseSource": false,
+      "loop": false,
+      "target": "head",
+      "contactFrames": [
+        4,
+        5
+      ],
+      "mechanicsIntegrated": false,
+      "columns": 4,
+      "rows": 3,
+      "file": "jab_head-atlas.png",
+      "scale": 0.19130434782608696,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 119,
+          "h": 79
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/jab_head_000.png",
+          "duration": 35,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 6.3004710144927545,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 66,
+            "y": 6,
+            "w": 241,
+            "h": 345
+          },
+          "draw": {
+            "x": 43.7856884057971,
+            "y": 22.595652173913038,
+            "w": 46.10434782608696,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/jab_head_001.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 2.8216214616096216,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 428,
+            "y": 6,
+            "w": 242,
+            "h": 345
+          },
+          "draw": {
+            "x": 43.86586493987049,
+            "y": 22.595652173913038,
+            "w": 46.29565217391305,
+            "h": 66
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/jab_head_002.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 2.5027162312254347,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 785,
+            "y": 6,
+            "w": 243,
+            "h": 345
+          },
+          "draw": {
+            "x": 43.82026171380329,
+            "y": 22.595652173913038,
+            "w": 46.48695652173913,
+            "h": 66
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/jab_head_003.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 3.60606192844541,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1140,
+            "y": 6,
+            "w": 249,
+            "h": 345
+          },
+          "draw": {
+            "x": 43.77843478260873,
+            "y": 22.595652173913038,
+            "w": 47.63478260869565,
+            "h": 66
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/jab_head_004.png",
+          "duration": 35,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.498544867500578,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 55,
+            "y": 370,
+            "w": 295,
+            "h": 343
+          },
+          "draw": {
+            "x": 43.67809833401056,
+            "y": 22.97826086956522,
+            "w": 56.434782608695656,
+            "h": 65.61739130434783
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/jab_head_005.png",
+          "duration": 30,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.642915194155332,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 417,
+            "y": 373,
+            "w": 302,
+            "h": 340
+          },
+          "draw": {
+            "x": 43.65394524959741,
+            "y": 23.552173913043475,
+            "w": 57.77391304347826,
+            "h": 65.04347826086956
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/jab_head_006.png",
+          "duration": 25,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.471213290719401,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 785,
+            "y": 370,
+            "w": 256,
+            "h": 343
+          },
+          "draw": {
+            "x": 43.45065428450822,
+            "y": 22.97826086956522,
+            "w": 48.97391304347826,
+            "h": 65.61739130434783
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/jab_head_007.png",
+          "duration": 25,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 3.079232932419346,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1143,
+            "y": 369,
+            "w": 250,
+            "h": 344
+          },
+          "draw": {
+            "x": 43.62895736597723,
+            "y": 22.78695652173913,
+            "w": 47.82608695652174,
+            "h": 65.80869565217391
+          }
+        },
+        {
+          "index": 8,
+          "file": "quadros/jab_head_008.png",
+          "duration": 25,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 2.37499488491049,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 65,
+            "y": 733,
+            "w": 247,
+            "h": 341
+          },
+          "draw": {
+            "x": 43.84539130434783,
+            "y": 23.360869565217385,
+            "w": 47.25217391304348,
+            "h": 65.23478260869565
+          }
+        },
+        {
+          "index": 9,
+          "file": "quadros/jab_head_009.png",
+          "duration": 30,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -0.5273223996472691,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 424,
+            "y": 733,
+            "w": 249,
+            "h": 340
+          },
+          "draw": {
+            "x": 43.849735879723696,
+            "y": 23.552173913043475,
+            "w": 47.63478260869565,
+            "h": 65.04347826086956
+          }
+        },
+        {
+          "index": 10,
+          "file": "quadros/jab_head_010.png",
+          "duration": 35,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 3.67454736399915,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 787,
+            "y": 729,
+            "w": 243,
+            "h": 346
+          },
+          "draw": {
+            "x": 43.5332325141777,
+            "y": 22.404347826086948,
+            "w": 46.48695652173913,
+            "h": 66.19130434782609
+          }
+        },
+        {
+          "index": 11,
+          "file": "quadros/jab_head_011.png",
+          "duration": 40,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -1.9078514140987468,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1150,
+            "y": 731,
+            "w": 246,
+            "h": 342
+          },
+          "draw": {
+            "x": 43.986956521739145,
+            "y": 23.16956521739131,
+            "w": 47.060869565217395,
+            "h": 65.42608695652174
+          }
+        }
+      ],
+      "totalMs": 340
+    },
+    {
+      "id": "jab_body",
+      "label": "Jab no tronco",
+      "reverseSource": false,
+      "loop": false,
+      "target": "body",
+      "contactFrames": [
+        4,
+        5
+      ],
+      "mechanicsIntegrated": false,
+      "columns": 4,
+      "rows": 3,
+      "file": "jab_body-atlas.png",
+      "scale": 0.1813186813186813,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 123,
+          "h": 85
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/jab_body_000.png",
+          "duration": 35,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 15.456043956043956,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 43,
+            "y": 8,
+            "w": 260,
+            "h": 364
+          },
+          "draw": {
+            "x": 43.37362637362638,
+            "y": 22.590659340659343,
+            "w": 47.14285714285714,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/jab_body_001.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 5.0521540461813474,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 407,
+            "y": 27,
+            "w": 259,
+            "h": 345
+          },
+          "draw": {
+            "x": 43.26282051282052,
+            "y": 26.035714285714285,
+            "w": 46.96153846153846,
+            "h": 62.55494505494505
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/jab_body_002.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 5.587788337788347,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 779,
+            "y": 56,
+            "w": 269,
+            "h": 316
+          },
+          "draw": {
+            "x": 43.48797148797149,
+            "y": 31.293956043956044,
+            "w": 48.77472527472527,
+            "h": 57.29670329670329
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/jab_body_003.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 16.986440165339243,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1139,
+            "y": 61,
+            "w": 299,
+            "h": 311
+          },
+          "draw": {
+            "x": 43.45347313237221,
+            "y": 32.20054945054945,
+            "w": 54.214285714285715,
+            "h": 56.39010989010989
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/jab_body_004.png",
+          "duration": 35,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.12201234476091,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 51,
+            "y": 429,
+            "w": 331,
+            "h": 296
+          },
+          "draw": {
+            "x": 43.46748545572075,
+            "y": 34.92032967032967,
+            "w": 60.01648351648351,
+            "h": 53.67032967032967
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/jab_body_005.png",
+          "duration": 30,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.46604919619189,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 430,
+            "y": 434,
+            "w": 338,
+            "h": 291
+          },
+          "draw": {
+            "x": 43.43548804137038,
+            "y": 35.82692307692308,
+            "w": 61.285714285714285,
+            "h": 52.76373626373626
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/jab_body_006.png",
+          "duration": 25,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.226985173129604,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 807,
+            "y": 408,
+            "w": 262,
+            "h": 317
+          },
+          "draw": {
+            "x": 43.377843087145415,
+            "y": 31.112637362637365,
+            "w": 47.505494505494504,
+            "h": 57.47802197802198
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/jab_body_007.png",
+          "duration": 25,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 3.1252848914046334,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1157,
+            "y": 389,
+            "w": 251,
+            "h": 336
+          },
+          "draw": {
+            "x": 43.43548804137038,
+            "y": 27.667582417582416,
+            "w": 45.51098901098901,
+            "h": 60.92307692307692
+          }
+        },
+        {
+          "index": 8,
+          "file": "quadros/jab_body_008.png",
+          "duration": 25,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 3.969420264831484,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 53,
+            "y": 732,
+            "w": 250,
+            "h": 346
+          },
+          "draw": {
+            "x": 43.37704748082107,
+            "y": 25.854395604395606,
+            "w": 45.32967032967033,
+            "h": 62.73626373626374
+          }
+        },
+        {
+          "index": 9,
+          "file": "quadros/jab_body_009.png",
+          "duration": 30,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 13.814008421485045,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 425,
+            "y": 732,
+            "w": 245,
+            "h": 346
+          },
+          "draw": {
+            "x": 43.54477765225428,
+            "y": 25.854395604395606,
+            "w": 44.42307692307692,
+            "h": 62.73626373626374
+          }
+        },
+        {
+          "index": 10,
+          "file": "quadros/jab_body_010.png",
+          "duration": 35,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.520483193277301,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 794,
+            "y": 733,
+            "w": 247,
+            "h": 345
+          },
+          "draw": {
+            "x": 43.3131868131868,
+            "y": 26.035714285714285,
+            "w": 44.785714285714285,
+            "h": 62.55494505494505
+          }
+        },
+        {
+          "index": 11,
+          "file": "quadros/jab_body_011.png",
+          "duration": 40,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.5942037266116165,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1157,
+            "y": 732,
+            "w": 253,
+            "h": 346
+          },
+          "draw": {
+            "x": 43.311459968602826,
+            "y": 25.854395604395606,
+            "w": 45.87362637362637,
+            "h": 62.73626373626374
+          }
+        }
+      ],
+      "totalMs": 340
+    },
+    {
+      "id": "cross_head",
+      "label": "Cruzado na cabeça",
+      "reverseSource": false,
+      "loop": false,
+      "target": "head",
+      "contactFrames": [
+        5,
+        6
+      ],
+      "mechanicsIntegrated": false,
+      "columns": 4,
+      "rows": 3,
+      "file": "cross_head-atlas.png",
+      "scale": 0.18591549295774648,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 119,
+          "h": 79
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/cross_head_000.png",
+          "duration": 40,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 3.154110904276581,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 41,
+            "y": 4,
+            "w": 251,
+            "h": 355
+          },
+          "draw": {
+            "x": 43.87776971104981,
+            "y": 22.592957746478874,
+            "w": 46.66478873239436,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/cross_head_001.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 0.026691927643202086,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 407,
+            "y": 6,
+            "w": 268,
+            "h": 353
+          },
+          "draw": {
+            "x": 44.40433369447455,
+            "y": 22.964788732394368,
+            "w": 49.82535211267606,
+            "h": 65.6281690140845
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/cross_head_002.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 2.9634940075234084,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 777,
+            "y": 6,
+            "w": 262,
+            "h": 353
+          },
+          "draw": {
+            "x": 43.24849094567405,
+            "y": 22.964788732394368,
+            "w": 48.709859154929575,
+            "h": 65.6281690140845
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/cross_head_003.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -0.5227828392057386,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1120,
+            "y": 8,
+            "w": 270,
+            "h": 351
+          },
+          "draw": {
+            "x": 43.498129072945126,
+            "y": 23.336619718309862,
+            "w": 50.19718309859155,
+            "h": 65.25633802816901
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/cross_head_004.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.863946047418533,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 24,
+            "y": 369,
+            "w": 319,
+            "h": 348
+          },
+          "draw": {
+            "x": 41.38103621730382,
+            "y": 23.894366197183103,
+            "w": 59.307042253521125,
+            "h": 64.69859154929577
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/cross_head_005.png",
+          "duration": 40,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 9.172050364584889,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 384,
+            "y": 373,
+            "w": 351,
+            "h": 344
+          },
+          "draw": {
+            "x": 41.800057487783846,
+            "y": 24.638028169014085,
+            "w": 65.25633802816901,
+            "h": 63.95492957746479
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/cross_head_006.png",
+          "duration": 35,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 1.2937909145010784,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 741,
+            "y": 375,
+            "w": 338,
+            "h": 343
+          },
+          "draw": {
+            "x": 43.88732394366196,
+            "y": 24.823943661971832,
+            "w": 62.83943661971831,
+            "h": 63.76901408450704
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/cross_head_007.png",
+          "duration": 30,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 7.715631185486894,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1131,
+            "y": 372,
+            "w": 300,
+            "h": 346
+          },
+          "draw": {
+            "x": 43.68708920187794,
+            "y": 24.266197183098598,
+            "w": 55.774647887323944,
+            "h": 64.32676056338028
+          }
+        },
+        {
+          "index": 8,
+          "file": "quadros/cross_head_008.png",
+          "duration": 30,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.167302549474056,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 46,
+            "y": 728,
+            "w": 273,
+            "h": 347
+          },
+          "draw": {
+            "x": 43.53349973257265,
+            "y": 24.08028169014085,
+            "w": 50.754929577464786,
+            "h": 64.51267605633802
+          }
+        },
+        {
+          "index": 9,
+          "file": "quadros/cross_head_009.png",
+          "duration": 35,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 1.4547686116700136,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 406,
+            "y": 728,
+            "w": 278,
+            "h": 348
+          },
+          "draw": {
+            "x": 43.553923541247485,
+            "y": 23.894366197183103,
+            "w": 51.68450704225352,
+            "h": 64.69859154929577
+          }
+        },
+        {
+          "index": 10,
+          "file": "quadros/cross_head_010.png",
+          "duration": 40,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 0.8197111648968114,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 768,
+            "y": 728,
+            "w": 273,
+            "h": 348
+          },
+          "draw": {
+            "x": 43.693840149329716,
+            "y": 23.894366197183103,
+            "w": 50.754929577464786,
+            "h": 64.69859154929577
+          }
+        },
+        {
+          "index": 11,
+          "file": "quadros/cross_head_011.png",
+          "duration": 50,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 23.412939173502558,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1140,
+            "y": 728,
+            "w": 271,
+            "h": 348
+          },
+          "draw": {
+            "x": 43.79040396223493,
+            "y": 23.894366197183103,
+            "w": 50.3830985915493,
+            "h": 64.69859154929577
+          }
+        }
+      ],
+      "totalMs": 390
+    },
+    {
+      "id": "cross_body",
+      "label": "Cruzado no tronco",
+      "reverseSource": false,
+      "loop": false,
+      "target": "body",
+      "contactFrames": [
+        5,
+        6
+      ],
+      "mechanicsIntegrated": false,
+      "columns": 4,
+      "rows": 3,
+      "file": "cross_body-atlas.png",
+      "scale": 0.18282548476454294,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 122,
+          "h": 80
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/cross_body_000.png",
+          "duration": 40,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 2.02587019208937,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 49,
+            "y": 11,
+            "w": 253,
+            "h": 361
+          },
+          "draw": {
+            "x": 44.053843490304715,
+            "y": 22.591412742382275,
+            "w": 46.254847645429365,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/cross_body_001.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 13.841539940075764,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 424,
+            "y": 51,
+            "w": 242,
+            "h": 321
+          },
+          "draw": {
+            "x": 43.83599977387078,
+            "y": 29.90443213296399,
+            "w": 44.24376731301939,
+            "h": 58.686980609418285
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/cross_body_002.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -12.34923364337782,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 786,
+            "y": 62,
+            "w": 255,
+            "h": 310
+          },
+          "draw": {
+            "x": 44.25336597307221,
+            "y": 31.915512465373958,
+            "w": 46.62049861495845,
+            "h": 56.67590027700831
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/cross_body_003.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 2.165662412892335,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1146,
+            "y": 81,
+            "w": 270,
+            "h": 291
+          },
+          "draw": {
+            "x": 43.98225094900994,
+            "y": 35.38919667590027,
+            "w": 49.362880886426595,
+            "h": 53.202216066481995
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/cross_body_004.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.664735191653168,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 22,
+            "y": 407,
+            "w": 314,
+            "h": 305
+          },
+          "draw": {
+            "x": 44.32984508053761,
+            "y": 32.82963988919668,
+            "w": 57.40720221606648,
+            "h": 55.7617728531856
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/cross_body_005.png",
+          "duration": 40,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -1.6424948155499848,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 385,
+            "y": 410,
+            "w": 379,
+            "h": 302
+          },
+          "draw": {
+            "x": 44.3756443073039,
+            "y": 33.378116343490305,
+            "w": 69.29085872576178,
+            "h": 55.21329639889197
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/cross_body_006.png",
+          "duration": 35,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -2.128358618560403,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 766,
+            "y": 400,
+            "w": 346,
+            "h": 312
+          },
+          "draw": {
+            "x": 44.30572969820674,
+            "y": 31.549861495844873,
+            "w": 63.257617728531855,
+            "h": 57.041551246537395
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/cross_body_007.png",
+          "duration": 30,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -3.0649038461538542,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1137,
+            "y": 405,
+            "w": 305,
+            "h": 307
+          },
+          "draw": {
+            "x": 44.35606222032813,
+            "y": 32.46398891966759,
+            "w": 55.7617728531856,
+            "h": 56.12742382271468
+          }
+        },
+        {
+          "index": 8,
+          "file": "quadros/cross_body_008.png",
+          "duration": 30,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 23.08767635122077,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 30,
+            "y": 742,
+            "w": 278,
+            "h": 325
+          },
+          "draw": {
+            "x": 44.215100173935454,
+            "y": 29.173130193905813,
+            "w": 50.825484764542935,
+            "h": 59.418282548476455
+          }
+        },
+        {
+          "index": 9,
+          "file": "quadros/cross_body_009.png",
+          "duration": 35,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -2.5261969944868405,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 416,
+            "y": 724,
+            "w": 266,
+            "h": 343
+          },
+          "draw": {
+            "x": 44.28018877603365,
+            "y": 25.88227146814404,
+            "w": 48.631578947368425,
+            "h": 62.70914127423823
+          }
+        },
+        {
+          "index": 10,
+          "file": "quadros/cross_body_010.png",
+          "duration": 40,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -0.3989200894300885,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 785,
+            "y": 727,
+            "w": 258,
+            "h": 340
+          },
+          "draw": {
+            "x": 44.227146814404435,
+            "y": 26.430747922437675,
+            "w": 47.16897506925208,
+            "h": 62.1606648199446
+          }
+        },
+        {
+          "index": 11,
+          "file": "quadros/cross_body_011.png",
+          "duration": 50,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -0.6194845666798635,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1148,
+            "y": 727,
+            "w": 256,
+            "h": 340
+          },
+          "draw": {
+            "x": 44.250494657696855,
+            "y": 26.430747922437675,
+            "w": 46.80332409972299,
+            "h": 62.1606648199446
+          }
+        }
+      ],
+      "totalMs": 390
+    },
+    {
+      "id": "overhand_heavy",
+      "label": "Soco pesado descendente",
+      "reverseSource": false,
+      "loop": false,
+      "target": "head",
+      "contactFrames": [
+        5,
+        6
+      ],
+      "mechanicsIntegrated": false,
+      "registration": "rearFoot",
+      "columns": 4,
+      "rows": 4,
+      "file": "overhand_heavy-atlas.png",
+      "scale": 0.2578125,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 95,
+          "h": 62
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "quadros/overhand_heavy_000.png",
+          "duration": 45,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 7.203865881458966,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 83,
+            "y": 2,
+            "w": 206,
+            "h": 256
+          },
+          "draw": {
+            "x": 43.35133928571429,
+            "y": 22.62890625,
+            "w": 53.109375,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "quadros/overhand_heavy_001.png",
+          "duration": 35,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 10.476958069620254,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 454,
+            "y": 5,
+            "w": 237,
+            "h": 253
+          },
+          "draw": {
+            "x": 43.296875000000014,
+            "y": 23.40234375,
+            "w": 61.1015625,
+            "h": 65.2265625
+          }
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "quadros/overhand_heavy_002.png",
+          "duration": 30,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 10.085169560943651,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 847,
+            "y": 27,
+            "w": 230,
+            "h": 231
+          },
+          "draw": {
+            "x": 43.15883027522938,
+            "y": 29.07421875,
+            "w": 59.296875,
+            "h": 59.5546875
+          }
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "quadros/overhand_heavy_003.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 10.737670473643615,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1223,
+            "y": 3,
+            "w": 250,
+            "h": 255
+          },
+          "draw": {
+            "x": 43.41900802752292,
+            "y": 22.88671875,
+            "w": 64.453125,
+            "h": 65.7421875
+          }
+        },
+        {
+          "index": 4,
+          "sourceIndex": 5,
+          "file": "quadros/overhand_heavy_004.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 9.07606907894737,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 431,
+            "y": 263,
+            "w": 270,
+            "h": 249
+          },
+          "draw": {
+            "x": 43.36718750000001,
+            "y": 24.43359375,
+            "w": 69.609375,
+            "h": 64.1953125
+          }
+        },
+        {
+          "index": 5,
+          "sourceIndex": 6,
+          "file": "quadros/overhand_heavy_005.png",
+          "duration": 50,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 8.889951992103356,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 809,
+            "y": 282,
+            "w": 301,
+            "h": 230
+          },
+          "draw": {
+            "x": 43.43973214285712,
+            "y": 29.33203125,
+            "w": 77.6015625,
+            "h": 59.296875
+          }
+        },
+        {
+          "index": 6,
+          "sourceIndex": 7,
+          "file": "quadros/overhand_heavy_006.png",
+          "duration": 45,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 8.559991936043314,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1194,
+            "y": 265,
+            "w": 263,
+            "h": 247
+          },
+          "draw": {
+            "x": 43.26415094339623,
+            "y": 24.94921875,
+            "w": 67.8046875,
+            "h": 63.6796875
+          }
+        },
+        {
+          "index": 7,
+          "sourceIndex": 8,
+          "file": "quadros/overhand_heavy_007.png",
+          "duration": 35,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 1.2614190313887113,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 50,
+            "y": 519,
+            "w": 282,
+            "h": 247
+          },
+          "draw": {
+            "x": 43.40615587349397,
+            "y": 24.94921875,
+            "w": 72.703125,
+            "h": 63.6796875
+          }
+        },
+        {
+          "index": 8,
+          "sourceIndex": 9,
+          "file": "quadros/overhand_heavy_008.png",
+          "duration": 30,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 8.824218749999975,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 442,
+            "y": 531,
+            "w": 265,
+            "h": 235
+          },
+          "draw": {
+            "x": 43.068359374999986,
+            "y": 28.04296875,
+            "w": 68.3203125,
+            "h": 60.5859375
+          }
+        },
+        {
+          "index": 9,
+          "sourceIndex": 10,
+          "file": "quadros/overhand_heavy_009.png",
+          "duration": 30,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 7.206404775943409,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 845,
+            "y": 518,
+            "w": 233,
+            "h": 248
+          },
+          "draw": {
+            "x": 43.11132812500001,
+            "y": 24.69140625,
+            "w": 60.0703125,
+            "h": 63.9375
+          }
+        },
+        {
+          "index": 10,
+          "sourceIndex": 11,
+          "file": "quadros/overhand_heavy_010.png",
+          "duration": 30,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 8.01599264705886,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1230,
+            "y": 514,
+            "w": 228,
+            "h": 252
+          },
+          "draw": {
+            "x": 43.101562500000014,
+            "y": 23.66015625,
+            "w": 58.78125,
+            "h": 64.96875
+          }
+        },
+        {
+          "index": 11,
+          "sourceIndex": 12,
+          "file": "quadros/overhand_heavy_011.png",
+          "duration": 35,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 9.128526273314211,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 78,
+            "y": 767,
+            "w": 234,
+            "h": 253
+          },
+          "draw": {
+            "x": 43.032202743902445,
+            "y": 23.40234375,
+            "w": 60.328125,
+            "h": 65.2265625
+          }
+        },
+        {
+          "index": 12,
+          "sourceIndex": 13,
+          "file": "quadros/overhand_heavy_012.png",
+          "duration": 40,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 9.093603710159389,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 462,
+            "y": 768,
+            "w": 235,
+            "h": 252
+          },
+          "draw": {
+            "x": 43.15859375000002,
+            "y": 23.66015625,
+            "w": 60.5859375,
+            "h": 64.96875
+          }
+        },
+        {
+          "index": 13,
+          "sourceIndex": 14,
+          "file": "quadros/overhand_heavy_013.png",
+          "duration": 45,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 5.357559267241374,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 846,
+            "y": 767,
+            "w": 226,
+            "h": 253
+          },
+          "draw": {
+            "x": 43.05724676724138,
+            "y": 23.40234375,
+            "w": 58.265625,
+            "h": 65.2265625
+          }
+        },
+        {
+          "index": 14,
+          "sourceIndex": 15,
+          "file": "quadros/overhand_heavy_014.png",
+          "duration": 60,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 7.012092962184894,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1230,
+            "y": 767,
+            "w": 215,
+            "h": 253
+          },
+          "draw": {
+            "x": 43.13497899159663,
+            "y": 23.40234375,
+            "w": 55.4296875,
+            "h": 65.2265625
+          }
+        }
+      ],
+      "totalMs": 555
+    },
+    {
+      "id": "reverse_strike",
+      "label": "Giro e golpe para trás",
+      "reverseSource": false,
+      "loop": false,
+      "target": "head",
+      "contactFrames": [
+        5,
+        6
+      ],
+      "mechanicsIntegrated": false,
+      "registration": "hip",
+      "columns": 4,
+      "rows": 3,
+      "file": "reverse_strike-atlas.png",
+      "scale": 0.18911174785100288,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 127,
+          "h": 85
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "quadros/reverse_strike_000.png",
+          "duration": 40,
+          "phase": "guarda à direita",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 3.423363242482232,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 45,
+            "y": 7,
+            "w": 277,
+            "h": 349
+          },
+          "draw": {
+            "x": 37.23942693409742,
+            "y": 22.5945558739255,
+            "w": 52.383954154727796,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "quadros/reverse_strike_001.png",
+          "duration": 30,
+          "phase": "gira",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -0.13296388425328848,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 439,
+            "y": 7,
+            "w": 257,
+            "h": 349
+          },
+          "draw": {
+            "x": 39.885550552599256,
+            "y": 22.5945558739255,
+            "w": 48.60171919770774,
+            "h": 66
+          }
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "quadros/reverse_strike_002.png",
+          "duration": 25,
+          "phase": "guarda à esquerda",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 0.35591782495979857,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 829,
+            "y": 7,
+            "w": 279,
+            "h": 350
+          },
+          "draw": {
+            "x": 35.47414381225269,
+            "y": 22.4054441260745,
+            "w": 52.762177650429805,
+            "h": 66.189111747851
+          }
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "quadros/reverse_strike_003.png",
+          "duration": 25,
+          "phase": "prepara",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 1.5365733137853876,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1210,
+            "y": 10,
+            "w": 282,
+            "h": 347
+          },
+          "draw": {
+            "x": 36.30863692181745,
+            "y": 22.972779369627503,
+            "w": 53.32951289398281,
+            "h": 65.621776504298
+          }
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "file": "quadros/reverse_strike_004.png",
+          "duration": 25,
+          "phase": "acelera",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 7.933631805157591,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 61,
+            "y": 363,
+            "w": 289,
+            "h": 322
+          },
+          "draw": {
+            "x": 34.47965616045845,
+            "y": 27.700573065902574,
+            "w": 54.65329512893983,
+            "h": 60.893982808022926
+          }
+        },
+        {
+          "index": 5,
+          "sourceIndex": 5,
+          "file": "quadros/reverse_strike_005.png",
+          "duration": 20,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 11.140363105833707,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 406,
+            "y": 362,
+            "w": 323,
+            "h": 324
+          },
+          "draw": {
+            "x": 31.47762838880317,
+            "y": 27.322349570200572,
+            "w": 61.08309455587393,
+            "h": 61.27220630372493
+          }
+        },
+        {
+          "index": 6,
+          "sourceIndex": 6,
+          "file": "quadros/reverse_strike_006.png",
+          "duration": 40,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 10.906781279847161,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 780,
+            "y": 361,
+            "w": 348,
+            "h": 325
+          },
+          "draw": {
+            "x": 26.7702005730659,
+            "y": 27.133237822349564,
+            "w": 65.810888252149,
+            "h": 61.46131805157594
+          }
+        },
+        {
+          "index": 7,
+          "sourceIndex": 7,
+          "file": "quadros/reverse_strike_007.png",
+          "duration": 35,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 9.610218737567148,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1203,
+            "y": 361,
+            "w": 301,
+            "h": 324
+          },
+          "draw": {
+            "x": 35.07412482870311,
+            "y": 27.322349570200572,
+            "w": 56.922636103151866,
+            "h": 61.27220630372493
+          }
+        },
+        {
+          "index": 8,
+          "sourceIndex": 8,
+          "file": "quadros/reverse_strike_008.png",
+          "duration": 30,
+          "phase": "recolhe",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 5.90087886822784,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 62,
+            "y": 684,
+            "w": 283,
+            "h": 330
+          },
+          "draw": {
+            "x": 35.92417897288958,
+            "y": 26.18767908309455,
+            "w": 53.51862464183382,
+            "h": 62.40687679083095
+          }
+        },
+        {
+          "index": 9,
+          "sourceIndex": 9,
+          "file": "quadros/reverse_strike_009.png",
+          "duration": 35,
+          "phase": "recupera",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 18.277239317304087,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 440,
+            "y": 684,
+            "w": 282,
+            "h": 330
+          },
+          "draw": {
+            "x": 36.7391304347826,
+            "y": 26.18767908309455,
+            "w": 53.32951289398281,
+            "h": 62.40687679083095
+          }
+        },
+        {
+          "index": 10,
+          "sourceIndex": 10,
+          "file": "quadros/reverse_strike_010.png",
+          "duration": 40,
+          "phase": "acomoda",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 6.69058068260127,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 832,
+            "y": 684,
+            "w": 280,
+            "h": 330
+          },
+          "draw": {
+            "x": 36.97138297486489,
+            "y": 26.18767908309455,
+            "w": 52.95128939828081,
+            "h": 62.40687679083095
+          }
+        },
+        {
+          "index": 11,
+          "sourceIndex": 11,
+          "file": "quadros/reverse_strike_011.png",
+          "duration": 55,
+          "phase": "guarda à esquerda",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 6.000363060385522,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1211,
+            "y": 684,
+            "w": 277,
+            "h": 330
+          },
+          "draw": {
+            "x": 36.654441260745,
+            "y": 26.18767908309455,
+            "w": 52.383954154727796,
+            "h": 62.40687679083095
+          }
+        }
+      ],
+      "totalMs": 400
+    },
+    {
+      "id": "running_punch",
+      "label": "Soco de impulso",
+      "reverseSource": false,
+      "loop": false,
+      "target": "head",
+      "contactFrames": [
+        6,
+        7,
+        8
+      ],
+      "mechanicsIntegrated": false,
+      "columns": 4,
+      "rows": 4,
+      "file": "running_punch-atlas.png",
+      "scale": 0.25190839694656486,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 93,
+          "h": 59
+        },
+        "anchorFrame": 15
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/running_punch_000.png",
+          "duration": 45,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 9.848555264786683,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 90,
+            "y": 13,
+            "w": 222,
+            "h": 231
+          },
+          "draw": {
+            "x": 33.55002008838892,
+            "y": 30.4351145038168,
+            "w": 55.923664122137396,
+            "h": 58.19083969465648
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/running_punch_001.png",
+          "duration": 35,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -4.515108142493632,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 429,
+            "y": 9,
+            "w": 216,
+            "h": 232
+          },
+          "draw": {
+            "x": 36.15412577244639,
+            "y": 30.183206106870237,
+            "w": 54.41221374045801,
+            "h": 58.44274809160305
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/running_punch_002.png",
+          "duration": 30,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 15.88601855062794,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 837,
+            "y": 10,
+            "w": 184,
+            "h": 234
+          },
+          "draw": {
+            "x": 48.24768556114992,
+            "y": 29.679389312977108,
+            "w": 46.351145038167935,
+            "h": 58.94656488549618
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/running_punch_003.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -16.711926830537347,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1176,
+            "y": 7,
+            "w": 213,
+            "h": 240
+          },
+          "draw": {
+            "x": 38.818849089841436,
+            "y": 28.16793893129772,
+            "w": 53.65648854961832,
+            "h": 60.45801526717557
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/running_punch_004.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -26.331119972655806,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 93,
+            "y": 255,
+            "w": 238,
+            "h": 233
+          },
+          "draw": {
+            "x": 32.04793893129771,
+            "y": 29.93129770992367,
+            "w": 59.95419847328244,
+            "h": 58.69465648854961
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/running_punch_005.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -28.563913183715634,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 458,
+            "y": 254,
+            "w": 242,
+            "h": 234
+          },
+          "draw": {
+            "x": 26.378028542980424,
+            "y": 29.679389312977108,
+            "w": 60.9618320610687,
+            "h": 58.94656488549618
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/running_punch_006.png",
+          "duration": 45,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -2.117700381679375,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 807,
+            "y": 254,
+            "w": 308,
+            "h": 234
+          },
+          "draw": {
+            "x": 32.56488549618322,
+            "y": 29.679389312977108,
+            "w": 77.58778625954197,
+            "h": 58.94656488549618
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/running_punch_007.png",
+          "duration": 40,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -33.16677268871923,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1175,
+            "y": 254,
+            "w": 328,
+            "h": 233
+          },
+          "draw": {
+            "x": 25.700593723494514,
+            "y": 29.93129770992367,
+            "w": 82.62595419847328,
+            "h": 58.69465648854961
+          }
+        },
+        {
+          "index": 8,
+          "file": "quadros/running_punch_008.png",
+          "duration": 35,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -27.943166370385857,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 56,
+            "y": 502,
+            "w": 327,
+            "h": 234
+          },
+          "draw": {
+            "x": 27.667938931297712,
+            "y": 29.679389312977108,
+            "w": 82.3740458015267,
+            "h": 58.94656488549618
+          }
+        },
+        {
+          "index": 9,
+          "file": "quadros/running_punch_009.png",
+          "duration": 35,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -22.130152671755727,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 462,
+            "y": 502,
+            "w": 210,
+            "h": 234
+          },
+          "draw": {
+            "x": 34.28110687022901,
+            "y": 29.679389312977108,
+            "w": 52.90076335877862,
+            "h": 58.94656488549618
+          }
+        },
+        {
+          "index": 10,
+          "file": "quadros/running_punch_010.png",
+          "duration": 35,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -23.274614764591536,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 831,
+            "y": 502,
+            "w": 202,
+            "h": 234
+          },
+          "draw": {
+            "x": 34.01742449385995,
+            "y": 29.679389312977108,
+            "w": 50.8854961832061,
+            "h": 58.94656488549618
+          }
+        },
+        {
+          "index": 11,
+          "file": "quadros/running_punch_011.png",
+          "duration": 35,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -19.397014464722968,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1227,
+            "y": 501,
+            "w": 180,
+            "h": 235
+          },
+          "draw": {
+            "x": 38.92791712104689,
+            "y": 29.42748091603054,
+            "w": 45.343511450381676,
+            "h": 59.19847328244274
+          }
+        },
+        {
+          "index": 12,
+          "file": "quadros/running_punch_012.png",
+          "duration": 40,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -14.796554719701307,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 90,
+            "y": 746,
+            "w": 169,
+            "h": 263
+          },
+          "draw": {
+            "x": 41.400828050200545,
+            "y": 22.37404580152672,
+            "w": 42.57251908396946,
+            "h": 66.25190839694656
+          }
+        },
+        {
+          "index": 13,
+          "file": "quadros/running_punch_013.png",
+          "duration": 45,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -14.423275973605906,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 472,
+            "y": 750,
+            "w": 182,
+            "h": 259
+          },
+          "draw": {
+            "x": 43.725190839694655,
+            "y": 23.38167938931298,
+            "w": 45.847328244274806,
+            "h": 65.2442748091603
+          }
+        },
+        {
+          "index": 14,
+          "file": "quadros/running_punch_014.png",
+          "duration": 50,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -19.985226762460716,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 830,
+            "y": 747,
+            "w": 207,
+            "h": 262
+          },
+          "draw": {
+            "x": 38.50538841490794,
+            "y": 22.625954198473295,
+            "w": 52.14503816793893,
+            "h": 66
+          }
+        },
+        {
+          "index": 15,
+          "file": "quadros/running_punch_015.png",
+          "duration": 60,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -11.135890547731947,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1221,
+            "y": 747,
+            "w": 192,
+            "h": 262
+          },
+          "draw": {
+            "x": 41.279091416868354,
+            "y": 22.625954198473295,
+            "w": 48.36641221374045,
+            "h": 66
+          }
+        }
+      ],
+      "totalMs": 600
+    },
+    {
+      "id": "low_kick",
+      "label": "Chute na perna",
+      "reverseSource": false,
+      "loop": false,
+      "target": "leg",
+      "contactFrames": [
+        5,
+        6
+      ],
+      "mechanicsIntegrated": false,
+      "columns": 4,
+      "rows": 3,
+      "file": "low_kick-atlas.png",
+      "scale": 0.18282548476454294,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 124,
+          "h": 80
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/low_kick_000.png",
+          "duration": 40,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 3.955839721703277,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 43,
+            "y": 7,
+            "w": 250,
+            "h": 361
+          },
+          "draw": {
+            "x": 34.94627327191908,
+            "y": 22.591412742382275,
+            "w": 45.70637119113574,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/low_kick_001.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.587294233769547,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 409,
+            "y": 18,
+            "w": 269,
+            "h": 348
+          },
+          "draw": {
+            "x": 43.725392428439534,
+            "y": 24.968144044321328,
+            "w": 49.18005540166205,
+            "h": 63.62326869806094
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/low_kick_002.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 5.4381619683884646,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 812,
+            "y": 20,
+            "w": 240,
+            "h": 348
+          },
+          "draw": {
+            "x": 35.92292651132475,
+            "y": 24.968144044321328,
+            "w": 43.878116343490305,
+            "h": 63.62326869806094
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/low_kick_003.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.756019603665019,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1151,
+            "y": 13,
+            "w": 230,
+            "h": 353
+          },
+          "draw": {
+            "x": 32.43959088003409,
+            "y": 24.054016620498615,
+            "w": 42.04986149584487,
+            "h": 64.53739612188366
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/low_kick_004.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.982697634775201,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 46,
+            "y": 380,
+            "w": 317,
+            "h": 345
+          },
+          "draw": {
+            "x": 29.038781163434898,
+            "y": 25.516620498614955,
+            "w": 57.955678670360115,
+            "h": 63.07479224376731
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/low_kick_005.png",
+          "duration": 40,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -14.003471952549027,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 406,
+            "y": 380,
+            "w": 349,
+            "h": 344
+          },
+          "draw": {
+            "x": 35.712219144352105,
+            "y": 25.699445983379498,
+            "w": 63.80609418282548,
+            "h": 62.89196675900277
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/low_kick_006.png",
+          "duration": 35,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.090935611926621,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 787,
+            "y": 385,
+            "w": 339,
+            "h": 338
+          },
+          "draw": {
+            "x": 28.088988919667585,
+            "y": 26.79639889196676,
+            "w": 61.97783933518006,
+            "h": 61.795013850415515
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/low_kick_007.png",
+          "duration": 30,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -11.73682173700505,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1193,
+            "y": 382,
+            "w": 171,
+            "h": 341
+          },
+          "draw": {
+            "x": 37.80853837379827,
+            "y": 26.247922437673132,
+            "w": 31.263157894736842,
+            "h": 62.34349030470914
+          }
+        },
+        {
+          "index": 8,
+          "file": "quadros/low_kick_008.png",
+          "duration": 30,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.604887409133248,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 79,
+            "y": 727,
+            "w": 190,
+            "h": 344
+          },
+          "draw": {
+            "x": 42.66596056705231,
+            "y": 25.699445983379498,
+            "w": 34.73684210526316,
+            "h": 62.89196675900277
+          }
+        },
+        {
+          "index": 9,
+          "file": "quadros/low_kick_009.png",
+          "duration": 35,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.636340001744276,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 427,
+            "y": 733,
+            "w": 244,
+            "h": 338
+          },
+          "draw": {
+            "x": 45.026745629955116,
+            "y": 26.79639889196676,
+            "w": 44.609418282548475,
+            "h": 61.795013850415515
+          }
+        },
+        {
+          "index": 10,
+          "file": "quadros/low_kick_010.png",
+          "duration": 40,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 18.55417956656347,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 794,
+            "y": 730,
+            "w": 250,
+            "h": 341
+          },
+          "draw": {
+            "x": 44.80071696268536,
+            "y": 26.247922437673132,
+            "w": 45.70637119113574,
+            "h": 62.34349030470914
+          }
+        },
+        {
+          "index": 11,
+          "file": "quadros/low_kick_011.png",
+          "duration": 50,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 0.7645984388638865,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1155,
+            "y": 731,
+            "w": 250,
+            "h": 340
+          },
+          "draw": {
+            "x": 44.39304401354261,
+            "y": 26.430747922437675,
+            "w": 45.70637119113574,
+            "h": 62.1606648199446
+          }
+        }
+      ],
+      "totalMs": 395
+    },
+    {
+      "id": "round_kick_body",
+      "label": "Circular no tronco",
+      "reverseSource": false,
+      "loop": false,
+      "target": "body",
+      "contactFrames": [
+        6,
+        7
+      ],
+      "mechanicsIntegrated": false,
+      "columns": 4,
+      "rows": 4,
+      "file": "round_kick_body-atlas.png",
+      "scale": 0.21639344262295082,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 105,
+          "h": 68
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/round_kick_body_000.png",
+          "duration": 40,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 0.42164832697058324,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 53,
+            "y": 5,
+            "w": 212,
+            "h": 305
+          },
+          "draw": {
+            "x": 44.07868852459016,
+            "y": 22.608196721311472,
+            "w": 45.87540983606557,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/round_kick_body_001.png",
+          "duration": 30,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 1.3254332552693262,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 399,
+            "y": 15,
+            "w": 213,
+            "h": 295
+          },
+          "draw": {
+            "x": 43.86229508196721,
+            "y": 24.772131147540982,
+            "w": 46.09180327868852,
+            "h": 63.83606557377049
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/round_kick_body_002.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -4.672382533424254,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 746,
+            "y": 15,
+            "w": 196,
+            "h": 294
+          },
+          "draw": {
+            "x": 26.20705540568582,
+            "y": 24.988524590163934,
+            "w": 42.41311475409836,
+            "h": 63.61967213114754
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/round_kick_body_003.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -12.640870901639337,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1078,
+            "y": 8,
+            "w": 162,
+            "h": 301
+          },
+          "draw": {
+            "x": 32.83213114754099,
+            "y": 23.47377049180328,
+            "w": 35.05573770491803,
+            "h": 65.1344262295082
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/round_kick_body_004.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.564207650273223,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 65,
+            "y": 317,
+            "w": 186,
+            "h": 290
+          },
+          "draw": {
+            "x": 34.85792349726776,
+            "y": 25.85409836065574,
+            "w": 40.24918032786885,
+            "h": 62.75409836065574
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/round_kick_body_005.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.236869322576231,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 354,
+            "y": 319,
+            "w": 277,
+            "h": 288
+          },
+          "draw": {
+            "x": 29.77139867457273,
+            "y": 26.286885245901637,
+            "w": 59.940983606557374,
+            "h": 62.321311475409836
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/round_kick_body_006.png",
+          "duration": 45,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.802786885245895,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 673,
+            "y": 328,
+            "w": 341,
+            "h": 279
+          },
+          "draw": {
+            "x": 21.465573770491815,
+            "y": 28.234426229508195,
+            "w": 73.79016393442623,
+            "h": 60.37377049180328
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/round_kick_body_007.png",
+          "duration": 40,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.2583636915604,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1024,
+            "y": 324,
+            "w": 270,
+            "h": 283
+          },
+          "draw": {
+            "x": 22.308606557377047,
+            "y": 27.368852459016395,
+            "w": 58.42622950819672,
+            "h": 61.239344262295084
+          }
+        },
+        {
+          "index": 8,
+          "file": "quadros/round_kick_body_008.png",
+          "duration": 30,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -12.826358185140384,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 49,
+            "y": 612,
+            "w": 212,
+            "h": 284
+          },
+          "draw": {
+            "x": 20.59558380729341,
+            "y": 27.152459016393443,
+            "w": 45.87540983606557,
+            "h": 61.455737704918036
+          }
+        },
+        {
+          "index": 9,
+          "file": "quadros/round_kick_body_009.png",
+          "duration": 30,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.806331260599208,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 411,
+            "y": 613,
+            "w": 168,
+            "h": 283
+          },
+          "draw": {
+            "x": 26.929508196721322,
+            "y": 27.368852459016395,
+            "w": 36.35409836065574,
+            "h": 61.239344262295084
+          }
+        },
+        {
+          "index": 10,
+          "file": "quadros/round_kick_body_010.png",
+          "duration": 30,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -14.210011743700873,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 723,
+            "y": 615,
+            "w": 174,
+            "h": 281
+          },
+          "draw": {
+            "x": 27.26364513018322,
+            "y": 27.80163934426229,
+            "w": 37.65245901639344,
+            "h": 60.80655737704918
+          }
+        },
+        {
+          "index": 11,
+          "file": "quadros/round_kick_body_011.png",
+          "duration": 30,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -13.748688524590133,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1065,
+            "y": 611,
+            "w": 190,
+            "h": 285
+          },
+          "draw": {
+            "x": 45.274262295081996,
+            "y": 26.93606557377049,
+            "w": 41.114754098360656,
+            "h": 61.67213114754098
+          }
+        },
+        {
+          "index": 12,
+          "file": "quadros/round_kick_body_012.png",
+          "duration": 35,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -5.913024658714769,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 61,
+            "y": 901,
+            "w": 200,
+            "h": 285
+          },
+          "draw": {
+            "x": 44.288403157255615,
+            "y": 26.93606557377049,
+            "w": 43.278688524590166,
+            "h": 61.67213114754098
+          }
+        },
+        {
+          "index": 13,
+          "file": "quadros/round_kick_body_013.png",
+          "duration": 40,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -6.084906989585119,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 389,
+            "y": 903,
+            "w": 202,
+            "h": 283
+          },
+          "draw": {
+            "x": 44.371611355457816,
+            "y": 27.368852459016395,
+            "w": 43.71147540983607,
+            "h": 61.239344262295084
+          }
+        },
+        {
+          "index": 14,
+          "file": "quadros/round_kick_body_014.png",
+          "duration": 40,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -5.851100702576119,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 722,
+            "y": 903,
+            "w": 205,
+            "h": 283
+          },
+          "draw": {
+            "x": 44.47283372365338,
+            "y": 27.368852459016395,
+            "w": 44.36065573770492,
+            "h": 61.239344262295084
+          }
+        },
+        {
+          "index": 15,
+          "file": "quadros/round_kick_body_015.png",
+          "duration": 55,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -5.934551236361639,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1048,
+            "y": 901,
+            "w": 197,
+            "h": 285
+          },
+          "draw": {
+            "x": 44.120302648171496,
+            "y": 26.93606557377049,
+            "w": 42.62950819672131,
+            "h": 61.67213114754098
+          }
+        }
+      ],
+      "totalMs": 535
+    },
+    {
+      "id": "round_kick_head",
+      "label": "Circular alto",
+      "reverseSource": false,
+      "loop": false,
+      "target": "head",
+      "contactFrames": [
+        6,
+        7
+      ],
+      "mechanicsIntegrated": false,
+      "columns": 4,
+      "rows": 4,
+      "file": "round_kick_head-atlas.png",
+      "scale": 0.2548262548262548,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 90,
+          "h": 60
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "file": "quadros/round_kick_head_000.png",
+          "duration": 45,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.185947772096418,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 95,
+            "y": 7,
+            "w": 188,
+            "h": 259
+          },
+          "draw": {
+            "x": 43.45632239382239,
+            "y": 22.627413127413135,
+            "w": 47.907335907335906,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "file": "quadros/round_kick_head_001.png",
+          "duration": 30,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 3.1866009341092374,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 473,
+            "y": 7,
+            "w": 193,
+            "h": 259
+          },
+          "draw": {
+            "x": 43.64281224746341,
+            "y": 22.627413127413135,
+            "w": 49.18146718146718,
+            "h": 66
+          }
+        },
+        {
+          "index": 2,
+          "file": "quadros/round_kick_head_002.png",
+          "duration": 30,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -14.580041580041597,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 871,
+            "y": 7,
+            "w": 182,
+            "h": 259
+          },
+          "draw": {
+            "x": 39.03088803088803,
+            "y": 22.627413127413135,
+            "w": 46.37837837837838,
+            "h": 66
+          }
+        },
+        {
+          "index": 3,
+          "file": "quadros/round_kick_head_003.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -11.62061864206454,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1278,
+            "y": 6,
+            "w": 147,
+            "h": 260
+          },
+          "draw": {
+            "x": 39.01400431908906,
+            "y": 22.37258687258688,
+            "w": 37.45945945945946,
+            "h": 66.25482625482626
+          }
+        },
+        {
+          "index": 4,
+          "file": "quadros/round_kick_head_004.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -11.525778011458907,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 85,
+            "y": 276,
+            "w": 200,
+            "h": 255
+          },
+          "draw": {
+            "x": 29.170800340291862,
+            "y": 23.646718146718143,
+            "w": 50.965250965250966,
+            "h": 64.98069498069498
+          }
+        },
+        {
+          "index": 5,
+          "file": "quadros/round_kick_head_005.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -11.80956340956341,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 478,
+            "y": 276,
+            "w": 255,
+            "h": 255
+          },
+          "draw": {
+            "x": 28.128957528957535,
+            "y": 23.646718146718143,
+            "w": 64.98069498069498,
+            "h": 64.98069498069498
+          }
+        },
+        {
+          "index": 6,
+          "file": "quadros/round_kick_head_006.png",
+          "duration": 45,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -11.552088314800208,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 829,
+            "y": 280,
+            "w": 308,
+            "h": 251
+          },
+          "draw": {
+            "x": 24.791244028532148,
+            "y": 24.666023166023166,
+            "w": 78.48648648648648,
+            "h": 63.96138996138996
+          }
+        },
+        {
+          "index": 7,
+          "file": "quadros/round_kick_head_007.png",
+          "duration": 40,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -11.56007479091216,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1194,
+            "y": 277,
+            "w": 314,
+            "h": 254
+          },
+          "draw": {
+            "x": 24.040572188113174,
+            "y": 23.9015444015444,
+            "w": 80.01544401544402,
+            "h": 64.72586872586872
+          }
+        },
+        {
+          "index": 8,
+          "file": "quadros/round_kick_head_008.png",
+          "duration": 35,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -11.753646201533533,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 50,
+            "y": 540,
+            "w": 301,
+            "h": 243
+          },
+          "draw": {
+            "x": 26.386872586872585,
+            "y": 26.704633204633204,
+            "w": 76.7027027027027,
+            "h": 61.922779922779924
+          }
+        },
+        {
+          "index": 9,
+          "file": "quadros/round_kick_head_009.png",
+          "duration": 30,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -11.813110983323751,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 500,
+            "y": 538,
+            "w": 152,
+            "h": 246
+          },
+          "draw": {
+            "x": 37.89673868397273,
+            "y": 25.940154440154444,
+            "w": 38.73359073359073,
+            "h": 62.687258687258684
+          }
+        },
+        {
+          "index": 10,
+          "file": "quadros/round_kick_head_010.png",
+          "duration": 30,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -11.527332194575356,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 862,
+            "y": 539,
+            "w": 157,
+            "h": 244
+          },
+          "draw": {
+            "x": 34.26732543681696,
+            "y": 26.449806949806955,
+            "w": 40.00772200772201,
+            "h": 62.17760617760617
+          }
+        },
+        {
+          "index": 11,
+          "file": "quadros/round_kick_head_011.png",
+          "duration": 35,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -11.99490223370819,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1277,
+            "y": 541,
+            "w": 156,
+            "h": 242
+          },
+          "draw": {
+            "x": 43.108999108999114,
+            "y": 26.95945945945946,
+            "w": 39.75289575289575,
+            "h": 61.66795366795367
+          }
+        },
+        {
+          "index": 12,
+          "file": "quadros/round_kick_head_012.png",
+          "duration": 35,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -11.722972972972972,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 110,
+            "y": 792,
+            "w": 186,
+            "h": 226
+          },
+          "draw": {
+            "x": 44.38803088803088,
+            "y": 31.036679536679536,
+            "w": 47.397683397683394,
+            "h": 57.59073359073359
+          }
+        },
+        {
+          "index": 13,
+          "file": "quadros/round_kick_head_013.png",
+          "duration": 40,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -3.569445250370112,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 479,
+            "y": 790,
+            "w": 192,
+            "h": 228
+          },
+          "draw": {
+            "x": 43.690090090090095,
+            "y": 30.52702702702703,
+            "w": 48.92664092664093,
+            "h": 58.100386100386096
+          }
+        },
+        {
+          "index": 14,
+          "file": "quadros/round_kick_head_014.png",
+          "duration": 45,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -5.449453621867424,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 858,
+            "y": 791,
+            "w": 193,
+            "h": 227
+          },
+          "draw": {
+            "x": 43.95515295515296,
+            "y": 30.781853281853287,
+            "w": 49.18146718146718,
+            "h": 57.84555984555984
+          }
+        },
+        {
+          "index": 15,
+          "file": "quadros/round_kick_head_015.png",
+          "duration": 60,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -2.8858708332392697,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1248,
+            "y": 790,
+            "w": 182,
+            "h": 228
+          },
+          "draw": {
+            "x": 43.920062920062925,
+            "y": 30.52702702702703,
+            "w": 46.37837837837838,
+            "h": 58.100386100386096
+          }
+        }
+      ],
+      "totalMs": 570
+    },
+    {
+      "id": "combo_punch_kick",
+      "label": "Ligação soco → chute",
+      "reverseSource": false,
+      "loop": false,
+      "target": "mixed",
+      "contactFrames": [
+        4,
+        10,
+        11
+      ],
+      "mechanicsIntegrated": false,
+      "registration": "hip",
+      "columns": 4,
+      "rows": 4,
+      "file": "combo_punch_kick-atlas.png",
+      "scale": 0.2558139534883721,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 99,
+          "h": 63
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "quadros/combo_punch_kick_000.png",
+          "duration": 35,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 3.6865188953488346,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 40,
+            "y": 67,
+            "w": 207,
+            "h": 258
+          },
+          "draw": {
+            "x": 40.4203488372093,
+            "y": 22.627906976744185,
+            "w": 52.95348837209303,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "quadros/combo_punch_kick_001.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.844935704514369,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 333,
+            "y": 67,
+            "w": 245,
+            "h": 258
+          },
+          "draw": {
+            "x": 39.75786593707251,
+            "y": 22.627906976744185,
+            "w": 62.674418604651166,
+            "h": 66
+          }
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "quadros/combo_punch_kick_002.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 5.491426015844629,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 636,
+            "y": 68,
+            "w": 290,
+            "h": 257
+          },
+          "draw": {
+            "x": 37.980066445182736,
+            "y": 22.883720930232556,
+            "w": 74.18604651162791,
+            "h": 65.74418604651163
+          }
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "quadros/combo_punch_kick_003.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.746230333954785,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 976,
+            "y": 66,
+            "w": 261,
+            "h": 259
+          },
+          "draw": {
+            "x": 38.716514571680875,
+            "y": 22.372093023255815,
+            "w": 66.76744186046511,
+            "h": 66.25581395348837
+          }
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "file": "quadros/combo_punch_kick_004.png",
+          "duration": 35,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 5.957909120137174,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 29,
+            "y": 372,
+            "w": 274,
+            "h": 265
+          },
+          "draw": {
+            "x": 39.70348837209302,
+            "y": 20.837209302325576,
+            "w": 70.09302325581396,
+            "h": 67.79069767441861
+          }
+        },
+        {
+          "index": 5,
+          "sourceIndex": 5,
+          "file": "quadros/combo_punch_kick_005.png",
+          "duration": 25,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 9.037966154986345,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 374,
+            "y": 372,
+            "w": 230,
+            "h": 265
+          },
+          "draw": {
+            "x": 40.521442287177294,
+            "y": 20.837209302325576,
+            "w": 58.83720930232558,
+            "h": 67.79069767441861
+          }
+        },
+        {
+          "index": 6,
+          "sourceIndex": 6,
+          "file": "quadros/combo_punch_kick_006.png",
+          "duration": 25,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 27.66567478483795,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 708,
+            "y": 370,
+            "w": 173,
+            "h": 266
+          },
+          "draw": {
+            "x": 56.133720930232556,
+            "y": 20.581395348837205,
+            "w": 44.25581395348837,
+            "h": 68.04651162790698
+          }
+        },
+        {
+          "index": 7,
+          "sourceIndex": 7,
+          "file": "quadros/combo_punch_kick_007.png",
+          "duration": 25,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 1.81676275161227,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1035,
+            "y": 370,
+            "w": 158,
+            "h": 267
+          },
+          "draw": {
+            "x": 53.73546511627907,
+            "y": 20.325581395348834,
+            "w": 40.418604651162795,
+            "h": 68.30232558139535
+          }
+        },
+        {
+          "index": 8,
+          "sourceIndex": 8,
+          "file": "quadros/combo_punch_kick_008.png",
+          "duration": 20,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 3.034321325429395,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 71,
+            "y": 679,
+            "w": 154,
+            "h": 240
+          },
+          "draw": {
+            "x": 50.68062015503876,
+            "y": 27.23255813953488,
+            "w": 39.395348837209305,
+            "h": 61.395348837209305
+          }
+        },
+        {
+          "index": 9,
+          "sourceIndex": 9,
+          "file": "quadros/combo_punch_kick_009.png",
+          "duration": 20,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -1.6822437006710926,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 358,
+            "y": 679,
+            "w": 209,
+            "h": 239
+          },
+          "draw": {
+            "x": 50.13219094247246,
+            "y": 27.48837209302325,
+            "w": 53.46511627906977,
+            "h": 61.139534883720934
+          }
+        },
+        {
+          "index": 10,
+          "sourceIndex": 10,
+          "file": "quadros/combo_punch_kick_010.png",
+          "duration": 45,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -0.8038924624773187,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 625,
+            "y": 679,
+            "w": 298,
+            "h": 239
+          },
+          "draw": {
+            "x": 44.95348837209301,
+            "y": 27.48837209302325,
+            "w": 76.23255813953489,
+            "h": 61.139534883720934
+          }
+        },
+        {
+          "index": 11,
+          "sourceIndex": 11,
+          "file": "quadros/combo_punch_kick_011.png",
+          "duration": 35,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -0.6232012228409626,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 947,
+            "y": 679,
+            "w": 286,
+            "h": 239
+          },
+          "draw": {
+            "x": 43.24496124031005,
+            "y": 27.48837209302325,
+            "w": 73.16279069767442,
+            "h": 61.139534883720934
+          }
+        },
+        {
+          "index": 12,
+          "sourceIndex": 12,
+          "file": "quadros/combo_punch_kick_012.png",
+          "duration": 30,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -1.3770595191170705,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 75,
+            "y": 950,
+            "w": 171,
+            "h": 258
+          },
+          "draw": {
+            "x": 53.15348837209302,
+            "y": 22.627906976744185,
+            "w": 43.74418604651163,
+            "h": 66
+          }
+        },
+        {
+          "index": 13,
+          "sourceIndex": 13,
+          "file": "quadros/combo_punch_kick_013.png",
+          "duration": 35,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 13.110043444927157,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 385,
+            "y": 951,
+            "w": 193,
+            "h": 258
+          },
+          "draw": {
+            "x": 54.93687707641195,
+            "y": 22.627906976744185,
+            "w": 49.372093023255815,
+            "h": 66
+          }
+        },
+        {
+          "index": 14,
+          "sourceIndex": 14,
+          "file": "quadros/combo_punch_kick_014.png",
+          "duration": 40,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 1.1278791986577463,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 655,
+            "y": 951,
+            "w": 226,
+            "h": 259
+          },
+          "draw": {
+            "x": 39.769969666329615,
+            "y": 22.372093023255815,
+            "w": 57.81395348837209,
+            "h": 66.25581395348837
+          }
+        },
+        {
+          "index": 15,
+          "sourceIndex": 15,
+          "file": "quadros/combo_punch_kick_015.png",
+          "duration": 55,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -6.787596899224798,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 981,
+            "y": 952,
+            "w": 229,
+            "h": 257
+          },
+          "draw": {
+            "x": 37.344186046511616,
+            "y": 22.883720930232556,
+            "w": 58.58139534883721,
+            "h": 65.74418604651163
+          }
+        }
+      ],
+      "totalMs": 485
+    },
+    {
+      "id": "combo_kick_punch",
+      "label": "Ligação chute → soco",
+      "reverseSource": false,
+      "loop": false,
+      "target": "mixed",
+      "contactFrames": [
+        4,
+        9,
+        10
+      ],
+      "mechanicsIntegrated": false,
+      "registration": "hip",
+      "columns": 4,
+      "rows": 4,
+      "file": "combo_kick_punch-atlas.png",
+      "scale": 0.22448979591836735,
+      "calibration": {
+        "method": "single scale per source, reviewed pose height against approved base",
+        "targetAnchorHeight": 66,
+        "baseNativeHair": {
+          "w": 113,
+          "h": 77
+        },
+        "baseScale": 0.18591549295774648,
+        "targetHairWidth": 21.008450704225353,
+        "sourceAnchor": {
+          "w": 97,
+          "h": 65
+        },
+        "anchorFrame": 0
+      },
+      "frames": [
+        {
+          "index": 0,
+          "sourceIndex": 0,
+          "file": "quadros/combo_kick_punch_000.png",
+          "duration": 40,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -5.584960470674757,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 49,
+            "y": 7,
+            "w": 219,
+            "h": 294
+          },
+          "draw": {
+            "x": 40.94429123000552,
+            "y": 22.612244897959187,
+            "w": 49.16326530612245,
+            "h": 66
+          }
+        },
+        {
+          "index": 1,
+          "sourceIndex": 1,
+          "file": "quadros/combo_kick_punch_001.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 29.756924198250733,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 424,
+            "y": 9,
+            "w": 189,
+            "h": 290
+          },
+          "draw": {
+            "x": 58.61224489795919,
+            "y": 23.51020408163265,
+            "w": 42.42857142857143,
+            "h": 65.10204081632654
+          }
+        },
+        {
+          "index": 2,
+          "sourceIndex": 2,
+          "file": "quadros/combo_kick_punch_002.png",
+          "duration": 25,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 7.994331065759631,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 740,
+            "y": 9,
+            "w": 148,
+            "h": 288
+          },
+          "draw": {
+            "x": 56.3922902494331,
+            "y": 23.959183673469383,
+            "w": 33.224489795918366,
+            "h": 64.65306122448979
+          }
+        },
+        {
+          "index": 3,
+          "sourceIndex": 3,
+          "file": "quadros/combo_kick_punch_003.png",
+          "duration": 20,
+          "phase": "preparação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 9.560624249699861,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1047,
+            "y": 12,
+            "w": 259,
+            "h": 287
+          },
+          "draw": {
+            "x": 52.214285714285715,
+            "y": 24.183673469387756,
+            "w": 58.142857142857146,
+            "h": 64.42857142857143
+          }
+        },
+        {
+          "index": 4,
+          "sourceIndex": 4,
+          "file": "quadros/combo_kick_punch_004.png",
+          "duration": 40,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 8.204567541302232,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 20,
+            "y": 310,
+            "w": 287,
+            "h": 287
+          },
+          "draw": {
+            "x": 52.40136054421769,
+            "y": 24.183673469387756,
+            "w": 64.42857142857143,
+            "h": 64.42857142857143
+          }
+        },
+        {
+          "index": 5,
+          "sourceIndex": 5,
+          "file": "quadros/combo_kick_punch_005.png",
+          "duration": 25,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 7.293161475116351,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 415,
+            "y": 310,
+            "w": 155,
+            "h": 287
+          },
+          "draw": {
+            "x": 56.569387755102035,
+            "y": 24.183673469387756,
+            "w": 34.795918367346935,
+            "h": 64.42857142857143
+          }
+        },
+        {
+          "index": 6,
+          "sourceIndex": 6,
+          "file": "quadros/combo_kick_punch_006.png",
+          "duration": 25,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 19.146583789440932,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 707,
+            "y": 312,
+            "w": 236,
+            "h": 287
+          },
+          "draw": {
+            "x": 40.29330193615908,
+            "y": 24.183673469387756,
+            "w": 52.97959183673469,
+            "h": 64.42857142857143
+          }
+        },
+        {
+          "index": 7,
+          "sourceIndex": 7,
+          "file": "quadros/combo_kick_punch_007.png",
+          "duration": 25,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 1.4291840091299706,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1028,
+            "y": 312,
+            "w": 263,
+            "h": 287
+          },
+          "draw": {
+            "x": 33.11493018259936,
+            "y": 24.183673469387756,
+            "w": 59.04081632653061,
+            "h": 64.42857142857143
+          }
+        },
+        {
+          "index": 8,
+          "sourceIndex": 8,
+          "file": "quadros/combo_kick_punch_008.png",
+          "duration": 20,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 3.0145645835974144,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 36,
+            "y": 604,
+            "w": 280,
+            "h": 289
+          },
+          "draw": {
+            "x": 35.17871720116618,
+            "y": 23.734693877551024,
+            "w": 62.857142857142854,
+            "h": 64.87755102040816
+          }
+        },
+        {
+          "index": 9,
+          "sourceIndex": 9,
+          "file": "quadros/combo_kick_punch_009.png",
+          "duration": 20,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -11.721679721802658,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 331,
+            "y": 606,
+            "w": 304,
+            "h": 286
+          },
+          "draw": {
+            "x": 32.23604622571921,
+            "y": 24.40816326530613,
+            "w": 68.24489795918367,
+            "h": 64.20408163265306
+          }
+        },
+        {
+          "index": 10,
+          "sourceIndex": 10,
+          "file": "quadros/combo_kick_punch_010.png",
+          "duration": 40,
+          "phase": "contato",
+          "active": true,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 0.7758483445529575,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 670,
+            "y": 607,
+            "w": 309,
+            "h": 285
+          },
+          "draw": {
+            "x": 35.06456043956045,
+            "y": 24.632653061224488,
+            "w": 69.36734693877551,
+            "h": 63.97959183673469
+          }
+        },
+        {
+          "index": 11,
+          "sourceIndex": 11,
+          "file": "quadros/combo_kick_punch_011.png",
+          "duration": 35,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": 4.174489070681565,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1044,
+            "y": 606,
+            "w": 228,
+            "h": 287
+          },
+          "draw": {
+            "x": 41.159766763848374,
+            "y": 24.183673469387756,
+            "w": 51.183673469387756,
+            "h": 64.42857142857143
+          }
+        },
+        {
+          "index": 12,
+          "sourceIndex": 12,
+          "file": "quadros/combo_kick_punch_012.png",
+          "duration": 30,
+          "phase": "continuação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -12.008205025094538,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 43,
+            "y": 901,
+            "w": 229,
+            "h": 285
+          },
+          "draw": {
+            "x": 41.4794797039695,
+            "y": 24.632653061224488,
+            "w": 51.40816326530612,
+            "h": 63.97959183673469
+          }
+        },
+        {
+          "index": 13,
+          "sourceIndex": 13,
+          "file": "quadros/combo_kick_punch_013.png",
+          "duration": 35,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -17.430487537265098,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 380,
+            "y": 899,
+            "w": 222,
+            "h": 289
+          },
+          "draw": {
+            "x": 40.94996708360763,
+            "y": 23.734693877551024,
+            "w": 49.83673469387755,
+            "h": 64.87755102040816
+          }
+        },
+        {
+          "index": 14,
+          "sourceIndex": 14,
+          "file": "quadros/combo_kick_punch_014.png",
+          "duration": 40,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -0.5293850873682756,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 715,
+            "y": 901,
+            "w": 229,
+            "h": 287
+          },
+          "draw": {
+            "x": 40.2938775510204,
+            "y": 24.183673469387756,
+            "w": 51.40816326530612,
+            "h": 64.42857142857143
+          }
+        },
+        {
+          "index": 15,
+          "sourceIndex": 15,
+          "file": "quadros/combo_kick_punch_015.png",
+          "duration": 55,
+          "phase": "recuperação",
+          "active": false,
+          "contactMarker": null,
+          "lift": 0,
+          "supportSide": null,
+          "support": {
+            "x": -15.811806012727684,
+            "y": 0
+          },
+          "root": {
+            "x": 64,
+            "y": 88
+          },
+          "source": {
+            "x": 1057,
+            "y": 900,
+            "w": 214,
+            "h": 288
+          },
+          "draw": {
+            "x": 42.64353741496596,
+            "y": 23.959183673469383,
+            "w": 48.04081632653061,
+            "h": 64.65306122448979
+          }
+        }
+      ],
+      "totalMs": 500
+    }
+  ]
+}

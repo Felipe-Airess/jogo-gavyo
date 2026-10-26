@@ -1,0 +1,104 @@
+{
+  "date": "2026-10-26T04:02:08.085Z",
+  "checks": [
+    "13 sequências, 179 quadros selecionados e nearest-neighbor",
+    "reprodução, pausa e passo de quadro",
+    "todas as sequências selecionáveis; fases de contato propostas identificadas e sem alegar integração",
+    "ação termina no último quadro e pode reiniciar",
+    "câmera lenta, sobreposição do quadro anterior, fundo e guias",
+    "tempos, 179 recortes completos e uma única escala uniforme por folha",
+    "pesado exclui a preparação repetida e não reproduz a célula vazia",
+    "13 atlas decodificam, têm transparência real e correspondem a recortes válidos das fontes",
+    "GIF da proposta de soco baixo decodifica"
+  ],
+  "errors": [],
+  "images": [
+    {
+      "id": "hook_body",
+      "width": 512,
+      "height": 288,
+      "transparent": 0.8879123263888888
+    },
+    {
+      "id": "jab_head",
+      "width": 512,
+      "height": 288,
+      "transparent": 0.8858846028645834
+    },
+    {
+      "id": "jab_body",
+      "width": 512,
+      "height": 288,
+      "transparent": 0.8923814561631944
+    },
+    {
+      "id": "cross_head",
+      "width": 512,
+      "height": 288,
+      "transparent": 0.8811170789930556
+    },
+    {
+      "id": "cross_body",
+      "width": 512,
+      "height": 288,
+      "transparent": 0.8945448133680556
+    },
+    {
+      "id": "overhand_heavy",
+      "width": 512,
+      "height": 384,
+      "transparent": 0.8675638834635416
+    },
+    {
+      "id": "reverse_strike",
+      "width": 512,
+      "height": 288,
+      "transparent": 0.8808729383680556
+    },
+    {
+      "id": "running_punch",
+      "width": 512,
+      "height": 384,
+      "transparent": 0.8828175862630209
+    },
+    {
+      "id": "low_kick",
+      "width": 512,
+      "height": 288,
+      "transparent": 0.8920966254340278
+    },
+    {
+      "id": "round_kick_body",
+      "width": 512,
+      "height": 384,
+      "transparent": 0.9002176920572916
+    },
+    {
+      "id": "round_kick_head",
+      "width": 512,
+      "height": 384,
+      "transparent": 0.8871103922526041
+    },
+    {
+      "id": "combo_punch_kick",
+      "width": 512,
+      "height": 384,
+      "transparent": 0.8629913330078125
+    },
+    {
+      "id": "combo_kick_punch",
+      "width": 512,
+      "height": 384,
+      "transparent": 0.8889007568359375
+    }
+  ],
+  "technicalOnly": true,
+  "artStatus": "candidato para revisão",
+  "gameRegression": {
+    "passed": 76,
+    "failed": 0,
+    "gameVersion": "0.6.1",
+    "runtimeChanged": false
+  },
+  "mobileImplemented": false
+}

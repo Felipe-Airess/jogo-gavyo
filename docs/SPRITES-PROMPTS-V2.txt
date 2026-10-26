@@ -1,0 +1,30 @@
+Ferramenta integrada image_gen. Referência: docs/references/sorriso-aprovado.jpg.
+Versão final: pele clara por correção explícita do usuário.
+
+1. CRIAÇÃO DO ATLAS (o tom de pele inicial foi rejeitado; a etapa 3 prevalece):
+Use case: stylized-concept. Asset type: production game character sprite atlas, NOT a character poster.
+Input image 1 is the approved identity and costume reference ONLY; do not copy its layout, lettering, facial panels or background. Create NEW coherent game animation frames of THIS EXACT Sorriso character.
+Output one square transparent PNG sprite sheet, 1024x1024 pixels, an exact uniform 4 columns by 4 rows grid. Each cell exactly256x256. All 16 cells same scale, same standing height and shared feet baseline at cell y=240, root at cell x=128. Transparent empty margins. No grid lines or labels. Full figure fits in every cell even extended punch. Body upright height about208 source pixels =52 logical pixel units; use crisp pixel art with an approximately64x64 logical grid per cell (each logical pixel 4 source pixels). NO painterly smoothing, NO tiny soft subpixel details. Clear expressive high quality restrained game pixel art. Serious slim teen proportions, about5.5heads tall, not chibi, not block dummy.
+IDENTITY INVARIANTS for EVERY frame: brown/tan skin, youthful angular face, LARGE irregular voluminous dark brown/black CURLY HAIR with visible warm brown curl highlights and curls draping forehead and nape; white short sleeve school polo with dark green collar/cuffs, green and gold stripes OVER BOTH SHOULDERS; LARGE GREEN LOWER THIRD OF POLO and distinct diagonal GOLD slash curving across lower green section; tiny blue school crest on left chest. Loose straight blue jeans with folds and off-white grey canvas sneakers. Match the reference's gameplay figures, hair volume, lanky proportions and exact uniform pattern. No crown, jewelry, gang clothing, neon, slogan, text, weapons or extra people. Same clothing motif never changes across frames.
+VIEW: full body three-quarter SIDE VIEW FACING SCREEN RIGHT in ALL cells. Side-scrolling beat em up, camera at waist height. Feet on common ground plane, no jumping. Combat guard hands outside pockets. Keep head, torso, costume silhouette consistent; move limbs anatomically for animation.
+Frame order left to right top to bottom:
+ROW1: cell0 idle guard neutral; cell1 idle guard small breathing change; cell2 walking RIGHT left leg forward right arm forward; cell3 walk passing legs.
+ROW2: cell4 walk right leg forward left arm forward; cell5 walk second passing legs; cell6 running RIGHT stride left leg forward lean slightly; cell7 run passing pose.
+ROW3: cell8 running RIGHT stride right leg forward; cell9 run second passing pose; cell10 punch anticipation fist near chin weight pulled back; cell11 punch fully extended RIGHT horizontal fist chest-height, strong planted wide stance.
+ROW4: cell12 punch recovery retract fist; cell13 hurt recoil head and torso leaning back LEFT feet still planted; cell14 hurt recovering guard, feet baseline maintained; cell15 repeat neutral guard.
+No action trails, stars, motion lines, shadows, floor, particles or on-image text. These are isolated clean alpha game sprites. Entire atlas only the exact same young character repeated16times with these controlled poses. Transparent background genuinely alpha.
+
+2. CORREÇÃO DE PASSADAS:
+Edit target: attached transparent 4x4 Sorriso sprite atlas. Keep identity, hair, costume, facial features, palette, pixel style, transparent background, grid dimensions and ALL other cells unchanged. This is a technical animation correction.
+ONLY modify FOUR cells: row2 columns1-2 (frames4,5) and row3 columns1-2 (frames8,9), counting rows/columns from1.
+Problem: walk frames4,5 and run frames8,9 currently repeat the same leg phase as preceding frames. They must depict the OPPOSITE stride of their same-facing counterpart frames2,3 and6,7.
+For row2 col1: walk RIGHT with NEAR leg extended BACK to LEFT, FAR leg extended FORWARD to RIGHT. Near arm forward and far arm back. Reverse the leg phase of row1 col3, do not horizontally mirror the character, KEEP FACE TO RIGHT.
+For row2 col2: opposite walk passing legs of row1 col4; near knee passing forward, far foot under body. Still FACE RIGHT.
+For row3 col1: run RIGHT with NEAR leg back LEFT extended, FAR leg forward RIGHT bent, opposite stride of row2 col3. Opposite arm swing. Still FACE RIGHT.
+For row3 col2: run RIGHT with near knee lifted FORWARD RIGHT and far foot behind LEFT, opposite passing phase of row2 col4. Still FACE RIGHT.
+IMPORTANT near/far limbs must genuinely exchange phases, not repeat the same foot placement or change only arm bend. No new cells. No changes to idle, punch, hurt cells. No props, effects, shadows, labels or backgrounds. Keep same-scale characters with consistent planted feet baseline. Output transparent PNG.
+
+3. CORREÇÃO DE PELE — DIREÇÃO FINAL:
+Edit target: this existing Sorriso 4x4 transparent sprite atlas. User correction is authoritative: Sorriso is WHITE with FAIR/LIGHT skin, NOT brown/tan, NOT sunburned or orange.
+Change ONLY the SKIN PALETTE consistently on the FACE, EARS, NECK, ARMS and HANDS of ALL16 figures. Replace the currently orange/brown skin with fair light neutral peach/beige skin, soft pink undertone, desaturated cool beige shadows. Suggested light-skin ramp: highlight #f4dfcb, base #e9c7ae, midtone #d5ad97, shadow #ae8578, darkest skin crease #785951. Do not leave tan/orange arms with a light face. All exposed skin must read as light skin under neutral lighting.
+Preserve EVERY pose, limb placement, face drawing, curl shape, hair color, white/green/gold school polo pattern, blue jeans, grey/offwhite shoes, proportions, 4x4 layout, alpha background and pixel art style. Keep same dimensions. This is only a skin-color correction, not a redesign or resampling. Do not add lighting tint, outlines, text, shadows, props, other characters or background. All face RIGHT, unchanged from input. Actual transparent PNG.

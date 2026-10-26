@@ -1,0 +1,41 @@
+{
+  "checks": [
+    "golpe pesado por teclado carrega e solta o alvo",
+    "andar com alvo agarrado",
+    "soco, cotovelada, joelhada e queda têm contatos próprios",
+    "defesa no instante certo e resposta imediata com braço livre",
+    "sangue persistente e limpeza em repouso",
+    "três finalizações com comandos e animações distintos",
+    "corrida, largada e freada sem reiniciar posição",
+    "debug e pausa",
+    "áudio ativado por interação e botão de silêncio",
+    "390 px sem rolagem lateral"
+  ],
+  "runFrames": [
+    274,
+    275,
+    276,
+    277,
+    258,
+    259,
+    260,
+    261,
+    262,
+    263,
+    264,
+    265
+  ],
+  "audit": {
+    "renderer": 1,
+    "canvas": [
+      320,
+      180
+    ],
+    "fps": 56.991105559282005,
+    "revision": "0.6.0",
+    "audio": "running"
+  },
+  "smooth": false,
+  "date": "2026-10-25T23:19:48.096Z",
+  "errors": []
+}

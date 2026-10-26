@@ -1,0 +1,33 @@
+GAVIÃO — Reformulação / lote 01 / Base e idle
+Ferramenta: image_gen integrada. Produção de imagem 2D, sem modelagem 3D.
+Estado: candidato para revisão visual do usuário, antes da integração.
+
+1. PROPOSTA DA POSE
+Referências: ficha aprovada do Sorriso + sprites originais enviados pelo usuário.
+Use case: stylized-concept, 2D pixel game character master.
+Asset: ONE master full-body combat idle pose for Sorriso from GAVIÃO. True transparent background.
+Reference 1: approved identity, hair shape, uniform details. Reference 2: sober gameplay pixel-art rendering only, NOT its frontal idle or varying proportions. Respect user corrections over reference colors.
+Subject: young slim FAIR WHITE skinned Brazilian schoolboy, pale neutral peach skin with subtle warm shadows (base #efcbb7, light #f8e1ce, shade #c89a87). Thick BLACK curly medium-long hair, fully grown sides covering upper ears and curls at nape, no fade, no brown/copper highlights. Same youthful face and dark eyes from approved reference, restrained determined expression.
+Costume: white short-sleeve school polo, green collar and sleeve cuffs, thin green/yellow shoulder bands, green LOWER SHIRT PANEL with a restrained yellow diagonal detail as approved reference, tiny school crest, worn blue jeans and off-white sneakers. Keep shirt/pants believable, no extra accessories.
+Pose: single full body, three-quarter SIDE VIEW FACING RIGHT for a side-scrolling beat-em-up. Natural compact combat guard, both fists near chest/chin, elbows bent, shoulders relaxed, knees softly flexed, torso upright with slight forward readiness. Front foot right, back foot left, both soles flat on same ground plane, stance roughly shoulder width. NOT frontal, NOT deep crouch, NOT full boxing lunge, not muscular superhero. The same pose will start/end attacks, walking and running.
+Rendering: beautiful sober, clean, precise PIXEL ART with controlled clusters, dark crisp contours, deliberate limited shading. Proportions close to bottom gameplay sprites of reference1: natural slim teen, moderately caricatured head/hair, no chibi. Think eventual 64-68 pixels tall gameplay figure, enlarged cleanly for source, no soft painting, no antialiasing, no smooth gradients. Hands, legs, knees and shoes anatomically coherent and fully visible. Stable body lengths.
+Composition: just ONE character centered, full hair and both shoes contained with GENEROUS transparent margin all around. No shadow, background, floor, text, frames, labels, numbers, palette swatches, motion trails, stars, crowns or poster styling. This is a usable transparent base sprite, not an illustration sheet.
+
+2. CORREÇÃO DE PALETA
+Entrada: proposta de pose anterior. Selecionada como fonte de direção: fontes/pose-direcao-cor.png.
+Edit this exact sprite. COLOR CORRECTION ONLY; preserve the pose, face identity, body proportions, every silhouette, pixel art style, full outfit, transparent background and canvas framing.
+1. ALL hair must be BLACK with neutral charcoal/blue-black highlights only (#101218 #1b1e26 #2d313b). Remove EVERY brown, copper, red or tan highlight in the hair. It is naturally black, full curly hair, never brown. Keep the exact curls and full sides.
+2. The exposed skin is FAIR WHITE NEUTRAL PEACH, not orange or tanned: base #efcbb7, highlights #f8e1ce, shadow #c89a87. Apply consistently to face, neck, arms, knuckles. Avoid saturated orange/yellow skin.
+Change no other colors. Keep the white polo with green collar/cuffs/shoulders and green lower panel/yellow diagonal, blue jeans, off-white sneakers exactly intact. No new details, no text, no shadow. True alpha transparency.
+
+3. IDLE DERIVADO
+Entrada: pose com paleta corrigida. Fonte preservada: fontes/idle-12-fonte.png.
+Use case: identity-preserve / production 2D sprite animation.
+Edit/derive the supplied SINGLE master sprite into ONE precisely organized idle breathing sprite sheet. The supplied master is the exact model: retain his exact face, BLACK curly hair silhouette, fair pale skin, body proportions, guard, wardrobe details, crest, green lower panel/yellow diagonal and pixel shading. No redesign.
+Layout: EXACTLY 4 columns x 3 rows = 12 full-body frames read left-to-right, top-to-bottom, on a genuinely transparent background. Every cell has equal size and GENEROUS clear margin; all hair, hands, knees, shoes fully inside its own cell. No labels, numbers, grid, text, shadow or scenery.
+Animation: a restrained, natural COMBAT IDLE BREATHING LOOP in the SAME 3/4 right-facing guard as the master. Feet remain flat and COMPLETELY FIXED at identical cell coordinates, knees gently flexed but stable. Head shape, eye position, skull size, hair volume, limb lengths, stance width, camera and character pixel scale remain identical across all 12 frames.
+Only micro movement in upper chest, collar/shoulders and elbows from breathing: slow inhale in frames 0-4; soft peak 5; slower exhale 6-10; frame11 settles naturally into frame0. At eventual 66-pixel character height, the breath should amount to about ONE pixel of chest/shoulder movement, not hopping or bouncing. Hands drift at most one pixel with shoulders, don't punch or change guard. Keep pelvis anchored, legs and shoes identical, hair still BLACK (charcoal highlights only), skin stays fair neutral peach (#efcbb7).
+No squashing, no stretching, no rubber torso, no changing weight/height, no new facial expression, no flickering clothes or hair, no mirrored frames, no frontal turn. Beautiful coherent clean sober pixel art, same density/style as the supplied master. This is a subtle still-ready human breathing loop, not 12 different poses. Frame0 must match the reference guard and frame11 be a seamless precursor to it.
+
+EXPORTAÇÃO
+Recorte por silhueta completa, escala única 66/355, célula128x96, pivô64,88. Registro dos quadros por translação do desenho completo, com nearest-neighbor, para evitar deslizamento causado por arredondamento da exportação. Sem deformação de ossos, membros ou corpo. O modelo-base entregue foi extraído do quadro01 dessa mesma folha de idle. Prévia GIF com paleta global e ampliação inteira4x; os PNGs preservam a cor/alpha da fonte. Medidas em medidas.json.

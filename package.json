@@ -1,0 +1,12 @@
+{
+  "name": "gaviao-prototipo",
+  "version": "0.6.1",
+  "private": true,
+  "description": "Protótipo local do GAVIÃO — Sorriso, corredor escolar e treino de combate.",
+  "scripts": {
+    "start": "node scripts/server.cjs --open",
+    "serve": "node scripts/server.cjs",
+    "test": "node --test tests/battle.test.mjs tests/poses.test.mjs tests/weight.test.mjs tests/context.test.mjs tests/fatigue.test.mjs tests/asset-fixes.test.mjs",
+    "test:legacy": "node --test tests/combat.test.mjs tests/animation.test.mjs"
+  }
+}

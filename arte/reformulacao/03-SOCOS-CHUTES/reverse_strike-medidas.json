@@ -1,0 +1,122 @@
+[
+  {
+    "frame": 0,
+    "height": 66,
+    "width": 53,
+    "hairWidth": 24.017191977077367,
+    "hairHeight": 16.074498567335244,
+    "bottom": 88,
+    "top": 23,
+    "alphaCount": 1510
+  },
+  {
+    "frame": 1,
+    "height": 66,
+    "width": 48,
+    "hairWidth": 23.63896848137536,
+    "hairHeight": 16.830945558739256,
+    "bottom": 88,
+    "top": 23,
+    "alphaCount": 1440
+  },
+  {
+    "frame": 2,
+    "height": 67,
+    "width": 53,
+    "hairWidth": 23.449856733524356,
+    "hairHeight": 16.26361031518625,
+    "bottom": 88,
+    "top": 22,
+    "alphaCount": 1510
+  },
+  {
+    "frame": 3,
+    "height": 66,
+    "width": 54,
+    "hairWidth": 23.63896848137536,
+    "hairHeight": 15.696275071633238,
+    "bottom": 88,
+    "top": 23,
+    "alphaCount": 1520
+  },
+  {
+    "frame": 4,
+    "height": 61,
+    "width": 55,
+    "hairWidth": 24.017191977077367,
+    "hairHeight": 14.561604584527222,
+    "bottom": 88,
+    "top": 28,
+    "alphaCount": 1444
+  },
+  {
+    "frame": 5,
+    "height": 62,
+    "width": 62,
+    "hairWidth": 23.828080229226362,
+    "hairHeight": 14.561604584527222,
+    "bottom": 88,
+    "top": 27,
+    "alphaCount": 1449
+  },
+  {
+    "frame": 6,
+    "height": 62,
+    "width": 66,
+    "hairWidth": 24.96275071633238,
+    "hairHeight": 14.561604584527222,
+    "bottom": 88,
+    "top": 27,
+    "alphaCount": 1527
+  },
+  {
+    "frame": 7,
+    "height": 62,
+    "width": 57,
+    "hairWidth": 24.773638968481375,
+    "hairHeight": 14.750716332378225,
+    "bottom": 88,
+    "top": 27,
+    "alphaCount": 1411
+  },
+  {
+    "frame": 8,
+    "height": 63,
+    "width": 53,
+    "hairWidth": 24.584527220630374,
+    "hairHeight": 14.561604584527222,
+    "bottom": 88,
+    "top": 26,
+    "alphaCount": 1459
+  },
+  {
+    "frame": 9,
+    "height": 63,
+    "width": 53,
+    "hairWidth": 23.449856733524356,
+    "hairHeight": 14.750716332378225,
+    "bottom": 88,
+    "top": 26,
+    "alphaCount": 1444
+  },
+  {
+    "frame": 10,
+    "height": 63,
+    "width": 53,
+    "hairWidth": 23.260744985673355,
+    "hairHeight": 15.318051575931232,
+    "bottom": 88,
+    "top": 26,
+    "alphaCount": 1424
+  },
+  {
+    "frame": 11,
+    "height": 63,
+    "width": 52,
+    "hairWidth": 23.63896848137536,
+    "hairHeight": 15.318051575931232,
+    "bottom": 88,
+    "top": 26,
+    "alphaCount": 1428
+  }
+]

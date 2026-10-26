@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-25T19:45:16.905Z",
+  "browser": "156.0.4314.42",
+  "checks": [
+    "Canvas 320x180 e dois alvos com partes independentes",
+    "inércia e deslize na parada",
+    "corpo abre cabeça e terceiro contato desequilibra",
+    "pesado errado avança e tropeça",
+    "bloqueio sem recuo e desgaste até romper braços",
+    "braços comprometidos não contra-atacam",
+    "clinch após contato e três joelhadas até ceder tronco",
+    "reação persistente do tronco e segundo alvo preservado",
+    "pausa e debug",
+    "390px sem overflow"
+  ],
+  "events": [
+    {
+      "id": 1,
+      "move": "jab",
+      "target": 1,
+      "zone": "body",
+      "blocked": false,
+      "point": {
+        "x": 228.63196698017788,
+        "y": 110.1
+      },
+      "damage": 16,
+      "at": 3258.216666666675
+    },
+    {
+      "id": 2,
+      "move": "cross",
+      "target": 1,
+      "zone": "head",
+      "blocked": false,
+      "point": {
+        "x": 229.4213565972708,
+        "y": 109.6
+      },
+      "damage": 18,
+      "at": 3516.506666666678
+    },
+    {
+      "id": 3,
+      "move": "drive",
+      "target": 1,
+      "zone": "head",
+      "blocked": false,
+      "point": {
+        "x": 238.10944906793065,
+        "y": 109.5
+      },
+      "damage": 24,
+      "at": 3853.1700000000146
+    }
+  ],
+  "stats": {
+    "fps": 49.1220244639197,
+    "heap": 11353006,
+    "audit": {
+      "draws": 47734,
+      "smooth": 0
+    },
+    "frame": [
+      96,
+      80
+    ]
+  },
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:4173/?v=combate-04",
+    "http://127.0.0.1:4173/style.css",
+    "http://127.0.0.1:4173/vendor/phaser.min.js",
+    "http://127.0.0.1:4173/src/main.js",
+    "http://127.0.0.1:4173/src/battle.mjs",
+    "http://127.0.0.1:4173/src/sprite-player.mjs",
+    "http://127.0.0.1:4173/src/art.js",
+    "http://127.0.0.1:4173/src/dummy-view.js",
+    "http://127.0.0.1:4173/src/assets.js",
+    "http://127.0.0.1:4173/src/ragdoll.mjs",
+    "http://127.0.0.1:4173/assets/sorriso-quadros.png",
+    "http://127.0.0.1:4173/assets/sorriso-quadros.json",
+    "blob:http://127.0.0.1:4173/52d2263e-19fb-4e29-b1cd-744743a62179"
+  ]
+}

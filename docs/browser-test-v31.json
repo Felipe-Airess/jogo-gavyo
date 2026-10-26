@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-25T17:36:08.444Z",
+  "browser": "156.0.4314.42",
+  "checks": [
+    "andar/correr e animação articulada",
+    "J J J: jab/direto/gancho com 3 hits e knockback",
+    "ragdoll voa, articula e recebe gravidade",
+    "pausa congela ragdoll e câmera",
+    "queda e recuperação automática",
+    "K: chute com lançamento independente",
+    "reinício restaura corpo e combo",
+    "corrida + J = avanço",
+    "dano e invulnerabilidade",
+    "F2: colisões e vínculos do ragdoll",
+    "390px sem overflow"
+  ],
+  "combo": {
+    "best": 3,
+    "moves": [
+      "jab",
+      "cross",
+      "hook"
+    ],
+    "targetStart": 242,
+    "targetAfter": 261.609403681155
+  },
+  "stats": {
+    "fps": 59.36016556248069,
+    "heap": 8770284,
+    "audit": {
+      "count": 23778,
+      "smoothed": 0
+    },
+    "parts": 13,
+    "animated": [
+      96,
+      80
+    ]
+  },
+  "errors": [],
+  "external": [],
+  "requests": [
+    "http://127.0.0.1:4173/?v=postura-firme-031",
+    "http://127.0.0.1:4173/style.css",
+    "http://127.0.0.1:4173/vendor/phaser.min.js",
+    "http://127.0.0.1:4173/src/main.js",
+    "http://127.0.0.1:4173/src/combat.mjs",
+    "http://127.0.0.1:4173/src/art.js",
+    "http://127.0.0.1:4173/src/assets.js",
+    "http://127.0.0.1:4173/src/character.js",
+    "http://127.0.0.1:4173/src/dummy-view.js",
+    "http://127.0.0.1:4173/src/ragdoll.mjs",
+    "http://127.0.0.1:4173/src/animation.mjs",
+    "http://127.0.0.1:4173/assets/sorriso-rig.png",
+    "http://127.0.0.1:4173/assets/sorriso-rig.json",
+    "blob:http://127.0.0.1:4173/63a7c689-7517-42e8-8235-9f09eb96066b"
+  ]
+}

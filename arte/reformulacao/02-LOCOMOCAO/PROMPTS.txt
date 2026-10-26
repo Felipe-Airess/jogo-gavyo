@@ -1,0 +1,85 @@
+GAVIÃO — LOTE 02 — PROMPTS
+Modo: ferramenta integrada image_gen. Sem API/CLI externa e sem modelagem 3D.
+Entradas: base aprovada do lote 1, guias de pose 2D e poses nativas extraídas como referências. Levantar utiliza os desenhos de abaixar em ordem inversa, não um prompt novo na versão selecionada.
+
+=== Caminhada — criação ===
+Create ONE 8-frame PIXEL ART WALK CYCLE, exact 4 columns x 2 rows.
+Image1 is the APPROVED SORRISO character: copy his exact face, BLACK full curly hair, pale neutral skin, slim body proportions, white/green/yellow school polo including green lower panel/yellow diagonal and small crest, blue jeans, cream sneakers, rendering and pixel density.
+Image2 is a MECHANICS/POSE GUIDE ONLY: follow its EIGHT consecutive leg/arm poses in order. Do not copy its stick-figure style, colors, labels, background or diagrams.
+Every character faces RIGHT in the same 3/4 gameplay view. This is an IN-PLACE WALK, not a run: at least one foot supports body. IMPORTANT: frames2 and6 are PASSING poses with legs near each other beneath hips, one knee bent and lifted. Do not replace them with another wide stride. Frames0/4 are opposite-leg contacts; 1/5 weight absorption; 3/7 swing/up poses. Arms counter-swing opposite to the same-side leg. Grounded feet travel backward through the stance while swing feet recover forward. Maintain natural fixed thigh/shin lengths and head volume, no rubber limbs.
+Exactly8 full sprites, NO extra neutral pose, NO extra mini-character, NO ninth frame. ONE full gait cycle. Same scale/camera in all cells. Large transparent margin around every figure and all hair/hands/feet, no overlap/cropping. Body naturally changes height by at most2 logical pixels through weight transfer; do not resize characters individually to equalize silhouette height.
+Genuinely transparent background. NO text, grid, numbers, shadows, trails or scenery. Black/charcoal hair only, never brown; fair skin exactly like approved sprite. This is the new production source for the same 66px logical Sorriso.
+
+=== Caminhada — correção da proporção ===
+Precise proportion correction on this exact 8-frame pixel-art walking sheet. Preserve ALL eight walking poses, leg and arm lengths/paths, torso size, clothing, shoe positions, pixel shading, black hair and pale skin, transparent background and the 4x2 layout.
+The head plus hair has become oversized relative to the approved model. REDRAW ONLY the complete head/hair/face group approximately 24% SMALLER in each of the 8 frames (about 76% of its current width AND height), anchored at the same neck attachment. Maintain the same face identity and exact curly hairstyle silhouette at the smaller scale, BLACK/charcoal only. Make the neck connection anatomically natural. Do not resize the body, hands, feet or the entire sprite; do not shorten the legs. No other changes. All heads must share the same corrected size through the gait. Keep full transparent margins, no labels/grid/shadows.
+
+=== Corrida — versão selecionada por guia ===
+Use case: stylized-concept. Convert the EXACT 12 stick poses in IMAGE 1 into a 2D pixel art running sprite sheet of the character in IMAGE 2.
+Image1 = POSE BLUEPRINT (4 columns x3 rows). Follow EVERY arm and leg angle and alternating limb identity. Green limbs mean the NEAR arm and NEAR leg; gray limbs mean far arm and far leg. These guide colors do NOT appear in final clothing.
+Image2 = approved Sorriso APPEARANCE AND ANATOMY: pale white skin, full black curly hair no fade, white school polo green/yellow trim and bottom panel, blue jeans, cream sneakers. Same exact head/body/limb proportions and pixel art. This is the ONLY character appearance source.
+Output exactly 12 full-body sprites in the same 4x3 layout. Match pose N from blueprint to output pose N. One uniform character scale and fixed right-facing side/three-quarter camera. True transparent alpha background, no text, numbers, stick skeletons, shadows or effects. Big empty gutters; no clipped hair/feet/knees.
+Critical: pose0 near elbow points BACK and near leg is AHEAD. At poses4,5,6,7,8 the near arm swings FORWARD with near fist ahead of sternum and near elbow in front of torso; far arm swings BACK with elbow behind torso. At poses10,11 near arm returns BACK. These are full counter-swings, not small fist vibration. Do not draw a frozen near arm behind him in all frames.
+Real running cycle with distinct contact, flexed support, knee passing, toe push-off, airborne flight, opposite-leg landing and repeat. In flight both shoes off ground. Constant anatomical lengths, no rubber skin, no enlarged head. Keep consistent mild forward lean and expression. Fill the diagram's 12 poses with this ONE character, never substitute twelve near-identical strides.
+
+=== Largada ===
+Use case: stylized-concept. Production 2D game animation sprite sheet, SORRISO from GAVIÃO.
+Image 1 is the ONLY APPROVED IDENTITY AND BODY MODEL. Image 2 is the target running contact pose for the LAST frame, same man. Match Image1 proportions closely: slim adolescent, fair pale white skin, full black curly hair including sides and nape, white school polo green trim and bottom panel, yellow accent, blue jeans, cream sneakers. Same face/costume/palette throughout, original crisp pixel-art rendering, no smooth rubber deformation. Adult-like limb proportions from Image1, not chibi. Head size must stay identical in all frames.
+Make EXACTLY EIGHT full-body drawings in a clean 4 columns ×2 rows sprite sheet on genuine alpha transparency, with wide gutters, absolutely no lettering/labels/arrows/shadows/ground. All face RIGHT in side/three-quarter view, fixed camera and uniform scale. Whole hair, hands, knees, shoes within cells.
+Animation: START RUNNING from combat guard into first run stride. Read left to right:
+0 EXACT Image1 combat guard feet planted, fists raised.
+1 slight forward weight transfer, front knee softens, rear heel rises, arms begin counter-swing.
+2 body leans from ankles, rear foot pushes down/back, front foot unweights.
+3 front knee drives ahead while rear hip extends, opposite arm ahead, real anatomical lengths.
+4 rear toe finishes push-off, body goes slightly forward/up, trailing heel bends toward butt.
+5 brief airborne reach, lead leg extends forward, arms swap naturally.
+6 lead heel approaches landing and rear knee folds.
+7 contact stride matching Image2, lead foot forward/down, rear foot behind, forward torso lean.
+Make genuine progressive inbetweens and footstep mechanics. No eight versions of identical pose, no teleport, no blur/speed lines. The same stable torso and skull across frames. Hands and knees visibly change position with acceleration. This is a START transition, not a repeated run cycle. No blood or weapons.
+
+=== Freada ===
+Use case: stylized-concept. A production 2D pixel-art animation sheet for GAVIÃO.
+Reference1 is approved Sorriso identity and END combat guard; reference2 is running CONTACT pose at START. Same slim fair white teenager, full black curly hair all around sides/nape, no fade/shaved side; same white green/yellow school polo, blue jeans, off-white sneakers. Pixel-art identical face and palette, same skull/torso/limb length in all drawings. Do not enlarge his head or make chibi. Preserve fixed model size.
+EXACTLY EIGHT full body frames in 4×2 equal grid on genuine transparent alpha background. No text, numbers, grid lines, floor, shadows, motion effects, extra character. Big gutters, never cut feet/knees/hair. All facing RIGHT in three-quarter view.
+RUN STOP BRAKING animation, one transition read row-major:
+0 same forward stride/contact as reference2, lead sneaker lands.
+1 lead leg ahead and heel brakes, torso starts leaning slightly back to oppose inertia, arms spread modestly for balance.
+2 lead knee FLEXES to absorb momentum, rear foot swings under hip, hips lower. Not a stiff straight-leg slide.
+3 rear foot makes a short catching step, torso more upright, arms counterbalance.
+4 small front adjustment step, weight settles between both feet.
+5 hands recover combat guard and knees soften, close to reference1.
+6 nearly reference1, body settles.
+7 EXACT reference1 approved guard.
+Careful genuine progress through eight distinct poses: heel friction, knee compression, catch step, settle. Human weight, no ice-skating, no collapse or overlean, no stretching head/torso. This is braking/stop, not eight run poses. No blood.
+
+=== Freada — transparência ===
+Use case: background-extraction. Edit this 8-frame sprite sheet: remove ALL the painted gray brown background and cast shadows, replacing them with genuinely TRANSPARENT alpha, including spaces between arms/torso/legs. Preserve exactly the eight character drawings, their pixel colors, anatomy, scale, poses and layout. Do not redraw the character or add anything. Crisp opaque sprite outlines without a white/gray halo. Return PNG with actual alpha, no checkerboard painted in the image, no colored matte. All eight separate full bodies, shoes and hair complete.
+
+=== Giro ===
+Use the exact approved Sorriso in the reference to create an 8-frame TURN-IN-PLACE animation, one transparent sheet FOUR columns x TWO rows. Same fair pale skin, BLACK full curly hair with full sides, same face/body/head proportions, same white-green-yellow polo with green lower panel/diagonal, jeans and cream sneakers, same sober pixel-art style. No redesign.
+Frame0 is the approved RIGHT-facing 3/4 compact combat guard. Frame1 transfers weight onto a planted support foot and starts to pivot. Frames2-4 progressively rotate feet, hips, torso and head through front 3/4/frontal toward LEFT, showing a coherent physical turn (not merely swapping a mirrored image). Frame5 places the stepping foot on the new side. Frames6-7 settle into the LEFT-facing 3/4 combat guard matching the same character and stance. Limbs maintain length, shoulders follow hips, fists remain in readiness. All soles stay on the same floor plane; do not spin like a top, cross legs into impossible knots or jump.
+Same character pixel scale in every cell; no body-size changes during frontal views. Entire curls, fists, knees and shoes visible with generous margins per cell, no crossing cell borders. Exactly8 sprites, no extra neutral poses. TRUE alpha transparency. NO labels/numbers/grid/background/shadows/trails/effects.
+
+=== Abaixar ===
+Use case: stylized-concept. 2D game pixel-art production sprite sheet, CROUCH DOWN transition.
+The reference is the ONLY APPROVED Sorriso model. Match it very closely, including face/head size/body: fair white skin, full BLACK curly hair on top sides and nape, white school polo with green collar/cuffs and bottom panel/yellow trim and diagonal, blue jeans and cream sneakers. Slim teen with same limb lengths, no chibi or big head, do not tan his skin.
+EXACTLY EIGHT frames in a 4 column×2 row grid, transparent background alpha, no lettering/labels/lines/shadows/props/effects. All character figures entire and separated by large gutters, all facing RIGHT in same side/three-quarter camera, identical rendering and model scale. Feet soles at same ground level. Do not scale the whole figure to make crouch: actually bend hip and knee joints.
+Progression left-right then next row:
+0 EXACT approved standing combat guard from reference, full height and raised fists.
+1 knees soften a little and hips begin shifting backward.
+2 knees flex slightly more, torso tilts gently forward from hips, fists protect face.
+3 hips lower to moderate squat, heels remain down.
+4 thighs approaching diagonal, knees aligned over feet, back coherent, no broken joints.
+5 low compact combat crouch, head above bent knees, both feet flat, fists still in guard.
+6 settle into same low crouch, elbows tucked, natural human balance.
+7 final stable low combat crouch, thighs diagonal not sitting on ground, no hands on floor.
+The head and chest descend along a smooth arc while all anatomical lengths stay unchanged. Eight genuine inbetweens, not duplicates. Keep same face and full hair silhouette. No dark outline blobs or detached limbs.
+
+=== Abaixar — transparência ===
+Use case: background-extraction. Edit this 8-frame sprite sheet: remove ALL the painted gray brown background and cast shadows, replacing them with genuinely TRANSPARENT alpha, including spaces between arms/torso/legs. Preserve exactly the eight character drawings, their pixel colors, anatomy, scale, poses and layout. Do not redraw the character or add anything. Crisp opaque sprite outlines without a white/gray halo. Return PNG with actual alpha, no checkerboard painted in the image, no colored matte. All eight separate full bodies, shoes and hair complete.
+
+=== Agachado ===
+Use case: stylized-concept. Make a subtle crouching idle cycle for a 2D pixel-art game from this EXACT input drawing.
+Image1 is the exact already drawn crouch pose. Do not redesign him. Preserve his FAIR white skin, BLACK full curly hair, white school polo with green/yellow, blue jeans, cream sneakers, small frame/limb lengths, fist guard, three-quarter RIGHT view and model size.
+EXACTLY EIGHT drawings in a 4 columns ×2 rows sheet. Real alpha TRANSPARENT BACKGROUND with empty space between sprites; NO painted black/gray/colored backdrop, NO shadows, NO text. Every full body complete, same pixel-art style, big transparent gutters.
+All eight retain EXACT same deep compact combat crouch, two feet planted in same positions, same skull size, same hair. Only very subtle breathing: 0 starting input pose,1 shoulders inhale 1 tiny step,2 chest expands slightly,3 peak inhale,4 settle,5 begin exhale,6 relaxed,7 returns near starting. No bobbing squat, no standing, no whole-body squash/stretch. Keep hips/knees/ankles solid and hands protecting face. This is an idle LOOP while crouched, with visually seamless last-to-first.

@@ -1,0 +1,8 @@
+import test from'node:test';import assert from'node:assert/strict';import{Battle,MOVES}from'../src/battle.mjs';
+const step=(m,ms,input={})=>{for(let t=0;t<ms;t+=4)m.step(input,Math.min(4,ms-t));};
+test('tropeço exige erro e pouca reserva: energia alta erra sem tropeçar',()=>{for(const move of['jab','drive','rush']){const m=new Battle(1);m.begin(move);step(m,MOVES[move].duration+30);assert.equal(m.player.state,'attackRecover',move);assert.equal(m.lastHit,null);}});
+test('errar usando o último fôlego provoca tropeço, inclusive soco leve',()=>{for(const move of['jab','drive','rush']){const m=new Battle(1);m.player.stamina=MOVES[move].cost+2;m.begin(move);step(m,MOVES[move].duration+30);assert.equal(m.player.state,'stumble',move);assert.equal(m.lastHit,null);}});
+test('golpe bloqueado com pouco fôlego não conta como erro no vazio',()=>{const m=new Battle(1);m.player.x=205;m.setMode('guard');m.player.stamina=MOVES.drive.cost+2;m.begin('drive');step(m,650);assert.equal(m.lastHit?.blocked,true);assert.notEqual(m.player.state,'stumble');assert.notEqual(m.player.state,'rushFall');});
+test('sequência de dez socos com recuperação não esgota a reserva',()=>{const m=new Battle(1);for(let i=0;i<10;i++){m.begin('jab');step(m,MOVES.jab.duration+130);}assert.ok(m.player.stamina>55);assert.notEqual(m.player.state,'winded');});
+test('correr dez segundos gasta menos de dez por cento',()=>{const m=new Battle(0);step(m,10000,{run:true,right:true});assert.ok(m.player.stamina>90);assert.ok(m.player.stamina<100);});
+test('repouso recupera uma reserva vazia em menos de três segundos',()=>{const m=new Battle(0);m.player.stamina=0;step(m,2850);assert.equal(m.player.stamina,100);});

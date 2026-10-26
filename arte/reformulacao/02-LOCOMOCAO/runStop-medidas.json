@@ -1,0 +1,82 @@
+[
+  {
+    "frame": 0,
+    "height": 65,
+    "width": 58,
+    "hairWidth": 21.67578947368421,
+    "hairHeight": 15.145263157894735,
+    "bottom": 88,
+    "top": 24,
+    "alphaCount": 1506
+  },
+  {
+    "frame": 1,
+    "height": 66,
+    "width": 60,
+    "hairWidth": 22.926315789473684,
+    "hairHeight": 15.978947368421052,
+    "bottom": 88,
+    "top": 23,
+    "alphaCount": 1545
+  },
+  {
+    "frame": 2,
+    "height": 63,
+    "width": 57,
+    "hairWidth": 21.53684210526316,
+    "hairHeight": 15.006315789473684,
+    "bottom": 88,
+    "top": 26,
+    "alphaCount": 1418
+  },
+  {
+    "frame": 3,
+    "height": 64,
+    "width": 46,
+    "hairWidth": 21.67578947368421,
+    "hairHeight": 14.728421052631578,
+    "bottom": 88,
+    "top": 25,
+    "alphaCount": 1370
+  },
+  {
+    "frame": 4,
+    "height": 68,
+    "width": 45,
+    "hairWidth": 21.53684210526316,
+    "hairHeight": 14.589473684210526,
+    "bottom": 88,
+    "top": 21,
+    "alphaCount": 1522
+  },
+  {
+    "frame": 5,
+    "height": 66,
+    "width": 43,
+    "hairWidth": 22.09263157894737,
+    "hairHeight": 14.450526315789473,
+    "bottom": 88,
+    "top": 23,
+    "alphaCount": 1347
+  },
+  {
+    "frame": 6,
+    "height": 66,
+    "width": 47,
+    "hairWidth": 21.53684210526316,
+    "hairHeight": 14.311578947368421,
+    "bottom": 88,
+    "top": 23,
+    "alphaCount": 1413
+  },
+  {
+    "frame": 7,
+    "height": 66,
+    "width": 46,
+    "hairWidth": 21.25894736842105,
+    "hairHeight": 14.172631578947367,
+    "bottom": 88,
+    "top": 23,
+    "alphaCount": 1397
+  }
+]

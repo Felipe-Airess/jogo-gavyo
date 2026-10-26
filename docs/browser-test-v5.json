@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-25T21:55:11.547Z",
+  "checks": [
+    "Canvas forçado e 320x180",
+    "doze poses reais da corrida, frenagem e correção de apoio limitada",
+    "três golpes e recuperação que não aceita spam",
+    "sangue emitido no contato",
+    "chute circular com contato",
+    "quatro chutes esgotam apenas as pernas e derrubam",
+    "chute no chão toca cabeça visível e finalizado não levanta",
+    "soco em corrida conserva impulso, ambos caem e jogador precisa levantar",
+    "sangue pode ser desligado e reinício limpa os efeitos",
+    "debug e pausa",
+    "390px sem rolagem horizontal"
+  ],
+  "audit": {
+    "smooth": 0,
+    "runFrames": [
+      198,
+      199,
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      209
+    ],
+    "maxOffset": 3,
+    "fps": 29.69323532623162,
+    "stamina": 100
+  },
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:4173/?v=peso-050",
+    "http://127.0.0.1:4173/style.css",
+    "http://127.0.0.1:4173/vendor/phaser.min.js",
+    "http://127.0.0.1:4173/src/main.js",
+    "http://127.0.0.1:4173/src/battle.mjs",
+    "http://127.0.0.1:4173/src/sprite-player.mjs",
+    "http://127.0.0.1:4173/src/art.js",
+    "http://127.0.0.1:4173/src/target-view.mjs",
+    "http://127.0.0.1:4173/src/assets.js",
+    "http://127.0.0.1:4173/src/blood.mjs",
+    "http://127.0.0.1:4173/src/pose-state.mjs",
+    "http://127.0.0.1:4173/src/locomotion.mjs",
+    "http://127.0.0.1:4173/src/ragdoll.mjs",
+    "http://127.0.0.1:4173/assets/sorriso-v5.png",
+    "http://127.0.0.1:4173/assets/sorriso-v5.json",
+    "blob:http://127.0.0.1:4173/e38fb9f2-5eab-4d9b-9c3e-874702f5edf6"
+  ]
+}

@@ -1,0 +1,23 @@
+Ferramenta: image_gen integrada, sem API/CLI externo.
+Referência: assets/sorriso-fonte.png, versão de pele clara derivada da ficha do usuário.
+Saída: assets/sorriso-rig-fonte.png; preparação técnica em atlas de 12 partes, assets/sorriso-rig.png e .json.
+
+Use case: precise-object-edit. Input is the approved SORRISO sprite style and identity. Build a production 2D CUTOUT ANIMATION PARTS ATLAS from this character. NOT a new character, NOT a poses contact sheet. We will animate these reusable bitmap body parts with bones to remove flicker between frames.
+Output exactly TWELVE detached isolated body-part images on transparent alpha, in 4 columns x3 rows. Each part occupies its own spacious cell; NO text, numbers, labels, grid lines, extra sprites, full bodies, shadows or backdrop.
+Maintain the EXACT existing appearance: FAIR WHITE/LIGHT SKIN neutral pale peach (never tan, brown or orange), very voluminous dark brown curls with warm subtle highlights, white school polo green collar and cuffs, green/gold shoulder stripes, blue school crest, green lower polo panel with gold diagonal slash, medium blue loose denim and grey/offwhite canvas sneakers. Same pixel art texture, no painted realism, no chibi redesign.
+ROW1 left-to-right:
+1 HEAD plus short neck only: full curly hairstyle and right-facing youthful face exactly as reference. No torso or shoulders. Hair approximately18 logical pixels wide, head/neck17 high.
+2 TORSO only: complete polo from collar to green hem, including shoulder shape but NO arms, no hands, no head, no pants or legs. Front/right three-quarter view. Retain school uniform motif. Approximately17 pixels wide20 high.
+3 NEAR UPPER ARM: isolated short white sleeve with green/gold shoulder stripe, green cuff, then light skin upper arm ending at elbow. Orient shoulder at TOP, elbow DOWN. Approx6wide10long.
+4 NEAR FOREARM including closed FIST: only light skin forearm from elbow TOP to clenched fist BOTTOM, no sleeve. Approx5wide10long.
+ROW2:
+5 FAR UPPER ARM with sleeve: same shape as3, slightly darker clothing shading, light skin; joint TOP to elbow BOTTOM.
+6 FAR FOREARM with closed fist: same as4 with subtle far-side shading, never darker skin ethnicity.
+7 NEAR THIGH: jeans hip at TOP to knee BOTTOM, vertical relaxed piece. Approx8wide14long.
+8 NEAR SHIN: jeans knee TOP to ankle BOTTOM, vertical piece. Approx7wide13long. No shoe.
+ROW3:
+9 NEAR SHOE ONLY: side-view grey/offwhite canvas sneaker facing RIGHT, ankle opening at upper-left, sole horizontal. Approx12wide6high.
+10 FAR THIGH: same as7 with far-side denim shading, top hip to bottom knee.
+11 FAR SHIN: same as8 with far-side denim shading, knee top ankle bottom.
+12 FAR SHOE ONLY: same as9 facing right, subtle far-side shading.
+All limb segments oriented VERTICALLY DOWN from proximal pivot to distal pivot, naturally straight, not diagonal. Parts need rounded overlaps at joints so rotation will not expose gaps. Consistent relative physical scale; do not enlarge tiny arm parts to fill their cell. The sheet contains12 separable components only. Use the supplied art as source identity; preserve face and garment rather than reinterpret. Crisp nearest-neighbor game pixel clusters, transparent background.

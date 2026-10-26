@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-26T03:02:18.743Z",
+  "checks": [
+    "8 sequências, 68 posições e nearest-neighbor",
+    "reprodução, pausa e passo de quadro",
+    "transição termina e permanece no último quadro; reinício funciona",
+    "seletores, câmera lenta, guias, fundo e chão de referência",
+    "68 recortes completos dentro das células, uma escala uniforme por fonte",
+    "subida e descida compartilham exatamente os mesmos desenhos e escala",
+    "oito folhas decodificam com transparência real",
+    "GIF da corrida decodifica e anima",
+    "prévia de 390 pixels sem rolagem horizontal"
+  ],
+  "errors": [],
+  "images": [
+    {
+      "id": "walk",
+      "width": 512,
+      "height": 192,
+      "transparent": 0.899139404296875
+    },
+    {
+      "id": "run",
+      "width": 512,
+      "height": 288,
+      "transparent": 0.9244520399305556
+    },
+    {
+      "id": "runStart",
+      "width": 512,
+      "height": 192,
+      "transparent": 0.8876444498697916
+    },
+    {
+      "id": "runStop",
+      "width": 512,
+      "height": 192,
+      "transparent": 0.8828328450520834
+    },
+    {
+      "id": "turn",
+      "width": 512,
+      "height": 192,
+      "transparent": 0.8899129231770834
+    },
+    {
+      "id": "crouchDown",
+      "width": 512,
+      "height": 192,
+      "transparent": 0.9193013509114584
+    },
+    {
+      "id": "crouchHold",
+      "width": 512,
+      "height": 192,
+      "transparent": 0.9334208170572916
+    },
+    {
+      "id": "crouchUp",
+      "width": 512,
+      "height": 192,
+      "transparent": 0.9193013509114584
+    }
+  ],
+  "technicalOnly": true,
+  "artStatus": "candidato para revisão do usuário"
+}

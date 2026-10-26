@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-25T16:30:26.337Z",
+  "browser": "156.0.4314.42",
+  "checks": [
+    "andar/correr e animação articulada",
+    "J J J: jab/direto/gancho com 3 hits e knockback",
+    "ragdoll voa, articula e recebe gravidade",
+    "pausa congela ragdoll e câmera",
+    "queda e recuperação automática",
+    "K: chute com lançamento independente",
+    "reinício restaura corpo e combo",
+    "corrida + J = avanço",
+    "dano e invulnerabilidade",
+    "F2: colisões e vínculos do ragdoll",
+    "390px sem overflow"
+  ],
+  "combo": {
+    "best": 3,
+    "moves": [
+      "jab",
+      "cross",
+      "hook"
+    ],
+    "targetStart": 242,
+    "targetAfter": 265.2056362218979
+  },
+  "stats": {
+    "fps": 57.935745753347874,
+    "heap": 20610087,
+    "audit": {
+      "count": 24720,
+      "smoothed": 0
+    },
+    "parts": 13,
+    "animated": [
+      96,
+      80
+    ]
+  },
+  "errors": [],
+  "external": [],
+  "requests": [
+    "http://127.0.0.1:4173/?v=combo-v3",
+    "http://127.0.0.1:4173/style.css",
+    "http://127.0.0.1:4173/vendor/phaser.min.js",
+    "http://127.0.0.1:4173/src/main.js",
+    "http://127.0.0.1:4173/src/combat.mjs",
+    "http://127.0.0.1:4173/src/art.js",
+    "http://127.0.0.1:4173/src/assets.js",
+    "http://127.0.0.1:4173/src/character.js",
+    "http://127.0.0.1:4173/src/dummy-view.js",
+    "http://127.0.0.1:4173/src/ragdoll.mjs",
+    "http://127.0.0.1:4173/src/animation.mjs",
+    "http://127.0.0.1:4173/assets/sorriso-rig.png",
+    "http://127.0.0.1:4173/assets/sorriso-rig.json",
+    "blob:http://127.0.0.1:4173/10448477-e8f0-4e54-802f-bb47f3112b07"
+  ]
+}

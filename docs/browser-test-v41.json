@@ -1,0 +1,145 @@
+{
+  "date": "2026-10-25T20:19:43.699Z",
+  "browser": "156.0.4314.42",
+  "checks": [
+    "Canvas 320x180 e dois alvos com partes independentes",
+    "inércia e deslize na parada",
+    "corpo abre cabeça e terceiro contato desequilibra",
+    "pesado errado avança e tropeça",
+    "giro para trás percorre as poses novas",
+    "bloqueio sem recuo e desgaste até romper braços",
+    "braços comprometidos não contra-atacam",
+    "clinch após contato e três joelhadas até ceder tronco",
+    "reação persistente do tronco e segundo alvo preservado",
+    "pausa e debug",
+    "390px sem overflow"
+  ],
+  "events": [
+    {
+      "id": 1,
+      "move": "jab",
+      "target": 1,
+      "zone": "body",
+      "blocked": false,
+      "point": {
+        "x": 228.49790418252252,
+        "y": 110.86666666666667
+      },
+      "damage": 16,
+      "at": 6599.726666666602
+    },
+    {
+      "id": 2,
+      "move": "cross",
+      "target": 1,
+      "zone": "head",
+      "blocked": false,
+      "point": {
+        "x": 231.52070311397526,
+        "y": 109.53333333333333
+      },
+      "damage": 18,
+      "at": 6859.713333333257
+    },
+    {
+      "id": 3,
+      "move": "drive",
+      "target": 1,
+      "zone": "body",
+      "blocked": false,
+      "point": {
+        "x": 246.2986998197324,
+        "y": 112.51666666666667
+      },
+      "damage": 24,
+      "at": 7266.366666666574
+    }
+  ],
+  "stats": {
+    "usedFrames": [
+      3,
+      2,
+      1,
+      0,
+      4,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      88,
+      89,
+      90,
+      91,
+      92,
+      5,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      25,
+      26,
+      29,
+      31,
+      33,
+      34,
+      35,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      30,
+      109,
+      113,
+      114,
+      115,
+      116,
+      117,
+      111
+    ],
+    "fps": 35.18348743529633,
+    "heap": 10982843,
+    "audit": {
+      "draws": 16454,
+      "smooth": 0
+    },
+    "frame": [
+      128,
+      80
+    ]
+  },
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:4173/?v=poses-041",
+    "http://127.0.0.1:4173/style.css",
+    "http://127.0.0.1:4173/vendor/phaser.min.js",
+    "http://127.0.0.1:4173/src/main.js",
+    "http://127.0.0.1:4173/src/battle.mjs",
+    "http://127.0.0.1:4173/src/sprite-player.mjs",
+    "http://127.0.0.1:4173/src/art.js",
+    "http://127.0.0.1:4173/src/target-view.mjs",
+    "http://127.0.0.1:4173/src/assets.js",
+    "http://127.0.0.1:4173/src/ragdoll.mjs",
+    "http://127.0.0.1:4173/src/pose-state.mjs",
+    "http://127.0.0.1:4173/assets/sorriso-integrado.png",
+    "http://127.0.0.1:4173/assets/sorriso-integrado.json",
+    "blob:http://127.0.0.1:4173/fab0979c-fe7d-46d3-a453-f614d6cbf73e"
+  ]
+}
