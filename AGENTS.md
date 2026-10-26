@@ -110,7 +110,8 @@ logado na conta Felipe-Airess; pode não estar no PATH do shell.
    desenhados em código no estilo de `art.js` que reagem (armários que amassam,
    porta que treme, balde que tomba, mochila que desliza), parede que quica e
    pune quem é encurralado, vida no fundo (relógio, luz, alunos passando).
-3. **Lote 4 de arte** (preparar pedido no formato de `arte/reformulacao/`):
+3. **Lote 4 de arte** — pedido pronto em `arte/reformulacao/PEDIDO-LOTES-4-5.md`
+   (+ `PROMPTS-LOTES-4-5.txt`); o usuário está produzindo. Ao receber, integrar:
    reações de cabeça/tronco/perna laterais no estilo do lote 3, guarda
    lateral e bloqueio com recuo, queda para trás e levantar, clinch pareado
    (pega no pescoço, segurado resistindo, joelhada nova, saída), caminhada em
