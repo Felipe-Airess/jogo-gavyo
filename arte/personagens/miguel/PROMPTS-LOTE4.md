@@ -38,6 +38,8 @@ After each sheet, write a 1-line checklist: frames = N (as requested), magenta b
 ```
 Pixel art sprite sheet for a 2D side-view sports fighting video game (stylized, like classic 16-bit arcade fighting games). No blood, no injuries, no gore: this is a sport/martial-arts animation.
 
+INSPIRATIONS (for MOTION, TIMING and POSES only, never for the character's look): the readable anticipation, contact and recovery poses of Street Fighter III: 3rd Strike; the punchy street-brawl combos, grabs and throws of Streets of Rage 4 and River City Girls; the clinch, ground-and-pound and realistic MMA strikes of EA Sports UFC; the weight and stumbling hit reactions of Sifu. Miguel's design, colors and pixel style come ONLY from the MASTER image.
+
 CHARACTER: Miguel, the same boy from the attached reference images. Keep EXACTLY: curly dark-brown hair volume, skin tone, white short-sleeve polo shirt with green band at the bottom and green collar details, light-blue jeans, grey/white sneakers. Same head size, same body proportions, same outline thickness and same color palette as the reference. Do not redesign him.
 
 SHEET FORMAT (mandatory):
