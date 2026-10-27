@@ -11,6 +11,25 @@ exagerada. Sangue, faísca e poeira o jogo desenha por cima.
 
 ---
 
+## PROMPT ÚNICO (todas de uma vez, mesma conversa)
+
+Uma imagem com tudo não funciona (400+ quadros: o gerador funde, pula e
+encolhe quadros). A consistência vem de gerar tudo **na mesma conversa**, com
+o mesmo cabeçalho. Cole o bloco abaixo, depois o CABEÇALHO e depois todas as
+seções 1–17 de uma vez, numa mensagem só.
+
+```
+I am giving you the full production list for one character. Read everything first. Then work like a sprite artist on a production line:
+- Generate ONE sprite sheet per image, in the order of the list (sheet 1 = section 1, and so on; sections with A/B/C or PAIR = one sheet per letter/side).
+- Before each image, write one line: "Sheet X of Y: <name>, N frames".
+- After each image, STOP and wait. When I type "next", generate the following sheet. When I type "fix N: <note>", redraw only that sheet with the fix.
+- Every sheet must follow the SHEET FORMAT and CHARACTER rules exactly, and must look like it was drawn by the same artist on the same day as the reference images and as the previous sheets of this conversation: same head size, same proportions, same palette, same outline. Compare with the reference before drawing.
+- Never change the character design between sheets.
+Start with a quick check: generate first a single cell of Miguel in fighting guard (128x96, magenta) so I can approve the style. Wait for "ok" before sheet 1.
+```
+
+---
+
 ## CABEÇALHO (colar sempre)
 
 ```
