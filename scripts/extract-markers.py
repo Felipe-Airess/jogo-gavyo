@@ -35,6 +35,8 @@ CLIPS = ['r1_idle', 'r2_walk', 'r2_run', 'r2_runStart', 'r2_runStop', 'r2_turn',
 # Cabelo castanho com reflexos avermelhados (Miguel): além dos tons escuros,
 # conta como cabelo o marrom-avermelhado escuro, sem o azul da pele.
 REDDISH_HAIR = False
+# Pele do lote 4 do Miguel, um tom mais quente; só nos clipes m4_ (os demais não mudam).
+WARM_SKIN = False
 
 
 def classify(r, g, b, a):
@@ -47,6 +49,8 @@ def classify(r, g, b, a):
         return 'hair'
     if r > 125 and r > g + 15 and g > b + 5 and b > 70 and g - b < 60:
         return 'skin'  # inclui sombras do antebraço
+    if WARM_SKIN and r > 150 and r > g + 40 and g > b + 25 and b >= 45:
+        return 'skin'  # Miguel, lote 4: pele um tom mais quente (210,116,65)
     if b > r + 25 and b >= g:
         return 'jeans'
     if g > r + 18 and g > b + 10:
@@ -306,12 +310,14 @@ CHARACTERS = {
     'sorriso': (ATLAS, DATA, OUT, CLIPS),
     'miguel': (ROOT / 'assets' / 'miguel.png', ROOT / 'assets' / 'miguel.json', ROOT / 'assets' / 'miguel-markers.json',
                ['m_enterGuard', 'm_walkFwd', 'm_walkBack', 'm_lowerGuard', 'm_block',
-                'm3_idle', 'm3_walk', 'm3_jab', 'm3_cross', 'm3_crossBody', 'm3_overhand', 'm3_roundKick', 'm3_stepKick', 'm3_lowKick', 'm3_knee']),
+                'm3_idle', 'm3_walk', 'm3_jab', 'm3_cross', 'm3_crossBody', 'm3_overhand', 'm3_roundKick', 'm3_stepKick', 'm3_lowKick', 'm3_knee',
+                'm4_walkFwd', 'm4_walkBack', 'm4_block', 'm4_hitHead', 'm4_hitBody', 'm4_hitLeg', 'm4_dazed', 'm4_lying', 'm4_runStart', 'm4_runStop',
+                'm4_kickHigh', 'm4_hook', 'm4_jabBody', 'm4_uppercut', 'm4_elbow', 'm4_jabStep', 'm4_crossStep', 'm4_slipCounter', 'm4_parryCounter']),
 }
 
 
 def main(character='sorriso'):
-    global REDDISH_HAIR
+    global REDDISH_HAIR, WARM_SKIN
     REDDISH_HAIR = character == 'miguel'
     atlas_path, data_path, out_path, clip_ids = CHARACTERS[character]
     atlas = Image.open(atlas_path).convert('RGBA')
@@ -320,6 +326,7 @@ def main(character='sorriso'):
     out = {'source': str(atlas_path.relative_to(ROOT)).replace('\\', '/'), 'method': 'classes de cor + componentes conectados; ver scripts/extract-markers.py',
            'pivot': list(PIVOT), 'facing': 1, 'clips': {}}
     for cid in clip_ids:
+        WARM_SKIN = character == 'miguel' and cid.startswith('m4_')
         clip = clips.get(cid)
         if not clip:
             continue

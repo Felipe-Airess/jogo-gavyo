@@ -2357,6 +2357,1768 @@
         3,
         4
       ]
+    },
+    {
+      "id": "m4_walkFwd",
+      "loop": true,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 154,
+          "duration": 130,
+          "sourceFacing": 1,
+          "file": "lote4/walkFwd/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 155,
+          "duration": 130,
+          "sourceFacing": 1,
+          "file": "lote4/walkFwd/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 156,
+          "duration": 130,
+          "sourceFacing": 1,
+          "file": "lote4/walkFwd/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 157,
+          "duration": 130,
+          "sourceFacing": 1,
+          "file": "lote4/walkFwd/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 158,
+          "duration": 130,
+          "sourceFacing": 1,
+          "file": "lote4/walkFwd/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 159,
+          "duration": 130,
+          "sourceFacing": 1,
+          "file": "lote4/walkFwd/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "stride": 10.0,
+      "durations": [
+        130,
+        130,
+        130,
+        130,
+        130,
+        130
+      ],
+      "totalMs": 780,
+      "contactFrames": []
+    },
+    {
+      "id": "m4_walkBack",
+      "loop": true,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 160,
+          "duration": 140,
+          "sourceFacing": 1,
+          "file": "lote4/walkBack/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 161,
+          "duration": 140,
+          "sourceFacing": 1,
+          "file": "lote4/walkBack/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 162,
+          "duration": 140,
+          "sourceFacing": 1,
+          "file": "lote4/walkBack/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 163,
+          "duration": 140,
+          "sourceFacing": 1,
+          "file": "lote4/walkBack/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 164,
+          "duration": 140,
+          "sourceFacing": 1,
+          "file": "lote4/walkBack/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 165,
+          "duration": 140,
+          "sourceFacing": 1,
+          "file": "lote4/walkBack/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "stride": 8.0,
+      "durations": [
+        140,
+        140,
+        140,
+        140,
+        140,
+        140
+      ],
+      "totalMs": 840,
+      "contactFrames": []
+    },
+    {
+      "id": "m4_block",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 166,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote4/block/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 167,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote4/block/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 168,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote4/block/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 169,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote4/block/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 170,
+          "duration": 80,
+          "sourceFacing": 1,
+          "file": "lote4/block/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 171,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote4/block/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        60,
+        60,
+        70,
+        70,
+        80,
+        90
+      ],
+      "totalMs": 430,
+      "contactFrames": []
+    },
+    {
+      "id": "m4_hitHead",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 172,
+          "duration": 50,
+          "sourceFacing": 1,
+          "file": "lote4/hitHeadLight/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 173,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote4/hitHeadLight/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 174,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote4/hitHeadLight/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 175,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote4/hitHeadLight/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 176,
+          "duration": 80,
+          "sourceFacing": 1,
+          "file": "lote4/hitHeadLight/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        50,
+        70,
+        90,
+        90,
+        80
+      ],
+      "totalMs": 380,
+      "contactFrames": []
+    },
+    {
+      "id": "m4_hitBody",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 177,
+          "duration": 50,
+          "sourceFacing": 1,
+          "file": "lote4/hitBody/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 178,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote4/hitBody/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 179,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote4/hitBody/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 180,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote4/hitBody/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 181,
+          "duration": 80,
+          "sourceFacing": 1,
+          "file": "lote4/hitBody/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 182,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote4/hitBody/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        50,
+        70,
+        90,
+        90,
+        80,
+        70
+      ],
+      "totalMs": 450,
+      "contactFrames": []
+    },
+    {
+      "id": "m4_hitLeg",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 183,
+          "duration": 50,
+          "sourceFacing": 1,
+          "file": "lote4/hitLeg/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 184,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote4/hitLeg/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 185,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote4/hitLeg/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 186,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote4/hitLeg/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 187,
+          "duration": 80,
+          "sourceFacing": 1,
+          "file": "lote4/hitLeg/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 188,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote4/hitLeg/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        50,
+        70,
+        90,
+        90,
+        80,
+        70
+      ],
+      "totalMs": 450,
+      "contactFrames": []
+    },
+    {
+      "id": "m4_dazed",
+      "loop": true,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 189,
+          "duration": 150,
+          "sourceFacing": 1,
+          "file": "lote4/dazed/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 190,
+          "duration": 150,
+          "sourceFacing": 1,
+          "file": "lote4/dazed/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 191,
+          "duration": 150,
+          "sourceFacing": 1,
+          "file": "lote4/dazed/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 192,
+          "duration": 150,
+          "sourceFacing": 1,
+          "file": "lote4/dazed/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 193,
+          "duration": 150,
+          "sourceFacing": 1,
+          "file": "lote4/dazed/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        150,
+        150,
+        150,
+        150,
+        150
+      ],
+      "totalMs": 750,
+      "contactFrames": []
+    },
+    {
+      "id": "m4_lying",
+      "loop": true,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 194,
+          "duration": 450,
+          "sourceFacing": 1,
+          "file": "lote4/lying/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 195,
+          "duration": 450,
+          "sourceFacing": 1,
+          "file": "lote4/lying/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        450,
+        450
+      ],
+      "totalMs": 900,
+      "contactFrames": []
+    },
+    {
+      "id": "m4_runStart",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 196,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote4/runStart/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 197,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote4/runStart/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 198,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote4/runStart/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 199,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote4/runStart/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 200,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote4/runStart/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        70,
+        70,
+        70,
+        70,
+        70
+      ],
+      "totalMs": 350,
+      "contactFrames": []
+    },
+    {
+      "id": "m4_runStop",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 201,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote4/runStop/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 202,
+          "duration": 80,
+          "sourceFacing": 1,
+          "file": "lote4/runStop/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 203,
+          "duration": 80,
+          "sourceFacing": 1,
+          "file": "lote4/runStop/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 204,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote4/runStop/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 205,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote4/runStop/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        70,
+        80,
+        80,
+        90,
+        90
+      ],
+      "totalMs": 410,
+      "contactFrames": []
+    },
+    {
+      "id": "m4_kickHigh",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 206,
+          "duration": 85,
+          "sourceFacing": 1,
+          "file": "lote4/kickHigh/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 207,
+          "duration": 71,
+          "sourceFacing": 1,
+          "file": "lote4/kickHigh/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 208,
+          "duration": 58,
+          "sourceFacing": 1,
+          "file": "lote4/kickHigh/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 209,
+          "duration": 45,
+          "sourceFacing": 1,
+          "file": "lote4/kickHigh/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 210,
+          "duration": 35,
+          "sourceFacing": 1,
+          "file": "lote4/kickHigh/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 211,
+          "duration": 91,
+          "sourceFacing": 1,
+          "file": "lote4/kickHigh/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 212,
+          "duration": 72,
+          "sourceFacing": 1,
+          "file": "lote4/kickHigh/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 213,
+          "duration": 81,
+          "sourceFacing": 1,
+          "file": "lote4/kickHigh/08.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 214,
+          "duration": 89,
+          "sourceFacing": 1,
+          "file": "lote4/kickHigh/09.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 215,
+          "duration": 97,
+          "sourceFacing": 1,
+          "file": "lote4/kickHigh/10.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 216,
+          "duration": 106,
+          "sourceFacing": 1,
+          "file": "lote4/kickHigh/11.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 217,
+          "duration": 114,
+          "sourceFacing": 1,
+          "file": "lote4/kickHigh/12.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        }
+      ],
+      "durations": [
+        85,
+        71,
+        58,
+        45,
+        35,
+        91,
+        72,
+        81,
+        89,
+        97,
+        106,
+        114
+      ],
+      "totalMs": 944,
+      "contactFrames": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "m4_hook",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 218,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "lote4/hook/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 219,
+          "duration": 69,
+          "sourceFacing": 1,
+          "file": "lote4/hook/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 220,
+          "duration": 37,
+          "sourceFacing": 1,
+          "file": "lote4/hook/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 221,
+          "duration": 78,
+          "sourceFacing": 1,
+          "file": "lote4/hook/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 222,
+          "duration": 62,
+          "sourceFacing": 1,
+          "file": "lote4/hook/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 223,
+          "duration": 71,
+          "sourceFacing": 1,
+          "file": "lote4/hook/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 224,
+          "duration": 80,
+          "sourceFacing": 1,
+          "file": "lote4/hook/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 225,
+          "duration": 89,
+          "sourceFacing": 1,
+          "file": "lote4/hook/08.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 226,
+          "duration": 98,
+          "sourceFacing": 1,
+          "file": "lote4/hook/09.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        }
+      ],
+      "durations": [
+        100,
+        69,
+        37,
+        78,
+        62,
+        71,
+        80,
+        89,
+        98
+      ],
+      "totalMs": 684,
+      "contactFrames": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "m4_jabBody",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 227,
+          "duration": 78,
+          "sourceFacing": 1,
+          "file": "lote4/jabBody/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 228,
+          "duration": 54,
+          "sourceFacing": 1,
+          "file": "lote4/jabBody/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 229,
+          "duration": 35,
+          "sourceFacing": 1,
+          "file": "lote4/jabBody/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 230,
+          "duration": 77,
+          "sourceFacing": 1,
+          "file": "lote4/jabBody/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 231,
+          "duration": 61,
+          "sourceFacing": 1,
+          "file": "lote4/jabBody/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 232,
+          "duration": 73,
+          "sourceFacing": 1,
+          "file": "lote4/jabBody/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 233,
+          "duration": 85,
+          "sourceFacing": 1,
+          "file": "lote4/jabBody/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 234,
+          "duration": 96,
+          "sourceFacing": 1,
+          "file": "lote4/jabBody/08.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        }
+      ],
+      "durations": [
+        78,
+        54,
+        35,
+        77,
+        61,
+        73,
+        85,
+        96
+      ],
+      "totalMs": 559,
+      "contactFrames": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "m4_uppercut",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 235,
+          "duration": 107,
+          "sourceFacing": 1,
+          "file": "lote4/uppercut/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 236,
+          "duration": 73,
+          "sourceFacing": 1,
+          "file": "lote4/uppercut/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 237,
+          "duration": 40,
+          "sourceFacing": 1,
+          "file": "lote4/uppercut/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 238,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote4/uppercut/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 239,
+          "duration": 72,
+          "sourceFacing": 1,
+          "file": "lote4/uppercut/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 240,
+          "duration": 85,
+          "sourceFacing": 1,
+          "file": "lote4/uppercut/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 241,
+          "duration": 99,
+          "sourceFacing": 1,
+          "file": "lote4/uppercut/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 242,
+          "duration": 113,
+          "sourceFacing": 1,
+          "file": "lote4/uppercut/08.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        }
+      ],
+      "durations": [
+        107,
+        73,
+        40,
+        90,
+        72,
+        85,
+        99,
+        113
+      ],
+      "totalMs": 679,
+      "contactFrames": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "m4_elbow",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 243,
+          "duration": 109,
+          "sourceFacing": 1,
+          "file": "lote4/elbow/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 244,
+          "duration": 41,
+          "sourceFacing": 1,
+          "file": "lote4/elbow/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 245,
+          "duration": 75,
+          "sourceFacing": 1,
+          "file": "lote4/elbow/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 246,
+          "duration": 59,
+          "sourceFacing": 1,
+          "file": "lote4/elbow/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 247,
+          "duration": 71,
+          "sourceFacing": 1,
+          "file": "lote4/elbow/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 248,
+          "duration": 82,
+          "sourceFacing": 1,
+          "file": "lote4/elbow/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 249,
+          "duration": 93,
+          "sourceFacing": 1,
+          "file": "lote4/elbow/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        }
+      ],
+      "durations": [
+        109,
+        41,
+        75,
+        59,
+        71,
+        82,
+        93
+      ],
+      "totalMs": 530,
+      "contactFrames": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "m4_jabStep",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 250,
+          "duration": 87,
+          "sourceFacing": 1,
+          "file": "lote4/jabStep/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 251,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote4/jabStep/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 252,
+          "duration": 35,
+          "sourceFacing": 1,
+          "file": "lote4/jabStep/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 253,
+          "duration": 75,
+          "sourceFacing": 1,
+          "file": "lote4/jabStep/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 254,
+          "duration": 59,
+          "sourceFacing": 1,
+          "file": "lote4/jabStep/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 255,
+          "duration": 71,
+          "sourceFacing": 1,
+          "file": "lote4/jabStep/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 256,
+          "duration": 82,
+          "sourceFacing": 1,
+          "file": "lote4/jabStep/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 257,
+          "duration": 93,
+          "sourceFacing": 1,
+          "file": "lote4/jabStep/08.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        }
+      ],
+      "durations": [
+        87,
+        60,
+        35,
+        75,
+        59,
+        71,
+        82,
+        93
+      ],
+      "totalMs": 562,
+      "contactFrames": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "m4_crossStep",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 258,
+          "duration": 107,
+          "sourceFacing": 1,
+          "file": "lote4/crossStep/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 259,
+          "duration": 73,
+          "sourceFacing": 1,
+          "file": "lote4/crossStep/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 260,
+          "duration": 40,
+          "sourceFacing": 1,
+          "file": "lote4/crossStep/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 261,
+          "duration": 72,
+          "sourceFacing": 1,
+          "file": "lote4/crossStep/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 262,
+          "duration": 57,
+          "sourceFacing": 1,
+          "file": "lote4/crossStep/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 263,
+          "duration": 65,
+          "sourceFacing": 1,
+          "file": "lote4/crossStep/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 264,
+          "duration": 74,
+          "sourceFacing": 1,
+          "file": "lote4/crossStep/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 265,
+          "duration": 82,
+          "sourceFacing": 1,
+          "file": "lote4/crossStep/08.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 266,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote4/crossStep/09.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        }
+      ],
+      "durations": [
+        107,
+        73,
+        40,
+        72,
+        57,
+        65,
+        74,
+        82,
+        90
+      ],
+      "totalMs": 660,
+      "contactFrames": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "m4_slipCounter",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 267,
+          "duration": 96,
+          "sourceFacing": 1,
+          "file": "lote4/slipCounter/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 268,
+          "duration": 81,
+          "sourceFacing": 1,
+          "file": "lote4/slipCounter/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 269,
+          "duration": 66,
+          "sourceFacing": 1,
+          "file": "lote4/slipCounter/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 270,
+          "duration": 51,
+          "sourceFacing": 1,
+          "file": "lote4/slipCounter/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 271,
+          "duration": 36,
+          "sourceFacing": 1,
+          "file": "lote4/slipCounter/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 272,
+          "duration": 167,
+          "sourceFacing": 1,
+          "file": "lote4/slipCounter/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 273,
+          "duration": 133,
+          "sourceFacing": 1,
+          "file": "lote4/slipCounter/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        }
+      ],
+      "durations": [
+        96,
+        81,
+        66,
+        51,
+        36,
+        167,
+        133
+      ],
+      "totalMs": 630,
+      "contactFrames": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "m4_parryCounter",
+      "loop": false,
+      "source": "lote4",
+      "frames": [
+        {
+          "index": 274,
+          "duration": 112,
+          "sourceFacing": 1,
+          "file": "lote4/parryCounter/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 275,
+          "duration": 77,
+          "sourceFacing": 1,
+          "file": "lote4/parryCounter/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 276,
+          "duration": 42,
+          "sourceFacing": 1,
+          "file": "lote4/parryCounter/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 277,
+          "duration": 98,
+          "sourceFacing": 1,
+          "file": "lote4/parryCounter/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 278,
+          "duration": 78,
+          "sourceFacing": 1,
+          "file": "lote4/parryCounter/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 279,
+          "duration": 101,
+          "sourceFacing": 1,
+          "file": "lote4/parryCounter/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 280,
+          "duration": 123,
+          "sourceFacing": 1,
+          "file": "lote4/parryCounter/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        }
+      ],
+      "durations": [
+        112,
+        77,
+        42,
+        98,
+        78,
+        101,
+        123
+      ],
+      "totalMs": 631,
+      "contactFrames": [
+        3,
+        4
+      ]
     }
   ],
   "reference": "Sorriso: guarda 66 px; Miguel em pé 70 px.",

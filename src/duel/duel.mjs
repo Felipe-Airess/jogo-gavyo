@@ -9,6 +9,8 @@ import { sweep, contactPoint, overlap } from './collision.mjs';
 import { resolveHit, applyHit, contactQuality, ROCK } from './damage.mjs';
 import { startClinch, endClinch, keepGap, escapeGain, CLINCH } from './clinch.mjs';
 
+// Maior deslocamento do membro entre dois ticks que ainda conta como varredura.
+export const SWEEP_MAX = 45;
 export const STAGE = { minX: 24, maxX: 456, ground: 150, half: 10 };
 export const TICK = 1000 / 60;
 export const HITSTOP = { block: 50, light: 66, medium: 83, heavy: 116 };
@@ -396,7 +398,12 @@ export class Duel {
     const w = worldMarkers(this.markerSetOf(a).frame(m.clip, frame), a), tip = limbCenter(w?.[m.limb], m.limb, a.facing);
     const active = m.active.includes(frame);
     if (!tip) { if (active) this.markerSetOf(a).note(m.clip, frame, m.limb); a.prevTip = null; return null; }
-    const from = a.prevTip || tip;
+    // Varredura só entre posições vizinhas do mesmo membro. Um salto maior que
+    // SWEEP_MAX (o marcador trocou de pé, ou o desenho não tem os quadros do
+    // meio — chute alto do Miguel sai do chão direto para a cabeça) não arrasta
+    // a caixa pelo caminho inventado.
+    const near = a.prevTip && Math.hypot(tip.x - a.prevTip.x, tip.y - a.prevTip.y) <= SWEEP_MAX;
+    const from = near ? a.prevTip : tip;
     a.prevTip = tip;
     if (!active || a.hitDone || m.throw) return null;
     // Golpes de chão só em quem está caído; os outros só em quem está de pé.

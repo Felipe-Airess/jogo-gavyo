@@ -182,7 +182,7 @@ ANIMATION C: getting up to guard, 7 frames.
 
 ```
 ANIMATION: roundhouse kick to the head height, 12 frames. Contact on frame 6.
-1. Guard. 2. Weight shifts to the front (left) foot. 3. Left foot pivots on the ball, heel turns forward. 4. Right knee rises to chest height, pointing forward. 5. Hips turn, right leg starts to extend. 6. CONTACT: right leg fully extended, shin/instep at the height of the TOP of his own head (about 60-64 px above the ground), body leaning back to the left, arms protecting the face. 7. Same as 6, slightly further. 8. Leg folds back, knee high in front, he still faces right. 9. Knee comes down. 10. Right foot lands behind in stance. NO spin, he never turns his back in this kick. 11. Back to stance. 12. Guard.
+1. Guard. 2. Weight shifts to the front (left) foot. 3. Left foot pivots on the ball, heel turns forward. 4. Right knee rises to chest height, pointing forward. 5. Hips turn, right leg starts to extend. 6. CONTACT: right leg fully extended, the instep at the height of the opponent's FACE/CHIN (the same height as his own mouth), NOT above the head, body leaning back to the left, arms protecting the face. 7. Same as 6, slightly further. 8. Leg folds back, knee high in front, he still faces right. 9. Knee comes down. 10. Right foot lands behind in stance. NO spin, he never turns his back in this kick. 11. Back to stance. 12. Guard.
 The supporting left foot stays on the same pixel in frames 2-10.
 ```
 

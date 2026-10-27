@@ -29,6 +29,15 @@ TARGET_H, PIV = 66, (64, 88)
 FORA = {
     'kickHigh': {12: 'guarda repetida (13 desenhados para 12)'},
 }
+def shirt_x(a):
+    """Centro da camisa (branco/cinza claro e verde da faixa): o tronco sem os braços."""
+    rgb = a[..., :3].astype(int); op = a[..., 3] > 0
+    white = (rgb.min(2) > 150) & (rgb.max(2) - rgb.min(2) < 45)
+    green = (rgb[..., 1] > rgb[..., 0] + 25) & (rgb[..., 1] > rgb[..., 2] + 5)
+    m = op & (white | green)
+    return np.nonzero(m)[1].mean() if m.sum() > 20 else np.nonzero(op)[1].mean()
+
+
 # Quadros desenhados maiores que os vizinhos: voltam à escala pela cabeça.
 BIGGER = {}   # chute alto 6-7 parecem maiores, mas a altura medida (92 px x 86) é a da perna de apoio esticada
 # Animações com erro de anatomia/direção: extraídas para conferência, mas
@@ -53,6 +62,11 @@ def cut(box):
     g = rgb[..., 1]; m = np.minimum(rgb[..., 0], rgb[..., 2]); ex = np.clip(m - g, 0, None)
     k = np.where(d < 260, 1.0, 0.7)[..., None]
     rgb[..., 0] -= (ex * k[..., 0]).astype(int); rgb[..., 2] -= (ex * k[..., 0]).astype(int)
+    # camisa com realce rosa/pêssego do contato: claro e pouco saturado vira cinza
+    # claro com a mesma luminância (pele tem azul bem abaixo de 140, não entra)
+    light = (rgb.min(2) > 140) & (rgb.max(2) - rgb.min(2) < 90)
+    lum = (rgb * [0.3, 0.59, 0.11]).sum(2)
+    rgb[light] = np.stack([lum[light]] * 3, 1).astype(int)
     # números e texto brancos soltos no topo
     lab, n = ndimage.label(al, structure=np.ones((3, 3)))
     if n > 1:
@@ -85,6 +99,21 @@ lote3 = [np.array(Image.open(p).convert('RGBA')) for p in glob.glob(f'{ROOT}/art
 px = np.concatenate([a[..., :3][a[..., 3] > 0] for a in lote3])
 pal = Image.fromarray(px.reshape(-1, 1, 3)).quantize(colors=48, method=Image.Quantize.MEDIANCUT)
 
+# Cor: o lote 4 saiu mais escuro (pele e cabelo) que o lote 3. Casamento de
+# histograma por canal, das cores da guarda do lote 4 para as da guarda do
+# lote 3, aplicado antes da paleta — muda só a cor, não o desenho.
+def _cdf(v):
+    h = np.bincount(v.ravel(), minlength=256).astype(float); c = np.cumsum(h); return c / c[-1]
+_src = cut(CELLS['walkFwd'][0])
+_s_rgb = np.array(Image.fromarray(_src).resize((round(_src.shape[1] * TARGET_H / _src.shape[0]), TARGET_H), Image.BOX))
+_s_px = _s_rgb[..., :3][_s_rgb[..., 3] >= 128]
+LUT = []
+for ch in range(3):
+    cs, cr = _cdf(_s_px[:, ch]), _cdf(px[:, ch])
+    LUT.append(np.searchsorted(cr, cs).clip(0, 255).astype(np.uint8))
+def match(rgb):
+    return np.stack([LUT[c][rgb[..., c]] for c in range(3)], -1)
+
 report, review = {}, []
 for name, boxes in CELLS.items():
     out_dir = f'{OUT}/{name}'; os.makedirs(out_dir, exist_ok=True)
@@ -101,11 +130,11 @@ for name, boxes in CELLS.items():
         im = Image.fromarray(a); w, h = im.size
         sm = np.array(im.resize((max(1, round(w * s)), max(1, round(h * s))), Image.BOX))
         sm[..., 3] = np.where(sm[..., 3] >= 128, 255, 0)
+        sm[..., :3] = match(sm[..., :3])
         q = np.array(Image.fromarray(sm[..., :3]).quantize(palette=pal, dither=Image.Dither.NONE).convert('RGB'))
         sm = np.dstack([q, sm[..., 3]]); sm[sm[..., 3] == 0] = 0
         al = sm[..., 3] > 0; hh = al.shape[0]
-        band = al[int(hh * 0.25):int(hh * 0.6)] if hh > 30 else al
-        tx = np.nonzero(band)[1].mean() if band.any() else sm.shape[1] / 2
+        tx = shirt_x(sm)
         if torso0 is None: torso0 = tx
         x = int(round(PIV[0] - tx)); y = PIV[1] - hh
         cell = np.zeros((96, 128, 4), np.uint8)

@@ -476,7 +476,7 @@ test('Miguel jogável: só quadros dele e caixas dele', () => {
   for (let t = 0; t < 700; t += TICK) { d.tick([{}, {}]); look(); }
   d.tick([{ kick: true }, {}]);
   for (let t = 0; t < 1200; t += TICK) { d.tick([{}, {}]); look(); }
-  for (const clip of ['m3_idle', 'm3_walk', 'm_block', 'm3_jab', 'm3_roundKick']) assert.ok(seen.has(clip), clip);
+  for (const clip of ['m3_idle', 'm4_walkFwd', 'm4_walkBack', 'm4_block', 'm3_jab', 'm3_roundKick']) assert.ok(seen.has(clip), clip);
   assert.equal(attacks(d, 1), 2);
   assert.ok(Object.keys(d.hurtboxesOf(p)).length === 3, 'cabeça, tronco e pernas');
 });
@@ -709,8 +709,9 @@ test('golpes do Miguel acertam com o desenho e as caixas dele; sem desenho, subs
   assert.equal(d.moveOf(d.player, 'jab').clip, 'm3_jab');
   const h = withMiguel();
   h.rival.x = h.player.x + 36;
-  press(h, { attack: true, left: true });          // trás + J: gancho, sem desenho → jab
-  assert.equal(h.player.move, 'jab');
+  press(h, { attack: true, left: true });          // trás + J: gancho (lote 4)
+  assert.equal(h.player.move, 'hook');
+  assert.equal(h.moveOf(h.player).clip, 'm4_hook');
   const k = withMiguel();
   k.rival.x = k.player.x + 30;
   press(k, { kick: true, right: true });          // frente + K: joelhada (só o Miguel tem)
@@ -721,16 +722,32 @@ test('golpes do Miguel acertam com o desenho e as caixas dele; sem desenho, subs
   assert.notEqual(g.player.move, 'groundPunch', 'sem arte de chão');
 });
 
-test('Miguel: andar troca de quadro pela distância andada (passada medida), não pelo relógio', () => {
-  const walk = miguel.m3_walk;
-  assert.ok(walk.stride >= 30 && walk.stride <= 60, 'passada ' + walk.stride);
+test('Miguel: andar em guarda troca de quadro pela distância andada, não pelo relógio', () => {
   const d = withMiguel();
   const p = d.player, frames = [];
-  for (let t = 0; t < 1500; t += TICK) { d.tick([{ right: true }, {}]); const ref = d.animation(p); if (ref.clip === 'm3_walk') frames.push([ref.frame, p.gait]); }
-  // cada quadro cobre stride/n px de caminhada, qualquer que seja a velocidade
-  const step = walk.stride / walk.frames.length;
+  for (let t = 0; t < 1500; t += TICK) { d.tick([{ right: true }, {}]); const ref = d.animation(p); if (ref.clip === 'm4_walkFwd') frames.push([ref.frame, p.gait]); }
+  assert.ok(frames.length > 60, 'andou em guarda');
+  const step = 36 / miguel.m4_walkFwd.frames.length;
   const changes = frames.filter((f, i) => i && f[0] !== frames[i - 1][0]).map(f => f[1]);
   for (let i = 1; i < changes.length; i++) assert.ok(Math.abs(changes[i] - changes[i - 1] - step) < 1.5, `troca a cada ${(changes[i] - changes[i - 1]).toFixed(1)} px, esperado ${step}`);
+  run(d, 200);
+  for (let t = 0; t < 600; t += TICK) { d.tick([{ left: true }, {}]); }
+  assert.equal(d.animation(p).clip, 'm4_walkBack');
+});
+
+test('Miguel: reação desenhada por região, grogue cambaleando e deitado no chão', () => {
+  for (const [zone, clip] of [['head', 'm4_hitHead'], ['body', 'm4_hitBody'], ['legs', 'm4_hitLeg']]) {
+    const d = withMiguel(), p = d.player;
+    p.state = 'hitstun'; p.t = 0; p.stun = 400; p.reaction = zone;
+    const seen = new Set();
+    for (let t = 0; t < 400; t += 20) { p.t = t; const r = d.animation(p); assert.equal(r.clip, clip); seen.add(r.frame); }
+    assert.equal(seen.size, miguel[clip].frames.length, 'percorre a reação inteira');
+  }
+  const d = withMiguel(), p = d.player;
+  p.rockedUntil = 1e9; p.state = 'idle';
+  assert.equal(d.animation(p).clip, 'm4_dazed');
+  p.state = 'down';
+  assert.equal(d.animation(p).clip, 'm4_lying');
 });
 
 test('Miguel: carga dos golpes perto da do Sorriso (o mais lento até o contato em ≤ 400 ms)', () => {
@@ -751,9 +768,10 @@ test('andar até o adversário não enfia um tronco no outro (quadris a ≥ 20 p
   }
 });
 
-test('Miguel: cima+K é o chute com passo na cintura (tronco/perna), não chute alto', () => {
+test('Miguel: cima+K é o chute com passo na cintura; lote 4 dá jab no corpo e aparo', () => {
   const d = withMiguel(), m = d.movesBy.miguel.roundHead;
   assert.equal(m.clip, 'm3_stepKick');
   assert.deepEqual(m.targets, ['body', 'legs']);
-  assert.ok(m.damage < d.moves.roundHead.damage);
+  assert.equal(d.movesBy.miguel.jabBody.clip, 'm4_jabBody');
+  assert.equal(d.movesBy.miguel.parryCounter.clip, 'm4_parryCounter');
 });

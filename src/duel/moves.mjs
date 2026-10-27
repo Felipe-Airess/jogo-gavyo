@@ -51,20 +51,24 @@ const SPEC = {
     targets: ['head'], clinch: true },
 };
 
-// Miguel (lote 3): mesmos golpes e números do Sorriso onde existe desenho
-// equivalente; tempos e quadros vêm do atlas (scripts/add-miguel-lote3.py).
-// Sem desenho: gancho, jab no corpo, impulso, combinações, chão, arremesso e
-// contra-ataque do aparo — `MOVE_FALLBACK` troca pelo golpe mais próximo.
+// Miguel (lotes 3 e 4): mesmos golpes e números do Sorriso onde existe desenho
+// equivalente; tempos e quadros vêm do atlas (scripts/add-miguel-lote3.py e
+// add-miguel-lote4.py). Sem desenho: impulso, combinações, chão e arremesso —
+// `MOVE_FALLBACK` troca pelo golpe mais próximo.
 const MIGUEL_SPEC = {
   jab: { ...SPEC.jab, clip: 'm3_jab', links: undefined },
   cross: { ...SPEC.cross, clip: 'm3_cross' },
   crossBody: { ...SPEC.crossBody, clip: 'm3_crossBody' },
   overhand: { ...SPEC.overhand, clip: 'm3_overhand', whiff: undefined },
   roundBody: { ...SPEC.roundBody, clip: 'm3_roundKick', name: 'CHUTE CIRCULAR' },
-  // A folha não tem chute alto: cima+K é um chute com passo na altura da
-  // cintura (pé a −25/−28 px no contato, entre quadril e barriga). Mira tronco
-  // e perna, empurra e desequilibra mais; dano de chute médio, não de cabeça.
+  // Cima+K: chute com passo do lote 3, na cintura (pé a −25/−28 px no
+  // contato): mira tronco e perna, dano de chute médio. O chute alto do lote 4
+  // (m4_kickHigh) fica no atlas sem comando: o pé foi desenhado no topo da
+  // cabeça (−65 px), acima da caixa da cabeça de quem está em guarda (−60).
   roundHead: { ...SPEC.roundHead, clip: 'm3_stepKick', name: 'CHUTE COM PASSO', damage: 14, balance: 24, push: 16, targets: ['body', 'legs'] },
+  hook: { ...SPEC.hook, clip: 'm4_hook', name: 'GANCHO' },
+  jabBody: { ...SPEC.jabBody, clip: 'm4_jabBody', targets: ['body'] },
+  parryCounter: { ...SPEC.parryCounter, clip: 'm4_parryCounter', times: undefined, active: undefined },
   lowKick: { ...SPEC.lowKick, clip: 'm3_lowKick', links: undefined },
   kneeStrike: { name: 'JOELHADA', clip: 'm3_knee', limb: 'knee', power: 2, damage: 12, balance: 16, hitstun: 380, blockstun: 220, push: 8, cost: 9, targets: ['body', 'head'] },
 };

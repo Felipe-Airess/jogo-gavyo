@@ -22,12 +22,13 @@ contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
 
 ```bash
 npm start            # servidor local em http://127.0.0.1:4173 (abre o navegador)
-npm test             # 153 testes: core, duelo e históricos — todos passando
+npm test             # 154 testes: core, duelo e históricos — todos passando
 npm run test:legacy  # 22 testes antigos — todos passando
 npm run build        # gera build/ (≈4,7 MB, ignorado pelo Git)
 python scripts/extract-markers.py sorriso miguel   # regenera *-markers.json (Python 3 + Pillow)
 python scripts/add-miguel-lote2.py  # lote 2 do Miguel no atlas assets/miguel.png
 python scripts/add-miguel-lote3.py  # lote 3 (golpes) do Miguel no atlas
+python scripts/miguel-lote4/extrair.py && python scripts/add-miguel-lote4.py  # lote 4 (rodar extract-markers depois)
 ```
 
 O `gh` (GitHub CLI) está instalado em `C:/Program Files/GitHub CLI/gh.exe` e
@@ -241,6 +242,34 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   personagens; joelhada só de perto; IA × IA mediana 21 s, máx. 49 s.
 * Ainda é arte: reação/queda do Miguel (segura `m_block` 3, estilo lote 2),
   bloqueio do lote 2 diferente do lote 3, sem andar em guarda nem transições.
+
+## Miguel — lote 4 (27/10)
+
+* Fonte: `arte/personagens/miguel/lote4/fontes/pacote2.png` (folha única do
+  ChatGPT com títulos). `scripts/miguel-lote4/extrair.py` recorta pelas
+  células de `celulas.json` (vale da silhueta), tira magenta e realce rosa
+  (camisa clara pouco saturada vira cinza), escala cada linha da folha pela
+  própria guarda (66 px), alinha pelo centro da camisa (o braço esticado não
+  puxa o alinhamento), casa o histograma de cor com a guarda do lote 3 e
+  aplica a paleta do lote 3. `revisao.png` e `relatorio.json` por animação.
+* `scripts/add-miguel-lote4.py` põe `m4_*` no atlas. Contato: maior extensão
+  medida, com correção manual em `CONTACT`. Tempos: equivalentes do Sorriso.
+* `extract-markers.py`: pele do lote 4 é mais quente (210,116,65); regra
+  `WARM_SKIN` só nos clipes `m4_` (os demais marcadores não mudam).
+* No jogo: andar em guarda (frente/trás, `MIGUEL_WALK_CYCLE` 36 px — o passo
+  desenhado tem ~10 px, o pé desliza a diferença), bloqueio `m4_block`,
+  reação por região esticada ao atordoamento (`m4_hitHead/Body/Leg`), grogue
+  `m4_dazed`, chão `m4_lying`, gancho (trás+J, curta distância, punho +21 px),
+  jab no corpo (baixo+J, só tronco), aparo + contra. Queda/nocaute/levantar
+  sem desenho: segura `m4_hitHead` 2.
+* Fora do comando: chute alto `m4_kickHigh` (pé no topo da cabeça, −65 px;
+  erro do prompt — corrigido para altura do rosto), uppercut, cotovelada,
+  jab/direto com passo, esquiva + contra (no atlas, sem comando ainda).
+  Socos do lote 4 alcançam ~2/3 do lote 3 (+21 contra +33 px).
+* Refazer: correr, reação forte, esquiva para trás, queda, levantar.
+* Varredura do membro só até `SWEEP_MAX` (45 px) entre ticks: salto maior
+  (troca de pé no marcador, quadros do meio não desenhados) não arrasta caixa.
+* Diferença de arte que fica: tênis brancos no lote 4 (escuros no lote 3).
 
 ## Acompanhar (provisório, `STEP_IN` em `duel.mjs`)
 

@@ -9,9 +9,10 @@ import { R2_STRIDE, tableFrame } from '../locomotion.mjs';
 // desenho próprio fica indisponível — não é emprestada de outro personagem.
 export const CHARACTERS = {
   sorriso: { name: 'SORRISO', sheet: 'sorriso-sheet', requires: { walk: 'r2_walk', run: 'r2_run', crouch: 'r2_crouchHold', attack: 'r3_jab_head', hurt: 'hurt', fall: 'fall', rise: 'rise', guard: 'block', clinch: 'clinchWalk' } },
-  // Miguel: lote 3 (guarda, andar, socos e chutes) e lote 2 (bloqueio).
-  // Corrida, agachar, clinch, reações e queda ainda não foram desenhados.
-  miguel: { name: 'MIGUEL', sheet: 'miguel-sheet', requires: { walk: 'm3_walk', run: null, crouch: null, attack: 'm3_jab', hurt: null, fall: null, rise: null, guard: 'm_block', clinch: null } },
+  // Miguel: lote 3 (guarda, socos e chutes) e lote 4 (andar em guarda,
+  // bloqueio, reações, grogue, deitado, chute alto, gancho, jab no corpo,
+  // aparo). Corrida, agachar, clinch, queda e levantar ainda faltam.
+  miguel: { name: 'MIGUEL', sheet: 'miguel-sheet', requires: { walk: 'm3_walk', run: null, crouch: null, attack: 'm3_jab', hurt: 'm4_hitHead', fall: null, rise: null, guard: 'm_block', clinch: null } },
 };
 
 export function capabilities(character, clips) {
@@ -69,26 +70,35 @@ export function gaitOffset(f, gait) {
   return -(phase - table.start[tableFrame(table, distance)]) * f.facing;
 }
 
-// Quadros do Miguel. Só sequências desenhadas para ele; o que não tem desenho
-// (reação, queda, nocaute, preso) segura o quadro de absorção do bloqueio
-// (m_block 3), escolha registrada com o usuário até chegar a arte própria.
+// Quadros do Miguel. Só sequências desenhadas para ele. Sem queda e levantar
+// desenhados, cair segura o quadro de cabeça jogada da reação e o chão usa o
+// deitado do lote 4.
 const MIGUEL_GUARD = { clip: 'm_enterGuard', frame: 5 };
 const MIGUEL_ABSORB = { clip: 'm_block', frame: 3 };
+// Passo do andar em guarda: o desenho avança ~10 px por ciclo (passo curto);
+// a 52 px/s isso seria um ciclo a cada 0,2 s. A cadência usa 36 px por ciclo
+// (~0,7 s) e o pé desliza a diferença — volta a ser medida quando o passo
+// desenhado tiver o tamanho pedido (1 pé).
+const MIGUEL_WALK_CYCLE = 36;
 const hold = (durations, t, from = 0) => from + timed(durations.slice(from), t);
+const byDistance = (clip, d, stride) => { const n = clip.frames.length; return Math.floor((((d % stride) + stride) % stride) / stride * n) % n; };
+const MIGUEL_HIT = { head: 'm4_hitHead', body: 'm4_hitBody', legs: 'm4_hitLeg' };
 
 export function miguelRef(f, clips, clock = Infinity, moves = null) {
+  const fallen = clips.m4_hitHead ? { clip: 'm4_hitHead', frame: 2 } : MIGUEL_ABSORB;
   switch (f.state) {
     case 'idle':
-      // Guarda respirando (lote 3); sem ela, a guarda parada do lote 2.
+      // Grogue: cambaleando (lote 4). Senão, guarda respirando (lote 3).
+      if (clock < f.rockedUntil && clips.m4_dazed) return { clip: 'm4_dazed', frame: loop(clips.m4_dazed, f.t) };
       return clips.m3_idle ? { clip: 'm3_idle', frame: loop(clips.m3_idle, f.t) } : MIGUEL_GUARD;
     case 'walk': {
-      // Andar do lote 3 (para trás, o mesmo ciclo ao contrário); sem ele, lote 2.
-      // Com passada medida (`stride`, px por ciclo), o quadro segue a
-      // distância andada: a cadência acompanha a velocidade e o pé não
-      // desliza para frente (o "moonwalk" do quadro trocado pelo relógio).
+      // Andar em guarda (lote 4), um ciclo para cada sentido.
+      const g = clips[f.walkRel < 0 ? 'm4_walkBack' : 'm4_walkFwd'];
+      if (g) return { clip: g.id, frame: byDistance(g, Math.abs(f.gait), MIGUEL_WALK_CYCLE) };
+      // Andar sem guarda (lote 3), passada medida.
       if (clips.m3_walk) {
         const c = clips.m3_walk, n = c.frames.length;
-        const k = c.stride ? Math.floor((((f.gait % c.stride) + c.stride) % c.stride) / c.stride * n) % n : loop(c, f.t);
+        const k = c.stride ? byDistance(c, f.gait, c.stride) : loop(c, f.t);
         return { clip: 'm3_walk', frame: f.walkRel < 0 ? n - 1 - k : k };
       }
       const clip = clips[f.walkRel < 0 ? 'm_walkBack' : 'm_walkFwd'];
@@ -101,12 +111,29 @@ export function miguelRef(f, clips, clock = Infinity, moves = null) {
     }
     case 'guard':
       // Sobe a guarda (quadros 0–2) e segura a pose fechada.
+      if (clips.m4_block) return { clip: 'm4_block', frame: Math.min(2, timed(clips.m4_block.durations, f.t)) };
       return { clip: 'm_block', frame: Math.min(2, timed(clips.m_block.durations, f.t)) };
-    case 'blockstun':
+    case 'blockstun': {
       // Absorve e volta (quadros 3–5).
-      return { clip: 'm_block', frame: Math.min(5, hold(clips.m_block.durations, f.t, 3)) };
+      const c = clips.m4_block || clips.m_block;
+      return { clip: c.id, frame: Math.min(5, hold(c.durations, f.t, 3)) };
+    }
+    case 'hitstun': {
+      // Reação por região, esticada para durar o atordoamento inteiro.
+      const c = clips[MIGUEL_HIT[f.reaction] || 'm4_hitBody'];
+      if (!c) return MIGUEL_ABSORB;
+      const n = c.frames.length;
+      return { clip: c.id, frame: Math.min(n - 1, Math.floor(f.t / Math.max(1, f.stun) * n)) };
+    }
+    case 'down':
+      return clips.m4_lying ? { clip: 'm4_lying', frame: loop(clips.m4_lying, f.t) } : MIGUEL_ABSORB;
+    case 'held':
+    case 'thrown':
+    case 'parried':
+      return clips.m4_hitBody ? { clip: 'm4_hitBody', frame: 2 } : MIGUEL_ABSORB;
     default:
-      return MIGUEL_ABSORB;
+      // Queda, nocaute e levantar ainda sem desenho próprio.
+      return fallen;
   }
 }
 
