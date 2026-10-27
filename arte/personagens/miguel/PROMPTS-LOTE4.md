@@ -19,13 +19,16 @@ o mesmo cabeçalho. Cole o bloco abaixo, depois o CABEÇALHO e depois todas as
 seções 1–17 de uma vez, numa mensagem só.
 
 ```
+STRICT MODE. The attached MASTER image is the official model of Miguel. Follow this prompt to the letter: every rule, every frame count, every frame description, in the exact order written. Do not interpret creatively, do not simplify, do not add or remove frames, poses, effects, backgrounds, text or characters. Copy the MASTER exactly: same face, hair, clothes, colors, proportions, outline and pixel size. If a rule cannot be followed, say which one before drawing instead of ignoring it. Any sheet that breaks a rule is wrong and must be redrawn.
+
 I am giving you the full production list for one character. Read everything first. Then work like a sprite artist on a production line:
 - Generate ONE sprite sheet per image, in the order of the list (sheet 1 = section 1, and so on; sections with A/B/C or PAIR = one sheet per letter/side).
 - Before each image, write one line: "Sheet X of Y: <name>, N frames".
 - Generate ALL sheets in this same reply, one image after another, without stopping to ask. If you hit a limit, stop after a complete sheet and continue from the next one when I type "continue". When I type "fix N: <note>", redraw only that sheet with the fix.
 - Every sheet must follow the SHEET FORMAT and CHARACTER rules exactly, and must look like it was drawn by the same artist on the same day as the reference images and as the previous sheets of this conversation: same head size, same proportions, same palette, same outline. Compare with the reference before drawing.
 - Never change the character design between sheets.
-Before sheet 1, draw one single cell of Miguel in fighting guard (128x96, magenta) as the style anchor, and compare every sheet against it.
+Before sheet 1, draw one single cell of Miguel in fighting guard (128x96, magenta) copied from the MASTER as the style anchor, and compare every sheet against the MASTER and the anchor.
+After each sheet, write a 1-line checklist: frames = N (as requested), magenta background, faces right, same scale, matches MASTER. If any item is no, redraw that sheet before moving on.
 ```
 
 ---
