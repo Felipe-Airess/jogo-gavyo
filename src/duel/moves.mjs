@@ -61,7 +61,10 @@ const MIGUEL_SPEC = {
   crossBody: { ...SPEC.crossBody, clip: 'm3_crossBody' },
   overhand: { ...SPEC.overhand, clip: 'm3_overhand', whiff: undefined },
   roundBody: { ...SPEC.roundBody, clip: 'm3_roundKick', name: 'CHUTE CIRCULAR' },
-  roundHead: { ...SPEC.roundHead, clip: 'm3_stepKick', name: 'CHUTE COM PASSO' },
+  // A folha não tem chute alto: cima+K é um chute com passo na altura da
+  // cintura (pé a −25/−28 px no contato, entre quadril e barriga). Mira tronco
+  // e perna, empurra e desequilibra mais; dano de chute médio, não de cabeça.
+  roundHead: { ...SPEC.roundHead, clip: 'm3_stepKick', name: 'CHUTE COM PASSO', damage: 14, balance: 24, push: 16, targets: ['body', 'legs'] },
   lowKick: { ...SPEC.lowKick, clip: 'm3_lowKick', links: undefined },
   kneeStrike: { name: 'JOELHADA', clip: 'm3_knee', limb: 'knee', power: 2, damage: 12, balance: 16, hitstun: 380, blockstun: 220, push: 8, cost: 9, targets: ['body', 'head'] },
 };

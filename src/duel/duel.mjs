@@ -9,7 +9,7 @@ import { sweep, contactPoint, overlap } from './collision.mjs';
 import { resolveHit, applyHit, contactQuality, ROCK } from './damage.mjs';
 import { startClinch, endClinch, keepGap, escapeGain, CLINCH } from './clinch.mjs';
 
-export const STAGE = { minX: 24, maxX: 456, ground: 150, half: 8 };
+export const STAGE = { minX: 24, maxX: 456, ground: 150, half: 10 };
 export const TICK = 1000 / 60;
 export const HITSTOP = { block: 50, light: 66, medium: 83, heavy: 116 };
 // Acerto empurra metade do valor do golpe (o recuo da cabeça já afasta o alvo).

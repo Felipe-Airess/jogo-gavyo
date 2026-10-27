@@ -1028,6 +1028,7 @@
             64,
             88
           ],
+          "shift": -1,
           "phase": ""
         },
         {
@@ -1039,6 +1040,7 @@
             64,
             88
           ],
+          "shift": -1,
           "phase": ""
         },
         {
@@ -1050,6 +1052,7 @@
             64,
             88
           ],
+          "shift": 0,
           "phase": ""
         },
         {
@@ -1061,6 +1064,7 @@
             64,
             88
           ],
+          "shift": 0,
           "phase": ""
         },
         {
@@ -1072,6 +1076,7 @@
             64,
             88
           ],
+          "shift": 0,
           "phase": ""
         },
         {
@@ -1083,6 +1088,7 @@
             64,
             88
           ],
+          "shift": 0,
           "phase": ""
         }
       ],
@@ -1111,6 +1117,7 @@
             64,
             88
           ],
+          "shift": 1,
           "phase": ""
         },
         {
@@ -1122,6 +1129,7 @@
             64,
             88
           ],
+          "shift": 1,
           "phase": ""
         },
         {
@@ -1133,6 +1141,7 @@
             64,
             88
           ],
+          "shift": 0,
           "phase": ""
         },
         {
@@ -1144,6 +1153,7 @@
             64,
             88
           ],
+          "shift": 0,
           "phase": ""
         },
         {
@@ -1155,6 +1165,7 @@
             64,
             88
           ],
+          "shift": -1,
           "phase": ""
         },
         {
@@ -1166,6 +1177,7 @@
             64,
             88
           ],
+          "shift": 0,
           "phase": ""
         },
         {
@@ -1177,6 +1189,7 @@
             64,
             88
           ],
+          "shift": 0,
           "phase": ""
         },
         {
@@ -1188,9 +1201,11 @@
             64,
             88
           ],
+          "shift": -1,
           "phase": ""
         }
       ],
+      "stride": 42.0,
       "durations": [
         125,
         125,
@@ -1211,104 +1226,112 @@
       "frames": [
         {
           "index": 75,
-          "duration": 60,
+          "duration": 62,
           "sourceFacing": 1,
           "file": "m3_jab/00.png",
           "root": [
             64,
             88
           ],
+          "shift": -1,
           "phase": "preparação"
         },
         {
           "index": 76,
-          "duration": 60,
+          "duration": 42,
           "sourceFacing": 1,
           "file": "m3_jab/01.png",
           "root": [
             64,
             88
           ],
+          "shift": -1,
           "phase": "preparação"
         },
         {
           "index": 77,
-          "duration": 60,
+          "duration": 35,
           "sourceFacing": 1,
           "file": "m3_jab/02.png",
           "root": [
             64,
             88
           ],
+          "shift": -2,
           "phase": "preparação"
         },
         {
           "index": 78,
-          "duration": 56,
+          "duration": 35,
           "sourceFacing": 1,
           "file": "m3_jab/03.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "contato"
         },
         {
           "index": 79,
-          "duration": 56,
+          "duration": 35,
           "sourceFacing": 1,
           "file": "m3_jab/04.png",
           "root": [
             64,
             88
           ],
+          "shift": 0,
           "phase": "contato"
         },
         {
           "index": 80,
-          "duration": 56,
+          "duration": 35,
           "sourceFacing": 1,
           "file": "m3_jab/05.png",
           "root": [
             64,
             88
           ],
+          "shift": 2,
           "phase": "recuperação"
         },
         {
           "index": 81,
-          "duration": 56,
+          "duration": 39,
           "sourceFacing": 1,
           "file": "m3_jab/06.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "recuperação"
         },
         {
           "index": 82,
-          "duration": 56,
+          "duration": 44,
           "sourceFacing": 1,
           "file": "m3_jab/07.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "recuperação"
         }
       ],
       "durations": [
-        60,
-        60,
-        60,
-        56,
-        56,
-        56,
-        56,
-        56
+        62,
+        42,
+        35,
+        35,
+        35,
+        35,
+        39,
+        44
       ],
-      "totalMs": 460,
+      "totalMs": 327,
       "contactFrames": [
         3,
         4
@@ -1321,104 +1344,112 @@
       "frames": [
         {
           "index": 83,
-          "duration": 53,
+          "duration": 72,
           "sourceFacing": 1,
           "file": "m3_cross/00.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "preparação"
         },
         {
           "index": 84,
-          "duration": 53,
+          "duration": 50,
           "sourceFacing": 1,
           "file": "m3_cross/02.png",
           "root": [
             64,
             88
           ],
+          "shift": -2,
           "phase": "preparação"
         },
         {
           "index": 85,
-          "duration": 53,
+          "duration": 35,
           "sourceFacing": 1,
           "file": "m3_cross/03.png",
           "root": [
             64,
             88
           ],
+          "shift": 2,
           "phase": "preparação"
         },
         {
           "index": 86,
-          "duration": 104,
+          "duration": 65,
           "sourceFacing": 1,
           "file": "m3_cross/04.png",
           "root": [
             64,
             88
           ],
+          "shift": -1,
           "phase": "contato"
         },
         {
           "index": 87,
-          "duration": 104,
+          "duration": 51,
           "sourceFacing": 1,
           "file": "m3_cross/05.png",
           "root": [
             64,
             88
           ],
+          "shift": -1,
           "phase": "contato"
         },
         {
           "index": 88,
-          "duration": 104,
+          "duration": 61,
           "sourceFacing": 1,
           "file": "m3_cross/06.png",
           "root": [
             64,
             88
           ],
+          "shift": 0,
           "phase": "recuperação"
         },
         {
           "index": 89,
-          "duration": 104,
+          "duration": 71,
           "sourceFacing": 1,
           "file": "m3_cross/07.png",
           "root": [
             64,
             88
           ],
+          "shift": 0,
           "phase": "recuperação"
         },
         {
           "index": 90,
-          "duration": 104,
+          "duration": 81,
           "sourceFacing": 1,
           "file": "m3_cross/08.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "recuperação"
         }
       ],
       "durations": [
-        53,
-        53,
-        53,
-        104,
-        104,
-        104,
-        104,
-        104
+        72,
+        50,
+        35,
+        65,
+        51,
+        61,
+        71,
+        81
       ],
-      "totalMs": 679,
+      "totalMs": 486,
       "contactFrames": [
         3,
         4
@@ -1431,116 +1462,125 @@
       "frames": [
         {
           "index": 91,
-          "duration": 86,
+          "duration": 90,
           "sourceFacing": 1,
           "file": "m3_crossBody/00.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "preparação"
         },
         {
           "index": 92,
-          "duration": 86,
+          "duration": 71,
           "sourceFacing": 1,
           "file": "m3_crossBody/01.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "preparação"
         },
         {
           "index": 93,
-          "duration": 86,
+          "duration": 52,
           "sourceFacing": 1,
           "file": "m3_crossBody/02.png",
           "root": [
             64,
             88
           ],
+          "shift": -1,
           "phase": "preparação"
         },
         {
           "index": 94,
-          "duration": 86,
+          "duration": 35,
           "sourceFacing": 1,
           "file": "m3_crossBody/03.png",
           "root": [
             64,
             88
           ],
+          "shift": 0,
           "phase": "preparação"
         },
         {
           "index": 95,
-          "duration": 93,
+          "duration": 59,
           "sourceFacing": 1,
           "file": "m3_crossBody/04.png",
           "root": [
             64,
             88
           ],
+          "shift": -2,
           "phase": "contato"
         },
         {
           "index": 96,
-          "duration": 93,
+          "duration": 47,
           "sourceFacing": 1,
           "file": "m3_crossBody/05.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "contato"
         },
         {
           "index": 97,
-          "duration": 93,
+          "duration": 56,
           "sourceFacing": 1,
           "file": "m3_crossBody/06.png",
           "root": [
             64,
             88
           ],
+          "shift": 0,
           "phase": "recuperação"
         },
         {
           "index": 98,
-          "duration": 93,
+          "duration": 65,
           "sourceFacing": 1,
           "file": "m3_crossBody/07.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "recuperação"
         },
         {
           "index": 99,
-          "duration": 93,
+          "duration": 74,
           "sourceFacing": 1,
           "file": "m3_crossBody/08.png",
           "root": [
             64,
             88
           ],
+          "shift": -1,
           "phase": "recuperação"
         }
       ],
       "durations": [
-        86,
-        86,
-        86,
-        86,
-        93,
-        93,
-        93,
-        93,
-        93
+        90,
+        71,
+        52,
+        35,
+        59,
+        47,
+        56,
+        65,
+        74
       ],
-      "totalMs": 809,
+      "totalMs": 549,
       "contactFrames": [
         4,
         5
@@ -1553,152 +1593,164 @@
       "frames": [
         {
           "index": 100,
-          "duration": 82,
+          "duration": 84,
           "sourceFacing": 1,
           "file": "m3_overhand/00.png",
           "root": [
             64,
             88
           ],
+          "shift": -1,
           "phase": "preparação"
         },
         {
           "index": 101,
-          "duration": 82,
+          "duration": 71,
           "sourceFacing": 1,
           "file": "m3_overhand/01.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "preparação"
         },
         {
           "index": 102,
-          "duration": 82,
+          "duration": 58,
           "sourceFacing": 1,
           "file": "m3_overhand/02.png",
           "root": [
             64,
             88
           ],
+          "shift": 7,
           "phase": "preparação"
         },
         {
           "index": 103,
-          "duration": 82,
+          "duration": 45,
           "sourceFacing": 1,
           "file": "m3_overhand/03.png",
           "root": [
             64,
             88
           ],
+          "shift": 11,
           "phase": "preparação"
         },
         {
           "index": 104,
-          "duration": 82,
+          "duration": 35,
           "sourceFacing": 1,
           "file": "m3_overhand/04.png",
           "root": [
             64,
             88
           ],
+          "shift": 14,
           "phase": "preparação"
         },
         {
           "index": 105,
-          "duration": 83,
+          "duration": 56,
           "sourceFacing": 1,
           "file": "m3_overhand/05.png",
           "root": [
             64,
             88
           ],
+          "shift": 7,
           "phase": "contato"
         },
         {
           "index": 106,
-          "duration": 83,
+          "duration": 44,
           "sourceFacing": 1,
           "file": "m3_overhand/06.png",
           "root": [
             64,
             88
           ],
+          "shift": -4,
           "phase": "contato"
         },
         {
           "index": 107,
-          "duration": 83,
+          "duration": 49,
           "sourceFacing": 1,
           "file": "m3_overhand/07.png",
           "root": [
             64,
             88
           ],
+          "shift": -10,
           "phase": "recuperação"
         },
         {
           "index": 108,
-          "duration": 83,
+          "duration": 54,
           "sourceFacing": 1,
           "file": "m3_overhand/08.png",
           "root": [
             64,
             88
           ],
+          "shift": -10,
           "phase": "recuperação"
         },
         {
           "index": 109,
-          "duration": 83,
+          "duration": 59,
           "sourceFacing": 1,
           "file": "m3_overhand/09.png",
           "root": [
             64,
             88
           ],
+          "shift": -9,
           "phase": "recuperação"
         },
         {
           "index": 110,
-          "duration": 83,
+          "duration": 64,
           "sourceFacing": 1,
           "file": "m3_overhand/10.png",
           "root": [
             64,
             88
           ],
+          "shift": -6,
           "phase": "recuperação"
         },
         {
           "index": 111,
-          "duration": 83,
+          "duration": 69,
           "sourceFacing": 1,
           "file": "m3_overhand/11.png",
           "root": [
             64,
             88
           ],
+          "shift": -2,
           "phase": "recuperação"
         }
       ],
       "durations": [
-        82,
-        82,
-        82,
-        82,
-        82,
-        83,
-        83,
-        83,
-        83,
-        83,
-        83,
-        83
+        84,
+        71,
+        58,
+        45,
+        35,
+        56,
+        44,
+        49,
+        54,
+        59,
+        64,
+        69
       ],
-      "totalMs": 991,
+      "totalMs": 688,
       "contactFrames": [
         5,
         6
@@ -1711,152 +1763,164 @@
       "frames": [
         {
           "index": 112,
-          "duration": 84,
+          "duration": 87,
           "sourceFacing": 1,
           "file": "m3_roundKick/00.png",
           "root": [
             64,
             88
           ],
+          "shift": -1,
           "phase": "preparação"
         },
         {
           "index": 113,
-          "duration": 84,
+          "duration": 73,
           "sourceFacing": 1,
           "file": "m3_roundKick/01.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "preparação"
         },
         {
           "index": 114,
-          "duration": 84,
+          "duration": 60,
           "sourceFacing": 1,
           "file": "m3_roundKick/02.png",
           "root": [
             64,
             88
           ],
+          "shift": -1,
           "phase": "preparação"
         },
         {
           "index": 115,
-          "duration": 84,
+          "duration": 46,
           "sourceFacing": 1,
           "file": "m3_roundKick/03.png",
           "root": [
             64,
             88
           ],
+          "shift": -1,
           "phase": "preparação"
         },
         {
           "index": 116,
-          "duration": 84,
+          "duration": 35,
           "sourceFacing": 1,
           "file": "m3_roundKick/04.png",
           "root": [
             64,
             88
           ],
+          "shift": 2,
           "phase": "preparação"
         },
         {
           "index": 117,
-          "duration": 75,
+          "duration": 51,
           "sourceFacing": 1,
           "file": "m3_roundKick/05.png",
           "root": [
             64,
             88
           ],
+          "shift": -1,
           "phase": "contato"
         },
         {
           "index": 118,
-          "duration": 75,
+          "duration": 40,
           "sourceFacing": 1,
           "file": "m3_roundKick/06.png",
           "root": [
             64,
             88
           ],
+          "shift": -3,
           "phase": "contato"
         },
         {
           "index": 119,
-          "duration": 75,
+          "duration": 45,
           "sourceFacing": 1,
           "file": "m3_roundKick/07.png",
           "root": [
             64,
             88
           ],
+          "shift": -3,
           "phase": "recuperação"
         },
         {
           "index": 120,
-          "duration": 75,
+          "duration": 49,
           "sourceFacing": 1,
           "file": "m3_roundKick/08.png",
           "root": [
             64,
             88
           ],
+          "shift": 2,
           "phase": "recuperação"
         },
         {
           "index": 121,
-          "duration": 75,
+          "duration": 54,
           "sourceFacing": 1,
           "file": "m3_roundKick/09.png",
           "root": [
             64,
             88
           ],
+          "shift": 2,
           "phase": "recuperação"
         },
         {
           "index": 122,
-          "duration": 75,
+          "duration": 59,
           "sourceFacing": 1,
           "file": "m3_roundKick/10.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "recuperação"
         },
         {
           "index": 123,
-          "duration": 75,
+          "duration": 63,
           "sourceFacing": 1,
           "file": "m3_roundKick/11.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "recuperação"
         }
       ],
       "durations": [
-        84,
-        84,
-        84,
-        84,
-        84,
-        75,
-        75,
-        75,
-        75,
-        75,
-        75,
-        75
+        87,
+        73,
+        60,
+        46,
+        35,
+        51,
+        40,
+        45,
+        49,
+        54,
+        59,
+        63
       ],
-      "totalMs": 945,
+      "totalMs": 662,
       "contactFrames": [
         5,
         6
@@ -1869,152 +1933,164 @@
       "frames": [
         {
           "index": 124,
-          "duration": 94,
+          "duration": 97,
           "sourceFacing": 1,
           "file": "m3_stepKick/00.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "preparação"
         },
         {
           "index": 125,
-          "duration": 94,
+          "duration": 85,
           "sourceFacing": 1,
           "file": "m3_stepKick/01.png",
           "root": [
             64,
             88
           ],
+          "shift": 5,
           "phase": "preparação"
         },
         {
           "index": 126,
-          "duration": 94,
+          "duration": 73,
           "sourceFacing": 1,
           "file": "m3_stepKick/02.png",
           "root": [
             64,
             88
           ],
+          "shift": 2,
           "phase": "preparação"
         },
         {
           "index": 127,
-          "duration": 94,
+          "duration": 61,
           "sourceFacing": 1,
           "file": "m3_stepKick/03.png",
           "root": [
             64,
             88
           ],
+          "shift": -3,
           "phase": "preparação"
         },
         {
           "index": 128,
-          "duration": 94,
+          "duration": 48,
           "sourceFacing": 1,
           "file": "m3_stepKick/04.png",
           "root": [
             64,
             88
           ],
+          "shift": -2,
           "phase": "preparação"
         },
         {
           "index": 129,
-          "duration": 94,
+          "duration": 36,
           "sourceFacing": 1,
           "file": "m3_stepKick/05.png",
           "root": [
             64,
             88
           ],
+          "shift": -4,
           "phase": "preparação"
         },
         {
           "index": 130,
-          "duration": 114,
+          "duration": 75,
           "sourceFacing": 1,
           "file": "m3_stepKick/06.png",
           "root": [
             64,
             88
           ],
+          "shift": -2,
           "phase": "contato"
         },
         {
           "index": 131,
-          "duration": 114,
+          "duration": 59,
           "sourceFacing": 1,
           "file": "m3_stepKick/07.png",
           "root": [
             64,
             88
           ],
+          "shift": -2,
           "phase": "contato"
         },
         {
           "index": 132,
-          "duration": 114,
+          "duration": 68,
           "sourceFacing": 1,
           "file": "m3_stepKick/08.png",
           "root": [
             64,
             88
           ],
+          "shift": 0,
           "phase": "recuperação"
         },
         {
           "index": 133,
-          "duration": 114,
+          "duration": 76,
           "sourceFacing": 1,
           "file": "m3_stepKick/09.png",
           "root": [
             64,
             88
           ],
+          "shift": 0,
           "phase": "recuperação"
         },
         {
           "index": 134,
-          "duration": 114,
+          "duration": 85,
           "sourceFacing": 1,
           "file": "m3_stepKick/10.png",
           "root": [
             64,
             88
           ],
+          "shift": 2,
           "phase": "recuperação"
         },
         {
           "index": 135,
-          "duration": 114,
+          "duration": 93,
           "sourceFacing": 1,
           "file": "m3_stepKick/11.png",
           "root": [
             64,
             88
           ],
+          "shift": 2,
           "phase": "recuperação"
         }
       ],
       "durations": [
-        94,
-        94,
-        94,
-        94,
-        94,
-        94,
-        114,
-        114,
-        114,
-        114,
-        114,
-        114
+        97,
+        85,
+        73,
+        61,
+        48,
+        36,
+        75,
+        59,
+        68,
+        76,
+        85,
+        93
       ],
-      "totalMs": 1248,
+      "totalMs": 856,
       "contactFrames": [
         6,
         7
@@ -2027,128 +2103,138 @@
       "frames": [
         {
           "index": 136,
-          "duration": 106,
+          "duration": 108,
           "sourceFacing": 1,
           "file": "m3_lowKick/00.png",
           "root": [
             64,
             88
           ],
+          "shift": -2,
           "phase": "preparação"
         },
         {
           "index": 137,
-          "duration": 106,
+          "duration": 86,
           "sourceFacing": 1,
           "file": "m3_lowKick/01.png",
           "root": [
             64,
             88
           ],
+          "shift": -2,
           "phase": "preparação"
         },
         {
           "index": 138,
-          "duration": 106,
+          "duration": 63,
           "sourceFacing": 1,
           "file": "m3_lowKick/02.png",
           "root": [
             64,
             88
           ],
+          "shift": -3,
           "phase": "preparação"
         },
         {
           "index": 139,
-          "duration": 106,
+          "duration": 41,
           "sourceFacing": 1,
           "file": "m3_lowKick/03.png",
           "root": [
             64,
             88
           ],
+          "shift": -1,
           "phase": "preparação"
         },
         {
           "index": 140,
-          "duration": 105,
+          "duration": 69,
           "sourceFacing": 1,
           "file": "m3_lowKick/04.png",
           "root": [
             64,
             88
           ],
+          "shift": 3,
           "phase": "contato"
         },
         {
           "index": 141,
-          "duration": 105,
+          "duration": 54,
           "sourceFacing": 1,
           "file": "m3_lowKick/05.png",
           "root": [
             64,
             88
           ],
+          "shift": 0,
           "phase": "contato"
         },
         {
           "index": 142,
-          "duration": 105,
+          "duration": 62,
           "sourceFacing": 1,
           "file": "m3_lowKick/06.png",
           "root": [
             64,
             88
           ],
+          "shift": 0,
           "phase": "recuperação"
         },
         {
           "index": 143,
-          "duration": 105,
+          "duration": 70,
           "sourceFacing": 1,
           "file": "m3_lowKick/07.png",
           "root": [
             64,
             88
           ],
+          "shift": 1,
           "phase": "recuperação"
         },
         {
           "index": 144,
-          "duration": 105,
+          "duration": 78,
           "sourceFacing": 1,
           "file": "m3_lowKick/08.png",
           "root": [
             64,
             88
           ],
+          "shift": 2,
           "phase": "recuperação"
         },
         {
           "index": 145,
-          "duration": 105,
+          "duration": 86,
           "sourceFacing": 1,
           "file": "m3_lowKick/09.png",
           "root": [
             64,
             88
           ],
+          "shift": 3,
           "phase": "recuperação"
         }
       ],
       "durations": [
-        106,
-        106,
-        106,
-        106,
-        105,
-        105,
-        105,
-        105,
-        105,
-        105
+        108,
+        86,
+        63,
+        41,
+        69,
+        54,
+        62,
+        70,
+        78,
+        86
       ],
-      "totalMs": 1054,
+      "totalMs": 717,
       "contactFrames": [
         4,
         5
@@ -2161,104 +2247,112 @@
       "frames": [
         {
           "index": 146,
-          "duration": 112,
+          "duration": 115,
           "sourceFacing": 1,
           "file": "m3_knee/00.png",
           "root": [
             64,
             88
           ],
+          "shift": -1,
           "phase": "preparação"
         },
         {
           "index": 147,
-          "duration": 112,
+          "duration": 79,
           "sourceFacing": 1,
           "file": "m3_knee/01.png",
           "root": [
             64,
             88
           ],
+          "shift": -4,
           "phase": "preparação"
         },
         {
           "index": 148,
-          "duration": 112,
+          "duration": 43,
           "sourceFacing": 1,
           "file": "m3_knee/02.png",
           "root": [
             64,
             88
           ],
+          "shift": -5,
           "phase": "preparação"
         },
         {
           "index": 149,
-          "duration": 100,
+          "duration": 64,
           "sourceFacing": 1,
           "file": "m3_knee/03.png",
           "root": [
             64,
             88
           ],
+          "shift": -2,
           "phase": "contato"
         },
         {
           "index": 150,
-          "duration": 100,
+          "duration": 50,
           "sourceFacing": 1,
           "file": "m3_knee/04.png",
           "root": [
             64,
             88
           ],
+          "shift": 2,
           "phase": "contato"
         },
         {
           "index": 151,
-          "duration": 100,
+          "duration": 60,
           "sourceFacing": 1,
           "file": "m3_knee/05.png",
           "root": [
             64,
             88
           ],
+          "shift": 3,
           "phase": "recuperação"
         },
         {
           "index": 152,
-          "duration": 100,
+          "duration": 70,
           "sourceFacing": 1,
           "file": "m3_knee/06.png",
           "root": [
             64,
             88
           ],
+          "shift": 4,
           "phase": "recuperação"
         },
         {
           "index": 153,
-          "duration": 100,
+          "duration": 80,
           "sourceFacing": 1,
           "file": "m3_knee/07.png",
           "root": [
             64,
             88
           ],
+          "shift": 3,
           "phase": "recuperação"
         }
       ],
       "durations": [
-        112,
-        112,
-        112,
-        100,
-        100,
-        100,
-        100,
-        100
+        115,
+        79,
+        43,
+        64,
+        50,
+        60,
+        70,
+        80
       ],
-      "totalMs": 836,
+      "totalMs": 561,
       "contactFrames": [
         3,
         4

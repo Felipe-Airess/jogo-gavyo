@@ -22,7 +22,7 @@ contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
 
 ```bash
 npm start            # servidor local em http://127.0.0.1:4173 (abre o navegador)
-npm test             # 149 testes: core, duelo e históricos — todos passando
+npm test             # 153 testes: core, duelo e históricos — todos passando
 npm run test:legacy  # 22 testes antigos — todos passando
 npm run build        # gera build/ (≈4,7 MB, ignorado pelo Git)
 python scripts/extract-markers.py sorriso miguel   # regenera *-markers.json (Python 3 + Pillow)
@@ -77,8 +77,9 @@ logado na conta Felipe-Airess; pode não estar no PATH do shell.
   jab, jab no corpo → direto no corpo); chão, arremesso, aparo-contra,
   corrida, agachar e clinch ficam indisponíveis. Ao apanhar, segura `m_block` 3.
   O "gancho" da folha é um direto (descartado) e o quadro 2 do direto foi
-  tirado (braço estica antes da hora). Tempos: vídeos ×1,2 na preparação e
-  ×1,5 na volta (`scripts/add-miguel-lote3.py`).
+  tirado (braço estica antes da hora). Tempos: vídeos ×0,85 na preparação e
+  ×1,2 na volta, com aceleração (`scripts/add-miguel-lote3.py`); ver seção
+  "Miguel — auditoria de animação".
 * Não usar animação incompatível para fingir uma ação que não foi desenhada.
 * Nocaute sem sorteio, explicado na tela.
 * Corredor preservado: buffer antigo, avanço (`lunge`) dos socos e caixas
@@ -215,6 +216,31 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   acaso; aparo de propósito em `AI_LEVELS.parry`.
 * IA também arremessa (`AI_LEVELS.throw`) e bate em quem está no chão.
 * Simulação IA × IA: mediana 20 s, mínimo 6 s; ~1 aparo por luta.
+
+## Miguel — auditoria de animação (27/10)
+
+* Alinhamento dos quadros do lote 3 pelo tronco (`ALIGN=body`, padrão): as
+  células do ChatGPT deslocavam o boneco até 14 px. Soma dos saltos da cabeça
+  169 → 143 px; o maior que sobra (24 px no pesado) é a mão acima da cabeça
+  puxando o marcador, não o corpo. Saltos de "quadril" nos chutes vêm do
+  marcador seguindo a perna erguida.
+* Andar: `m3_walk` é andar no lugar, sem guarda (braços soltos). Passada
+  medida nos pixels (`stride` = 2 × maior distância entre pontas dos tênis
+  = 42 px); `miguelRef` troca o quadro pela distância (`f.gait`), não pelo
+  relógio — o pé não desliza mais. O salto guarda → braços soltos é da arte
+  (pedir "andar em guarda", item 2 da `LISTA-ANIMACOES.md`).
+* Carga: com ×1,1 os chutes levavam 390–520 ms até o contato (Sorriso
+  220–290). Agora jab 139, direto 157, circular 301, chute baixo 298, chute
+  com passo 400 ms. Volta sem o degrau 86 → 43 ms.
+* Cima+K do Miguel (`m3_stepKick`) é chute com passo **na cintura** (pé a
+  −25/−28 px): mira tronco/perna, dano 14, base 24, empurrão 16 — antes usava
+  os números do circular alto e acertava a perna.
+* Separação mínima entre quadris 16 → 20 px (`STAGE.half` 10): com 16 os
+  troncos se sobrepunham ~12 px e golpes "colados" acertavam regiões erradas
+  (jab no corpo, circular na cabeça). Com 20: JFDK entra 4/4 nos dois
+  personagens; joelhada só de perto; IA × IA mediana 21 s, máx. 49 s.
+* Ainda é arte: reação/queda do Miguel (segura `m_block` 3, estilo lote 2),
+  bloqueio do lote 2 diferente do lote 3, sem andar em guarda nem transições.
 
 ## Acompanhar (provisório, `STEP_IN` em `duel.mjs`)
 

@@ -83,8 +83,12 @@ export function miguelRef(f, clips, clock = Infinity, moves = null) {
       return clips.m3_idle ? { clip: 'm3_idle', frame: loop(clips.m3_idle, f.t) } : MIGUEL_GUARD;
     case 'walk': {
       // Andar do lote 3 (para trás, o mesmo ciclo ao contrário); sem ele, lote 2.
+      // Com passada medida (`stride`, px por ciclo), o quadro segue a
+      // distância andada: a cadência acompanha a velocidade e o pé não
+      // desliza para frente (o "moonwalk" do quadro trocado pelo relógio).
       if (clips.m3_walk) {
-        const n = clips.m3_walk.frames.length, k = loop(clips.m3_walk, f.t);
+        const c = clips.m3_walk, n = c.frames.length;
+        const k = c.stride ? Math.floor((((f.gait % c.stride) + c.stride) % c.stride) / c.stride * n) % n : loop(c, f.t);
         return { clip: 'm3_walk', frame: f.walkRel < 0 ? n - 1 - k : k };
       }
       const clip = clips[f.walkRel < 0 ? 'm_walkBack' : 'm_walkFwd'];

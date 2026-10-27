@@ -720,3 +720,40 @@ test('golpes do Miguel acertam com o desenho e as caixas dele; sem desenho, subs
   press(g, { attack: true });
   assert.notEqual(g.player.move, 'groundPunch', 'sem arte de chão');
 });
+
+test('Miguel: andar troca de quadro pela distância andada (passada medida), não pelo relógio', () => {
+  const walk = miguel.m3_walk;
+  assert.ok(walk.stride >= 30 && walk.stride <= 60, 'passada ' + walk.stride);
+  const d = withMiguel();
+  const p = d.player, frames = [];
+  for (let t = 0; t < 1500; t += TICK) { d.tick([{ right: true }, {}]); const ref = d.animation(p); if (ref.clip === 'm3_walk') frames.push([ref.frame, p.gait]); }
+  // cada quadro cobre stride/n px de caminhada, qualquer que seja a velocidade
+  const step = walk.stride / walk.frames.length;
+  const changes = frames.filter((f, i) => i && f[0] !== frames[i - 1][0]).map(f => f[1]);
+  for (let i = 1; i < changes.length; i++) assert.ok(Math.abs(changes[i] - changes[i - 1] - step) < 1.5, `troca a cada ${(changes[i] - changes[i - 1]).toFixed(1)} px, esperado ${step}`);
+});
+
+test('Miguel: carga dos golpes perto da do Sorriso (o mais lento até o contato em ≤ 400 ms)', () => {
+  const d = new Duel({ clips, markers, roster: { miguel: { clips: miguel, markers: miguelMarkers } } });
+  for (const [id, m] of Object.entries(d.movesBy.miguel)) {
+    if (m.ground || m.throw || m.clinch || m.special) continue;
+    assert.ok(m.activeStart <= 400, `${id}: ${Math.round(m.activeStart)} ms até o contato`);
+  }
+  assert.ok(d.movesBy.miguel.jab.activeStart <= 160);
+});
+
+test('andar até o adversário não enfia um tronco no outro (quadris a ≥ 20 px)', () => {
+  for (const ch of ['sorriso', 'miguel']) {
+    const d = withMiguel(); d.setCharacters([ch, 'sorriso']);
+    run(d, 2500, { right: true });
+    const hip = f => d.markersOf(f)?.hip?.x ?? f.x;
+    assert.ok(hip(d.rival) - hip(d.player) >= 19.5, `${ch}: ${(hip(d.rival) - hip(d.player)).toFixed(1)} px`);
+  }
+});
+
+test('Miguel: cima+K é o chute com passo na cintura (tronco/perna), não chute alto', () => {
+  const d = withMiguel(), m = d.movesBy.miguel.roundHead;
+  assert.equal(m.clip, 'm3_stepKick');
+  assert.deepEqual(m.targets, ['body', 'legs']);
+  assert.ok(m.damage < d.moves.roundHead.damage);
+});
