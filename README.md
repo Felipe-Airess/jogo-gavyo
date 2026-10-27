@@ -1,4 +1,13 @@
-# GAVIÃO 0.7.0 — primeiro treino mobile
+# GAVIÃO 0.8.0 — treino e duelo 1×1
+
+**Novo na 0.8.0:** seletor **Modo → Duelo 1×1**. Sorriso enfrenta, em linha
+lateral, uma versão de roupa escura controlada por IA, com as mesmas regras dos
+dois lados: passo fixo de 60 Hz, buffer curto de comandos, cancelamentos só após
+contato, caixas por quadro a partir de marcadores extraídos dos sprites, dano
+por região com equilíbrio e nocaute explicado, clinch com escape. O corredor
+abaixo continua disponível. Detalhes, testes e a arte que ainda falta:
+[docs/DUELO-080.md](docs/DUELO-080.md).
+
 
 Sorriso em um corredor escolar, com dois manequins de treino e controles para navegador de computador ou celular. Gelado, Bola e Alice permanecem fora desta build.
 
@@ -47,7 +56,7 @@ O seletor **Treino** oferece Reações, Defesa do alvo e Combate. Cada manequim 
 
 ## Build e fontes
 
-`npm run build` cria `build/`, com aproximadamente 4,3 MB de arquivos: jogo estático, atlas combinado, Phaser, servidor local opcional e manifesto de integridade. `npm run serve:build -- --port=4175` permite testar esse pacote isoladamente. O ZIP da release contém somente os arquivos necessários para jogar, não todo o histórico de arte.
+`npm run build` cria `build/`, com aproximadamente 4,7 MB de arquivos: jogo estático, atlas combinado, Phaser, servidor local opcional e manifesto de integridade. `npm run serve:build -- --port=4175` permite testar esse pacote isoladamente. O ZIP da release contém somente os arquivos necessários para jogar, não todo o histórico de arte.
 
 O repositório guarda código, testes e [lotes de arte](arte/reformulacao/PLANO.md). A base e o idle do lote 1, a locomoção do lote 2 e os ataques do lote 3 estão no atlas da build. Reações e ações antigas foram preservadas onde a reformulação ainda não foi produzida. Os PNGs originais e os prompts permanecem nos lotes.
 

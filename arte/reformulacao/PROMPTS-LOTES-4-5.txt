@@ -1,0 +1,113 @@
+GAVIÃO — LOTES 04 (DEFESA + REAÇÕES) E 05 (CLINCH) — PROMPTS
+Mesmo formato do lote 3. Anexar SEMPRE: KIT-REFERENCIA.png e 03-SOCOS-CHUTES/base-aprovada.png
+(e 01-BASE-IDLE/base-fonte.png para rosto/cabelo). Cabeçalho comum COPIADO SEM ALTERAR.
+Uma conversa por lote, uma folha por vez; se o estilo mudar, nova conversa com o kit (ver PEDIDO, seção 1.1). Para o clinch, anexar também a prévia
+composta dos dois atores quando existir. Um prompt = uma ação = uma folha.
+Detalhes, prioridades e tempos: PEDIDO-LOTES-4-5.md.
+
+=== CABEÇALHO COMUM (colar no início de todo prompt) ===
+Use case: stylized-concept. Production 2D pixel-art animation sheet for the GAVIÃO beat-em-up.
+The attached KIT-REFERENCIA sheet and base-aprovada image are the ONLY APPROVED model of SORRISO and the ONLY palette: match head size, outline thickness, pixel density and colors exactly; standing guard height is the blue line. This sheet must look like the same artist drew it on the same day as the reference frames. Copy EXACT face, anatomical proportions, hair size and costume: slim white fair pale teenager, BLACK curly hair with full volume on sides/nape, white polo school uniform green collar/cuffs/shoulder trim and lower green panel, yellow shoulder accent and diagonal, small blue crest, blue jeans, off-white sneakers. No brown hair, tan skin, shaved sides, adult muscles or chibi redesign. Head remains same size through action. Same pixel clusters and SAME COLORS as the reference, no painterly blur.
+Canvas: real alpha TRANSPARENT background; no black/gray painted background, no labels/numbers/grids/shadows/effects/blood/sparks/dust/opponent. Big transparent gutters. Every frame must show ENTIRE character including hands, all hair, BOTH shoes, knees. Fixed right-facing 3/4 side camera (NOT facing the viewer) and ONE model scale. Read left to right then next row.
+Human anatomical motion: weight carried by the feet, knee flexion, real joint bending. A planted foot does not slide; when the body is pushed, show the step. No whole-body scaling, stretching, liquifying or teleport. Distinct actual inbetweens, do not duplicate a pose to inflate count. First and last frames must match the reference combat guard (unless stated). Do not add costume details.
+
+=== guard_up — 4 quadros (2 colunas x 2 linhas) ===
+ANIMATION SPECIFICATION: EXACTLY 4 frames. 0 exact reference guard; 1 elbows close to ribs; 2 forearms rise in front of the face; 3 firm HIGH GUARD seen from the SIDE: both forearms vertical in front of face, chin tucked, elbows covering ribs, knees bent.
+
+=== guard_hold — 6 quadros (3x2), ciclo ===
+EXACTLY 6 frames, looping. Hold the high side guard of guard_up frame 3. Short breathing: shoulders rise/fall 1 pixel, hands stay in front of the face, feet planted, no drift. Frame 5 must flow back into frame 0.
+
+=== guard_down — 4 quadros (2x2) ===
+EXACTLY 4 frames, the reverse of guard_up, ending EXACTLY in the reference guard.
+
+=== walk_guard_fwd — 8 quadros (4x2), ciclo ===
+EXACTLY 8 frames looping. Fighter's step-drag forward in combat guard: front foot slides forward, rear foot follows; legs NEVER cross; base stays wide; torso and guard almost still. While a foot carries weight it stays planted in place in the drawing. Frame 7 flows into frame 0.
+
+=== walk_guard_back — 8 quadros (4x2), ciclo ===
+EXACTLY 8 frames looping. Same as walk_guard_fwd but retreating: rear foot steps back first, front foot follows. Guard high, eyes forward.
+
+=== block_hit — 6 quadros (3x2) ===
+EXACTLY 6 frames. Starts in high side guard. 0 guard; 1 IMPACT on the forearms: arms compress toward the face, head pushed back 1-2 px, weight on the rear foot; 2 knees absorb; 3 small slide back of the front foot; 4 recovers; 5 high guard.
+
+=== block_heavy — 8 quadros (4x2) ===
+EXACTLY 8 frames. Heavy blow on the guard pushes him ONE STEP back: 0 guard; 1 impact, forearms crushed; 2 torso leans back; 3 front foot steps back; 4 rear knee absorbs; 5 arms reopen slightly; 6 close again; 7 high guard.
+
+=== guard_break — 8 quadros (4x2) ===
+EXACTLY 8 frames. 0 impact on the guard; 1-2 both arms thrown outward/up, head exposed; 3-4 torso off balance backwards, a heel lifts; 5-6 tries to recover; 7 LOW half guard, vulnerable (does NOT end in the reference guard).
+
+=== hit_head_light — 6 quadros (3x2) ===
+EXACTLY 6 frames. Jab to the face. 0 IMPACT: head snaps back and slightly sideways, eyes closing, guard opens a little; 1 shoulders follow; 2 half step back with the rear foot; 3 head returns; 4 guard rebuilds; 5 reference guard.
+
+=== hit_head_heavy — 10 quadros (5x2) ===
+EXACTLY 10 frames. Strong straight/overhand/high kick to the head. 0 IMPACT: head and torso thrown back, arms open; 1-2 staggers, one foot leaves the ground; 3-4 steps back to avoid falling, knees bend; 5-6 torso comes back, guard low; 7-9 rebuilds guard, 9 = reference guard.
+
+=== hit_body — 8 quadros (4x2) ===
+EXACTLY 8 frames. Punch/kick to the stomach. 0 IMPACT: body FOLDS forward, hips pushed back, mouth open; 1 rear arm drops to protect the stomach; 2 knees give; 3-4 holds the pain; 5-7 returns to guard with torso still low, 7 = reference guard.
+
+=== hit_legs — 8 quadros (4x2) ===
+EXACTLY 8 frames. Kick to the front thigh. 0 IMPACT: front knee buckles inward; 1 weight shifts to the rear leg; 2 hit leg touches down lightly; 3-5 limping, shoulders drop; 6-7 guard, 7 = reference guard.
+
+=== stagger_loop — 8 quadros (4x2), ciclo ===
+EXACTLY 8 frames looping. Dazed: low guard, heavy head swaying, loose knees, tiny steps to keep balance. Still facing right.
+
+=== tired_loop — 8 quadros (4x2), ciclo ===
+EXACTLY 8 frames looping. Out of breath: mouth breathing, shoulders rise and fall, hands lower than the guard but still in front, still facing right (not the camera).
+
+=== heavy_miss — 10 quadros (5x2) ===
+EXACTLY 10 frames. Starts in the CONTACT POSE of overhand_heavy (attach 03-SOCOS-CHUTES/quadros/overhand_heavy_006.png). The punch hits nothing: 0 contact pose; 1-3 body overshoots, front foot slides forward, torso falls forward, arm continues the arc; 4-6 catches the balance with a step; 7-9 recovers base and guard, 9 = reference guard.
+
+=== knockdown_back — 12 quadros (4x3) ===
+EXACTLY 12 frames. Falls on his back. 0 impact (head back); 1-3 knees give, body goes backwards; 4-6 hips hit the floor, arms cushion; 7-9 back on the floor, legs follow; 10-11 settle lying face-up. Feet/hips touch the same floor line as the pivot. Frame 11 = first frame of down_back.
+
+=== down_back — 4 quadros (2x2), ciclo ===
+EXACTLY 4 frames looping. Lying face-up on the floor, breathing, one hand on the face or stomach. Whole body inside the cell width.
+
+=== getup_back — 14 quadros (5 colunas x 3 linhas, última célula vazia) ===
+EXACTLY 14 frames. 0 lying face-up (= down_back 0); 1-3 rolls to the side, forearm support; 4-6 hand and knee support; 7-9 torso rises; 10-12 stands; 13 reference guard.
+
+=== knockdown_front — 12 quadros (4x3) ===
+EXACTLY 12 frames. Leg or body gave out: 0 knee buckles; 1-4 falls forward catching himself with the hands; 5-8 knees and hands on the floor; 9-11 on all fours, head down.
+
+=== getup_front — 12 quadros (4x3) ===
+EXACTLY 12 frames. From all fours (= knockdown_front 11) to one knee, to standing, to reference guard (11).
+
+=== collapse_body — 22 quadros em 3 folhas: 10 (5x2) + 4 (2x2, ciclo) + 8 (4x2) ===
+Sheet A, 10 frames: body exhausted, kneels holding the stomach. Sheet B, 4 frames looping: on one knee, pain breathing. Sheet C, 8 frames: stands up from the kneel to reference guard.
+
+=== ko_fall — 14 quadros (5x3, última célula vazia) ===
+EXACTLY 14 frames. KNOCKOUT, no protective reaction: 0 impact; 1-3 body loses tone, arms hang loose; 4-8 limp fall backwards; 9-12 small bounce on the floor; 13 motionless face-up. No hand cushioning.
+
+=== ko_ground — 2 quadros (2x1) ===
+EXACTLY 2 frames, motionless knocked-out body on the floor, only a minimal difference (finger or chest).
+
+=== slip_back — 8 quadros (4x2) [P4, precisa de código] ===
+EXACTLY 8 frames. Pendulum slip: torso leans back and down taking the head off the punch line, feet stay planted; returns to guard ready to counter.
+
+=== duck_weave — 10 quadros (5x2) [P4, precisa de código] ===
+EXACTLY 10 frames. Ducks under a hook in a U path and comes up in guard.
+
+=== LOTE 5 — CLINCH (DOIS ATORES) ===
+Gerar ATACANTE e SEGURADO em folhas SEPARADAS, mesma contagem de quadros, mesma célula. Os dois são o Sorriso
+(o jogo troca a roupa do rival). Distância entre os pivôs: 22 px. Desenhar primeiro uma prévia composta
+dos dois para conferir mãos na nuca e contatos; depois separar. Acrescentar ao cabeçalho:
+"Two-actor synchronized clinch. This sheet shows ONLY the <attacker|held fighter>. The partner is NOT drawn,
+but his position is 22 pixels in front (attacker) / behind (held). Hands must reach the partner's neck line."
+
+clinch_reach (6, só atacante): arms reach for the opponent's nape and retract (also used when the grab misses).
+clinch_enter / held_enter (8): hands lock behind the nape (muay thai plum), pull the head down; held fighter loses guard, neck bends.
+clinch_hold / held_hold (6, ciclo): attacker elbows together, forehead close; held fighter pushes chest/hips, feet search for base.
+clinch_drag_fwd / held_drag_back (8, ciclo): attacker pushes walking forward; held fighter stumbles back, feet follow the travel.
+clinch_drag_back / held_drag_fwd (8, ciclo): attacker pulls backwards; held fighter is dragged.
+clinch_knee / held_knee_hit (10): knee rises to the stomach keeping the two-hand grip; held fighter folds on impact; frame 4 = contact.
+clinch_punch / held_punch_hit (8): one hand keeps the grip, the other throws a short punch to the face; frames 2-3 = contact.
+clinch_elbow / held_elbow_hit (10): short horizontal elbow, THE ELBOW ARRIVES FIRST, hand close to own face; held head turns hard; frame 4 = contact.
+clinch_escape / held_escape (10): held fighter wedges a forearm on the chest, pushes and frees himself; attacker loses the grip and steps back.
+clinch_release / held_release (8): attacker lets go with a push; both return to guard at distance.
+clinch_throw / held_thrown (14): pulls the head, finishing blow and release; held fighter falls and ends in down_back frame 0.
+
+=== LOTE M — MIGUEL ===
+Trocar a referência: usar as fontes de arte/personagens/miguel/fontes (rosto, cabelo e roupa do Miguel)
+e escrever no cabeçalho "Reference image is the ONLY APPROVED model of MIGUEL" com a descrição dele.
+Mesma célula, pivô, escala e contagem de quadros das ações do Sorriso (walk_guard_fwd/back, jab_head,
+cross_head, hook_body, low_kick, hit_*, block_hit, knockdown_back, down_back, getup_back, ko_fall, ko_ground).
+NUNCA usar o Sorriso como base de pose para o Miguel nem misturar os dois modelos.

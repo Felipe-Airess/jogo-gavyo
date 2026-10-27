@@ -5,3 +5,7 @@
 
 body.touch-mode main{padding-top:max(6px,env(safe-area-inset-top));padding-right:max(10px,env(safe-area-inset-right));padding-bottom:max(6px,env(safe-area-inset-bottom))}
 body.touch-mode .toolbar button,body.touch-mode .toolbar select{min-height:44px}
+/* 0.8.0: seletor de modo no cabeçalho, sem ocupar a barra de controles. Seletores do corredor somem no duelo. */
+body.duel-mode .corridor-only{display:none}
+.header-side{display:flex;align-items:center;gap:18px}.mode-label select{min-height:32px}
+body.touch-mode .mode-label select{min-height:44px}
