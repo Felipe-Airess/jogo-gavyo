@@ -34,6 +34,16 @@ const SPEC = {
   // segue a postura do contato do golpe anterior.
   punchKick: { name: 'JAB > CHUTE ALTO', clip: 'r3_combo_punch_kick', start: 5, limb: 'foot', power: 2, damage: 13, balance: 18, hitstun: 440, blockstun: 250, push: 11, cost: 11 },
   kickPunch: { name: 'CHUTE > DIRETO', clip: 'r3_combo_kick_punch', start: 5, limb: 'fist', power: 2, damage: 11, balance: 13, hitstun: 400, blockstun: 230, push: 10, cost: 9 },
+  // Contexto (linhagem anterior, tempos do corredor):
+  // arremesso no fim da sequência (G), golpes em quem está no chão e contra-ataque do aparo.
+  takedown: { name: 'ARREMESSO', clip: 'clinchFinish', times: [50, 45, 55, 55, 70, 60, 65, 90], active: [4], limb: 'fist', power: 3, damage: 10, balance: 0, hitstun: 0, blockstun: 0, push: 0, cost: 14,
+    targets: ['body'], throw: true },
+  groundPunch: { name: 'SOCO NO CHÃO', clip: 'clinchFinish', times: [45, 40, 55, 55, 65, 65, 70, 110], active: [4], limb: 'fist', power: 2, damage: 13, balance: 0, hitstun: 0, blockstun: 0, push: 0, cost: 9,
+    ground: true },
+  groundKick: { name: 'CHUTE NO CHÃO', clip: 'groundFluid', times: [50, 45, 45, 50, 40, 60, 60, 45, 40, 40, 45, 80], active: [6, 7], limb: 'foot', power: 3, damage: 16, balance: 0, hitstun: 0, blockstun: 0, push: 0, cost: 12,
+    ground: true },
+  parryCounter: { name: 'APARO > DIRETO', clip: 'parryCounter', times: [35, 30, 35, 45, 45, 60, 65, 100], active: [4], limb: 'fist', power: 2, damage: 14, balance: 18, hitstun: 420, blockstun: 240, push: 10, cost: 6,
+    special: true },
   // Clinch: quadros da linhagem anterior (kneeV6 / clinchPunch), tempo do treino.
   knee: { name: 'JOELHADA', clip: 'kneeV6', times: [45, 35, 45, 50, 50, 40, 45, 50], active: [3, 4], limb: 'knee', power: 2, damage: 12, balance: 16, hitstun: 360, blockstun: 0, push: 0, cost: 8,
     targets: ['body'], clinch: true },
@@ -63,8 +73,10 @@ export function createDuelMoves(clips) {
   }
   // Grafo de sequência: todo golpe em pé emenda em todos os outros em pé;
   // pesados e golpes de clinch não abrem sequência.
-  const standing = Object.values(moves).filter(m => !m.clinch).map(m => m.id);
-  for (const m of Object.values(moves)) m.cancels = m.finisher || m.clinch ? [] : standing;
+  // Golpes no chão emendam entre si; arremesso e golpes de clinch não emendam.
+  const standing = Object.values(moves).filter(m => !m.clinch && !m.ground && !m.throw && !m.special).map(m => m.id);
+  const ground = Object.values(moves).filter(m => m.ground).map(m => m.id);
+  for (const m of Object.values(moves)) m.cancels = m.finisher || m.clinch || m.throw ? [] : m.ground ? ground : standing;
   return moves;
 }
 
@@ -76,6 +88,9 @@ export function frameIndex(move, t) {
   }
   return move.times.length - 1;
 }
+
+// Em quem está no chão: J soco de martelo, K chute.
+export const groundMove = cmd => (cmd.kind === 'kick' ? 'groundKick' : 'groundPunch');
 
 // Escolha a partir do comando relativo ao olhar. Mesma tabela para jogador e IA.
 export function chooseMove(cmd, fighter) {
@@ -93,7 +108,7 @@ export function chooseMove(cmd, fighter) {
 // golpes já feitos na sequência atual, do primeiro ao atual.
 export function cancelTarget(move, cmd, fighter, history = [move.id]) {
   if (!move.cancels.length) return null;
-  const next = move.links?.[cmd.kind] || chooseMove(cmd, fighter);
+  const next = move.ground ? groundMove(cmd) : move.links?.[cmd.kind] || chooseMove(cmd, fighter);
   if (!move.cancels.includes(next)) return null;
   const tail = history.slice(-MAX_REPEAT);
   if (tail.length === MAX_REPEAT && tail.every(id => id === next)) return null;

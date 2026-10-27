@@ -40,6 +40,7 @@ export function createFighter(id, character, x, facing, clips) {
     gait: 0, runDistance: 0, walkRel: 0,
     condition: freshCondition(), balance: 100, stamina: 100,
     headRecent: 0, rockedUntil: -1,
+    guardAt: -1e9, parryUntil: 0, downMs: 0, downExtra: 0,
     buffer: new CommandBuffer(), stun: 0, reaction: null,
     clinch: null, result: null, ko: false, invulnerable: false,
     can: capabilities(character, clips),
@@ -152,6 +153,8 @@ export function animationRef(f, moves, clips, gait = null, clock) {
       // Braços estendidos para a pega que não encontrou o corpo, e recolhidos.
       return { clip: 'clinchWalk', frame: [0, 1, 2, 1, 0][Math.min(4, Math.floor(f.t / 60))] };
     case 'held':
+    case 'thrown':
+    case 'parried':
       return { clip: 'hurt', frame: 0 };
     default:
       return { clip: 'r1_idle', frame: loop(clips.r1_idle, f.t) };

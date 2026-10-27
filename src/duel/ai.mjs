@@ -6,9 +6,11 @@
 import { NEUTRAL } from './fighter.mjs';
 
 export const AI_LEVELS = {
-  // reaction: ms até perceber um golpe; guard: chance de defender o que percebeu.
-  calmo: { reaction: 230, guard: 0.45, punish: 0.5, think: [260, 420], rest: [900, 1500] },
-  firme: { reaction: 180, guard: 0.7, punish: 0.75, think: [180, 320], rest: [650, 1200] },
+  // reaction: ms até perceber um golpe; guard: chance de defender o que percebeu;
+  // parry: chance de a defesa ser um aparo de propósito (o resto é guarda comum,
+  // sem aparo acidental pelo tempo de reação).
+  calmo: { reaction: 230, guard: 0.45, parry: 0.1, throw: 0.2, punish: 0.5, think: [260, 420], rest: [900, 1500] },
+  firme: { reaction: 180, guard: 0.7, parry: 0.2, throw: 0.35, punish: 0.75, think: [180, 320], rest: [650, 1200] },
 };
 
 export class DuelAI {
@@ -57,9 +59,27 @@ export class DuelAI {
     }
     if (this.follow && now >= this.follow) {
       this.follow = 0;
-      if (me.state === 'attack') { out.attack = true; out[toward(true)] = true; return out; }
+      if (me.state === 'attack') {
+        // Sequência que entrou e o outro está atordoado: às vezes agarra e arremessa.
+        if (me.connected && me.chain >= 2 && foe.state === 'hitstun' && this.random() < L.throw) { out.grab = true; return out; }
+        out.attack = true; out[toward(true)] = true;
+        if (me.chain < 2 && this.random() < 0.5) this.follow = now + 240;
+        return out;
+      }
+    }
+    // Adversário no chão: chega perto e bate.
+    if ((foe.state === 'down' || foe.state === 'knockdown') && NEUTRAL.has(me.state)) {
+      const dx = (foe.x - me.x) * me.facing;
+      if (dx > 0 && dx <= 40) {
+        if (now >= this.thinkAt) { this.thinkAt = now + this.range([200, 340]); out[this.random() < 0.5 ? 'attack' : 'kick'] = true; }
+        return out;
+      }
+      out[toward(true)] = true;
+      return out;
     }
     if (!NEUTRAL.has(me.state) && me.state !== 'rise') return out;
+    // Aparou: contra-ataca na janela.
+    if (now < me.parryUntil) { out.attack = true; return out; }
 
     // Defesa: só depois de o golpe estar visível pelo tempo de reação.
     const fm = foe.state === 'attack' ? duel.moves[foe.move] : null;
@@ -68,15 +88,15 @@ export class DuelAI {
       const threat = dist < (duel.reach[foe.move] || 30) + 18 && foe.moveT < fm.activeEnd;
       if (threat && foe.moveT >= L.reaction && this.decided !== key) {
         this.decided = key;
-        if (this.random() < L.guard) this.guardUntil = now + (fm.activeEnd - foe.moveT) + 60;
+        if (this.random() < L.guard) { this.guardUntil = now + (fm.activeEnd - foe.moveT) + 60; this.steady = this.random() >= L.parry; }
       }
     }
-    if (now < this.guardUntil) { out.guard = true; return out; }
+    if (now < this.guardUntil) { out.guard = true; out.steady = this.steady; return out; }
 
     // Punição: adversário preso na recuperação de um golpe que errou.
     // Também depois de defender: um golpe bloqueado ainda tem recuperação a pagar.
     const blockedByMe = duel.lastHit?.blocked && duel.lastHit.target === me.id && duel.lastHit.attacker === foe.id;
-    const exposed = foe.state === 'whiff' || foe.state === 'grabMiss' ||
+    const exposed = foe.state === 'whiff' || foe.state === 'grabMiss' || foe.state === 'parried' ||
       (fm && foe.moveT > fm.activeEnd && (!foe.connected || blockedByMe));
     const reach = (duel.reach.cross || 40) + 6;
     if (exposed && dist <= reach + 30) {

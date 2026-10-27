@@ -44,7 +44,7 @@ export function vulnerability(defender, counter) {
 }
 
 // Retorna o resultado sem alterar o defensor; `applyHit` aplica.
-export function resolveHit(move, defender, zone, { blocked = false, counter = false, quality = 'normal', rocked = false, scale = 1 } = {}) {
+export function resolveHit(move, defender, zone, { blocked = false, counter = false, quality = 'normal', rocked = false, scale = 1, ground = false } = {}) {
   if (blocked) {
     const stamina = Math.max(4, move.cost * 0.9 + move.power * 2) * (rocked ? 2 : 1);
     const broken = defender.stamina - stamina <= 0;
@@ -66,11 +66,13 @@ export function resolveHit(move, defender, zone, { blocked = false, counter = fa
     if (after.head >= LIMIT) return { ...out, kind: 'ko', reason: 'Nocaute: a cabeça não aguentou mais.' };
     // Raspão nunca nocauteia por situação; só pelo limite da cabeça.
     const solid = move.power >= 2 && quality !== 'graze';
+    if (ground && solid && after.head >= KO.hurtHead) return { ...out, kind: 'ko', reason: 'Nocaute: finalizado no chão.' };
     if (solid && quality === 'clean' && rocked && after.head >= ROCK.koHead) return { ...out, kind: 'ko', reason: 'Nocaute: golpe limpo em quem estava grogue.' };
     const clean = solid && after.head >= KO.hurtHead;
     if (clean && counter) return { ...out, kind: 'ko', reason: 'Nocaute: golpe limpo no contra-ataque, com a cabeça já castigada.' };
     if (clean && balanceAfter <= KO.lowBalance) return { ...out, kind: 'ko', reason: 'Nocaute: golpe limpo com a base já perdida.' };
   }
+  if (ground) return { ...out, stun: 0 };
   if (zone === 'body' && after.body >= LIMIT) return { ...out, kind: 'collapse', reason: 'O tronco cedeu: dobrou de dor.' };
   if (zone === 'legs' && after.legs >= LIMIT) return { ...out, kind: 'knockdown', reason: 'A perna cedeu.' };
   if (balanceAfter <= 0) return { ...out, kind: 'knockdown', reason: 'Perdeu o equilíbrio e caiu.' };

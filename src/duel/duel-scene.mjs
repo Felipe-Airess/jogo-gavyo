@@ -228,16 +228,16 @@ export class DuelScene extends Phaser.Scene {
         c.fillStyle = '#354438'; c.fillRect(x + 5, 12, 20, 3);
         c.fillStyle = color; c.fillRect(x + 5, 12, Math.round(20 * Math.max(0, value) / 100), 3);
       });
-      const action = f.state === 'attack' ? m.moves[f.move].name + (f.chain > 1 ? ' X' + f.chain : '') : f.state === 'held' ? 'PRESO' : f.clinch ? 'CLINCH' : f.state === 'ko' ? 'NOCAUTE' : f.state === 'guard' ? 'GUARDA' : m.isRocked(f) ? 'GROGUE' : '';
+      const action = f.state === 'attack' ? m.moves[f.move].name + (f.chain > 1 ? ' X' + f.chain : '') : f.state === 'held' ? 'PRESO' : f.state === 'thrown' ? 'ARREMESSADO' : f.state === 'parried' ? 'APARADO' : m.clock < f.parryUntil ? 'CONTRA-ATAQUE' : f.clinch ? 'CLINCH' : f.state === 'ko' ? 'NOCAUTE' : f.state === 'guard' ? 'GUARDA' : m.isRocked(f) ? 'GROGUE' : '';
       lettering(c, action.slice(0, 18), x0, 19, '#d1bd85');
       if (f.clinch?.role === 'held') { c.fillStyle = '#c7af71'; c.fillRect(x0 + 80, 20, Math.round(60 * Math.min(1, f.clinch.escape / 100)), 2); }
     });
-    lettering(c, 'FPS ' + Math.round(this.game.loop.actualFps || 0), 290, 19, '#82947e');
+    if (this.debugVisible) lettering(c, 'FPS ' + Math.round(this.game.loop.actualFps || 0), 250, 19, '#82947e');
     this.hud.refresh();
     const n = this.note.context;
     n.clearRect(0, 0, 320, 11); n.fillStyle = '#182922'; n.fillRect(0, 0, 320, 11);
-    const help = m.player.can.attack ? 'J SOCO  K CHUTE  L GUARDA  G CLINCH  S AGACHAR' : 'ANDAR  L GUARDA  - GOLPES AINDA SEM DESENHO';
-    lettering(n, help, 7, 3, '#a3ae90');
+    // A faixa de baixo fica livre para a mensagem de estado (DOM, sobreposta).
+    if (!m.player.can.attack) lettering(n, 'MIGUEL: GOLPES AINDA SEM DESENHO', 7, 3, '#a3ae90');
     this.note.refresh();
   }
 

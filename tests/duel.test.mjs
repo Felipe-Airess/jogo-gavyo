@@ -632,3 +632,67 @@ test('dano seguido na cabeça deixa grogue: anda devagar, não recupera base, pa
   run(d, ROCK.ms + 100, {}, {});
   assert.equal(d.isRocked(f), false);
 });
+
+// Arremesso, chão e aparo.
+test('sequência + G arremessa: o alvo vai ao chão e J/K batem nele lá', () => {
+  const { d } = mash([{ attack: true }, { attack: true, down: true }, { grab: true }], 40, 180);
+  const kinds = [];
+  // refaz registrando os eventos desde o começo
+  const e = make(40);
+  Object.assign(e.rival.condition, { head: -500, body: -500 }); e.rival.balance = 1e6;
+  const ev = e.event.bind(e);
+  e.event = (type, x) => { kinds.push(type + ':' + (x.kind || x.move || '')); return ev(type, x); };
+  const seq = [{ attack: true }, { attack: true, down: true }, { grab: true }];
+  let i = 0, downAt = null;
+  for (let t = 0; t < 2600; t += TICK) {
+    let input = i < seq.length && t >= i * 180 ? seq[i++] : {};
+    if (e.rival.state === 'down' && downAt === null) downAt = t;
+    if (downAt !== null && t - downAt > 120 && t - downAt < 140) input = { attack: true };
+    e.tick([input, {}]);
+  }
+  assert.ok(kinds.includes('hit:throw'), 'arremessou: ' + kinds.join(' '));
+  assert.ok(kinds.some(k => k === 'hit:hit') && kinds.filter(k => k.startsWith('attack:ground')).length >= 1, 'bateu no chão: ' + kinds.join(' '));
+  assert.ok(d, 'mash roda');
+});
+
+test('golpe no chão segura o caído e finaliza a cabeça castigada', () => {
+  // Caiu de costas: a cabeça fica do lado de lá. Quem bate passa por cima das
+  // pernas (sem empurrão com alguém no chão) e bate do lado da cabeça.
+  const d = make(30);
+  d.rival.state = 'down'; d.rival.t = 0; d.rival.condition.head = 50;
+  d.player.x = d.rival.x + 40; d.player.facing = -1;
+  press(d, { attack: true });
+  assert.equal(d.player.move, 'groundPunch');
+  run(d, 600);
+  assert.equal(d.lastHit?.move, 'groundPunch', 'acertou no chão');
+  assert.equal(d.rival.state, 'ko', d.message);
+  assert.match(d.result.reason, /chão/);
+  const e = make(30);
+  e.rival.state = 'down'; e.rival.t = 0;
+  press(e, { kick: true });
+  run(e, 600);
+  assert.equal(e.lastHit?.move, 'groundKick');
+  assert.ok(e.rival.downMs > 700, 'ficou mais tempo no chão');
+});
+
+test('aparo: L no último instante desvia, abre quem bateu e J contra-ataca', () => {
+  const d = make(40);
+  press(d, { attack: true, right: true }, {});
+  const m = d.moves.cross;
+  run(d, m.activeStart - 80);
+  d.tick([{}, { guard: true }]);
+  until(d, () => d.lastHit, 400, {}, { guard: true });
+  assert.equal(d.lastHit.kind, 'parry');
+  assert.equal(d.player.state, 'parried');
+  d.tick([{}, { attack: true, guard: true }]);
+  until(d, () => d.rival.move === 'parryCounter', 300, {}, { guard: true });
+  until(d, () => d.lastHit?.move === 'parryCounter', 600);
+  assert.equal(d.lastHit.counter, true);
+  assert.equal(d.lastHit.blocked, false);
+  // Guarda levantada cedo: bloqueio comum.
+  const b = make(40);
+  run(b, 300, {}, { guard: true });
+  b.tick([{ attack: true, right: true }, { guard: true }]);
+  until(b, () => b.lastHit, 600, {}, { guard: true });
+  assert.equal(b.lastHit.kind, 'block');
+});

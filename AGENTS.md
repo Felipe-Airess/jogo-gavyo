@@ -22,7 +22,7 @@ contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
 
 ```bash
 npm start            # servidor local em http://127.0.0.1:4173 (abre o navegador)
-npm test             # 145 testes: core, duelo e históricos — todos passando
+npm test             # 148 testes: core, duelo e históricos — todos passando
 npm run test:legacy  # 22 testes antigos — todos passando
 npm run build        # gera build/ (≈4,7 MB, ignorado pelo Git)
 python scripts/extract-markers.py sorriso miguel   # regenera *-markers.json (Python 3 + Pillow)
@@ -188,6 +188,33 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   entram. Gancho é de curta distância.
 * HUD mostra "X2", "X3". Simulação IA × IA: mediana 27,5 s, mínimo 4,3 s
   (sequência + grogue).
+
+## Arremesso, chão e aparo (duelo)
+
+* **Arremesso:** depois de 2+ golpes que tocaram, G com o adversário em
+  `hitstun` a até 44 px vira `takedown` (arte `clinchFinish`); o alvo fica
+  `thrown` preso à frente e cai em `down` no quadro 4 (1 s no chão).
+* **Chão:** com o adversário em `knockdown`/`down` à frente a até 46 px, J é
+  `groundPunch` (martelo, `clinchFinish`) e K `groundKick` (`groundFluid`).
+  Sem empurrão entre os corpos com alguém no chão: dá para passar pelas
+  pernas e bater do lado da cabeça (quem cai de costas fica com a cabeça do
+  lado oposto). No chão, o que não é cabeça conta como tronco. Cada golpe
+  segura o caído +320 ms (até +1,6 s). Golpe sólido na cabeça com cabeça ≥ 55
+  finaliza.
+* **Aparo:** L apertado até 140 ms antes do contato (`PARRY`) desvia; quem
+  bateu fica `parried` 480 ms e é puxado para dentro; quem aparou tem 520 ms
+  para J (`parryCounter`, conta como contra-ataque). Guarda levantada antes
+  é bloqueio comum. A IA envia `steady` na guarda comum para não aparar por
+  acaso; aparo de propósito em `AI_LEVELS.parry`.
+* IA também arremessa (`AI_LEVELS.throw`) e bate em quem está no chão.
+* Simulação IA × IA: mediana 20 s, mínimo 6 s; ~1 aparo por luta.
+
+## Tela (index.html / style.css)
+
+* Só o jogo: botões Jogar/Pausar e ☰ por cima, no canto. Seletores, Colisões,
+  Sangue, Som, Toque, Reiniciar e a lista de comandos ficam no menu (abrir
+  pausa). Mensagem de estado sobre a faixa de baixo do canvas. FPS só com
+  Colisões ligado. `fit()` usa a janela inteira (`--zoom` no `#viewport`).
 
 ## Armadilhas encontradas
 

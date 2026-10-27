@@ -28,7 +28,8 @@ CLIPS = ['r1_idle', 'r2_walk', 'r2_run', 'r2_runStart', 'r2_runStop', 'r2_turn',
          'r3_jab_body', 'r3_jab_head', 'r3_cross_body', 'r3_cross_head', 'r3_hook_body',
          'r3_overhand_heavy', 'r3_reverse_strike', 'r3_low_kick', 'r3_round_kick_body',
          'r3_round_kick_head', 'r3_running_punch', 'r3_combo_punch_kick', 'r3_combo_kick_punch',
-         'hurt', 'fall', 'rise', 'block', 'crouch', 'missMotion', 'clinchPunch', 'clinchWalk', 'kneeV6']
+         'hurt', 'fall', 'rise', 'block', 'crouch', 'missMotion', 'clinchPunch', 'clinchWalk', 'kneeV6',
+         'clinchFinish', 'groundFluid', 'groundStomp', 'parryCounter', 'counterLeft']
 
 
 # Cabelo castanho com reflexos avermelhados (Miguel): além dos tons escuros,

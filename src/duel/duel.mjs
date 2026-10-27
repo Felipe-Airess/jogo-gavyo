@@ -3,7 +3,7 @@
 import { commandFrom, CHAIN_BUFFER_MS } from '../core/command-buffer.mjs';
 import { gaitTable } from '../locomotion.mjs';
 import { createFighter, animationRef, gaitOffset, NEUTRAL, SPEED, RUN_START_MS } from './fighter.mjs';
-import { createDuelMoves, chooseMove, cancelTarget, frameIndex, MAX_CHAIN } from './moves.mjs';
+import { createDuelMoves, chooseMove, cancelTarget, frameIndex, groundMove, MAX_CHAIN } from './moves.mjs';
 import { MarkerSet, worldMarkers, hurtboxes, guardBox, grabBox, LIMB_SIZE, limbCenter } from './markers.mjs';
 import { sweep, contactPoint, overlap } from './collision.mjs';
 import { resolveHit, applyHit, contactQuality, ROCK } from './damage.mjs';
@@ -15,6 +15,12 @@ export const HITSTOP = { block: 50, light: 66, medium: 83, heavy: 116 };
 // Acerto empurra metade do valor do golpe (o recuo da cabeça já afasta o alvo).
 // Sequência: empurrão dos golpes emendados e dano decrescente por posição
 // (1º e 2º cheios, depois 85%, 72%), para combo longo não virar nocaute grátis.
+// Aparo: L apertado até `window` ms antes do contato desvia o golpe; quem
+// atacou fica aberto `stagger` ms e quem aparou tem `counter` ms para o
+// contra-ataque (J). Chão: cada golpe segura o caído mais `extend` ms, até
+// `maxExtend` no total; arremesso deixa no chão `thrownMs`.
+export const PARRY = { window: 140, stagger: 480, counter: 520 };
+export const GROUND = { reach: 46, extend: 320, maxExtend: 1600, downMs: 700, thrownMs: 1000 };
 export const COMBO = { hitPush: 0.5, push: 0.35, scale: [1, 1, 1, 0.85, 0.72] };
 const DOWN = new Set(['knockdown', 'down', 'getup', 'ko']);
 const CLINCH_STATES = new Set(['clinchEntry', 'clinch', 'clinchStrike', 'held']);
@@ -150,7 +156,12 @@ export class Duel {
         this.slide(f, s, 5);
         if (!f.landed && f.t >= 340) { f.landed = true; this.event('land', { fighter: f.id, x: f.x, ko: true }); }
         return;
-      case 'down': if (f.t >= 700) this.setState(f, 'getup'); return;
+      case 'down': if (f.t >= (f.downMs || GROUND.downMs)) { f.downMs = 0; f.downExtra = 0; this.setState(f, 'getup'); } return;
+      case 'parried':
+        this.slide(f, s, 8);
+        if (f.t >= PARRY.stagger) this.toIdle(f);
+        return;
+      case 'thrown': return this.updateThrown(f, o);
       case 'getup':
         if (f.t >= 160 + 90 * 6) { this.toIdle(f); f.balance = Math.max(f.balance, 60); }
         return;
@@ -169,7 +180,7 @@ export class Duel {
         // Freada da corrida: desacelera junto com os apoios de r2_runStop.
         const cmd = f.buffer.peek(this.clock);
         if (cmd && this.act(f, o, cmd)) { f.buffer.clear(); return; }
-        if ((f.input || {}).guard && f.can.guard) { this.setState(f, 'guard'); return; }
+        if ((f.input || {}).guard && f.can.guard) { f.guardAt = this.clock; this.setState(f, 'guard'); return; }
         const s = dt / 1000;
         f.vx = approach(f.vx, 0, SPEED.run / 0.42 * s);
         this.slide(f, s, 0);
@@ -192,7 +203,11 @@ export class Duel {
     const s = dt / 1000, input = f.input || {};
     const cmd = f.buffer.peek(this.clock);
     if (cmd && this.act(f, o, cmd)) { f.buffer.clear(); return; }
-    if (input.guard && f.can.guard) { this.setState(f, 'guard'); f.vx = approach(f.vx, 0, 600 * s); this.slide(f, s, 0); return; }
+    if (input.guard && f.can.guard) {
+      // `steady`: guarda comum pedida pela IA, que não vira aparo pelo tempo de reação.
+      if (f.state !== 'guard') f.guardAt = input.steady ? -1e9 : this.clock;
+      this.setState(f, 'guard'); f.vx = approach(f.vx, 0, 600 * s); this.slide(f, s, 0); return;
+    }
     if (input.down && f.can.crouch) { this.setState(f, 'crouch'); f.vx = 0; return; }
     if (f.state === 'crouch') { this.setState(f, 'rise'); return; }
     const dir = Number(!!input.right) - Number(!!input.left), rel = dir * f.facing;
@@ -224,7 +239,38 @@ export class Duel {
   act(f, o, cmd) {
     if (cmd.kind === 'grab') return this.tryGrab(f, o);
     if (!f.can.attack) return false;
+    // Aparou há pouco: J vira o contra-ataque desenhado.
+    if (cmd.kind === 'attack' && this.clock < f.parryUntil) { f.parryUntil = 0; return this.begin(f, 'parryCounter', false); }
+    // Adversário caído à frente e perto: golpes de chão.
+    if (this.groundReach(f, o)) return this.begin(f, groundMove(cmd), false);
     return this.begin(f, chooseMove(cmd, f), false);
+  }
+
+  groundReach(f, o) {
+    const dx = (o.x - f.x) * f.facing;
+    return (o.state === 'knockdown' || o.state === 'down') && dx > 0 && dx <= GROUND.reach;
+  }
+
+  // Arremesso: quem foi pego acompanha quem arremessa até o quadro do contato.
+  updateThrown(f, o) {
+    if (o.state !== 'attack' || o.move !== 'takedown') { this.toIdle(f); return; }
+    f.x = approach(f.x, o.x + o.facing * 20, 4);
+    f.vx = 0;
+  }
+
+  applyThrow(a, d) {
+    const m = this.moves.takedown;
+    a.hitDone = true; a.connected = true;
+    const r = resolveHit(m, d, 'body', { quality: 'clean', rocked: this.isRocked(d) });
+    applyHit(d, r);
+    d.state = r.kind === 'ko' ? 'ko' : 'down'; d.t = 0; d.downMs = GROUND.thrownMs; d.downExtra = 0; d.vx = a.facing * 30; d.move = null; d.buffer.clear();
+    this.hitstop = HITSTOP.heavy;
+    const point = { x: d.x, y: d.y - 6 };
+    this.lastHit = { at: this.clock, attacker: a.id, target: d.id, move: m.id, zone: 'body', kind: 'throw', damage: r.damage, counter: false, blocked: false, quality: 'clean', point };
+    this.event('hit', { attacker: a.id, target: d.id, move: m.id, zone: 'body', kind: 'throw', counter: false, quality: 'clean', heavy: true, power: 3, damage: r.damage, point });
+    this.event('land', { fighter: d.id, x: d.x });
+    if (r.kind === 'ko') { d.ko = true; this.result = { winner: a.id, loser: d.id, reason: r.reason, at: this.clock }; this.event('ko', { winner: a.id, reason: r.reason }); }
+    this.message = d === this.player ? 'Arremessado! Aguente no chão.' : 'ARREMESSO! J e K batem no chão.';
   }
 
   begin(f, id, chained) {
@@ -274,8 +320,24 @@ export class Duel {
     f.moveT += dt;
     if (m.carry) { f.vx = approach(f.vx, 0, m.carry * 2 * s); this.slide(f, s, 0); }
     else { f.vx = approach(f.vx, 0, 400 * s); this.slide(f, s, 0); }
+    const o = this.other(f);
+    // Arremesso: chega no quadro de contato com o adversário preso.
+    if (m.throw) {
+      if (!f.hitDone && frameIndex(m, f.moveT) >= m.frames.indexOf(m.active[0]) && o.state === 'thrown') this.applyThrow(f, o);
+      if (f.moveT >= m.duration) { this.toIdle(f); this.takeBuffered(f); }
+      return;
+    }
     const cmd = f.buffer.peek(this.clock, CHAIN_BUFFER_MS);
-    if (cmd && cmd.kind !== 'grab' && f.connected && f.chain < MAX_CHAIN && f.moveT >= m.cancelStart && f.moveT <= m.cancelEnd) {
+    // Fim de sequência: G com o adversário atordoado e perto agarra e arremessa.
+    if (cmd?.kind === 'grab' && f.connected && f.chain >= 2 && !m.ground && f.moveT >= m.cancelStart && f.moveT <= m.cancelEnd
+      && o.state === 'hitstun' && Math.abs(o.x - f.x) <= 44 && this.begin(f, 'takedown', true)) {
+      f.buffer.clear();
+      o.state = 'thrown'; o.t = 0; o.vx = 0; o.move = null; o.buffer.clear();
+      this.event('grab', { fighter: f.id, target: o.id });
+      return;
+    }
+    if (cmd && cmd.kind !== 'grab' && f.connected && f.chain < MAX_CHAIN && f.moveT >= m.cancelStart && f.moveT <= m.cancelEnd
+      && (!m.ground || this.groundReach(f, o))) {
       const next = cancelTarget(m, cmd, f, f.combo);
       if (next && this.begin(f, next, true)) { f.buffer.clear(); return; }
     }
@@ -302,10 +364,17 @@ export class Duel {
     if (!tip) { if (active) this.markerSetOf(a).note(m.clip, frame, m.limb); a.prevTip = null; return null; }
     const from = a.prevTip || tip;
     a.prevTip = tip;
-    if (!active || a.hitDone || DOWN.has(d.state)) return null;
+    if (!active || a.hitDone || m.throw) return null;
+    // Golpes de chão só em quem está caído; os outros só em quem está de pé.
+    const downed = d.state === 'knockdown' || d.state === 'down';
+    if (m.ground ? !downed : DOWN.has(d.state) || d.state === 'thrown') return null;
     if (!!m.clinch !== (a.state === 'clinchStrike')) return null;
     if (d.state === 'held' && d.clinch?.partner !== a.id) return null;
-    const boxes = this.hurtboxesOf(d), [hw, hh] = LIMB_SIZE[m.limb].map(v => v / 2);
+    // No chão o desenho deitado não separa tronco e pernas pela altura: o que
+    // não é cabeça conta como tronco.
+    const lying = m.ground ? hurtboxes(this.markersOf(d)) : null;
+    const boxes = lying ? { head: lying.head || [], body: [...(lying.body || []), ...(lying.legs || [])] } : this.hurtboxesOf(d);
+    const [hw, hh] = LIMB_SIZE[m.limb].map(v => v / 2);
     let best = null;
     const legsOnly = m.targets.length === 1 && m.targets[0] === 'legs';
     // Chute na perna mira a coxa: a caixa sobe um pouco acima da linha da calça.
@@ -340,11 +409,14 @@ export class Duel {
       if (t !== null && t !== undefined && (!best || t < best.t)) best = { zone, t, box };
     }
     const front = (a.x - d.x) * d.facing > 0;
-    if ((d.state === 'guard' || d.state === 'blockstun') && front && !legsOnly) {
+    if ((d.state === 'guard' || d.state === 'blockstun') && front && !legsOnly && !m.ground) {
       const g = guardBox(d, this.markersOf(d)), tg = g ? sweep(from, tip, hw, hh, g) : null;
       // A guarda alta cobre cabeça e tronco; a perna continua exposta.
       if ((tg !== null && (!best || tg <= best.t)) || (best && best.zone !== 'legs')) {
-        return { a, d, m, blocked: true, zone: 'arms', point: tg !== null ? contactPoint(from, tip, tg, g) : contactPoint(from, tip, best.t, best.box) };
+        const point = tg !== null ? contactPoint(from, tip, tg, g) : contactPoint(from, tip, best.t, best.box);
+        // Guarda levantada no último instante: aparo.
+        const parried = d.state === 'guard' && this.clock - (d.guardAt ?? -1e9) <= PARRY.window;
+        return { a, d, m, blocked: true, parried, zone: 'arms', point };
       }
     }
     if (!best) return null;
@@ -355,11 +427,50 @@ export class Duel {
 
   isRocked(f) { return this.clock < f.rockedUntil; }
 
-  applyContact({ a, d, m, blocked, zone, point, coverage = null }) {
+  applyContact(c) {
+    if (c.parried) return this.applyParry(c);
+    if (c.m.ground) return this.applyGround(c);
+    return this.applyStrike(c);
+  }
+
+  applyParry({ a, d, m, point }) {
+    a.hitDone = true; a.connected = false;
+    // O golpe desviado leva o corpo de quem bateu para dentro da guarda.
+    a.state = 'parried'; a.t = 0; a.move = null; a.chain = 0; a.buffer.clear(); a.vx = a.facing * 90;
+    d.parryUntil = this.clock + PARRY.counter;
+    d.stamina = Math.min(100, d.stamina + 6);
+    this.hitstop = HITSTOP.heavy;
+    this.lastHit = { at: this.clock, attacker: a.id, target: d.id, move: m.id, zone: 'arms', kind: 'parry', damage: 0, counter: false, blocked: true, quality: 'normal', point };
+    this.event('block', { attacker: a.id, target: d.id, move: m.id, zone: 'arms', kind: 'parry', counter: true, quality: 'normal', heavy: true, power: 2, damage: 0, point: { ...point } });
+    this.message = d === this.player ? 'APARADO! J agora contra-ataca.' : 'Ele aparou: saia da frente.';
+  }
+
+  applyGround({ a, d, m, zone, point, coverage = null }) {
+    a.hitDone = true; a.connected = true;
+    const quality = contactQuality(coverage);
+    const r = resolveHit(m, d, zone, { quality, ground: true, scale: COMBO.scale[Math.min(a.chain, COMBO.scale.length - 1)] });
+    applyHit(d, r);
+    this.hitstop = r.kind === 'ko' ? HITSTOP.heavy : HITSTOP.medium;
+    this.lastHit = { at: this.clock, attacker: a.id, target: d.id, move: m.id, zone: r.zone, kind: r.kind, damage: r.damage, counter: false, blocked: false, quality, coverage, point };
+    this.event('hit', { attacker: a.id, target: d.id, move: m.id, zone: r.zone, kind: r.kind, counter: false, quality, heavy: true, power: 3, damage: r.damage, point: { ...point }, ground: true });
+    if (r.kind === 'ko') {
+      d.state = 'ko'; d.t = 0; d.ko = true; d.landed = true;
+      this.result = { winner: a.id, loser: d.id, reason: r.reason, at: this.clock };
+      this.event('ko', { winner: a.id, reason: r.reason });
+      this.message = r.reason;
+      return;
+    }
+    // Cada golpe segura o caído um pouco mais no chão, até um limite.
+    const extra = Math.min(GROUND.extend, GROUND.maxExtend - (d.downExtra || 0));
+    if (extra > 0) { d.downExtra = (d.downExtra || 0) + extra; d.downMs = (d.downMs || GROUND.downMs) + extra; }
+    this.message = m.name + (zone === 'head' ? ' na cabeça.' : ' no corpo.');
+  }
+
+  applyStrike({ a, d, m, blocked, zone, point, coverage = null }) {
     a.hitDone = true;
     a.connected = true;
     const dm = d.state === 'attack' ? this.moves[d.move] : null;
-    const counter = !blocked && !!dm && d.moveT < dm.activeEnd;
+    const counter = m.id === 'parryCounter' || (!blocked && !!dm && d.moveT < dm.activeEnd);
     let quality = blocked ? 'normal' : contactQuality(coverage);
     // Golpe abafado: colado demais para o braço/perna estender, não sai limpo.
     if (quality === 'clean' && Math.abs(a.x - d.x) < (this.reach[m.id] || 0) * 0.6) quality = 'normal';
