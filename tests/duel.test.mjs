@@ -806,3 +806,38 @@ test('reação acompanha o golpe: tipo pela direção, força pela qualidade, re
   until(d, () => r.t >= RECOIL.ms, 600);           // a pausa de impacto congela o relógio
   assert.equal(off(), 0, 'recuo só no começo');
 });
+
+test('Miguel: cima+J uppercut, J colado cotovelada; Sorriso mantém o jab', () => {
+  const d = withMiguel(); d.rival.x = d.player.x + 22;
+  press(d, { attack: true, up: true });
+  assert.equal(d.player.move, 'uppercut');
+  const e = withMiguel(); e.rival.x = e.player.x + 20;
+  press(e, { attack: true });
+  assert.equal(e.player.move, 'elbow');
+  const f = withMiguel(); f.rival.x = f.player.x + 40;
+  press(f, { attack: true });
+  assert.equal(f.player.move, 'jab', 'de longe é jab');
+  const s = make(22);
+  press(s, { attack: true, up: true });
+  assert.equal(s.player.move, 'jab', 'Sorriso sem uppercut desenhado: o que já fazia');
+});
+
+test('combo desenhado acerta em cada janela de contato (não só uma vez)', () => {
+  const d = withMiguel(); d.rival.x = d.player.x + 20;
+  Object.assign(d.rival.condition, { head: -500, body: -500, legs: -500 }); d.rival.balance = 1e6;
+  press(d, { attack: true, run: true, down: true });
+  assert.equal(d.player.move, 'comboBodyUpper');
+  run(d, 2500);
+  const hits = d.events.filter(e => e.type === 'hit' && e.attacker === 1 && e.move === 'comboBodyUpper');
+  assert.ok(hits.length >= 3, hits.length + ' contatos');
+  assert.equal(hits.at(-1).zone, 'head', 'o último é o uppercut');
+});
+
+test('combo que anda no desenho: a posição final assume o avanço, sem voltar', () => {
+  const d = withMiguel(); d.rival.x = d.player.x + 90;
+  const x0 = d.player.x;
+  press(d, { kick: true, run: true, right: true });
+  assert.equal(d.player.move, 'comboJabElbowKnee');
+  until(d, () => d.player.state === 'idle', 3000);
+  assert.equal(Math.round(d.player.x - x0), miguel.m4_comboJabElbowKnee.frames.at(-1).advance);
+});

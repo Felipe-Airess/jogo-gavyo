@@ -72,8 +72,25 @@ const MIGUEL_SPEC = {
   lowKick: { ...SPEC.lowKick, clip: 'm3_lowKick', links: undefined },
   kneeStrike: { name: 'JOELHADA', clip: 'm3_knee', limb: 'knee', power: 2, damage: 12, balance: 16, hitstun: 380, blockstun: 220, push: 8, cost: 9, targets: ['body', 'head'] },
 };
+// Golpes do lote 4/pacote 3 do Miguel. `hits`: golpes com vários contatos
+// (combos desenhados): cada janela acerta uma vez, com o membro, as regiões e
+// a fração do dano dela. `root`: o corpo anda no desenho e a posição final
+// vira a do lutador (ver Duel.commitRoot).
+Object.assign(MIGUEL_SPEC, {
+  uppercut: { name: 'UPPERCUT', clip: 'm4_uppercut', limb: 'fist', power: 2, damage: 13, balance: 16, hitstun: 460, blockstun: 240, push: 9, cost: 10, targets: ['head'], react: 'uppercut' },
+  elbow: { name: 'COTOVELADA', clip: 'm4_elbow', limb: 'fist', power: 2, damage: 12, balance: 12, hitstun: 420, blockstun: 230, push: 6, cost: 8, targets: ['head'], react: 'hook' },
+  comboBodyUpper: { name: 'CORPO > UPPERCUT', clip: 'm4_comboBodyUpper', limb: 'fist', power: 3, damage: 18, balance: 26, hitstun: 520, blockstun: 260, push: 12, cost: 22, finisher: true,
+    hits: [{ frames: [2], targets: ['body'], scale: 0.4 }, { frames: [5], targets: ['body'], scale: 0.4 }, { frames: [8], targets: ['body'], scale: 0.4 }, { frames: [11], targets: ['head'], scale: 1, react: 'uppercut' }] },
+  comboJabElbowKnee: { name: 'JAB > COTOVELADA > JOELHADA', clip: 'm4_comboJabElbowKnee', limb: 'fist', power: 3, damage: 18, balance: 24, hitstun: 520, blockstun: 260, push: 12, cost: 22, finisher: true, root: true,
+    hits: [{ frames: [2], targets: ['head'], scale: 0.4 }, { frames: [6], targets: ['head'], scale: 0.6, react: 'hook' }, { frames: [10], limb: 'knee', targets: ['body', 'head'], scale: 1 }] },
+  comboLowHigh: { name: 'CHUTE BAIXO > ALTO', clip: 'm4_comboLowHigh', limb: 'foot', power: 3, damage: 18, balance: 26, hitstun: 520, blockstun: 270, push: 12, cost: 22, finisher: true,
+    hits: [{ frames: [3, 4], targets: ['legs'], scale: 0.5 }, { frames: [10], targets: ['head', 'body'], scale: 1, react: 'hook' }] },
+});
 export const CHARACTER_SPECS = { sorriso: SPEC, miguel: MIGUEL_SPEC };
-export const MOVE_FALLBACK = { jabBody: 'crossBody', hook: 'jab', rushPunch: 'overhand', kneeStrike: 'roundBody' };
+// Sem desenho: o golpe mais próximo. Os novos (uppercut, combos) caem no que o
+// mesmo comando já fazia antes deles, para quem não os tem (Sorriso).
+export const MOVE_FALLBACK = { jabBody: 'crossBody', hook: 'jab', rushPunch: 'overhand', kneeStrike: 'roundBody',
+  uppercut: 'jab', elbow: 'jab', comboBodyUpper: 'overhand', comboJabElbowKnee: 'kneeStrike', comboLowHigh: 'roundBody' };
 
 export function createDuelMoves(clips, spec = SPEC) {
   const moves = {};
@@ -84,7 +101,8 @@ export function createDuelMoves(clips, spec = SPEC) {
     const start = spec.start || 0;
     const frames = clip.frames.map((_, i) => i).slice(start);
     const times = spec.times || clip.durations.slice(start);
-    const active = spec.active || clip.contactFrames.filter(i => i >= start);
+    const hits = spec.hits?.map((h, i) => ({ ...h, index: i }));
+    const active = hits ? [...new Set(hits.flatMap(h => h.frames))].sort((a, b) => a - b) : spec.active || clip.contactFrames.filter(i => i >= start);
     if (!active.length) continue;
     const before = i => times.slice(0, frames.indexOf(i)).reduce((a, b) => a + b, 0);
     const activeStart = before(active[0]);
@@ -94,7 +112,7 @@ export function createDuelMoves(clips, spec = SPEC) {
     const firstRecovery = frames.find(i => i > active.at(-1) && /^recup|^recol|^acomo/.test(phases[i]));
     const cancelEnd = firstRecovery === undefined ? activeEnd + 80 : before(firstRecovery);
     const duration = times.reduce((a, b) => a + b, 0);
-    moves[id] = { id, ...spec, frames, times, active, activeStart, activeEnd, cancelStart: activeStart, cancelEnd, duration, targets: spec.targets || (spec.limb === 'fist' ? FIST_TARGETS : ALL_TARGETS) };
+    moves[id] = { id, ...spec, hits, frames, times, active, activeStart, activeEnd, cancelStart: activeStart, cancelEnd, duration, targets: spec.targets || (spec.limb === 'fist' ? FIST_TARGETS : ALL_TARGETS) };
   }
   // Grafo de sequência: todo golpe em pé emenda em todos os outros em pé;
   // pesados e golpes de clinch não abrem sequência.
@@ -124,13 +142,17 @@ export function chooseMove(cmd, fighter, moves = null) {
 }
 
 function rawMove(cmd, fighter) {
+  // Shift = especial: combos desenhados (só o Miguel tem; o Sorriso cai no que já fazia).
+  if (cmd.kind === 'kick' && cmd.run) return cmd.forward ? 'comboJabElbowKnee' : 'comboLowHigh';
   if (cmd.kind === 'kick') return cmd.up ? 'roundHead' : cmd.down ? 'lowKick' : cmd.forward ? 'kneeStrike' : 'roundBody';
+  if (cmd.run && cmd.down) return 'comboBodyUpper';
   if (cmd.run && fighter.state === 'run' && Math.abs(fighter.vx) > 60) return 'rushPunch';
   if (cmd.run) return 'overhand';
   if (cmd.down && cmd.forward) return 'crossBody';
   if (cmd.down) return 'jabBody';
   if (cmd.forward) return 'cross';
   if (cmd.back) return 'hook';
+  if (cmd.up) return 'uppercut';
   return 'jab';
 }
 

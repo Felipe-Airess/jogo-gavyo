@@ -57,10 +57,13 @@ CLIPS = {
 
 # Contato conferido no desenho (1-based) onde a medida automática erra: braço
 # esticado mal passa do punho em guarda, e o tapa do aparo engana a medida.
-CONTACT = {'m4_jabStep': 4, 'm4_crossStep': 5, 'm4_jabBody': 4, 'm4_uppercut': 6, 'm4_elbow': 4,
+CONTACT = {'m4_jabStep': 4, 'm4_crossStep': 5, 'm4_jabBody': 4, 'm4_uppercut': 4, 'm4_elbow': 4,
            'm4_parryCounter': 4, 'm4_hook': 5, 'm4_kickHigh2': 7,
            # combos: o último golpe (os anteriores ficam para quando houver golpe com vários contatos)
            'm4_comboBodyUpper': 12, 'm4_comboJabElbowKnee': 11, 'm4_comboLowHigh': 11}
+# Golpes em que o corpo anda no desenho: cada quadro guarda `advance`, o
+# deslocamento do centro da camisa em relação ao quadro 1 (px, para a frente).
+ROOT = {'m4_comboJabElbowKnee'}
 # Tocados ao contrário (quadros na ordem inversa).
 REVERSE = {'m4_walkBack'}
 
@@ -129,9 +132,18 @@ def main():
             extra['stride'] = round(max(sp) - min(sp), 1)
             notes[cid] = {'abertura_px': sp, 'passada': extra['stride']}
         frames = []
+        adv = None
+        if cid in ROOT:
+            def shirt_c(im):
+                a = np.array(im); rgb = a[..., :3].astype(int); op = a[..., 3] > 0
+                m = op & (((rgb.min(2) > 150) & (rgb.max(2) - rgb.min(2) < 45)) | ((rgb[..., 1] > rgb[..., 0] + 25) & (rgb[..., 1] > rgb[..., 2] + 5)))
+                return np.nonzero(m)[1].mean()
+            x0 = shirt_c(imgs[0]); adv = [int(round(shirt_c(i) - x0)) for i in imgs]
+            notes[cid + ' avanço'] = adv
         for k, (p, img) in enumerate(zip(files[cid], imgs)):
             atlas.paste(img, ((index % COLUMNS) * CELL[0], (index // COLUMNS) * CELL[1]))
             frames.append({'index': index, 'duration': times[k], 'sourceFacing': 1, 'file': f'lote4/{folder}/{p.name}', 'root': [64, 88],
+                           **({'advance': adv[k]} if adv else {}),
                            'phase': '' if contact is None else 'preparação' if k < contact else 'contato' if k <= contact + 1 else 'recuperação'})
             index += 1
         clips.append({'id': cid, 'loop': kind == 'loop', 'source': 'lote4', 'frames': frames, **extra,

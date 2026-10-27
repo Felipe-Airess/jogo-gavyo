@@ -3954,7 +3954,7 @@
       "frames": [
         {
           "index": 269,
-          "duration": 64,
+          "duration": 107,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/01.png",
           "root": [
@@ -3965,7 +3965,7 @@
         },
         {
           "index": 270,
-          "duration": 54,
+          "duration": 73,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/02.png",
           "root": [
@@ -3976,7 +3976,7 @@
         },
         {
           "index": 271,
-          "duration": 44,
+          "duration": 40,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/03.png",
           "root": [
@@ -3987,51 +3987,51 @@
         },
         {
           "index": 272,
-          "duration": 35,
+          "duration": 75,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/04.png",
           "root": [
             64,
             88
           ],
-          "phase": "preparação"
+          "phase": "contato"
         },
         {
           "index": 273,
-          "duration": 35,
+          "duration": 60,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/05.png",
           "root": [
             64,
             88
           ],
-          "phase": "preparação"
+          "phase": "contato"
         },
         {
           "index": 274,
-          "duration": 113,
+          "duration": 68,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/06.png",
           "root": [
             64,
             88
           ],
-          "phase": "contato"
+          "phase": "recuperação"
         },
         {
           "index": 275,
-          "duration": 90,
+          "duration": 77,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/07.png",
           "root": [
             64,
             88
           ],
-          "phase": "contato"
+          "phase": "recuperação"
         },
         {
           "index": 276,
-          "duration": 116,
+          "duration": 86,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/08.png",
           "root": [
@@ -4042,7 +4042,7 @@
         },
         {
           "index": 277,
-          "duration": 142,
+          "duration": 94,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/09.png",
           "root": [
@@ -4053,20 +4053,20 @@
         }
       ],
       "durations": [
-        64,
-        54,
-        44,
-        35,
-        35,
-        113,
-        90,
-        116,
-        142
+        107,
+        73,
+        40,
+        75,
+        60,
+        68,
+        77,
+        86,
+        94
       ],
-      "totalMs": 693,
+      "totalMs": 680,
       "contactFrames": [
-        5,
-        6
+        3,
+        4
       ]
     },
     {
@@ -4607,6 +4607,7 @@
             64,
             88
           ],
+          "advance": 0,
           "phase": "preparação"
         },
         {
@@ -4618,6 +4619,7 @@
             64,
             88
           ],
+          "advance": 5,
           "phase": "preparação"
         },
         {
@@ -4629,6 +4631,7 @@
             64,
             88
           ],
+          "advance": 5,
           "phase": "preparação"
         },
         {
@@ -4640,6 +4643,7 @@
             64,
             88
           ],
+          "advance": 5,
           "phase": "preparação"
         },
         {
@@ -4651,6 +4655,7 @@
             64,
             88
           ],
+          "advance": 6,
           "phase": "preparação"
         },
         {
@@ -4662,6 +4667,7 @@
             64,
             88
           ],
+          "advance": 3,
           "phase": "preparação"
         },
         {
@@ -4673,6 +4679,7 @@
             64,
             88
           ],
+          "advance": 10,
           "phase": "preparação"
         },
         {
@@ -4684,6 +4691,7 @@
             64,
             88
           ],
+          "advance": 23,
           "phase": "preparação"
         },
         {
@@ -4695,6 +4703,7 @@
             64,
             88
           ],
+          "advance": 21,
           "phase": "preparação"
         },
         {
@@ -4706,6 +4715,7 @@
             64,
             88
           ],
+          "advance": 10,
           "phase": "preparação"
         },
         {
@@ -4717,6 +4727,7 @@
             64,
             88
           ],
+          "advance": 11,
           "phase": "contato"
         },
         {
@@ -4728,6 +4739,7 @@
             64,
             88
           ],
+          "advance": 21,
           "phase": "contato"
         }
       ],

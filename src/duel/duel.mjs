@@ -25,6 +25,17 @@ export function reactKind(m, zone) {
   if (/hook|round|overhand/.test(id)) return 'hook';
   return 'straight';
 }
+// Uma janela de um golpe com vários contatos, como golpe próprio: os contatos
+// de preparação batem com fração do dano, menos atordoamento e quase sem
+// empurrão (o combo continua alcançando); o último bate cheio.
+export function hitOf(m, win) {
+  const last = win.index === m.hits.length - 1, k = win.scale ?? 1;
+  return { ...m, limb: win.limb || m.limb, targets: win.targets || m.targets, react: win.react || m.react,
+    damage: Math.round(m.damage * k), balance: Math.round(m.balance * k),
+    hitstun: last ? m.hitstun : Math.round(m.hitstun * 0.75), push: last ? m.push : m.push * 0.25, window: win.index };
+}
+// Cotovelada: J com o adversário colado (quadris até esta distância).
+export const ELBOW_RANGE = 25;
 // Maior deslocamento do membro entre dois ticks que ainda conta como varredura.
 export const SWEEP_MAX = 45;
 export const STAGE = { minX: 24, maxX: 456, ground: 150, half: 10 };
@@ -159,7 +170,7 @@ export class Duel {
   }
 
   setState(f, state) { if (f.state !== state) { f.state = state; f.t = 0; } }
-  toIdle(f) { f.state = 'idle'; f.t = 0; f.move = null; f.chain = 0; f.vx *= 0.3; }
+  toIdle(f) { this.commitRoot(f); f.state = 'idle'; f.t = 0; f.move = null; f.chain = 0; f.vx *= 0.3; }
 
   regen(f, s) {
     const busy = f.state === 'attack' || CLINCH_STATES.has(f.state);
@@ -278,7 +289,19 @@ export class Duel {
     if (cmd.kind === 'attack' && this.clock < f.parryUntil && this.moveOf(f, 'parryCounter')) { f.parryUntil = 0; return this.begin(f, 'parryCounter', false); }
     // Adversário caído à frente e perto: golpes de chão (se o personagem tiver desenho).
     if (this.groundReach(f, o) && this.moveOf(f, groundMove(cmd))) return this.begin(f, groundMove(cmd), false);
-    return this.begin(f, chooseMove(cmd, f, this.movesOf(f)), false);
+    let id = chooseMove(cmd, f, this.movesOf(f));
+    if (id === 'jab' && this.moveOf(f, 'elbow') && !DOWN.has(o.state) && Math.abs(o.x - f.x) <= ELBOW_RANGE) id = 'elbow';
+    return this.begin(f, id, false);
+  }
+
+  // Avanço desenhado (golpe com `root`): o corpo anda dentro do quadro; ao sair
+  // do golpe, a posição do lutador assume esse avanço, sem voltar ao centro.
+  commitRoot(f) {
+    if (f.state !== 'attack' || !f.move) return;
+    const m = this.moveOf(f);
+    if (!m?.root) return;
+    const adv = this.artOf(f.character).clips[m.clip]?.frames[m.frames[frameIndex(m, f.moveT)]]?.advance || 0;
+    if (adv) f.x = clamp(f.x + f.facing * adv, STAGE.minX, STAGE.maxX);
   }
 
   groundReach(f, o) {
@@ -315,6 +338,7 @@ export class Duel {
     if (f.stamina < m.cost * 0.5) { this.event('winded', { fighter: f.id }); if (f === this.player) this.message = 'Sem fôlego para esse golpe.'; return false; }
     f.stamina = Math.max(0, f.stamina - m.cost);
     const from = chained ? this.animation(f) : null;
+    if (chained) this.commitRoot(f);
     f.moveFrom = chained ? f.move : null;
     f.chain = chained ? f.chain + 1 : 1;
     f.combo = chained ? [...(f.combo || []), id] : [id];
@@ -337,7 +361,7 @@ export class Duel {
       const prep = m.activeStart - f.moveT;
       if (step > 0.5 && prep > 0) { f.stepLeft = step; f.stepRate = step / prep; }
     }
-    f.connected = false; f.hitDone = false; f.prevTip = null;
+    f.connected = false; f.hitDone = false; f.prevTip = null; f.hitWindow = -1;
     // Socos do lote 3 mantêm o pé de trás plantado no pivô: sem avanço extra
     // (avançar o sprite faria o pé deslizar). Só o soco de impulso conserva a corrida.
     if (!m.carry) f.vx *= 0.2;
@@ -413,7 +437,15 @@ export class Duel {
   // Contato do golpe atual contra o outro lutador, com varredura do membro.
   probe(a, d) {
     if (a.state !== 'attack' && a.state !== 'clinchStrike') return null;
-    const m = this.moveOf(a), frame = m.frames[frameIndex(m, a.moveT)];
+    const base = this.moveOf(a), frame = base.frames[frameIndex(base, a.moveT)];
+    // Golpe com vários contatos (combo desenhado): cada janela acerta uma vez,
+    // com o membro, as regiões e a fração do dano dela.
+    const win = base.hits?.find(h => h.frames.includes(frame)) || null;
+    if (win && win.index !== a.hitWindow) {
+      if ((win.limb || base.limb) !== (base.hits[a.hitWindow]?.limb || base.limb)) a.prevTip = null;
+      a.hitWindow = win.index; a.hitDone = false;
+    }
+    const m = win ? hitOf(base, win) : base;
     const w = worldMarkers(this.markerSetOf(a).frame(m.clip, frame), a), tip = limbCenter(w?.[m.limb], m.limb, a.facing);
     const active = m.active.includes(frame);
     if (!tip) { if (active) this.markerSetOf(a).note(m.clip, frame, m.limb); a.prevTip = null; return null; }
@@ -561,6 +593,7 @@ export class Duel {
     if (a.clinch && d.clinch && r.kind === 'hit') { a.clinch.grip = Math.min(CLINCH.maxGrip, a.clinch.grip + CLINCH.refresh); return; }
     if (d.clinch) endClinch(this.byId(d.clinch.partner), d);
     d.buffer.clear();
+    this.commitRoot(d);
     d.move = null;
     d.stun = r.stun;
     d.reaction = r.zone;

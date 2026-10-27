@@ -22,7 +22,7 @@ contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
 
 ```bash
 npm start            # servidor local em http://127.0.0.1:4173 (abre o navegador)
-npm test             # 158 testes: core, duelo e históricos — todos passando
+npm test             # 161 testes: core, duelo e históricos — todos passando
 npm run test:legacy  # 22 testes antigos — todos passando
 npm run build        # gera build/ (≈4,7 MB, ignorado pelo Git)
 python scripts/extract-markers.py sorriso miguel   # regenera *-markers.json (Python 3 + Pillow)
@@ -302,6 +302,25 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   (`m4_combo*`, contato no último golpe) e `m4_kickHigh2`.
 * Não aproveitados: walkC (corpo desliza na folha), chute alto 2 (pé só
   +9 px à frente do pé de apoio, altura do peito — não alcança).
+
+## Golpes novos do Miguel no duelo (27/10)
+
+* Comandos: cima+J `uppercut` (contato no quadro em que o punho passa o
+  queixo, −54); J com o adversário a ≤ `ELBOW_RANGE` (25 px) vira `elbow`;
+  Shift+K `comboLowHigh`, Shift+frente+K `comboJabElbowKnee`, Shift+baixo+J
+  `comboBodyUpper`. Sorriso sem esses desenhos cai em `MOVE_FALLBACK` no que
+  o mesmo comando já fazia (jab, chute circular, joelhada→circular, pesado).
+* **Golpe com vários contatos** (`hits` no spec): cada janela acerta uma vez
+  (`hitWindow`), com membro/regiões/fração próprios (`hitOf`); contatos de
+  preparação têm 75% do atordoamento e 25% do empurrão para o combo seguir.
+* **Avanço desenhado** (`root` + `advance` por quadro no atlas): ao sair do
+  golpe (fim, emenda ou apanhar), `commitRoot` soma o avanço ao x. Combo
+  jab→cotovelada→joelhada anda 21 px. O desenho tem um salto de 13 px no
+  meio (avanço 10→23 entre quadros) — arte.
+* Simulação: uppercut entra a 16–24 px; corpo→uppercut 4/4 colado; jab→
+  cotovelada→joelhada 2/3 (cotovelada só bem perto, +15 px); chute baixo→alto
+  1 de 2 (o alto só tem um quadro, pé a −61, topo da cabeça). IA × IA mediana
+  24 s.
 
 ## Reações que acompanham o golpe (duelo, 27/10)
 
