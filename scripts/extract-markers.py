@@ -314,7 +314,10 @@ CHARACTERS = {
                 'm4_walkFwd', 'm4_walkBack', 'm4_block', 'm4_hitHead', 'm4_hitBody', 'm4_hitLeg', 'm4_dazed', 'm4_lying', 'm4_runStart', 'm4_runStop',
                 'm4_kickHigh', 'm4_hook', 'm4_jabBody', 'm4_uppercut', 'm4_elbow', 'm4_jabStep', 'm4_crossStep', 'm4_slipCounter', 'm4_parryCounter',
                 'm4_hitHeadHeavy', 'm4_leanBack', 'm4_fall', 'm4_rise', 'm4_run',
-                'm4_comboBodyUpper', 'm4_comboJabElbowKnee', 'm4_comboLowHigh', 'm4_kickHigh2']),
+                'm4_comboBodyUpper', 'm4_comboJabElbowKnee', 'm4_comboLowHigh', 'm4_kickHigh2',
+                'm5_walkStart', 'm5_walkStop', 'm5_guardBreak', 'm5_tired', 'm5_kickHigh', 'm5_throw', 'm5_thrown',
+                'm5_groundPunch', 'm5_stomp', 'm5_groundHit', 'm5_clinchGrab', 'm5_clinchHold', 'm5_clinchKnee',
+                'm5_clinchRelease', 'm5_held', 'm5_clinchEscape']),
 }
 
 

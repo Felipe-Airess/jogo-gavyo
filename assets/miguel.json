@@ -5298,6 +5298,1436 @@
         3,
         4
       ]
+    },
+    {
+      "id": "m5_walkStart",
+      "loop": false,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 369,
+          "duration": 55,
+          "sourceFacing": 1,
+          "file": "lote5/walkStart/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 370,
+          "duration": 50,
+          "sourceFacing": 1,
+          "file": "lote5/walkStart/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 371,
+          "duration": 55,
+          "sourceFacing": 1,
+          "file": "lote5/walkStart/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        55,
+        50,
+        55
+      ],
+      "totalMs": 160,
+      "contactFrames": []
+    },
+    {
+      "id": "m5_walkStop",
+      "loop": false,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 372,
+          "duration": 55,
+          "sourceFacing": 1,
+          "file": "lote5/walkStop/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 373,
+          "duration": 50,
+          "sourceFacing": 1,
+          "file": "lote5/walkStop/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 374,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/walkStop/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        55,
+        50,
+        60
+      ],
+      "totalMs": 165,
+      "contactFrames": []
+    },
+    {
+      "id": "m5_guardBreak",
+      "loop": false,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 375,
+          "duration": 95,
+          "sourceFacing": 1,
+          "file": "lote5/guardBreak/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 376,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "lote5/guardBreak/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 377,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "lote5/guardBreak/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 378,
+          "duration": 110,
+          "sourceFacing": 1,
+          "file": "lote5/guardBreak/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 379,
+          "duration": 105,
+          "sourceFacing": 1,
+          "file": "lote5/guardBreak/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 380,
+          "duration": 145,
+          "sourceFacing": 1,
+          "file": "lote5/guardBreak/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        95,
+        100,
+        100,
+        110,
+        105,
+        145
+      ],
+      "totalMs": 655,
+      "contactFrames": []
+    },
+    {
+      "id": "m5_tired",
+      "loop": true,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 381,
+          "duration": 150,
+          "sourceFacing": 1,
+          "file": "lote5/tired/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 382,
+          "duration": 160,
+          "sourceFacing": 1,
+          "file": "lote5/tired/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 383,
+          "duration": 160,
+          "sourceFacing": 1,
+          "file": "lote5/tired/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 384,
+          "duration": 170,
+          "sourceFacing": 1,
+          "file": "lote5/tired/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 385,
+          "duration": 160,
+          "sourceFacing": 1,
+          "file": "lote5/tired/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 386,
+          "duration": 150,
+          "sourceFacing": 1,
+          "file": "lote5/tired/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        150,
+        160,
+        160,
+        170,
+        160,
+        150
+      ],
+      "totalMs": 950,
+      "contactFrames": []
+    },
+    {
+      "id": "m5_kickHigh",
+      "loop": false,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 387,
+          "duration": 71,
+          "sourceFacing": 1,
+          "file": "lote5/kickHigh3/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 388,
+          "duration": 62,
+          "sourceFacing": 1,
+          "file": "lote5/kickHigh3/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 389,
+          "duration": 53,
+          "sourceFacing": 1,
+          "file": "lote5/kickHigh3/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 390,
+          "duration": 44,
+          "sourceFacing": 1,
+          "file": "lote5/kickHigh3/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 391,
+          "duration": 35,
+          "sourceFacing": 1,
+          "file": "lote5/kickHigh3/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 392,
+          "duration": 35,
+          "sourceFacing": 1,
+          "file": "lote5/kickHigh3/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 393,
+          "duration": 106,
+          "sourceFacing": 1,
+          "file": "lote5/kickHigh3/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 394,
+          "duration": 84,
+          "sourceFacing": 1,
+          "file": "lote5/kickHigh3/08.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 395,
+          "duration": 97,
+          "sourceFacing": 1,
+          "file": "lote5/kickHigh3/09.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 396,
+          "duration": 109,
+          "sourceFacing": 1,
+          "file": "lote5/kickHigh3/10.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 397,
+          "duration": 121,
+          "sourceFacing": 1,
+          "file": "lote5/kickHigh3/11.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 398,
+          "duration": 133,
+          "sourceFacing": 1,
+          "file": "lote5/kickHigh3/12.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        }
+      ],
+      "durations": [
+        71,
+        62,
+        53,
+        44,
+        35,
+        35,
+        106,
+        84,
+        97,
+        109,
+        121,
+        133
+      ],
+      "totalMs": 950,
+      "contactFrames": [
+        6,
+        7
+      ]
+    },
+    {
+      "id": "m5_throw",
+      "loop": false,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 399,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/throw/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 400,
+          "duration": 55,
+          "sourceFacing": 1,
+          "file": "lote5/throw/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 401,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/throw/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 402,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote5/throw/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 403,
+          "duration": 80,
+          "sourceFacing": 1,
+          "file": "lote5/throw/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 404,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote5/throw/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 405,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote5/throw/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 406,
+          "duration": 110,
+          "sourceFacing": 1,
+          "file": "lote5/throw/08.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        60,
+        55,
+        60,
+        70,
+        80,
+        90,
+        90,
+        110
+      ],
+      "totalMs": 615,
+      "contactFrames": []
+    },
+    {
+      "id": "m5_thrown",
+      "loop": false,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 407,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/thrown/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 408,
+          "duration": 55,
+          "sourceFacing": 1,
+          "file": "lote5/thrown/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 409,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/thrown/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 410,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote5/thrown/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 411,
+          "duration": 80,
+          "sourceFacing": 1,
+          "file": "lote5/thrown/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 412,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote5/thrown/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 413,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote5/thrown/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 414,
+          "duration": 110,
+          "sourceFacing": 1,
+          "file": "lote5/thrown/08.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 415,
+          "duration": 300,
+          "sourceFacing": 1,
+          "file": "lote5/thrown/09.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        60,
+        55,
+        60,
+        70,
+        80,
+        90,
+        90,
+        110,
+        300
+      ],
+      "totalMs": 915,
+      "contactFrames": []
+    },
+    {
+      "id": "m5_groundPunch",
+      "loop": false,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 416,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/groundPunch/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 417,
+          "duration": 55,
+          "sourceFacing": 1,
+          "file": "lote5/groundPunch/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 418,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/groundPunch/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 419,
+          "duration": 50,
+          "sourceFacing": 1,
+          "file": "lote5/groundPunch/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 420,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote5/groundPunch/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 421,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote5/groundPunch/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 422,
+          "duration": 75,
+          "sourceFacing": 1,
+          "file": "lote5/groundPunch/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 423,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "lote5/groundPunch/08.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        60,
+        55,
+        60,
+        50,
+        70,
+        70,
+        75,
+        100
+      ],
+      "totalMs": 540,
+      "contactFrames": []
+    },
+    {
+      "id": "m5_stomp",
+      "loop": false,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 424,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/stomp/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 425,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/stomp/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 426,
+          "duration": 65,
+          "sourceFacing": 1,
+          "file": "lote5/stomp/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 427,
+          "duration": 50,
+          "sourceFacing": 1,
+          "file": "lote5/stomp/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 428,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote5/stomp/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 429,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote5/stomp/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 430,
+          "duration": 75,
+          "sourceFacing": 1,
+          "file": "lote5/stomp/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 431,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "lote5/stomp/08.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        60,
+        60,
+        65,
+        50,
+        70,
+        70,
+        75,
+        100
+      ],
+      "totalMs": 550,
+      "contactFrames": []
+    },
+    {
+      "id": "m5_groundHit",
+      "loop": false,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 432,
+          "duration": 50,
+          "sourceFacing": 1,
+          "file": "lote5/groundHit/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 433,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote5/groundHit/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 434,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "lote5/groundHit/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 435,
+          "duration": 110,
+          "sourceFacing": 1,
+          "file": "lote5/groundHit/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        50,
+        70,
+        90,
+        110
+      ],
+      "totalMs": 320,
+      "contactFrames": []
+    },
+    {
+      "id": "m5_clinchGrab",
+      "loop": false,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 436,
+          "duration": 40,
+          "sourceFacing": 1,
+          "file": "lote5/clinchGrab/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 437,
+          "duration": 40,
+          "sourceFacing": 1,
+          "file": "lote5/clinchGrab/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 438,
+          "duration": 40,
+          "sourceFacing": 1,
+          "file": "lote5/clinchGrab/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 439,
+          "duration": 40,
+          "sourceFacing": 1,
+          "file": "lote5/clinchGrab/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 440,
+          "duration": 40,
+          "sourceFacing": 1,
+          "file": "lote5/clinchGrab/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 441,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/clinchGrab/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        60
+      ],
+      "totalMs": 260,
+      "contactFrames": []
+    },
+    {
+      "id": "m5_clinchHold",
+      "loop": true,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 442,
+          "duration": 160,
+          "sourceFacing": 1,
+          "file": "lote5/clinchBent/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 443,
+          "duration": 160,
+          "sourceFacing": 1,
+          "file": "lote5/clinchBent/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 444,
+          "duration": 160,
+          "sourceFacing": 1,
+          "file": "lote5/clinchBent/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 445,
+          "duration": 160,
+          "sourceFacing": 1,
+          "file": "lote5/clinchBent/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        160,
+        160,
+        160,
+        160
+      ],
+      "totalMs": 640,
+      "contactFrames": []
+    },
+    {
+      "id": "m5_clinchKnee",
+      "loop": false,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 446,
+          "duration": 65,
+          "sourceFacing": 1,
+          "file": "lote5/clinchKnee/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 447,
+          "duration": 52,
+          "sourceFacing": 1,
+          "file": "lote5/clinchKnee/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 448,
+          "duration": 38,
+          "sourceFacing": 1,
+          "file": "lote5/clinchKnee/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 449,
+          "duration": 35,
+          "sourceFacing": 1,
+          "file": "lote5/clinchKnee/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "preparação"
+        },
+        {
+          "index": 450,
+          "duration": 69,
+          "sourceFacing": 1,
+          "file": "lote5/clinchKnee/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 451,
+          "duration": 55,
+          "sourceFacing": 1,
+          "file": "lote5/clinchKnee/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "contato"
+        },
+        {
+          "index": 452,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote5/clinchKnee/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        },
+        {
+          "index": 453,
+          "duration": 86,
+          "sourceFacing": 1,
+          "file": "lote5/clinchKnee/08.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": "recuperação"
+        }
+      ],
+      "durations": [
+        65,
+        52,
+        38,
+        35,
+        69,
+        55,
+        70,
+        86
+      ],
+      "totalMs": 470,
+      "contactFrames": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": "m5_clinchRelease",
+      "loop": false,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 454,
+          "duration": 50,
+          "sourceFacing": 1,
+          "file": "lote5/clinchRelease/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 455,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/clinchRelease/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 456,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/clinchRelease/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 457,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/clinchRelease/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 458,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/clinchRelease/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 459,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote5/clinchRelease/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        50,
+        60,
+        60,
+        60,
+        60,
+        70
+      ],
+      "totalMs": 360,
+      "contactFrames": []
+    },
+    {
+      "id": "m5_held",
+      "loop": true,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 460,
+          "duration": 170,
+          "sourceFacing": 1,
+          "file": "lote5/heldSquat/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 461,
+          "duration": 170,
+          "sourceFacing": 1,
+          "file": "lote5/heldSquat/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 462,
+          "duration": 170,
+          "sourceFacing": 1,
+          "file": "lote5/heldSquat/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 463,
+          "duration": 170,
+          "sourceFacing": 1,
+          "file": "lote5/heldSquat/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 464,
+          "duration": 170,
+          "sourceFacing": 1,
+          "file": "lote5/heldSquat/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        170,
+        170,
+        170,
+        170,
+        170
+      ],
+      "totalMs": 850,
+      "contactFrames": []
+    },
+    {
+      "id": "m5_clinchEscape",
+      "loop": false,
+      "source": "lote5",
+      "frames": [
+        {
+          "index": 465,
+          "duration": 50,
+          "sourceFacing": 1,
+          "file": "lote5/clinchEscape/01.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 466,
+          "duration": 50,
+          "sourceFacing": 1,
+          "file": "lote5/clinchEscape/02.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 467,
+          "duration": 55,
+          "sourceFacing": 1,
+          "file": "lote5/clinchEscape/03.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 468,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/clinchEscape/04.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 469,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/clinchEscape/05.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 470,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/clinchEscape/06.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 471,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "lote5/clinchEscape/07.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        },
+        {
+          "index": 472,
+          "duration": 70,
+          "sourceFacing": 1,
+          "file": "lote5/clinchEscape/08.png",
+          "root": [
+            64,
+            88
+          ],
+          "phase": ""
+        }
+      ],
+      "durations": [
+        50,
+        50,
+        55,
+        60,
+        60,
+        60,
+        60,
+        70
+      ],
+      "totalMs": 465,
+      "contactFrames": []
     }
   ],
   "reference": "Sorriso: guarda 66 px; Miguel em pé 70 px.",

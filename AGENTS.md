@@ -22,13 +22,14 @@ contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
 
 ```bash
 npm start            # servidor local em http://127.0.0.1:4173 (abre o navegador)
-npm test             # 165 testes: core, duelo e históricos — todos passando
+npm test             # 182 testes: core, duelo e históricos — todos passando
 npm run test:legacy  # 22 testes antigos — todos passando
 npm run build        # gera build/ (≈4,7 MB, ignorado pelo Git)
 python scripts/extract-markers.py sorriso miguel   # regenera *-markers.json (Python 3 + Pillow)
 python scripts/add-miguel-lote2.py  # lote 2 do Miguel no atlas assets/miguel.png
 python scripts/add-miguel-lote3.py  # lote 3 (golpes) do Miguel no atlas
 python scripts/miguel-lote4/extrair.py && python scripts/add-miguel-lote4.py  # lote 4 (rodar extract-markers depois)
+python scripts/miguel-lote5/extrair.py && python scripts/add-miguel-lote5.py  # lote 5 (idem; precisa de numpy e scipy)
 ```
 
 O `gh` (GitHub CLI) está instalado em `C:/Program Files/GitHub CLI/gh.exe` e
@@ -402,6 +403,38 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   "Golpe ainda sem desenho." `playerClips` separa a arte do jogador da dos alvos.
 * Regra do corredor mantida: cabeça do alvo em pé fica a −67; corpo primeiro.
 * Sem desenho: clinch e limpar a mão. Corrida, queda e levantar do Miguel vêm das folhas refeitas.
+
+## Miguel — lote 5 (27/10, duelo)
+
+* Fontes: `arte/personagens/miguel/lote5/fontes/pacote5.png` (prancha 1536×1024
+  com os itens 9–20 do prompt, desenhada ~2× maior e com escala diferente por
+  painel) e `fontes/zip/` (transições, guarda rompida, cansado: já 128×96, mas
+  com milhares de cores, alfa parcial e cabelo laranja na rompida 4–5).
+  O bloqueio pesado (`fontes/04_bloqueio_pesado…png`) é só referência: não entra.
+* `scripts/miguel-lote5/extrair.py`: células pelo magenta estrito, linhas das
+  células apagadas só nas bordas (a perna do chute enche a coluna), escala
+  pela guarda de cada painel, pé de apoio parado, paleta/cor do lote 3, buracos
+  de 1–6 px fechados. Correções de conteúdo listadas no próprio script:
+  arremesso sem os quadros 5, 7 (perna cortada pela linha) e 8 (pulo); deitado
+  final do arremessado juntado de duas células (linha refeita pelos vizinhos)
+  e o 11 fora; segurado sem o 6 (sentado, não fecha o loop); pedaços do pé
+  vizinho apagados (`ERASE`); desenhos virados para a esquerda espelhados
+  (`MIRROR`: o atlas guarda tudo olhando para a direita).
+* `scripts/add-miguel-lote5.py` → `m5_*`; depois `extract-markers.py miguel`.
+* No duelo: clinch do Miguel (pega `m5_clinchGrab`, segura `m5_clinchHold` =
+  quadros 2–5 da folha "segurar", joelhada `m5_clinchKnee`, J também dá joelhada
+  porque não há soco curto desenhado; segurado `m5_held`; ao soltar/escapar
+  toca `m5_clinchRelease`/`m5_clinchEscape` pelo `f.from`). Distância do clinch
+  do Miguel 20 px (`CLINCH_GAP`): a 22 a joelhada não alcança o tronco.
+  Arremesso `m5_throw` (contato no 5º quadro); Miguel arremessado `m5_thrown`
+  até o giro e o resto no chão (`landFrom`). Soco no chão e pisada; apanhando
+  no chão `m5_groundHit` (`groundHitAt`). Guarda rompida (`reactKind`
+  'guardBreak'), cansado com fôlego < 25 (`MIGUEL_TIRED`), guarda→andar e
+  andar→guarda (só desenho, a física não espera).
+* Chute alto `m5_kickHigh` ficou SEM comando: o pé está no rosto (−58 px), mas
+  colado ao corpo (17 px à frente) e os corpos nunca ficam a menos de ~35 px.
+  Pedir de novo com a perna estendida para a frente (~30 px). Gancho e
+  golpe→andar foram recusados na própria conversa e não vieram.
 
 ## Acompanhar (provisório, `STEP_IN` em `duel.mjs`)
 

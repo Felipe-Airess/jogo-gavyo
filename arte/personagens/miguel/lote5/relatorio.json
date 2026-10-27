@@ -1,0 +1,114 @@
+{
+ "kickHigh3": {
+  "desenhados": 12,
+  "quadros": 12,
+  "escala": 0.55,
+  "fora": {},
+  "cortados_na_celula": []
+ },
+ "throw": {
+  "desenhados": 11,
+  "quadros": 8,
+  "escala": 0.524,
+  "fora": {
+   "5": "perna de trás cortada pela linha da célula (repete o 4)",
+   "7": "perna de trás cortada pela linha da célula (o 6 já é o empurrão)",
+   "8": "pulo agachado sem apoio no meio do arremesso"
+  },
+  "cortados_na_celula": []
+ },
+ "thrown": {
+  "desenhados": 11,
+  "quadros": 9,
+  "escala": 0.524,
+  "fora": {
+   "11": "deitado repetido e cortado na borda do painel"
+  },
+  "cortados_na_celula": []
+ },
+ "groundPunch": {
+  "desenhados": 8,
+  "quadros": 8,
+  "escala": 0.524,
+  "fora": {},
+  "cortados_na_celula": []
+ },
+ "stomp": {
+  "desenhados": 8,
+  "quadros": 8,
+  "escala": 0.482,
+  "fora": {},
+  "cortados_na_celula": []
+ },
+ "groundHit": {
+  "desenhados": 4,
+  "quadros": 4,
+  "escala": 0.482,
+  "fora": {},
+  "cortados_na_celula": []
+ },
+ "clinchGrab": {
+  "desenhados": 6,
+  "quadros": 6,
+  "escala": 0.475,
+  "fora": {},
+  "cortados_na_celula": []
+ },
+ "clinchBent": {
+  "desenhados": 6,
+  "quadros": 6,
+  "escala": 0.475,
+  "fora": {},
+  "cortados_na_celula": []
+ },
+ "clinchKnee": {
+  "desenhados": 8,
+  "quadros": 8,
+  "escala": 0.504,
+  "fora": {},
+  "cortados_na_celula": []
+ },
+ "clinchRelease": {
+  "desenhados": 6,
+  "quadros": 6,
+  "escala": 0.5,
+  "fora": {},
+  "cortados_na_celula": []
+ },
+ "heldSquat": {
+  "desenhados": 6,
+  "quadros": 5,
+  "escala": 0.55,
+  "fora": {
+   "6": "termina sentado no chão: não fecha o loop"
+  },
+  "cortados_na_celula": []
+ },
+ "clinchEscape": {
+  "desenhados": 8,
+  "quadros": 8,
+  "escala": 0.55,
+  "fora": {},
+  "cortados_na_celula": []
+ },
+ "walkStart": {
+  "quadros": 3,
+  "fonte": "zip/01_guarda_para_andar_3_quadros",
+  "corrigido": "paleta do jogo, alfa binário, buracos fechados, pé em y=87"
+ },
+ "walkStop": {
+  "quadros": 3,
+  "fonte": "zip/02_andar_para_guarda_3_quadros",
+  "corrigido": "paleta do jogo, alfa binário, buracos fechados, pé em y=87"
+ },
+ "guardBreak": {
+  "quadros": 6,
+  "fonte": "zip/05_guarda_rompida_refeita_6_quadros",
+  "corrigido": "paleta do jogo, alfa binário, buracos fechados, pé em y=87"
+ },
+ "tired": {
+  "quadros": 6,
+  "fonte": "zip/06_cansado_loop_6_quadros",
+  "corrigido": "paleta do jogo, alfa binário, buracos fechados, pé em y=87"
+ }
+}

@@ -180,8 +180,9 @@ export class Duel {
     this.face();
   }
 
-  setState(f, state) { if (f.state !== state) { f.state = state; f.t = 0; } }
-  toIdle(f) { this.commitRoot(f); f.state = 'idle'; f.t = 0; f.move = null; f.chain = 0; f.vx *= 0.3; }
+  // `from`: estado anterior, para o desenho escolher a transição (andar → guarda etc.).
+  setState(f, state) { if (f.state !== state) { f.from = f.state; f.state = state; f.t = 0; } }
+  toIdle(f) { this.commitRoot(f); f.from = f.state; f.state = 'idle'; f.t = 0; f.move = null; f.chain = 0; f.vx *= 0.3; }
 
   regen(f, s) {
     const busy = f.state === 'attack' || CLINCH_STATES.has(f.state);
@@ -213,7 +214,7 @@ export class Duel {
         this.slide(f, s, 5);
         if (!f.landed && f.t >= 340) { f.landed = true; this.event('land', { fighter: f.id, x: f.x, ko: true }); }
         return;
-      case 'down': if (f.t >= (f.downMs || GROUND.downMs)) { f.downMs = 0; f.downExtra = 0; this.setState(f, 'getup'); } return;
+      case 'down': if (f.t >= (f.downMs || GROUND.downMs)) { f.downMs = 0; f.downExtra = 0; f.landFrom = null; this.setState(f, 'getup'); } return;
       case 'parried':
         this.slide(f, s, 8);
         if (f.t >= PARRY.stagger) this.toIdle(f);
@@ -379,6 +380,7 @@ export class Duel {
     this.event('hit', { attacker: a.id, target: d.id, move: m.id, zone: c.zone, kind: m.throw ? 'throw' : 'hit', counter: false, quality: 'clean', heavy: true, power: 3, damage: r.damage, point });
     if (c.lands || r.kind === 'ko') {
       d.state = r.kind === 'ko' ? 'ko' : 'down'; d.t = 0; d.downMs = GROUND.thrownMs; d.downExtra = 0; d.vx = a.facing * 30; d.move = null; d.buffer.clear(); d.pairRef = null;
+      d.landFrom = m.throw ? 'thrown' : null;
       this.event('land', { fighter: d.id, x: d.x });
     }
     if (r.kind === 'ko') { d.ko = true; this.result = { winner: a.id, loser: d.id, reason: r.reason, at: this.clock }; this.event('ko', { winner: a.id, reason: r.reason }); }
@@ -600,6 +602,7 @@ export class Duel {
     const quality = contactQuality(coverage);
     const r = resolveHit(m, d, zone, { quality, ground: true, scale: COMBO.scale[Math.min(a.chain, COMBO.scale.length - 1)] });
     applyHit(d, r);
+    d.groundHitAt = this.clock;
     this.hitstop = r.kind === 'ko' ? HITSTOP.heavy : HITSTOP.medium;
     this.lastHit = { at: this.clock, attacker: a.id, target: d.id, move: m.id, zone: r.zone, kind: r.kind, damage: r.damage, counter: false, blocked: false, quality, coverage, point };
     this.event('hit', { attacker: a.id, target: d.id, move: m.id, zone: r.zone, kind: r.kind, counter: false, quality, heavy: true, power: 3, damage: r.damage, point: { ...point }, ground: true });
@@ -661,7 +664,7 @@ export class Duel {
     d.reactHeavy = r.kind === 'hit' && (quality === 'clean' || r.stun >= HEAVY_STUN || this.isRocked(d));
     d.recoil = r.kind === 'block' ? RECOIL.block : quality === 'clean' ? RECOIL.clean : quality === 'graze' ? RECOIL.graze : RECOIL.hit;
     if (r.kind === 'block') { d.state = 'blockstun'; d.t = 0; d.vx = pushV; }
-    else if (r.kind === 'guardBreak') { d.state = 'hitstun'; d.t = 0; d.reaction = 'body'; d.vx = pushV; }
+    else if (r.kind === 'guardBreak') { d.state = 'hitstun'; d.t = 0; d.reaction = 'body'; d.reactKind = 'guardBreak'; d.vx = pushV; }
     else if (r.kind === 'hit') { d.state = 'hitstun'; d.t = 0; d.vx = pushV; }
     else if (r.kind === 'knockdown') { d.state = 'knockdown'; d.t = 0; d.vx = pushV + a.facing * 40; }
     else if (r.kind === 'collapse') { d.state = 'collapse'; d.t = 0; d.vx = 0; }
@@ -694,7 +697,8 @@ export class Duel {
     const cmd = f.buffer.take(this.clock);
     if (cmd?.kind === 'grab') { endClinch(f, o, 'release'); this.event('release', { fighter: f.id }); return; }
     if (cmd) {
-      const id = cmd.kind === 'kick' ? 'knee' : 'clinchPunch', m = this.moveOf(f, id);
+      // Sem soco curto desenhado (Miguel), J também dá a joelhada.
+      const want = cmd.kind === 'kick' ? 'knee' : 'clinchPunch', id = this.moveOf(f, want) ? want : 'knee', m = this.moveOf(f, id);
       if (m && f.stamina >= m.cost * 0.5) {
         f.stamina = Math.max(0, f.stamina - m.cost);
         f.state = 'clinchStrike'; f.t = 0; f.move = id; f.moveT = 0; f.hitDone = false; f.connected = false; f.prevTip = null;

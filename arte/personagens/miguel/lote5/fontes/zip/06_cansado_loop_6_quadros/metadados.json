@@ -1,0 +1,22 @@
+{
+  "animacao": "06_cansado_loop_6_quadros",
+  "frames": 6,
+  "dimensoes": [
+    128,
+    96
+  ],
+  "pivot": [
+    64,
+    88
+  ],
+  "status": "aceita_apenas_para_previa_por_avanco_na_conversa_sem_aprovacao_final",
+  "duracoes_ms_sugeridas": [
+    125,
+    135,
+    135,
+    145,
+    135,
+    125
+  ],
+  "observacao": "Respiração discreta, pose construída de assets já existentes; usuário avançou."
+}

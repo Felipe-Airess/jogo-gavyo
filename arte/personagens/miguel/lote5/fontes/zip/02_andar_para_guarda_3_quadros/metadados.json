@@ -1,0 +1,19 @@
+{
+  "animacao": "02_andar_para_guarda_3_quadros",
+  "frames": 3,
+  "dimensoes": [
+    128,
+    96
+  ],
+  "pivot": [
+    64,
+    88
+  ],
+  "status": "aceita_apenas_para_previa_por_avanco_na_conversa_sem_aprovacao_final",
+  "duracoes_ms_sugeridas": [
+    115,
+    105,
+    150
+  ],
+  "observacao": "Transição montada com sprites existentes; usuário avançou à sequência seguinte."
+}

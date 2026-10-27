@@ -9,10 +9,11 @@ import { R2_STRIDE, tableFrame } from '../locomotion.mjs';
 // desenho próprio fica indisponível — não é emprestada de outro personagem.
 export const CHARACTERS = {
   sorriso: { name: 'SORRISO', sheet: 'sorriso-sheet', requires: { walk: 'r2_walk', run: 'r2_run', crouch: 'r2_crouchHold', attack: 'r3_jab_head', hurt: 'hurt', fall: 'fall', rise: 'rise', guard: 'block', clinch: 'clinchWalk' } },
-  // Miguel: lote 3 (guarda, socos e chutes) e lote 4 (andar em guarda,
+  // Miguel: lote 3 (guarda, socos e chutes), lote 4 (andar em guarda,
   // bloqueio, reações, grogue, queda, deitado, levantar, corrida, gancho,
-  // jab no corpo, aparo). Agachar e clinch ainda faltam.
-  miguel: { name: 'MIGUEL', sheet: 'miguel-sheet', requires: { walk: 'm3_walk', run: 'm4_run', crouch: null, attack: 'm3_jab', hurt: 'm4_hitHead', fall: 'm4_fall', rise: 'm4_rise', guard: 'm_block', clinch: null } },
+  // jab no corpo, aparo) e lote 5 (clinch, arremesso, chão, chute alto,
+  // cansado, guarda rompida, transições do andar). Agachar ainda falta.
+  miguel: { name: 'MIGUEL', sheet: 'miguel-sheet', requires: { walk: 'm3_walk', run: 'm4_run', crouch: null, attack: 'm3_jab', hurt: 'm4_hitHead', fall: 'm4_fall', rise: 'm4_rise', guard: 'm_block', clinch: 'm5_clinchHold' } },
 };
 
 export function capabilities(character, clips) {
@@ -90,7 +91,13 @@ const MIGUEL_REACT = {
   body: [['m4_hitBodyHeavy', 'm4_hitBody'], ['m4_hitBody']],
   liver: [['m4_hitLiver', 'm4_hitBody'], ['m4_hitLiver', 'm4_hitBody']],
   legs: [['m4_hitLegHeavy', 'm4_hitLeg'], ['m4_hitLeg']],
+  guardBreak: [['m5_guardBreak', 'm4_hitBody'], ['m5_guardBreak', 'm4_hitBody']],
 };
+// Fôlego abaixo do qual a guarda parada vira o "cansado" (lote 5).
+export const MIGUEL_TIRED = 25;
+// Transição desenhada depois de sair de um estado (f.from), tocada uma vez
+// no começo do novo estado; qualquer ação a interrompe.
+const MIGUEL_AFTER = { walk: 'm5_walkStop', clinch: 'm5_clinchRelease', clinchEntry: 'm5_clinchRelease', clinchStrike: 'm5_clinchRelease', held: 'm5_clinchEscape' };
 function miguelHit(f, clips) {
   const kind = f.reactKind || (f.reaction === 'head' ? 'straight' : f.reaction || 'body');
   const heavy = f.reactHeavy ?? (f.stun >= MIGUEL_HEAVY_STUN);
@@ -105,11 +112,18 @@ export function miguelRef(f, clips, clock = Infinity, moves = null) {
   if (f.state === 'thrown' && f.pairRef && clips[f.pairRef.clip]) return f.pairRef;
   const fallen = clips.m4_hitHead ? { clip: 'm4_hitHead', frame: 2 } : MIGUEL_ABSORB;
   switch (f.state) {
-    case 'idle':
-      // Grogue: cambaleando (lote 4). Senão, guarda respirando (lote 3).
+    case 'idle': {
+      // Saindo do andar ou do clinch: a transição desenhada (lote 5).
+      const after = clips[MIGUEL_AFTER[f.from]];
+      if (after && f.t < after.totalMs) return once(after, f.t);
+      // Grogue: cambaleando (lote 4). Sem fôlego: cansado (lote 5). Senão, guarda respirando (lote 3).
       if (clock < f.rockedUntil && clips.m4_dazed) return { clip: 'm4_dazed', frame: loop(clips.m4_dazed, f.t) };
+      if (f.stamina < MIGUEL_TIRED && clips.m5_tired) return { clip: 'm5_tired', frame: loop(clips.m5_tired, f.t) };
       return clips.m3_idle ? { clip: 'm3_idle', frame: loop(clips.m3_idle, f.t) } : MIGUEL_GUARD;
+    }
     case 'walk': {
+      // Da guarda parada para o primeiro passo (lote 5).
+      if ((f.from === 'idle' || f.from === 'guard') && clips.m5_walkStart && f.t < clips.m5_walkStart.totalMs) return once(clips.m5_walkStart, f.t);
       // Andar em guarda (lote 4), um ciclo para cada sentido.
       const g = clips[f.walkRel < 0 ? 'm4_walkBack' : 'm4_walkFwd'];
       if (g) return { clip: g.id, frame: byDistance(g, Math.abs(f.gait), MIGUEL_WALK_CYCLE) };
@@ -158,16 +172,44 @@ export function miguelRef(f, clips, clock = Infinity, moves = null) {
       const n = c.frames.length, first = n > 2 ? 1 : 0;
       return { clip: c.id, frame: Math.min(n - 1, first + Math.floor(f.t / Math.max(1, f.stun) * (n - first))) };
     }
-    case 'down':
+    case 'down': {
+      // Arremessado: o resto da queda desenhada (o contato chega no giro).
+      const th = clips.m5_thrown;
+      if (f.landFrom === 'thrown' && th) {
+        const from = 7, tail = th.durations.slice(from), total = tail.reduce((a, b) => a + b, 0);
+        if (f.t < total) return { clip: th.id, frame: from + timed(tail, f.t) };
+      }
+      // Golpe no chão: encolhe e volta (lote 5).
+      const gh = clips.m5_groundHit, since = clock - (f.groundHitAt ?? -1e9);
+      if (gh && since >= 0 && since < gh.totalMs) return once(gh, since);
       // Deitado; se a queda acabou de terminar, o deitado respira no mesmo lugar.
       return clips.m4_lying ? { clip: 'm4_lying', frame: loop(clips.m4_lying, f.t) } : MIGUEL_ABSORB;
+    }
+    // Clinch (lote 5): pega, segura em loop; quem é segurado curva em loop.
+    case 'clinchEntry':
+      if (clips.m5_clinchGrab) return { clip: 'm5_clinchGrab', frame: Math.min(clips.m5_clinchGrab.frames.length - 1, timed(clips.m5_clinchGrab.durations, f.t)) };
+      break;
+    case 'clinch':
+      if (clips.m5_clinchHold) return { clip: 'm5_clinchHold', frame: loop(clips.m5_clinchHold, f.t) };
+      break;
+    case 'clinchStrike': {
+      const m = moves?.[f.move];
+      if (m) return { clip: m.clip, frame: m.frames[frameIndex(m, f.moveT)] };
+      break;
+    }
+    case 'grabMiss':
+      // Braços vão à pega que não encontrou o corpo e voltam.
+      if (clips.m5_clinchGrab) return { clip: 'm5_clinchGrab', frame: [0, 1, 2, 1, 0][Math.min(4, Math.floor(f.t / 60))] };
+      break;
     case 'held':
+      if (clips.m5_held) return { clip: 'm5_held', frame: loop(clips.m5_held, f.t) };
+      return clips.m4_hitBody ? { clip: 'm4_hitBody', frame: 2 } : MIGUEL_ABSORB;
     case 'thrown':
     case 'parried':
       return clips.m4_hitBody ? { clip: 'm4_hitBody', frame: 2 } : MIGUEL_ABSORB;
-    default:
-      return fallen;
   }
+  // Estados sem desenho próprio (ou sem o clip no atlas).
+  return fallen;
 }
 
 // `gait`: tabelas de avanço por quadro (Duel.gait), medidas nos pés desenhados.
