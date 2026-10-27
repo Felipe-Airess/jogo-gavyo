@@ -573,6 +573,446 @@
       "totalMs": 2400,
       "source": "miguel_guarda_16_quadros.png",
       "scale": 0.275
+    },
+    {
+      "id": "m_enterGuard",
+      "loop": false,
+      "source": "lote2",
+      "status": "aceito_para_teste_com_ressalvas",
+      "frames": [
+        {
+          "index": 26,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "01_entrar_na_guarda/entrar_guarda_000.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 27,
+          "duration": 85,
+          "sourceFacing": 1,
+          "file": "01_entrar_na_guarda/entrar_guarda_001.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 28,
+          "duration": 75,
+          "sourceFacing": 1,
+          "file": "01_entrar_na_guarda/entrar_guarda_002.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 29,
+          "duration": 75,
+          "sourceFacing": 1,
+          "file": "01_entrar_na_guarda/entrar_guarda_003.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 30,
+          "duration": 85,
+          "sourceFacing": 1,
+          "file": "01_entrar_na_guarda/entrar_guarda_004.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 31,
+          "duration": 130,
+          "sourceFacing": 1,
+          "file": "01_entrar_na_guarda/entrar_guarda_005.png",
+          "root": [
+            64,
+            88
+          ]
+        }
+      ],
+      "durations": [
+        100,
+        85,
+        75,
+        75,
+        85,
+        130
+      ],
+      "totalMs": 550
+    },
+    {
+      "id": "m_walkFwd",
+      "loop": true,
+      "source": "lote2",
+      "status": "aceito_para_teste",
+      "frames": [
+        {
+          "index": 32,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "02_andar_na_guarda_frente/walk_frente_000.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 33,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "02_andar_na_guarda_frente/walk_frente_001.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 34,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "02_andar_na_guarda_frente/walk_frente_002.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 35,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "02_andar_na_guarda_frente/walk_frente_003.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 36,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "02_andar_na_guarda_frente/walk_frente_004.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 37,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "02_andar_na_guarda_frente/walk_frente_005.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 38,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "02_andar_na_guarda_frente/walk_frente_006.png",
+          "root": [
+            64,
+            88
+          ]
+        }
+      ],
+      "durations": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "totalMs": 700
+    },
+    {
+      "id": "m_walkBack",
+      "loop": true,
+      "source": "lote2",
+      "status": "aceito_para_teste",
+      "frames": [
+        {
+          "index": 39,
+          "duration": 110,
+          "sourceFacing": 1,
+          "file": "03_andar_na_guarda_tras/walk_tras_000.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 40,
+          "duration": 110,
+          "sourceFacing": 1,
+          "file": "03_andar_na_guarda_tras/walk_tras_001.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 41,
+          "duration": 110,
+          "sourceFacing": 1,
+          "file": "03_andar_na_guarda_tras/walk_tras_002.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 42,
+          "duration": 110,
+          "sourceFacing": 1,
+          "file": "03_andar_na_guarda_tras/walk_tras_003.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 43,
+          "duration": 110,
+          "sourceFacing": 1,
+          "file": "03_andar_na_guarda_tras/walk_tras_004.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 44,
+          "duration": 110,
+          "sourceFacing": 1,
+          "file": "03_andar_na_guarda_tras/walk_tras_005.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 45,
+          "duration": 110,
+          "sourceFacing": 1,
+          "file": "03_andar_na_guarda_tras/walk_tras_006.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 46,
+          "duration": 110,
+          "sourceFacing": 1,
+          "file": "03_andar_na_guarda_tras/walk_tras_007.png",
+          "root": [
+            64,
+            88
+          ]
+        }
+      ],
+      "durations": [
+        110,
+        110,
+        110,
+        110,
+        110,
+        110,
+        110,
+        110
+      ],
+      "totalMs": 880
+    },
+    {
+      "id": "m_lowerGuard",
+      "loop": false,
+      "source": "lote2",
+      "status": "aceito_para_teste",
+      "frames": [
+        {
+          "index": 47,
+          "duration": 45,
+          "sourceFacing": 1,
+          "file": "04_baixar_a_guarda/baixar_guarda_000.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 48,
+          "duration": 45,
+          "sourceFacing": 1,
+          "file": "04_baixar_a_guarda/baixar_guarda_001.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 49,
+          "duration": 50,
+          "sourceFacing": 1,
+          "file": "04_baixar_a_guarda/baixar_guarda_002.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 50,
+          "duration": 50,
+          "sourceFacing": 1,
+          "file": "04_baixar_a_guarda/baixar_guarda_003.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 51,
+          "duration": 55,
+          "sourceFacing": 1,
+          "file": "04_baixar_a_guarda/baixar_guarda_004.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 52,
+          "duration": 60,
+          "sourceFacing": 1,
+          "file": "04_baixar_a_guarda/baixar_guarda_005.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 53,
+          "duration": 65,
+          "sourceFacing": 1,
+          "file": "04_baixar_a_guarda/baixar_guarda_006.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 54,
+          "duration": 85,
+          "sourceFacing": 1,
+          "file": "04_baixar_a_guarda/baixar_guarda_007.png",
+          "root": [
+            64,
+            88
+          ]
+        }
+      ],
+      "durations": [
+        45,
+        45,
+        50,
+        50,
+        55,
+        60,
+        65,
+        85
+      ],
+      "totalMs": 455
+    },
+    {
+      "id": "m_block",
+      "loop": false,
+      "source": "lote2",
+      "status": "aceito_provisoriamente_para_teste",
+      "frames": [
+        {
+          "index": 55,
+          "duration": 100,
+          "sourceFacing": 1,
+          "file": "05_bloqueio_alto/bloqueio_alto_000.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 56,
+          "duration": 55,
+          "sourceFacing": 1,
+          "file": "05_bloqueio_alto/bloqueio_alto_001.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 57,
+          "duration": 55,
+          "sourceFacing": 1,
+          "file": "05_bloqueio_alto/bloqueio_alto_002.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 58,
+          "duration": 85,
+          "sourceFacing": 1,
+          "file": "05_bloqueio_alto/bloqueio_alto_003.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 59,
+          "duration": 90,
+          "sourceFacing": 1,
+          "file": "05_bloqueio_alto/bloqueio_alto_004.png",
+          "root": [
+            64,
+            88
+          ]
+        },
+        {
+          "index": 60,
+          "duration": 105,
+          "sourceFacing": 1,
+          "file": "05_bloqueio_alto/bloqueio_alto_005.png",
+          "root": [
+            64,
+            88
+          ]
+        }
+      ],
+      "durations": [
+        100,
+        55,
+        55,
+        85,
+        90,
+        105
+      ],
+      "totalMs": 490
     }
   ],
   "reference": "Sorriso: guarda 66 px; Miguel em pé 70 px.",

@@ -415,17 +415,53 @@ test('IA pune golpe pesado errado ou bloqueado', () => {
 test('Miguel compartilha as regras, mas só faz o que tem desenho', () => {
   const can = capabilities('miguel', miguel);
   assert.equal(can.guard, true);
-  assert.equal(can.attack, false);
-  assert.equal(can.walk, false);
+  assert.equal(can.walk, true);
+  for (const action of ['attack', 'run', 'crouch', 'clinch']) assert.equal(can[action], false, action);
   const d = make(60);
   d.rival.can = can;
   const x = d.rival.x;
   press(d, {}, { attack: true });
   run(d, 300, {}, { left: true });
   assert.equal(attacks(d, 2), 0);
-  assert.equal(d.rival.x, x);
+  assert.ok(d.rival.x < x, 'anda');
   run(d, 50, {}, { guard: true });
   assert.equal(d.rival.state, 'guard');
+});
+
+const miguelMarkers = JSON.parse(fs.readFileSync(new URL('../assets/miguel-markers.json', import.meta.url)));
+const withMiguel = () => {
+  const d = new Duel({ clips, markers, roster: { miguel: { clips: miguel, markers: miguelMarkers } } });
+  d.setCharacters(['miguel', 'sorriso']);
+  return d;
+};
+
+test('Miguel jogável: só quadros dele, caixas dele e nenhum golpe', () => {
+  const d = withMiguel(), p = d.player;
+  assert.equal(p.character, 'miguel');
+  const seen = new Set();
+  const look = () => { const ref = d.animation(p); assert.ok(miguel[ref.clip]?.frames[ref.frame], ref.clip + ' ' + ref.frame); seen.add(ref.clip); };
+  for (let t = 0; t < 600; t += TICK) { d.tick([{}, {}]); look(); }
+  for (let t = 0; t < 500; t += TICK) { d.tick([{ right: true }, {}]); look(); }
+  for (let t = 0; t < 500; t += TICK) { d.tick([{ left: true }, {}]); look(); }
+  for (let t = 0; t < 400; t += TICK) { d.tick([{ guard: true }, {}]); look(); }
+  for (let t = 0; t < 200; t += TICK) { d.tick([{ attack: true }, {}]); look(); }
+  for (const clip of ['m_enterGuard', 'm_walkFwd', 'm_walkBack', 'm_block']) assert.ok(seen.has(clip), clip);
+  assert.equal(attacks(d, 1), 0);
+  assert.ok(Object.keys(d.hurtboxesOf(p)).length === 3, 'cabeça, tronco e pernas');
+});
+
+test('Sorriso acerta e é bloqueado pelo Miguel com as caixas do Miguel', () => {
+  const d = withMiguel();
+  d.rival.x = d.player.x + 40;
+  d.tick([{}, { attack: true }]);
+  run(d, 500);
+  assert.equal(d.lastHit?.target, 1, 'acertou o Miguel');
+  const b = withMiguel();
+  b.rival.x = b.player.x + 40;
+  run(b, 200, { guard: true });
+  b.tick([{ guard: true }, { attack: true }]);
+  run(b, 500, { guard: true });
+  assert.equal(b.lastHit?.blocked, true, 'guarda do Miguel segura');
 });
 
 test('marcadores ausentes não viram coordenadas: o golpe só procura o membro existente', () => {

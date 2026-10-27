@@ -18,9 +18,15 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const approach = (v, t, a) => v + clamp(t - v, -a, a);
 
 export class Duel {
-  constructor({ clips, markers, characters = ['sorriso', 'sorriso'] }) {
+  // `roster`: arte de outros personagens, { miguel: { clips, markers } }.
+  // `clips`/`markers` são os do Sorriso (golpes, alcance e passada vêm dele).
+  constructor({ clips, markers, characters = ['sorriso', 'sorriso'], roster = {} }) {
     this.clips = clips;
     this.markers = markers instanceof MarkerSet ? markers : new MarkerSet(markers);
+    this.roster = { sorriso: { clips, markers: this.markers } };
+    for (const [name, art] of Object.entries(roster)) {
+      this.roster[name] = { clips: art.clips, markers: art.markers instanceof MarkerSet ? art.markers : new MarkerSet(art.markers) };
+    }
     this.moves = createDuelMoves(clips);
     this.characters = characters;
     this.reach = this.measureReach();
@@ -30,7 +36,7 @@ export class Duel {
 
   reset() {
     const [a, b] = this.characters;
-    this.fighters = [createFighter(1, a, 200, 1, this.clips), createFighter(2, b, 280, -1, this.clips)];
+    this.fighters = [createFighter(1, a, 200, 1, this.artOf(a).clips), createFighter(2, b, 280, -1, this.artOf(b).clips)];
     this.clock = 0;
     this.hitstop = 0;
     this.events = [];
@@ -39,6 +45,16 @@ export class Duel {
     this.result = null;
     this.message = 'Controle a distância. Golpe errado custa caro.';
   }
+
+  // Troca os personagens e recomeça. Só personagens com arte carregada.
+  setCharacters(characters) {
+    if (!characters.every(c => this.roster[c])) return false;
+    this.characters = [...characters];
+    this.reset();
+    return true;
+  }
+
+  artOf(character) { return this.roster[character] || this.roster.sorriso; }
 
   get player() { return this.fighters[0]; }
   get rival() { return this.fighters[1]; }
@@ -67,10 +83,12 @@ export class Duel {
     return out;
   }
 
-  animation(f) { return animationRef(f, this.moves, this.clips, this.gait); }
+  animation(f) { return animationRef(f, this.moves, this.artOf(f.character).clips, this.gait, this.clock); }
   // Onde o sprite está desenhado (posição física + degrau da passada).
-  drawX(f) { return f.x + gaitOffset(f, this.gait); }
-  markersOf(f) { const ref = this.animation(f); return worldMarkers(this.markers.frame(ref.clip, ref.frame), { ...f, x: this.drawX(f) }); }
+  // O degrau usa a passada medida do Sorriso; Miguel não tem tabela própria.
+  drawX(f) { return f.x + (f.character === 'sorriso' ? gaitOffset(f, this.gait) : 0); }
+  markerSetOf(f) { return this.artOf(f.character).markers; }
+  markersOf(f) { const ref = this.animation(f); return worldMarkers(this.markerSetOf(f).frame(ref.clip, ref.frame), { ...f, x: this.drawX(f) }); }
   // Durante um golpe o braço estendido também pode ser atingido (e conta como tronco).
   hurtboxesOf(f) { return DOWN.has(f.state) ? {} : hurtboxes(this.markersOf(f), { arms: f.state === 'attack' || f.state === 'clinchStrike' }); }
 
@@ -188,7 +206,13 @@ export class Duel {
     const moved = (f.x - before) * f.facing;
     // O ciclo começa depois da arrancada, na fase do primeiro contato.
     if (running) { if (f.t >= RUN_START_MS) f.runDistance += Math.abs(moved); }
-    else if (Math.abs(f.vx) > 2) { this.setState(f, 'walk'); f.gait += moved; }
+    else if (Math.abs(f.vx) > 2) {
+      const rel = Math.sign(moved);
+      // Mudar de direção reinicia o ciclo (frente e trás são desenhos diferentes no Miguel).
+      if (f.state === 'walk' && rel && rel !== f.walkRel) f.t = 0;
+      if (rel) f.walkRel = rel;
+      this.setState(f, 'walk'); f.gait += moved;
+    }
     else this.setState(f, 'idle');
   }
 
@@ -234,9 +258,9 @@ export class Duel {
   probe(a, d) {
     if (a.state !== 'attack' && a.state !== 'clinchStrike') return null;
     const m = this.moves[a.move], frame = m.frames[frameIndex(m, a.moveT)];
-    const w = worldMarkers(this.markers.frame(m.clip, frame), a), tip = limbCenter(w?.[m.limb], m.limb, a.facing);
+    const w = worldMarkers(this.markerSetOf(a).frame(m.clip, frame), a), tip = limbCenter(w?.[m.limb], m.limb, a.facing);
     const active = m.active.includes(frame);
-    if (!tip) { if (active) this.markers.note(m.clip, frame, m.limb); a.prevTip = null; return null; }
+    if (!tip) { if (active) this.markerSetOf(a).note(m.clip, frame, m.limb); a.prevTip = null; return null; }
     const from = a.prevTip || tip;
     a.prevTip = tip;
     if (!active || a.hitDone || DOWN.has(d.state)) return null;

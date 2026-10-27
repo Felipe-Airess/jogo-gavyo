@@ -1,7 +1,7 @@
 """Extrai marcadores anatômicos dos quadros de Sorriso usados no combate.
 
-Uso: python scripts/extract-markers.py
-Saída: assets/sorriso-markers.json
+Uso: python scripts/extract-markers.py [sorriso] [miguel]
+Saída: assets/sorriso-markers.json, assets/miguel-markers.json
 
 Os marcadores antigos do atlas usam o extremo frontal de pixels claros. Esse
 ponto serve tanto para mão quanto para tênis e, em vários quadros, os dois
@@ -31,12 +31,19 @@ CLIPS = ['r1_idle', 'r2_walk', 'r2_run', 'r2_runStart', 'r2_runStop', 'r2_turn',
          'hurt', 'fall', 'rise', 'block', 'crouch', 'missMotion', 'clinchPunch', 'clinchWalk', 'kneeV6']
 
 
+# Cabelo castanho com reflexos avermelhados (Miguel): além dos tons escuros,
+# conta como cabelo o marrom-avermelhado escuro, sem o azul da pele.
+REDDISH_HAIR = False
+
+
 def classify(r, g, b, a):
     if a < 128:
         return None
     mx, mn = max(r, g, b), min(r, g, b)
     if mx < 70:
         return 'hair'  # cabelo e contornos escuros
+    if REDDISH_HAIR and mx <= 120 and b <= 48 and r > g + 30:
+        return 'hair'
     if r > 125 and r > g + 15 and g > b + 5 and b > 70 and g - b < 60:
         return 'skin'  # inclui sombras do antebraço
     if b > r + 25 and b >= g:
@@ -293,13 +300,24 @@ def analyse(cell):
     }
 
 
-def main():
-    atlas = Image.open(ATLAS).convert('RGBA')
-    data = json.loads(DATA.read_text(encoding='utf-8'))
+# Outros personagens com o mesmo uniforme: atlas, dados, saída e clips.
+CHARACTERS = {
+    'sorriso': (ATLAS, DATA, OUT, CLIPS),
+    'miguel': (ROOT / 'assets' / 'miguel.png', ROOT / 'assets' / 'miguel.json', ROOT / 'assets' / 'miguel-markers.json',
+               ['m_enterGuard', 'm_walkFwd', 'm_walkBack', 'm_lowerGuard', 'm_block']),
+}
+
+
+def main(character='sorriso'):
+    global REDDISH_HAIR
+    REDDISH_HAIR = character == 'miguel'
+    atlas_path, data_path, out_path, clip_ids = CHARACTERS[character]
+    atlas = Image.open(atlas_path).convert('RGBA')
+    data = json.loads(data_path.read_text(encoding='utf-8'))
     clips = {c['id']: c for c in data['clips']}
-    out = {'source': 'assets/sorriso-v70.png', 'method': 'classes de cor + componentes conectados; ver scripts/extract-markers.py',
+    out = {'source': str(atlas_path.relative_to(ROOT)).replace('\\', '/'), 'method': 'classes de cor + componentes conectados; ver scripts/extract-markers.py',
            'pivot': list(PIVOT), 'facing': 1, 'clips': {}}
-    for cid in CLIPS:
+    for cid in clip_ids:
         clip = clips.get(cid)
         if not clip:
             continue
@@ -311,9 +329,11 @@ def main():
             m['index'] = i
             frames.append(m)
         out['clips'][cid] = frames
-    OUT.write_text(json.dumps(out, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
-    print(f'{OUT.relative_to(ROOT)}: {sum(len(v) for v in out["clips"].values())} quadros')
+    out_path.write_text(json.dumps(out, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+    print(f'{out_path.relative_to(ROOT)}: {sum(len(v) for v in out["clips"].values())} quadros')
 
 
 if __name__ == '__main__':
-    main()
+    import sys
+    for name in (sys.argv[1:] or ['sorriso']):
+        main(name)

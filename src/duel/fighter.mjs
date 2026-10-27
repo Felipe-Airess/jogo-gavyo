@@ -9,8 +9,10 @@ import { R2_STRIDE, tableFrame } from '../locomotion.mjs';
 // desenho próprio fica indisponível — não é emprestada de outro personagem.
 export const CHARACTERS = {
   sorriso: { name: 'SORRISO', sheet: 'sorriso-sheet', requires: { walk: 'r2_walk', run: 'r2_run', crouch: 'r2_crouchHold', attack: 'r3_jab_head', hurt: 'hurt', fall: 'fall', rise: 'rise', guard: 'block', clinch: 'clinchWalk' } },
-  // Miguel: só idle e guarda foram entregues (arte/personagens/miguel).
-  miguel: { name: 'MIGUEL', sheet: 'miguel-sheet', requires: { walk: null, run: null, crouch: null, attack: null, hurt: null, fall: null, rise: null, guard: 'guard', clinch: null } },
+  // Miguel (lote 2, arte/personagens/miguel/lote2): entra em guarda, anda em
+  // guarda para frente e para trás e bloqueia. Golpes, corrida, agachar,
+  // reações e queda ainda não foram desenhados.
+  miguel: { name: 'MIGUEL', sheet: 'miguel-sheet', requires: { walk: 'm_walkFwd', run: null, crouch: null, attack: null, hurt: null, fall: null, rise: null, guard: 'm_block', clinch: null } },
 };
 
 export function capabilities(character, clips) {
@@ -35,7 +37,7 @@ export function createFighter(id, character, x, facing, clips) {
     id, character, x, prevX: x, y: 150, facing, vx: 0,
     state: 'idle', t: 0,
     move: null, moveT: 0, connected: false, hitDone: false, chain: 0, prevTip: null, moveFrom: null,
-    gait: 0, runDistance: 0,
+    gait: 0, runDistance: 0, walkRel: 0,
     condition: freshCondition(), balance: 100, stamina: 100,
     buffer: new CommandBuffer(), stun: 0, reaction: null,
     clinch: null, result: null, ko: false, invulnerable: false,
@@ -66,8 +68,38 @@ export function gaitOffset(f, gait) {
   return -(phase - table.start[tableFrame(table, distance)]) * f.facing;
 }
 
+// Quadros do Miguel. Só sequências desenhadas para ele; o que não tem desenho
+// (reação, queda, nocaute, preso) segura o quadro de absorção do bloqueio
+// (m_block 3), escolha registrada com o usuário até chegar a arte própria.
+const MIGUEL_GUARD = { clip: 'm_enterGuard', frame: 5 };
+const MIGUEL_ABSORB = { clip: 'm_block', frame: 3 };
+const hold = (durations, t, from = 0) => from + timed(durations.slice(from), t);
+
+export function miguelRef(f, clips, clock = Infinity) {
+  switch (f.state) {
+    case 'idle':
+      // Abertura da luta: neutro → guarda, uma vez; depois a guarda parada.
+      return clock < clips.m_enterGuard.totalMs ? { clip: 'm_enterGuard', frame: timed(clips.m_enterGuard.durations, clock) } : MIGUEL_GUARD;
+    case 'walk': {
+      // Ciclos desenhados com duração própria (o pé quase não se desloca no
+      // desenho, então a passada não é medida em distância como no Sorriso).
+      const clip = clips[f.walkRel < 0 ? 'm_walkBack' : 'm_walkFwd'];
+      return { clip: clip.id, frame: loop(clip, f.t) };
+    }
+    case 'guard':
+      // Sobe a guarda (quadros 0–2) e segura a pose fechada.
+      return { clip: 'm_block', frame: Math.min(2, timed(clips.m_block.durations, f.t)) };
+    case 'blockstun':
+      // Absorve e volta (quadros 3–5).
+      return { clip: 'm_block', frame: Math.min(5, hold(clips.m_block.durations, f.t, 3)) };
+    default:
+      return MIGUEL_ABSORB;
+  }
+}
+
 // `gait`: tabelas de avanço por quadro (Duel.gait), medidas nos pés desenhados.
-export function animationRef(f, moves, clips, gait = null) {
+export function animationRef(f, moves, clips, gait = null, clock) {
+  if (f.character === 'miguel') return miguelRef(f, clips, clock);
   switch (f.state) {
     case 'walk': {
       // Fase pela distância percorrida: os pés acompanham o deslocamento.

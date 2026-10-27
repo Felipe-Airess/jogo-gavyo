@@ -22,10 +22,11 @@ contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
 
 ```bash
 npm start            # servidor local em http://127.0.0.1:4173 (abre o navegador)
-npm test             # 133 testes: core, duelo e históricos — todos passando
+npm test             # 139 testes: core, duelo e históricos — todos passando
 npm run test:legacy  # 22 testes antigos — todos passando
 npm run build        # gera build/ (≈4,7 MB, ignorado pelo Git)
-python scripts/extract-markers.py   # regenera assets/sorriso-markers.json (Python 3 + Pillow)
+python scripts/extract-markers.py sorriso miguel   # regenera *-markers.json (Python 3 + Pillow)
+python scripts/add-miguel-lote2.py  # acrescenta o lote 2 do Miguel ao atlas assets/miguel.png
 ```
 
 O `gh` (GitHub CLI) está instalado em `C:/Program Files/GitHub CLI/gh.exe` e
@@ -66,8 +67,11 @@ logado na conta Felipe-Airess; pode não estar no PATH do shell.
 * Não reescrever do zero, não trocar de engine, manter Canvas e o perfil leve.
 * **Não esticar sprites, não duplicar quadros, não inventar coordenadas.**
   Marcador ausente = caixa ausente (é registrado em `MarkerSet.limits`).
-* **Não usar sprites do Sorriso no lugar do Miguel.** Miguel só tem idle e
-  guarda; `capabilities()` bloqueia o resto até existirem desenhos.
+* **Não usar sprites do Sorriso no lugar do Miguel.** Miguel é jogável no
+  duelo (seletor **Lutador**) só com a arte dele: entra em guarda, anda em
+  guarda para frente/trás e bloqueia (lote 2). Golpes, corrida, agachar e
+  clinch ficam bloqueados por `capabilities()`. Sem desenho de reação/queda,
+  ao apanhar ele segura `m_block` 3 (decisão do usuário, 26/10).
 * Não usar animação incompatível para fingir uma ação que não foi desenhada.
 * Nocaute sem sorteio, explicado na tela.
 * Corredor preservado: buffer antigo, avanço (`lunge`) dos socos e caixas
@@ -183,5 +187,7 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
 | `src/blood.mjs` | Sangue (limites por cena) |
 | `src/touch-controls.mjs` | Toque multi-dedo |
 | `assets/sorriso-v70.*` | Atlas atual; `sorriso-markers.json` gerado dele |
+| `assets/miguel.*` | Atlas do Miguel: lote 1 (corredor) + lote 2 (duelo); `miguel-markers.json` |
+| `arte/personagens/miguel/lote2/` | Quadros do lote 2 com limpeza técnica e manifesto |
 | `tests/duel.test.mjs`, `tests/core.test.mjs` | Testes novos |
 | `docs/DUELO-080.md` | Relatório técnico completo da 0.8.0 |
