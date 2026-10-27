@@ -24,8 +24,8 @@ CELL, COLUMNS = (128, 96), 8
 # id: (pasta, tipo, ms de preparação (até o contato), ms de volta) — tipo:
 #   'loop' (ms = duração de cada quadro), 'once' (ms por quadro), 'strike' (contato medido)
 CLIPS = {
-    'm4_walkFwd': ('walkFwd', 'loop', 130, 0),
-    'm4_walkBack': ('walkBack', 'loop', 140, 0),
+    'm4_walkFwd': ('walkB', 'loop', 130, 0),          # pacote 3: pé sai do chão de verdade
+    'm4_walkBack': ('walkA', 'loop', 140, 0),          # andar para frente tocado ao contrário = passo para trás (REVERSE)
     'm4_block': ('block', 'once', [60, 60, 70, 70, 80, 90], 0),
     'm4_hitHead': ('hitHeadLight', 'once', [50, 70, 90, 90, 80], 0),
     'm4_hitBody': ('hitBody', 'once', [50, 70, 90, 90, 80, 70], 0),
@@ -40,12 +40,16 @@ CLIPS = {
     'm4_rise': ('rise', 'once', [120, 110, 100, 90, 80, 80, 90], 0),
     'm4_run': ('run', 'loop', 70, 0),
     'm4_kickHigh': ('kickHigh', 'strike', 291, 650),
-    'm4_hook': ('hook', 'strike', 206, 478),
-    'm4_jabBody': ('jabBody', 'strike', 161, 392),
-    'm4_uppercut': ('uppercut', 'strike', 220, 460),
-    'm4_elbow': ('elbow', 'strike', 150, 380),
-    'm4_jabStep': ('jabStep', 'strike', 180, 380),
-    'm4_crossStep': ('crossStep', 'strike', 220, 440),
+    'm4_hook': ('hook2', 'strike', 206, 478),
+    'm4_jabBody': ('jabBody2', 'strike', 161, 392),
+    'm4_uppercut': ('uppercut2', 'strike', 220, 460),
+    'm4_elbow': ('elbow2', 'strike', 150, 380),
+    'm4_jabStep': ('jabStep2', 'strike', 180, 380),
+    'm4_crossStep': ('crossStep2', 'strike', 220, 440),
+    'm4_comboBodyUpper': ('comboBodyUpper', 'strike', 260, 520),
+    'm4_comboJabElbowKnee': ('comboJabElbowKnee', 'strike', 240, 520),
+    'm4_comboLowHigh': ('comboLowHigh', 'strike', 300, 560),
+    'm4_kickHigh2': ('kickHigh2', 'strike', 291, 650),
     'm4_slipCounter': ('slipCounter', 'strike', 330, 300),
     'm4_parryCounter': ('parryCounter', 'strike', 230, 400),
 }
@@ -53,8 +57,12 @@ CLIPS = {
 
 # Contato conferido no desenho (1-based) onde a medida automática erra: braço
 # esticado mal passa do punho em guarda, e o tapa do aparo engana a medida.
-CONTACT = {'m4_jabStep': 4, 'm4_crossStep': 4, 'm4_jabBody': 4, 'm4_uppercut': 4, 'm4_elbow': 3,
-           'm4_parryCounter': 4, 'm4_hook': 4}
+CONTACT = {'m4_jabStep': 4, 'm4_crossStep': 5, 'm4_jabBody': 4, 'm4_uppercut': 6, 'm4_elbow': 4,
+           'm4_parryCounter': 4, 'm4_hook': 5, 'm4_kickHigh2': 7,
+           # combos: o último golpe (os anteriores ficam para quando houver golpe com vários contatos)
+           'm4_comboBodyUpper': 12, 'm4_comboJabElbowKnee': 11, 'm4_comboLowHigh': 11}
+# Tocados ao contrário (quadros na ordem inversa).
+REVERSE = {'m4_walkBack'}
 
 
 def eased(n_pre, n_post, pre_ms, post_ms):
@@ -105,6 +113,7 @@ def main():
         atlas.paste((0, 0, 0, 0), ((i % COLUMNS) * CELL[0], (i // COLUMNS) * CELL[1], (i % COLUMNS + 1) * CELL[0], (i // COLUMNS + 1) * CELL[1]))
     index, clips, notes = base, [], {}
     for cid, (folder, kind, pre, post) in CLIPS.items():
+        if cid in REVERSE: files[cid] = files[cid][::-1]
         imgs = [Image.open(p).convert('RGBA') for p in files[cid]]
         n = len(imgs); contact = None; extra = {}
         if kind == 'loop': times = [pre] * n

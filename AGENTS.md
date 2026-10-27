@@ -286,6 +286,23 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   na cabeça m4_hitHeadHeavy (atordoamento ≥ 440 ms). Esquiva m4_leanBack no
   atlas, sem comando (não há mecânica de esquiva ainda).
 
+## Miguel — pacote 3 (27/10)
+
+* 16 folhas; 3 eram iguais às já integradas (levantar, corrida, reação forte).
+  As novas ficam em `lote4/fontes/*2.png`, `walkA/B/C`, `combo*`.
+* Corte das folhas refeitas pelos **números** acima das figuras
+  (`label_centers`, texto claro ou escuro), com ajuste no vale da silhueta;
+  antes, a divisão igual cortava figuras ao meio.
+* **Alinhamento pelo pé apoiado** (`ALIGN_SHIRT` só para queda, levantar,
+  corrida e andar): pela camisa, o tronco que avança no soco era puxado para
+  trás — soco curto e pé de trás deslizando 10–65 px. Agora 1–5 px.
+* Trocados no atlas (medido antes): andar (walkB; para trás = walkA ao
+  contrário, `REVERSE`), jab no corpo, gancho, uppercut, cotovelada, jab e
+  direto com passo (punho +26 px; antes +21). No atlas sem comando: 3 combos
+  (`m4_combo*`, contato no último golpe) e `m4_kickHigh2`.
+* Não aproveitados: walkC (corpo desliza na folha), chute alto 2 (pé só
+  +9 px à frente do pé de apoio, altura do peito — não alcança).
+
 ## Reações que acompanham o golpe (duelo, 27/10)
 
 * `reactKind(m, zone)` em `duel.mjs`: straight / hook / uppercut / body /

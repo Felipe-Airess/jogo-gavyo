@@ -38,6 +38,14 @@ def shirt_x(a):
     return np.nonzero(m)[1].mean() if m.sum() > 20 else np.nonzero(op)[1].mean()
 
 
+def ground_feet_x(sm, hh, y):
+    """x (no recorte) dos pés encostados no chão (base do recorte na linha do chão)."""
+    if y + hh < PIV[1] - 1: return []
+    op = sm[..., 3] > 0; band = op[max(0, hh - 3):hh].any(0)
+    lab, n = ndimage.label(band)
+    return [float(np.nonzero(lab == i)[0].mean()) for i in range(1, n + 1) if (lab == i).sum() >= 3]
+
+
 def shirt_area(a):
     rgb = a[..., :3].astype(int); op = a[..., 3] > 0
     white = (rgb.min(2) > 150) & (rgb.max(2) - rgb.min(2) < 45)
@@ -54,12 +62,23 @@ REFAZER = {}   # refeitas em folhas separadas (REFEITAS, abaixo) substituem as d
 # Folhas refeitas (uma animação por imagem, 2172x724): arquivo em fontes/,
 # quadros, quadro de guarda para a escala (1-based) ou None (escala pela
 # largura do cabelo, comparada com a guarda de 'leanBack').
+# Alinhamento: 'feet' mantém parado o pé que continua no chão (golpes,
+# andar, reações em pé); 'shirt' centra a camisa (queda, levantar, corrida,
+# onde os pés saem do chão). Com 'shirt' num golpe, o tronco que avança com
+# o soco era puxado de volta: soco curto e pé de trás deslizando.
+ALIGN_SHIRT = {'fall', 'rise', 'run', 'walkA', 'walkB', 'walkC'}
 REFEITAS = {
     'leanBack': ('leanBack.png', 6, 1),
     'hitHeadHeavy': ('hitHeadHeavy.png', 7, 1),
     'rise': ('rise.png', 7, 7),
     'fall': ('fall.png', 6, None),
     'run': ('run.png', 8, None),
+    # pacote 3 (27/10): versões novas, comparadas com as atuais antes de trocar
+    'elbow2': ('elbow2.png', 8, 1), 'jabStep2': ('jabStep2.png', 8, 1), 'jabBody2': ('jabBody2.png', 8, 1),
+    'crossStep2': ('crossStep2.png', 9, 1), 'uppercut2': ('uppercut2.png', 9, 1), 'kickHigh2': ('kickHigh2.png', 12, 1),
+    'hook2': ('hook2.png', 9, 1), 'comboBodyUpper': ('comboBodyUpper.png', 14, 1),
+    'comboJabElbowKnee': ('comboJabElbowKnee.png', 12, 1), 'comboLowHigh': ('comboLowHigh.png', 14, 1),
+    'walkA': ('walkA.png', 6, 1), 'walkB': ('walkB.png', 6, 1), 'walkC': ('walkC.png', 6, 1),
 }
 
 sheet = np.array(Image.open(SRC).convert('RGB')).astype(int)
@@ -160,6 +179,22 @@ for name, boxes in CELLS.items():
     review.append((name, [c for _, c, _ in frames]))
 
 # ---- folhas refeitas: corte pelo vale da silhueta, altura relativa ao chão preservada
+def label_centers(fig_top, n):
+    """x dos números das células: componentes claros acima das figuras, da esquerda para a direita."""
+    top = mag_d[:max(1, fig_top - 2)] > 150            # texto claro ou escuro, tudo que não é magenta
+    lab, k = ndimage.label(ndimage.binary_dilation(top, iterations=3))
+    objs = [sl for i, sl in enumerate(ndimage.find_objects(lab))
+            if sl is not None and (lab[sl] == i + 1).sum() > 30
+            and sl[0].stop - sl[0].start < 80 and sl[1].stop - sl[1].start < 120]   # linhas de célula ficam fora
+    xs = sorted((sl[1].start + sl[1].stop) / 2 for sl in objs)
+    # números de dois dígitos podem virar dois blocos próximos: junta os que ficam a < 25 px
+    merged = []
+    for x in xs:
+        if merged and x - merged[-1][-1] < 25: merged[-1].append(x)
+        else: merged.append([x])
+    cs = [sum(m) / len(m) for m in merged]
+    return cs if len(cs) == n else None
+
 def row_boxes(n):
     fgm = mag_d > 150
     rows = fgm.mean(1) > 0.002
@@ -174,14 +209,24 @@ def row_boxes(n):
     full = band.mean(0) > 0.9
     prof = band.sum(0).astype(float); prof[full] = 0
     xs = np.nonzero(prof)[0]; x0, x1 = xs.min(), xs.max() + 1
-    cw = (x1 - x0) / n; bs = [x0]
-    for i in range(1, n):
-        c = int(x0 + i * cw); r = int(cw * 0.3); seg = prof[c - r:c + r + 1]
+    # centros pelos números acima de cada figura (texto claro na faixa de cima);
+    # sem os n números, divisão igual
+    labels = label_centers(y0, n)
+    LABELS_OK.append(bool(labels))
+    if labels:
+        guess = [(labels[i] + labels[i + 1]) / 2 for i in range(n - 1)]
+        gaps = [labels[i + 1] - labels[i] for i in range(n - 1)]
+    else:
+        cw = (x1 - x0) / n; guess = [x0 + i * cw for i in range(1, n)]; gaps = [cw] * (n - 1)
+    bs = [x0]
+    for c, g in zip(guess, gaps):
+        r = int(g * 0.25); c = int(c); seg = prof[c - r:c + r + 1]
         bs.append(c - r + int(np.argmin(seg)))
     bs.append(x1)
     return [(bs[i] + (3 if full[bs[i]] else 0), y0, bs[i + 1] - (2 if full[min(bs[i + 1], len(full) - 1)] else 0), y1) for i in range(n)], y1
 
 lean_hair = None
+LABELS_OK = []
 
 
 def equalize_legs(cells):
@@ -237,14 +282,27 @@ for name, (fname, n, guard) in REFEITAS.items():
         q = np.array(Image.fromarray(sm[..., :3]).quantize(palette=pal, dither=Image.Dither.NONE).convert('RGB'))
         sm = np.dstack([q, sm[..., 3]]); sm[sm[..., 3] == 0] = 0
         hh = sm.shape[0]; tx = shirt_x(sm)
-        x = int(round(PIV[0] - tx)); y = PIV[1] - hh - int(round((ground - bot) * S))
+        y = PIV[1] - hh - int(round((ground - bot) * S))
+        if name in ALIGN_SHIRT or k == 0:
+            x = int(round(PIV[0] - tx))
+        else:
+            # pé apoiado: entre os pés no chão deste quadro, o que fica mais perto
+            # (no mundo) de um pé no chão do quadro anterior; sem pé no chão, mantém
+            x = prev_x
+            fx = ground_feet_x(sm, hh, y)
+            if fx and prev_feet:
+                best = min(((abs((x0 + prev_x) - pf), x0, pf) for x0 in fx for pf in prev_feet))
+                x = int(round(best[2] - best[1]))
+        prev_x = x
+        cur = [f + x for f in ground_feet_x(sm, hh, y)]
+        prev_feet = cur or (prev_feet if k else [])
         cell = np.zeros((96, 128, 4), np.uint8)
         X0, Y0, X1, Y1 = max(0, x), max(0, y), min(128, x + sm.shape[1]), min(96, y + hh)
         cell[Y0:Y1, X0:X1] = sm[Y0 - y:Y1 - y, X0 - x:X1 - x]
         frames.append((cell, x < 0 or x + sm.shape[1] > 128 or y < 0))
     if name == 'run': equalize_legs([c for c, _ in frames])
     for k, (cell, _) in enumerate(frames): Image.fromarray(cell).save(f'{out_dir}/{k + 1:02d}.png')
-    report[name] = {'quadros': len(frames), 'fonte': fname, 'escala': round(float(S), 3), 'cortados_na_celula': [i + 1 for i, (_, c) in enumerate(frames) if c], 'refazer': None}
+    report[name] = {'numeros_achados': LABELS_OK[-1], 'quadros': len(frames), 'fonte': fname, 'escala': round(float(S), 3), 'cortados_na_celula': [i + 1 for i, (_, c) in enumerate(frames) if c], 'refazer': None}
     review = [(nm, fr) if nm != name else (nm, [c for c, _ in frames]) for nm, fr in review]
     if name not in [nm for nm, _ in review]: review.append((name, [c for c, _ in frames]))
 
