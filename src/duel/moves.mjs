@@ -51,9 +51,27 @@ const SPEC = {
     targets: ['head'], clinch: true },
 };
 
-export function createDuelMoves(clips) {
+// Miguel (lote 3): mesmos golpes e números do Sorriso onde existe desenho
+// equivalente; tempos e quadros vêm do atlas (scripts/add-miguel-lote3.py).
+// Sem desenho: gancho, jab no corpo, impulso, combinações, chão, arremesso e
+// contra-ataque do aparo — `MOVE_FALLBACK` troca pelo golpe mais próximo.
+const MIGUEL_SPEC = {
+  jab: { ...SPEC.jab, clip: 'm3_jab', links: undefined },
+  cross: { ...SPEC.cross, clip: 'm3_cross' },
+  crossBody: { ...SPEC.crossBody, clip: 'm3_crossBody' },
+  overhand: { ...SPEC.overhand, clip: 'm3_overhand', whiff: undefined },
+  roundBody: { ...SPEC.roundBody, clip: 'm3_roundKick', name: 'CHUTE CIRCULAR' },
+  roundHead: { ...SPEC.roundHead, clip: 'm3_stepKick', name: 'CHUTE COM PASSO' },
+  lowKick: { ...SPEC.lowKick, clip: 'm3_lowKick', links: undefined },
+  kneeStrike: { name: 'JOELHADA', clip: 'm3_knee', limb: 'knee', power: 2, damage: 12, balance: 16, hitstun: 380, blockstun: 220, push: 8, cost: 9, targets: ['body', 'head'] },
+};
+export const CHARACTER_SPECS = { sorriso: SPEC, miguel: MIGUEL_SPEC };
+export const MOVE_FALLBACK = { jabBody: 'crossBody', hook: 'jab', rushPunch: 'overhand', kneeStrike: 'roundBody' };
+
+export function createDuelMoves(clips, spec = SPEC) {
   const moves = {};
-  for (const [id, spec] of Object.entries(SPEC)) {
+  for (const [id, specEntry] of Object.entries(spec)) {
+    const spec = specEntry;
     const clip = clips[spec.clip];
     if (!clip) continue; // sem arte, sem golpe
     const start = spec.start || 0;
@@ -93,8 +111,13 @@ export function frameIndex(move, t) {
 export const groundMove = cmd => (cmd.kind === 'kick' ? 'groundKick' : 'groundPunch');
 
 // Escolha a partir do comando relativo ao olhar. Mesma tabela para jogador e IA.
-export function chooseMove(cmd, fighter) {
-  if (cmd.kind === 'kick') return cmd.up ? 'roundHead' : cmd.down ? 'lowKick' : 'roundBody';
+// Com `moves`, um golpe sem desenho no personagem vira o substituto mais próximo.
+export function chooseMove(cmd, fighter, moves = null) {
+  return moves ? resolveMove(moves, rawMove(cmd, fighter)) : rawMove(cmd, fighter);
+}
+
+function rawMove(cmd, fighter) {
+  if (cmd.kind === 'kick') return cmd.up ? 'roundHead' : cmd.down ? 'lowKick' : cmd.forward ? 'kneeStrike' : 'roundBody';
   if (cmd.run && fighter.state === 'run' && Math.abs(fighter.vx) > 60) return 'rushPunch';
   if (cmd.run) return 'overhand';
   if (cmd.down && cmd.forward) return 'crossBody';
@@ -104,11 +127,17 @@ export function chooseMove(cmd, fighter) {
   return 'jab';
 }
 
+export function resolveMove(moves, id) {
+  let next = id;
+  for (let i = 0; i < 4 && !moves[next] && MOVE_FALLBACK[next]; i++) next = MOVE_FALLBACK[next];
+  return moves[next] ? next : id;
+}
+
 // Movimento seguinte permitido durante um golpe, ou null. `history` são os
 // golpes já feitos na sequência atual, do primeiro ao atual.
-export function cancelTarget(move, cmd, fighter, history = [move.id]) {
+export function cancelTarget(move, cmd, fighter, history = [move.id], moves = null) {
   if (!move.cancels.length) return null;
-  const next = move.ground ? groundMove(cmd) : move.links?.[cmd.kind] || chooseMove(cmd, fighter);
+  const next = move.ground ? groundMove(cmd) : move.links?.[cmd.kind] || chooseMove(cmd, fighter, moves);
   if (!move.cancels.includes(next)) return null;
   const tail = history.slice(-MAX_REPEAT);
   if (tail.length === MAX_REPEAT && tail.every(id => id === next)) return null;

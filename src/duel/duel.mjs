@@ -3,7 +3,7 @@
 import { commandFrom, CHAIN_BUFFER_MS } from '../core/command-buffer.mjs';
 import { gaitTable } from '../locomotion.mjs';
 import { createFighter, animationRef, gaitOffset, NEUTRAL, SPEED, RUN_START_MS } from './fighter.mjs';
-import { createDuelMoves, chooseMove, cancelTarget, frameIndex, groundMove, MAX_CHAIN } from './moves.mjs';
+import { createDuelMoves, chooseMove, cancelTarget, frameIndex, groundMove, resolveMove, MAX_CHAIN, CHARACTER_SPECS } from './moves.mjs';
 import { MarkerSet, worldMarkers, hurtboxes, guardBox, grabBox, LIMB_SIZE, limbCenter } from './markers.mjs';
 import { sweep, contactPoint, overlap } from './collision.mjs';
 import { resolveHit, applyHit, contactQuality, ROCK } from './damage.mjs';
@@ -43,7 +43,14 @@ export class Duel {
     }
     this.moves = createDuelMoves(clips);
     this.characters = characters;
-    this.reach = this.measureReach();
+    // Golpes e alcance por personagem (cada um com a própria arte).
+    this.movesBy = {};
+    this.reachBy = {};
+    for (const [name, art] of Object.entries(this.roster)) {
+      this.movesBy[name] = name === 'sorriso' ? this.moves : createDuelMoves(art.clips, CHARACTER_SPECS[name] || {});
+      this.reachBy[name] = this.measureReach(this.movesBy[name], art.markers);
+    }
+    this.reach = this.reachBy.sorriso;
     this.gait = { run: gaitTable(this.markers.clips.r2_run), walk: gaitTable(this.markers.clips.r2_walk) };
     this.reset();
   }
@@ -69,6 +76,9 @@ export class Duel {
   }
 
   artOf(character) { return this.roster[character] || this.roster.sorriso; }
+  movesOf(f) { return this.movesBy[f.character] || this.moves; }
+  moveOf(f, id = f.move) { return this.movesOf(f)[id]; }
+  reachOf(f) { return this.reachBy[f.character] || this.reach; }
 
   get player() { return this.fighters[0]; }
   get rival() { return this.fighters[1]; }
@@ -83,12 +93,12 @@ export class Duel {
   clearInputs() { for (const f of this.fighters) { f.buffer.clear(); f.input = {}; } }
 
   // Alcance de cada golpe medido nos marcadores dos quadros de contato.
-  measureReach() {
+  measureReach(moves = this.moves, markers = this.markers) {
     const out = {};
-    for (const m of Object.values(this.moves)) {
+    for (const m of Object.values(moves)) {
       let best = 0;
       for (const frame of m.active) {
-        const mk = this.markers.frame(m.clip, frame);
+        const mk = markers.frame(m.clip, frame);
         const tip = m.limb === 'foot' ? mk?.frontFoot : m.limb === 'knee' ? mk?.frontKnee : mk?.frontFist;
         if (tip) best = Math.max(best, tip.tipX ?? tip.x);
       }
@@ -97,7 +107,7 @@ export class Duel {
     return out;
   }
 
-  animation(f) { return animationRef(f, this.moves, this.artOf(f.character).clips, this.gait, this.clock); }
+  animation(f) { return animationRef(f, this.movesOf(f), this.artOf(f.character).clips, this.gait, this.clock); }
   // Onde o sprite está desenhado (posição física + degrau da passada).
   // O degrau usa a passada medida do Sorriso; Miguel não tem tabela própria.
   drawX(f) { return f.x + (f.character === 'sorriso' ? gaitOffset(f, this.gait) : 0); }
@@ -146,7 +156,7 @@ export class Duel {
     switch (f.state) {
       case 'attack': return this.updateAttack(f, dt);
       case 'clinchStrike': return this.updateClinchStrike(f, o, dt);
-      case 'whiff': if (f.t >= this.moves[f.move].whiff.times.reduce((a, b) => a + b, 0)) { this.toIdle(f); this.takeBuffered(f); } return;
+      case 'whiff': if (f.t >= this.moveOf(f).whiff.times.reduce((a, b) => a + b, 0)) { this.toIdle(f); this.takeBuffered(f); } return;
       case 'hitstun':
       case 'blockstun':
         this.slide(f, s, 10);
@@ -244,10 +254,10 @@ export class Duel {
     if (cmd.kind === 'grab') return this.tryGrab(f, o);
     if (!f.can.attack) return false;
     // Aparou há pouco: J vira o contra-ataque desenhado.
-    if (cmd.kind === 'attack' && this.clock < f.parryUntil) { f.parryUntil = 0; return this.begin(f, 'parryCounter', false); }
-    // Adversário caído à frente e perto: golpes de chão.
-    if (this.groundReach(f, o)) return this.begin(f, groundMove(cmd), false);
-    return this.begin(f, chooseMove(cmd, f), false);
+    if (cmd.kind === 'attack' && this.clock < f.parryUntil && this.moveOf(f, 'parryCounter')) { f.parryUntil = 0; return this.begin(f, 'parryCounter', false); }
+    // Adversário caído à frente e perto: golpes de chão (se o personagem tiver desenho).
+    if (this.groundReach(f, o) && this.moveOf(f, groundMove(cmd))) return this.begin(f, groundMove(cmd), false);
+    return this.begin(f, chooseMove(cmd, f, this.movesOf(f)), false);
   }
 
   groundReach(f, o) {
@@ -263,7 +273,7 @@ export class Duel {
   }
 
   applyThrow(a, d) {
-    const m = this.moves.takedown;
+    const m = this.moveOf(a, 'takedown');
     a.hitDone = true; a.connected = true;
     const r = resolveHit(m, d, 'body', { quality: 'clean', rocked: this.isRocked(d) });
     applyHit(d, r);
@@ -278,7 +288,8 @@ export class Duel {
   }
 
   begin(f, id, chained) {
-    const m = this.moves[id];
+    id = resolveMove(this.movesOf(f), id);
+    const m = this.moveOf(f, id);
     if (!m) return false;
     if (f.stamina < m.cost * 0.5) { this.event('winded', { fighter: f.id }); if (f === this.player) this.message = 'Sem fôlego para esse golpe.'; return false; }
     f.stamina = Math.max(0, f.stamina - m.cost);
@@ -289,7 +300,7 @@ export class Duel {
     // Na sequência o golpe novo começa no quadro de preparação mais parecido
     // com a pose atual (marcadores), em vez de voltar à guarda: emenda sem
     // salto e mais rápido. Fica sempre ao menos um quadro antes do contato.
-    const entry = from ? this.entryFrame(from, m) : 0;
+    const entry = from ? this.entryFrame(from, m, this.markerSetOf(f)) : 0;
     f.state = 'attack'; f.t = 0; f.move = id; f.moveT = m.times.slice(0, entry).reduce((a, b) => a + b, 0);
     f.stepLeft = 0;
     if (chained && !m.ground && !m.throw) {
@@ -299,7 +310,7 @@ export class Duel {
       // Fragmentos de poucos pixels (mão, contorno) não contam: dariam só raspão.
       const edges = m.targets.flatMap(z => (boxes[z] || []).filter(b => b.w * b.h >= 16).map(b => (f.facing > 0 ? b.x - f.x : f.x - (b.x + b.w))));
       const edge = edges.length ? Math.min(...edges) : Math.abs(o.x - f.x) - STEP_IN.margin;
-      const need = edge - (this.reach[id] || 30) + STEP_IN.bite;
+      const need = edge - (this.reachOf(f)[id] || 30) + STEP_IN.bite;
       const forward = (f.input?.right && f.facing > 0) || (f.input?.left && f.facing < 0);
       const step = Math.min(STEP_IN.max, Math.max(need, forward ? STEP_IN.forward : 0));
       const prep = m.activeStart - f.moveT;
@@ -314,16 +325,16 @@ export class Duel {
   }
 
   // Índice (em m.frames) do quadro de preparação mais próximo da pose `ref`.
-  entryFrame(ref, m) {
-    const key = ref.clip + ':' + ref.frame + '>' + m.id;
+  entryFrame(ref, m, markers = this.markers) {
+    const key = ref.clip + ':' + ref.frame + '>' + m.clip + ':' + m.id;
     this.entryCache ??= new Map();
     if (this.entryCache.has(key)) return this.entryCache.get(key);
-    const a = this.markers.frame(ref.clip, ref.frame), last = m.frames.indexOf(m.active[0]) - 1;
+    const a = markers.frame(ref.clip, ref.frame), last = m.frames.indexOf(m.active[0]) - 1;
     const pts = k => k && [k.head, k.hip, k.frontFist && { x: k.frontFist.tipX, y: k.frontFist.tipY }, k.frontFoot && { x: k.frontFoot.tipX, y: k.frontFoot.tipY }];
     const pa = pts(a);
     let best = 0, cost = Infinity;
     for (let i = 0; pa && i <= last; i++) {
-      const pb = pts(this.markers.frame(m.clip, m.frames[i]));
+      const pb = pts(markers.frame(m.clip, m.frames[i]));
       if (!pb) continue;
       let c = 0;
       for (let j = 0; j < pa.length; j++) c += pa[j] && pb[j] ? Math.hypot(pa[j].x - pb[j].x, pa[j].y - pb[j].y) : 12;
@@ -334,7 +345,7 @@ export class Duel {
   }
 
   updateAttack(f, dt) {
-    const s = dt / 1000, m = this.moves[f.move];
+    const s = dt / 1000, m = this.moveOf(f);
     f.moveT += dt;
     if (f.stepLeft > 0) {
       const dx = Math.min(f.stepLeft, f.stepRate * dt);
@@ -353,7 +364,7 @@ export class Duel {
     const cmd = f.buffer.peek(this.clock, CHAIN_BUFFER_MS);
     // Fim de sequência: G com o adversário atordoado e perto agarra e arremessa.
     if (cmd?.kind === 'grab' && f.connected && f.chain >= 2 && !m.ground && f.moveT >= m.cancelStart && f.moveT <= m.cancelEnd
-      && o.state === 'hitstun' && Math.abs(o.x - f.x) <= 44 && this.begin(f, 'takedown', true)) {
+      && o.state === 'hitstun' && Math.abs(o.x - f.x) <= 44 && this.moveOf(f, 'takedown') && this.begin(f, 'takedown', true)) {
       f.buffer.clear();
       o.state = 'thrown'; o.t = 0; o.vx = 0; o.move = null; o.buffer.clear();
       this.event('grab', { fighter: f.id, target: o.id });
@@ -361,7 +372,7 @@ export class Duel {
     }
     if (cmd && cmd.kind !== 'grab' && f.connected && f.chain < MAX_CHAIN && f.moveT >= m.cancelStart && f.moveT <= m.cancelEnd
       && (!m.ground || this.groundReach(f, o))) {
-      const next = cancelTarget(m, cmd, f, f.combo);
+      const next = cancelTarget(m, cmd, f, f.combo, this.movesOf(f));
       if (next && this.begin(f, next, true)) { f.buffer.clear(); return; }
     }
     if (f.moveT >= m.duration) {
@@ -381,7 +392,7 @@ export class Duel {
   // Contato do golpe atual contra o outro lutador, com varredura do membro.
   probe(a, d) {
     if (a.state !== 'attack' && a.state !== 'clinchStrike') return null;
-    const m = this.moves[a.move], frame = m.frames[frameIndex(m, a.moveT)];
+    const m = this.moveOf(a), frame = m.frames[frameIndex(m, a.moveT)];
     const w = worldMarkers(this.markerSetOf(a).frame(m.clip, frame), a), tip = limbCenter(w?.[m.limb], m.limb, a.facing);
     const active = m.active.includes(frame);
     if (!tip) { if (active) this.markerSetOf(a).note(m.clip, frame, m.limb); a.prevTip = null; return null; }
@@ -492,11 +503,11 @@ export class Duel {
   applyStrike({ a, d, m, blocked, zone, point, coverage = null }) {
     a.hitDone = true;
     a.connected = true;
-    const dm = d.state === 'attack' ? this.moves[d.move] : null;
+    const dm = d.state === 'attack' ? this.moveOf(d) : null;
     const counter = m.id === 'parryCounter' || (!blocked && !!dm && d.moveT < dm.activeEnd);
     let quality = blocked ? 'normal' : contactQuality(coverage);
     // Golpe abafado: colado demais para o braço/perna estender, não sai limpo.
-    if (quality === 'clean' && Math.abs(a.x - d.x) < (this.reach[m.id] || 0) * 0.6) quality = 'normal';
+    if (quality === 'clean' && Math.abs(a.x - d.x) < (this.reachOf(a)[m.id] || 0) * 0.6) quality = 'normal';
     const wasRocked = this.isRocked(d);
     const r = resolveHit(m, d, zone, { blocked, counter, quality, rocked: wasRocked, scale: COMBO.scale[Math.min(a.chain, COMBO.scale.length - 1)] });
     applyHit(d, r);
@@ -561,7 +572,7 @@ export class Duel {
     const cmd = f.buffer.take(this.clock);
     if (cmd?.kind === 'grab') { endClinch(f, o, 'release'); this.event('release', { fighter: f.id }); return; }
     if (cmd) {
-      const id = cmd.kind === 'kick' ? 'knee' : 'clinchPunch', m = this.moves[id];
+      const id = cmd.kind === 'kick' ? 'knee' : 'clinchPunch', m = this.moveOf(f, id);
       if (m && f.stamina >= m.cost * 0.5) {
         f.stamina = Math.max(0, f.stamina - m.cost);
         f.state = 'clinchStrike'; f.t = 0; f.move = id; f.moveT = 0; f.hitDone = false; f.connected = false; f.prevTip = null;
@@ -581,7 +592,7 @@ export class Duel {
   }
 
   updateClinchStrike(f, o, dt) {
-    const m = this.moves[f.move];
+    const m = this.moveOf(f);
     f.moveT += dt;
     if (f.clinch) { f.clinch.grip -= dt; keepGap(f, o, dt); }
     if (f.moveT >= m.duration) {

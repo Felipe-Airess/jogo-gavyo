@@ -200,7 +200,7 @@ export class DuelScene extends Phaser.Scene {
     if (f.state === 'guard' || f.state === 'blockstun') stroke(guardBox(f, w), COLORS.guard);
     if (['idle', 'walk', 'clinchEntry'].includes(f.state)) stroke(grabBox(f, w), COLORS.grab);
     if (f.state === 'attack' || f.state === 'clinchStrike') {
-      const mv = m.moves[f.move], tip = limbCenter(w?.[mv.limb], mv.limb, f.facing), frame = mv.frames[frameIndex(mv, f.moveT)];
+      const mv = m.moveOf(f), tip = limbCenter(w?.[mv.limb], mv.limb, f.facing), frame = mv.frames[frameIndex(mv, f.moveT)];
       if (tip) {
         const [bw, bh] = LIMB_SIZE[mv.limb], active = mv.active.includes(frame);
         g.lineStyle(1, active ? COLORS.hit : 0x806050);
@@ -228,7 +228,7 @@ export class DuelScene extends Phaser.Scene {
         c.fillStyle = '#354438'; c.fillRect(x + 5, 12, 20, 3);
         c.fillStyle = color; c.fillRect(x + 5, 12, Math.round(20 * Math.max(0, value) / 100), 3);
       });
-      const action = f.state === 'attack' ? m.moves[f.move].name + (f.chain > 1 ? ' X' + f.chain : '') : f.state === 'held' ? 'PRESO' : f.state === 'thrown' ? 'ARREMESSADO' : f.state === 'parried' ? 'APARADO' : m.clock < f.parryUntil ? 'CONTRA-ATAQUE' : f.clinch ? 'CLINCH' : f.state === 'ko' ? 'NOCAUTE' : f.state === 'guard' ? 'GUARDA' : m.isRocked(f) ? 'GROGUE' : '';
+      const action = f.state === 'attack' ? m.moveOf(f).name + (f.chain > 1 ? ' X' + f.chain : '') : f.state === 'held' ? 'PRESO' : f.state === 'thrown' ? 'ARREMESSADO' : f.state === 'parried' ? 'APARADO' : m.clock < f.parryUntil ? 'CONTRA-ATAQUE' : f.clinch ? 'CLINCH' : f.state === 'ko' ? 'NOCAUTE' : f.state === 'guard' ? 'GUARDA' : m.isRocked(f) ? 'GROGUE' : '';
       lettering(c, action.slice(0, 18), x0, 19, '#d1bd85');
       if (f.clinch?.role === 'held') { c.fillStyle = '#c7af71'; c.fillRect(x0 + 80, 20, Math.round(60 * Math.min(1, f.clinch.escape / 100)), 2); }
     });

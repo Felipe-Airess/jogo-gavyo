@@ -9,10 +9,9 @@ import { R2_STRIDE, tableFrame } from '../locomotion.mjs';
 // desenho próprio fica indisponível — não é emprestada de outro personagem.
 export const CHARACTERS = {
   sorriso: { name: 'SORRISO', sheet: 'sorriso-sheet', requires: { walk: 'r2_walk', run: 'r2_run', crouch: 'r2_crouchHold', attack: 'r3_jab_head', hurt: 'hurt', fall: 'fall', rise: 'rise', guard: 'block', clinch: 'clinchWalk' } },
-  // Miguel (lote 2, arte/personagens/miguel/lote2): entra em guarda, anda em
-  // guarda para frente e para trás e bloqueia. Golpes, corrida, agachar,
-  // reações e queda ainda não foram desenhados.
-  miguel: { name: 'MIGUEL', sheet: 'miguel-sheet', requires: { walk: 'm_walkFwd', run: null, crouch: null, attack: null, hurt: null, fall: null, rise: null, guard: 'm_block', clinch: null } },
+  // Miguel: lote 3 (guarda, andar, socos e chutes) e lote 2 (bloqueio).
+  // Corrida, agachar, clinch, reações e queda ainda não foram desenhados.
+  miguel: { name: 'MIGUEL', sheet: 'miguel-sheet', requires: { walk: 'm3_walk', run: null, crouch: null, attack: 'm3_jab', hurt: null, fall: null, rise: null, guard: 'm_block', clinch: null } },
 };
 
 export function capabilities(character, clips) {
@@ -77,16 +76,24 @@ const MIGUEL_GUARD = { clip: 'm_enterGuard', frame: 5 };
 const MIGUEL_ABSORB = { clip: 'm_block', frame: 3 };
 const hold = (durations, t, from = 0) => from + timed(durations.slice(from), t);
 
-export function miguelRef(f, clips, clock = Infinity) {
+export function miguelRef(f, clips, clock = Infinity, moves = null) {
   switch (f.state) {
     case 'idle':
-      // Abertura da luta: neutro → guarda, uma vez; depois a guarda parada.
-      return clock < clips.m_enterGuard.totalMs ? { clip: 'm_enterGuard', frame: timed(clips.m_enterGuard.durations, clock) } : MIGUEL_GUARD;
+      // Guarda respirando (lote 3); sem ela, a guarda parada do lote 2.
+      return clips.m3_idle ? { clip: 'm3_idle', frame: loop(clips.m3_idle, f.t) } : MIGUEL_GUARD;
     case 'walk': {
-      // Ciclos desenhados com duração própria (o pé quase não se desloca no
-      // desenho, então a passada não é medida em distância como no Sorriso).
+      // Andar do lote 3 (para trás, o mesmo ciclo ao contrário); sem ele, lote 2.
+      if (clips.m3_walk) {
+        const n = clips.m3_walk.frames.length, k = loop(clips.m3_walk, f.t);
+        return { clip: 'm3_walk', frame: f.walkRel < 0 ? n - 1 - k : k };
+      }
       const clip = clips[f.walkRel < 0 ? 'm_walkBack' : 'm_walkFwd'];
       return { clip: clip.id, frame: loop(clip, f.t) };
+    }
+    case 'attack': {
+      const m = moves?.[f.move];
+      if (m) return { clip: m.clip, frame: m.frames[frameIndex(m, f.moveT)] };
+      return MIGUEL_ABSORB;
     }
     case 'guard':
       // Sobe a guarda (quadros 0–2) e segura a pose fechada.
@@ -101,7 +108,7 @@ export function miguelRef(f, clips, clock = Infinity) {
 
 // `gait`: tabelas de avanço por quadro (Duel.gait), medidas nos pés desenhados.
 export function animationRef(f, moves, clips, gait = null, clock) {
-  if (f.character === 'miguel') return miguelRef(f, clips, clock);
+  if (f.character === 'miguel') return miguelRef(f, clips, clock, moves);
   switch (f.state) {
     case 'walk': {
       // Fase pela distância percorrida: os pés acompanham o deslocamento.

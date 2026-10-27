@@ -22,11 +22,12 @@ contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
 
 ```bash
 npm start            # servidor local em http://127.0.0.1:4173 (abre o navegador)
-npm test             # 148 testes: core, duelo e históricos — todos passando
+npm test             # 149 testes: core, duelo e históricos — todos passando
 npm run test:legacy  # 22 testes antigos — todos passando
 npm run build        # gera build/ (≈4,7 MB, ignorado pelo Git)
 python scripts/extract-markers.py sorriso miguel   # regenera *-markers.json (Python 3 + Pillow)
-python scripts/add-miguel-lote2.py  # acrescenta o lote 2 do Miguel ao atlas assets/miguel.png
+python scripts/add-miguel-lote2.py  # lote 2 do Miguel no atlas assets/miguel.png
+python scripts/add-miguel-lote3.py  # lote 3 (golpes) do Miguel no atlas
 ```
 
 O `gh` (GitHub CLI) está instalado em `C:/Program Files/GitHub CLI/gh.exe` e
@@ -67,11 +68,17 @@ logado na conta Felipe-Airess; pode não estar no PATH do shell.
 * Não reescrever do zero, não trocar de engine, manter Canvas e o perfil leve.
 * **Não esticar sprites, não duplicar quadros, não inventar coordenadas.**
   Marcador ausente = caixa ausente (é registrado em `MarkerSet.limits`).
-* **Não usar sprites do Sorriso no lugar do Miguel.** Miguel é jogável no
-  duelo (seletor **Lutador**) só com a arte dele: entra em guarda, anda em
-  guarda para frente/trás e bloqueia (lote 2). Golpes, corrida, agachar e
-  clinch ficam bloqueados por `capabilities()`. Sem desenho de reação/queda,
-  ao apanhar ele segura `m_block` 3 (decisão do usuário, 26/10).
+* **Não usar sprites do Sorriso no lugar do Miguel.** Miguel joga no duelo
+  (seletor **Lutador**) com a arte dele: lote 3 (`arte/personagens/miguel/lote3`,
+  folhas do ChatGPT recortadas por `scripts/miguel-lote3/`) dá guarda
+  respirando, andar, jab, direto, direto no corpo, pesado, chute circular,
+  chute com passo (cima+K), chute baixo e joelhada (frente+K); lote 2 dá o
+  bloqueio. Golpes sem desenho caem no substituto (`MOVE_FALLBACK`: gancho →
+  jab, jab no corpo → direto no corpo); chão, arremesso, aparo-contra,
+  corrida, agachar e clinch ficam indisponíveis. Ao apanhar, segura `m_block` 3.
+  O "gancho" da folha é um direto (descartado) e o quadro 2 do direto foi
+  tirado (braço estica antes da hora). Tempos: vídeos ×1,2 na preparação e
+  ×1,5 na volta (`scripts/add-miguel-lote3.py`).
 * Não usar animação incompatível para fingir uma ação que não foi desenhada.
 * Nocaute sem sorteio, explicado na tela.
 * Corredor preservado: buffer antigo, avanço (`lunge`) dos socos e caixas

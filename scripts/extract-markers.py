@@ -305,7 +305,8 @@ def analyse(cell):
 CHARACTERS = {
     'sorriso': (ATLAS, DATA, OUT, CLIPS),
     'miguel': (ROOT / 'assets' / 'miguel.png', ROOT / 'assets' / 'miguel.json', ROOT / 'assets' / 'miguel-markers.json',
-               ['m_enterGuard', 'm_walkFwd', 'm_walkBack', 'm_lowerGuard', 'm_block']),
+               ['m_enterGuard', 'm_walkFwd', 'm_walkBack', 'm_lowerGuard', 'm_block',
+                'm3_idle', 'm3_walk', 'm3_jab', 'm3_cross', 'm3_crossBody', 'm3_overhand', 'm3_roundKick', 'm3_stepKick', 'm3_lowKick', 'm3_knee']),
 }
 
 

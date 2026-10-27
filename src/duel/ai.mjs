@@ -82,10 +82,10 @@ export class DuelAI {
     if (now < me.parryUntil) { out.attack = true; return out; }
 
     // Defesa: só depois de o golpe estar visível pelo tempo de reação.
-    const fm = foe.state === 'attack' ? duel.moves[foe.move] : null;
+    const fm = foe.state === 'attack' ? duel.moveOf(foe) : null;
     if (fm) {
       const key = foe.move + ':' + Math.round((now - foe.moveT) / 10);
-      const threat = dist < (duel.reach[foe.move] || 30) + 18 && foe.moveT < fm.activeEnd;
+      const threat = dist < (duel.reachOf(foe)[foe.move] || 30) + 18 && foe.moveT < fm.activeEnd;
       if (threat && foe.moveT >= L.reaction && this.decided !== key) {
         this.decided = key;
         if (this.random() < L.guard) { this.guardUntil = now + (fm.activeEnd - foe.moveT) + 60; this.steady = this.random() >= L.parry; }
@@ -98,7 +98,7 @@ export class DuelAI {
     const blockedByMe = duel.lastHit?.blocked && duel.lastHit.target === me.id && duel.lastHit.attacker === foe.id;
     const exposed = foe.state === 'whiff' || foe.state === 'grabMiss' || foe.state === 'parried' ||
       (fm && foe.moveT > fm.activeEnd && (!foe.connected || blockedByMe));
-    const reach = (duel.reach.cross || 40) + 6;
+    const reach = (duel.reachOf(me).cross || 40) + 6;
     if (exposed && dist <= reach + 30) {
       if (this.punishing === undefined || this.punishing < now - 1500) this.punishing = this.random() < L.punish ? now : -1e9;
       if (this.punishing >= now - 1500) {
@@ -122,9 +122,9 @@ export class DuelAI {
         // Golpe conforme o alcance, medido nos marcadores de contato.
         const options = [];
         if (dist < 28) options.push({ grab: true }, { attack: true, back: true });
-        if (dist < (duel.reach.jab || 36) + 10) options.push({ attack: true }, { attack: true, down: true });
-        if (dist < (duel.reach.cross || 40) + 10) options.push({ attack: true, forward: true }, { kick: true, down: true });
-        if (dist < (duel.reach.roundBody || 34) + 12) options.push({ kick: true });
+        if (dist < (duel.reachOf(me).jab || 36) + 10) options.push({ attack: true }, { attack: true, down: true });
+        if (dist < (duel.reachOf(me).cross || 40) + 10) options.push({ attack: true, forward: true }, { kick: true, down: true });
+        if (dist < (duel.reachOf(me).roundBody || 34) + 12) options.push({ kick: true });
         if (options.length) {
           this.plan = options[Math.floor(this.random() * options.length)];
           this.attackAt = now + this.range(L.rest);

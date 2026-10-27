@@ -444,16 +444,16 @@ test('Miguel compartilha as regras, mas só faz o que tem desenho', () => {
   const can = capabilities('miguel', miguel);
   assert.equal(can.guard, true);
   assert.equal(can.walk, true);
-  for (const action of ['attack', 'run', 'crouch', 'clinch']) assert.equal(can[action], false, action);
-  const d = make(60);
-  d.rival.can = can;
-  const x = d.rival.x;
-  press(d, {}, { attack: true });
-  run(d, 300, {}, { left: true });
-  assert.equal(attacks(d, 2), 0);
-  assert.ok(d.rival.x < x, 'anda');
-  run(d, 50, {}, { guard: true });
-  assert.equal(d.rival.state, 'guard');
+  assert.equal(can.attack, true);
+  for (const action of ['run', 'crouch', 'clinch']) assert.equal(can[action], false, action);
+  const d = withMiguel();
+  const x = d.player.x;
+  run(d, 300, { left: true });
+  assert.ok(d.player.x < x, 'anda');
+  run(d, 50, { right: true, run: true });
+  assert.notEqual(d.player.state, 'run', 'não corre');
+  run(d, 50, { guard: true });
+  assert.equal(d.player.state, 'guard');
 });
 
 const miguelMarkers = JSON.parse(fs.readFileSync(new URL('../assets/miguel-markers.json', import.meta.url)));
@@ -463,7 +463,7 @@ const withMiguel = () => {
   return d;
 };
 
-test('Miguel jogável: só quadros dele, caixas dele e nenhum golpe', () => {
+test('Miguel jogável: só quadros dele e caixas dele', () => {
   const d = withMiguel(), p = d.player;
   assert.equal(p.character, 'miguel');
   const seen = new Set();
@@ -472,9 +472,12 @@ test('Miguel jogável: só quadros dele, caixas dele e nenhum golpe', () => {
   for (let t = 0; t < 500; t += TICK) { d.tick([{ right: true }, {}]); look(); }
   for (let t = 0; t < 500; t += TICK) { d.tick([{ left: true }, {}]); look(); }
   for (let t = 0; t < 400; t += TICK) { d.tick([{ guard: true }, {}]); look(); }
-  for (let t = 0; t < 200; t += TICK) { d.tick([{ attack: true }, {}]); look(); }
-  for (const clip of ['m_enterGuard', 'm_walkFwd', 'm_walkBack', 'm_block']) assert.ok(seen.has(clip), clip);
-  assert.equal(attacks(d, 1), 0);
+  d.tick([{ attack: true }, {}]);
+  for (let t = 0; t < 700; t += TICK) { d.tick([{}, {}]); look(); }
+  d.tick([{ kick: true }, {}]);
+  for (let t = 0; t < 1200; t += TICK) { d.tick([{}, {}]); look(); }
+  for (const clip of ['m3_idle', 'm3_walk', 'm_block', 'm3_jab', 'm3_roundKick']) assert.ok(seen.has(clip), clip);
+  assert.equal(attacks(d, 1), 2);
   assert.ok(Object.keys(d.hurtboxesOf(p)).length === 3, 'cabeça, tronco e pernas');
 });
 
@@ -695,4 +698,25 @@ test('aparo: L no último instante desvia, abre quem bateu e J contra-ataca', ()
   b.tick([{ attack: true, right: true }, { guard: true }]);
   until(b, () => b.lastHit, 600, {}, { guard: true });
   assert.equal(b.lastHit.kind, 'block');
+});
+
+test('golpes do Miguel acertam com o desenho e as caixas dele; sem desenho, substituto', () => {
+  const d = withMiguel();
+  d.rival.x = d.player.x + 36;
+  press(d, { attack: true });
+  run(d, 400);
+  assert.equal(d.lastHit?.attacker, 1, 'jab do Miguel acertou');
+  assert.equal(d.moveOf(d.player, 'jab').clip, 'm3_jab');
+  const h = withMiguel();
+  h.rival.x = h.player.x + 36;
+  press(h, { attack: true, left: true });          // trás + J: gancho, sem desenho → jab
+  assert.equal(h.player.move, 'jab');
+  const k = withMiguel();
+  k.rival.x = k.player.x + 30;
+  press(k, { kick: true, right: true });          // frente + K: joelhada (só o Miguel tem)
+  assert.equal(k.player.move, 'kneeStrike');
+  const g = withMiguel();
+  g.rival.state = 'down'; g.rival.x = g.player.x + 30;
+  press(g, { attack: true });
+  assert.notEqual(g.player.move, 'groundPunch', 'sem arte de chão');
 });
