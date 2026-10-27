@@ -7,7 +7,7 @@ import { CLINCH } from '../src/duel/clinch.mjs';
 import { resolveHit, contactQuality, ROCK } from '../src/duel/damage.mjs';
 import { sweep } from '../src/duel/collision.mjs';
 import { capabilities, createFighter } from '../src/duel/fighter.mjs';
-import { MAX_CHAIN, cancelTarget } from '../src/duel/moves.mjs';
+import { MAX_CHAIN, cancelTarget, frameIndex as frameOf } from '../src/duel/moves.mjs';
 import { worldMarkers, bounds, hurtboxes, limbCenter, LIMB_SIZE } from '../src/duel/markers.mjs';
 
 const atlas = JSON.parse(fs.readFileSync(new URL('../assets/sorriso-v70.json', import.meta.url)));
@@ -840,4 +840,62 @@ test('combo que anda no desenho: a posição final assume o avanço, sem voltar'
   assert.equal(d.player.move, 'comboJabElbowKnee');
   until(d, () => d.player.state === 'idle', 3000);
   assert.equal(Math.round(d.player.x - x0), miguel.m4_comboJabElbowKnee.frames.at(-1).advance);
+});
+
+test('golpe em par: vítima travada na distância do desenho e no quadro do atacante (Miguel caindo junto)', () => {
+  const d = new Duel({ clips, markers, roster: { miguel: { clips: miguel, markers: miguelMarkers } } });
+  d.setCharacters(['sorriso', 'miguel']);
+  d.rival.x = d.player.x + 40;
+  Object.assign(d.rival.condition, { head: -500, body: -500 }); d.rival.balance = 1e6;
+  const seq = [{ attack: true }, { attack: true, down: true }, { grab: true }];
+  let i = 0, seen = [];
+  for (let t = 0; t < 2400; t += TICK) {
+    d.tick([i < seq.length && t >= i * 180 ? seq[i++] : {}, {}]);
+    const a = d.player, v = d.rival;
+    if (v.state === 'thrown') {
+      const m = d.moveOf(a);
+      assert.equal(m.id, 'takedown');
+      assert.equal(Math.round((v.x - a.x) * a.facing), m.pair.gap, 'distância do desenho');
+      assert.equal(v.facing, -a.facing);
+      const ref = d.animation(v), k = frameOf(m, a.moveT);
+      assert.equal(ref.clip, 'm4_fall');
+      assert.equal(ref.frame, m.pair.victim.miguel.frames[k], 'mesmo quadro do atacante');
+      seen.push(ref.frame);
+    }
+  }
+  assert.ok(new Set(seen).size >= 3, 'a vítima anima a queda: ' + [...new Set(seen)]);
+  assert.ok(['down', 'idle', 'getup', 'ko'].includes(d.rival.state));
+});
+
+test('golpe mirado: jab do Sorriso que pega o queixo do Miguel é cabeça, não tronco', () => {
+  const d = new Duel({ clips, markers, roster: { miguel: { clips: miguel, markers: miguelMarkers } } });
+  d.setCharacters(['sorriso', 'miguel']);
+  d.rival.x = d.player.x + 40;
+  press(d, { attack: true });
+  run(d, 500);
+  assert.equal(d.lastHit?.attacker, 1);
+  assert.equal(d.lastHit.zone, 'head');
+});
+
+test('nocaute "golpe limpo no contra-ataque" exige golpe limpo', async () => {
+  const { resolveHit, freshCondition } = await import('../src/duel/damage.mjs');
+  const def = { condition: { ...freshCondition(), head: 60 }, balance: 100, stamina: 100 };
+  const m = { power: 2, damage: 12, balance: 10, hitstun: 300, push: 5 };
+  assert.notEqual(resolveHit(m, def, 'head', { counter: true, quality: 'normal' }).kind, 'ko');
+  assert.equal(resolveHit(m, def, 'head', { counter: true, quality: 'clean' }).kind, 'ko');
+});
+
+test('IA escolhe cada golpe pelo alcance dele (Miguel não joga jab no corpo de longe)', async () => {
+  const { DuelAI } = await import('../src/duel/ai.mjs');
+  const d = withMiguel(); d.rival.x = d.player.x + 45;
+  const ai = new DuelAI(3); ai.attackAt = 0;
+  const reach = d.reachOf(d.player);
+  for (let i = 0; i < 400; i++) {
+    const out = ai.input(d, d.player, d.rival);
+    if (out.attack || out.kick) {
+      const id = d.commandMove(d.player, { ...out, forward: out.right, back: out.left });
+      assert.ok(45 <= (reach[id] ?? 0) + 12, `${id} com alcance ${reach[id]} a 45 px`);
+    }
+    d.clock += 16;
+  }
 });

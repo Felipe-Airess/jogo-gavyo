@@ -22,7 +22,7 @@ contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
 
 ```bash
 npm start            # servidor local em http://127.0.0.1:4173 (abre o navegador)
-npm test             # 161 testes: core, duelo e históricos — todos passando
+npm test             # 165 testes: core, duelo e históricos — todos passando
 npm run test:legacy  # 22 testes antigos — todos passando
 npm run build        # gera build/ (≈4,7 MB, ignorado pelo Git)
 python scripts/extract-markers.py sorriso miguel   # regenera *-markers.json (Python 3 + Pillow)
@@ -321,6 +321,39 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   cotovelada→joelhada 2/3 (cotovelada só bem perto, +15 px); chute baixo→alto
   1 de 2 (o alto só tem um quadro, pé a −61, topo da cabeça). IA × IA mediana
   24 s.
+
+## Golpes em par (duelo, 27/10)
+
+* Spec `pair` no golpe: `gap` (px, número ou lista por quadro), `when`
+  ('combo' = após 2+ toques com o alvo atordoado), `reach`, `contacts`
+  ([{frame, zone, scale?, lands?}]) e `victim[personagem] = {clip, frames}`
+  (quadro da vítima para cada quadro do atacante).
+* `startPair` trava a vítima (`thrown`, `pairOf`); `updateThrown` a mantém na
+  distância e no olhar do desenho e grava `pairRef` (quadro sincronizado, lido
+  por `animationRef`/`miguelRef`); `updatePair` aplica os contatos no quadro
+  desenhado (`pairHit`, sem caixa); `separate` não empurra durante o par.
+* O arremesso já usa o sistema: Sorriso cai com `fall`, Miguel com `m4_fall`,
+  em sincronia. Para uma animação em par nova (PROMPTS-LOTE4 seções 15–18):
+  extrair a fileira de cima como clipe do atacante e a de baixo como clipe da
+  vítima (desenhada olhando para a ESQUERDA → `sourceFacing: -1`), escrever o
+  spec `pair` e um `when`.
+
+## Auditoria por simulação (27/10)
+
+* Script de referência: 30 lutas IA × IA, uso/acerto/erro por golpe e motivo
+  do fim. Três defeitos achados e corrigidos:
+  1. **Nocaute "golpe limpo no contra-ataque" não exigia golpe limpo** —
+     qualquer acerto médio no contra-ataque encerrava (22 de 30 lutas). Agora
+     exige `quality === 'clean'` (o que a tela diz). Idem "base perdida".
+  2. **Golpe mirado** (`aimOf`, `AIM_MIN` 0,25): soco no rosto que pega o
+     queixo é cabeça; antes, 2 px de diferença de altura mandavam quase todo
+     soco do Sorriso para o tronco do Miguel (Sorriso dava 2,7× mais dano e
+     perdia 75%). Depois: 12×8 e 9×11.
+  3. **IA usa o alcance de cada golpe** (`commandMove` + `reachOf`); antes jab
+     no corpo usava o do jab e chute baixo o do direto (Miguel errava ~70%).
+     IA também usa uppercut e, raramente, os combos.
+* Equilíbrio hoje: Miguel vence ~70% (sem os combos, ~62%): ele tem mais
+  golpes desenhados que o Sorriso. Decisão de design — não ajustado.
 
 ## Reações que acompanham o golpe (duelo, 27/10)
 

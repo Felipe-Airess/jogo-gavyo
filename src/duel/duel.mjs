@@ -34,6 +34,15 @@ export function hitOf(m, win) {
     damage: Math.round(m.damage * k), balance: Math.round(m.balance * k),
     hitstun: last ? m.hitstun : Math.round(m.hitstun * 0.75), push: last ? m.push : m.push * 0.25, window: win.index };
 }
+// Região mirada pelo golpe: socos "no corpo" miram o tronco; os outros socos
+// miram a cabeça; chutes e golpes com `aim` próprio seguem o spec.
+export const AIM_MIN = 0.25;
+export function aimOf(m) {
+  if (m.aim) return m.targets.includes(m.aim) ? m.aim : null;
+  if (m.limb !== 'fist') return null;
+  const zone = /body|Body/.test(m.id) ? 'body' : 'head';
+  return m.targets.includes(zone) ? zone : null;
+}
 // Cotovelada: J com o adversário colado (quadris até esta distância).
 export const ELBOW_RANGE = 25;
 // Maior deslocamento do membro entre dois ticks que ainda conta como varredura.
@@ -108,6 +117,8 @@ export class Duel {
   movesOf(f) { return this.movesBy[f.character] || this.moves; }
   moveOf(f, id = f.move) { return this.movesOf(f)[id]; }
   reachOf(f) { return this.reachBy[f.character] || this.reach; }
+  // Golpe que um comando daria a este lutador agora (mesma escolha de act, sem executar).
+  commandMove(f, c) { return chooseMove({ kind: c.kick ? 'kick' : 'attack', forward: !!c.forward, back: !!c.back, up: !!c.up, down: !!c.down, run: !!c.run }, f, this.movesOf(f)); }
 
   get player() { return this.fighters[0]; }
   get rival() { return this.fighters[1]; }
@@ -310,25 +321,69 @@ export class Duel {
   }
 
   // Arremesso: quem foi pego acompanha quem arremessa até o quadro do contato.
-  updateThrown(f, o) {
-    if (o.state !== 'attack' || o.move !== 'takedown') { this.toIdle(f); return; }
-    f.x = approach(f.x, o.x + o.facing * 20, 4);
-    f.vx = 0;
+  // ---- Golpes em par -------------------------------------------------------
+  // Golpe em par disponível para a situação (`pair.when`): 'combo' = depois de
+  // 2+ golpes que tocaram, com o adversário atordoado e ao alcance.
+  pairFor(f, o, when) {
+    for (const [id, m] of Object.entries(this.movesOf(f))) {
+      if (m.pair?.when === when && Math.abs(o.x - f.x) <= (m.pair.reach ?? 44)) return id;
+    }
+    return null;
   }
 
-  applyThrow(a, d) {
-    const m = this.moveOf(a, 'takedown');
+  startPair(a, d, id, chained) {
+    if (!this.begin(a, id, chained)) return false;
+    a.pairDone = [];
+    d.state = 'thrown'; d.t = 0; d.vx = 0; d.move = null; d.buffer.clear(); d.pairOf = a.id; d.pairRef = null;
+    if (d.clinch) endClinch(this.byId(d.clinch.partner), d);
+    this.event('grab', { fighter: a.id, target: d.id });
+    return true;
+  }
+
+  // Quem bate: contatos no quadro desenhado; ao fim, guarda (e solta a vítima
+  // se ela ainda estiver presa, p.ex. golpe interrompido).
+  updatePair(a, d, m) {
+    const frame = m.frames[frameIndex(m, a.moveT)];
+    if (d.state === 'thrown' && d.pairOf === a.id) {
+      for (const [i, c] of m.pair.contacts.entries()) {
+        if (frame >= c.frame && !a.pairDone.includes(i)) { a.pairDone.push(i); this.pairHit(a, d, m, c); }
+      }
+    }
+    if (a.moveT >= m.duration) {
+      if (d.state === 'thrown' && d.pairOf === a.id) this.toIdle(d);
+      this.toIdle(a); this.takeBuffered(a);
+    }
+  }
+
+  // Vítima: presa na distância e no olhar do desenho; o quadro dela segue o
+  // do atacante (pair.victim[personagem].frames[i]).
+  updateThrown(f, o) {
+    const m = o.state === 'attack' ? this.moveOf(o) : null;
+    if (!m?.pair || f.pairOf !== o.id) { f.pairRef = null; this.toIdle(f); return; }
+    const k = frameIndex(m, o.moveT), gap = Array.isArray(m.pair.gap) ? m.pair.gap[Math.min(k, m.pair.gap.length - 1)] : m.pair.gap;
+    f.x = clamp(o.x + o.facing * gap, STAGE.minX, STAGE.maxX); f.facing = -o.facing; f.vx = 0;
+    const v = m.pair.victim?.[f.character];
+    f.pairRef = v && this.artOf(f.character).clips[v.clip] ? { clip: v.clip, frame: v.frames[Math.min(k, v.frames.length - 1)] } : null;
+  }
+
+  // Contato garantido pelo desenho (sem caixa): dano, efeitos e, se `lands`,
+  // a vítima vai ao chão.
+  pairHit(a, d, m, c) {
     a.hitDone = true; a.connected = true;
-    const r = resolveHit(m, d, 'body', { quality: 'clean', rocked: this.isRocked(d) });
+    const mm = c.scale ? { ...m, damage: Math.round(m.damage * c.scale) } : m;
+    const r = resolveHit(mm, d, c.zone, { quality: 'clean', rocked: this.isRocked(d) });
     applyHit(d, r);
-    d.state = r.kind === 'ko' ? 'ko' : 'down'; d.t = 0; d.downMs = GROUND.thrownMs; d.downExtra = 0; d.vx = a.facing * 30; d.move = null; d.buffer.clear();
     this.hitstop = HITSTOP.heavy;
-    const point = { x: d.x, y: d.y - 6 };
-    this.lastHit = { at: this.clock, attacker: a.id, target: d.id, move: m.id, zone: 'body', kind: 'throw', damage: r.damage, counter: false, blocked: false, quality: 'clean', point };
-    this.event('hit', { attacker: a.id, target: d.id, move: m.id, zone: 'body', kind: 'throw', counter: false, quality: 'clean', heavy: true, power: 3, damage: r.damage, point });
-    this.event('land', { fighter: d.id, x: d.x });
+    const point = { x: d.x, y: d.y - (c.zone === 'head' ? 52 : 6) };
+    this.lastHit = { at: this.clock, attacker: a.id, target: d.id, move: m.id, zone: c.zone, kind: m.throw ? 'throw' : 'hit', damage: r.damage, counter: false, blocked: false, quality: 'clean', point };
+    this.event('hit', { attacker: a.id, target: d.id, move: m.id, zone: c.zone, kind: m.throw ? 'throw' : 'hit', counter: false, quality: 'clean', heavy: true, power: 3, damage: r.damage, point });
+    if (c.lands || r.kind === 'ko') {
+      d.state = r.kind === 'ko' ? 'ko' : 'down'; d.t = 0; d.downMs = GROUND.thrownMs; d.downExtra = 0; d.vx = a.facing * 30; d.move = null; d.buffer.clear(); d.pairRef = null;
+      this.event('land', { fighter: d.id, x: d.x });
+    }
     if (r.kind === 'ko') { d.ko = true; this.result = { winner: a.id, loser: d.id, reason: r.reason, at: this.clock }; this.event('ko', { winner: a.id, reason: r.reason }); }
-    this.message = d === this.player ? 'Arremessado! Aguente no chão.' : 'ARREMESSO! J e K batem no chão.';
+    if (m.throw) this.message = d === this.player ? 'Arremessado! Aguente no chão.' : 'ARREMESSO! J e K batem no chão.';
+    else this.message = m.name + '!';
   }
 
   begin(f, id, chained) {
@@ -400,20 +455,15 @@ export class Duel {
     if (m.carry) { f.vx = approach(f.vx, 0, m.carry * 2 * s); this.slide(f, s, 0); }
     else { f.vx = approach(f.vx, 0, 400 * s); this.slide(f, s, 0); }
     const o = this.other(f);
-    // Arremesso: chega no quadro de contato com o adversário preso.
-    if (m.throw) {
-      if (!f.hitDone && frameIndex(m, f.moveT) >= m.frames.indexOf(m.active[0]) && o.state === 'thrown') this.applyThrow(f, o);
-      if (f.moveT >= m.duration) { this.toIdle(f); this.takeBuffered(f); }
-      return;
-    }
+    // Golpe em par (arremesso e, quando houver arte, finalizações): os dois em
+    // sincronia; o dano sai no quadro de contato desenhado.
+    if (m.pair) { this.updatePair(f, o, m); return; }
     const cmd = f.buffer.peek(this.clock, CHAIN_BUFFER_MS);
     // Fim de sequência: G com o adversário atordoado e perto agarra e arremessa.
     if (cmd?.kind === 'grab' && f.connected && f.chain >= 2 && !m.ground && f.moveT >= m.cancelStart && f.moveT <= m.cancelEnd
-      && o.state === 'hitstun' && Math.abs(o.x - f.x) <= 44 && this.moveOf(f, 'takedown') && this.begin(f, 'takedown', true)) {
-      f.buffer.clear();
-      o.state = 'thrown'; o.t = 0; o.vx = 0; o.move = null; o.buffer.clear();
-      this.event('grab', { fighter: f.id, target: o.id });
-      return;
+      && o.state === 'hitstun') {
+      const id = this.pairFor(f, o, 'combo');
+      if (id && this.startPair(f, o, id, true)) { f.buffer.clear(); return; }
     }
     if (cmd && cmd.kind !== 'grab' && f.connected && f.chain < MAX_CHAIN && f.moveT >= m.cancelStart && f.moveT <= m.cancelEnd
       && (!m.ground || this.groundReach(f, o))) {
@@ -485,7 +535,12 @@ export class Duel {
     // num chute circular a reta entre a perna dobrada e a estendida cortaria o
     // tronco, embora o pé desenhado chegue na cabeça.
     const limb = { x: tip.x - hw, y: tip.y - hh, w: hw * 2, h: hh * 2 };
-    // Área somada por região: a região mais coberta pelo membro decide.
+    // Área somada por região: a região mais coberta pelo membro decide —
+    // exceto quando o golpe é mirado (`aimOf`) e pega ao menos AIM_MIN da
+    // região mirada: direto no rosto que pega o queixo é cabeça, mesmo com a
+    // maior parte do punho sobre o peito (2 px de diferença de altura entre
+    // personagens mandavam quase todo soco do Sorriso para o tronco do Miguel).
+    const areas = {};
     for (const zone of m.targets) {
       let area = 0, top = null;
       for (const box of zoneBoxes(zone)) {
@@ -494,8 +549,11 @@ export class Duel {
         area += part;
         if (!top || part > top.part) top = { box, part };
       }
-      if (top && (!best || area > best.area)) best = { zone, t: 1, area, box: top.box, coverage: Math.min(1, area / (4 * hw * hh)) };
+      if (top) areas[zone] = { zone, t: 1, area, box: top.box, coverage: Math.min(1, area / (4 * hw * hh)) };
+      if (top && (!best || area > best.area)) best = areas[zone];
     }
+    const aim = aimOf(m);
+    if (aim && areas[aim] && areas[aim].area >= AIM_MIN * 4 * hw * hh) best = areas[aim];
     if (!best) for (const zone of m.targets) for (const box of zoneBoxes(zone)) {
       const t = sweep(from, tip, hw, hh, box);
       if (t !== null && t !== undefined && (!best || t < best.t)) best = { zone, t, box };
@@ -678,7 +736,8 @@ export class Duel {
   // Pushbox: corpos de pé não se atravessam. Contra a parede, empurra só o outro.
   separate() {
     const [a, b] = this.fighters;
-    if (DOWN.has(a.state) || DOWN.has(b.state) || a.clinch || b.clinch) return;
+    // Golpe em par: a distância é a do desenho (updateThrown), não a do empurrão.
+    if (DOWN.has(a.state) || DOWN.has(b.state) || a.clinch || b.clinch || a.state === 'thrown' || b.state === 'thrown') return;
     // Centro do corpo pelo quadril desenhado: o passo à frente de um golpe
     // pesado empurra o outro, em vez de atravessá-lo.
     const hip = f => this.markersOf(f)?.hip?.x ?? f.x;

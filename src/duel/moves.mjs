@@ -37,7 +37,12 @@ const SPEC = {
   // Contexto (linhagem anterior, tempos do corredor):
   // arremesso no fim da sequência (G), golpes em quem está no chão e contra-ataque do aparo.
   takedown: { name: 'ARREMESSO', clip: 'clinchFinish', times: [50, 45, 55, 55, 70, 60, 65, 90], active: [4], limb: 'fist', power: 3, damage: 10, balance: 0, hitstun: 0, blockstun: 0, push: 0, cost: 14,
-    targets: ['body'], throw: true },
+    targets: ['body'], throw: true,
+    // Golpe em par: os dois travados na distância do desenho, a vítima em
+    // sincronia quadro a quadro com quem arremessa (ver Duel.updatePair).
+    pair: { gap: 20, when: 'combo', reach: 44,
+      contacts: [{ frame: 4, zone: 'body', lands: true }],
+      victim: { sorriso: { clip: 'fall', frames: [0, 0, 1, 1, 2, 3, 3, 3] }, miguel: { clip: 'm4_fall', frames: [0, 0, 1, 2, 3, 4, 5, 5] } } } },
   groundPunch: { name: 'SOCO NO CHÃO', clip: 'clinchFinish', times: [45, 40, 55, 55, 65, 65, 70, 110], active: [4], limb: 'fist', power: 2, damage: 13, balance: 0, hitstun: 0, blockstun: 0, push: 0, cost: 9,
     ground: true },
   groundKick: { name: 'CHUTE NO CHÃO', clip: 'groundFluid', times: [50, 45, 45, 50, 40, 60, 60, 45, 40, 40, 45, 80], active: [6, 7], limb: 'foot', power: 3, damage: 16, balance: 0, hitstun: 0, blockstun: 0, push: 0, cost: 12,

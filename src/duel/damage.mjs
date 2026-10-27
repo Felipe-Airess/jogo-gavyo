@@ -68,7 +68,10 @@ export function resolveHit(move, defender, zone, { blocked = false, counter = fa
     const solid = move.power >= 2 && quality !== 'graze';
     if (ground && solid && after.head >= KO.hurtHead) return { ...out, kind: 'ko', reason: 'Nocaute: finalizado no chão.' };
     if (solid && quality === 'clean' && rocked && after.head >= ROCK.koHead) return { ...out, kind: 'ko', reason: 'Nocaute: golpe limpo em quem estava grogue.' };
-    const clean = solid && after.head >= KO.hurtHead;
+    // As duas regras abaixo dizem "golpe limpo" na tela: exigem contato limpo
+    // (antes bastava não ser raspão, e qualquer acerto médio no contra-ataque
+    // encerrava a luta — 22 de 30 nocautes na simulação).
+    const clean = solid && quality === 'clean' && after.head >= KO.hurtHead;
     if (clean && counter) return { ...out, kind: 'ko', reason: 'Nocaute: golpe limpo no contra-ataque, com a cabeça já castigada.' };
     if (clean && balanceAfter <= KO.lowBalance) return { ...out, kind: 'ko', reason: 'Nocaute: golpe limpo com a base já perdida.' };
   }

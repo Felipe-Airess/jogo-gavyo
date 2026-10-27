@@ -102,6 +102,7 @@ const MIGUEL_HEAVY_STUN = 440;
 const once = (clip, t) => ({ clip: clip.id, frame: timed(clip.durations, t) });
 
 export function miguelRef(f, clips, clock = Infinity, moves = null) {
+  if (f.state === 'thrown' && f.pairRef && clips[f.pairRef.clip]) return f.pairRef;
   const fallen = clips.m4_hitHead ? { clip: 'm4_hitHead', frame: 2 } : MIGUEL_ABSORB;
   switch (f.state) {
     case 'idle':
@@ -172,6 +173,7 @@ export function miguelRef(f, clips, clock = Infinity, moves = null) {
 // `gait`: tabelas de avanço por quadro (Duel.gait), medidas nos pés desenhados.
 export function animationRef(f, moves, clips, gait = null, clock) {
   if (f.character === 'miguel') return miguelRef(f, clips, clock, moves);
+  if (f.state === 'thrown' && f.pairRef && clips[f.pairRef.clip]) return f.pairRef;
   switch (f.state) {
     case 'walk': {
       // Fase pela distância percorrida: os pés acompanham o deslocamento.

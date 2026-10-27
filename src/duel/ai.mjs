@@ -119,12 +119,24 @@ export class DuelAI {
       this.walk = dist > desired + 6 ? 1 : dist < desired - 8 ? -1 : 0;
       this.plan = null;
       if (!tired && now >= this.attackAt) {
-        // Golpe conforme o alcance, medido nos marcadores de contato.
+        // Golpe conforme o alcance de CADA golpe, medido nos marcadores de
+        // contato do próprio personagem (o comando vira o golpe que ele tem).
+        // Antes o jab no corpo usava o alcance do jab e o chute baixo o do
+        // direto: o Miguel errava ~70% deles.
         const options = [];
-        if (dist < 28) options.push({ grab: true }, { attack: true, back: true });
-        if (dist < (duel.reachOf(me).jab || 36) + 10) options.push({ attack: true }, { attack: true, down: true });
-        if (dist < (duel.reachOf(me).cross || 40) + 10) options.push({ attack: true, forward: true }, { kick: true, down: true });
-        if (dist < (duel.reachOf(me).roundBody || 34) + 12) options.push({ kick: true });
+        if (dist < 28) options.push({ grab: true });
+        const reach = duel.reachOf(me), moves = duel.movesOf(me);
+        const COMMANDS = [{ attack: true }, { attack: true, down: true }, { attack: true, forward: true }, { attack: true, back: true },
+          { attack: true, up: true }, { kick: true }, { kick: true, down: true }];
+        // Especiais (combos desenhados) raros: só perto e com fôlego.
+        if (me.stamina > 45 && this.random() < 0.25) COMMANDS.push({ attack: true, run: true, down: true }, { kick: true, run: true }, { kick: true, run: true, forward: true });
+        for (const c of COMMANDS) {
+          const id = duel.commandMove(me, c);
+          if (!id || !moves[id] || moves[id].ground || moves[id].throw) continue;
+          if (options.some(o => o.id === id)) continue;
+          const r = reach[id] ?? 30;
+          if (dist <= r + 12) options.push({ ...c, id });
+        }
         if (options.length) {
           this.plan = options[Math.floor(this.random() * options.length)];
           this.attackAt = now + this.range(L.rest);
@@ -140,6 +152,8 @@ export class DuelAI {
       if (p.attack) out.attack = true;
       if (p.kick) out.kick = true;
       if (p.down) out.down = true;
+      if (p.up) out.up = true;
+      if (p.run) out.run = true;
       if (p.forward) out[toward(true)] = true;
       if (p.back) out[toward(false)] = true;
       return out;
