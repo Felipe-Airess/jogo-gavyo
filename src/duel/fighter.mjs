@@ -81,6 +81,22 @@ const MIGUEL_WALK_CYCLE = 36;
 const hold = (durations, t, from = 0) => from + timed(durations.slice(from), t);
 const byDistance = (clip, d, stride) => { const n = clip.frames.length; return Math.floor((((d % stride) + stride) % stride) / stride * n) % n; };
 const MIGUEL_HIT = { head: 'm4_hitHead', body: 'm4_hitBody', legs: 'm4_hitLeg' };
+// Reações por direção (pedidas no PROMPTS-LOTE4, seção 19), da mais específica
+// para a já desenhada: [forte, leve].
+const MIGUEL_REACT = {
+  straight: [['m4_hitHeadHeavy'], ['m4_hitHead']],
+  hook: [['m4_hitHookHeavy', 'm4_hitHook', 'm4_hitHeadHeavy'], ['m4_hitHook', 'm4_hitHead']],
+  uppercut: [['m4_hitUppercutHeavy', 'm4_hitUppercut', 'm4_hitHeadHeavy'], ['m4_hitUppercut', 'm4_hitHead']],
+  body: [['m4_hitBodyHeavy', 'm4_hitBody'], ['m4_hitBody']],
+  liver: [['m4_hitLiver', 'm4_hitBody'], ['m4_hitLiver', 'm4_hitBody']],
+  legs: [['m4_hitLegHeavy', 'm4_hitLeg'], ['m4_hitLeg']],
+};
+function miguelHit(f, clips) {
+  const kind = f.reactKind || (f.reaction === 'head' ? 'straight' : f.reaction || 'body');
+  const heavy = f.reactHeavy ?? (f.stun >= MIGUEL_HEAVY_STUN);
+  for (const id of (MIGUEL_REACT[kind] || MIGUEL_REACT.body)[heavy ? 0 : 1]) if (clips[id]) return clips[id];
+  return clips[MIGUEL_HIT[f.reaction] || 'm4_hitBody'] || null;
+}
 // Atordoamento a partir do qual a reação na cabeça é a forte (direto, pesado, chutes).
 const MIGUEL_HEAVY_STUN = 440;
 const once = (clip, t) => ({ clip: clip.id, frame: timed(clip.durations, t) });
@@ -133,12 +149,13 @@ export function miguelRef(f, clips, clock = Infinity, moves = null) {
     case 'getup':
       return clips.m4_rise ? once(clips.m4_rise, f.t) : fallen;
     case 'hitstun': {
-      // Reação por região, esticada para durar o atordoamento inteiro.
-      const heavy = f.reaction === 'head' && f.stun >= MIGUEL_HEAVY_STUN && clips.m4_hitHeadHeavy;
-      const c = heavy ? clips.m4_hitHeadHeavy : clips[MIGUEL_HIT[f.reaction] || 'm4_hitBody'];
+      // Reação pela direção do impacto (reactKind) e pela força; desenhos que
+      // ainda não existem caem na reação mais próxima já desenhada. Começa no
+      // quadro 1 (o 0 é a guarda): a pose de impacto aparece no tick do contato.
+      const c = miguelHit(f, clips);
       if (!c) return MIGUEL_ABSORB;
-      const n = c.frames.length;
-      return { clip: c.id, frame: Math.min(n - 1, Math.floor(f.t / Math.max(1, f.stun) * n)) };
+      const n = c.frames.length, first = n > 2 ? 1 : 0;
+      return { clip: c.id, frame: Math.min(n - 1, first + Math.floor(f.t / Math.max(1, f.stun) * (n - first))) };
     }
     case 'down':
       // Deitado; se a queda acabou de terminar, o deitado respira no mesmo lugar.

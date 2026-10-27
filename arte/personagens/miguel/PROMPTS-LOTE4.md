@@ -367,6 +367,29 @@ B11. Ground soccer kick, 9 frames, contact 5 (partner already lying): kick to th
 B12. Lift by the collar + punch, 14 frames, contact 11: pulls the lying partner up by the shirt collar (1-8), right straight to the face (11). Partner: from lying to standing held (1-8), head snaps back, falls on the back (11-14).
 ```
 
+## 19. Reações que acompanham o golpe (uma imagem por reação)
+
+O jogo escolhe a reação pela **direção do impacto** e pela **força** (golpe
+limpo, pesado ou com o adversário grogue = versão forte). O código já está
+pronto: cada folha que chegar entra no lugar da reação genérica. Nomes no
+jogo entre parênteses (para o agente integrar).
+
+```
+HIT REACTIONS THAT FOLLOW THE STRIKE. Miguel faces RIGHT; the strike comes from the RIGHT side (the opponent is in front of him). Camera locked in profile. Feet stay planted unless the text says they move. Frame 1 = the exact IMPACT pose (not the guard: the game shows frame 1 on the tick the strike lands). Last frame = back in guard. The body follows the force of the strike like in real life: the head moves first, then shoulders, then hips, then the feet adjust.
+
+R1. Hook to the head, LIGHT, 6 frames (m4_hitHook): 1 head snapped to the side, chin turned toward the camera-left, hair swinging; 2 shoulders twist following the head; 3 hips follow, back foot slides 1/2 foot; 4-5 recovering, fists coming up; 6 guard.
+R2. Hook to the head, STRONG, 8 frames (m4_hitHookHeavy): 1 head snapped hard to the side; 2 upper body twists a quarter turn, arms fly open; 3 back foot steps back to keep balance; 4 knees dip, wobbling; 5 front foot slides back; 6-7 regaining balance, guard rising; 8 guard, 1 foot further back.
+R3. Uppercut, LIGHT, 6 frames (m4_hitUppercut): 1 chin forced UP, eyes to the ceiling; 2 upper back arches backward; 3 heels lift a little; 4 heels land, chin comes down; 5 fists rising; 6 guard.
+R4. Uppercut, STRONG, 8 frames (m4_hitUppercutHeavy): 1 chin up, head thrown back; 2 heels OFF the ground, body arched; 3 lands on the heels, falling back; 4 back foot steps back far; 5 stumbling backward; 6 knees bent, arms low; 7 guard rising; 8 guard.
+R5. Liver shot (hook to the side of the ribs), 7 frames (m4_hitLiver): 1 body bends SIDEWAYS toward the hit side, right elbow drops to cover the ribs; 2 bends more, knees dip; 3 frozen in pain-free sport pose, one hand on the side; 4 still bent; 5 straightening slowly; 6 fists up; 7 guard.
+R6. Straight to the body, STRONG, 7 frames (m4_hitBodyHeavy): 1 folds forward at the waist, air pushed out; 2 pushed back 1 foot, back foot slides; 3 hunched, both elbows down; 4 one knee dips; 5-6 straightening; 7 guard.
+R7. Low kick, STRONG, 7 frames (m4_hitLegHeavy): 1 front knee buckles inward; 2 weight drops on the hit leg, almost to one knee; 3 hops back on the other leg; 4 lands; 5 limping step; 6 straightening; 7 guard.
+R8. Being hit while already reacting (chain), 4 frames (m4_hitChain): 1 head snapped back from a bent posture; 2 stumble; 3 lowers guard; 4 dazed pose. Used when a second strike lands before the first reaction ends.
+```
+
+Para o Sorriso (ou o parceiro de treino), mandar a mesma lista com a
+referência dele no lugar do Miguel; os nomes no jogo ficam `s4_hitHook` etc.
+
 ## 17. Bom ter
 
 ```

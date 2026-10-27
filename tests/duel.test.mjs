@@ -745,7 +745,8 @@ test('Miguel: reação desenhada por região, grogue cambaleando e deitado no ch
     p.state = 'hitstun'; p.t = 0; p.stun = 400; p.reaction = zone;
     const seen = new Set();
     for (let t = 0; t < 400; t += 20) { p.t = t; const r = d.animation(p); assert.equal(r.clip, clip); seen.add(r.frame); }
-    assert.equal(seen.size, miguel[clip].frames.length, 'percorre a reação inteira');
+    assert.equal(seen.size, miguel[clip].frames.length - 1, 'percorre a reação inteira, começando no impacto');
+    assert.ok(!seen.has(0), 'não mostra a guarda no tick do contato');
   }
   const d = withMiguel(), p = d.player;
   p.rockedUntil = 1e9; p.state = 'idle';
@@ -758,6 +759,10 @@ test('Miguel: reação desenhada por região, grogue cambaleando e deitado no ch
   assert.equal(d.animation(p).clip, 'm4_rise');
   p.state = 'hitstun'; p.reaction = 'head'; p.stun = 520;
   assert.equal(d.animation(p).clip, 'm4_hitHeadHeavy');
+  p.reactKind = 'hook'; p.reactHeavy = false;
+  assert.equal(d.animation(p).clip, 'm4_hitHead', 'gancho sem desenho próprio: reação leve na cabeça');
+  p.reactKind = 'liver';
+  assert.equal(d.animation(p).clip, 'm4_hitBody');
 });
 
 test('Miguel: carga dos golpes perto da do Sorriso (o mais lento até o contato em ≤ 400 ms)', () => {
@@ -784,4 +789,20 @@ test('Miguel: cima+K é o chute com passo na cintura; lote 4 dá jab no corpo e 
   assert.deepEqual(m.targets, ['body', 'legs']);
   assert.equal(d.movesBy.miguel.jabBody.clip, 'm4_jabBody');
   assert.equal(d.movesBy.miguel.parryCounter.clip, 'm4_parryCounter');
+});
+
+test('reação acompanha o golpe: tipo pela direção, força pela qualidade, recuo no sentido do golpe', async () => {
+  const { reactKind, RECOIL } = await import('../src/duel/duel.mjs');
+  assert.equal(reactKind({ id: 'hook' }, 'head'), 'hook');
+  assert.equal(reactKind({ id: 'roundBody' }, 'body'), 'liver');
+  assert.equal(reactKind({ id: 'cross' }, 'head'), 'straight');
+  assert.equal(reactKind({ id: 'lowKick' }, 'legs'), 'legs');
+  const d = make(36);
+  press(d, { attack: true });
+  until(d, () => d.rival.state === 'hitstun', 600);
+  const r = d.rival, off = () => d.drawX(r) - d.drawX({ ...r, recoil: 0 });
+  assert.ok(r.recoil >= RECOIL.graze);
+  assert.ok(off() * r.facing < 0, 'recua para longe de quem bateu');
+  until(d, () => r.t >= RECOIL.ms, 600);           // a pausa de impacto congela o relógio
+  assert.equal(off(), 0, 'recuo só no começo');
 });

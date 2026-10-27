@@ -9,6 +9,22 @@ import { sweep, contactPoint, overlap } from './collision.mjs';
 import { resolveHit, applyHit, contactQuality, ROCK } from './damage.mjs';
 import { startClinch, endClinch, keepGap, escapeGain, CLINCH } from './clinch.mjs';
 
+// Recuo visual do atingido (px) no começo da reação, decaindo em RECOIL.ms.
+export const RECOIL = { ms: 90, block: 1, graze: 1, hit: 2, clean: 4 };
+// Atordoamento a partir do qual a reação é a forte.
+export const HEAVY_STUN = 440;
+// Direção do impacto: decide qual reação desenhada usar.
+//   straight: cabeça para trás · hook: cabeça gira para o lado · uppercut: queixo sobe
+//   body: dobra para frente · liver: dobra de lado · legs: joelho cede
+export function reactKind(m, zone) {
+  if (m.react) return m.react;
+  const id = m.id || '';
+  if (zone === 'legs') return 'legs';
+  if (zone === 'body') return /hook|round/.test(id) ? 'liver' : 'body';
+  if (/upper/.test(id)) return 'uppercut';
+  if (/hook|round|overhand/.test(id)) return 'hook';
+  return 'straight';
+}
 // Maior deslocamento do membro entre dois ticks que ainda conta como varredura.
 export const SWEEP_MAX = 45;
 export const STAGE = { minX: 24, maxX: 456, ground: 150, half: 10 };
@@ -112,7 +128,10 @@ export class Duel {
   animation(f) { return animationRef(f, this.movesOf(f), this.artOf(f.character).clips, this.gait, this.clock); }
   // Onde o sprite está desenhado (posição física + degrau da passada).
   // O degrau usa a passada medida do Sorriso; Miguel não tem tabela própria.
-  drawX(f) { return f.x + (f.character === 'sorriso' ? gaitOffset(f, this.gait) : 0); }
+  drawX(f) {
+    const recoil = (f.state === 'hitstun' || f.state === 'blockstun') && f.recoil && f.t < RECOIL.ms ? -f.facing * f.recoil * (1 - f.t / RECOIL.ms) : 0;
+    return f.x + (f.character === 'sorriso' ? gaitOffset(f, this.gait) : 0) + recoil;
+  }
   markerSetOf(f) { return this.artOf(f.character).markers; }
   markersOf(f) { const ref = this.animation(f); return worldMarkers(this.markerSetOf(f).frame(ref.clip, ref.frame), { ...f, x: this.drawX(f) }); }
   // Durante um golpe o braço estendido também pode ser atingido (e conta como tronco).
@@ -545,6 +564,11 @@ export class Duel {
     d.move = null;
     d.stun = r.stun;
     d.reaction = r.zone;
+    // Reação acompanha o golpe: tipo (direção do impacto), força e um recuo de
+    // poucos px só no começo, na direção do golpe (ver RECOIL e drawX).
+    d.reactKind = reactKind(m, r.zone);
+    d.reactHeavy = r.kind === 'hit' && (quality === 'clean' || r.stun >= HEAVY_STUN || this.isRocked(d));
+    d.recoil = r.kind === 'block' ? RECOIL.block : quality === 'clean' ? RECOIL.clean : quality === 'graze' ? RECOIL.graze : RECOIL.hit;
     if (r.kind === 'block') { d.state = 'blockstun'; d.t = 0; d.vx = pushV; }
     else if (r.kind === 'guardBreak') { d.state = 'hitstun'; d.t = 0; d.reaction = 'body'; d.vx = pushV; }
     else if (r.kind === 'hit') { d.state = 'hitstun'; d.t = 0; d.vx = pushV; }

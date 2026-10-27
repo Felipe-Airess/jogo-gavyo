@@ -22,7 +22,7 @@ contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
 
 ```bash
 npm start            # servidor local em http://127.0.0.1:4173 (abre o navegador)
-npm test             # 157 testes: core, duelo e históricos — todos passando
+npm test             # 158 testes: core, duelo e históricos — todos passando
 npm run test:legacy  # 22 testes antigos — todos passando
 npm run build        # gera build/ (≈4,7 MB, ignorado pelo Git)
 python scripts/extract-markers.py sorriso miguel   # regenera *-markers.json (Python 3 + Pillow)
@@ -285,6 +285,21 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   m4_runStop), queda m4_fall, deitado m4_lying, levantar m4_rise, reação forte
   na cabeça m4_hitHeadHeavy (atordoamento ≥ 440 ms). Esquiva m4_leanBack no
   atlas, sem comando (não há mecânica de esquiva ainda).
+
+## Reações que acompanham o golpe (duelo, 27/10)
+
+* `reactKind(m, zone)` em `duel.mjs`: straight / hook / uppercut / body /
+  liver / legs pelo id do golpe (`m.react` sobrepõe). `reactHeavy` = limpo,
+  atordoamento ≥ `HEAVY_STUN` (440) ou grogue. `RECOIL`: recuo de 1–4 px no
+  sentido do golpe nos primeiros 90 ms (só no desenho e nas caixas, via
+  `drawX`).
+* `miguelHit` (fighter.mjs) escolhe da reação específica para a já desenhada
+  (`MIGUEL_REACT`); hoje gancho/uppercut usam a cabeça leve/forte e fígado o
+  corpo. A reação começa no quadro 1 (impacto), não na guarda.
+* Arte pedida em PROMPTS-LOTE4 seção 19 (m4_hitHook, m4_hitHookHeavy,
+  m4_hitUppercut(Heavy), m4_hitLiver, m4_hitBodyHeavy, m4_hitLegHeavy,
+  m4_hitChain): ao chegar, extrair (REFEITAS), pôr em add-miguel-lote4 CLIPS
+  e em extract-markers; o código já usa.
 
 ## Miguel no corredor (27/10, pedido do usuário)
 
