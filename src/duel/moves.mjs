@@ -8,6 +8,10 @@
 //  - só para golpes listados em `cancels`; o grafo não tem ciclos, então não
 //    existe repetição infinita, e a sequência para em MAX_CHAIN ações.
 export const MAX_CHAIN = 3;
+// Soco não conta na perna: um punho que desce até a linha da cintura acerta
+// o tronco. Chutes e joelhadas podem atingir as três regiões.
+const FIST_TARGETS = ['head', 'body'];
+const ALL_TARGETS = ['head', 'body', 'legs'];
 
 const SPEC = {
   jab: { name: 'JAB', clip: 'r3_jab_head', limb: 'fist', power: 1, damage: 7, balance: 8, hitstun: 300, blockstun: 190, push: 7, cost: 5,
@@ -61,7 +65,7 @@ export function createDuelMoves(clips) {
     const firstRecovery = frames.find(i => i > active.at(-1) && /^recup|^recol|^acomo/.test(phases[i]));
     const cancelEnd = firstRecovery === undefined ? activeEnd + 80 : before(firstRecovery);
     const duration = times.reduce((a, b) => a + b, 0);
-    moves[id] = { id, ...spec, frames, times, active, activeStart, activeEnd, cancelStart: activeStart, cancelEnd, duration, targets: spec.targets || ['head', 'body', 'legs'] };
+    moves[id] = { id, ...spec, frames, times, active, activeStart, activeEnd, cancelStart: activeStart, cancelEnd, duration, targets: spec.targets || (spec.limb === 'fist' ? FIST_TARGETS : ALL_TARGETS) };
   }
   return moves;
 }

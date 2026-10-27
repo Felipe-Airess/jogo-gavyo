@@ -126,7 +126,7 @@ def rects(mask):
     return [[x0 - PIVOT[0], y0 - PIVOT[1], x1 - PIVOT[0], y1 - PIVOT[1]] for x0, y0, x1, y1 in merged]
 
 
-def hurt_regions(cls, head_mass, head_box, hip_y):
+def hurt_regions(cls, head_mass, head_box, hip_y, shoes=()):
     """Separa os pixels opacos em cabeça, tronco e pernas e cobre cada região.
 
     Cabeça: bloco de cabelo do topo e rosto, sem o quarto superior do volume do
@@ -138,6 +138,9 @@ def hurt_regions(cls, head_mass, head_box, hip_y):
     """
     head, body, legs, arms = set(), set(), set(), set()
     mass = set(head_mass or [])
+    shoe = {p for g in shoes for p in g}
+    # Só blocos grandes de calça: o emblema azul e reflexos na camisa ficam fora.
+    jeans = {p for g in components(cls, {'jeans'}) if len(g) >= 30 for p in g}
     if head_box:
         hx0, hy0, hx1, hy1 = head_box
         cut = hy0 + (hy1 - hy0) // 4
@@ -150,7 +153,8 @@ def hurt_regions(cls, head_mass, head_box, hip_y):
             if y >= cut:
                 head.add(p)
             continue
-        if hip_y is not None and y >= hip_y and c not in ('green', 'yellow'):
+        # Calça e tênis são perna mesmo acima da linha do quadril (perna erguida no chute).
+        if p in jeans or p in shoe or (hip_y is not None and y >= hip_y and c not in ('green', 'yellow')):
             legs.add(p)
         elif c == 'skin':
             arms.add(p)
@@ -271,7 +275,7 @@ def analyse(cell):
             k = max(thigh, key=lambda p: p[0])
             knee = local(*k)
 
-    hurt = hurt_regions(cls, mass, head_box, hip['y'] + PIVOT[1] if hip else None)
+    hurt = hurt_regions(cls, mass, head_box, hip['y'] + PIVOT[1] if hip else None, shoes)
 
     support = max((p for p in opaque if p[1] >= bottom - 1), key=lambda p: p[0], default=None)
     limits.append('elbows: manga clara e antebraço não têm contraste suficiente; sem marcador')

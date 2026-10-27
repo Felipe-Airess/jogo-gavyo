@@ -6,7 +6,7 @@ import { DuelAI } from '../src/duel/ai.mjs';
 import { CLINCH } from '../src/duel/clinch.mjs';
 import { sweep } from '../src/duel/collision.mjs';
 import { capabilities, createFighter } from '../src/duel/fighter.mjs';
-import { worldMarkers, bounds } from '../src/duel/markers.mjs';
+import { worldMarkers, bounds, hurtboxes, limbCenter, LIMB_SIZE } from '../src/duel/markers.mjs';
 
 const atlas = JSON.parse(fs.readFileSync(new URL('../assets/sorriso-v70.json', import.meta.url)));
 const clips = Object.fromEntries(atlas.clips.map(c => [c.id, c]));
@@ -476,4 +476,42 @@ test('arrancada completa e freada desenhada ao soltar a corrida', () => {
   assert.equal(d.animation(d.player).clip, 'r2_runStop');
   run(d, 700);
   assert.equal(d.player.state, 'idle');
+});
+
+// Hurtboxes justas aos pixels (extract-markers.py → `hurt`).
+const frameBoxes = (clip, frame, opts) => {
+  const f = { x: 0, y: 0, facing: 1 };
+  return hurtboxes(worldMarkers(markers.clips[clip][frame], f), opts);
+};
+const hits = (list, x, y) => (list || []).some(b => x >= b.x && x < b.x + b.w && y >= b.y && y < b.y + b.h);
+
+test('todo quadro de combate tem cabeça, tronco e pernas em caixas justas', () => {
+  for (const clip of ['r1_idle', 'r2_walk', 'r3_jab_head', 'r3_cross_head', 'r3_low_kick', 'r3_round_kick_body', 'block', 'hurt']) {
+    markers.clips[clip].forEach((_, i) => {
+      const b = frameBoxes(clip, i);
+      for (const zone of ['head', 'body', 'legs']) assert.ok(b[zone]?.length, clip + ' ' + i + ' ' + zone);
+    });
+  }
+});
+
+test('o vão sob a perna do chute baixo não é atingível', () => {
+  // Quadro de contato: a perna estendida passa por cima de um vazio até o chão.
+  const b = frameBoxes('r3_low_kick', 5), all = [...b.head, ...b.body, ...b.legs];
+  const foot = markers.clips.r3_low_kick[5].frontFoot;
+  assert.ok(hits(b.legs, foot.tipX - 4, foot.tipY), 'o tênis estendido é perna');
+  assert.equal(hits(all, foot.tipX - 4, -6), false, 'o chão abaixo do tênis é vazio');
+});
+
+test('mão parada não aumenta o alcance; braço do golpe pode ser atingido', () => {
+  const tip = markers.clips.r3_jab_head[4].frontFist;
+  const x = tip.tipX - 2, y = tip.tipY;
+  assert.equal(hits(frameBoxes('r3_jab_head', 4).body, x, y), false);
+  assert.ok(hits(frameBoxes('r3_jab_head', 4, { arms: true }).body, x, y));
+});
+
+test('a hitbox do membro termina no pixel mais à frente do desenho', () => {
+  for (const facing of [1, -1]) {
+    const tip = { x: 100, y: 50 }, c = limbCenter(tip, 'fist', facing), [w] = LIMB_SIZE.fist;
+    assert.equal(facing > 0 ? c.x + w / 2 : c.x - w / 2, tip.x);
+  }
 });
