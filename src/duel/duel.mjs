@@ -4,7 +4,7 @@ import { commandFrom } from '../core/command-buffer.mjs';
 import { gaitTable } from '../locomotion.mjs';
 import { createFighter, animationRef, gaitOffset, NEUTRAL, SPEED, RUN_START_MS } from './fighter.mjs';
 import { createDuelMoves, chooseMove, cancelTarget, frameIndex, MAX_CHAIN } from './moves.mjs';
-import { MarkerSet, worldMarkers, hurtboxes, guardBox, grabBox, LIMB_SIZE } from './markers.mjs';
+import { MarkerSet, worldMarkers, hurtboxes, guardBox, grabBox, LIMB_SIZE, limbCenter } from './markers.mjs';
 import { sweep, contactPoint, overlap } from './collision.mjs';
 import { resolveHit, applyHit } from './damage.mjs';
 import { startClinch, endClinch, keepGap, escapeGain, CLINCH } from './clinch.mjs';
@@ -71,7 +71,8 @@ export class Duel {
   // Onde o sprite está desenhado (posição física + degrau da passada).
   drawX(f) { return f.x + gaitOffset(f, this.gait); }
   markersOf(f) { const ref = this.animation(f); return worldMarkers(this.markers.frame(ref.clip, ref.frame), { ...f, x: this.drawX(f) }); }
-  hurtboxesOf(f) { return DOWN.has(f.state) ? {} : hurtboxes(this.markersOf(f)); }
+  // Durante um golpe o braço estendido também pode ser atingido (e conta como tronco).
+  hurtboxesOf(f) { return DOWN.has(f.state) ? {} : hurtboxes(this.markersOf(f), { arms: f.state === 'attack' || f.state === 'clinchStrike' }); }
 
   // inputs: [entrada do lutador 1, entrada do lutador 2]
   tick(inputs, dt = TICK) {
@@ -233,7 +234,7 @@ export class Duel {
   probe(a, d) {
     if (a.state !== 'attack' && a.state !== 'clinchStrike') return null;
     const m = this.moves[a.move], frame = m.frames[frameIndex(m, a.moveT)];
-    const w = worldMarkers(this.markers.frame(m.clip, frame), a), tip = w?.[m.limb];
+    const w = worldMarkers(this.markers.frame(m.clip, frame), a), tip = limbCenter(w?.[m.limb], m.limb, a.facing);
     const active = m.active.includes(frame);
     if (!tip) { if (active) this.markers.note(m.clip, frame, m.limb); a.prevTip = null; return null; }
     const from = a.prevTip || tip;
@@ -245,21 +246,34 @@ export class Duel {
     let best = null;
     const legsOnly = m.targets.length === 1 && m.targets[0] === 'legs';
     // Chute na perna mira a coxa: a caixa sobe um pouco acima da linha da calça.
-    const zoneBox = zone => legsOnly && boxes.legs ? { ...boxes.legs, y: boxes.legs.y - 8, h: boxes.legs.h + 8 } : boxes[zone];
+    // Chute na perna mira a coxa: a faixa de 8 px acima do quadril também conta como perna.
+    const hipY = boxes.legs ? Math.min(...boxes.legs.map(b => b.y)) : null;
+    const zoneBoxes = zone => {
+      if (!legsOnly) return boxes[zone] || [];
+      const thigh = (boxes.body || []).filter(b => b.y + b.h > hipY - 8).map(b => {
+        const y = Math.max(b.y, hipY - 8);
+        return { ...b, y, h: b.y + b.h - y };
+      });
+      return [...(boxes.legs || []), ...thigh];
+    };
     // Primeiro, onde o membro está agora (maior sobreposição). A varredura em
     // linha reta só entra quando o membro passou inteiro entre dois ticks:
     // num chute circular a reta entre a perna dobrada e a estendida cortaria o
     // tronco, embora o pé desenhado chegue na cabeça.
     const limb = { x: tip.x - hw, y: tip.y - hh, w: hw * 2, h: hh * 2 };
+    // Área somada por região: a região mais coberta pelo membro decide.
     for (const zone of m.targets) {
-      const box = zoneBox(zone);
-      if (!box || !overlap(limb, box)) continue;
-      const area = (Math.min(limb.x + limb.w, box.x + box.w) - Math.max(limb.x, box.x)) * (Math.min(limb.y + limb.h, box.y + box.h) - Math.max(limb.y, box.y));
-      if (!best || area > best.area) best = { zone, t: 1, area, box };
+      let area = 0, top = null;
+      for (const box of zoneBoxes(zone)) {
+        if (!overlap(limb, box)) continue;
+        const part = (Math.min(limb.x + limb.w, box.x + box.w) - Math.max(limb.x, box.x)) * (Math.min(limb.y + limb.h, box.y + box.h) - Math.max(limb.y, box.y));
+        area += part;
+        if (!top || part > top.part) top = { box, part };
+      }
+      if (top && (!best || area > best.area)) best = { zone, t: 1, area, box: top.box };
     }
-    if (!best) for (const zone of m.targets) {
-      const box = zoneBox(zone);
-      const t = box && sweep(from, tip, hw, hh, box);
+    if (!best) for (const zone of m.targets) for (const box of zoneBoxes(zone)) {
+      const t = sweep(from, tip, hw, hh, box);
       if (t !== null && t !== undefined && (!best || t < best.t)) best = { zone, t, box };
     }
     const front = (a.x - d.x) * d.facing > 0;
@@ -307,9 +321,9 @@ export class Duel {
 
   tryGrab(f, o) {
     if (!f.can.clinch) return false;
-    const g = grabBox(f, this.markersOf(f)), body = this.hurtboxesOf(o).body;
+    const g = grabBox(f, this.markersOf(f)), body = this.hurtboxesOf(o).body || [];
     const blocked = DOWN.has(o.state) || o.clinch || o.state === 'attack' || o.state === 'collapse';
-    if (!overlap(g, body) || blocked) {
+    if (!body.some(b => overlap(g, b)) || blocked) {
       f.state = 'grabMiss'; f.t = 0; f.vx = 0;
       this.event('grabMiss', { fighter: f.id });
       if (f === this.player) this.message = o.state === 'attack' ? 'O golpe dele impediu o agarrão.' : 'Agarrão no vazio: chegue mais perto.';

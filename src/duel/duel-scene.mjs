@@ -3,7 +3,7 @@
 import { Duel, STAGE } from './duel.mjs';
 import { DuelAI } from './ai.mjs';
 import { FixedStep, lerp } from '../core/fixed-step.mjs';
-import { hurtboxes, pushbox, guardBox, grabBox, LIMB_SIZE } from './markers.mjs';
+import { hurtboxes, pushbox, guardBox, grabBox, LIMB_SIZE, limbCenter } from './markers.mjs';
 import { frameIndex } from './moves.mjs';
 import { lettering } from '../art.js';
 import { SORRISO_ASSET } from '../assets.js';
@@ -177,14 +177,14 @@ export class DuelScene extends Phaser.Scene {
   }
 
   drawDebug(f) {
-    const m = this.model, g = this.debugLayer, w = m.markersOf(f), boxes = hurtboxes(w);
+    const m = this.model, g = this.debugLayer, w = m.markersOf(f), boxes = hurtboxes(w, { arms: f.state === 'attack' || f.state === 'clinchStrike' });
     const stroke = (b, color) => { if (b) { g.lineStyle(1, color); g.strokeRect(Math.round(b.x) + 0.5, Math.round(b.y) + 0.5, Math.round(b.w), Math.round(b.h)); } };
-    if (!['knockdown', 'down', 'getup', 'ko'].includes(f.state)) for (const [zone, b] of Object.entries(boxes)) stroke(b, COLORS[zone]);
+    if (!['knockdown', 'down', 'getup', 'ko'].includes(f.state)) for (const [zone, list] of Object.entries(boxes)) for (const b of list) stroke(b, COLORS[zone]);
     stroke(pushbox(f, w), COLORS.push);
     if (f.state === 'guard' || f.state === 'blockstun') stroke(guardBox(f, w), COLORS.guard);
     if (['idle', 'walk', 'clinchEntry'].includes(f.state)) stroke(grabBox(f, w), COLORS.grab);
     if (f.state === 'attack' || f.state === 'clinchStrike') {
-      const mv = m.moves[f.move], tip = w?.[mv.limb], frame = mv.frames[frameIndex(mv, f.moveT)];
+      const mv = m.moves[f.move], tip = limbCenter(w?.[mv.limb], mv.limb, f.facing), frame = mv.frames[frameIndex(mv, f.moveT)];
       if (tip) {
         const [bw, bh] = LIMB_SIZE[mv.limb], active = mv.active.includes(frame);
         g.lineStyle(1, active ? COLORS.hit : 0x806050);

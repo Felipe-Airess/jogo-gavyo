@@ -84,6 +84,81 @@ def centroid(points):
     return sum(p[0] for p in points) / len(points), sum(p[1] for p in points) / len(points)
 
 
+BAND = 4  # altura das faixas da decomposição (px)
+
+
+def rects(mask):
+    """Cobre um conjunto de pixels com retângulos justos.
+
+    Faixas horizontais de BAND linhas; em cada faixa, um retângulo por trecho
+    contínuo de colunas (vãos de 3 px ou mais separam, por exemplo, as duas
+    pernas). Faixas vizinhas com bordas a até 2 px de distância são unidas.
+    Saída em coordenadas locais [x0, y0, x1, y1), x1/y1 exclusivos.
+    """
+    if not mask:
+        return []
+    ys = [y for _, y in mask]
+    y_top, y_bot = min(ys), max(ys)
+    out = []
+    for band in range(y_top, y_bot + 1, BAND):
+        pts = [p for p in mask if band <= p[1] < band + BAND]
+        if not pts:
+            continue
+        cols = sorted({x for x, _ in pts})
+        runs, start, prev = [], cols[0], cols[0]
+        for x in cols[1:]:
+            if x - prev >= 3:
+                runs.append((start, prev))
+                start = x
+            prev = x
+        runs.append((start, prev))
+        for x0, x1 in runs:
+            rows = [y for x, y in pts if x0 <= x <= x1]
+            out.append([x0, min(rows), x1 + 1, max(rows) + 1])
+    merged = []
+    for r in out:
+        for m in merged:
+            if m[3] == r[1] and abs(m[0] - r[0]) <= 2 and abs(m[2] - r[2]) <= 2:
+                m[0], m[2], m[3] = min(m[0], r[0]), max(m[2], r[2]), r[3]
+                break
+        else:
+            merged.append(list(r))
+    return [[x0 - PIVOT[0], y0 - PIVOT[1], x1 - PIVOT[0], y1 - PIVOT[1]] for x0, y0, x1, y1 in merged]
+
+
+def hurt_regions(cls, head_mass, head_box, hip_y):
+    """Separa os pixels opacos em cabeça, tronco e pernas e cobre cada região.
+
+    Cabeça: bloco de cabelo do topo e rosto, sem o quarto superior do volume do
+    cabelo (golpe que só raspa o penteado não conta) e sem nada abaixo do queixo.
+    Pernas: calça, tênis e contornos abaixo do quadril. Braços: pele fora da
+    cabeça (antebraços e mãos), separada para o jogo decidir quando contam.
+    Tronco: o resto (camisa, mangas e contornos). Sem cabeça ou quadril detectados, a região correspondente fica
+    vazia em vez de estimada.
+    """
+    head, body, legs, arms = set(), set(), set(), set()
+    mass = set(head_mass or [])
+    if head_box:
+        hx0, hy0, hx1, hy1 = head_box
+        cut = hy0 + (hy1 - hy0) // 4
+    for p, c in cls.items():
+        x, y = p
+        # Dentro da caixa da cabeça: cabelo (sem o quarto superior), rosto e o
+        # punho erguido diante dele. Fora da guarda ativa, um golpe no rosto
+        # coberto só pela mão conta como cabeça, como antes.
+        if head_box and hx0 <= x <= hx1 and hy0 <= y <= hy1 and (p in mass or c in ('skin', 'hair', 'other')):
+            if y >= cut:
+                head.add(p)
+            continue
+        if hip_y is not None and y >= hip_y and c not in ('green', 'yellow'):
+            legs.add(p)
+        elif c == 'skin':
+            arms.add(p)
+        else:
+            body.add(p)
+    return {'head': rects(head), 'body': rects(body), 'legs': rects(legs), 'arms': rects(arms)}
+
+
 def analyse(cell):
     px = cell.load()
     cls = {}
@@ -103,6 +178,7 @@ def analyse(cell):
     hair = [g for g in components(cls, {'hair'}) if min(y for _, y in g) <= top + 4]
     head = None
     head_box = None
+    mass = None
     if hair:
         mass = max(hair, key=len)
         hx0, hx1 = min(x for x, _ in mass), max(x for x, _ in mass)
@@ -195,6 +271,8 @@ def analyse(cell):
             k = max(thigh, key=lambda p: p[0])
             knee = local(*k)
 
+    hurt = hurt_regions(cls, mass, head_box, hip['y'] + PIVOT[1] if hip else None)
+
     support = max((p for p in opaque if p[1] >= bottom - 1), key=lambda p: p[0], default=None)
     limits.append('elbows: manga clara e antebraço não têm contraste suficiente; sem marcador')
     return {
@@ -203,6 +281,7 @@ def analyse(cell):
         'frontFist': hands[-1] if hands else None,
         'frontFoot': feet[-1] if feet else None,
         'frontKnee': knee,
+        'hurt': hurt,
         'ground': local(*support) if support else None,
         'bounds': {'x0': min(x for x, _ in opaque) - PIVOT[0], 'x1': max(x for x, _ in opaque) - PIVOT[0],
                    'y0': top - PIVOT[1], 'y1': bottom - PIVOT[1]},

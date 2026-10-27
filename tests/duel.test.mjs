@@ -6,7 +6,7 @@ import { DuelAI } from '../src/duel/ai.mjs';
 import { CLINCH } from '../src/duel/clinch.mjs';
 import { sweep } from '../src/duel/collision.mjs';
 import { capabilities, createFighter } from '../src/duel/fighter.mjs';
-import { worldMarkers } from '../src/duel/markers.mjs';
+import { worldMarkers, bounds } from '../src/duel/markers.mjs';
 
 const atlas = JSON.parse(fs.readFileSync(new URL('../assets/sorriso-v70.json', import.meta.url)));
 const clips = Object.fromEntries(atlas.clips.map(c => [c.id, c]));
@@ -39,7 +39,10 @@ test('hurtboxes espelham em torno do pivô', () => {
   const d = make(60), f = d.rival, a = d.hurtboxesOf(f);
   f.facing = -f.facing;
   const b = d.hurtboxesOf(f);
-  for (const zone of ['head', 'body', 'legs']) assert.ok(Math.abs((a[zone].x + a[zone].w / 2 - f.x) + (b[zone].x + b[zone].w / 2 - f.x)) < 0.01, zone);
+  for (const zone of ['head', 'body', 'legs']) {
+    const p = bounds(a[zone]), q = bounds(b[zone]);
+    assert.ok(Math.abs((p.x + p.w / 2 - f.x) + (q.x + q.w / 2 - f.x)) < 0.01, zone);
+  }
 });
 
 test('golpe fora do alcance passa no vazio sem dano nem contato', () => {

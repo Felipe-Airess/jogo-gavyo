@@ -40,12 +40,55 @@ export function worldMarkers(m, f) {
     foot: toWorld(tipOf(m.frontFoot), f),
     knee: toWorld(m.frontKnee, f),
     feet: m.feet.map(p => toWorld(tipOf(p), f)),
+    hurt: m.hurt ? hurtRects(m.hurt, f) : null,
   };
 }
 
-// Hurtboxes por região. Cabeça usa um quadrado menor que o cabelo volumoso.
-export function hurtboxes(w) {
+// Retângulos locais [x0,y0,x1,y1) → caixas no mundo, espelhadas pelo olhar.
+export function hurtRects(hurt, f) {
+  const s = f.scale || 1, out = {};
+  for (const [zone, list] of Object.entries(hurt)) {
+    out[zone] = list.map(([x0, y0, x1, y1]) => {
+      const a = f.x + x0 * f.facing * s, b = f.x + x1 * f.facing * s;
+      return { x: Math.min(a, b), y: f.y + y0 * s, w: Math.abs(b - a), h: (y1 - y0) * s };
+    });
+  }
+  return out;
+}
+
+// Hurtboxes por região, sempre como lista de caixas: { head: [...], body: [...], legs: [...] }.
+// Com `hurt` nos marcadores (pixels do quadro), as caixas seguem o desenho;
+// sem ele, uma caixa por região estimada pelos marcadores (método anterior).
+// Braços (antebraço e mão) só são atingíveis com `arms: true` — o duelo liga
+// isso durante o golpe, quando o membro está estendido — e contam como tronco.
+// Parado, a mão diante do corpo não aumenta o alcance de quem bate.
+export function hurtboxes(w, { arms = false } = {}) {
   if (!w) return {};
+  if (w.hurt) {
+    const out = {};
+    for (const [zone, list] of Object.entries(w.hurt)) {
+      if (zone === 'arms') continue;
+      if (list.length) out[zone] = list;
+    }
+    if (arms && w.hurt.arms?.length) out.body = [...(out.body || []), ...w.hurt.arms];
+    return out;
+  }
+  const one = markerHurtboxes(w), out = {};
+  for (const [zone, box] of Object.entries(one)) out[zone] = [box];
+  return out;
+}
+
+// Retângulo que envolve todas as caixas de uma região (desenho e testes).
+export function bounds(list) {
+  if (!list?.length) return null;
+  const x0 = Math.min(...list.map(b => b.x)), y0 = Math.min(...list.map(b => b.y));
+  const x1 = Math.max(...list.map(b => b.x + b.w)), y1 = Math.max(...list.map(b => b.y + b.h));
+  return { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
+}
+
+// Método anterior: uma caixa por região a partir dos marcadores.
+// Cabeça usa um quadrado menor que o cabelo volumoso.
+function markerHurtboxes(w) {
   const out = {};
   if (w.head) {
     // Do alto do cabelo (sem todo o volume) até o queixo: o soco no rosto conta.
@@ -86,3 +129,11 @@ export function grabBox(f, w) {
 }
 
 export const LIMB_SIZE = { fist: [6, 6], rearFist: [6, 6], foot: [9, 8], knee: [10, 10] };
+
+// Centro da hitbox do membro. O marcador é o pixel mais à frente do punho,
+// do tênis ou do joelho; a caixa termina nele, em vez de passar dele pela
+// metade da largura (o que dava 3 a 5 px de alcance a mais que o desenho).
+export function limbCenter(tip, limb, facing) {
+  if (!tip) return null;
+  return { x: tip.x - facing * LIMB_SIZE[limb][0] / 2, y: tip.y };
+}
