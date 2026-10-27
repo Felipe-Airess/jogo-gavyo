@@ -1,0 +1,22 @@
+{
+  "animacao": "05_guarda_rompida_refeita_6_quadros",
+  "frames": 6,
+  "dimensoes": [
+    128,
+    96
+  ],
+  "pivot": [
+    64,
+    88
+  ],
+  "status": "aceita_apenas_para_previa_por_avanco_na_conversa_sem_aprovacao_final",
+  "duracoes_ms_sugeridas": [
+    95,
+    100,
+    100,
+    110,
+    105,
+    145
+  ],
+  "observacao": "Versão refeita após rejeição da primeira. Ainda exigia refinamento anatômico; usuário avançou para próxima."
+}

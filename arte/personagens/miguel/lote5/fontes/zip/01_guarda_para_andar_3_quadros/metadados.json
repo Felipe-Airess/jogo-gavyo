@@ -1,0 +1,19 @@
+{
+  "animacao": "01_guarda_para_andar_3_quadros",
+  "frames": 3,
+  "dimensoes": [
+    128,
+    96
+  ],
+  "pivot": [
+    64,
+    88
+  ],
+  "status": "aceita_apenas_para_previa_por_avanco_na_conversa_sem_aprovacao_final",
+  "duracoes_ms_sugeridas": [
+    115,
+    100,
+    120
+  ],
+  "observacao": "Montagem de quadros da caminhada já existente, não novas poses geradas."
+}

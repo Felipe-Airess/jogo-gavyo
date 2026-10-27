@@ -445,8 +445,8 @@ test('Miguel compartilha as regras, mas só faz o que tem desenho', () => {
   assert.equal(can.guard, true);
   assert.equal(can.walk, true);
   assert.equal(can.attack, true);
-  for (const action of ['run', 'fall', 'rise']) assert.equal(can[action], true, action);
-  for (const action of ['crouch', 'clinch']) assert.equal(can[action], false, action);
+  for (const action of ['run', 'fall', 'rise', 'clinch']) assert.equal(can[action], true, action);
+  assert.equal(can.crouch, false, 'agachar ainda sem desenho');
   const d = withMiguel();
   const x = d.player.x;
   run(d, 300, { left: true });
@@ -723,7 +723,36 @@ test('golpes do Miguel acertam com o desenho e as caixas dele; sem desenho, subs
   const g = withMiguel();
   g.rival.state = 'down'; g.rival.x = g.player.x + 30;
   press(g, { attack: true });
-  assert.notEqual(g.player.move, 'groundPunch', 'sem arte de chão');
+  assert.equal(g.player.move, 'groundPunch', 'lote 5: soco no chão desenhado');
+  assert.equal(g.moveOf(g.player).clip, 'm5_groundPunch');
+});
+
+test('Miguel no chão: soco de martelo e pisada acertam quem está deitado', () => {
+  for (const [input, id, clip] of [[{ attack: true }, 'groundPunch', 'm5_groundPunch'], [{ kick: true }, 'groundKick', 'm5_stomp']]) {
+    let hits = 0;
+    for (const gap of [18, 24, 30, 36]) {
+      const d = withMiguel();
+      d.rival.state = 'down'; d.rival.t = 0; d.rival.x = d.player.x + gap;
+      press(d, input);
+      assert.equal(d.player.move, id);
+      assert.equal(d.moveOf(d.player).clip, clip);
+      run(d, 900);
+      if (d.lastHit?.move === id) hits++;
+    }
+    assert.ok(hits >= 2, `${id} acertou ${hits} de 4 distâncias`);
+  }
+});
+
+test('Miguel apanhando no chão encolhe (m5_groundHit) e volta ao deitado', () => {
+  const d = new Duel({ clips, markers, roster: { miguel: { clips: miguel, markers: miguelMarkers } } });
+  d.setCharacters(['sorriso', 'miguel']);
+  const v = d.rival;
+  v.state = 'down'; v.t = 0; v.x = d.player.x + 30; v.downMs = 3000;
+  press(d, { attack: true });
+  until(d, () => d.lastHit?.move === 'groundPunch', 900);
+  assert.equal(d.animation(v).clip, 'm5_groundHit');
+  run(d, miguel.m5_groundHit.totalMs + 400);
+  assert.equal(d.animation(v).clip, 'm4_lying');
 });
 
 test('Miguel: andar em guarda troca de quadro pela distância andada, não pelo relógio', () => {
@@ -787,6 +816,10 @@ test('Miguel: cima+K é o chute com passo na cintura; lote 4 dá jab no corpo e 
   const d = withMiguel(), m = d.movesBy.miguel.roundHead;
   assert.equal(m.clip, 'm3_stepKick');
   assert.deepEqual(m.targets, ['body', 'legs']);
+  // Chute alto do lote 5: pé no rosto, mas curto demais para a distância mínima entre corpos.
+  const foot = miguelMarkers.clips.m5_kickHigh[miguel.m5_kickHigh.contactFrames[0]].frontFoot;
+  assert.ok(foot.tipY <= -55 && foot.tipY >= -64, 'pé no rosto: ' + foot.tipY);
+  assert.ok(foot.tipX < 22, 'ainda colado ao corpo: fica sem comando até ser redesenhado');
   assert.equal(d.movesBy.miguel.jabBody.clip, 'm4_jabBody');
   assert.equal(d.movesBy.miguel.parryCounter.clip, 'm4_parryCounter');
 });
@@ -858,7 +891,7 @@ test('golpe em par: vítima travada na distância do desenho e no quadro do atac
       assert.equal(Math.round((v.x - a.x) * a.facing), m.pair.gap, 'distância do desenho');
       assert.equal(v.facing, -a.facing);
       const ref = d.animation(v), k = frameOf(m, a.moveT);
-      assert.equal(ref.clip, 'm4_fall');
+      assert.equal(ref.clip, 'm5_thrown');
       assert.equal(ref.frame, m.pair.victim.miguel.frames[k], 'mesmo quadro do atacante');
       seen.push(ref.frame);
     }
@@ -898,4 +931,91 @@ test('IA escolhe cada golpe pelo alcance dele (Miguel não joga jab no corpo de 
     }
     d.clock += 16;
   }
+});
+
+test('Miguel no clinch: pega, segura, joelhada que acerta o tronco, e soltar desenhado', () => {
+  const d = withMiguel(); d.rival.x = d.player.x + 26;
+  press(d, { grab: true });
+  assert.equal(d.player.state, 'clinchEntry');
+  assert.equal(d.animation(d.player).clip, 'm5_clinchGrab');
+  run(d, 260);
+  assert.equal(d.animation(d.player).clip, 'm5_clinchHold');
+  press(d, { kick: true });
+  assert.equal(d.player.move, 'knee');
+  assert.equal(d.animation(d.player).clip, 'm5_clinchKnee');
+  until(d, () => d.lastHit, 600);
+  assert.equal(d.lastHit.zone, 'body');
+  assert.equal(d.rival.state, 'held', 'joelhada mantém o alvo preso');
+  run(d, 400);
+  press(d, { attack: true });
+  assert.equal(d.player.move, 'knee', 'sem soco curto desenhado: J também dá joelhada');
+  until(d, () => d.player.state === 'clinch', 900);
+  press(d, { grab: true });
+  assert.equal(d.player.clinch, null);
+  assert.equal(d.animation(d.player).clip, 'm5_clinchRelease');
+});
+
+test('Miguel segurado curva (m5_held) e, ao escapar, toca a saída desenhada', () => {
+  const d = new Duel({ clips, markers, roster: { miguel: { clips: miguel, markers: miguelMarkers } } });
+  d.setCharacters(['sorriso', 'miguel']); d.rival.x = d.player.x + 26;
+  press(d, { grab: true });
+  assert.equal(d.rival.state, 'held');
+  assert.equal(d.animation(d.rival).clip, 'm5_held');
+  run(d, 250);
+  let out = null;
+  for (let i = 0; i < 14 && d.rival.clinch; i++) {
+    press(d, {}, { attack: true });
+    if (!d.rival.clinch) { out = d.animation(d.rival).clip; break; }
+    run(d, 100, {}, { right: true });
+    if (!d.rival.clinch && !out) out = d.animation(d.rival).clip;
+  }
+  assert.equal(d.rival.clinch, null);
+  assert.equal(out, 'm5_clinchEscape');
+});
+
+test('Miguel arremessa: puxa, empurra no quadro desenhado e a vítima cai', () => {
+  const d = withMiguel(); d.rival.x = d.player.x + 36;
+  Object.assign(d.rival.condition, { head: -500, body: -500 }); d.rival.balance = 1e6;
+  const seq = [{ attack: true }, { attack: true, right: true }, { grab: true }];
+  let i = 0, threw = false;
+  for (let t = 0; t < 2400; t += TICK) {
+    d.tick([i < seq.length && t >= i * 180 ? seq[i++] : {}, {}]);
+    if (d.player.move === 'takedown') { threw = true; assert.equal(d.moveOf(d.player).clip, 'm5_throw'); }
+  }
+  assert.ok(threw, 'entrou no arremesso');
+  assert.ok(d.events.some(e => e.type === 'hit' && e.kind === 'throw'), 'arremesso conectou');
+});
+
+test('Miguel arremessado: o resto da queda desenhada no chão, depois o deitado', () => {
+  const d = new Duel({ clips, markers, roster: { miguel: { clips: miguel, markers: miguelMarkers } } });
+  d.setCharacters(['sorriso', 'miguel']); d.rival.x = d.player.x + 40;
+  Object.assign(d.rival.condition, { head: -500, body: -500 }); d.rival.balance = 1e6;
+  const seq = [{ attack: true }, { attack: true, down: true }, { grab: true }];
+  let i = 0; const seen = new Set();
+  for (let t = 0; t < 2400; t += TICK) {
+    d.tick([i < seq.length && t >= i * 180 ? seq[i++] : {}, {}]);
+    if (d.rival.state === 'down') { const ref = d.animation(d.rival); seen.add(ref.clip + ':' + ref.frame); }
+  }
+  assert.ok(seen.has('m5_thrown:7') && seen.has('m5_thrown:8'), [...seen].join());
+  assert.ok([...seen].some(k => k.startsWith('m4_lying')), [...seen].join());
+});
+
+test('Miguel: andar começa e termina com a transição desenhada; sem fôlego fica cansado', () => {
+  const d = withMiguel(), p = d.player;
+  press(d, { right: true });
+  assert.equal(d.animation(p).clip, 'm5_walkStart');
+  run(d, 400, { right: true });
+  assert.equal(d.animation(p).clip, 'm4_walkFwd');
+  until(d, () => p.state === 'idle', 300);
+  assert.equal(d.animation(p).clip, 'm5_walkStop');
+  run(d, 300);
+  assert.equal(d.animation(p).clip, 'm3_idle');
+  p.stamina = 5;
+  assert.equal(d.animation(p).clip, 'm5_tired');
+});
+
+test('Miguel com a guarda rompida mostra a guarda rompida desenhada', () => {
+  const d = withMiguel(), p = d.player;
+  p.state = 'hitstun'; p.t = 0; p.stun = 500; p.reaction = 'body'; p.reactKind = 'guardBreak';
+  assert.equal(d.animation(p).clip, 'm5_guardBreak');
 });

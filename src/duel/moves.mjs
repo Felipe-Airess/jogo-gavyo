@@ -16,6 +16,11 @@ export const MAX_REPEAT = 2;
 const FIST_TARGETS = ['head', 'body'];
 const ALL_TARGETS = ['head', 'body', 'legs'];
 
+// Vítima do arremesso, quadro a quadro com quem arremessa (8 quadros, contato
+// no 5º). O Miguel sendo arremessado (m5_thrown) chega ao giro no contato; o
+// resto da queda toca já no chão (miguelRef, estado 'down').
+const THROW_VICTIM = { sorriso: { clip: 'fall', frames: [0, 0, 1, 1, 2, 3, 3, 3] }, miguel: { clip: 'm5_thrown', frames: [0, 2, 3, 5, 6, 6, 6, 6] } };
+
 const SPEC = {
   jab: { name: 'JAB', clip: 'r3_jab_head', limb: 'fist', power: 1, damage: 7, balance: 8, hitstun: 300, blockstun: 190, push: 7, cost: 5, links: { kick: 'punchKick' } },
   jabBody: { name: 'JAB NO CORPO', clip: 'r3_jab_body', limb: 'fist', power: 1, damage: 7, balance: 7, hitstun: 300, blockstun: 190, push: 6, cost: 5 },
@@ -42,7 +47,7 @@ const SPEC = {
     // sincronia quadro a quadro com quem arremessa (ver Duel.updatePair).
     pair: { gap: 20, when: 'combo', reach: 44,
       contacts: [{ frame: 4, zone: 'body', lands: true }],
-      victim: { sorriso: { clip: 'fall', frames: [0, 0, 1, 1, 2, 3, 3, 3] }, miguel: { clip: 'm4_fall', frames: [0, 0, 1, 2, 3, 4, 5, 5] } } } },
+      victim: THROW_VICTIM } },
   groundPunch: { name: 'SOCO NO CHÃO', clip: 'clinchFinish', times: [45, 40, 55, 55, 65, 65, 70, 110], active: [4], limb: 'fist', power: 2, damage: 13, balance: 0, hitstun: 0, blockstun: 0, push: 0, cost: 9,
     ground: true },
   groundKick: { name: 'CHUTE NO CHÃO', clip: 'groundFluid', times: [50, 45, 45, 50, 40, 60, 60, 45, 40, 40, 45, 80], active: [6, 7], limb: 'foot', power: 3, damage: 16, balance: 0, hitstun: 0, blockstun: 0, push: 0, cost: 12,
@@ -58,7 +63,7 @@ const SPEC = {
 
 // Miguel (lotes 3 e 4): mesmos golpes e números do Sorriso onde existe desenho
 // equivalente; tempos e quadros vêm do atlas (scripts/add-miguel-lote3.py e
-// add-miguel-lote4.py). Sem desenho: impulso, combinações, chão e arremesso —
+// add-miguel-lote4.py). Sem desenho: impulso e soco curto no clinch —
 // `MOVE_FALLBACK` troca pelo golpe mais próximo.
 const MIGUEL_SPEC = {
   jab: { ...SPEC.jab, clip: 'm3_jab', links: undefined },
@@ -67,9 +72,10 @@ const MIGUEL_SPEC = {
   overhand: { ...SPEC.overhand, clip: 'm3_overhand', whiff: undefined },
   roundBody: { ...SPEC.roundBody, clip: 'm3_roundKick', name: 'CHUTE CIRCULAR' },
   // Cima+K: chute com passo do lote 3, na cintura (pé a −25/−28 px no
-  // contato): mira tronco e perna, dano de chute médio. O chute alto do lote 4
-  // (m4_kickHigh) fica no atlas sem comando: o pé foi desenhado no topo da
-  // cabeça (−65 px), acima da caixa da cabeça de quem está em guarda (−60).
+  // contato): mira tronco e perna, dano de chute médio. Os chutes altos ficam
+  // no atlas sem comando: m4_kickHigh tem o pé no topo da cabeça (−65 px) e
+  // m5_kickHigh tem o pé no rosto (−58) mas colado ao corpo (17 px à frente);
+  // os corpos nunca ficam a menos de ~35 px e ele não alcança ninguém.
   roundHead: { ...SPEC.roundHead, clip: 'm3_stepKick', name: 'CHUTE COM PASSO', damage: 14, balance: 24, push: 16, targets: ['body', 'legs'] },
   hook: { ...SPEC.hook, clip: 'm4_hook', name: 'GANCHO' },
   jabBody: { ...SPEC.jabBody, clip: 'm4_jabBody', targets: ['body'] },
@@ -90,6 +96,18 @@ Object.assign(MIGUEL_SPEC, {
     hits: [{ frames: [2], targets: ['head'], scale: 0.4 }, { frames: [6], targets: ['head'], scale: 0.6, react: 'hook' }, { frames: [10], limb: 'knee', targets: ['body', 'head'], scale: 1 }] },
   comboLowHigh: { name: 'CHUTE BAIXO > ALTO', clip: 'm4_comboLowHigh', limb: 'foot', power: 3, damage: 18, balance: 26, hitstun: 520, blockstun: 270, push: 12, cost: 22, finisher: true,
     hits: [{ frames: [3, 4], targets: ['legs'], scale: 0.5 }, { frames: [10], targets: ['head', 'body'], scale: 1, react: 'hook' }] },
+});
+// Lote 5: arremesso, chão e clinch do Miguel. Tempos e contato vêm do atlas
+// (scripts/add-miguel-lote5.py); dano e custo iguais aos do Sorriso.
+Object.assign(MIGUEL_SPEC, {
+  // Puxa pelo braço e empurra por cima do quadril; contato no empurrão (quadro 5).
+  takedown: { ...SPEC.takedown, clip: 'm5_throw', times: undefined, active: [4],
+    pair: { ...SPEC.takedown.pair, contacts: [{ frame: 4, zone: 'body', lands: true }], victim: THROW_VICTIM } },
+  // Ajoelhado ao lado: o martelo desce depois de o braço subir (quadro 6).
+  groundPunch: { ...SPEC.groundPunch, clip: 'm5_groundPunch', times: undefined, active: [5] },
+  // Joelho sobe e o pé desce no tronco (quadro 4).
+  groundKick: { ...SPEC.groundKick, clip: 'm5_stomp', name: 'PISADA', times: undefined, active: [3] },
+  knee: { ...SPEC.knee, clip: 'm5_clinchKnee', times: undefined, active: undefined },
 });
 export const CHARACTER_SPECS = { sorriso: SPEC, miguel: MIGUEL_SPEC };
 // Sem desenho: o golpe mais próximo. Os novos (uppercut, combos) caem no que o
