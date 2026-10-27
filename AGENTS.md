@@ -209,6 +209,19 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
 * IA também arremessa (`AI_LEVELS.throw`) e bate em quem está no chão.
 * Simulação IA × IA: mediana 20 s, mínimo 6 s; ~1 aparo por luta.
 
+## Acompanhar (provisório, `STEP_IN` em `duel.mjs`)
+
+* Golpe emendado avança até 8 px durante a preparação quando a borda da
+  região mirada (caixas ≥ 16 px², no quadro atual do alvo) está fora do
+  alcance, ou 4 px com a frente apertada. O pé desliza esse tanto — é
+  provisório até existirem golpes com passo desenhado
+  (`arte/personagens/miguel/LISTA-ANIMACOES.md`), quando o avanço passa a
+  vir dos pés medidos, como na corrida.
+* Resultado (apertando a cada 180 ms): jab → direto → gancho → circular e
+  jab no corpo → direto → gancho → circular entram inteiros; jab → jab
+  entra (raspão). Chute na perna depois de soco ainda passa por baixo: a
+  perna do desenho de reação fica mais baixa que o chute.
+
 ## Tela (index.html / style.css)
 
 * Só o jogo: botões Jogar/Pausar e ☰ por cima, no canto. Seletores, Colisões,

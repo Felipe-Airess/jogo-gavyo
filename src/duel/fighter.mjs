@@ -40,7 +40,7 @@ export function createFighter(id, character, x, facing, clips) {
     gait: 0, runDistance: 0, walkRel: 0,
     condition: freshCondition(), balance: 100, stamina: 100,
     headRecent: 0, rockedUntil: -1,
-    guardAt: -1e9, parryUntil: 0, downMs: 0, downExtra: 0,
+    guardAt: -1e9, parryUntil: 0, downMs: 0, downExtra: 0, stepLeft: 0, stepRate: 0,
     buffer: new CommandBuffer(), stun: 0, reaction: null,
     clinch: null, result: null, ko: false, invulnerable: false,
     can: capabilities(character, clips),

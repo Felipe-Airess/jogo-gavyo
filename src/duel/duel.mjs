@@ -21,6 +21,10 @@ export const HITSTOP = { block: 50, light: 66, medium: 83, heavy: 116 };
 // `maxExtend` no total; arremesso deixa no chão `thrownMs`.
 export const PARRY = { window: 140, stagger: 480, counter: 520 };
 export const GROUND = { reach: 46, extend: 320, maxExtend: 1600, downMs: 700, thrownMs: 1000 };
+// Acompanhar (provisório, até existir golpe com passo desenhado): o golpe
+// emendado avança até `max` px durante a preparação quando o alvo recuou além
+// do alcance, ou sempre que a frente estiver apertada. O pé desliza esse tanto.
+export const STEP_IN = { max: 8, forward: 4, margin: 12, bite: 4 };
 export const COMBO = { hitPush: 0.5, push: 0.35, scale: [1, 1, 1, 0.85, 0.72] };
 const DOWN = new Set(['knockdown', 'down', 'getup', 'ko']);
 const CLINCH_STATES = new Set(['clinchEntry', 'clinch', 'clinchStrike', 'held']);
@@ -287,6 +291,20 @@ export class Duel {
     // salto e mais rápido. Fica sempre ao menos um quadro antes do contato.
     const entry = from ? this.entryFrame(from, m) : 0;
     f.state = 'attack'; f.t = 0; f.move = id; f.moveT = m.times.slice(0, entry).reduce((a, b) => a + b, 0);
+    f.stepLeft = 0;
+    if (chained && !m.ground && !m.throw) {
+      // Distância até a borda mais próxima das regiões que o golpe mira, no
+      // quadro atual do alvo (a reação desenhada pode recuar a cabeça ou a perna).
+      const o = this.other(f), boxes = this.hurtboxesOf(o);
+      // Fragmentos de poucos pixels (mão, contorno) não contam: dariam só raspão.
+      const edges = m.targets.flatMap(z => (boxes[z] || []).filter(b => b.w * b.h >= 16).map(b => (f.facing > 0 ? b.x - f.x : f.x - (b.x + b.w))));
+      const edge = edges.length ? Math.min(...edges) : Math.abs(o.x - f.x) - STEP_IN.margin;
+      const need = edge - (this.reach[id] || 30) + STEP_IN.bite;
+      const forward = (f.input?.right && f.facing > 0) || (f.input?.left && f.facing < 0);
+      const step = Math.min(STEP_IN.max, Math.max(need, forward ? STEP_IN.forward : 0));
+      const prep = m.activeStart - f.moveT;
+      if (step > 0.5 && prep > 0) { f.stepLeft = step; f.stepRate = step / prep; }
+    }
     f.connected = false; f.hitDone = false; f.prevTip = null;
     // Socos do lote 3 mantêm o pé de trás plantado no pivô: sem avanço extra
     // (avançar o sprite faria o pé deslizar). Só o soco de impulso conserva a corrida.
@@ -318,6 +336,11 @@ export class Duel {
   updateAttack(f, dt) {
     const s = dt / 1000, m = this.moves[f.move];
     f.moveT += dt;
+    if (f.stepLeft > 0) {
+      const dx = Math.min(f.stepLeft, f.stepRate * dt);
+      f.x = clamp(f.x + f.facing * dx, STAGE.minX, STAGE.maxX);
+      f.stepLeft -= dx;
+    }
     if (m.carry) { f.vx = approach(f.vx, 0, m.carry * 2 * s); this.slide(f, s, 0); }
     else { f.vx = approach(f.vx, 0, 400 * s); this.slide(f, s, 0); }
     const o = this.other(f);
