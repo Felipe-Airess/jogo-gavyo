@@ -6,6 +6,7 @@ import{createArt,lettering}from'./art.js';
 import{TargetView}from'./target-view.mjs';
 import{SORRISO_ASSET,MIGUEL_ASSET}from'./assets.js';
 import{MiguelView}from'./miguel-view.mjs';
+import{createMiguelCorridorMoves,miguelCorridorMeta,miguelPlayerClips,MIGUEL_CAN,MIGUEL_FALLBACK}from'./miguel-corridor.mjs';
 import{Blood}from'./blood.mjs';
 import{CombatAudio}from'./combat-audio.mjs';
 import{FixedStep,lerp}from'./core/fixed-step.mjs';
@@ -15,10 +16,10 @@ const $=id=>document.getElementById(id),ui={play:$('play'),debug:$('debug'),rese
 let game,current='Corridor';const active=()=>game.scene.getScene(current);
 class Corridor extends Phaser.Scene{
  constructor(){super('Corridor');this.mode='title';this.debugVisible=false;this.hudClock=0;this.cameraPosition=0;}
- preload(){this.load.spritesheet('sorriso-sheet',SORRISO_ASSET.image,{frameWidth:SORRISO_ASSET.frameWidth,frameHeight:SORRISO_ASSET.frameHeight});this.load.json('sorriso-data',SORRISO_ASSET.data);this.load.spritesheet('miguel-sheet',MIGUEL_ASSET.image,{frameWidth:MIGUEL_ASSET.frameWidth,frameHeight:MIGUEL_ASSET.frameHeight});this.load.json('miguel-data',MIGUEL_ASSET.data);this.load.json('sorriso-markers','assets/sorriso-markers.json');}
+ preload(){this.load.spritesheet('sorriso-sheet',SORRISO_ASSET.image,{frameWidth:SORRISO_ASSET.frameWidth,frameHeight:SORRISO_ASSET.frameHeight});this.load.json('sorriso-data',SORRISO_ASSET.data);this.load.spritesheet('miguel-sheet',MIGUEL_ASSET.image,{frameWidth:MIGUEL_ASSET.frameWidth,frameHeight:MIGUEL_ASSET.frameHeight});this.load.json('miguel-data',MIGUEL_ASSET.data);this.load.json('sorriso-markers','assets/sorriso-markers.json');this.load.json('miguel-markers','assets/miguel-markers.json');}
  create(){
   if(!this.textures.exists('sorriso-sheet')||!this.textures.exists('miguel-sheet')||!this.cache.json.get('miguel-data')){$('loading').textContent='Não foi possível carregar a folha. Reabra pelo INICIAR.cmd.';return;}
-  this.clips=Object.fromEntries(this.cache.json.get('sorriso-data').clips.map(c=>[c.id,c]));createArt(this);this.model=new Battle(2,731,createBuildMoves(this.clips));this.stepper=new FixedStep(60);this.prev=null;this.model.artClips=this.clips;this.blood=new Blood();this.combatAudio=new CombatAudio();this.add.image(0,0,'hallway').setOrigin(0);
+  this.clips=Object.fromEntries(this.cache.json.get('sorriso-data').clips.map(c=>[c.id,c]));createArt(this);this.model=new Battle(2,731,createBuildMoves(this.clips));this.stepper=new FixedStep(60);this.prev=null;this.model.artClips=this.clips;this.playerName='sorriso';this.miguelClips=miguelPlayerClips(Object.fromEntries(this.cache.json.get('miguel-data').clips.map(c=>[c.id,c])),this.cache.json.get('miguel-markers')||{clips:{}});this.blood=new Blood();this.combatAudio=new CombatAudio();this.add.image(0,0,'hallway').setOrigin(0);
   this.shadow=this.add.ellipse(76,146,25,4,0x172723,0.6);this.sorriso=this.add.image(76,146,'sorriso-sheet',0).setOrigin(SORRISO_ASSET.originX,SORRISO_ASSET.originY);
   this.miguel=new MiguelView(this,this.cache.json.get('miguel-data'));$('miguel-pose').onchange=()=>{this.miguel.setPose($('miguel-pose').value);ui.game.focus({preventScroll:true});};
   this.enemyViews=this.model.enemies.map(()=>({view:new TargetView(this,this.clips),shadow:this.add.ellipse(0,146,25,5,0x172723,0.6)}));
@@ -39,10 +40,13 @@ class Corridor extends Phaser.Scene{
   ui.play.onclick=()=>{active().toggle();ui.game.focus({preventScroll:true});};ui.reset.onclick=()=>{active().restart();ui.game.focus({preventScroll:true});};ui.debug.onclick=()=>{const s=active();s.debugVisible=!s.debugVisible;ui.debug.setAttribute('aria-pressed',String(s.debugVisible));ui.game.focus({preventScroll:true});};
   ui.mode.onchange=()=>{const duel=ui.mode.value==='duel',from=active();from.changeMode(from.mode==='playing'?'paused':from.mode);current=duel?'Duel':'Corridor';const sm=this.game.scene;if(duel){sm.sleep('Corridor');sm.run('Duel');}else{sm.sleep('Duel');sm.run('Corridor');}ui.training.disabled=duel;$('miguel-pose').disabled=duel;document.body.classList.toggle('duel-mode',duel);requestAnimationFrame(fit);ui.debug.setAttribute('aria-pressed','false');for(const s of game.scene.getScenes(false))s.debugVisible=false;ui.game.focus({preventScroll:true});};ui.training.onchange=()=>{this.model.setMode(ui.training.value);ui.game.focus({preventScroll:true});};
   // Lutador do jogador no duelo (o rival segue sendo o Sorriso da IA).
-  $('fighter').onchange=()=>{const d=this.game.scene.getScene('Duel');if(d?.setPlayer)d.setPlayer($('fighter').value);ui.game.focus({preventScroll:true});};
+  $('fighter').onchange=()=>{const d=this.game.scene.getScene('Duel');if(d?.setPlayer)d.setPlayer($('fighter').value);this.setPlayer($('fighter').value);ui.game.focus({preventScroll:true});};
   this.renderWorld(0);this.paintHud();this.paintOverlay();$('loading').remove();
   window.gaviao={game:this.game,duel:()=>game.scene.getScene('Duel')?.model?.snapshot(),scene:()=>active()?.scene.key,snapshot:()=>({version:BUILD_VERSION,touch:this.touch.held(),sprite:{frame:this.sorriso.frame.name,flip:this.sorriso.flipX},mode:this.mode,debug:this.debugVisible,miguel:this.miguel.snapshot(),player:{...this.model.player},enemies:this.model.enemies.map(d=>({...d,ragdoll:d.ragdoll?{nodes:d.ragdoll.nodes.map(n=>({...n})),age:d.ragdoll.age}:null})),target:this.model.nearest?.id,combo:{...this.model.combo},lastHit:this.model.lastHit,attack:this.model.attackBox(),message:this.model.message,fps:this.game.loop.actualFps,renderer:this.game.renderer.type,canvas:[this.game.canvas.width,this.game.canvas.height]})};
  }
+ // Lutador do jogador no corredor: Sorriso (regras e arte originais) ou Miguel
+ // (arte dele, sem corrida/clinch/limpar a mão; ver miguel-corridor.mjs).
+ setPlayer(name){if(!this.model||name===this.playerName)return;this.playerName=name;const m=name==='miguel';this.model.moves=m?createMiguelCorridorMoves(this.miguelClips):createBuildMoves(this.clips);this.model.can=m?{...MIGUEL_CAN}:{run:true,grab:true,wipe:true};this.model.fallback=m?MIGUEL_FALLBACK:{};this.model.playerClips=m?this.miguelClips:null;this.sorriso.setTexture(m?'miguel-sheet':'sorriso-sheet');this.miguel.image.setVisible(!m);this.miguel.label.setVisible(!m);this.miguel.shadow.setVisible(!m);this.restart();if(this.mode==='playing')this.changeMode('paused');}
  changeMode(mode){this.mode=mode;this.stepper?.reset();this.input.keyboard.resetKeys();this.pressed?.clear();this.touch?.clear();ui.play.textContent=mode==='playing'?'Pausar':mode==='title'?'Jogar':mode==='dead'?'Tentar de novo':'Continuar';this.paintOverlay();}
  toggle(){this.combatAudio?.unlock();if(this.mode==='dead')this.restart();else this.changeMode(this.mode==='playing'?'paused':'playing');}
  restart(){this.miguel.setPose($('miguel-pose').value);this.model.reset();this.model.setMode(ui.training.value);this.blood.reset();this.lastBloodHit=null;this.cameraPosition=0;this.changeMode('playing');this.renderWorld(0);this.paintHud();}
@@ -65,7 +69,7 @@ class Corridor extends Phaser.Scene{
  }
  renderWorld(delta){
   this.miguel.render(this.mode==='playing'?delta:0);
-  const p=this.model.player,a=this.mode==='playing'&&this.model.hitstop<=0&&this.prev?this.stepper.alpha:1,px=this.prev?lerp(this.prev.x,p.x,a):p.x,py=this.prev?lerp(this.prev.y,p.y,a):p.y;this.sorriso.setPosition(Math.round(px+(p.visualOffsetX||0)),Math.round(py-(p.fallHeight||0))).setFrame(spriteFrame(p,this.clips,this.model.moves)).setFlipX(spriteFlip(p)).setDepth(p.y+0.6).setAlpha(p.invulnerable>0&&Math.floor(p.invulnerable/70)%2===0?.5:1);this.shadow.setPosition(Math.round(px),Math.round(py)).setDepth(p.y-1);
+  const p=this.model.player,a=this.mode==='playing'&&this.model.hitstop<=0&&this.prev?this.stepper.alpha:1,px=this.prev?lerp(this.prev.x,p.x,a):p.x,py=this.prev?lerp(this.prev.y,p.y,a):p.y;this.sorriso.setPosition(Math.round(px+(p.visualOffsetX||0)),Math.round(py-(p.fallHeight||0))).setFrame(this.playerName==='miguel'?miguelCorridorMeta(p,this.model.moves,this.miguelClips).index:spriteFrame(p,this.clips,this.model.moves)).setFlipX(this.playerName==='miguel'?p.facing<0:spriteFlip(p)).setDepth(p.y+0.6).setAlpha(p.invulnerable>0&&Math.floor(p.invulnerable/70)%2===0?.5:1);this.shadow.setPosition(Math.round(px),Math.round(py)).setDepth(p.y-1);
   this.bars.clear();this.effects.clear();this.debugLayer.clear();
   for(let i=0;i<this.model.enemies.length;i++){
    const d=this.model.enemies[i],view=this.enemyViews[i];const dx=this.prev&&d.state!=='fallen'?lerp(this.prev.enemies[i],d.x,a):d.x;view.view.render(this.model,d,dx);view.shadow.setPosition(Math.round(dx),d.y).setDepth(d.y-1);
@@ -75,14 +79,14 @@ class Corridor extends Phaser.Scene{
   }
   const hit=this.model.lastHit;if(hit&&this.model.clock-hit.at<90){const{point}=hit;this.effects.lineStyle(1,hit.blocked?0xaecb8c:0xe0c795);this.effects.lineBetween(point.x-3,point.y-3,point.x+3,point.y+3);this.effects.lineBetween(point.x+3,point.y-3,point.x-3,point.y+3);}
   this.blood.render(this.effects);
-  this.blood.renderHands(this.effects,p,spriteMeta(p,this.clips,this.model.moves),this.model.clock);
+  this.blood.renderHands(this.effects,p,this.playerName==='miguel'?miguelCorridorMeta(p,this.model.moves,this.miguelClips):spriteMeta(p,this.clips,this.model.moves),this.model.clock);
   if(p.counterUntil>this.model.clock){this.effects.lineStyle(1,0xc3c9a2,.9);this.effects.strokeCircle(p.x,p.y-53,4);}
   if(this.debugVisible){const a=this.model.attackBox();if(a){this.debugLayer.lineStyle(1,0xe39777);this.debugLayer.strokeRect(a.x,a.y,a.w,a.h);}const b=this.model.body();this.debugLayer.lineStyle(1,0x9cad8a);this.debugLayer.strokeRect(b.x,b.y,b.w,b.h);}
   const nearest=this.model.nearest,follow=nearest?.state==='fallen'&&Math.abs(nearest.x-p.x)<180?(p.x+nearest.x)/2-160:p.x-120,target=Phaser.Math.Clamp(follow,0,320);if(this.mode==='playing')this.cameraPosition+=(target-this.cameraPosition)*(1-Math.exp(-delta/85));this.cameras.main.scrollX=Math.round(this.cameraPosition);
  }
  paintHud(){
   const c=this.hudTexture.context,p=this.model.player,d=this.model.nearest;c.clearRect(0,0,320,28);c.fillStyle='#142321';c.fillRect(0,0,320,27);c.fillStyle='#8c956f';c.fillRect(0,26,320,1);
-  lettering(c,'SORRISO',7,5,'#d8d5b7');for(let i=0;i<5;i++){c.fillStyle=i<p.hp?'#b3b878':'#394b3d';c.fillRect(7+i*8,15,6,3);}
+  lettering(c,this.playerName==='miguel'?'MIGUEL':'SORRISO',7,5,'#d8d5b7');for(let i=0;i<5;i++){c.fillStyle=i<p.hp?'#b3b878':'#394b3d';c.fillRect(7+i*8,15,6,3);}
   if(d){lettering(c,'ALVO '+d.id,72,5,'#c7c4a1');for(const[label,key,x,max,color]of[['C','head',112,70,'#cab47a'],['T','body',146,80,'#a3b180'],['B','arms',180,60,'#87aeb0'],['P','legs',214,60,'#b39d80']]){lettering(c,label,x,5,color);c.fillStyle='#354438';c.fillRect(x+6,5,24,4);c.fillStyle=color;c.fillRect(x+6,5,Math.round(24*d.parts[key]/max),4);}}
   c.fillStyle='#354438';c.fillRect(7,21,38,2);c.fillStyle=p.stamina<24?'#a97560':'#91a17b';c.fillRect(7,21,Math.round(38*p.stamina/100),2);
   lettering(c,'SEQ '+this.model.combo.hits,72,16,'#acb899');const action=p.state==='attack'||p.state==='knee'?this.model.moves[p.move].name:p.state==='clinchEntry'?'ABRINDO GUARDA':p.state==='clinch'?'CLINCH '+p.strikes:p.state==='parry'||p.counterUntil>this.model.clock?'APARO > J':p.state==='wipe'?'LIMPANDO A MAO':p.state==='brake'?'FREANDO':p.state==='stumble'?'DESEQUILIBRIO':'MELHOR '+this.model.combo.best;lettering(c,action.slice(0,24),108,16,'#d1bd85');if(this.debugVisible)lettering(c,'FPS '+Math.round(this.game.loop.actualFps||0),269,5,'#c1c7a7');this.hudTexture.refresh();

@@ -22,7 +22,7 @@ contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
 
 ```bash
 npm start            # servidor local em http://127.0.0.1:4173 (abre o navegador)
-npm test             # 154 testes: core, duelo e históricos — todos passando
+npm test             # 157 testes: core, duelo e históricos — todos passando
 npm run test:legacy  # 22 testes antigos — todos passando
 npm run build        # gera build/ (≈4,7 MB, ignorado pelo Git)
 python scripts/extract-markers.py sorriso miguel   # regenera *-markers.json (Python 3 + Pillow)
@@ -270,6 +270,22 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
 * Varredura do membro só até `SWEEP_MAX` (45 px) entre ticks: salto maior
   (troca de pé no marcador, quadros do meio não desenhados) não arrasta caixa.
 * Diferença de arte que fica: tênis brancos no lote 4 (escuros no lote 3).
+
+## Miguel no corredor (27/10, pedido do usuário)
+
+* Seletor **Lutador** vale nos dois modos. `Corridor.setPlayer` troca golpes,
+  textura, nome no HUD e esconde o Miguel-alvo; reinicia e pausa.
+* `src/miguel-corridor.mjs`: golpes do corredor com clipes do Miguel
+  (jab=jab no corpo m4, jabHead=m3_jab, cross/crossBody/drive/kick/lowKick
+  do lote 3, low=gancho m4, highKick=chute com passo), tempos do atlas, mesmas
+  fórmulas de `build-moves`. Caixa de ataque na ponta do punho/pé dos
+  marcadores (`miguelPlayerClips` → `fist/foot` por quadro).
+* `battle.mjs` ganhou `can` (run/grab/wipe) e `fallback` (golpe sem desenho →
+  substituto desenhado: giratório → gancho, impulso → pesado, combos → chute
+  ou direto); padrão sem mudança para o Sorriso. Golpe inexistente mostra
+  "Golpe ainda sem desenho." `playerClips` separa a arte do jogador da dos alvos.
+* Regra do corredor mantida: cabeça do alvo em pé fica a −67; corpo primeiro.
+* Sem desenho: corrida, clinch, limpar a mão, queda (cai segura m4_hitHead 2).
 
 ## Acompanhar (provisório, `STEP_IN` em `duel.mjs`)
 

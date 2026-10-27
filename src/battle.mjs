@@ -38,7 +38,10 @@ export const overlap=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
 export function frameAt(time,m){let t=Math.max(0,time);for(let i=0;i<m.times.length;i++){if(t<m.times[i])return m.frames[i];t-=m.times[i];}return m.frames.at(-1);}
 export function enemy(id,x,y=146){return{id,x,y,facing:-1,state:'idle',parts:{...PARTS},vx:0,stun:0,timer:0,reaction:0,zone:null,lowered:false,unbalance:0,hits:0,guard:false,ragdoll:null,recoveryFrom:null,recovery:0,knockedOut:false,aiTimer:700+id*180};}
 export class Battle{
- constructor(count=2,seed=731,moveSet=MOVES){this.moves=moveSet;this.count=count;this.seed=seed;this.mode='reaction';this.reset();}
+ constructor(count=2,seed=731,moveSet=MOVES){this.moves=moveSet;
+  // O que o lutador do jogador tem desenhado (Miguel não corre, não agarra, não limpa a mão)
+  // e o golpe desenhado que substitui um que falta. Padrão: tudo, sem troca.
+  this.can={run:true,grab:true,wipe:true};this.fallback={};this.count=count;this.seed=seed;this.mode='reaction';this.reset();}
  random(){this.rngState=(Math.imul(this.rngState,1664525)+1013904223)>>>0;return this.rngState/4294967296;}
  reset(){
   this.rngState=this.seed>>>0;
@@ -83,13 +86,15 @@ export class Battle{
  }
  attackBox(){
   const p=this.player,m=this.moves[p.move];if(!['attack','knee'].includes(p.state)||!m||!m.active.includes(frameAt(p.elapsed,m)))return null;
-  const f=frameAt(p.elapsed,m),[clip,index]=m.sequence?.[f]||[m.clip,f],art=this.artClips?.[clip]?.frames[index];
+  const f=frameAt(p.elapsed,m),[clip,index]=m.sequence?.[f]||[m.clip,f],art=(this.playerClips||this.artClips)?.[clip]?.frames[index];
   const kick=KICKS.has(p.move)||p.move==='groundStomp',tip=m.ground||p.move==='knee'?null:kick?art?.foot:art?.fist;
   const[w,h]=m.size,[x,y]=tip?[tip.x,tip.y]:m.point;return{x:p.x+p.facing*x-w/2,y:p.y+y-h/2,w,h};
  }
- choose(input){
+ // Golpe escolhido; sem desenho para ele, o substituto de this.fallback (se houver).
+ choose(input){const n=this.chooseRaw(input),f=this.fallback[n];return this.moves[n]||!f||!this.moves[f]?n:f;}
+ chooseRaw(input){
   const p=this.player,dir=Number(!!input.right)-Number(!!input.left),recent=p.state==='attack'||this.clock-(p.actionAt??-1000)<620;
-  const ground=(input.down&&input.kick)||(input.attack)||(input.run&&input.kick)?this.groundTarget:null;
+  const ground=((input.down&&input.kick)||(input.attack)||(input.run&&input.kick))&&this.moves.groundPunch?this.groundTarget:null;
   if(ground){p.facing=this.groundHead(ground).x>=p.x?1:-1;p.groundId=ground.id;return input.kick?(input.run?'groundStomp':'groundKick'):'groundPunch';}
   if(p.counterUntil>this.clock&&input.attack){const d=this.enemies.find(e=>e.id===p.counterTarget);if(d&&!d.knockedOut&&Math.abs(d.x-p.x)<52&&Math.abs(d.y-p.y)<9){p.facing=d.x>p.x?1:-1;p.counterUntil=0;return input.down?(p.parryArm==='right'?'counterBodyLeft':'counterBody'):p.parryArm==='right'?'counterLeft':'counterStraight';}}
   if(input.up&&input.attack&&this.moves.jabHead)return'jabHead';
@@ -103,7 +108,7 @@ export class Battle{
   const a=this.advantage;if(a&&this.clock-a.at<750&&a.target.parts.head>0)return a.zone==='body'?'cross':a.zone==='head'?'drive':'jab';return'jab';
  }
  begin(name){
-  const p=this.player,m=this.moves[name];if(!m||p.stamina<m.cost){this.buffer=null;this.message='Sem fôlego: recupere a base.';return false;}
+  const p=this.player,m=this.moves[name];if(!m||p.stamina<m.cost){this.buffer=null;this.message=m?'Sem fôlego: recupere a base.':'Golpe ainda sem desenho.';return false;}
   const chaining=p.state==='attack';p.chainCount=m.clinch?0:chaining?p.chainCount+1:1;p.stamina-=m.cost;p.exhaustedAttack=p.stamina<=FATIGUE.exhaustedBelow;p.runMomentum=Math.hypot(p.vx,p.vy);
   if(name==='reverse')p.facing*=-1;
   if(m.clinch){const d=this.enemies.find(e=>e.id===p.grabbed);if(d){d.clinchMove=name;d.clinchProgress=0;}}
@@ -161,7 +166,7 @@ export class Battle{
    if(hits.length){this.damage(d,m,hits[0].zone,hits[0].point);return;}
   }
  }
- grab(){
+ grab(){if(!this.can.grab)return;
   const p=this.player;if(['clinchEntry','clinch','knee'].includes(p.state)){this.release();return;}
   if(p.state==='attack'){p.grabUntil=Math.max(this.moves[p.move].chain,p.elapsed)+260;this.message='Agarrão preparado após o golpe.';return;}
   if(!['idle','walk','run','brake','guard'].includes(p.state))return;
@@ -254,9 +259,9 @@ export class Battle{
   const before=Math.abs(p.vx);if(!dx&&!dy&&p.wasRunning&&before>20&&p.state!=='brake'){p.state='brake';p.elapsed=0;}
   const oldState=p.state;p.vx=approach(p.vx,dx/length*max,(dx?300:210)*s);p.vy=approach(p.vy,dy/length*max,(dy?300:260)*s);const oldX=p.x,oldY=p.y;this.move(p.vx*s,p.vy*s);
   if(Math.abs(p.vx)>10)p.facing=Math.sign(p.vx);else if(dx)p.facing=Math.sign(dx);
-  if(dx||dy){p.state=input.run&&p.stamina>0?'run':'walk';p.wasRunning=p.state==='run';p.idleTime=0;if(p.state==='run'&&oldState!=='run')p.runStart=0;p.runStart=(p.runStart||0)+dt;}
-  else if(Math.hypot(p.vx,p.vy)<2){p.state='idle';p.wasRunning=false;if(oldState!=='idle')p.elapsed=0;p.idleTime+=dt;if(p.idleTime>2300&&(p.handBlood.left||p.handBlood.right)){p.state='wipe';p.elapsed=0;p.wipeStart={...p.handBlood};}}
+  if(dx||dy){p.state=input.run&&this.can.run&&p.stamina>0?'run':'walk';p.wasRunning=p.state==='run';p.idleTime=0;if(p.state==='run'&&oldState!=='run')p.runStart=0;p.runStart=(p.runStart||0)+dt;}
+  else if(Math.hypot(p.vx,p.vy)<2){p.state='idle';p.wasRunning=false;if(oldState!=='idle')p.elapsed=0;p.idleTime+=dt;if(this.can.wipe&&p.idleTime>2300&&(p.handBlood.left||p.handBlood.right)){p.state='wipe';p.elapsed=0;p.wipeStart={...p.handBlood};}}
   else if(p.state!=='brake')p.state='walk';
-  updateGait(p,p.x-oldX,p.y-oldY,dt,this.artClips);
+  updateGait(p,p.x-oldX,p.y-oldY,dt,this.playerClips||this.artClips);
  }
 }
