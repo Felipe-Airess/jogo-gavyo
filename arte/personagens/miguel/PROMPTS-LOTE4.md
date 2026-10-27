@@ -217,6 +217,37 @@ PAIR F — ground kick, 8 frames, contact 4. Miguel standing next to the lying o
 PAIR G — lift by the collar, 10 frames. Miguel bends, grabs the opponent's shirt collar with both hands, pulls him up to standing (frames 2-7), opponent ends in a dazed standing pose (frame 10). This restarts the fight sequence.
 ```
 
+## 16B. Combos e finalizações (pressão total)
+
+Cada combo é UMA folha contínua (o jogo usa como golpe único). Pares: duas
+folhas, mesmo número de quadros, mesmos contatos.
+
+```
+COMBO 1 — jab, elbow, knee, 12 frames, contacts 3, 7, 11. Miguel alone. Jab at chin height (3), steps in, right elbow swings horizontally at head height (7), grabs with both hands at the opponent's shoulder height and drives the right knee up to chest height (11), back to guard (12).
+
+COMBO 2 — body shots into uppercut, 14 frames, contacts 3, 6, 9, 12. Knees bent low: left hook to the stomach (3), right hook to the stomach (6), left hook to the stomach (9), explodes upward with a right uppercut, both feet leaving the ground slightly (12), lands in guard (14).
+
+COMBO 3 — low kick into high kick, 14 frames, contacts 4 and 11. Right shin to the thigh at knee height (4), foot returns behind (6), immediately a right roundhouse to head height (11), lands in guard (14).
+
+COMBO 4 — superman punch, 10 frames, contact 6. Fakes a knee with the right leg (2-3), kicks the leg back while jumping forward (4-5), right fist extends at head height in the air (6), lands 16 px forward (8), guard (10).
+
+PAIR H — collar grab and three punches, 16 frames each, contacts 5, 8, 11 and push on 14.
+Sheet 1 (Miguel): left hand grabs the opponent's shirt collar (2-3), right straight punches to the face (5, 8, 11) while still holding, pushes him away with both hands (14), guard (16).
+Sheet 2 (opponent, faces LEFT): held by the collar, head snaps back on 5, 8 and 11, legs getting weaker each time, pushed away and falls on the back (14-16).
+
+PAIR I — clinch headbutt, 8 frames, contact 5. Miguel holds both shoulders, pulls the opponent forward and hits forehead to forehead (5). Opponent's head snaps back, knees bend (6-8).
+
+PAIR J — sweep, 8 frames, contact 4. Miguel drops low and sweeps the opponent's front foot with his right leg (4). Opponent's feet leave the ground, body horizontal (5-6), lands on the back (7-8).
+
+PAIR K — suplex / body slam, 12 frames, contact 9. Miguel wraps both arms around the opponent's waist from the front (2-4), lifts him to shoulder height (5-7), slams him on his back (9), Miguel kneels next to him (10-12). Opponent: lifted, upside down at the top (7), flat on the back (9-12).
+
+PAIR L — finisher on the ground, 16 frames, contacts 4, 7, 10, 13. Miguel jumps into mount (1-3) and throws alternating downward punches (4, 7, 10, 13), stands up and raises a fist (15-16). Opponent: covering, guard getting weaker on each hit, arms drop and he is knocked out lying flat (14-16).
+
+PAIR M — soccer kick on the downed opponent, 9 frames, contact 5. Miguel runs two steps and kicks the side of the lying opponent's torso (5). Opponent rolls half a turn away (5-9).
+
+PAIR N — standing knockout reaction (opponent only), 8 frames. Hit on the chin, eyes go blank, knees give out, falls face-first straight down, lying face down at the end.
+```
+
 ## 17. Bom ter
 
 ```
