@@ -64,6 +64,23 @@ logado na conta Felipe-Airess; pode não estar no PATH do shell.
    câmera lenta no nocaute, poeira) e mais sangue (`blood.mjs` configurável:
    manchas permanentes, marcas e gotejamento no rosto).
 
+## Partida (27/10) — `src/duel/match.mjs`
+
+* O duelo abre na **tela de seleção** (no canvas): Você, Rival (Sorriso ou
+  Miguel), IA (`calmo`, `firme`, `dificil`), Rounds (1, melhor de 3 ou 5) e
+  Tempo (60, 99 s ou sem tempo). Direcional/WASD navega, J/Soco começa. As
+  escolhas ficam em `localStorage` (`gaviao-duelo`), com try/catch.
+* `Match` (sem Phaser, testado em `tests/match.test.mjs`): fases `intro`
+  (“ROUND N”/“ROUND FINAL” e “LUTA!”, comandos fechados), `fight`, `roundEnd`
+  (“K.O.”, “TEMPO!” ou “EMPATE”) e `done`. No tempo vence quem tem menos
+  castigo (`damageTaken`); igual é empate sem ponto; depois de 9 rounds sem
+  decisão vence quem tem mais vitórias.
+* Entre rounds `Duel.reset()` zera os lutadores; o sangue no chão fica.
+* Fim: tela de vitória/derrota com placar; J revanche, K volta à seleção,
+  M abre a seleção quando pausado. HUD: tempo no centro, vitórias em
+  quadradinhos ao lado do nome.
+* `AI_LEVELS.dificil` reage em 150 ms (o jab de 161 ms continua passando).
+
 ## Regras que o usuário pediu e que devem ser mantidas
 
 * Não reescrever do zero, não trocar de engine, manter Canvas e o perfil leve.
