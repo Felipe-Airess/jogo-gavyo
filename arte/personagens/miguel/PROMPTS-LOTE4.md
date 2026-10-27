@@ -72,6 +72,7 @@ MOTION RULES:
 - Consecutive frames must be visibly different. Exaggerate the key pose of each frame.
 - A foot planted on the ground stays exactly in the same place until the text says it lifts.
 - Never spin, turn around, face the camera or show the back unless the text says so.
+- FAR arm and FAR leg (away from the camera) always one shade darker than the near ones, so left and right are readable in every frame.
 - First and last frame of every loop/attack = the guard pose of the MASTER (except falls).
 ```
 
@@ -115,7 +116,12 @@ Whole body leans forward (like falling forward) in every frame. Hands are loose 
 6. DOWN, opposite legs: left foot flat, right heel kicked up behind.
 7. PASSING, opposite legs.
 8. FLIGHT, opposite legs: BOTH FEET OFF THE GROUND, right thigh high in front.
-FORBIDDEN: both feet on the ground in the same frame; both legs straight; fists in guard; crouching start; upright posture.
+LEG ORDER (your previous run was wrong: frames 1-4 all had the same leg forward and frames 5-8 repeated the other half, arms frozen):
+- FAR leg and FAR arm (the ones away from the camera) are drawn one shade DARKER than the near ones, in every frame, so the two legs can be told apart.
+- Frames 1-4: the NEAR (lighter) leg is the one touching the ground in front; frames 5-8: the FAR (darker) leg touches the ground in front.
+- Arms: frames 1-4 FAR arm forward, NEAR arm back; frames 5-8 NEAR arm forward, FAR arm back. The forward fist must change sides between frame 4 and frame 5.
+- Frames 1 and 5 look like mirror images of each other's legs; same for 2/6, 3/7, 4/8.
+FORBIDDEN: the same leg in front in all frames; both feet on the ground in the same frame; both legs straight; arms frozen; fists in guard; crouching start; upright posture.
 ```
 
 ## 4. Arrancada (5) e freada (5)
