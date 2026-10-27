@@ -44,7 +44,7 @@ export function vulnerability(defender, counter) {
 }
 
 // Retorna o resultado sem alterar o defensor; `applyHit` aplica.
-export function resolveHit(move, defender, zone, { blocked = false, counter = false, quality = 'normal', rocked = false } = {}) {
+export function resolveHit(move, defender, zone, { blocked = false, counter = false, quality = 'normal', rocked = false, scale = 1 } = {}) {
   if (blocked) {
     const stamina = Math.max(4, move.cost * 0.9 + move.power * 2) * (rocked ? 2 : 1);
     const broken = defender.stamina - stamina <= 0;
@@ -53,8 +53,8 @@ export function resolveHit(move, defender, zone, { blocked = false, counter = fa
   }
   const q = QUALITY[quality] || QUALITY.normal;
   const mult = vulnerability(defender, counter);
-  const damage = Math.round(move.damage * mult * q.damage);
-  let balance = move.balance * mult * q.balance * (zone === 'legs' ? 1.3 : 1);
+  const damage = Math.round(move.damage * mult * q.damage * scale);
+  let balance = move.balance * mult * q.balance * scale * (zone === 'legs' ? 1.3 : 1);
   // Pernas castigadas sustentam menos o corpo.
   balance *= 1 + defender.condition.legs / 200;
   const stamina = zone === 'body' ? damage * 0.9 : damage * 0.3;

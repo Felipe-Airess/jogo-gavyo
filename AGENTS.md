@@ -22,7 +22,7 @@ contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
 
 ```bash
 npm start            # servidor local em http://127.0.0.1:4173 (abre o navegador)
-npm test             # 143 testes: core, duelo e históricos — todos passando
+npm test             # 145 testes: core, duelo e históricos — todos passando
 npm run test:legacy  # 22 testes antigos — todos passando
 npm run build        # gera build/ (≈4,7 MB, ignorado pelo Git)
 python scripts/extract-markers.py sorriso miguel   # regenera *-markers.json (Python 3 + Pillow)
@@ -170,6 +170,24 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   de cambaleio.
 * Ajuste em `QUALITY` e `ROCK`. Simulação IA × IA (40 lutas): mediana 25 s,
   mínimo 10,6 s, ~15 grogues.
+
+## Sequências (`duel/moves.mjs`, `Duel.begin/updateAttack`)
+
+* Todo golpe em pé emenda em qualquer outro em pé depois de tocar (acerto ou
+  bloqueio), inclusive chute em chute. Mesmo golpe no máximo 2× seguidas;
+  até 4 ações (`MAX_CHAIN`). Pesado e soco de impulso (`finisher`) fecham a
+  sequência. Erro continua sem cancelamento.
+* Aperto durante o golpe fica guardado 400 ms (`CHAIN_BUFFER_MS`) e sai na
+  primeira brecha: no contato (emenda) ou no fim da recuperação.
+* O golpe emendado começa no quadro de preparação mais parecido com a pose
+  atual (marcadores; `entryFrame`), sem voltar à guarda.
+* Empurrão: acerto empurra metade do valor do golpe; emendado, mais 35%.
+  Dano/base por posição: 1º–2º cheios, 3º 85%, 4º 72% (`COMBO`).
+* Alcance ainda manda: a cabeça recua no quadro de reação (8 px), então
+  jab → jab na cabeça costuma passar; jab → corpo → direto e chute → chute
+  entram. Gancho é de curta distância.
+* HUD mostra "X2", "X3". Simulação IA × IA: mediana 27,5 s, mínimo 4,3 s
+  (sequência + grogue).
 
 ## Armadilhas encontradas
 

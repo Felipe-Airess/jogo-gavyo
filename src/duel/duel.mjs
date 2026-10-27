@@ -1,6 +1,6 @@
 // Duelo lateral 1×1 sem profundidade jogável. Os dois lutadores passam pelas
 // mesmas funções: entrada → buffer → estado → golpe → contato → dano.
-import { commandFrom } from '../core/command-buffer.mjs';
+import { commandFrom, CHAIN_BUFFER_MS } from '../core/command-buffer.mjs';
 import { gaitTable } from '../locomotion.mjs';
 import { createFighter, animationRef, gaitOffset, NEUTRAL, SPEED, RUN_START_MS } from './fighter.mjs';
 import { createDuelMoves, chooseMove, cancelTarget, frameIndex, MAX_CHAIN } from './moves.mjs';
@@ -12,6 +12,10 @@ import { startClinch, endClinch, keepGap, escapeGain, CLINCH } from './clinch.mj
 export const STAGE = { minX: 24, maxX: 456, ground: 150, half: 8 };
 export const TICK = 1000 / 60;
 export const HITSTOP = { block: 50, light: 66, medium: 83, heavy: 116 };
+// Acerto empurra metade do valor do golpe (o recuo da cabeça já afasta o alvo).
+// Sequência: empurrão dos golpes emendados e dano decrescente por posição
+// (1º e 2º cheios, depois 85%, 72%), para combo longo não virar nocaute grátis.
+export const COMBO = { hitPush: 0.5, push: 0.35, scale: [1, 1, 1, 0.85, 0.72] };
 const DOWN = new Set(['knockdown', 'down', 'getup', 'ko']);
 const CLINCH_STATES = new Set(['clinchEntry', 'clinch', 'clinchStrike', 'held']);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -132,7 +136,7 @@ export class Duel {
     switch (f.state) {
       case 'attack': return this.updateAttack(f, dt);
       case 'clinchStrike': return this.updateClinchStrike(f, o, dt);
-      case 'whiff': if (f.t >= this.moves[f.move].whiff.times.reduce((a, b) => a + b, 0)) this.toIdle(f); return;
+      case 'whiff': if (f.t >= this.moves[f.move].whiff.times.reduce((a, b) => a + b, 0)) { this.toIdle(f); this.takeBuffered(f); } return;
       case 'hitstun':
       case 'blockstun':
         this.slide(f, s, 10);
@@ -228,9 +232,15 @@ export class Duel {
     if (!m) return false;
     if (f.stamina < m.cost * 0.5) { this.event('winded', { fighter: f.id }); if (f === this.player) this.message = 'Sem fôlego para esse golpe.'; return false; }
     f.stamina = Math.max(0, f.stamina - m.cost);
+    const from = chained ? this.animation(f) : null;
     f.moveFrom = chained ? f.move : null;
     f.chain = chained ? f.chain + 1 : 1;
-    f.state = 'attack'; f.t = 0; f.move = id; f.moveT = 0;
+    f.combo = chained ? [...(f.combo || []), id] : [id];
+    // Na sequência o golpe novo começa no quadro de preparação mais parecido
+    // com a pose atual (marcadores), em vez de voltar à guarda: emenda sem
+    // salto e mais rápido. Fica sempre ao menos um quadro antes do contato.
+    const entry = from ? this.entryFrame(from, m) : 0;
+    f.state = 'attack'; f.t = 0; f.move = id; f.moveT = m.times.slice(0, entry).reduce((a, b) => a + b, 0);
     f.connected = false; f.hitDone = false; f.prevTip = null;
     // Socos do lote 3 mantêm o pé de trás plantado no pivô: sem avanço extra
     // (avançar o sprite faria o pé deslizar). Só o soco de impulso conserva a corrida.
@@ -239,20 +249,48 @@ export class Duel {
     return true;
   }
 
+  // Índice (em m.frames) do quadro de preparação mais próximo da pose `ref`.
+  entryFrame(ref, m) {
+    const key = ref.clip + ':' + ref.frame + '>' + m.id;
+    this.entryCache ??= new Map();
+    if (this.entryCache.has(key)) return this.entryCache.get(key);
+    const a = this.markers.frame(ref.clip, ref.frame), last = m.frames.indexOf(m.active[0]) - 1;
+    const pts = k => k && [k.head, k.hip, k.frontFist && { x: k.frontFist.tipX, y: k.frontFist.tipY }, k.frontFoot && { x: k.frontFoot.tipX, y: k.frontFoot.tipY }];
+    const pa = pts(a);
+    let best = 0, cost = Infinity;
+    for (let i = 0; pa && i <= last; i++) {
+      const pb = pts(this.markers.frame(m.clip, m.frames[i]));
+      if (!pb) continue;
+      let c = 0;
+      for (let j = 0; j < pa.length; j++) c += pa[j] && pb[j] ? Math.hypot(pa[j].x - pb[j].x, pa[j].y - pb[j].y) : 12;
+      if (c < cost - 0.5) { cost = c; best = i; }
+    }
+    this.entryCache.set(key, best);
+    return best;
+  }
+
   updateAttack(f, dt) {
     const s = dt / 1000, m = this.moves[f.move];
     f.moveT += dt;
     if (m.carry) { f.vx = approach(f.vx, 0, m.carry * 2 * s); this.slide(f, s, 0); }
     else { f.vx = approach(f.vx, 0, 400 * s); this.slide(f, s, 0); }
-    const cmd = f.buffer.peek(this.clock);
+    const cmd = f.buffer.peek(this.clock, CHAIN_BUFFER_MS);
     if (cmd && cmd.kind !== 'grab' && f.connected && f.chain < MAX_CHAIN && f.moveT >= m.cancelStart && f.moveT <= m.cancelEnd) {
-      const next = cancelTarget(m, cmd, f);
+      const next = cancelTarget(m, cmd, f, f.combo);
       if (next && this.begin(f, next, true)) { f.buffer.clear(); return; }
     }
     if (f.moveT >= m.duration) {
       if (!f.connected && m.whiff) { f.state = 'whiff'; f.t = 0; this.event('whiff', { fighter: f.id, move: m.id }); return; }
       this.toIdle(f);
+      this.takeBuffered(f);
     }
+  }
+
+  // Primeira brecha: o comando apertado durante o golpe (ou a recuperação do
+  // erro) sai no primeiro tick livre, sem precisar apertar de novo no tempo exato.
+  takeBuffered(f) {
+    const cmd = f.buffer.peek(this.clock, CHAIN_BUFFER_MS);
+    if (cmd && this.act(f, this.other(f), cmd)) f.buffer.clear();
   }
 
   // Contato do golpe atual contra o outro lutador, com varredura do membro.
@@ -326,7 +364,7 @@ export class Duel {
     // Golpe abafado: colado demais para o braço/perna estender, não sai limpo.
     if (quality === 'clean' && Math.abs(a.x - d.x) < (this.reach[m.id] || 0) * 0.6) quality = 'normal';
     const wasRocked = this.isRocked(d);
-    const r = resolveHit(m, d, zone, { blocked, counter, quality, rocked: wasRocked });
+    const r = resolveHit(m, d, zone, { blocked, counter, quality, rocked: wasRocked, scale: COMBO.scale[Math.min(a.chain, COMBO.scale.length - 1)] });
     applyHit(d, r);
     // Impacto sentido: o limpo sobe um degrau na pausa e no tremor; o raspão desce.
     const power = Math.max(1, Math.min(3, m.power + (quality === 'clean' ? 1 : quality === 'graze' ? -1 : 0)));
@@ -346,7 +384,9 @@ export class Duel {
     else if (this.isRocked(d) && !wasRocked) this.message = (d === this.player ? 'Você está grogue' : 'Ele ficou grogue') + ': um golpe limpo na cabeça derruba.';
     else if (counter) this.message = 'Contra-ataque: ' + m.name + tag + '.';
     else this.message = blocked ? 'Defendido.' : m.name + tag + (zone === 'head' ? ' na cabeça.' : zone === 'body' ? ' no tronco.' : ' na perna.');
-    const pushV = a.facing * r.push * 10;
+    // Dentro da sequência o empurrão é menor: cada acerto afastava o alvo uns
+    // 6–12 px e o terceiro golpe passava no vazio.
+    const pushV = a.facing * r.push * 10 * (r.kind === 'hit' ? COMBO.hitPush : 1) * (a.chain > 1 ? COMBO.push : 1);
     if (a.clinch && d.clinch && r.kind === 'hit') { a.clinch.grip = Math.min(CLINCH.maxGrip, a.clinch.grip + CLINCH.refresh); return; }
     if (d.clinch) endClinch(this.byId(d.clinch.partner), d);
     d.buffer.clear();

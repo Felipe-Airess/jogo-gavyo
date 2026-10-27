@@ -7,6 +7,7 @@ import { CLINCH } from '../src/duel/clinch.mjs';
 import { resolveHit, contactQuality, ROCK } from '../src/duel/damage.mjs';
 import { sweep } from '../src/duel/collision.mjs';
 import { capabilities, createFighter } from '../src/duel/fighter.mjs';
+import { MAX_CHAIN, cancelTarget } from '../src/duel/moves.mjs';
 import { worldMarkers, bounds, hurtboxes, limbCenter, LIMB_SIZE } from '../src/duel/markers.mjs';
 
 const atlas = JSON.parse(fs.readFileSync(new URL('../assets/sorriso-v70.json', import.meta.url)));
@@ -91,7 +92,8 @@ test('aperto pouco antes do fim da recuperação sai no primeiro tick livre', ()
   press(d, { attack: true });
   run(d, 120);
   assert.equal(attacks(d), 2);
-  assert.ok(d.player.moveT <= 40, 'o segundo jab começou sem atraso');
+  const [first, second] = d.events.filter(e => e.type === 'attack').map(e => e.at);
+  assert.ok(second - first <= m.duration + TICK + 1e-6, 'o segundo jab começou no primeiro tick livre');
 });
 
 test('aperto cedo demais na recuperação expira e não vira golpe atrasado', () => {
@@ -125,25 +127,50 @@ test('jab no vazio não cancela: o direto espera a recuperação inteira', () =>
   assert.equal(d.player.move, 'jab');
 });
 
-test('golpe não cancela nele mesmo e a sequência tem limite', () => {
-  const d = make(40);
-  d.rival.condition.head = -500; // segura o alvo de pé para medir a sequência
+// Aperta um comando a cada `every` ms, como quem martela a sequência.
+const mash = (seq, gap = 40, every = 180) => {
+  const d = make(gap);
+  Object.assign(d.rival.condition, { head: -500, body: -500, legs: -500 });
   d.rival.balance = 1e6;
+  const hits = [];
+  const ev = d.event.bind(d);
+  d.event = (type, x) => { if (type === 'hit' && x.attacker === 1) hits.push(x.move); return ev(type, x); };
+  let i = 0;
+  for (let t = 0; t < 3000; t += TICK) d.tick([i < seq.length && t >= i * every ? seq[i++] : {}, {}]);
+  return { d, hits };
+};
+
+test('sequência: chute emenda em chute e soco em chute, sem acertar o tempo exato', () => {
+  const K = { kick: true }, J = { attack: true }, D = { attack: true, down: true }, F = { attack: true, right: true };
+  const kk = mash([K, K]);
+  assert.deepEqual(kk.hits, ['roundBody', 'roundBody'], 'chute → chute');
+  assert.equal(kk.d.events.filter(e => e.type === 'attack' && e.chained).length, 1);
+  const jdf = mash([J, D, F]);
+  assert.deepEqual(jdf.hits, ['jab', 'jabBody', 'cross'], 'jab → corpo → direto');
+});
+
+test('sequência: mesmo golpe no máximo duas vezes seguidas e no máximo quatro ações', () => {
+  const J = { attack: true };
+  const d = make(40);
+  d.player.combo = ['jab', 'jab'];
+  assert.equal(cancelTarget(d.moves.jab, { kind: 'attack' }, d.player, ['jab', 'jab']), null);
+  assert.equal(cancelTarget(d.moves.jab, { kind: 'attack' }, d.player, ['cross', 'jab']), 'jab');
+  const long = mash([J, { attack: true, down: true }, { attack: true, right: true }, { kick: true, down: true }, { kick: true }, J]);
+  assert.ok(Math.max(...long.d.events.filter(e => e.type === 'attack').map(() => long.d.player.chain)) <= MAX_CHAIN);
+});
+
+test('pesado fecha a sequência', () => {
+  const d = make(40);
+  d.rival.condition.head = -500; d.rival.balance = 1e6;
   press(d, { attack: true });
   until(d, () => d.player.connected);
+  press(d, { attack: true, run: true });
+  until(d, () => d.player.move === 'overhand', 600);
+  assert.deepEqual(d.moves.overhand.cancels, []);
+  until(d, () => d.player.connected, 1200);
   press(d, { attack: true });
-  run(d, 150);
-  assert.equal(d.player.chain, 1, 'jab não cancela em jab');
-  const e = make(40);
-  e.rival.balance = 1e6;
-  press(e, { attack: true });
-  until(e, () => e.player.connected);
-  press(e, { attack: true, right: true });
-  until(e, () => e.player.move === 'cross' && e.player.connected, 1500);
-  press(e, { attack: true, left: true });
-  until(e, () => e.player.move === 'hook', 600);
-  assert.equal(e.player.chain, 3);
-  assert.deepEqual(e.moves.hook.cancels, []);
+  run(d, 200);
+  assert.equal(d.player.move, 'overhand');
 });
 
 test('soco e chute misturados usam a continuação desenhada', () => {

@@ -3,6 +3,9 @@
 // Assim o jogador prepara a próxima ação, mas apertar várias vezes não monta
 // uma fila de golpes que dispara sozinha depois.
 export const BUFFER_MS = 134; // 8 ticks a 60 Hz
+// Durante um golpe o aperto espera mais: sai na primeira brecha (contato ou
+// fim da recuperação) sem o jogador acertar o tempo exato.
+export const CHAIN_BUFFER_MS = 400;
 
 export class CommandBuffer {
   constructor(window = BUFFER_MS) {
@@ -14,8 +17,12 @@ export class CommandBuffer {
     this.command = { ...command, at: now };
   }
 
-  peek(now) {
-    if (this.command && now - this.command.at > this.window) this.command = null;
+  // `window` opcional: janela maior só para quem consulta durante um golpe.
+  peek(now, window = this.window) {
+    if (this.command && now - this.command.at > window) {
+      if (window >= this.window) this.command = null;
+      return null;
+    }
     return this.command;
   }
 
