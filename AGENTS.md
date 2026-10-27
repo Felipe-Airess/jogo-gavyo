@@ -240,8 +240,8 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   troncos se sobrepunham ~12 px e golpes "colados" acertavam regiões erradas
   (jab no corpo, circular na cabeça). Com 20: JFDK entra 4/4 nos dois
   personagens; joelhada só de perto; IA × IA mediana 21 s, máx. 49 s.
-* Ainda é arte: reação/queda do Miguel (segura `m_block` 3, estilo lote 2),
-  bloqueio do lote 2 diferente do lote 3, sem andar em guarda nem transições.
+* Reações, bloqueio e andar em guarda vieram no lote 4 (seção abaixo); ainda
+  faltam queda, levantar e transições.
 
 ## Miguel — lote 4 (27/10)
 
