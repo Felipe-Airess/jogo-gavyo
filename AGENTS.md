@@ -147,8 +147,9 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   como tronco.
 * Hitbox do membro termina no pixel mais à frente (`limbCenter`).
 * Socos miram só cabeça e tronco.
-* Auditoria: pixels opacos fora de hurtbox 25% → 4,8%; área de caixa vazia
-  36% → 13%.
+* Auditoria nos 315 quadros: pixels opacos fora de hurtbox 25% → 7,7% (o
+  resto é sobretudo a mão parada, fora de propósito, e o topo do cabelo);
+  área de caixa sem pixel 36% → 13%.
 
 ## Armadilhas encontradas
 
