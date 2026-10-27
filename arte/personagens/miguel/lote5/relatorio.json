@@ -20,7 +20,7 @@
  "thrown": {
   "desenhados": 11,
   "quadros": 9,
-  "escala": 0.524,
+  "escala": 0.537,
   "fora": {
    "11": "deitado repetido e cortado na borda do painel"
   },
@@ -29,7 +29,7 @@
  "groundPunch": {
   "desenhados": 8,
   "quadros": 8,
-  "escala": 0.524,
+  "escala": 0.483,
   "fora": {},
   "cortados_na_celula": []
  },
@@ -43,7 +43,7 @@
  "groundHit": {
   "desenhados": 4,
   "quadros": 4,
-  "escala": 0.482,
+  "escala": 0.444,
   "fora": {},
   "cortados_na_celula": []
  },
@@ -57,7 +57,7 @@
  "clinchBent": {
   "desenhados": 6,
   "quadros": 6,
-  "escala": 0.475,
+  "escala": 0.48,
   "fora": {},
   "cortados_na_celula": []
  },
@@ -78,7 +78,7 @@
  "heldSquat": {
   "desenhados": 6,
   "quadros": 5,
-  "escala": 0.55,
+  "escala": 0.496,
   "fora": {
    "6": "termina sentado no chão: não fecha o loop"
   },

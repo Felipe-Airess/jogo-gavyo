@@ -461,6 +461,19 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   Miguel passa a usar muito o chute circular — é o único golpe dele que
   alcança de longe.
 
+## Sprites: pés cortados e tamanho (27/10, `fix/sprites-pes-escala`)
+
+* Corrida/arrancada (lote 4): o pé de trás passa para o espaço da figura
+  anterior e o corte pelo vale o fatiava. `CUT_PAD` em
+  `scripts/miguel-lote4/extrair.py` recorta com folga e fica só com a figura
+  da célula. Rodar o extrator regrava todos os PNG do lote 4 com os mesmos
+  pixels (só a codificação muda): restaurar pelo Git as pastas que não mudaram.
+* Lote 5, painéis sem guarda (segurado, soco no chão, apanhando no chão,
+  arremessado, segurar): escala pela área do cabelo igual à da guarda do
+  painel vizinho (`hair_area`). Antes, o segurado saía 48% maior.
+* Fica: a prancha do lote 5 tem cabeça/tronco ~10–30% maiores que o lote 3
+  com a mesma altura — proporção do desenho, só refazendo.
+
 ## Acompanhar (provisório, `STEP_IN` em `duel.mjs`)
 
 * Golpe emendado avança até 8 px durante a preparação quando a borda da
