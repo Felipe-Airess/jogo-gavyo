@@ -1,0 +1,281 @@
+{
+ "walkFwd": {
+  "quadros": 6,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "walkBack": {
+  "quadros": 6,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "runStart": {
+  "quadros": 5,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "runStop": {
+  "quadros": 5,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "block": {
+  "quadros": 6,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "hitHeadLight": {
+  "quadros": 5,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "hitBody": {
+  "quadros": 6,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "hitLeg": {
+  "quadros": 6,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "lying": {
+  "quadros": 2,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "kickHigh": {
+  "quadros": 12,
+  "fora": {
+   "12": "guarda repetida (13 desenhados para 12)"
+  },
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "jabStep": {
+  "quadros": 8,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "crossStep": {
+  "quadros": 9,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "hook": {
+  "quadros": 9,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "jabBody": {
+  "quadros": 8,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "uppercut": {
+  "quadros": 8,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "elbow": {
+  "quadros": 7,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "slipCounter": {
+  "quadros": 7,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "parryCounter": {
+  "quadros": 7,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "dazed": {
+  "quadros": 5,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "leanBack": {
+  "numeros_achados": true,
+  "quadros": 6,
+  "fonte": "leanBack.png",
+  "escala": 0.12,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "hitHeadHeavy": {
+  "numeros_achados": true,
+  "quadros": 7,
+  "fonte": "hitHeadHeavy.png",
+  "escala": 0.141,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "rise": {
+  "numeros_achados": true,
+  "quadros": 7,
+  "fonte": "rise.png",
+  "escala": 0.188,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "fall": {
+  "numeros_achados": false,
+  "quadros": 6,
+  "fonte": "fall.png",
+  "escala": 0.202,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "run": {
+  "numeros_achados": true,
+  "quadros": 8,
+  "fonte": "run.png",
+  "escala": 0.184,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "elbow2": {
+  "numeros_achados": true,
+  "quadros": 8,
+  "fonte": "elbow2.png",
+  "escala": 0.121,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "jabStep2": {
+  "numeros_achados": true,
+  "quadros": 8,
+  "fonte": "jabStep2.png",
+  "escala": 0.133,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "jabBody2": {
+  "numeros_achados": true,
+  "quadros": 8,
+  "fonte": "jabBody2.png",
+  "escala": 0.129,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "crossStep2": {
+  "numeros_achados": true,
+  "quadros": 9,
+  "fonte": "crossStep2.png",
+  "escala": 0.147,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "uppercut2": {
+  "numeros_achados": true,
+  "quadros": 9,
+  "fonte": "uppercut2.png",
+  "escala": 0.138,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "kickHigh2": {
+  "numeros_achados": true,
+  "quadros": 12,
+  "fonte": "kickHigh2.png",
+  "escala": 0.199,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "hook2": {
+  "numeros_achados": true,
+  "quadros": 9,
+  "fonte": "hook2.png",
+  "escala": 0.153,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "comboBodyUpper": {
+  "numeros_achados": false,
+  "quadros": 14,
+  "fonte": "comboBodyUpper.png",
+  "escala": 0.214,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "comboJabElbowKnee": {
+  "numeros_achados": true,
+  "quadros": 12,
+  "fonte": "comboJabElbowKnee.png",
+  "escala": 0.175,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "comboLowHigh": {
+  "numeros_achados": true,
+  "quadros": 14,
+  "fonte": "comboLowHigh.png",
+  "escala": 0.224,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "walkA": {
+  "numeros_achados": true,
+  "quadros": 6,
+  "fonte": "walkA.png",
+  "escala": 0.139,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "walkB": {
+  "numeros_achados": true,
+  "quadros": 6,
+  "fonte": "walkB.png",
+  "escala": 0.153,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "walkC": {
+  "numeros_achados": true,
+  "quadros": 6,
+  "fonte": "walkC.png",
+  "escala": 0.132,
+  "cortados_na_celula": [],
+  "refazer": null
+ }
+}

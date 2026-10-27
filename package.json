@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node scripts/server.cjs --open",
     "serve": "node scripts/server.cjs",
-    "test": "node --test tests/core.test.mjs tests/duel.test.mjs tests/battle.test.mjs tests/poses.test.mjs tests/weight.test.mjs tests/context.test.mjs tests/fatigue.test.mjs tests/asset-fixes.test.mjs tests/mobile-build.test.mjs",
+    "test": "node --test tests/core.test.mjs tests/duel.test.mjs tests/battle.test.mjs tests/miguel-corridor.test.mjs tests/poses.test.mjs tests/weight.test.mjs tests/context.test.mjs tests/fatigue.test.mjs tests/asset-fixes.test.mjs tests/mobile-build.test.mjs",
     "test:legacy": "node --test tests/combat.test.mjs tests/animation.test.mjs",
     "build": "node scripts/build.cjs",
     "serve:build": "node scripts/server.cjs --build"

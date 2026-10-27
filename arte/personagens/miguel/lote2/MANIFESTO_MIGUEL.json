@@ -1,0 +1,524 @@
+{
+  "personagem": "Miguel",
+  "jogo": "GAVYO",
+  "categoria": "Consolidacao de lotes aceitos para teste - NAO APROVACAO FINAL DE PRODUCAO",
+  "frame_size": [
+    128,
+    96
+  ],
+  "pivot": [
+    64,
+    88
+  ],
+  "altura_guarda_aproximada_px": 66,
+  "direcao": "direita 3/4",
+  "arquivos_ja_em_quadros": 35,
+  "animacoes_em_quadros": 5,
+  "animacoes": [
+    {
+      "pasta": "01_entrar_na_guarda",
+      "animacao": "entrar_guarda",
+      "quadros": 6,
+      "dimensoes": [
+        128,
+        96
+      ],
+      "direcao": "direita",
+      "pivot": [
+        64,
+        88
+      ],
+      "duracoes_ms": [
+        100,
+        85,
+        75,
+        75,
+        85,
+        130
+      ],
+      "status": "aceito_para_teste_com_ressalvas",
+      "nota": "Transição neutro → guarda; último quadro deve permanecer na guarda.",
+      "frames": [
+        {
+          "file": "entrar_guarda_000.png",
+          "bbox_alpha": [
+            50,
+            22,
+            79,
+            88
+          ],
+          "sha256": "a338d73ce6c8612c02bcf8b092404c3bbbd09319c832c27b6de3cf1594cf5166"
+        },
+        {
+          "file": "entrar_guarda_001.png",
+          "bbox_alpha": [
+            46,
+            22,
+            82,
+            88
+          ],
+          "sha256": "8d3372b5eee68edb499b2fa34725305aba140b223379b4acb5e4fb0553a5faac"
+        },
+        {
+          "file": "entrar_guarda_002.png",
+          "bbox_alpha": [
+            45,
+            22,
+            83,
+            88
+          ],
+          "sha256": "cd2710d5bca06a2ee3fcd75e7b538668df997b8a8e43f535513bfd4ef196fb34"
+        },
+        {
+          "file": "entrar_guarda_003.png",
+          "bbox_alpha": [
+            44,
+            22,
+            83,
+            88
+          ],
+          "sha256": "a49a8937142db6b3ea318a839b36aa067b3c202f3a24f27880950f4b10465faa"
+        },
+        {
+          "file": "entrar_guarda_004.png",
+          "bbox_alpha": [
+            44,
+            22,
+            84,
+            88
+          ],
+          "sha256": "be976f61ecd93f053117913f3e9a0ed664139667036dd6fe6884a693befd5aff"
+        },
+        {
+          "file": "entrar_guarda_005.png",
+          "bbox_alpha": [
+            40,
+            22,
+            87,
+            88
+          ],
+          "sha256": "14a03346df07775102b5d0fab3f0462f675b96c8badf0ad96933f6743a23acda"
+        }
+      ]
+    },
+    {
+      "pasta": "02_andar_na_guarda_frente",
+      "animacao": "walk_frente",
+      "quadros": 7,
+      "dimensoes": [
+        128,
+        96
+      ],
+      "direcao": "direita",
+      "pivot": [
+        64,
+        88
+      ],
+      "duracoes_ms": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "status": "aceito_para_teste",
+      "nota": "Andar em guarda para a direita; ciclo de oito quadros; revisar contato do pé para evitar deslizamento. Quadro 007 removido: era identico ao 000 e repetia a pose na volta do loop.",
+      "frames": [
+        {
+          "file": "walk_frente_000.png",
+          "bbox_alpha": [
+            39,
+            22,
+            88,
+            88
+          ],
+          "sha256": "371d342450b3ae2846a61c74e4d94477e8ffe626649d6f29f22de32a837cd4fa"
+        },
+        {
+          "file": "walk_frente_001.png",
+          "bbox_alpha": [
+            39,
+            23,
+            88,
+            88
+          ],
+          "sha256": "a9ad0318b45dbc0c3fea277a0cf78020b6ca02e8702f6bb4fd0785208be6c682"
+        },
+        {
+          "file": "walk_frente_002.png",
+          "bbox_alpha": [
+            40,
+            23,
+            88,
+            88
+          ],
+          "sha256": "32b587407555eb78b5292e52d75063d8e3d4a94212544e13312da53c1e769baf"
+        },
+        {
+          "file": "walk_frente_003.png",
+          "bbox_alpha": [
+            40,
+            23,
+            87,
+            88
+          ],
+          "sha256": "80a4cd3aee34806cbc0440198ee4450a7f756107bd5fb6ac8e435dc84f536cdf"
+        },
+        {
+          "file": "walk_frente_004.png",
+          "bbox_alpha": [
+            43,
+            23,
+            84,
+            88
+          ],
+          "sha256": "fe34d7f1f20f8d89d9b66afd97df95b6ea01bc9d15b4f262cfc354a6ee908135"
+        },
+        {
+          "file": "walk_frente_005.png",
+          "bbox_alpha": [
+            42,
+            23,
+            86,
+            88
+          ],
+          "sha256": "2a1c569513dd097bf3d626480f42f408eeb2fc348234f56de77c790da6ba9fa1"
+        },
+        {
+          "file": "walk_frente_006.png",
+          "bbox_alpha": [
+            42,
+            23,
+            86,
+            88
+          ],
+          "sha256": "ec92b8a4f892dd852d7d40d999682a8c8f927d5678b67dfdc93e0931939f07e9"
+        }
+      ]
+    },
+    {
+      "pasta": "03_andar_na_guarda_tras",
+      "animacao": "walk_tras",
+      "quadros": 8,
+      "dimensoes": [
+        128,
+        96
+      ],
+      "direcao": "direita",
+      "pivot": [
+        64,
+        88
+      ],
+      "duracoes_ms": [
+        110,
+        110,
+        110,
+        110,
+        110,
+        110,
+        110,
+        110
+      ],
+      "status": "aceito_para_teste",
+      "nota": "Andar em guarda para a esquerda, ainda olhando para a direita; ciclo de oito quadros.",
+      "frames": [
+        {
+          "file": "walk_tras_000.png",
+          "bbox_alpha": [
+            42,
+            22,
+            85,
+            88
+          ],
+          "sha256": "5ca84be836c5a7d580381c6759ba8c6d85996acb1feaa251910a17dd1676a2e1"
+        },
+        {
+          "file": "walk_tras_001.png",
+          "bbox_alpha": [
+            42,
+            22,
+            84,
+            88
+          ],
+          "sha256": "819359ad9d4280cef6a9bf123fac732703abd513a1b08b99205bf5317e947783"
+        },
+        {
+          "file": "walk_tras_002.png",
+          "bbox_alpha": [
+            46,
+            23,
+            82,
+            88
+          ],
+          "sha256": "efa31033c7493116833cad54355ec741d7450059e4fa3d424394abda0fefd2fd"
+        },
+        {
+          "file": "walk_tras_003.png",
+          "bbox_alpha": [
+            42,
+            22,
+            84,
+            88
+          ],
+          "sha256": "762f2d170b200a74695c1173f72a1821bc9eb914173100fa5544600cb50aea7e"
+        },
+        {
+          "file": "walk_tras_004.png",
+          "bbox_alpha": [
+            42,
+            22,
+            86,
+            88
+          ],
+          "sha256": "37647d2ac407ea7a80c79ca15c81bc1086ddd0a836351d7798b57a9121eac442"
+        },
+        {
+          "file": "walk_tras_005.png",
+          "bbox_alpha": [
+            42,
+            23,
+            85,
+            88
+          ],
+          "sha256": "18a7d115003584a6fbec62f1efa79a4e66e5d17bceba204d80d5aa6ee4086f45"
+        },
+        {
+          "file": "walk_tras_006.png",
+          "bbox_alpha": [
+            42,
+            22,
+            84,
+            88
+          ],
+          "sha256": "af58c665acec535137e419fcd36b76cae0f2ee4ec8b5d4a818f7d745fbafd441"
+        },
+        {
+          "file": "walk_tras_007.png",
+          "bbox_alpha": [
+            41,
+            22,
+            86,
+            88
+          ],
+          "sha256": "ec6b62627f52c89415aad399c877f9e9ec164994cee7e49f63648090ac1b823f"
+        }
+      ]
+    },
+    {
+      "pasta": "04_baixar_a_guarda",
+      "animacao": "baixar_guarda",
+      "quadros": 8,
+      "dimensoes": [
+        128,
+        96
+      ],
+      "direcao": "direita",
+      "pivot": [
+        64,
+        88
+      ],
+      "duracoes_ms": [
+        45,
+        45,
+        50,
+        50,
+        55,
+        60,
+        65,
+        85
+      ],
+      "status": "aceito_para_teste",
+      "nota": "Transição guarda → neutro; termina no neutro, não é loop.",
+      "frames": [
+        {
+          "file": "baixar_guarda_000.png",
+          "bbox_alpha": [
+            41,
+            22,
+            86,
+            88
+          ],
+          "sha256": "08df6cb3639be03bd4eba47816051ff70ae9b125b78fb49d827f101f7ce51667"
+        },
+        {
+          "file": "baixar_guarda_001.png",
+          "bbox_alpha": [
+            42,
+            22,
+            86,
+            88
+          ],
+          "sha256": "b03089752c560fa496987c1047e4841cd13d0303555aa6a05555cda74c77f305"
+        },
+        {
+          "file": "baixar_guarda_002.png",
+          "bbox_alpha": [
+            43,
+            22,
+            85,
+            88
+          ],
+          "sha256": "ecb259f6b5e4a6181c08094ef44bb8051b062a2ee9b1b305c39107988257f0cc"
+        },
+        {
+          "file": "baixar_guarda_003.png",
+          "bbox_alpha": [
+            44,
+            22,
+            83,
+            88
+          ],
+          "sha256": "16c72fc0cd2ac6515293e1c47d14f9172cb64794eb5bbeef2343bc9cd0f893e6"
+        },
+        {
+          "file": "baixar_guarda_004.png",
+          "bbox_alpha": [
+            46,
+            22,
+            82,
+            88
+          ],
+          "sha256": "6019c3c47b20344d36a78f09f4ecdc94115e4ee7aa67add2d41b737c47e280c8"
+        },
+        {
+          "file": "baixar_guarda_005.png",
+          "bbox_alpha": [
+            47,
+            22,
+            81,
+            88
+          ],
+          "sha256": "09ca20f66d78e64f45bc7e2d02c99e9dd97a7f71a0b0239771487ae0bcbb318d"
+        },
+        {
+          "file": "baixar_guarda_006.png",
+          "bbox_alpha": [
+            48,
+            22,
+            80,
+            88
+          ],
+          "sha256": "4db2eef8f752da57da527481c11e9cb56bc9c3a1a03a0b83ab6ba9736c57f1c3"
+        },
+        {
+          "file": "baixar_guarda_007.png",
+          "bbox_alpha": [
+            49,
+            22,
+            78,
+            88
+          ],
+          "sha256": "fb1bd9ebe844ada92cb184cf41fdead2ae109df0c65f1f4681604c812b06c7b6"
+        }
+      ]
+    },
+    {
+      "pasta": "05_bloqueio_alto",
+      "animacao": "bloqueio_alto",
+      "quadros": 6,
+      "dimensoes": [
+        128,
+        96
+      ],
+      "direcao": "direita",
+      "pivot": [
+        64,
+        88
+      ],
+      "duracoes_ms": [
+        100,
+        55,
+        55,
+        85,
+        90,
+        105
+      ],
+      "status": "aceito_provisoriamente_para_teste",
+      "nota": "Defesa alta/absorção do impacto; não é reação a soco na cabeça; identidade/proporção e arte ainda precisam de revisão.",
+      "frames": [
+        {
+          "file": "bloqueio_alto_000.png",
+          "bbox_alpha": [
+            45,
+            23,
+            83,
+            88
+          ],
+          "sha256": "5ce57218a74fb71edd0614d140b7dede07ae107ac1ddb52a7e795266b17550cc"
+        },
+        {
+          "file": "bloqueio_alto_001.png",
+          "bbox_alpha": [
+            43,
+            23,
+            84,
+            88
+          ],
+          "sha256": "cb694d0a9e6fb0ce324c22948881552f55a7927e78308ed5699ba81c422f4d15"
+        },
+        {
+          "file": "bloqueio_alto_002.png",
+          "bbox_alpha": [
+            42,
+            23,
+            84,
+            88
+          ],
+          "sha256": "dc8dc75ae525b7064fab8d8fc67212c64e31f78b3b7df103e6d4000d0293aa62"
+        },
+        {
+          "file": "bloqueio_alto_003.png",
+          "bbox_alpha": [
+            43,
+            23,
+            84,
+            88
+          ],
+          "sha256": "5e07141ad822bab3a828044996c3c904afaf297ac4a99010f48d669fdae456fd"
+        },
+        {
+          "file": "bloqueio_alto_004.png",
+          "bbox_alpha": [
+            43,
+            23,
+            84,
+            88
+          ],
+          "sha256": "137aae5cc3f465de568de382f3418c7143de86861b774d34911b0b383e3dd3a4"
+        },
+        {
+          "file": "bloqueio_alto_005.png",
+          "bbox_alpha": [
+            44,
+            23,
+            83,
+            88
+          ],
+          "sha256": "dd7da097cffa29ddaaba6eb1c6a52b2c0e429a871480009a35a4cf994ec00ae0"
+        }
+      ]
+    }
+  ],
+  "referencias_somente_folhas": [
+    "idle neutro 10",
+    "guarda 16",
+    "idle combate 8",
+    "idle/andar antigo (substituido)",
+    "turnaround 8 vistas"
+  ],
+  "exclusoes_explicitas": [
+    "reacao ao soco na cabeca (todas as tentativas)",
+    "socos e chutes contestados",
+    "corrida/caminhadas antigas problematicas",
+    "qualquer efeito grafico desenhado"
+  ],
+  "limpeza_tecnica": {
+    "data": "2026-10-26",
+    "alfa": "binario (>=64 vira 255, resto 0); entrar_na_guarda tinha ~1000 px com alfa 192-254 por quadro (corpo semitransparente)",
+    "halo": "removido o fundo cinza residual atras do cabelo nas caminhadas (02 e 03), so na faixa y<40 e so em pixels de borda dessaturados",
+    "soltos": "componentes com menos de 6 px removidos",
+    "nao_alterado": "desenho, proporcao, cabelo, cores, pivo, duracoes"
+  }
+}

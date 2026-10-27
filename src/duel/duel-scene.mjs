@@ -1,9 +1,10 @@
 // Cena do duelo 1×1. Só desenha: as regras ficam em duel.mjs.
 // Canvas, 320×180, nearest-neighbor — o mesmo perfil leve do corredor.
 import { Duel, STAGE } from './duel.mjs';
+import { CHARACTERS } from './fighter.mjs';
 import { DuelAI } from './ai.mjs';
 import { FixedStep, lerp } from '../core/fixed-step.mjs';
-import { hurtboxes, pushbox, guardBox, grabBox, LIMB_SIZE } from './markers.mjs';
+import { hurtboxes, pushbox, guardBox, grabBox, LIMB_SIZE, limbCenter } from './markers.mjs';
 import { frameIndex } from './moves.mjs';
 import { lettering } from '../art.js';
 import { SORRISO_ASSET } from '../assets.js';
@@ -28,13 +29,18 @@ function recolor(data) {
 export class DuelScene extends Phaser.Scene {
   constructor() { super('Duel'); this.mode = 'title'; this.debugVisible = false; this.hudClock = 0; this.rivalFrames = new Set(); }
 
-  preload() { if (!this.cache.json.get('sorriso-markers')) this.load.json('sorriso-markers', 'assets/sorriso-markers.json'); }
+  preload() {
+    if (!this.cache.json.get('sorriso-markers')) this.load.json('sorriso-markers', 'assets/sorriso-markers.json');
+    if (!this.cache.json.get('miguel-markers')) this.load.json('miguel-markers', 'assets/miguel-markers.json');
+  }
 
   create() {
     const ui = this.registry.get('ui');
     this.ui = ui;
     this.clips = Object.fromEntries(this.cache.json.get('sorriso-data').clips.map(c => [c.id, c]));
-    this.model = new Duel({ clips: this.clips, markers: this.cache.json.get('sorriso-markers') });
+    const miguel = this.cache.json.get('miguel-data'), miguelMarkers = this.cache.json.get('miguel-markers');
+    const roster = miguel && miguelMarkers ? { miguel: { clips: Object.fromEntries(miguel.clips.map(c => [c.id, c])), markers: miguelMarkers } } : {};
+    this.model = new Duel({ clips: this.clips, markers: this.cache.json.get('sorriso-markers'), roster });
     this.ai = new DuelAI(41);
     this.stepper = new FixedStep(60);
     this.touch = this.registry.get('touch');
@@ -103,6 +109,14 @@ export class DuelScene extends Phaser.Scene {
   toggle() { if (!this.model) return; this.audio?.unlock(); if (this.mode === 'over') this.restart(); else this.changeMode(this.mode === 'playing' ? 'paused' : 'playing'); }
   restart() { if (!this.model) return; this.model.reset(); this.ai.reset(); this.fx.reset(); this.blood.reset(); this.cameraX = 80; this.changeMode('playing'); this.render(0); }
   setDebug(on) { this.debugVisible = on; }
+  // Personagem do jogador; o rival continua sendo o Sorriso controlado pela IA.
+  setPlayer(character) {
+    if (!this.model || !this.model.setCharacters([character, 'sorriso'])) return false;
+    this.ai.reset(); this.fx.reset(); this.blood.reset(); this.cameraX = 80;
+    this.changeMode(this.mode === 'title' ? 'title' : 'paused');
+    this.render(0);
+    return true;
+  }
 
   readInput(pressed) {
     const t = this.touch?.read() || {}, k = this.keys;
@@ -152,7 +166,7 @@ export class DuelScene extends Phaser.Scene {
     this.flash.clear();
     this.blood.renderMarks(this.floor);
     m.fighters.forEach((f, i) => {
-      const view = this.views[i], ref = m.animation(f), frame = this.clips[ref.clip].frames[ref.frame];
+      const view = this.views[i], ref = m.animation(f), frame = m.artOf(f.character).clips[ref.clip].frames[ref.frame];
       // Interpolação só da posição: a pose continua sendo o quadro desenhado.
       // Interpolação só fora da passada: na locomoção o degrau por quadro já
       // define onde o sprite fica (pé apoiado parado).
@@ -160,7 +174,9 @@ export class DuelScene extends Phaser.Scene {
       let x = step ? m.drawX(f) : lerp(f.prevX, f.x, alpha);
       if (m.hitstop > 0 && m.lastHit?.target === f.id) x += (Math.floor(m.hitstop / 33) % 2 ? 1 : -1);
       const index = frame.index;
-      view.image.setTexture(i === 1 ? this.rivalFrame(index) : 'sorriso-sheet', i === 1 ? undefined : index);
+      // Rival com roupa escura só quando é o mesmo personagem do jogador.
+      const sheet = CHARACTERS[f.character].sheet, mirror = i === 1 && f.character === m.player.character && f.character === 'sorriso';
+      view.image.setTexture(mirror ? this.rivalFrame(index) : sheet, mirror ? undefined : index);
       view.image.setPosition(Math.round(x), f.y).setFlipX(f.facing < 0).setDepth(f.y + (f.state === 'attack' ? 0.6 : 0.4));
       view.shadow.setPosition(Math.round(x), f.y).setDepth(f.y - 1);
       if (this.debugVisible) this.drawDebug(f);
@@ -177,14 +193,14 @@ export class DuelScene extends Phaser.Scene {
   }
 
   drawDebug(f) {
-    const m = this.model, g = this.debugLayer, w = m.markersOf(f), boxes = hurtboxes(w);
+    const m = this.model, g = this.debugLayer, w = m.markersOf(f), boxes = hurtboxes(w, { arms: f.state === 'attack' || f.state === 'clinchStrike' });
     const stroke = (b, color) => { if (b) { g.lineStyle(1, color); g.strokeRect(Math.round(b.x) + 0.5, Math.round(b.y) + 0.5, Math.round(b.w), Math.round(b.h)); } };
-    if (!['knockdown', 'down', 'getup', 'ko'].includes(f.state)) for (const [zone, b] of Object.entries(boxes)) stroke(b, COLORS[zone]);
+    if (!['knockdown', 'down', 'getup', 'ko'].includes(f.state)) for (const [zone, list] of Object.entries(boxes)) for (const b of list) stroke(b, COLORS[zone]);
     stroke(pushbox(f, w), COLORS.push);
     if (f.state === 'guard' || f.state === 'blockstun') stroke(guardBox(f, w), COLORS.guard);
     if (['idle', 'walk', 'clinchEntry'].includes(f.state)) stroke(grabBox(f, w), COLORS.grab);
     if (f.state === 'attack' || f.state === 'clinchStrike') {
-      const mv = m.moves[f.move], tip = w?.[mv.limb], frame = mv.frames[frameIndex(mv, f.moveT)];
+      const mv = m.moveOf(f), tip = limbCenter(w?.[mv.limb], mv.limb, f.facing), frame = mv.frames[frameIndex(mv, f.moveT)];
       if (tip) {
         const [bw, bh] = LIMB_SIZE[mv.limb], active = mv.active.includes(frame);
         g.lineStyle(1, active ? COLORS.hit : 0x806050);
@@ -203,7 +219,8 @@ export class DuelScene extends Phaser.Scene {
     c.fillStyle = '#8c956f'; c.fillRect(0, 26, 320, 1);
     m.fighters.forEach((f, i) => {
       const left = i === 0, x0 = left ? 6 : 170;
-      lettering(c, left ? 'SORRISO' : 'SORRISO B', x0, 3, left ? '#d8d5b7' : '#c9a7a2');
+      const name = CHARACTERS[f.character].name + (!left && f.character === m.player.character ? ' B' : '');
+      lettering(c, name, x0, 3, left ? '#d8d5b7' : '#c9a7a2');
       const bars = [['C', 100 - f.condition.head, '#cab47a'], ['T', 100 - f.condition.body, '#a3b180'], ['P', 100 - f.condition.legs, '#b39d80'], ['E', f.balance, '#87aeb0'], ['F', f.stamina, '#91a17b']];
       bars.forEach(([label, value, color], j) => {
         const x = x0 + j * 29;
@@ -211,15 +228,16 @@ export class DuelScene extends Phaser.Scene {
         c.fillStyle = '#354438'; c.fillRect(x + 5, 12, 20, 3);
         c.fillStyle = color; c.fillRect(x + 5, 12, Math.round(20 * Math.max(0, value) / 100), 3);
       });
-      const action = f.state === 'attack' ? m.moves[f.move].name : f.state === 'held' ? 'PRESO' : f.clinch ? 'CLINCH' : f.state === 'ko' ? 'NOCAUTE' : f.state === 'guard' ? 'GUARDA' : '';
+      const action = f.state === 'attack' ? m.moveOf(f).name + (f.chain > 1 ? ' X' + f.chain : '') : f.state === 'held' ? 'PRESO' : f.state === 'thrown' ? 'ARREMESSADO' : f.state === 'parried' ? 'APARADO' : m.clock < f.parryUntil ? 'CONTRA-ATAQUE' : f.clinch ? 'CLINCH' : f.state === 'ko' ? 'NOCAUTE' : f.state === 'guard' ? 'GUARDA' : m.isRocked(f) ? 'GROGUE' : '';
       lettering(c, action.slice(0, 18), x0, 19, '#d1bd85');
       if (f.clinch?.role === 'held') { c.fillStyle = '#c7af71'; c.fillRect(x0 + 80, 20, Math.round(60 * Math.min(1, f.clinch.escape / 100)), 2); }
     });
-    lettering(c, 'FPS ' + Math.round(this.game.loop.actualFps || 0), 290, 19, '#82947e');
+    if (this.debugVisible) lettering(c, 'FPS ' + Math.round(this.game.loop.actualFps || 0), 250, 19, '#82947e');
     this.hud.refresh();
     const n = this.note.context;
     n.clearRect(0, 0, 320, 11); n.fillStyle = '#182922'; n.fillRect(0, 0, 320, 11);
-    lettering(n, 'J SOCO  K CHUTE  L GUARDA  G CLINCH  S AGACHAR', 7, 3, '#a3ae90');
+    // A faixa de baixo fica livre para a mensagem de estado (DOM, sobreposta).
+    if (!m.player.can.attack) lettering(n, 'MIGUEL: GOLPES AINDA SEM DESENHO', 7, 3, '#a3ae90');
     this.note.refresh();
   }
 
