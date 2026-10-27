@@ -1,0 +1,172 @@
+{
+ "walkFwd": {
+  "quadros": 6,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "walkBack": {
+  "quadros": 6,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "run": {
+  "quadros": 8,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": "pernas não alternam (mesma perna na frente), quadro 1 com joelho quase no chão"
+ },
+ "runStart": {
+  "quadros": 5,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "runStop": {
+  "quadros": 5,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "block": {
+  "quadros": 6,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "hitHeadLight": {
+  "quadros": 5,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "hitHeadHeavy": {
+  "quadros": 7,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": "quadros 2-3 viram de frente para a câmera"
+ },
+ "hitBody": {
+  "quadros": 6,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "hitLeg": {
+  "quadros": 6,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "fall": {
+  "quadros": 6,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": "figuras deitadas encostadas umas nas outras na folha (4-6 não se separam)"
+ },
+ "lying": {
+  "quadros": 2,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "rise": {
+  "quadros": 7,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": "figuras sobrepostas na folha (3-7 não se separam)"
+ },
+ "kickHigh": {
+  "quadros": 12,
+  "fora": {
+   "12": "guarda repetida (13 desenhados para 12)"
+  },
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "jabStep": {
+  "quadros": 8,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "crossStep": {
+  "quadros": 9,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "hook": {
+  "quadros": 9,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "jabBody": {
+  "quadros": 8,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "uppercut": {
+  "quadros": 8,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "elbow": {
+  "quadros": 7,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "leanBack": {
+  "quadros": 6,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": "quadros 2-3 mostram as costas"
+ },
+ "slipCounter": {
+  "quadros": 7,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "parryCounter": {
+  "quadros": 7,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "dazed": {
+  "quadros": 5,
+  "fora": {},
+  "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ }
+}
