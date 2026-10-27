@@ -4,7 +4,7 @@ import { commandFrom, CHAIN_BUFFER_MS } from '../core/command-buffer.mjs';
 import { gaitTable } from '../locomotion.mjs';
 import { createFighter, animationRef, gaitOffset, NEUTRAL, SPEED, RUN_START_MS } from './fighter.mjs';
 import { createDuelMoves, chooseMove, cancelTarget, frameIndex, groundMove, resolveMove, MAX_CHAIN, CHARACTER_SPECS } from './moves.mjs';
-import { MarkerSet, worldMarkers, hurtboxes, guardBox, grabBox, LIMB_SIZE, limbCenter } from './markers.mjs';
+import { MarkerSet, worldMarkers, hurtboxes, guardBox, grabBox, LIMB_SIZE, limbCenter, plantedOffsets } from './markers.mjs';
 import { sweep, contactPoint, overlap } from './collision.mjs';
 import { resolveHit, applyHit, contactQuality, ROCK } from './damage.mjs';
 import { startClinch, endClinch, keepGap, escapeGain, CLINCH } from './clinch.mjs';
@@ -43,11 +43,16 @@ export function aimOf(m) {
   const zone = /body|Body/.test(m.id) ? 'body' : 'head';
   return m.targets.includes(zone) ? zone : null;
 }
-// Cotovelada: J com o adversário colado (quadris até esta distância).
-export const ELBOW_RANGE = 25;
+// Cotovelada: J com o adversário colado, só se ela alcança daqui (alcance
+// medido + esta folga); senão o jab, que alcança.
+export const ELBOW_SLACK = 12;
 // Maior deslocamento do membro entre dois ticks que ainda conta como varredura.
 export const SWEEP_MAX = 45;
-export const STAGE = { minX: 24, maxX: 456, ground: 150, half: 10 };
+// `half`: meia largura do corpo para o empurrão. Com 10 (20 px entre pivôs) os
+// sprites ficavam enfiados um no outro e o soco saía de dentro do tronco.
+// `strike`: durante um golpe os corpos podem chegar mais perto (joelhada e
+// cotovelada alcançam ~13 px a partir do quadril).
+export const STAGE = { minX: 24, maxX: 456, ground: 150, half: 13, strike: 8 };
 export const TICK = 1000 / 60;
 export const HITSTOP = { block: 50, light: 66, medium: 83, heavy: 116 };
 // Acerto empurra metade do valor do golpe (o recuo da cabeça já afasta o alvo).
@@ -57,7 +62,7 @@ export const HITSTOP = { block: 50, light: 66, medium: 83, heavy: 116 };
 // atacou fica aberto `stagger` ms e quem aparou tem `counter` ms para o
 // contra-ataque (J). Chão: cada golpe segura o caído mais `extend` ms, até
 // `maxExtend` no total; arremesso deixa no chão `thrownMs`.
-export const PARRY = { window: 140, stagger: 480, counter: 520 };
+export const PARRY = { window: 180, stagger: 480, counter: 520 };
 export const GROUND = { reach: 46, extend: 320, maxExtend: 1600, downMs: 700, thrownMs: 1000 };
 // Acompanhar (provisório, até existir golpe com passo desenhado): o golpe
 // emendado avança até `max` px durante a preparação quando o alvo recuou além
@@ -86,6 +91,8 @@ export class Duel {
     this.reachBy = {};
     for (const [name, art] of Object.entries(this.roster)) {
       this.movesBy[name] = name === 'sorriso' ? this.moves : createDuelMoves(art.clips, CHARACTER_SPECS[name] || {});
+      const set = this.roster[name].markers;
+      for (const m of Object.values(this.movesBy[name])) if (m.plant === true) m.plant = plantedOffsets(set.clips[m.clip] || []);
       this.reachBy[name] = this.measureReach(this.movesBy[name], art.markers);
     }
     this.reach = this.reachBy.sorriso;
@@ -142,9 +149,18 @@ export class Duel {
         const tip = m.limb === 'foot' ? mk?.frontFoot : m.limb === 'knee' ? mk?.frontKnee : mk?.frontFist;
         if (tip) best = Math.max(best, tip.tipX ?? tip.x);
       }
-      out[m.id] = best;
+      out[m.id] = best + (m.plant ? Math.max(0, ...m.active.map(i => m.plant[i] || 0)) : 0);
     }
     return out;
+  }
+
+  // Deslocamento do corpo no quadro atual de um golpe com pé de apoio parado,
+  // relativo ao quadro em que o golpe começou (emendas entram no meio).
+  plantOf(f) {
+    if (f.state !== 'attack' || !f.move) return 0;
+    const m = this.moveOf(f);
+    if (!m?.plant) return 0;
+    return (m.plant[m.frames[frameIndex(m, f.moveT)]] || 0) - (f.plantBase || 0);
   }
 
   animation(f) { return animationRef(f, this.movesOf(f), this.artOf(f.character).clips, this.gait, this.clock); }
@@ -152,7 +168,7 @@ export class Duel {
   // O degrau usa a passada medida do Sorriso; Miguel não tem tabela própria.
   drawX(f) {
     const recoil = (f.state === 'hitstun' || f.state === 'blockstun') && f.recoil && f.t < RECOIL.ms ? -f.facing * f.recoil * (1 - f.t / RECOIL.ms) : 0;
-    return f.x + (f.character === 'sorriso' ? gaitOffset(f, this.gait) : 0) + recoil;
+    return f.x + (f.character === 'sorriso' ? gaitOffset(f, this.gait) : 0) + recoil + f.facing * this.plantOf(f);
   }
   markerSetOf(f) { return this.artOf(f.character).markers; }
   markersOf(f) { const ref = this.animation(f); return worldMarkers(this.markerSetOf(f).frame(ref.clip, ref.frame), { ...f, x: this.drawX(f) }); }
@@ -302,7 +318,7 @@ export class Duel {
     // Adversário caído à frente e perto: golpes de chão (se o personagem tiver desenho).
     if (this.groundReach(f, o) && this.moveOf(f, groundMove(cmd))) return this.begin(f, groundMove(cmd), false);
     let id = chooseMove(cmd, f, this.movesOf(f));
-    if (id === 'jab' && this.moveOf(f, 'elbow') && !DOWN.has(o.state) && Math.abs(o.x - f.x) <= ELBOW_RANGE) id = 'elbow';
+    if (id === 'jab' && this.moveOf(f, 'elbow') && !DOWN.has(o.state) && Math.abs(o.x - f.x) <= this.reachOf(f).elbow + ELBOW_SLACK) id = 'elbow';
     return this.begin(f, id, false);
   }
 
@@ -311,6 +327,9 @@ export class Duel {
   commitRoot(f) {
     if (f.state !== 'attack' || !f.move) return;
     const m = this.moveOf(f);
+    const plant = this.plantOf(f);
+    // O passo do chute vira posição: o desenho não volta ao lugar de antes.
+    if (plant) { f.x = clamp(f.x + f.facing * plant, STAGE.minX, STAGE.maxX); f.plantBase = (f.plantBase || 0) + plant; return; }
     if (!m?.root) return;
     const adv = this.artOf(f.character).clips[m.clip]?.frames[m.frames[frameIndex(m, f.moveT)]]?.advance || 0;
     if (adv) f.x = clamp(f.x + f.facing * adv, STAGE.minX, STAGE.maxX);
@@ -404,6 +423,7 @@ export class Duel {
     // salto e mais rápido. Fica sempre ao menos um quadro antes do contato.
     const entry = from ? this.entryFrame(from, m, this.markerSetOf(f)) : 0;
     f.state = 'attack'; f.t = 0; f.move = id; f.moveT = m.times.slice(0, entry).reduce((a, b) => a + b, 0);
+    f.plantBase = m.plant ? m.plant[m.frames[entry]] || 0 : 0;
     f.stepLeft = 0;
     if (chained && !m.ground && !m.throw) {
       // Distância até a borda mais próxima das regiões que o golpe mira, no
@@ -498,7 +518,7 @@ export class Duel {
       a.hitWindow = win.index; a.hitDone = false;
     }
     const m = win ? hitOf(base, win) : base;
-    const w = worldMarkers(this.markerSetOf(a).frame(m.clip, frame), a), tip = limbCenter(w?.[m.limb], m.limb, a.facing);
+    const w = worldMarkers(this.markerSetOf(a).frame(m.clip, frame), { ...a, x: this.drawX(a) }), tip = limbCenter(w?.[m.limb], m.limb, a.facing);
     const active = m.active.includes(frame);
     if (!tip) { if (active) this.markerSetOf(a).note(m.clip, frame, m.limb); a.prevTip = null; return null; }
     // Varredura só entre posições vizinhas do mesmo membro. Um salto maior que
@@ -742,11 +762,13 @@ export class Duel {
     const [a, b] = this.fighters;
     // Golpe em par: a distância é a do desenho (updateThrown), não a do empurrão.
     if (DOWN.has(a.state) || DOWN.has(b.state) || a.clinch || b.clinch || a.state === 'thrown' || b.state === 'thrown') return;
-    // Centro do corpo pelo quadril desenhado: o passo à frente de um golpe
-    // pesado empurra o outro, em vez de atravessá-lo.
-    const hip = f => this.markersOf(f)?.hip?.x ?? f.x;
+    // Golpeando: centro pelo quadril desenhado (o passo à frente de um golpe
+    // pesado empurra o outro, em vez de atravessá-lo). Fora do golpe, o pivô:
+    // o quadril balança ±7 px no andar e fazia um parar mais longe que o outro.
+    const hip = f => (f.state === 'attack' ? this.markersOf(f)?.hip?.x : null) ?? this.drawX(f);
     const ha = hip(a), hb = hip(b), dir = b.x >= a.x ? 1 : -1;
-    const min = STAGE.half * 2, gap = Math.min(Math.abs(b.x - a.x), (hb - ha) * dir);
+    const striking = a.state === 'attack' || b.state === 'attack';
+    const min = (striking ? STAGE.strike : STAGE.half) * 2, gap = Math.min(Math.abs(b.x - a.x), (hb - ha) * dir);
     if (gap >= min) return;
     const push = (min - gap) / 2;
     let ax = a.x - dir * push, bx = b.x + dir * push;

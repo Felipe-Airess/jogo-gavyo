@@ -22,7 +22,7 @@ contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
 
 ```bash
 npm start            # servidor local em http://127.0.0.1:4173 (abre o navegador)
-npm test             # 182 testes: core, duelo e históricos — todos passando
+npm test             # 185 testes: core, duelo e históricos — todos passando
 npm run test:legacy  # 22 testes antigos — todos passando
 npm run build        # gera build/ (≈4,7 MB, ignorado pelo Git)
 python scripts/extract-markers.py sorriso miguel   # regenera *-markers.json (Python 3 + Pillow)
@@ -30,6 +30,7 @@ python scripts/add-miguel-lote2.py  # lote 2 do Miguel no atlas assets/miguel.pn
 python scripts/add-miguel-lote3.py  # lote 3 (golpes) do Miguel no atlas
 python scripts/miguel-lote4/extrair.py && python scripts/add-miguel-lote4.py  # lote 4 (rodar extract-markers depois)
 python scripts/miguel-lote5/extrair.py && python scripts/add-miguel-lote5.py  # lote 5 (idem; precisa de numpy e scipy)
+node scripts/auditar-combate.mjs     # alcance e acerto de cada golpe por distância
 ```
 
 O `gh` (GitHub CLI) está instalado em `C:/Program Files/GitHub CLI/gh.exe` e
@@ -435,6 +436,30 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   colado ao corpo (17 px à frente) e os corpos nunca ficam a menos de ~35 px.
   Pedir de novo com a perna estendida para a frente (~30 px). Gancho e
   golpe→andar foram recusados na própria conversa e não vieram.
+
+## Combate — sensação (27/10, `fix/combate-sensacao`)
+
+* Medição: `node scripts/auditar-combate.mjs [atacante] [defensor]` — alcance,
+  faixa de distâncias em que cada golpe acerta e onde os corpos param.
+* **Chutes do Miguel "parados"**: o desenho do lote 3 põe o pé de apoio no
+  centro da célula (na guarda o pé da frente fica a +18). `plant: true` no
+  golpe → `plantedOffsets` (markers.mjs) calcula, pelos pés desenhados, o
+  deslocamento que mantém o pé de apoio parado; entra em `drawX`, nas caixas do
+  golpe (`probe`) e no alcance; ao fim vira posição (`commitRoot`). Chute
+  circular passa de 24 para 46 px de alcance, chute com passo termina ~25 px à
+  frente, joelhada alcança 31.
+* **Empurrão**: corpos param a 26 px entre pivôs (`STAGE.half` 13; antes 20 e
+  sprites enfiados). Fora de golpe usa o pivô (o quadril balança ±7 px no andar
+  e o Miguel parava a 29 contra 20 do Sorriso). Golpeando, `STAGE.strike` 8:
+  o atacante pode chegar a 16 px (joelhada/cotovelada).
+* Cotovelada só quando alcança (`reach.elbow + ELBOW_SLACK`); hoje nunca — sai jab.
+* Aparo: janela 180 ms; efeito próprio (faísca azul, anel, clarão curto).
+* Corredor: mesmo `ImpactFX` e sangue do duelo (`corridorFx` em main.js):
+  faíscas, tremida, respingo por região/força, marcas no chão abaixo dos
+  lutadores, câmera lenta no golpe final, aparo.
+* IA × IA (30 lutas Miguel × Sorriso): vitórias 13×17 (antes 17×13). A IA do
+  Miguel passa a usar muito o chute circular — é o único golpe dele que
+  alcança de longe.
 
 ## Acompanhar (provisório, `STEP_IN` em `duel.mjs`)
 

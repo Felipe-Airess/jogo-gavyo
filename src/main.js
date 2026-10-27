@@ -8,6 +8,7 @@ import{SORRISO_ASSET,MIGUEL_ASSET}from'./assets.js';
 import{MiguelView}from'./miguel-view.mjs';
 import{createMiguelCorridorMoves,miguelCorridorMeta,miguelPlayerClips,MIGUEL_CAN,MIGUEL_FALLBACK}from'./miguel-corridor.mjs';
 import{Blood}from'./blood.mjs';
+import{ImpactFX}from'./duel/impact-fx.mjs';
 import{CombatAudio}from'./combat-audio.mjs';
 import{FixedStep,lerp}from'./core/fixed-step.mjs';
 import{DuelScene}from'./duel/duel-scene.mjs';
@@ -19,10 +20,12 @@ class Corridor extends Phaser.Scene{
  preload(){this.load.spritesheet('sorriso-sheet',SORRISO_ASSET.image,{frameWidth:SORRISO_ASSET.frameWidth,frameHeight:SORRISO_ASSET.frameHeight});this.load.json('sorriso-data',SORRISO_ASSET.data);this.load.spritesheet('miguel-sheet',MIGUEL_ASSET.image,{frameWidth:MIGUEL_ASSET.frameWidth,frameHeight:MIGUEL_ASSET.frameHeight});this.load.json('miguel-data',MIGUEL_ASSET.data);this.load.json('sorriso-markers','assets/sorriso-markers.json');this.load.json('miguel-markers','assets/miguel-markers.json');}
  create(){
   if(!this.textures.exists('sorriso-sheet')||!this.textures.exists('miguel-sheet')||!this.cache.json.get('miguel-data')){$('loading').textContent='Não foi possível carregar a folha. Reabra pelo INICIAR.cmd.';return;}
-  this.clips=Object.fromEntries(this.cache.json.get('sorriso-data').clips.map(c=>[c.id,c]));createArt(this);this.model=new Battle(2,731,createBuildMoves(this.clips));this.stepper=new FixedStep(60);this.prev=null;this.model.artClips=this.clips;this.playerName='sorriso';this.miguelClips=miguelPlayerClips(Object.fromEntries(this.cache.json.get('miguel-data').clips.map(c=>[c.id,c])),this.cache.json.get('miguel-markers')||{clips:{}});this.blood=new Blood();this.combatAudio=new CombatAudio();this.add.image(0,0,'hallway').setOrigin(0);
+  this.clips=Object.fromEntries(this.cache.json.get('sorriso-data').clips.map(c=>[c.id,c]));createArt(this);this.model=new Battle(2,731,createBuildMoves(this.clips));this.stepper=new FixedStep(60);this.prev=null;this.model.artClips=this.clips;this.playerName='sorriso';this.miguelClips=miguelPlayerClips(Object.fromEntries(this.cache.json.get('miguel-data').clips.map(c=>[c.id,c])),this.cache.json.get('miguel-markers')||{clips:{}});this.blood=new Blood({particles:160,marks:100,markLife:6e4,palette:{drop:0xb2302b,mark:0x6e1d1b}});this.fx=new ImpactFX(this.blood);this.lastFxEvent=0;this.combatAudio=new CombatAudio();this.add.image(0,0,'hallway').setOrigin(0);
   this.shadow=this.add.ellipse(76,146,25,4,0x172723,0.6);this.sorriso=this.add.image(76,146,'sorriso-sheet',0).setOrigin(SORRISO_ASSET.originX,SORRISO_ASSET.originY);
   this.miguel=new MiguelView(this,this.cache.json.get('miguel-data'));$('miguel-pose').onchange=()=>{this.miguel.setPose($('miguel-pose').value);ui.game.focus({preventScroll:true});};
   this.enemyViews=this.model.enemies.map(()=>({view:new TargetView(this,this.clips),shadow:this.add.ellipse(0,146,25,5,0x172723,0.6)}));
+  // Sangue no chão fica abaixo dos lutadores, como no duelo.
+  this.floor=this.add.graphics().setDepth(2);this.flash=this.add.graphics().setDepth(760).setScrollFactor(0);
   this.bars=this.add.graphics().setDepth(650);this.effects=this.add.graphics().setDepth(700);this.debugLayer=this.add.graphics().setDepth(720);
   this.cameras.main.setBounds(0,0,640,180);this.cameras.main.roundPixels=true;
   this.hudTexture=this.textures.createCanvas('hud',320,28);this.add.image(0,0,'hud').setOrigin(0).setDepth(800).setScrollFactor(0);
@@ -49,7 +52,7 @@ class Corridor extends Phaser.Scene{
  setPlayer(name){if(!this.model||name===this.playerName)return;this.playerName=name;const m=name==='miguel';this.model.moves=m?createMiguelCorridorMoves(this.miguelClips):createBuildMoves(this.clips);this.model.can=m?{...MIGUEL_CAN}:{run:true,grab:true,wipe:true};this.model.fallback=m?MIGUEL_FALLBACK:{};this.model.playerClips=m?this.miguelClips:null;this.sorriso.setTexture(m?'miguel-sheet':'sorriso-sheet');this.miguel.image.setVisible(!m);this.miguel.label.setVisible(!m);this.miguel.shadow.setVisible(!m);this.restart();if(this.mode==='playing')this.changeMode('paused');}
  changeMode(mode){this.mode=mode;this.stepper?.reset();this.input.keyboard.resetKeys();this.pressed?.clear();this.touch?.clear();ui.play.textContent=mode==='playing'?'Pausar':mode==='title'?'Jogar':mode==='dead'?'Tentar de novo':'Continuar';this.paintOverlay();}
  toggle(){this.combatAudio?.unlock();if(this.mode==='dead')this.restart();else this.changeMode(this.mode==='playing'?'paused':'playing');}
- restart(){this.miguel.setPose($('miguel-pose').value);this.model.reset();this.model.setMode(ui.training.value);this.blood.reset();this.lastBloodHit=null;this.cameraPosition=0;this.changeMode('playing');this.renderWorld(0);this.paintHud();}
+ restart(){this.miguel.setPose($('miguel-pose').value);this.model.reset();this.model.setMode(ui.training.value);this.blood.reset();this.fx.reset();this.lastBloodHit=null;this.cameraPosition=0;this.changeMode('playing');this.renderWorld(0);this.paintHud();}
  update(time,delta){
   if(!this.model)return;const touch=this.touch.read(),pressed=this.pressed;this.pressed=new Set();const tap=key=>pressed.has(key);
   if(tap('F2')){this.debugVisible=!this.debugVisible;ui.debug.setAttribute('aria-pressed',String(this.debugVisible));}
@@ -59,8 +62,9 @@ class Corridor extends Phaser.Scene{
   if(this.mode==='playing'){
    if(tap('KeyH'))this.model.hurt();
    // Passo fixo: mesmo resultado a 30, 60 ou 144 FPS; pulsos esperam o próximo tick.
-   this.stepper.advance(delta,{left:touch.left||this.keys.A.isDown||this.keys.LEFT.isDown,right:touch.right||this.keys.D.isDown||this.keys.RIGHT.isDown,up:touch.up||this.keys.W.isDown||this.keys.UP.isDown,down:touch.down||this.keys.S.isDown||this.keys.DOWN.isDown,run:touch.run||this.keys.SHIFT.isDown,guard:touch.guard||this.keys.L.isDown,attack:touch.attack||tap('KeyJ'),kick:touch.kick||tap('KeyK'),grab:touch.grab||tap('KeyG')},(input,dt)=>{const p=this.model.player;this.prev={x:p.x,y:p.y,enemies:this.model.enemies.map(d=>d.x)};this.model.step(input,dt);});
-   const hit=this.model.lastHit;if(hit&&hit!==this.lastBloodHit){this.lastBloodHit=hit;this.blood.emit(hit,this.model.enemies.find(d=>d.id===hit.target)?.y||146);}this.blood.step(delta);this.combatAudio.update(this.model);
+   // Câmera lenta do golpe final: menos tempo de jogo por quadro, mesmo passo fixo.
+   this.stepper.advance(delta*this.fx.timeScale(),{left:touch.left||this.keys.A.isDown||this.keys.LEFT.isDown,right:touch.right||this.keys.D.isDown||this.keys.RIGHT.isDown,up:touch.up||this.keys.W.isDown||this.keys.UP.isDown,down:touch.down||this.keys.S.isDown||this.keys.DOWN.isDown,run:touch.run||this.keys.SHIFT.isDown,guard:touch.guard||this.keys.L.isDown,attack:touch.attack||tap('KeyJ'),kick:touch.kick||tap('KeyK'),grab:touch.grab||tap('KeyG')},(input,dt)=>{const p=this.model.player;this.prev={x:p.x,y:p.y,enemies:this.model.enemies.map(d=>d.x)};this.model.step(input,dt);});
+   this.corridorFx();this.fx.step(delta,null);this.blood.step(delta*this.fx.timeScale());this.combatAudio.update(this.model);
    if(this.model.player.hp<=0)this.changeMode('dead');
   }
   const stateMessage=this.model.player.state==='attackRecover'?'Recuperando o apoio.':this.model.player.state==='winded'?'Sem fôlego. Espere recuperar.':this.model.player.state==='gettingUp'?'Levantando.':this.model.message;
@@ -77,12 +81,19 @@ class Corridor extends Phaser.Scene{
    for(let j=0;j<4;j++){this.bars.fillStyle(0x1a2924);this.bars.fillRect(Math.round(d.x)-15,Math.round(top)+j*3,30,2);this.bars.fillStyle(colors[j]);this.bars.fillRect(Math.round(d.x)-15,Math.round(top)+j*3,Math.round(30*d.parts[names[j]]/max[j]),2);}
    if(this.debugVisible){const boxes=this.model.hurtboxes(d);for(const[name,b]of Object.entries(boxes)){this.debugLayer.lineStyle(1,name==='head'?0xd5ba79:0x88bdc0);this.debugLayer.strokeRect(Math.round(b.x),Math.round(b.y),b.w,b.h);}if(d.guard){this.debugLayer.lineStyle(1,0xb9cc8c);this.debugLayer.strokeRect(d.x+d.facing*11-5,d.y-53,10,33);}if(d.ragdoll&&d.state==='fallen'){this.debugLayer.lineStyle(1,0xaaa47c);for(const l of d.ragdoll.links){const a=pose[l.a],b=pose[l.b];this.debugLayer.lineBetween(a.x,a.y,b.x,b.y);}}}
   }
-  const hit=this.model.lastHit;if(hit&&this.model.clock-hit.at<90){const{point}=hit;this.effects.lineStyle(1,hit.blocked?0xaecb8c:0xe0c795);this.effects.lineBetween(point.x-3,point.y-3,point.x+3,point.y+3);this.effects.lineBetween(point.x+3,point.y-3,point.x-3,point.y+3);}
-  this.blood.render(this.effects);
+  this.floor.clear();this.flash.clear();this.blood.renderMarks(this.floor);this.blood.renderParticles(this.effects);this.fx.render(this.effects);this.fx.renderFlash(this.flash);
   this.blood.renderHands(this.effects,p,this.playerName==='miguel'?miguelCorridorMeta(p,this.model.moves,this.miguelClips):spriteMeta(p,this.clips,this.model.moves),this.model.clock);
   if(p.counterUntil>this.model.clock){this.effects.lineStyle(1,0xc3c9a2,.9);this.effects.strokeCircle(p.x,p.y-53,4);}
   if(this.debugVisible){const a=this.model.attackBox();if(a){this.debugLayer.lineStyle(1,0xe39777);this.debugLayer.strokeRect(a.x,a.y,a.w,a.h);}const b=this.model.body();this.debugLayer.lineStyle(1,0x9cad8a);this.debugLayer.strokeRect(b.x,b.y,b.w,b.h);}
-  const nearest=this.model.nearest,follow=nearest?.state==='fallen'&&Math.abs(nearest.x-p.x)<180?(p.x+nearest.x)/2-160:p.x-120,target=Phaser.Math.Clamp(follow,0,320);if(this.mode==='playing')this.cameraPosition+=(target-this.cameraPosition)*(1-Math.exp(-delta/85));this.cameras.main.scrollX=Math.round(this.cameraPosition);
+  const nearest=this.model.nearest,follow=nearest?.state==='fallen'&&Math.abs(nearest.x-p.x)<180?(p.x+nearest.x)/2-160:p.x-120,target=Phaser.Math.Clamp(follow,0,320);if(this.mode==='playing')this.cameraPosition+=(target-this.cameraPosition)*(1-Math.exp(-delta/85));const shake=this.fx.offset();this.cameras.main.scrollX=Math.round(this.cameraPosition)+shake.x;this.cameras.main.scrollY=shake.y;
+ }
+ // Efeitos do duelo no corredor: cada acerto novo vira um evento para o ImpactFX
+ // (faísca, tremida, sangue pela região e força, câmera lenta no golpe final).
+ corridorFx(){
+  const hit=this.model.lastHit,enemyOf=id=>this.model.enemies.find(d=>d.id===id),world={byId:enemyOf};
+  if(hit&&hit!==this.lastBloodHit){this.lastBloodHit=hit;const d=enemyOf(hit.target),power=hit.finisher?3:hit.damage>=12?3:hit.damage>=9?2:1;
+   this.fx.onEvent({type:hit.blocked?'block':'hit',id:hit.id,point:hit.point,zone:hit.zone,power,kind:hit.finisher?'ko':'hit',counter:false,target:hit.target,ground:d?.y??146},world);}
+  const e=this.model.lastEvent;if(e&&e.id!==this.lastFxEvent){this.lastFxEvent=e.id;const p=this.model.player;if(e.type==='parry')this.fx.onEvent({type:'parry',point:{x:p.x+p.facing*12,y:p.y-48}},world);}
  }
  paintHud(){
   const c=this.hudTexture.context,p=this.model.player,d=this.model.nearest;c.clearRect(0,0,320,28);c.fillStyle='#142321';c.fillRect(0,0,320,27);c.fillStyle='#8c956f';c.fillRect(0,26,320,1);

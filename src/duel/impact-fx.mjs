@@ -6,6 +6,7 @@
 // então o efeito comunica o que a regra decidiu.
 const SPARK = { 1: 5, 2: 7, 3: 10 };
 const SHAKE = { block: 0.6, 1: 1, 2: 1.7, 3: 2.6, ko: 4 };
+const PARRY_COLOR = 0x9fd0ff;
 
 export class ImpactFX {
   constructor(blood) {
@@ -34,8 +35,9 @@ export class ImpactFX {
     for (const e of duel.events) if (e.id > this.lastId) { this.lastId = e.id; this.onEvent(e, duel); }
   }
 
+  // `e.ground`: linha do chão de quem apanhou (o corredor não usa 150).
   onEvent(e, duel) {
-    const ground = 150;
+    const ground = e.ground ?? 150;
     if (e.type === 'hit' && e.point) {
       const target = duel.byId(e.target), dir = target ? -target.facing : 1;
       const power = e.kind === 'ko' ? 3 : e.power || 1;
@@ -49,6 +51,12 @@ export class ImpactFX {
       if (scale > 0) this.blood.emit({ id: e.id, blood: true, blocked: false, zone: e.zone, point: e.point, finisher: e.kind === 'ko', dir }, ground, scale);
       // Suor e saliva claros num golpe de cabeça, separados do sangue.
       if (e.zone === 'head') for (let i = 0; i < 3 + power; i++) this.dust.push({ x: e.point.x, y: e.point.y, vx: dir * (20 + i * 9), vy: -18 + i * 6, life: 240, color: 0xd9d6c3, g: 160 });
+    } else if ((e.type === 'block' && e.kind === 'parry' || e.type === 'parry') && e.point) {
+      // Aparo: faísca fria com anel e clarão curto — diferente da defesa comum.
+      this.burst(e.point, 2, false, 1, PARRY_COLOR);
+      this.sparks.push({ x: e.point.x, y: e.point.y, life: 200, max: 200, ring: true, color: PARRY_COLOR, len: 0 });
+      this.flashT = 60; this.flashAlpha = 0.3;
+      this.shake(SHAKE[2], 130);
     } else if (e.type === 'block' && e.point) {
       this.burst(e.point, 1, false, 1, 0xaecb8c);
       this.shake(SHAKE.block, 70);

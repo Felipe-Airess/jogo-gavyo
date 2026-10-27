@@ -128,6 +128,34 @@ export function grabBox(f, w) {
   return { x: Math.min(x, x + f.facing * 22), y: w.torso.y - 12, w: 22, h: 20 };
 }
 
+// Pé de apoio parado (golpes com `plant`): deslocamento do corpo, por quadro,
+// que mantém no mesmo lugar do mundo o pé que sustenta o chute. O desenho do
+// Miguel põe o pé de apoio no centro da célula, mas na guarda o pé da frente
+// fica ~18 px à frente: sem isto o chute recua e o pé que chuta não chega.
+// Regra: nos quadros com um só pé no chão, esse pé está onde estava o pé da
+// frente da guarda (quadro 0); antes deles, a transição é proporcional; depois,
+// o pé no chão mais perto do anterior fica parado (até `tol` px).
+export function plantedOffsets(frames, tol = 14) {
+  const ground = f => (f?.feet || []).filter(p => p.tipY >= -6).map(p => p.tipX);
+  const g = frames.map(ground);
+  if (!g[0]?.length) return frames.map(() => 0);
+  const G0 = Math.max(...g[0]);
+  const single = g.map((x, k) => (k > 0 && x.length === 1 ? k : -1)).filter(k => k >= 0);
+  if (!single.length) return frames.map(() => 0);
+  const a = single[0], b = single.at(-1), off = [];
+  for (let k = 0; k < frames.length; k++) {
+    if (k <= a) off[k] = (G0 - g[a][0]) * k / a;
+    else if (k <= b) off[k] = g[k].length === 1 ? G0 - g[k][0] : off[k - 1];
+    else {
+      const prev = g[k - 1].map(x => x + off[k - 1]);
+      let best = null;
+      for (const x of g[k]) for (const q of prev) { const d = Math.abs(x + off[k - 1] - q); if (!best || d < best.d) best = { d, x, q }; }
+      off[k] = best && best.d <= tol ? best.q - best.x : off[k - 1];
+    }
+  }
+  return off.map(v => Math.round(v));
+}
+
 export const LIMB_SIZE = { fist: [6, 6], rearFist: [6, 6], foot: [9, 8], knee: [10, 10] };
 
 // Centro da hitbox do membro. O marcador é o pixel mais à frente do punho,

@@ -1019,3 +1019,34 @@ test('Miguel com a guarda rompida mostra a guarda rompida desenhada', () => {
   p.state = 'hitstun'; p.t = 0; p.stun = 500; p.reaction = 'body'; p.reactKind = 'guardBreak';
   assert.equal(d.animation(p).clip, 'm5_guardBreak');
 });
+
+test('chutes do Miguel com o pé de apoio parado: o corpo entra e o pé alcança como o do Sorriso', () => {
+  const d = withMiguel(), m = d.movesBy.miguel.roundBody;
+  assert.ok(Math.max(...m.plant) >= 15, 'o desenho avança: ' + m.plant.join(' '));
+  assert.ok(d.reachOf(d.player).roundBody >= 40, 'alcance ' + d.reachOf(d.player).roundBody);
+  for (const id of ['roundBody', 'roundHead', 'kneeStrike']) {
+    const e = withMiguel(); e.rival.x = e.player.x + 40; e.tick([{}, {}]);
+    const x0 = e.drawX(e.player);
+    e.begin(e.player, id, false);
+    let ahead = 0;
+    for (let t = 0; t < 900 && !e.lastHit; t += TICK) { e.tick([{}, {}]); ahead = Math.max(ahead, e.drawX(e.player) - x0); }
+    assert.equal(e.lastHit?.attacker, 1, id + ' acerta a 40 px');
+    assert.ok(ahead >= 10, id + ' sai do lugar: ' + ahead.toFixed(1));
+  }
+});
+
+test('andar até o outro para na mesma distância, seja quem for', () => {
+  const gaps = [['miguel', 'sorriso'], ['sorriso', 'miguel'], ['miguel', 'miguel'], ['sorriso', 'sorriso']].map(([a, b]) => {
+    const d = withMiguel(); d.setCharacters([a, b]);
+    run(d, 3000, { right: true }); run(d, 300);
+    return d.rival.x - d.player.x;
+  });
+  assert.ok(Math.max(...gaps) - Math.min(...gaps) < 1, gaps.join(' '));
+  assert.ok(gaps[0] >= STAGE.half * 2 - 1e-6);
+});
+
+test('J colado só vira cotovelada se ela alcança; senão sai o jab', () => {
+  const d = withMiguel(); d.rival.x = d.player.x + 30;
+  press(d, { attack: true });
+  assert.equal(d.player.move, 'jab');
+});

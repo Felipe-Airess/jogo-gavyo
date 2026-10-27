@@ -70,18 +70,20 @@ const MIGUEL_SPEC = {
   cross: { ...SPEC.cross, clip: 'm3_cross' },
   crossBody: { ...SPEC.crossBody, clip: 'm3_crossBody' },
   overhand: { ...SPEC.overhand, clip: 'm3_overhand', whiff: undefined },
-  roundBody: { ...SPEC.roundBody, clip: 'm3_roundKick', name: 'CHUTE CIRCULAR' },
+  // Chutes do lote 3 com o pé de apoio parado (`plant`, markers.plantedOffsets):
+  // o corpo entra com o chute em vez de recuar.
+  roundBody: { ...SPEC.roundBody, clip: 'm3_roundKick', name: 'CHUTE CIRCULAR', plant: true },
   // Cima+K: chute com passo do lote 3, na cintura (pé a −25/−28 px no
   // contato): mira tronco e perna, dano de chute médio. Os chutes altos ficam
   // no atlas sem comando: m4_kickHigh tem o pé no topo da cabeça (−65 px) e
   // m5_kickHigh tem o pé no rosto (−58) mas colado ao corpo (17 px à frente);
   // os corpos nunca ficam a menos de ~35 px e ele não alcança ninguém.
-  roundHead: { ...SPEC.roundHead, clip: 'm3_stepKick', name: 'CHUTE COM PASSO', damage: 14, balance: 24, push: 16, targets: ['body', 'legs'] },
+  roundHead: { ...SPEC.roundHead, clip: 'm3_stepKick', name: 'CHUTE COM PASSO', damage: 14, balance: 24, push: 16, targets: ['body', 'legs'], plant: true },
   hook: { ...SPEC.hook, clip: 'm4_hook', name: 'GANCHO' },
   jabBody: { ...SPEC.jabBody, clip: 'm4_jabBody', targets: ['body'] },
   parryCounter: { ...SPEC.parryCounter, clip: 'm4_parryCounter', times: undefined, active: undefined },
   lowKick: { ...SPEC.lowKick, clip: 'm3_lowKick', links: undefined },
-  kneeStrike: { name: 'JOELHADA', clip: 'm3_knee', limb: 'knee', power: 2, damage: 12, balance: 16, hitstun: 380, blockstun: 220, push: 8, cost: 9, targets: ['body', 'head'] },
+  kneeStrike: { name: 'JOELHADA', clip: 'm3_knee', limb: 'knee', power: 2, damage: 12, balance: 16, hitstun: 380, blockstun: 220, push: 8, cost: 9, targets: ['body', 'head'], plant: true },
 };
 // Golpes do lote 4/pacote 3 do Miguel. `hits`: golpes com vários contatos
 // (combos desenhados): cada janela acerta uma vez, com o membro, as regiões e
