@@ -250,6 +250,62 @@ PAIR M — soccer kick on the downed opponent, 9 frames, contact 5. Miguel runs 
 PAIR N — standing knockout reaction (opponent only), 8 frames. Hit on the chin, eyes go blank, knees give out, falls face-first straight down, lying face down at the end.
 ```
 
+## 16C. Golpes extras (arsenal completo)
+
+```
+MOVEMENT
+- Quick dash forward, 5 frames: low lunge step, travels 24 px, ends in guard.
+- Quick backstep, 5 frames: hop back 20 px, guard up.
+- Turn around, 4 frames: from facing right to facing left in guard (frame 4 faces LEFT).
+- Circle/feint, 6 frames: shoulder and front hand fake a jab without extending, feet planted.
+
+PUNCHES
+- Spinning backfist, 10 frames, contact 6: turns his back (3-4), right arm swings with the back of the fist at head height (6).
+- Check hook while stepping back, 9 frames, contact 5: pivots on the front foot, body turns 45 degrees away, left hook.
+- Lead uppercut to the body, 8 frames, contact 4.
+- Hammer fist standing (downward), 8 frames, contact 5.
+- Double punch 1-2 in one sheet, 10 frames, contacts 3 and 7.
+- 1-2-3 (jab, cross, hook) in one sheet, 14 frames, contacts 3, 7, 11.
+
+KICKS
+- Teep (front push kick) to the stomach, 9 frames, contact 5: knee up, sole of the foot pushes straight forward, body leans back.
+- Oblique kick to the front knee, 8 frames, contact 4: stomping sole at knee height.
+- Calf kick, 9 frames, contact 5: shin hits the lower leg at 20 px above the ground.
+- Switch kick (left leg roundhouse to the body after a quick stance switch), 11 frames, contact 6.
+- Spinning back kick to the stomach, 12 frames, contact 7: turns his back, right heel thrusts straight back-to-forward.
+- Axe kick, 11 frames, contact 6: leg rises straight above head height, heel comes down.
+- Flying knee, 10 frames, contact 6: two running steps, jumps, right knee at head height in the air.
+- Jumping front kick, 10 frames, contact 6.
+
+DEFENSE AND COUNTERS
+- Low block / leg check, 6 frames: front knee lifts and turns out to absorb a low kick.
+- Body block, 6 frames: elbows down covering the ribs, slight crouch.
+- Catch the kick + sweep (PAIR), 12 frames, contact 9: Miguel traps the opponent's kicking leg under his arm (4-6), sweeps the standing leg (9). Opponent: leg caught, hops, falls on the back.
+- Duck under + body hook, 9 frames, contact 6: ducks 12 px low, comes up with a left hook to the body.
+- Roll with the punch, 6 frames: head turns with the impact, then returns.
+
+CLINCH / WALL
+- Wall pin knees (PAIR), 10 frames, contacts 4 and 8: opponent's back against an invisible wall on the right edge, Miguel pins him with the left forearm on the chest and throws right knees to the body.
+- Double-leg takedown (PAIR), 12 frames, contact 8: Miguel changes level, steps deep, grabs both legs behind the knees, lifts and drives the opponent to his back.
+- Body lock and trip (PAIR), 12 frames, contact 8.
+- Break the clinch: push with both hands, 6 frames.
+
+GROUND
+- Ground and pound from standing over the opponent's guard (PAIR), 8 frames, contacts 4 and 7.
+- Elbows from mount (PAIR), loop 6 frames, contacts 3 and 6.
+- Getting mounted: bucking the hips to escape (opponent side), 8 frames.
+- Back roll recovery to guard, 7 frames.
+- Kip-up (jump from the back to standing), 8 frames.
+
+EXTRA REACTIONS
+- Hit while blocking low, 5 frames.
+- Blocked kick bounce (attacker), 6 frames: leg bounces off the guard, steps back.
+- Bounce off the wall (back hits the right edge and rebounds forward), 8 frames.
+- Spin-around reaction (hard hook turns him 3/4 around), 8 frames.
+- Kneeling dazed (one knee down, trying to get up), loop 4 frames.
+- Face-down knockout lying, loop 2 frames.
+```
+
 ## 17. Bom ter
 
 ```
