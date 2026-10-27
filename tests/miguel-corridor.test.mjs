@@ -38,10 +38,13 @@ test('corredor com Miguel: corpo abre a cabeça; o soco acerta com a ponta do pu
   assert.ok(centers.length && centers.every(c => tips.some(x => Math.abs(c - x) < 0.01)), `caixa ${centers} na ponta do punho ${tips}`);
 });
 
-test('corredor com Miguel: sem corrida, sem clinch; golpe sem desenho vira o substituto', () => {
+test('corredor com Miguel: corre com a arte dele, sem clinch; golpe sem desenho vira o substituto', () => {
   const m = miguel();
-  advance(m, 300, { right: true, run: true });
-  assert.equal(m.player.state, 'walk');
+  const seen = new Set();
+  for (let t = 0; t < 800; t += 8) { m.step({ right: true, run: true }, 8); seen.add(look(m)); }
+  assert.equal(m.player.state, 'run');
+  assert.ok(seen.has('m4_runStart') && seen.has('m4_run'));
+  m.step({}, 8); seen.add(look(m));
   m.grab();
   assert.ok(!m.player.grabbed, 'não agarra');
   m.player.facing = 1;

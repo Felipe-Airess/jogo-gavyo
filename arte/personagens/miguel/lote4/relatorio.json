@@ -13,13 +13,6 @@
   "cortados_na_celula": [],
   "refazer": null
  },
- "run": {
-  "quadros": 8,
-  "fora": {},
-  "reescalados": [],
-  "cortados_na_celula": [],
-  "refazer": "pernas não alternam (mesma perna na frente), quadro 1 com joelho quase no chão"
- },
  "runStart": {
   "quadros": 5,
   "fora": {},
@@ -48,13 +41,6 @@
   "cortados_na_celula": [],
   "refazer": null
  },
- "hitHeadHeavy": {
-  "quadros": 7,
-  "fora": {},
-  "reescalados": [],
-  "cortados_na_celula": [],
-  "refazer": "quadros 2-3 viram de frente para a câmera"
- },
  "hitBody": {
   "quadros": 6,
   "fora": {},
@@ -69,26 +55,12 @@
   "cortados_na_celula": [],
   "refazer": null
  },
- "fall": {
-  "quadros": 6,
-  "fora": {},
-  "reescalados": [],
-  "cortados_na_celula": [],
-  "refazer": "figuras deitadas encostadas umas nas outras na folha (4-6 não se separam)"
- },
  "lying": {
   "quadros": 2,
   "fora": {},
   "reescalados": [],
   "cortados_na_celula": [],
   "refazer": null
- },
- "rise": {
-  "quadros": 7,
-  "fora": {},
-  "reescalados": [],
-  "cortados_na_celula": [],
-  "refazer": "figuras sobrepostas na folha (3-7 não se separam)"
  },
  "kickHigh": {
   "quadros": 12,
@@ -141,13 +113,6 @@
   "cortados_na_celula": [],
   "refazer": null
  },
- "leanBack": {
-  "quadros": 6,
-  "fora": {},
-  "reescalados": [],
-  "cortados_na_celula": [],
-  "refazer": "quadros 2-3 mostram as costas"
- },
  "slipCounter": {
   "quadros": 7,
   "fora": {},
@@ -166,6 +131,41 @@
   "quadros": 5,
   "fora": {},
   "reescalados": [],
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "leanBack": {
+  "quadros": 6,
+  "fonte": "leanBack.png",
+  "escala": 0.12,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "hitHeadHeavy": {
+  "quadros": 7,
+  "fonte": "hitHeadHeavy.png",
+  "escala": 0.141,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "rise": {
+  "quadros": 7,
+  "fonte": "rise.png",
+  "escala": 0.188,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "fall": {
+  "quadros": 6,
+  "fonte": "fall.png",
+  "escala": 0.202,
+  "cortados_na_celula": [],
+  "refazer": null
+ },
+ "run": {
+  "quadros": 8,
+  "fonte": "run.png",
+  "escala": 0.184,
   "cortados_na_celula": [],
   "refazer": null
  }

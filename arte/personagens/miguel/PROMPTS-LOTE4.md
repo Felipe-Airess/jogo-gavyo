@@ -332,6 +332,41 @@ EXTRA REACTIONS
 - Face-down knockout lying, loop 2 frames.
 ```
 
+## 18. Golpes que pegam de jeito (folhas em PAR: quem bate + quem recebe)
+
+Cada item é UMA imagem com duas fileiras: em cima Miguel (olhando para a
+direita), embaixo o parceiro de treino recebendo (olhando para a ESQUERDA),
+mesmo número de quadros, quadro de contato igual nas duas fileiras. O
+parceiro é desenhado exatamente onde estaria na luta (a 1 pé de distância
+do punho/pé de Miguel no contato), para o golpe "pegar" de verdade.
+
+```
+PAIRED ANIMATIONS: one image per item, two rows: TOP row = Miguel facing RIGHT, BOTTOM row = the sparring partner facing LEFT, same number of frames, same contact frame number in both rows. In the contact frame, Miguel's fist/foot/knee touches the partner exactly on the named target (chin, ribs, thigh). No blood, no injury details: sport fighting game.
+
+A. FINISHERS ON A DAZED OPPONENT (the partner starts already dazed: guard low, knees soft)
+A1. Overhand knockout, 10 frames, contact 5: Miguel loads the right hand back (1-3), steps in and throws an overhand to the chin (5). Partner: head snaps sideways (5), body spins a quarter turn (6-7), falls face down (8-10).
+A2. Lifting uppercut, 10 frames, contact 5: Miguel dips the knees (2-3), right uppercut under the chin (5). Partner: head snaps up, heels leave the ground (5-6), falls on the back (7-10).
+A3. Flying knee to the chin, 10 frames, contact 6: two quick steps, jumps, right knee to the chin (6), lands (8-10). Partner: head thrown back, falls on the back.
+A4. Spinning back kick to the stomach, 12 frames, contact 7. Partner: folds in half, flies back 2 feet, sits on the floor.
+A5. Downward elbow, 9 frames, contact 5: elbow comes down on top of the head/temple. Partner: drops to both knees, then falls forward on the hands.
+A6. Collar grab + headbutt, 9 frames, contact 5 (forehead to forehead). Partner: head snaps back, falls on the back.
+A7. Clinch knees finish, 14 frames, contacts 4, 8, 12: holds the neck, knee to the body twice, knee to the chin on 12. Partner: bends more on each knee, falls on the knees then on the side.
+
+B. HARD-HITTING DYNAMIC STRIKES (work on a normal opponent in guard)
+B1. Running punch, 10 frames, contact 6: two running steps, whole body leaning into a straight right. Partner: knocked back 2 feet, stumbles.
+B2. Liver hook, 9 frames, contact 5: left hook to the right side of the ribs. Partner: freezes (5-6), drops to one knee holding the side (7-9).
+B3. Teep (push kick) to the chest, 9 frames, contact 5. Partner: flies back 3 feet, lands sitting / back against an invisible wall at the right edge.
+B4. Leg-buckling low kick, 10 frames, contact 5: shin to the outer thigh. Partner: leg folds, falls on the side.
+B5. Counter cross, 8 frames, contact 4: partner throws a jab (1-3), Miguel slips his head right and lands a cross over it (4). Partner: head snaps back, stumbles.
+B6. Double hook (body then head), 12 frames, contacts 4 and 9. Partner: bends on 4, head turns on 9.
+B7. Shoulder charge while running, 10 frames, contact 6. Partner: knocked off the feet, falls on the back.
+B8. Dropkick while running, 12 frames, contact 7: both feet to the chest, Miguel lands on the side and gets up (9-12). Partner: flies back, falls on the back.
+B9. Superman punch, 10 frames, contact 6. Partner: head snaps back, falls on the back.
+B10. Sweep + ground punch, 14 frames, contacts 4 and 11: sweeps the front leg (4), partner falls on the back (5-8), Miguel drops on one knee and punches down to the chest (11).
+B11. Ground soccer kick, 9 frames, contact 5 (partner already lying): kick to the side of the torso. Partner: rolls half a turn.
+B12. Lift by the collar + punch, 14 frames, contact 11: pulls the lying partner up by the shirt collar (1-8), right straight to the face (11). Partner: from lying to standing held (1-8), head snaps back, falls on the back (11-14).
+```
+
 ## 17. Bom ter
 
 ```

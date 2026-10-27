@@ -38,16 +38,28 @@ def shirt_x(a):
     return np.nonzero(m)[1].mean() if m.sum() > 20 else np.nonzero(op)[1].mean()
 
 
+def shirt_area(a):
+    rgb = a[..., :3].astype(int); op = a[..., 3] > 0
+    white = (rgb.min(2) > 150) & (rgb.max(2) - rgb.min(2) < 45)
+    green = (rgb[..., 1] > rgb[..., 0] + 25) & (rgb[..., 1] > rgb[..., 2] + 5)
+    return float((op & (white | green)).sum())
+
+
 # Quadros desenhados maiores que os vizinhos: voltam à escala pela cabeça.
 BIGGER = {}   # chute alto 6-7 parecem maiores, mas a altura medida (92 px x 86) é a da perna de apoio esticada
 # Animações com erro de anatomia/direção: extraídas para conferência, mas
 # marcadas para refazer (não entram no jogo).
-REFAZER = {
-    'hitHeadHeavy': 'quadros 2-3 viram de frente para a câmera',
-    'leanBack': 'quadros 2-3 mostram as costas',
-    'fall': 'figuras deitadas encostadas umas nas outras na folha (4-6 não se separam)',
-    'rise': 'figuras sobrepostas na folha (3-7 não se separam)',
-    'run': 'pernas não alternam (mesma perna na frente), quadro 1 com joelho quase no chão',
+REFAZER = {}   # refeitas em folhas separadas (REFEITAS, abaixo) substituem as do pacote 2
+
+# Folhas refeitas (uma animação por imagem, 2172x724): arquivo em fontes/,
+# quadros, quadro de guarda para a escala (1-based) ou None (escala pela
+# largura do cabelo, comparada com a guarda de 'leanBack').
+REFEITAS = {
+    'leanBack': ('leanBack.png', 6, 1),
+    'hitHeadHeavy': ('hitHeadHeavy.png', 7, 1),
+    'rise': ('rise.png', 7, 7),
+    'fall': ('fall.png', 6, None),
+    'run': ('run.png', 8, None),
 }
 
 sheet = np.array(Image.open(SRC).convert('RGB')).astype(int)
@@ -104,18 +116,18 @@ pal = Image.fromarray(px.reshape(-1, 1, 3)).quantize(colors=48, method=Image.Qua
 # lote 3, aplicado antes da paleta — muda só a cor, não o desenho.
 def _cdf(v):
     h = np.bincount(v.ravel(), minlength=256).astype(float); c = np.cumsum(h); return c / c[-1]
+def build_lut(src, s):
+    rgb = np.array(Image.fromarray(src).resize((max(1, round(src.shape[1] * s)), max(1, round(src.shape[0] * s))), Image.BOX))
+    sp = rgb[..., :3][rgb[..., 3] >= 128]
+    return [np.searchsorted(_cdf(px[:, ch]), _cdf(sp[:, ch])).clip(0, 255).astype(np.uint8) for ch in range(3)]
 _src = cut(CELLS['walkFwd'][0])
-_s_rgb = np.array(Image.fromarray(_src).resize((round(_src.shape[1] * TARGET_H / _src.shape[0]), TARGET_H), Image.BOX))
-_s_px = _s_rgb[..., :3][_s_rgb[..., 3] >= 128]
-LUT = []
-for ch in range(3):
-    cs, cr = _cdf(_s_px[:, ch]), _cdf(px[:, ch])
-    LUT.append(np.searchsorted(cr, cs).clip(0, 255).astype(np.uint8))
+LUT = build_lut(_src, TARGET_H / _src.shape[0])
 def match(rgb):
     return np.stack([LUT[c][rgb[..., c]] for c in range(3)], -1)
 
 report, review = {}, []
 for name, boxes in CELLS.items():
+    if name in REFEITAS: continue
     out_dir = f'{OUT}/{name}'; os.makedirs(out_dir, exist_ok=True)
     for f in glob.glob(f'{out_dir}/*.png'): os.remove(f)
     frames, dropped, scaled = [], [], []
@@ -146,6 +158,96 @@ for name, boxes in CELLS.items():
                     'reescalados': scaled, 'cortados_na_celula': [i for i, _, c in frames if c],
                     'refazer': REFAZER.get(name)}
     review.append((name, [c for _, c, _ in frames]))
+
+# ---- folhas refeitas: corte pelo vale da silhueta, altura relativa ao chão preservada
+def row_boxes(n):
+    fgm = mag_d > 150
+    rows = fgm.mean(1) > 0.002
+    # faixa mais alta de linhas com figura (os números ficam numa faixa própria, acima)
+    runs, st = [], None
+    for y, v in enumerate(list(rows) + [False]):
+        if v and st is None: st = y
+        if not v and st is not None: runs.append((st, y)); st = None
+    y0, y1 = max(runs, key=lambda r: r[1] - r[0])
+    band = fgm[y0:y1]
+    # linhas pretas de célula (colunas quase cheias e finas) viram fronteira e saem da máscara
+    full = band.mean(0) > 0.9
+    prof = band.sum(0).astype(float); prof[full] = 0
+    xs = np.nonzero(prof)[0]; x0, x1 = xs.min(), xs.max() + 1
+    cw = (x1 - x0) / n; bs = [x0]
+    for i in range(1, n):
+        c = int(x0 + i * cw); r = int(cw * 0.3); seg = prof[c - r:c + r + 1]
+        bs.append(c - r + int(np.argmin(seg)))
+    bs.append(x1)
+    return [(bs[i] + (3 if full[bs[i]] else 0), y0, bs[i + 1] - (2 if full[min(bs[i + 1], len(full) - 1)] else 0), y1) for i in range(n)], y1
+
+lean_hair = None
+
+
+def equalize_legs(cells):
+    """Corrida: a folha repete a mesma passada duas vezes (a perna escura, de
+    longe, fica sempre atrás) — no jogo, manca. Sem redesenhar, a perna de longe
+    recebe os tons da de perto (mesma luminância relativa; contorno escuro
+    fica): sem perna mais escura, não se distingue qual está à frente e o ciclo
+    lê como pernas alternando. Só cor."""
+    lum = lambda c: 0.3 * c[..., 0] + 0.59 * c[..., 1] + 0.11 * c[..., 2]
+    jm = [(c[..., 3] > 0) & (c[..., 2].astype(int) > c[..., 0].astype(int) + 25) & (c[..., 2] >= c[..., 1]) for c in cells]
+    pal_j = np.unique(np.concatenate([c[..., :3][j] for c, j in zip(cells, jm)]), axis=0)
+    light = pal_j[lum(pal_j.astype(float)) >= 115]; light = light[np.argsort(lum(light.astype(float)))]
+    for c, j in zip(cells, jm):
+        L = lum(c[..., :3].astype(float)); dark = j & (L < 115) & (L > 60)
+        lab, n = ndimage.label(ndimage.binary_opening(dark, iterations=1))
+        for i in range(1, n + 1):
+            m = lab == i
+            if m.sum() < 25: continue
+            m = ndimage.binary_dilation(m, iterations=1) & dark
+            k = np.clip((L[m] - 60) / 55 * (len(light) - 1), 0, len(light) - 1).astype(int)
+            c[m, :3] = light[k]
+for name, (fname, n, guard) in REFEITAS.items():
+    sheet = np.array(Image.open(f'{OUT}/fontes/{fname}').convert('RGB')).astype(int)
+    mag_d = np.sqrt(((sheet - [255, 0, 255]) ** 2).sum(2))
+    boxes, _ = row_boxes(n)
+    raw = [cut(b) for b in boxes]
+    # fundo da figura na folha (para manter o voo da corrida e a altura no chão)
+    bottoms = []
+    for b in boxes:
+        al = mag_d[b[1]:b[3], b[0]:b[2]] > 150
+        lab, k = ndimage.label(al, structure=np.ones((3, 3)))
+        sz = ndimage.sum(al, lab, range(1, k + 1)); main = lab == (int(np.argmax(sz)) + 1)
+        bottoms.append(b[1] + np.nonzero(main.any(1))[0].max())
+    ground = max(bottoms)
+    if guard:
+        S = TARGET_H / raw[guard - 1].shape[0]
+        if name == 'leanBack': lean_hair = (shirt_area(raw[0]), S)
+    else:
+        # sem guarda: área da camisa (não muda com a inclinação), média dos quadros,
+        # comparada com a da guarda da esquiva
+        S = lean_hair[1] * (lean_hair[0] / np.median([shirt_area(r) for r in raw])) ** 0.5
+    out_dir = f'{OUT}/{name}'; os.makedirs(out_dir, exist_ok=True)
+    for f in glob.glob(f'{out_dir}/*.png'): os.remove(f)
+    # cor casada por folha: cada folha refeita veio com tons próprios; a guarda
+    # dela (ou, sem guarda, o quadro 1) é comparada com a guarda do lote 3
+    LUT = build_lut(raw[(guard or 1) - 1], S)
+    frames = []
+    for k, (a, bot) in enumerate(zip(raw, bottoms)):
+        im = Image.fromarray(a); w, h = im.size
+        sm = np.array(im.resize((max(1, round(w * S)), max(1, round(h * S))), Image.BOX))
+        sm[..., 3] = np.where(sm[..., 3] >= 128, 255, 0)
+        sm[..., :3] = match(sm[..., :3])
+        q = np.array(Image.fromarray(sm[..., :3]).quantize(palette=pal, dither=Image.Dither.NONE).convert('RGB'))
+        sm = np.dstack([q, sm[..., 3]]); sm[sm[..., 3] == 0] = 0
+        hh = sm.shape[0]; tx = shirt_x(sm)
+        x = int(round(PIV[0] - tx)); y = PIV[1] - hh - int(round((ground - bot) * S))
+        cell = np.zeros((96, 128, 4), np.uint8)
+        X0, Y0, X1, Y1 = max(0, x), max(0, y), min(128, x + sm.shape[1]), min(96, y + hh)
+        cell[Y0:Y1, X0:X1] = sm[Y0 - y:Y1 - y, X0 - x:X1 - x]
+        frames.append((cell, x < 0 or x + sm.shape[1] > 128 or y < 0))
+    if name == 'run': equalize_legs([c for c, _ in frames])
+    for k, (cell, _) in enumerate(frames): Image.fromarray(cell).save(f'{out_dir}/{k + 1:02d}.png')
+    report[name] = {'quadros': len(frames), 'fonte': fname, 'escala': round(float(S), 3), 'cortados_na_celula': [i + 1 for i, (_, c) in enumerate(frames) if c], 'refazer': None}
+    review = [(nm, fr) if nm != name else (nm, [c for c, _ in frames]) for nm, fr in review]
+    if name not in [nm for nm, _ in review]: review.append((name, [c for c, _ in frames]))
+
 json.dump(report, open(f'{OUT}/relatorio.json', 'w'), ensure_ascii=False, indent=1)
 
 # folha de revisão: uma linha por animação, linha do chão e do pivô

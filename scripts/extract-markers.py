@@ -312,7 +312,8 @@ CHARACTERS = {
                ['m_enterGuard', 'm_walkFwd', 'm_walkBack', 'm_lowerGuard', 'm_block',
                 'm3_idle', 'm3_walk', 'm3_jab', 'm3_cross', 'm3_crossBody', 'm3_overhand', 'm3_roundKick', 'm3_stepKick', 'm3_lowKick', 'm3_knee',
                 'm4_walkFwd', 'm4_walkBack', 'm4_block', 'm4_hitHead', 'm4_hitBody', 'm4_hitLeg', 'm4_dazed', 'm4_lying', 'm4_runStart', 'm4_runStop',
-                'm4_kickHigh', 'm4_hook', 'm4_jabBody', 'm4_uppercut', 'm4_elbow', 'm4_jabStep', 'm4_crossStep', 'm4_slipCounter', 'm4_parryCounter']),
+                'm4_kickHigh', 'm4_hook', 'm4_jabBody', 'm4_uppercut', 'm4_elbow', 'm4_jabStep', 'm4_crossStep', 'm4_slipCounter', 'm4_parryCounter',
+                'm4_hitHeadHeavy', 'm4_leanBack', 'm4_fall', 'm4_rise', 'm4_run']),
 }
 
 

@@ -271,6 +271,21 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   (troca de pé no marcador, quadros do meio não desenhados) não arrasta caixa.
 * Diferença de arte que fica: tênis brancos no lote 4 (escuros no lote 3).
 
+## Miguel — folhas refeitas (27/10)
+
+* `lote4/fontes/{leanBack,fall,hitHeadHeavy,run,rise}.png`, uma animação por
+  imagem; `extrair.py` (REFEITAS) corta pelo vale da silhueta, escala pela
+  guarda da folha (ou pela área da camisa quando não há guarda), preserva a
+  altura relativa ao chão (voo da corrida) e casa a cor por folha.
+* Corrida: a folha repete a mesma passada duas vezes (perna de longe sempre
+  atrás; braços parados). `equalize_legs` dá à perna de longe os tons da de
+  perto (só cor) para o ciclo ler como alternado. Passada: a da corrida do
+  Sorriso (`R2_STRIDE.run`, mesma escala), porque o desenho corre no lugar.
+* Duelo/corredor: corrida (arrancada m4_runStart, ciclo m4_run, freada
+  m4_runStop), queda m4_fall, deitado m4_lying, levantar m4_rise, reação forte
+  na cabeça m4_hitHeadHeavy (atordoamento ≥ 440 ms). Esquiva m4_leanBack no
+  atlas, sem comando (não há mecânica de esquiva ainda).
+
 ## Miguel no corredor (27/10, pedido do usuário)
 
 * Seletor **Lutador** vale nos dois modos. `Corridor.setPlayer` troca golpes,
@@ -285,7 +300,7 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
   ou direto); padrão sem mudança para o Sorriso. Golpe inexistente mostra
   "Golpe ainda sem desenho." `playerClips` separa a arte do jogador da dos alvos.
 * Regra do corredor mantida: cabeça do alvo em pé fica a −67; corpo primeiro.
-* Sem desenho: corrida, clinch, limpar a mão, queda (cai segura m4_hitHead 2).
+* Sem desenho: clinch e limpar a mão. Corrida, queda e levantar do Miguel vêm das folhas refeitas.
 
 ## Acompanhar (provisório, `STEP_IN` em `duel.mjs`)
 

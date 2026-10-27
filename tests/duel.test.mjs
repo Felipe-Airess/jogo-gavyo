@@ -445,13 +445,17 @@ test('Miguel compartilha as regras, mas só faz o que tem desenho', () => {
   assert.equal(can.guard, true);
   assert.equal(can.walk, true);
   assert.equal(can.attack, true);
-  for (const action of ['run', 'crouch', 'clinch']) assert.equal(can[action], false, action);
+  for (const action of ['run', 'fall', 'rise']) assert.equal(can[action], true, action);
+  for (const action of ['crouch', 'clinch']) assert.equal(can[action], false, action);
   const d = withMiguel();
   const x = d.player.x;
   run(d, 300, { left: true });
   assert.ok(d.player.x < x, 'anda');
-  run(d, 50, { right: true, run: true });
-  assert.notEqual(d.player.state, 'run', 'não corre');
+  const seen = new Set();
+  for (let t = 0; t < 700; t += TICK) { d.tick([{ right: true, run: true }, {}]); seen.add(d.animation(d.player).clip); }
+  assert.equal(d.player.state, 'run', 'corre');
+  assert.ok(seen.has('m4_runStart') && seen.has('m4_run'), [...seen].join());
+  run(d, 300);
   run(d, 50, { guard: true });
   assert.equal(d.player.state, 'guard');
 });
@@ -748,6 +752,12 @@ test('Miguel: reação desenhada por região, grogue cambaleando e deitado no ch
   assert.equal(d.animation(p).clip, 'm4_dazed');
   p.state = 'down';
   assert.equal(d.animation(p).clip, 'm4_lying');
+  p.state = 'knockdown'; p.t = 0;
+  assert.equal(d.animation(p).clip, 'm4_fall');
+  p.state = 'getup';
+  assert.equal(d.animation(p).clip, 'm4_rise');
+  p.state = 'hitstun'; p.reaction = 'head'; p.stun = 520;
+  assert.equal(d.animation(p).clip, 'm4_hitHeadHeavy');
 });
 
 test('Miguel: carga dos golpes perto da do Sorriso (o mais lento até o contato em ≤ 400 ms)', () => {

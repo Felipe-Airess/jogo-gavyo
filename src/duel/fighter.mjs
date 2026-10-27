@@ -10,9 +10,9 @@ import { R2_STRIDE, tableFrame } from '../locomotion.mjs';
 export const CHARACTERS = {
   sorriso: { name: 'SORRISO', sheet: 'sorriso-sheet', requires: { walk: 'r2_walk', run: 'r2_run', crouch: 'r2_crouchHold', attack: 'r3_jab_head', hurt: 'hurt', fall: 'fall', rise: 'rise', guard: 'block', clinch: 'clinchWalk' } },
   // Miguel: lote 3 (guarda, socos e chutes) e lote 4 (andar em guarda,
-  // bloqueio, reações, grogue, deitado, chute alto, gancho, jab no corpo,
-  // aparo). Corrida, agachar, clinch, queda e levantar ainda faltam.
-  miguel: { name: 'MIGUEL', sheet: 'miguel-sheet', requires: { walk: 'm3_walk', run: null, crouch: null, attack: 'm3_jab', hurt: 'm4_hitHead', fall: null, rise: null, guard: 'm_block', clinch: null } },
+  // bloqueio, reações, grogue, queda, deitado, levantar, corrida, gancho,
+  // jab no corpo, aparo). Agachar e clinch ainda faltam.
+  miguel: { name: 'MIGUEL', sheet: 'miguel-sheet', requires: { walk: 'm3_walk', run: 'm4_run', crouch: null, attack: 'm3_jab', hurt: 'm4_hitHead', fall: 'm4_fall', rise: 'm4_rise', guard: 'm_block', clinch: null } },
 };
 
 export function capabilities(character, clips) {
@@ -70,9 +70,7 @@ export function gaitOffset(f, gait) {
   return -(phase - table.start[tableFrame(table, distance)]) * f.facing;
 }
 
-// Quadros do Miguel. Só sequências desenhadas para ele. Sem queda e levantar
-// desenhados, cair segura o quadro de cabeça jogada da reação e o chão usa o
-// deitado do lote 4.
+// Quadros do Miguel. Só sequências desenhadas para ele.
 const MIGUEL_GUARD = { clip: 'm_enterGuard', frame: 5 };
 const MIGUEL_ABSORB = { clip: 'm_block', frame: 3 };
 // Passo do andar em guarda: o desenho avança ~10 px por ciclo (passo curto);
@@ -83,6 +81,9 @@ const MIGUEL_WALK_CYCLE = 36;
 const hold = (durations, t, from = 0) => from + timed(durations.slice(from), t);
 const byDistance = (clip, d, stride) => { const n = clip.frames.length; return Math.floor((((d % stride) + stride) % stride) / stride * n) % n; };
 const MIGUEL_HIT = { head: 'm4_hitHead', body: 'm4_hitBody', legs: 'm4_hitLeg' };
+// Atordoamento a partir do qual a reação na cabeça é a forte (direto, pesado, chutes).
+const MIGUEL_HEAVY_STUN = 440;
+const once = (clip, t) => ({ clip: clip.id, frame: timed(clip.durations, t) });
 
 export function miguelRef(f, clips, clock = Infinity, moves = null) {
   const fallen = clips.m4_hitHead ? { clip: 'm4_hitHead', frame: 2 } : MIGUEL_ABSORB;
@@ -118,21 +119,35 @@ export function miguelRef(f, clips, clock = Infinity, moves = null) {
       const c = clips.m4_block || clips.m_block;
       return { clip: c.id, frame: Math.min(5, hold(c.durations, f.t, 3)) };
     }
+    case 'run':
+      // Arrancada, depois o ciclo pela distância (passada da corrida medida no
+      // Sorriso, mesma escala: o desenho do Miguel corre no lugar).
+      if (f.t < RUN_START_MS && clips.m4_runStart) return { clip: 'm4_runStart', frame: timed(clips.m4_runStart.durations, f.t * clips.m4_runStart.totalMs / RUN_START_MS) };
+      if (clips.m4_run) return { clip: 'm4_run', frame: byDistance(clips.m4_run, f.runDistance, RUN_STRIDE) };
+      return fallen;
+    case 'brake':
+      return clips.m4_runStop ? once(clips.m4_runStop, f.t) : fallen;
+    case 'knockdown':
+    case 'ko':
+      return clips.m4_fall ? once(clips.m4_fall, f.t) : fallen;
+    case 'getup':
+      return clips.m4_rise ? once(clips.m4_rise, f.t) : fallen;
     case 'hitstun': {
       // Reação por região, esticada para durar o atordoamento inteiro.
-      const c = clips[MIGUEL_HIT[f.reaction] || 'm4_hitBody'];
+      const heavy = f.reaction === 'head' && f.stun >= MIGUEL_HEAVY_STUN && clips.m4_hitHeadHeavy;
+      const c = heavy ? clips.m4_hitHeadHeavy : clips[MIGUEL_HIT[f.reaction] || 'm4_hitBody'];
       if (!c) return MIGUEL_ABSORB;
       const n = c.frames.length;
       return { clip: c.id, frame: Math.min(n - 1, Math.floor(f.t / Math.max(1, f.stun) * n)) };
     }
     case 'down':
+      // Deitado; se a queda acabou de terminar, o deitado respira no mesmo lugar.
       return clips.m4_lying ? { clip: 'm4_lying', frame: loop(clips.m4_lying, f.t) } : MIGUEL_ABSORB;
     case 'held':
     case 'thrown':
     case 'parried':
       return clips.m4_hitBody ? { clip: 'm4_hitBody', frame: 2 } : MIGUEL_ABSORB;
     default:
-      // Queda, nocaute e levantar ainda sem desenho próprio.
       return fallen;
   }
 }

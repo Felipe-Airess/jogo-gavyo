@@ -3,6 +3,7 @@
 // só se troca o desenho e o tempo de cada golpe pelos do Miguel, e se desliga
 // o que ele não tem desenhado — nada é emprestado do Sorriso.
 import { MOVES, frameAt } from './battle.mjs';
+import { R2_STRIDE } from './locomotion.mjs';
 
 // golpe do corredor → [clip do Miguel, nome no HUD, região]
 const MAP = {
@@ -18,7 +19,7 @@ const MAP = {
 };
 
 // Sem desenho próprio: o golpe desenhado mais próximo (como MOVE_FALLBACK no duelo).
-export const MIGUEL_FALLBACK = { reverse: 'low', rush: 'drive', comboKick: 'kick', stepPunch: 'cross' };
+export const MIGUEL_FALLBACK = { reverse: 'low', rush: 'drive', comboKick: 'kick', stepPunch: 'cross' };   // impulso: pesado (sem soco correndo desenhado)
 
 // Clipes do Miguel com fist/foot por quadro (pontas medidas nos marcadores,
 // mesma convenção do atlas do Sorriso: relativo ao pivô, y negativo para cima),
@@ -36,7 +37,7 @@ export function miguelPlayerClips(clips, markers) {
 }
 
 // O que o Miguel ainda não tem desenhado no corredor.
-export const MIGUEL_CAN = { run: false, grab: false, wipe: false };
+export const MIGUEL_CAN = { run: true, grab: false, wipe: false };
 
 export function createMiguelCorridorMoves(clips) {
   const moves = {};
@@ -104,10 +105,18 @@ export function miguelCorridorRef(p, moves, clips) {
       return { clip: 'm4_hitBody', frame: timed(clips.m4_hitBody, p.elapsed) };
     case 'winded':
       return { clip: 'm4_dazed', frame: loop(clips.m4_dazed, p.elapsed) };
+    case 'run': {
+      // Arrancada e ciclo pela distância (passada da corrida do corredor).
+      if ((p.runStart || 0) < 280) return { clip: 'm4_runStart', frame: timed(clips.m4_runStart, (p.runStart || 0) * clips.m4_runStart.totalMs / 280) };
+      const c = clips.m4_run, n = c.frames.length, st = R2_STRIDE.run, d = ((p.runDistance || 0) % st + st) % st;
+      return { clip: 'm4_run', frame: Math.floor(d / st * n) % n };
+    }
+    case 'brake':
+      return { clip: 'm4_runStop', frame: timed(clips.m4_runStop, p.elapsed) };
     case 'rushFall':
+      return { clip: 'm4_fall', frame: timed(clips.m4_fall, p.elapsed) };
     case 'gettingUp':
-      // Sem queda desenhada: cabeça jogada da reação.
-      return { clip: 'm4_hitHead', frame: 2 };
+      return { clip: 'm4_rise', frame: timed(clips.m4_rise, p.elapsed) };
     default:
       return idle();
   }

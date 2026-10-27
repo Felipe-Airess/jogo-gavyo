@@ -2,8 +2,8 @@
 
 Uso: python scripts/add-miguel-lote4.py   (rodar de novo substitui só o lote 4)
 
-Entram só as animações aprovadas na revisão; correr, reação forte, esquiva para
-trás, queda e levantar ficam fora até serem refeitas (lote4/relatorio.json).
+Entram as animações aprovadas na revisão. Correr, reação forte, esquiva para
+trás, queda e levantar vêm das folhas refeitas (lote4/fontes/*.png).
 
 Tempos: não há vídeo destes golpes; o total segue o golpe equivalente do
 Sorriso (mesmo perfil de aceleração do lote 3). O quadro de contato é o de
@@ -34,6 +34,11 @@ CLIPS = {
     'm4_lying': ('lying', 'loop', 450, 0),
     'm4_runStart': ('runStart', 'once', [70, 70, 70, 70, 70], 0),
     'm4_runStop': ('runStop', 'once', [70, 80, 80, 90, 90], 0),
+    'm4_hitHeadHeavy': ('hitHeadHeavy', 'once', [50, 70, 90, 100, 100, 90, 80], 0),
+    'm4_leanBack': ('leanBack', 'once', [60, 70, 90, 90, 80, 70], 0),
+    'm4_fall': ('fall', 'once', [80, 90, 110, 140, 160, 1000], 0),
+    'm4_rise': ('rise', 'once', [120, 110, 100, 90, 80, 80, 90], 0),
+    'm4_run': ('run', 'loop', 70, 0),
     'm4_kickHigh': ('kickHigh', 'strike', 291, 650),
     'm4_hook': ('hook', 'strike', 206, 478),
     'm4_jabBody': ('jabBody', 'strike', 161, 392),
