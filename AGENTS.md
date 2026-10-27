@@ -22,7 +22,7 @@ contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
 
 ```bash
 npm start            # servidor local em http://127.0.0.1:4173 (abre o navegador)
-npm test             # 139 testes: core, duelo e históricos — todos passando
+npm test             # 143 testes: core, duelo e históricos — todos passando
 npm run test:legacy  # 22 testes antigos — todos passando
 npm run build        # gera build/ (≈4,7 MB, ignorado pelo Git)
 python scripts/extract-markers.py sorriso miguel   # regenera *-markers.json (Python 3 + Pillow)
@@ -154,6 +154,22 @@ contorno) antes de integrar, e normalizar só cor e escala por código. Ver
 * Auditoria nos 315 quadros: pixels opacos fora de hurtbox 25% → 7,7% (o
   resto é sobretudo a mão parada, fora de propósito, e o topo do cabelo);
   área de caixa sem pixel 36% → 13%.
+
+## Golpe limpo e grogue (`duel/damage.mjs`)
+
+* Qualidade do contato = parte da hitbox do membro dentro da região atingida
+  (`coverage`): ≥ 0,6 limpo (dano ×1,25, base ×1,2, atordoamento ×1,15, pausa
+  e tremor um degrau acima); ≥ 0,25 normal; abaixo, raspão (×0,5, ×0,5, ×0,7).
+  Na varredura (membro atravessou entre ticks) não há medida: normal. Colado
+  demais (< 60% do alcance do golpe) não sai limpo. Raspão não nocauteia por
+  situação.
+* Grogue: `headRecent` soma o dano na cabeça (limpo ×1,5) e cai 12/s; passou
+  de 32 → grogue por 2,6 s: anda a 60%, não corre, não recupera equilíbrio,
+  guarda gasta o dobro de fôlego. Golpe limpo médio/pesado na cabeça com
+  cabeça ≥ 45 nocauteia. HUD mostra GROGUE. Sem arte própria: não há pose
+  de cambaleio.
+* Ajuste em `QUALITY` e `ROCK`. Simulação IA × IA (40 lutas): mediana 25 s,
+  mínimo 10,6 s, ~15 grogues.
 
 ## Armadilhas encontradas
 

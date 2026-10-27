@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import { Duel, TICK, STAGE } from '../src/duel/duel.mjs';
 import { DuelAI } from '../src/duel/ai.mjs';
 import { CLINCH } from '../src/duel/clinch.mjs';
+import { resolveHit, contactQuality, ROCK } from '../src/duel/damage.mjs';
 import { sweep } from '../src/duel/collision.mjs';
 import { capabilities, createFighter } from '../src/duel/fighter.mjs';
 import { worldMarkers, bounds, hurtboxes, limbCenter, LIMB_SIZE } from '../src/duel/markers.mjs';
@@ -550,4 +551,57 @@ test('a hitbox do membro termina no pixel mais à frente do desenho', () => {
     const tip = { x: 100, y: 50 }, c = limbCenter(tip, 'fist', facing), [w] = LIMB_SIZE.fist;
     assert.equal(facing > 0 ? c.x + w / 2 : c.x - w / 2, tip.x);
   }
+});
+
+// Golpe limpo x raspão e grogue.
+test('qualidade do contato muda dano, equilíbrio e atordoamento', () => {
+  const d = make(40), m = d.moves.cross, f = d.rival;
+  const clean = resolveHit(m, f, 'body', { quality: 'clean' }), normal = resolveHit(m, f, 'body', {}), graze = resolveHit(m, f, 'body', { quality: 'graze' });
+  assert.ok(clean.damage > normal.damage && normal.damage > graze.damage);
+  assert.ok(clean.balance > normal.balance && normal.balance > graze.balance);
+  assert.ok(clean.stun > normal.stun && normal.stun > graze.stun);
+  assert.equal(contactQuality(0.9), 'clean');
+  assert.equal(contactQuality(0.4), 'normal');
+  assert.equal(contactQuality(0.1), 'graze');
+  assert.equal(contactQuality(null), 'normal');
+});
+
+test('raspão na cabeça castigada não nocauteia; limpo em quem está grogue nocauteia', () => {
+  const d = make(40), m = d.moves.cross, f = d.rival;
+  f.condition.head = 60; f.balance = 10;
+  assert.notEqual(resolveHit(m, f, 'head', { quality: 'graze', counter: true }).kind, 'ko');
+  f.condition.head = 40; f.balance = 100;
+  assert.equal(resolveHit(m, f, 'head', { quality: 'clean', rocked: true }).kind, 'ko');
+  f.condition.head = 5;
+  assert.notEqual(resolveHit(m, f, 'head', { quality: 'clean', rocked: true }).kind, 'ko', 'cabeça ainda inteira');
+  assert.notEqual(resolveHit(d.moves.jab, f, 'head', { quality: 'clean', rocked: true }).kind, 'ko', 'jab não derruba sozinho');
+});
+
+test('no ponto certo o jab sai limpo; na ponta do alcance sai mais fraco', () => {
+  const hit = gap => { const d = make(gap); d.rival.condition.head = -500; press(d, { attack: true }); run(d, 500); return d.lastHit; };
+  const sweet = hit(32), edge = hit(48);
+  assert.equal(sweet?.quality, 'clean');
+  assert.ok(edge && edge.quality !== 'clean', 'na ponta: ' + edge?.quality);
+  assert.ok(sweet.damage > edge.damage);
+});
+
+test('dano seguido na cabeça deixa grogue: anda devagar, não recupera base, passa com o tempo', () => {
+  const d = make(36), f = d.rival;
+  f.headRecent = ROCK.threshold - 1;
+  press(d, { attack: true });
+  run(d, 450);
+  assert.equal(d.lastHit?.zone, 'head');
+  assert.ok(d.isRocked(f), 'grogue');
+  assert.ok(d.events.some(e => e.type === 'rocked' && e.fighter === 2));
+  // anda mais devagar que o normal
+  const g = make(120); g.player.rockedUntil = 1e9;
+  const n = make(120);
+  for (const x of [g, n]) run(x, 500, { right: true });
+  assert.ok(g.player.x - 200 < (n.player.x - 200) * 0.75, 'mais lento');
+  // equilíbrio não volta enquanto grogue
+  g.player.balance = 40; run(g, 300);
+  assert.equal(g.player.balance, 40);
+  // passa
+  run(d, ROCK.ms + 100, {}, {});
+  assert.equal(d.isRocked(f), false);
 });

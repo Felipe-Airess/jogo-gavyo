@@ -6,7 +6,7 @@ import { createFighter, animationRef, gaitOffset, NEUTRAL, SPEED, RUN_START_MS }
 import { createDuelMoves, chooseMove, cancelTarget, frameIndex, MAX_CHAIN } from './moves.mjs';
 import { MarkerSet, worldMarkers, hurtboxes, guardBox, grabBox, LIMB_SIZE, limbCenter } from './markers.mjs';
 import { sweep, contactPoint, overlap } from './collision.mjs';
-import { resolveHit, applyHit } from './damage.mjs';
+import { resolveHit, applyHit, contactQuality, ROCK } from './damage.mjs';
 import { startClinch, endClinch, keepGap, escapeGain, CLINCH } from './clinch.mjs';
 
 export const STAGE = { minX: 24, maxX: 456, ground: 150, half: 8 };
@@ -119,7 +119,8 @@ export class Duel {
   regen(f, s) {
     const busy = f.state === 'attack' || CLINCH_STATES.has(f.state);
     const stunned = ['hitstun', 'blockstun', 'knockdown', 'down', 'ko', 'collapse'].includes(f.state);
-    if (!stunned) f.balance = Math.min(100, f.balance + (busy ? 12 : 30) * s);
+    f.headRecent = Math.max(0, f.headRecent - ROCK.decay * s);
+    if (!stunned && !this.isRocked(f)) f.balance = Math.min(100, f.balance + (busy ? 12 : 30) * s);
     const gain = f.state === 'run' ? -6 : f.state === 'guard' ? 8 : busy || stunned ? 0 : 22;
     f.stamina = clamp(f.stamina + gain * s, 0, 100);
   }
@@ -191,8 +192,8 @@ export class Duel {
     if (input.down && f.can.crouch) { this.setState(f, 'crouch'); f.vx = 0; return; }
     if (f.state === 'crouch') { this.setState(f, 'rise'); return; }
     const dir = Number(!!input.right) - Number(!!input.left), rel = dir * f.facing;
-    const legs = 1 - f.condition.legs / 250;
-    const running = input.run && rel > 0 && f.can.run && f.stamina > 5;
+    const legs = (1 - f.condition.legs / 250) * (this.isRocked(f) ? ROCK.speed : 1);
+    const running = input.run && rel > 0 && f.can.run && f.stamina > 5 && !this.isRocked(f);
     const speed = running ? SPEED.run : rel > 0 ? SPEED.forward * legs : rel < 0 ? -SPEED.back * legs : 0;
     if (!f.can.walk && !running) { f.vx = 0; this.setState(f, f.state === 'guard' ? 'idle' : f.state); return; }
     // Soltou a corrida em velocidade: freada desenhada, não o ciclo de andar girando.
@@ -294,7 +295,7 @@ export class Duel {
         area += part;
         if (!top || part > top.part) top = { box, part };
       }
-      if (top && (!best || area > best.area)) best = { zone, t: 1, area, box: top.box };
+      if (top && (!best || area > best.area)) best = { zone, t: 1, area, box: top.box, coverage: Math.min(1, area / (4 * hw * hh)) };
     }
     if (!best) for (const zone of m.targets) for (const box of zoneBoxes(zone)) {
       const t = sweep(from, tip, hw, hh, box);
@@ -309,22 +310,42 @@ export class Duel {
       }
     }
     if (!best) return null;
-    return { a, d, m, blocked: false, zone: best.zone, point: contactPoint(from, tip, best.t, best.box) };
+    // Cobertura só existe quando o membro está dentro da caixa; na varredura
+    // (membro atravessou entre dois ticks) a profundidade não é medida: normal.
+    return { a, d, m, blocked: false, zone: best.zone, point: contactPoint(from, tip, best.t, best.box), coverage: best.coverage ?? null };
   }
 
-  applyContact({ a, d, m, blocked, zone, point }) {
+  isRocked(f) { return this.clock < f.rockedUntil; }
+
+  applyContact({ a, d, m, blocked, zone, point, coverage = null }) {
     a.hitDone = true;
     a.connected = true;
     const dm = d.state === 'attack' ? this.moves[d.move] : null;
     const counter = !blocked && !!dm && d.moveT < dm.activeEnd;
-    const r = resolveHit(m, d, zone, { blocked, counter });
+    let quality = blocked ? 'normal' : contactQuality(coverage);
+    // Golpe abafado: colado demais para o braço/perna estender, não sai limpo.
+    if (quality === 'clean' && Math.abs(a.x - d.x) < (this.reach[m.id] || 0) * 0.6) quality = 'normal';
+    const wasRocked = this.isRocked(d);
+    const r = resolveHit(m, d, zone, { blocked, counter, quality, rocked: wasRocked });
     applyHit(d, r);
-    this.hitstop = blocked ? HITSTOP.block : r.kind !== 'hit' || m.power >= 3 ? HITSTOP.heavy : m.power === 2 ? HITSTOP.medium : HITSTOP.light;
-    this.lastHit = { at: this.clock, attacker: a.id, target: d.id, move: m.id, zone: r.zone, kind: r.kind, damage: r.damage, counter, blocked, point };
-    this.event(r.kind === 'block' ? 'block' : 'hit', { attacker: a.id, target: d.id, move: m.id, zone: r.zone, kind: r.kind, counter, heavy: m.power >= 3, power: m.power, damage: r.damage, point: { ...point } });
+    // Impacto sentido: o limpo sobe um degrau na pausa e no tremor; o raspão desce.
+    const power = Math.max(1, Math.min(3, m.power + (quality === 'clean' ? 1 : quality === 'graze' ? -1 : 0)));
+    this.hitstop = blocked || quality === 'graze' ? HITSTOP.block : r.kind !== 'hit' || power >= 3 ? HITSTOP.heavy : power === 2 ? HITSTOP.medium : HITSTOP.light;
+    this.lastHit = { at: this.clock, attacker: a.id, target: d.id, move: m.id, zone: r.zone, kind: r.kind, damage: r.damage, counter, blocked, quality, coverage, point };
+    this.event(r.kind === 'block' ? 'block' : 'hit', { attacker: a.id, target: d.id, move: m.id, zone: r.zone, kind: r.kind, counter, quality, heavy: power >= 3, power, damage: r.damage, point: { ...point } });
+    // Grogue: dano recente na cabeça (o limpo pesa mais) passando do limite.
+    if (!blocked && r.zone === 'head' && r.kind !== 'ko') {
+      d.headRecent += r.damage * (quality === 'clean' ? ROCK.clean : 1);
+      if (!wasRocked && d.headRecent >= ROCK.threshold) {
+        d.rockedUntil = this.clock + ROCK.ms;
+        this.event('rocked', { fighter: d.id });
+      }
+    }
+    const tag = quality === 'clean' ? ' LIMPO' : quality === 'graze' ? ' de raspão' : '';
     if (r.reason) this.message = r.reason;
-    else if (counter) this.message = 'Contra-ataque: ' + m.name + '.';
-    else this.message = blocked ? 'Defendido.' : m.name + (zone === 'head' ? ' na cabeça.' : zone === 'body' ? ' no tronco.' : ' na perna.');
+    else if (this.isRocked(d) && !wasRocked) this.message = (d === this.player ? 'Você está grogue' : 'Ele ficou grogue') + ': um golpe limpo na cabeça derruba.';
+    else if (counter) this.message = 'Contra-ataque: ' + m.name + tag + '.';
+    else this.message = blocked ? 'Defendido.' : m.name + tag + (zone === 'head' ? ' na cabeça.' : zone === 'body' ? ' no tronco.' : ' na perna.');
     const pushV = a.facing * r.push * 10;
     if (a.clinch && d.clinch && r.kind === 'hit') { a.clinch.grip = Math.min(CLINCH.maxGrip, a.clinch.grip + CLINCH.refresh); return; }
     if (d.clinch) endClinch(this.byId(d.clinch.partner), d);
@@ -435,7 +456,7 @@ export class Duel {
   snapshot() {
     return {
       clock: this.clock, hitstop: this.hitstop, result: this.result, message: this.message, lastHit: this.lastHit,
-      fighters: this.fighters.map(f => ({ id: f.id, x: f.x, facing: f.facing, state: f.state, move: f.move, moveT: f.moveT, chain: f.chain,
+      fighters: this.fighters.map(f => ({ id: f.id, x: f.x, facing: f.facing, state: f.state, rocked: this.isRocked(f), headRecent: f.headRecent, move: f.move, moveT: f.moveT, chain: f.chain,
         condition: { ...f.condition }, balance: f.balance, stamina: f.stamina, clinch: f.clinch && { ...f.clinch }, anim: this.animation(f) })),
     };
   }

@@ -228,7 +228,7 @@ export class DuelScene extends Phaser.Scene {
         c.fillStyle = '#354438'; c.fillRect(x + 5, 12, 20, 3);
         c.fillStyle = color; c.fillRect(x + 5, 12, Math.round(20 * Math.max(0, value) / 100), 3);
       });
-      const action = f.state === 'attack' ? m.moves[f.move].name : f.state === 'held' ? 'PRESO' : f.clinch ? 'CLINCH' : f.state === 'ko' ? 'NOCAUTE' : f.state === 'guard' ? 'GUARDA' : '';
+      const action = f.state === 'attack' ? m.moves[f.move].name : f.state === 'held' ? 'PRESO' : f.clinch ? 'CLINCH' : f.state === 'ko' ? 'NOCAUTE' : f.state === 'guard' ? 'GUARDA' : m.isRocked(f) ? 'GROGUE' : '';
       lettering(c, action.slice(0, 18), x0, 19, '#d1bd85');
       if (f.clinch?.role === 'held') { c.fillStyle = '#c7af71'; c.fillRect(x0 + 80, 20, Math.round(60 * Math.min(1, f.clinch.escape / 100)), 2); }
     });
