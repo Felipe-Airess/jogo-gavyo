@@ -89,8 +89,12 @@ logado na conta Felipe-Airess; pode não estar no PATH do shell.
   desenho frontal.
 * **Pouca animação e nenhuma interação com o cenário:** o corredor é uma
   imagem parada (`src/art.js`); as paredes só limitam a posição.
-* Circular “no corpo” chega na altura do queixo do adversário em pé (−45 px),
-  então costuma acertar a cabeça. Ou o desenho baixa, ou o nome muda.
+* Circular “no corpo” chega na altura do queixo do adversário em pé (pé em
+  −45 px): com as caixas justas acerta tronco em parte das distâncias e cabeça
+  (mão erguida diante do rosto conta como cabeça) nas demais. Ou o desenho
+  baixa, ou o nome muda.
+* Agachado, só jab no corpo, gancho, pesado e chutes alcançam; jab, direto e
+  direto no tronco passam por cima (pixels: topo da cabeça agachada em −33).
 * Não há esquiva desenhada; defesa sem guarda é agachar (`r2_crouch*`) ou recuar.
 * No duelo, frente + Soco sempre dá o direto (nunca jab andando para frente).
 * Corredor: só a passada foi corrigida; o pé ainda desliza dentro do quadro
@@ -130,6 +134,21 @@ cabeçalho de prompt idêntico, folhas pequenas; ao receber, comparar cada
 quadro com a base (tamanho da cabeça, altura em guarda ~66 px, paleta,
 contorno) antes de integrar, e normalizar só cor e escala por código. Ver
 `arte/reformulacao/PEDIDO-LOTES-4-5.md`, seção 1.1.
+
+## Caixas (hitbox/hurtbox) — rodada de precisão
+
+* Hurtboxes vêm dos pixels: `extract-markers.py` grava `hurt` por quadro
+  (cabeça, tronco, pernas, braços) em retângulos de faixas de 4 px.
+  `hurtboxes()` devolve **listas** de caixas por região. Sem `hurt`, cai no
+  método antigo (uma caixa por região).
+* Cabeça = cabelo sem o quarto superior + rosto + mão erguida diante dele.
+  Pernas = blocos grandes de calça e tênis em qualquer altura + o que estiver
+  abaixo do quadril. Braços (pele fora da cabeça) só contam durante o golpe,
+  como tronco.
+* Hitbox do membro termina no pixel mais à frente (`limbCenter`).
+* Socos miram só cabeça e tronco.
+* Auditoria: pixels opacos fora de hurtbox 25% → 4,8%; área de caixa vazia
+  36% → 13%.
 
 ## Armadilhas encontradas
 
