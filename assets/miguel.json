@@ -2364,7 +2364,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 154,
+          "index": 473,
           "duration": 130,
           "sourceFacing": 1,
           "file": "lote4/walkB/01.png",
@@ -2375,7 +2375,7 @@
           "phase": ""
         },
         {
-          "index": 155,
+          "index": 474,
           "duration": 130,
           "sourceFacing": 1,
           "file": "lote4/walkB/02.png",
@@ -2386,7 +2386,7 @@
           "phase": ""
         },
         {
-          "index": 156,
+          "index": 475,
           "duration": 130,
           "sourceFacing": 1,
           "file": "lote4/walkB/03.png",
@@ -2397,7 +2397,7 @@
           "phase": ""
         },
         {
-          "index": 157,
+          "index": 476,
           "duration": 130,
           "sourceFacing": 1,
           "file": "lote4/walkB/04.png",
@@ -2408,7 +2408,7 @@
           "phase": ""
         },
         {
-          "index": 158,
+          "index": 477,
           "duration": 130,
           "sourceFacing": 1,
           "file": "lote4/walkB/05.png",
@@ -2419,7 +2419,7 @@
           "phase": ""
         },
         {
-          "index": 159,
+          "index": 478,
           "duration": 130,
           "sourceFacing": 1,
           "file": "lote4/walkB/06.png",
@@ -2448,7 +2448,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 160,
+          "index": 479,
           "duration": 140,
           "sourceFacing": 1,
           "file": "lote4/walkA/06.png",
@@ -2459,7 +2459,7 @@
           "phase": ""
         },
         {
-          "index": 161,
+          "index": 480,
           "duration": 140,
           "sourceFacing": 1,
           "file": "lote4/walkA/05.png",
@@ -2470,7 +2470,7 @@
           "phase": ""
         },
         {
-          "index": 162,
+          "index": 481,
           "duration": 140,
           "sourceFacing": 1,
           "file": "lote4/walkA/04.png",
@@ -2481,7 +2481,7 @@
           "phase": ""
         },
         {
-          "index": 163,
+          "index": 482,
           "duration": 140,
           "sourceFacing": 1,
           "file": "lote4/walkA/03.png",
@@ -2492,7 +2492,7 @@
           "phase": ""
         },
         {
-          "index": 164,
+          "index": 483,
           "duration": 140,
           "sourceFacing": 1,
           "file": "lote4/walkA/02.png",
@@ -2503,7 +2503,7 @@
           "phase": ""
         },
         {
-          "index": 165,
+          "index": 484,
           "duration": 140,
           "sourceFacing": 1,
           "file": "lote4/walkA/01.png",
@@ -2532,7 +2532,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 166,
+          "index": 485,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote4/block/01.png",
@@ -2543,7 +2543,7 @@
           "phase": ""
         },
         {
-          "index": 167,
+          "index": 486,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote4/block/02.png",
@@ -2554,7 +2554,7 @@
           "phase": ""
         },
         {
-          "index": 168,
+          "index": 487,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/block/03.png",
@@ -2565,7 +2565,7 @@
           "phase": ""
         },
         {
-          "index": 169,
+          "index": 488,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/block/04.png",
@@ -2576,7 +2576,7 @@
           "phase": ""
         },
         {
-          "index": 170,
+          "index": 489,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote4/block/05.png",
@@ -2587,7 +2587,7 @@
           "phase": ""
         },
         {
-          "index": 171,
+          "index": 490,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/block/06.png",
@@ -2615,7 +2615,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 172,
+          "index": 491,
           "duration": 50,
           "sourceFacing": 1,
           "file": "lote4/hitHeadLight/01.png",
@@ -2626,7 +2626,7 @@
           "phase": ""
         },
         {
-          "index": 173,
+          "index": 492,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/hitHeadLight/02.png",
@@ -2637,7 +2637,7 @@
           "phase": ""
         },
         {
-          "index": 174,
+          "index": 493,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/hitHeadLight/03.png",
@@ -2648,7 +2648,7 @@
           "phase": ""
         },
         {
-          "index": 175,
+          "index": 494,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/hitHeadLight/04.png",
@@ -2659,7 +2659,7 @@
           "phase": ""
         },
         {
-          "index": 176,
+          "index": 495,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote4/hitHeadLight/05.png",
@@ -2686,7 +2686,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 177,
+          "index": 496,
           "duration": 50,
           "sourceFacing": 1,
           "file": "lote4/hitBody/01.png",
@@ -2697,7 +2697,7 @@
           "phase": ""
         },
         {
-          "index": 178,
+          "index": 497,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/hitBody/02.png",
@@ -2708,7 +2708,7 @@
           "phase": ""
         },
         {
-          "index": 179,
+          "index": 498,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/hitBody/03.png",
@@ -2719,7 +2719,7 @@
           "phase": ""
         },
         {
-          "index": 180,
+          "index": 499,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/hitBody/04.png",
@@ -2730,7 +2730,7 @@
           "phase": ""
         },
         {
-          "index": 181,
+          "index": 500,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote4/hitBody/05.png",
@@ -2741,7 +2741,7 @@
           "phase": ""
         },
         {
-          "index": 182,
+          "index": 501,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/hitBody/06.png",
@@ -2769,7 +2769,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 183,
+          "index": 502,
           "duration": 50,
           "sourceFacing": 1,
           "file": "lote4/hitLeg/01.png",
@@ -2780,7 +2780,7 @@
           "phase": ""
         },
         {
-          "index": 184,
+          "index": 503,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/hitLeg/02.png",
@@ -2791,7 +2791,7 @@
           "phase": ""
         },
         {
-          "index": 185,
+          "index": 504,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/hitLeg/03.png",
@@ -2802,7 +2802,7 @@
           "phase": ""
         },
         {
-          "index": 186,
+          "index": 505,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/hitLeg/04.png",
@@ -2813,7 +2813,7 @@
           "phase": ""
         },
         {
-          "index": 187,
+          "index": 506,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote4/hitLeg/05.png",
@@ -2824,7 +2824,7 @@
           "phase": ""
         },
         {
-          "index": 188,
+          "index": 507,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/hitLeg/06.png",
@@ -2852,7 +2852,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 189,
+          "index": 508,
           "duration": 150,
           "sourceFacing": 1,
           "file": "lote4/dazed/01.png",
@@ -2863,7 +2863,7 @@
           "phase": ""
         },
         {
-          "index": 190,
+          "index": 509,
           "duration": 150,
           "sourceFacing": 1,
           "file": "lote4/dazed/02.png",
@@ -2874,7 +2874,7 @@
           "phase": ""
         },
         {
-          "index": 191,
+          "index": 510,
           "duration": 150,
           "sourceFacing": 1,
           "file": "lote4/dazed/03.png",
@@ -2885,7 +2885,7 @@
           "phase": ""
         },
         {
-          "index": 192,
+          "index": 511,
           "duration": 150,
           "sourceFacing": 1,
           "file": "lote4/dazed/04.png",
@@ -2896,7 +2896,7 @@
           "phase": ""
         },
         {
-          "index": 193,
+          "index": 512,
           "duration": 150,
           "sourceFacing": 1,
           "file": "lote4/dazed/05.png",
@@ -2923,7 +2923,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 194,
+          "index": 513,
           "duration": 450,
           "sourceFacing": 1,
           "file": "lote4/lying/01.png",
@@ -2934,7 +2934,7 @@
           "phase": ""
         },
         {
-          "index": 195,
+          "index": 514,
           "duration": 450,
           "sourceFacing": 1,
           "file": "lote4/lying/02.png",
@@ -2958,7 +2958,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 196,
+          "index": 515,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/runStart/01.png",
@@ -2969,7 +2969,7 @@
           "phase": ""
         },
         {
-          "index": 197,
+          "index": 516,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/runStart/02.png",
@@ -2980,7 +2980,7 @@
           "phase": ""
         },
         {
-          "index": 198,
+          "index": 517,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/runStart/03.png",
@@ -2991,7 +2991,7 @@
           "phase": ""
         },
         {
-          "index": 199,
+          "index": 518,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/runStart/04.png",
@@ -3002,7 +3002,7 @@
           "phase": ""
         },
         {
-          "index": 200,
+          "index": 519,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/runStart/05.png",
@@ -3029,7 +3029,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 201,
+          "index": 520,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/runStop/01.png",
@@ -3040,7 +3040,7 @@
           "phase": ""
         },
         {
-          "index": 202,
+          "index": 521,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote4/runStop/02.png",
@@ -3051,7 +3051,7 @@
           "phase": ""
         },
         {
-          "index": 203,
+          "index": 522,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote4/runStop/03.png",
@@ -3062,7 +3062,7 @@
           "phase": ""
         },
         {
-          "index": 204,
+          "index": 523,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/runStop/04.png",
@@ -3073,7 +3073,7 @@
           "phase": ""
         },
         {
-          "index": 205,
+          "index": 524,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/runStop/05.png",
@@ -3100,7 +3100,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 206,
+          "index": 525,
           "duration": 50,
           "sourceFacing": 1,
           "file": "lote4/hitHeadHeavy/01.png",
@@ -3111,7 +3111,7 @@
           "phase": ""
         },
         {
-          "index": 207,
+          "index": 526,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/hitHeadHeavy/02.png",
@@ -3122,7 +3122,7 @@
           "phase": ""
         },
         {
-          "index": 208,
+          "index": 527,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/hitHeadHeavy/03.png",
@@ -3133,7 +3133,7 @@
           "phase": ""
         },
         {
-          "index": 209,
+          "index": 528,
           "duration": 100,
           "sourceFacing": 1,
           "file": "lote4/hitHeadHeavy/04.png",
@@ -3144,7 +3144,7 @@
           "phase": ""
         },
         {
-          "index": 210,
+          "index": 529,
           "duration": 100,
           "sourceFacing": 1,
           "file": "lote4/hitHeadHeavy/05.png",
@@ -3155,7 +3155,7 @@
           "phase": ""
         },
         {
-          "index": 211,
+          "index": 530,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/hitHeadHeavy/06.png",
@@ -3166,7 +3166,7 @@
           "phase": ""
         },
         {
-          "index": 212,
+          "index": 531,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote4/hitHeadHeavy/07.png",
@@ -3195,7 +3195,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 213,
+          "index": 532,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote4/leanBack/01.png",
@@ -3206,7 +3206,7 @@
           "phase": ""
         },
         {
-          "index": 214,
+          "index": 533,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/leanBack/02.png",
@@ -3217,7 +3217,7 @@
           "phase": ""
         },
         {
-          "index": 215,
+          "index": 534,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/leanBack/03.png",
@@ -3228,7 +3228,7 @@
           "phase": ""
         },
         {
-          "index": 216,
+          "index": 535,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/leanBack/04.png",
@@ -3239,7 +3239,7 @@
           "phase": ""
         },
         {
-          "index": 217,
+          "index": 536,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote4/leanBack/05.png",
@@ -3250,7 +3250,7 @@
           "phase": ""
         },
         {
-          "index": 218,
+          "index": 537,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/leanBack/06.png",
@@ -3278,7 +3278,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 219,
+          "index": 538,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote4/fall/01.png",
@@ -3289,7 +3289,7 @@
           "phase": ""
         },
         {
-          "index": 220,
+          "index": 539,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/fall/02.png",
@@ -3300,7 +3300,7 @@
           "phase": ""
         },
         {
-          "index": 221,
+          "index": 540,
           "duration": 110,
           "sourceFacing": 1,
           "file": "lote4/fall/03.png",
@@ -3311,7 +3311,7 @@
           "phase": ""
         },
         {
-          "index": 222,
+          "index": 541,
           "duration": 140,
           "sourceFacing": 1,
           "file": "lote4/fall/04.png",
@@ -3322,7 +3322,7 @@
           "phase": ""
         },
         {
-          "index": 223,
+          "index": 542,
           "duration": 160,
           "sourceFacing": 1,
           "file": "lote4/fall/05.png",
@@ -3333,7 +3333,7 @@
           "phase": ""
         },
         {
-          "index": 224,
+          "index": 543,
           "duration": 1000,
           "sourceFacing": 1,
           "file": "lote4/fall/06.png",
@@ -3361,7 +3361,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 225,
+          "index": 544,
           "duration": 120,
           "sourceFacing": 1,
           "file": "lote4/rise/01.png",
@@ -3372,7 +3372,7 @@
           "phase": ""
         },
         {
-          "index": 226,
+          "index": 545,
           "duration": 110,
           "sourceFacing": 1,
           "file": "lote4/rise/02.png",
@@ -3383,7 +3383,7 @@
           "phase": ""
         },
         {
-          "index": 227,
+          "index": 546,
           "duration": 100,
           "sourceFacing": 1,
           "file": "lote4/rise/03.png",
@@ -3394,7 +3394,7 @@
           "phase": ""
         },
         {
-          "index": 228,
+          "index": 547,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/rise/04.png",
@@ -3405,7 +3405,7 @@
           "phase": ""
         },
         {
-          "index": 229,
+          "index": 548,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote4/rise/05.png",
@@ -3416,7 +3416,7 @@
           "phase": ""
         },
         {
-          "index": 230,
+          "index": 549,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote4/rise/06.png",
@@ -3427,7 +3427,7 @@
           "phase": ""
         },
         {
-          "index": 231,
+          "index": 550,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote4/rise/07.png",
@@ -3456,7 +3456,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 232,
+          "index": 551,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/run/01.png",
@@ -3467,7 +3467,7 @@
           "phase": ""
         },
         {
-          "index": 233,
+          "index": 552,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/run/02.png",
@@ -3478,7 +3478,7 @@
           "phase": ""
         },
         {
-          "index": 234,
+          "index": 553,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/run/03.png",
@@ -3489,7 +3489,7 @@
           "phase": ""
         },
         {
-          "index": 235,
+          "index": 554,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/run/04.png",
@@ -3500,7 +3500,7 @@
           "phase": ""
         },
         {
-          "index": 236,
+          "index": 555,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/run/05.png",
@@ -3511,7 +3511,7 @@
           "phase": ""
         },
         {
-          "index": 237,
+          "index": 556,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/run/06.png",
@@ -3522,7 +3522,7 @@
           "phase": ""
         },
         {
-          "index": 238,
+          "index": 557,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/run/07.png",
@@ -3533,7 +3533,7 @@
           "phase": ""
         },
         {
-          "index": 239,
+          "index": 558,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote4/run/08.png",
@@ -3563,7 +3563,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 240,
+          "index": 559,
           "duration": 85,
           "sourceFacing": 1,
           "file": "lote4/kickHigh/01.png",
@@ -3574,7 +3574,7 @@
           "phase": "preparação"
         },
         {
-          "index": 241,
+          "index": 560,
           "duration": 71,
           "sourceFacing": 1,
           "file": "lote4/kickHigh/02.png",
@@ -3585,7 +3585,7 @@
           "phase": "preparação"
         },
         {
-          "index": 242,
+          "index": 561,
           "duration": 58,
           "sourceFacing": 1,
           "file": "lote4/kickHigh/03.png",
@@ -3596,7 +3596,7 @@
           "phase": "preparação"
         },
         {
-          "index": 243,
+          "index": 562,
           "duration": 45,
           "sourceFacing": 1,
           "file": "lote4/kickHigh/04.png",
@@ -3607,7 +3607,7 @@
           "phase": "preparação"
         },
         {
-          "index": 244,
+          "index": 563,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/kickHigh/05.png",
@@ -3618,7 +3618,7 @@
           "phase": "preparação"
         },
         {
-          "index": 245,
+          "index": 564,
           "duration": 91,
           "sourceFacing": 1,
           "file": "lote4/kickHigh/06.png",
@@ -3629,7 +3629,7 @@
           "phase": "contato"
         },
         {
-          "index": 246,
+          "index": 565,
           "duration": 72,
           "sourceFacing": 1,
           "file": "lote4/kickHigh/07.png",
@@ -3640,7 +3640,7 @@
           "phase": "contato"
         },
         {
-          "index": 247,
+          "index": 566,
           "duration": 81,
           "sourceFacing": 1,
           "file": "lote4/kickHigh/08.png",
@@ -3651,7 +3651,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 248,
+          "index": 567,
           "duration": 89,
           "sourceFacing": 1,
           "file": "lote4/kickHigh/09.png",
@@ -3662,7 +3662,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 249,
+          "index": 568,
           "duration": 97,
           "sourceFacing": 1,
           "file": "lote4/kickHigh/10.png",
@@ -3673,7 +3673,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 250,
+          "index": 569,
           "duration": 106,
           "sourceFacing": 1,
           "file": "lote4/kickHigh/11.png",
@@ -3684,7 +3684,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 251,
+          "index": 570,
           "duration": 114,
           "sourceFacing": 1,
           "file": "lote4/kickHigh/12.png",
@@ -3721,7 +3721,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 252,
+          "index": 571,
           "duration": 75,
           "sourceFacing": 1,
           "file": "lote4/hook2/01.png",
@@ -3732,7 +3732,7 @@
           "phase": "preparação"
         },
         {
-          "index": 253,
+          "index": 572,
           "duration": 59,
           "sourceFacing": 1,
           "file": "lote4/hook2/02.png",
@@ -3743,7 +3743,7 @@
           "phase": "preparação"
         },
         {
-          "index": 254,
+          "index": 573,
           "duration": 44,
           "sourceFacing": 1,
           "file": "lote4/hook2/03.png",
@@ -3754,7 +3754,7 @@
           "phase": "preparação"
         },
         {
-          "index": 255,
+          "index": 574,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/hook2/04.png",
@@ -3765,7 +3765,7 @@
           "phase": "preparação"
         },
         {
-          "index": 256,
+          "index": 575,
           "duration": 94,
           "sourceFacing": 1,
           "file": "lote4/hook2/05.png",
@@ -3776,7 +3776,7 @@
           "phase": "contato"
         },
         {
-          "index": 257,
+          "index": 576,
           "duration": 74,
           "sourceFacing": 1,
           "file": "lote4/hook2/06.png",
@@ -3787,7 +3787,7 @@
           "phase": "contato"
         },
         {
-          "index": 258,
+          "index": 577,
           "duration": 89,
           "sourceFacing": 1,
           "file": "lote4/hook2/07.png",
@@ -3798,7 +3798,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 259,
+          "index": 578,
           "duration": 103,
           "sourceFacing": 1,
           "file": "lote4/hook2/08.png",
@@ -3809,7 +3809,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 260,
+          "index": 579,
           "duration": 118,
           "sourceFacing": 1,
           "file": "lote4/hook2/09.png",
@@ -3843,7 +3843,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 261,
+          "index": 580,
           "duration": 78,
           "sourceFacing": 1,
           "file": "lote4/jabBody2/01.png",
@@ -3854,7 +3854,7 @@
           "phase": "preparação"
         },
         {
-          "index": 262,
+          "index": 581,
           "duration": 54,
           "sourceFacing": 1,
           "file": "lote4/jabBody2/02.png",
@@ -3865,7 +3865,7 @@
           "phase": "preparação"
         },
         {
-          "index": 263,
+          "index": 582,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/jabBody2/03.png",
@@ -3876,7 +3876,7 @@
           "phase": "preparação"
         },
         {
-          "index": 264,
+          "index": 583,
           "duration": 77,
           "sourceFacing": 1,
           "file": "lote4/jabBody2/04.png",
@@ -3887,7 +3887,7 @@
           "phase": "contato"
         },
         {
-          "index": 265,
+          "index": 584,
           "duration": 61,
           "sourceFacing": 1,
           "file": "lote4/jabBody2/05.png",
@@ -3898,7 +3898,7 @@
           "phase": "contato"
         },
         {
-          "index": 266,
+          "index": 585,
           "duration": 73,
           "sourceFacing": 1,
           "file": "lote4/jabBody2/06.png",
@@ -3909,7 +3909,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 267,
+          "index": 586,
           "duration": 85,
           "sourceFacing": 1,
           "file": "lote4/jabBody2/07.png",
@@ -3920,7 +3920,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 268,
+          "index": 587,
           "duration": 96,
           "sourceFacing": 1,
           "file": "lote4/jabBody2/08.png",
@@ -3953,7 +3953,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 269,
+          "index": 588,
           "duration": 107,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/01.png",
@@ -3964,7 +3964,7 @@
           "phase": "preparação"
         },
         {
-          "index": 270,
+          "index": 589,
           "duration": 73,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/02.png",
@@ -3975,7 +3975,7 @@
           "phase": "preparação"
         },
         {
-          "index": 271,
+          "index": 590,
           "duration": 40,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/03.png",
@@ -3986,7 +3986,7 @@
           "phase": "preparação"
         },
         {
-          "index": 272,
+          "index": 591,
           "duration": 75,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/04.png",
@@ -3997,7 +3997,7 @@
           "phase": "contato"
         },
         {
-          "index": 273,
+          "index": 592,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/05.png",
@@ -4008,7 +4008,7 @@
           "phase": "contato"
         },
         {
-          "index": 274,
+          "index": 593,
           "duration": 68,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/06.png",
@@ -4019,7 +4019,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 275,
+          "index": 594,
           "duration": 77,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/07.png",
@@ -4030,7 +4030,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 276,
+          "index": 595,
           "duration": 86,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/08.png",
@@ -4041,7 +4041,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 277,
+          "index": 596,
           "duration": 94,
           "sourceFacing": 1,
           "file": "lote4/uppercut2/09.png",
@@ -4075,7 +4075,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 278,
+          "index": 597,
           "duration": 73,
           "sourceFacing": 1,
           "file": "lote4/elbow2/01.png",
@@ -4086,7 +4086,7 @@
           "phase": "preparação"
         },
         {
-          "index": 279,
+          "index": 598,
           "duration": 50,
           "sourceFacing": 1,
           "file": "lote4/elbow2/02.png",
@@ -4097,7 +4097,7 @@
           "phase": "preparação"
         },
         {
-          "index": 280,
+          "index": 599,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/elbow2/03.png",
@@ -4108,7 +4108,7 @@
           "phase": "preparação"
         },
         {
-          "index": 281,
+          "index": 600,
           "duration": 75,
           "sourceFacing": 1,
           "file": "lote4/elbow2/04.png",
@@ -4119,7 +4119,7 @@
           "phase": "contato"
         },
         {
-          "index": 282,
+          "index": 601,
           "duration": 59,
           "sourceFacing": 1,
           "file": "lote4/elbow2/05.png",
@@ -4130,7 +4130,7 @@
           "phase": "contato"
         },
         {
-          "index": 283,
+          "index": 602,
           "duration": 71,
           "sourceFacing": 1,
           "file": "lote4/elbow2/06.png",
@@ -4141,7 +4141,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 284,
+          "index": 603,
           "duration": 82,
           "sourceFacing": 1,
           "file": "lote4/elbow2/07.png",
@@ -4152,7 +4152,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 285,
+          "index": 604,
           "duration": 93,
           "sourceFacing": 1,
           "file": "lote4/elbow2/08.png",
@@ -4185,7 +4185,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 286,
+          "index": 605,
           "duration": 87,
           "sourceFacing": 1,
           "file": "lote4/jabStep2/01.png",
@@ -4196,7 +4196,7 @@
           "phase": "preparação"
         },
         {
-          "index": 287,
+          "index": 606,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote4/jabStep2/02.png",
@@ -4207,7 +4207,7 @@
           "phase": "preparação"
         },
         {
-          "index": 288,
+          "index": 607,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/jabStep2/03.png",
@@ -4218,7 +4218,7 @@
           "phase": "preparação"
         },
         {
-          "index": 289,
+          "index": 608,
           "duration": 75,
           "sourceFacing": 1,
           "file": "lote4/jabStep2/04.png",
@@ -4229,7 +4229,7 @@
           "phase": "contato"
         },
         {
-          "index": 290,
+          "index": 609,
           "duration": 59,
           "sourceFacing": 1,
           "file": "lote4/jabStep2/05.png",
@@ -4240,7 +4240,7 @@
           "phase": "contato"
         },
         {
-          "index": 291,
+          "index": 610,
           "duration": 71,
           "sourceFacing": 1,
           "file": "lote4/jabStep2/06.png",
@@ -4251,7 +4251,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 292,
+          "index": 611,
           "duration": 82,
           "sourceFacing": 1,
           "file": "lote4/jabStep2/07.png",
@@ -4262,7 +4262,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 293,
+          "index": 612,
           "duration": 93,
           "sourceFacing": 1,
           "file": "lote4/jabStep2/08.png",
@@ -4295,7 +4295,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 294,
+          "index": 613,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote4/crossStep2/01.png",
@@ -4306,7 +4306,7 @@
           "phase": "preparação"
         },
         {
-          "index": 295,
+          "index": 614,
           "duration": 63,
           "sourceFacing": 1,
           "file": "lote4/crossStep2/02.png",
@@ -4317,7 +4317,7 @@
           "phase": "preparação"
         },
         {
-          "index": 296,
+          "index": 615,
           "duration": 47,
           "sourceFacing": 1,
           "file": "lote4/crossStep2/03.png",
@@ -4328,7 +4328,7 @@
           "phase": "preparação"
         },
         {
-          "index": 297,
+          "index": 616,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/crossStep2/04.png",
@@ -4339,7 +4339,7 @@
           "phase": "preparação"
         },
         {
-          "index": 298,
+          "index": 617,
           "duration": 87,
           "sourceFacing": 1,
           "file": "lote4/crossStep2/05.png",
@@ -4350,7 +4350,7 @@
           "phase": "contato"
         },
         {
-          "index": 299,
+          "index": 618,
           "duration": 69,
           "sourceFacing": 1,
           "file": "lote4/crossStep2/06.png",
@@ -4361,7 +4361,7 @@
           "phase": "contato"
         },
         {
-          "index": 300,
+          "index": 619,
           "duration": 82,
           "sourceFacing": 1,
           "file": "lote4/crossStep2/07.png",
@@ -4372,7 +4372,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 301,
+          "index": 620,
           "duration": 95,
           "sourceFacing": 1,
           "file": "lote4/crossStep2/08.png",
@@ -4383,7 +4383,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 302,
+          "index": 621,
           "duration": 108,
           "sourceFacing": 1,
           "file": "lote4/crossStep2/09.png",
@@ -4417,7 +4417,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 303,
+          "index": 622,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/01.png",
@@ -4428,7 +4428,7 @@
           "phase": "preparação"
         },
         {
-          "index": 304,
+          "index": 623,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/02.png",
@@ -4439,7 +4439,7 @@
           "phase": "preparação"
         },
         {
-          "index": 305,
+          "index": 624,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/03.png",
@@ -4450,7 +4450,7 @@
           "phase": "preparação"
         },
         {
-          "index": 306,
+          "index": 625,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/04.png",
@@ -4461,7 +4461,7 @@
           "phase": "preparação"
         },
         {
-          "index": 307,
+          "index": 626,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/05.png",
@@ -4472,7 +4472,7 @@
           "phase": "preparação"
         },
         {
-          "index": 308,
+          "index": 627,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/06.png",
@@ -4483,7 +4483,7 @@
           "phase": "preparação"
         },
         {
-          "index": 309,
+          "index": 628,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/07.png",
@@ -4494,7 +4494,7 @@
           "phase": "preparação"
         },
         {
-          "index": 310,
+          "index": 629,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/08.png",
@@ -4505,7 +4505,7 @@
           "phase": "preparação"
         },
         {
-          "index": 311,
+          "index": 630,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/09.png",
@@ -4516,7 +4516,7 @@
           "phase": "preparação"
         },
         {
-          "index": 312,
+          "index": 631,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/10.png",
@@ -4527,7 +4527,7 @@
           "phase": "preparação"
         },
         {
-          "index": 313,
+          "index": 632,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/11.png",
@@ -4538,7 +4538,7 @@
           "phase": "preparação"
         },
         {
-          "index": 314,
+          "index": 633,
           "duration": 171,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/12.png",
@@ -4549,7 +4549,7 @@
           "phase": "contato"
         },
         {
-          "index": 315,
+          "index": 634,
           "duration": 135,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/13.png",
@@ -4560,7 +4560,7 @@
           "phase": "contato"
         },
         {
-          "index": 316,
+          "index": 635,
           "duration": 214,
           "sourceFacing": 1,
           "file": "lote4/comboBodyUpper/14.png",
@@ -4599,7 +4599,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 317,
+          "index": 636,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboJabElbowKnee/01.png",
@@ -4611,7 +4611,7 @@
           "phase": "preparação"
         },
         {
-          "index": 318,
+          "index": 637,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboJabElbowKnee/02.png",
@@ -4623,7 +4623,7 @@
           "phase": "preparação"
         },
         {
-          "index": 319,
+          "index": 638,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboJabElbowKnee/03.png",
@@ -4635,7 +4635,7 @@
           "phase": "preparação"
         },
         {
-          "index": 320,
+          "index": 639,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboJabElbowKnee/04.png",
@@ -4647,7 +4647,7 @@
           "phase": "preparação"
         },
         {
-          "index": 321,
+          "index": 640,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboJabElbowKnee/05.png",
@@ -4659,7 +4659,7 @@
           "phase": "preparação"
         },
         {
-          "index": 322,
+          "index": 641,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboJabElbowKnee/06.png",
@@ -4671,7 +4671,7 @@
           "phase": "preparação"
         },
         {
-          "index": 323,
+          "index": 642,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboJabElbowKnee/07.png",
@@ -4683,7 +4683,7 @@
           "phase": "preparação"
         },
         {
-          "index": 324,
+          "index": 643,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboJabElbowKnee/08.png",
@@ -4695,7 +4695,7 @@
           "phase": "preparação"
         },
         {
-          "index": 325,
+          "index": 644,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboJabElbowKnee/09.png",
@@ -4707,7 +4707,7 @@
           "phase": "preparação"
         },
         {
-          "index": 326,
+          "index": 645,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboJabElbowKnee/10.png",
@@ -4719,7 +4719,7 @@
           "phase": "preparação"
         },
         {
-          "index": 327,
+          "index": 646,
           "duration": 290,
           "sourceFacing": 1,
           "file": "lote4/comboJabElbowKnee/11.png",
@@ -4731,7 +4731,7 @@
           "phase": "contato"
         },
         {
-          "index": 328,
+          "index": 647,
           "duration": 230,
           "sourceFacing": 1,
           "file": "lote4/comboJabElbowKnee/12.png",
@@ -4769,7 +4769,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 329,
+          "index": 648,
           "duration": 44,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/01.png",
@@ -4780,7 +4780,7 @@
           "phase": "preparação"
         },
         {
-          "index": 330,
+          "index": 649,
           "duration": 41,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/02.png",
@@ -4791,7 +4791,7 @@
           "phase": "preparação"
         },
         {
-          "index": 331,
+          "index": 650,
           "duration": 38,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/03.png",
@@ -4802,7 +4802,7 @@
           "phase": "preparação"
         },
         {
-          "index": 332,
+          "index": 651,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/04.png",
@@ -4813,7 +4813,7 @@
           "phase": "preparação"
         },
         {
-          "index": 333,
+          "index": 652,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/05.png",
@@ -4824,7 +4824,7 @@
           "phase": "preparação"
         },
         {
-          "index": 334,
+          "index": 653,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/06.png",
@@ -4835,7 +4835,7 @@
           "phase": "preparação"
         },
         {
-          "index": 335,
+          "index": 654,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/07.png",
@@ -4846,7 +4846,7 @@
           "phase": "preparação"
         },
         {
-          "index": 336,
+          "index": 655,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/08.png",
@@ -4857,7 +4857,7 @@
           "phase": "preparação"
         },
         {
-          "index": 337,
+          "index": 656,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/09.png",
@@ -4868,7 +4868,7 @@
           "phase": "preparação"
         },
         {
-          "index": 338,
+          "index": 657,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/10.png",
@@ -4879,7 +4879,7 @@
           "phase": "preparação"
         },
         {
-          "index": 339,
+          "index": 658,
           "duration": 138,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/11.png",
@@ -4890,7 +4890,7 @@
           "phase": "contato"
         },
         {
-          "index": 340,
+          "index": 659,
           "duration": 109,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/12.png",
@@ -4901,7 +4901,7 @@
           "phase": "contato"
         },
         {
-          "index": 341,
+          "index": 660,
           "duration": 141,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/13.png",
@@ -4912,7 +4912,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 342,
+          "index": 661,
           "duration": 172,
           "sourceFacing": 1,
           "file": "lote4/comboLowHigh/14.png",
@@ -4951,7 +4951,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 343,
+          "index": 662,
           "duration": 71,
           "sourceFacing": 1,
           "file": "lote4/kickHigh2/01.png",
@@ -4962,7 +4962,7 @@
           "phase": "preparação"
         },
         {
-          "index": 344,
+          "index": 663,
           "duration": 62,
           "sourceFacing": 1,
           "file": "lote4/kickHigh2/02.png",
@@ -4973,7 +4973,7 @@
           "phase": "preparação"
         },
         {
-          "index": 345,
+          "index": 664,
           "duration": 53,
           "sourceFacing": 1,
           "file": "lote4/kickHigh2/03.png",
@@ -4984,7 +4984,7 @@
           "phase": "preparação"
         },
         {
-          "index": 346,
+          "index": 665,
           "duration": 44,
           "sourceFacing": 1,
           "file": "lote4/kickHigh2/04.png",
@@ -4995,7 +4995,7 @@
           "phase": "preparação"
         },
         {
-          "index": 347,
+          "index": 666,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/kickHigh2/05.png",
@@ -5006,7 +5006,7 @@
           "phase": "preparação"
         },
         {
-          "index": 348,
+          "index": 667,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote4/kickHigh2/06.png",
@@ -5017,7 +5017,7 @@
           "phase": "preparação"
         },
         {
-          "index": 349,
+          "index": 668,
           "duration": 106,
           "sourceFacing": 1,
           "file": "lote4/kickHigh2/07.png",
@@ -5028,7 +5028,7 @@
           "phase": "contato"
         },
         {
-          "index": 350,
+          "index": 669,
           "duration": 84,
           "sourceFacing": 1,
           "file": "lote4/kickHigh2/08.png",
@@ -5039,7 +5039,7 @@
           "phase": "contato"
         },
         {
-          "index": 351,
+          "index": 670,
           "duration": 97,
           "sourceFacing": 1,
           "file": "lote4/kickHigh2/09.png",
@@ -5050,7 +5050,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 352,
+          "index": 671,
           "duration": 109,
           "sourceFacing": 1,
           "file": "lote4/kickHigh2/10.png",
@@ -5061,7 +5061,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 353,
+          "index": 672,
           "duration": 121,
           "sourceFacing": 1,
           "file": "lote4/kickHigh2/11.png",
@@ -5072,7 +5072,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 354,
+          "index": 673,
           "duration": 133,
           "sourceFacing": 1,
           "file": "lote4/kickHigh2/12.png",
@@ -5109,7 +5109,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 355,
+          "index": 674,
           "duration": 96,
           "sourceFacing": 1,
           "file": "lote4/slipCounter/01.png",
@@ -5120,7 +5120,7 @@
           "phase": "preparação"
         },
         {
-          "index": 356,
+          "index": 675,
           "duration": 81,
           "sourceFacing": 1,
           "file": "lote4/slipCounter/02.png",
@@ -5131,7 +5131,7 @@
           "phase": "preparação"
         },
         {
-          "index": 357,
+          "index": 676,
           "duration": 66,
           "sourceFacing": 1,
           "file": "lote4/slipCounter/03.png",
@@ -5142,7 +5142,7 @@
           "phase": "preparação"
         },
         {
-          "index": 358,
+          "index": 677,
           "duration": 51,
           "sourceFacing": 1,
           "file": "lote4/slipCounter/04.png",
@@ -5153,7 +5153,7 @@
           "phase": "preparação"
         },
         {
-          "index": 359,
+          "index": 678,
           "duration": 36,
           "sourceFacing": 1,
           "file": "lote4/slipCounter/05.png",
@@ -5164,7 +5164,7 @@
           "phase": "preparação"
         },
         {
-          "index": 360,
+          "index": 679,
           "duration": 167,
           "sourceFacing": 1,
           "file": "lote4/slipCounter/06.png",
@@ -5175,7 +5175,7 @@
           "phase": "contato"
         },
         {
-          "index": 361,
+          "index": 680,
           "duration": 133,
           "sourceFacing": 1,
           "file": "lote4/slipCounter/07.png",
@@ -5207,7 +5207,7 @@
       "source": "lote4",
       "frames": [
         {
-          "index": 362,
+          "index": 681,
           "duration": 112,
           "sourceFacing": 1,
           "file": "lote4/parryCounter/01.png",
@@ -5218,7 +5218,7 @@
           "phase": "preparação"
         },
         {
-          "index": 363,
+          "index": 682,
           "duration": 77,
           "sourceFacing": 1,
           "file": "lote4/parryCounter/02.png",
@@ -5229,7 +5229,7 @@
           "phase": "preparação"
         },
         {
-          "index": 364,
+          "index": 683,
           "duration": 42,
           "sourceFacing": 1,
           "file": "lote4/parryCounter/03.png",
@@ -5240,7 +5240,7 @@
           "phase": "preparação"
         },
         {
-          "index": 365,
+          "index": 684,
           "duration": 98,
           "sourceFacing": 1,
           "file": "lote4/parryCounter/04.png",
@@ -5251,7 +5251,7 @@
           "phase": "contato"
         },
         {
-          "index": 366,
+          "index": 685,
           "duration": 78,
           "sourceFacing": 1,
           "file": "lote4/parryCounter/05.png",
@@ -5262,7 +5262,7 @@
           "phase": "contato"
         },
         {
-          "index": 367,
+          "index": 686,
           "duration": 101,
           "sourceFacing": 1,
           "file": "lote4/parryCounter/06.png",
@@ -5273,7 +5273,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 368,
+          "index": 687,
           "duration": 123,
           "sourceFacing": 1,
           "file": "lote4/parryCounter/07.png",
@@ -5305,7 +5305,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 369,
+          "index": 688,
           "duration": 55,
           "sourceFacing": 1,
           "file": "lote5/walkStart/01.png",
@@ -5316,7 +5316,7 @@
           "phase": ""
         },
         {
-          "index": 370,
+          "index": 689,
           "duration": 50,
           "sourceFacing": 1,
           "file": "lote5/walkStart/02.png",
@@ -5327,7 +5327,7 @@
           "phase": ""
         },
         {
-          "index": 371,
+          "index": 690,
           "duration": 55,
           "sourceFacing": 1,
           "file": "lote5/walkStart/03.png",
@@ -5352,7 +5352,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 372,
+          "index": 691,
           "duration": 55,
           "sourceFacing": 1,
           "file": "lote5/walkStop/01.png",
@@ -5363,7 +5363,7 @@
           "phase": ""
         },
         {
-          "index": 373,
+          "index": 692,
           "duration": 50,
           "sourceFacing": 1,
           "file": "lote5/walkStop/02.png",
@@ -5374,7 +5374,7 @@
           "phase": ""
         },
         {
-          "index": 374,
+          "index": 693,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/walkStop/03.png",
@@ -5399,7 +5399,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 375,
+          "index": 694,
           "duration": 95,
           "sourceFacing": 1,
           "file": "lote5/guardBreak/01.png",
@@ -5410,7 +5410,7 @@
           "phase": ""
         },
         {
-          "index": 376,
+          "index": 695,
           "duration": 100,
           "sourceFacing": 1,
           "file": "lote5/guardBreak/02.png",
@@ -5421,7 +5421,7 @@
           "phase": ""
         },
         {
-          "index": 377,
+          "index": 696,
           "duration": 100,
           "sourceFacing": 1,
           "file": "lote5/guardBreak/03.png",
@@ -5432,7 +5432,7 @@
           "phase": ""
         },
         {
-          "index": 378,
+          "index": 697,
           "duration": 110,
           "sourceFacing": 1,
           "file": "lote5/guardBreak/04.png",
@@ -5443,7 +5443,7 @@
           "phase": ""
         },
         {
-          "index": 379,
+          "index": 698,
           "duration": 105,
           "sourceFacing": 1,
           "file": "lote5/guardBreak/05.png",
@@ -5454,7 +5454,7 @@
           "phase": ""
         },
         {
-          "index": 380,
+          "index": 699,
           "duration": 145,
           "sourceFacing": 1,
           "file": "lote5/guardBreak/06.png",
@@ -5482,7 +5482,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 381,
+          "index": 700,
           "duration": 150,
           "sourceFacing": 1,
           "file": "lote5/tired/01.png",
@@ -5493,7 +5493,7 @@
           "phase": ""
         },
         {
-          "index": 382,
+          "index": 701,
           "duration": 160,
           "sourceFacing": 1,
           "file": "lote5/tired/02.png",
@@ -5504,7 +5504,7 @@
           "phase": ""
         },
         {
-          "index": 383,
+          "index": 702,
           "duration": 160,
           "sourceFacing": 1,
           "file": "lote5/tired/03.png",
@@ -5515,7 +5515,7 @@
           "phase": ""
         },
         {
-          "index": 384,
+          "index": 703,
           "duration": 170,
           "sourceFacing": 1,
           "file": "lote5/tired/04.png",
@@ -5526,7 +5526,7 @@
           "phase": ""
         },
         {
-          "index": 385,
+          "index": 704,
           "duration": 160,
           "sourceFacing": 1,
           "file": "lote5/tired/05.png",
@@ -5537,7 +5537,7 @@
           "phase": ""
         },
         {
-          "index": 386,
+          "index": 705,
           "duration": 150,
           "sourceFacing": 1,
           "file": "lote5/tired/06.png",
@@ -5565,7 +5565,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 387,
+          "index": 706,
           "duration": 71,
           "sourceFacing": 1,
           "file": "lote5/kickHigh3/01.png",
@@ -5576,7 +5576,7 @@
           "phase": "preparação"
         },
         {
-          "index": 388,
+          "index": 707,
           "duration": 62,
           "sourceFacing": 1,
           "file": "lote5/kickHigh3/02.png",
@@ -5587,7 +5587,7 @@
           "phase": "preparação"
         },
         {
-          "index": 389,
+          "index": 708,
           "duration": 53,
           "sourceFacing": 1,
           "file": "lote5/kickHigh3/03.png",
@@ -5598,7 +5598,7 @@
           "phase": "preparação"
         },
         {
-          "index": 390,
+          "index": 709,
           "duration": 44,
           "sourceFacing": 1,
           "file": "lote5/kickHigh3/04.png",
@@ -5609,7 +5609,7 @@
           "phase": "preparação"
         },
         {
-          "index": 391,
+          "index": 710,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote5/kickHigh3/05.png",
@@ -5620,7 +5620,7 @@
           "phase": "preparação"
         },
         {
-          "index": 392,
+          "index": 711,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote5/kickHigh3/06.png",
@@ -5631,7 +5631,7 @@
           "phase": "preparação"
         },
         {
-          "index": 393,
+          "index": 712,
           "duration": 106,
           "sourceFacing": 1,
           "file": "lote5/kickHigh3/07.png",
@@ -5642,7 +5642,7 @@
           "phase": "contato"
         },
         {
-          "index": 394,
+          "index": 713,
           "duration": 84,
           "sourceFacing": 1,
           "file": "lote5/kickHigh3/08.png",
@@ -5653,7 +5653,7 @@
           "phase": "contato"
         },
         {
-          "index": 395,
+          "index": 714,
           "duration": 97,
           "sourceFacing": 1,
           "file": "lote5/kickHigh3/09.png",
@@ -5664,7 +5664,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 396,
+          "index": 715,
           "duration": 109,
           "sourceFacing": 1,
           "file": "lote5/kickHigh3/10.png",
@@ -5675,7 +5675,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 397,
+          "index": 716,
           "duration": 121,
           "sourceFacing": 1,
           "file": "lote5/kickHigh3/11.png",
@@ -5686,7 +5686,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 398,
+          "index": 717,
           "duration": 133,
           "sourceFacing": 1,
           "file": "lote5/kickHigh3/12.png",
@@ -5723,7 +5723,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 399,
+          "index": 718,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/throw/01.png",
@@ -5734,7 +5734,7 @@
           "phase": ""
         },
         {
-          "index": 400,
+          "index": 719,
           "duration": 55,
           "sourceFacing": 1,
           "file": "lote5/throw/02.png",
@@ -5745,7 +5745,7 @@
           "phase": ""
         },
         {
-          "index": 401,
+          "index": 720,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/throw/03.png",
@@ -5756,7 +5756,7 @@
           "phase": ""
         },
         {
-          "index": 402,
+          "index": 721,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote5/throw/04.png",
@@ -5767,7 +5767,7 @@
           "phase": ""
         },
         {
-          "index": 403,
+          "index": 722,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote5/throw/05.png",
@@ -5778,7 +5778,7 @@
           "phase": ""
         },
         {
-          "index": 404,
+          "index": 723,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote5/throw/06.png",
@@ -5789,7 +5789,7 @@
           "phase": ""
         },
         {
-          "index": 405,
+          "index": 724,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote5/throw/07.png",
@@ -5800,7 +5800,7 @@
           "phase": ""
         },
         {
-          "index": 406,
+          "index": 725,
           "duration": 110,
           "sourceFacing": 1,
           "file": "lote5/throw/08.png",
@@ -5830,7 +5830,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 407,
+          "index": 726,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/thrown/01.png",
@@ -5841,7 +5841,7 @@
           "phase": ""
         },
         {
-          "index": 408,
+          "index": 727,
           "duration": 55,
           "sourceFacing": 1,
           "file": "lote5/thrown/02.png",
@@ -5852,7 +5852,7 @@
           "phase": ""
         },
         {
-          "index": 409,
+          "index": 728,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/thrown/03.png",
@@ -5863,7 +5863,7 @@
           "phase": ""
         },
         {
-          "index": 410,
+          "index": 729,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote5/thrown/04.png",
@@ -5874,7 +5874,7 @@
           "phase": ""
         },
         {
-          "index": 411,
+          "index": 730,
           "duration": 80,
           "sourceFacing": 1,
           "file": "lote5/thrown/05.png",
@@ -5885,7 +5885,7 @@
           "phase": ""
         },
         {
-          "index": 412,
+          "index": 731,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote5/thrown/06.png",
@@ -5896,7 +5896,7 @@
           "phase": ""
         },
         {
-          "index": 413,
+          "index": 732,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote5/thrown/07.png",
@@ -5907,7 +5907,7 @@
           "phase": ""
         },
         {
-          "index": 414,
+          "index": 733,
           "duration": 110,
           "sourceFacing": 1,
           "file": "lote5/thrown/08.png",
@@ -5918,7 +5918,7 @@
           "phase": ""
         },
         {
-          "index": 415,
+          "index": 734,
           "duration": 300,
           "sourceFacing": 1,
           "file": "lote5/thrown/09.png",
@@ -5949,7 +5949,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 416,
+          "index": 735,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/groundPunch/01.png",
@@ -5960,7 +5960,7 @@
           "phase": ""
         },
         {
-          "index": 417,
+          "index": 736,
           "duration": 55,
           "sourceFacing": 1,
           "file": "lote5/groundPunch/02.png",
@@ -5971,7 +5971,7 @@
           "phase": ""
         },
         {
-          "index": 418,
+          "index": 737,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/groundPunch/03.png",
@@ -5982,7 +5982,7 @@
           "phase": ""
         },
         {
-          "index": 419,
+          "index": 738,
           "duration": 50,
           "sourceFacing": 1,
           "file": "lote5/groundPunch/04.png",
@@ -5993,7 +5993,7 @@
           "phase": ""
         },
         {
-          "index": 420,
+          "index": 739,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote5/groundPunch/05.png",
@@ -6004,7 +6004,7 @@
           "phase": ""
         },
         {
-          "index": 421,
+          "index": 740,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote5/groundPunch/06.png",
@@ -6015,7 +6015,7 @@
           "phase": ""
         },
         {
-          "index": 422,
+          "index": 741,
           "duration": 75,
           "sourceFacing": 1,
           "file": "lote5/groundPunch/07.png",
@@ -6026,7 +6026,7 @@
           "phase": ""
         },
         {
-          "index": 423,
+          "index": 742,
           "duration": 100,
           "sourceFacing": 1,
           "file": "lote5/groundPunch/08.png",
@@ -6056,7 +6056,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 424,
+          "index": 743,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/stomp/01.png",
@@ -6067,7 +6067,7 @@
           "phase": ""
         },
         {
-          "index": 425,
+          "index": 744,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/stomp/02.png",
@@ -6078,7 +6078,7 @@
           "phase": ""
         },
         {
-          "index": 426,
+          "index": 745,
           "duration": 65,
           "sourceFacing": 1,
           "file": "lote5/stomp/03.png",
@@ -6089,7 +6089,7 @@
           "phase": ""
         },
         {
-          "index": 427,
+          "index": 746,
           "duration": 50,
           "sourceFacing": 1,
           "file": "lote5/stomp/04.png",
@@ -6100,7 +6100,7 @@
           "phase": ""
         },
         {
-          "index": 428,
+          "index": 747,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote5/stomp/05.png",
@@ -6111,7 +6111,7 @@
           "phase": ""
         },
         {
-          "index": 429,
+          "index": 748,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote5/stomp/06.png",
@@ -6122,7 +6122,7 @@
           "phase": ""
         },
         {
-          "index": 430,
+          "index": 749,
           "duration": 75,
           "sourceFacing": 1,
           "file": "lote5/stomp/07.png",
@@ -6133,7 +6133,7 @@
           "phase": ""
         },
         {
-          "index": 431,
+          "index": 750,
           "duration": 100,
           "sourceFacing": 1,
           "file": "lote5/stomp/08.png",
@@ -6163,7 +6163,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 432,
+          "index": 751,
           "duration": 50,
           "sourceFacing": 1,
           "file": "lote5/groundHit/01.png",
@@ -6174,7 +6174,7 @@
           "phase": ""
         },
         {
-          "index": 433,
+          "index": 752,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote5/groundHit/02.png",
@@ -6185,7 +6185,7 @@
           "phase": ""
         },
         {
-          "index": 434,
+          "index": 753,
           "duration": 90,
           "sourceFacing": 1,
           "file": "lote5/groundHit/03.png",
@@ -6196,7 +6196,7 @@
           "phase": ""
         },
         {
-          "index": 435,
+          "index": 754,
           "duration": 110,
           "sourceFacing": 1,
           "file": "lote5/groundHit/04.png",
@@ -6222,7 +6222,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 436,
+          "index": 755,
           "duration": 40,
           "sourceFacing": 1,
           "file": "lote5/clinchGrab/01.png",
@@ -6233,7 +6233,7 @@
           "phase": ""
         },
         {
-          "index": 437,
+          "index": 756,
           "duration": 40,
           "sourceFacing": 1,
           "file": "lote5/clinchGrab/02.png",
@@ -6244,7 +6244,7 @@
           "phase": ""
         },
         {
-          "index": 438,
+          "index": 757,
           "duration": 40,
           "sourceFacing": 1,
           "file": "lote5/clinchGrab/03.png",
@@ -6255,7 +6255,7 @@
           "phase": ""
         },
         {
-          "index": 439,
+          "index": 758,
           "duration": 40,
           "sourceFacing": 1,
           "file": "lote5/clinchGrab/04.png",
@@ -6266,7 +6266,7 @@
           "phase": ""
         },
         {
-          "index": 440,
+          "index": 759,
           "duration": 40,
           "sourceFacing": 1,
           "file": "lote5/clinchGrab/05.png",
@@ -6277,7 +6277,7 @@
           "phase": ""
         },
         {
-          "index": 441,
+          "index": 760,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/clinchGrab/06.png",
@@ -6305,7 +6305,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 442,
+          "index": 761,
           "duration": 160,
           "sourceFacing": 1,
           "file": "lote5/clinchBent/02.png",
@@ -6316,7 +6316,7 @@
           "phase": ""
         },
         {
-          "index": 443,
+          "index": 762,
           "duration": 160,
           "sourceFacing": 1,
           "file": "lote5/clinchBent/03.png",
@@ -6327,7 +6327,7 @@
           "phase": ""
         },
         {
-          "index": 444,
+          "index": 763,
           "duration": 160,
           "sourceFacing": 1,
           "file": "lote5/clinchBent/04.png",
@@ -6338,7 +6338,7 @@
           "phase": ""
         },
         {
-          "index": 445,
+          "index": 764,
           "duration": 160,
           "sourceFacing": 1,
           "file": "lote5/clinchBent/05.png",
@@ -6364,7 +6364,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 446,
+          "index": 765,
           "duration": 65,
           "sourceFacing": 1,
           "file": "lote5/clinchKnee/01.png",
@@ -6375,7 +6375,7 @@
           "phase": "preparação"
         },
         {
-          "index": 447,
+          "index": 766,
           "duration": 52,
           "sourceFacing": 1,
           "file": "lote5/clinchKnee/02.png",
@@ -6386,7 +6386,7 @@
           "phase": "preparação"
         },
         {
-          "index": 448,
+          "index": 767,
           "duration": 38,
           "sourceFacing": 1,
           "file": "lote5/clinchKnee/03.png",
@@ -6397,7 +6397,7 @@
           "phase": "preparação"
         },
         {
-          "index": 449,
+          "index": 768,
           "duration": 35,
           "sourceFacing": 1,
           "file": "lote5/clinchKnee/04.png",
@@ -6408,7 +6408,7 @@
           "phase": "preparação"
         },
         {
-          "index": 450,
+          "index": 769,
           "duration": 69,
           "sourceFacing": 1,
           "file": "lote5/clinchKnee/05.png",
@@ -6419,7 +6419,7 @@
           "phase": "contato"
         },
         {
-          "index": 451,
+          "index": 770,
           "duration": 55,
           "sourceFacing": 1,
           "file": "lote5/clinchKnee/06.png",
@@ -6430,7 +6430,7 @@
           "phase": "contato"
         },
         {
-          "index": 452,
+          "index": 771,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote5/clinchKnee/07.png",
@@ -6441,7 +6441,7 @@
           "phase": "recuperação"
         },
         {
-          "index": 453,
+          "index": 772,
           "duration": 86,
           "sourceFacing": 1,
           "file": "lote5/clinchKnee/08.png",
@@ -6474,7 +6474,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 454,
+          "index": 773,
           "duration": 50,
           "sourceFacing": 1,
           "file": "lote5/clinchRelease/01.png",
@@ -6485,7 +6485,7 @@
           "phase": ""
         },
         {
-          "index": 455,
+          "index": 774,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/clinchRelease/02.png",
@@ -6496,7 +6496,7 @@
           "phase": ""
         },
         {
-          "index": 456,
+          "index": 775,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/clinchRelease/03.png",
@@ -6507,7 +6507,7 @@
           "phase": ""
         },
         {
-          "index": 457,
+          "index": 776,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/clinchRelease/04.png",
@@ -6518,7 +6518,7 @@
           "phase": ""
         },
         {
-          "index": 458,
+          "index": 777,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/clinchRelease/05.png",
@@ -6529,7 +6529,7 @@
           "phase": ""
         },
         {
-          "index": 459,
+          "index": 778,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote5/clinchRelease/06.png",
@@ -6557,7 +6557,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 460,
+          "index": 779,
           "duration": 170,
           "sourceFacing": 1,
           "file": "lote5/heldSquat/01.png",
@@ -6568,7 +6568,7 @@
           "phase": ""
         },
         {
-          "index": 461,
+          "index": 780,
           "duration": 170,
           "sourceFacing": 1,
           "file": "lote5/heldSquat/02.png",
@@ -6579,7 +6579,7 @@
           "phase": ""
         },
         {
-          "index": 462,
+          "index": 781,
           "duration": 170,
           "sourceFacing": 1,
           "file": "lote5/heldSquat/03.png",
@@ -6590,7 +6590,7 @@
           "phase": ""
         },
         {
-          "index": 463,
+          "index": 782,
           "duration": 170,
           "sourceFacing": 1,
           "file": "lote5/heldSquat/04.png",
@@ -6601,7 +6601,7 @@
           "phase": ""
         },
         {
-          "index": 464,
+          "index": 783,
           "duration": 170,
           "sourceFacing": 1,
           "file": "lote5/heldSquat/05.png",
@@ -6628,7 +6628,7 @@
       "source": "lote5",
       "frames": [
         {
-          "index": 465,
+          "index": 784,
           "duration": 50,
           "sourceFacing": 1,
           "file": "lote5/clinchEscape/01.png",
@@ -6639,7 +6639,7 @@
           "phase": ""
         },
         {
-          "index": 466,
+          "index": 785,
           "duration": 50,
           "sourceFacing": 1,
           "file": "lote5/clinchEscape/02.png",
@@ -6650,7 +6650,7 @@
           "phase": ""
         },
         {
-          "index": 467,
+          "index": 786,
           "duration": 55,
           "sourceFacing": 1,
           "file": "lote5/clinchEscape/03.png",
@@ -6661,7 +6661,7 @@
           "phase": ""
         },
         {
-          "index": 468,
+          "index": 787,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/clinchEscape/04.png",
@@ -6672,7 +6672,7 @@
           "phase": ""
         },
         {
-          "index": 469,
+          "index": 788,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/clinchEscape/05.png",
@@ -6683,7 +6683,7 @@
           "phase": ""
         },
         {
-          "index": 470,
+          "index": 789,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/clinchEscape/06.png",
@@ -6694,7 +6694,7 @@
           "phase": ""
         },
         {
-          "index": 471,
+          "index": 790,
           "duration": 60,
           "sourceFacing": 1,
           "file": "lote5/clinchEscape/07.png",
@@ -6705,7 +6705,7 @@
           "phase": ""
         },
         {
-          "index": 472,
+          "index": 791,
           "duration": 70,
           "sourceFacing": 1,
           "file": "lote5/clinchEscape/08.png",

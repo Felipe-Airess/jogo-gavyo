@@ -85,6 +85,35 @@ sheet = np.array(Image.open(SRC).convert('RGB')).astype(int)
 mag_d = np.sqrt(((sheet - [255, 0, 255]) ** 2).sum(2))
 
 
+# Animações em que um pé passa da divisa da célula (o pé de trás da corrida
+# entra no espaço da figura anterior): recorte com folga, só a figura desta
+# célula (o pedaço que mais ocupa a célula e o que encosta nele).
+CUT_PAD = {'run': 36, 'runStart': 36}
+
+
+def cut_padded(box, pad):
+    x0, y0, x1, y1 = box
+    X0, X1 = max(0, x0 - pad), min(sheet.shape[1], x1 + pad)
+    rgb = sheet[y0:y1, X0:X1].copy(); d = mag_d[y0:y1, X0:X1]
+    al = d > 150
+    g = rgb[..., 1]; m = np.minimum(rgb[..., 0], rgb[..., 2]); ex = np.clip(m - g, 0, None)
+    k = np.where(d < 260, 1.0, 0.7)
+    rgb[..., 0] -= (ex * k).astype(int); rgb[..., 2] -= (ex * k).astype(int)
+    light = (rgb.min(2) > 140) & (rgb.max(2) - rgb.min(2) < 90)
+    lum = (rgb * [0.3, 0.59, 0.11]).sum(2)
+    rgb[light] = np.stack([lum[light]] * 3, 1).astype(int)
+    lab, n = ndimage.label(al, structure=np.ones((3, 3)))
+    inside = np.zeros_like(al); inside[:, x0 - X0:x1 - X0] = True
+    main = int(np.argmax(ndimage.sum(al & inside, lab, range(1, n + 1)))) + 1
+    grown = ndimage.binary_dilation(lab == main, iterations=2)
+    keep = lab == main
+    for i in range(1, n + 1):
+        if i != main and (grown & (lab == i)).any() and (lab == i).sum() > 0.02 * (lab == main).sum(): keep |= lab == i
+    ys, xs = np.nonzero(keep)
+    rgb = rgb[ys.min():ys.max() + 1, xs.min():xs.max() + 1]; keep = keep[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
+    return np.dstack([np.clip(rgb, 0, 255), keep * 255]).astype(np.uint8)
+
+
 def cut(box):
     x0, y0, x1, y1 = box
     rgb = sheet[y0:y1, x0:x1].copy(); d = mag_d[y0:y1, x0:x1]
@@ -154,7 +183,7 @@ for name, boxes in CELLS.items():
     S, REF_HEAD = scale_of(name)
     for i, box in enumerate(boxes, 1):
         if i in FORA.get(name, {}): dropped.append(i); continue
-        a = cut(box); s = S
+        a = cut_padded(box, CUT_PAD[name]) if name in CUT_PAD else cut(box); s = S
         hw = head_w(a)
         if name in BIGGER and i in BIGGER[name] and hw and REF_HEAD:   # desenhado maior que os vizinhos
             s = S * REF_HEAD / hw; scaled.append(i)
@@ -252,7 +281,7 @@ for name, (fname, n, guard) in REFEITAS.items():
     sheet = np.array(Image.open(f'{OUT}/fontes/{fname}').convert('RGB')).astype(int)
     mag_d = np.sqrt(((sheet - [255, 0, 255]) ** 2).sum(2))
     boxes, _ = row_boxes(n)
-    raw = [cut(b) for b in boxes]
+    raw = [cut_padded(b, CUT_PAD[name]) if name in CUT_PAD else cut(b) for b in boxes]
     # fundo da figura na folha (para manter o voo da corrida e a altura no chão)
     bottoms = []
     for b in boxes:

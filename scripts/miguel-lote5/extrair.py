@@ -210,7 +210,20 @@ def place(sm, x, y):
 
 report, review = {}, []
 raw = {name: [cut(b) for b in panel_cells(name, box, n)] for name, (box, n) in PANELS.items()}
-scale = {name: TARGET_H / raw[SCALE_FROM.get(name, name)][0][0].shape[0] for name in PANELS}
+def hair_area(a):
+    """Pixels de cabelo (castanho escuro) da figura: régua do tamanho da cabeça."""
+    rgb = a[..., :3].astype(int); op = a[..., 3] > 0
+    return float((op & (rgb[..., 0] < 120) & (rgb[..., 1] < 90) & (rgb[..., 2] < 80) & (rgb[..., 0] >= rgb[..., 1]) & (rgb.sum(2) > 40)).sum())
+
+
+# Escala: painel com guarda no quadro 1 → guarda de 66 px. Painel sem guarda →
+# a cabeça do mesmo tamanho da guarda do vizinho (SCALE_FROM). Pela escala do
+# vizinho só, o segurado saía 48% maior que a guarda e o soco no chão 30%.
+scale = {name: TARGET_H / raw[name][0][0].shape[0] for name in PANELS if name not in SCALE_FROM}
+for name, ref in SCALE_FROM.items():
+    ref_hair = hair_area(raw[ref][0][0])
+    own = float(np.median([hair_area(a) for a, _ in raw[name]]))
+    scale[name] = scale[ref] * (ref_hair / own) ** 0.5
 
 for name, (box, n) in PANELS.items():
     S = scale[name]
