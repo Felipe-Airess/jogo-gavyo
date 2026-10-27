@@ -116,10 +116,10 @@ Legenda: 🔴 bloqueia o objetivo · 🟠 deveria entrar · 🟢 bom ter.
 
 ## 4. Ordem recomendada
 
-1. **Publicar o que existe**: mesclar #2 e #3, CI com `npm test`, conferir o
-   GitHub Pages. (curto, destrava teste no celular de verdade)
-2. **Partida de verdade**: rounds, tempo, melhor de 3, anúncio, revanche,
-   tela de seleção com dificuldade. (código, sem arte)
+1. ✅ **Publicar o que existe** (27/10): PRs #2 e #3 na `main`, CI em
+   `.github/workflows/testes.yml`, GitHub Pages servindo a versão nova.
+2. ✅ **Partida de verdade** (27/10): rounds, tempo, melhor de N, anúncios,
+   revanche e tela de seleção com dificuldade (`src/duel/match.mjs`).
 3. **Gamepad** + lista de comandos no jogo.
 4. **Sorriso lote 4 (P1)** pelo pedido existente, com o kit de referência;
    depois transições dos dois. (arte → integração)

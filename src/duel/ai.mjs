@@ -11,7 +11,10 @@ export const AI_LEVELS = {
   // sem aparo acidental pelo tempo de reação).
   calmo: { reaction: 230, guard: 0.45, parry: 0.1, throw: 0.2, punish: 0.5, think: [260, 420], rest: [900, 1500] },
   firme: { reaction: 180, guard: 0.7, parry: 0.2, throw: 0.35, punish: 0.75, think: [180, 320], rest: [650, 1200] },
+  // Ainda humano: reage em 150 ms (o jab de 161 ms continua passando).
+  dificil: { reaction: 150, guard: 0.85, parry: 0.35, throw: 0.45, punish: 0.9, think: [140, 240], rest: [450, 900] },
 };
+export const AI_LEVEL_NAMES = { calmo: 'CALMO', firme: 'FIRME', dificil: 'DIFICIL' };
 
 export class DuelAI {
   constructor(seed = 29, level = 'firme') {
