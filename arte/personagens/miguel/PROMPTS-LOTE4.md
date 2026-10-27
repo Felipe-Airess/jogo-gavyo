@@ -11,91 +11,111 @@ exagerada. Sangue, faísca e poeira o jogo desenha por cima.
 
 ---
 
-## PROMPT ÚNICO (todas de uma vez, mesma conversa)
+## PROMPT ÚNICO v2 (todas de uma vez, mesma conversa)
 
-Uma imagem com tudo não funciona (400+ quadros: o gerador funde, pula e
-encolhe quadros). A consistência vem de gerar tudo **na mesma conversa**, com
-o mesmo cabeçalho. Cole o bloco abaixo, depois o CABEÇALHO e depois todas as
-seções 1–17 de uma vez, numa mensagem só.
+Reescrito depois da 1ª geração (27/10). Fraquezas observadas e como o prompt
+ataca cada uma:
 
-```
-STRICT MODE. The attached MASTER image is the official model of Miguel. Follow this prompt to the letter: every rule, every frame count, every frame description, in the exact order written. Do not interpret creatively, do not simplify, do not add or remove frames, poses, effects, backgrounds, text or characters. Copy the MASTER exactly: same face, hair, clothes, colors, proportions, outline and pixel size. If a rule cannot be followed, say which one before drawing instead of ignoring it. Any sheet that breaks a rule is wrong and must be redrawn.
+| Fraqueza da 1ª geração | Resposta no prompt |
+| --- | --- |
+| Tudo numa imagem, com títulos dentro | Uma imagem por animação, sem texto dentro da imagem |
+| Andar = quadros quase iguais | Medidas em "pés" e "cabeças", teste de silhueta, diferença obrigatória |
+| Correr virou trote/largada | Silhueta de cada quadro descrita e lista de proibições |
+| Pixels em px ignorados | Medidas relativas ao corpo, não em pixels |
+| Vira de frente / de costas sozinho | "Câmera de perfil travada", proibido girar se não estiver escrito |
+| Numeração pulada ou repetida | Contar em voz alta antes e conferir depois |
+| 340 mil cores, borda suave, sombra rosa | Paleta limitada, sem degradê, sem sombra, sem brilho |
 
-I am giving you the full production list for one character. Read everything first. Then work like a sprite artist on a production line:
-- Generate ONE sprite sheet per image, in the order of the list (sheet 1 = section 1, and so on; sections with A/B/C or PAIR = one sheet per letter/side).
-- Before each image, write one line: "Sheet X of Y: <name>, N frames".
-- Generate ALL sheets in this same reply, one image after another, without stopping to ask. If you hit a limit, stop after a complete sheet and continue from the next one when I type "continue". When I type "fix N: <note>", redraw only that sheet with the fix.
-- Every sheet must follow the SHEET FORMAT and CHARACTER rules exactly, and must look like it was drawn by the same artist on the same day as the reference images and as the previous sheets of this conversation: same head size, same proportions, same palette, same outline. Compare with the reference before drawing.
-- Never change the character design between sheets.
-Before sheet 1, draw one single cell of Miguel in fighting guard (128x96, magenta) copied from the MASTER as the style anchor, and compare every sheet against the MASTER and the anchor.
-After each sheet, write a 1-line checklist: frames = N (as requested), magenta background, faces right, same scale, matches MASTER. If any item is no, redraw that sheet before moving on.
-```
-
----
-
-## CABEÇALHO (colar sempre)
+Cole o bloco abaixo, depois o CABEÇALHO e depois as seções, numa mensagem só,
+com o MASTER anexado.
 
 ```
-Pixel art sprite sheet for a 2D side-view sports fighting video game (stylized, like classic 16-bit arcade fighting games). No blood, no injuries, no gore: this is a sport/martial-arts animation.
+STRICT MODE. The attached MASTER image is the official model of Miguel. Follow this prompt to the letter. Do not interpret creatively, do not simplify, do not "improve".
 
-INSPIRATIONS (for MOTION, TIMING and POSES only, never for the character's look): the readable anticipation, contact and recovery poses of Street Fighter III: 3rd Strike; the punchy street-brawl combos, grabs and throws of Streets of Rage 4 and River City Girls; the clinch, ground-and-pound and realistic MMA strikes of EA Sports UFC; the weight and stumbling hit reactions of Sifu. Miguel's design, colors and pixel style come ONLY from the MASTER image.
+KNOWN MISTAKES FROM YOUR PREVIOUS ATTEMPT — DO NOT REPEAT THEM:
+1. You put all animations in ONE big image with titles inside. WRONG. Each animation is its OWN separate image. No titles, no labels, no text inside the image except the small frame numbers above the cells.
+2. Your walking frames were almost identical. WRONG. Consecutive frames must look clearly different: if I covered the numbers, a person must be able to put the frames in order by looking at the feet.
+3. Your run became a jog and a crouching start. WRONG. Follow the silhouette described for each frame.
+4. The character turned to face the camera or turned his back. WRONG. The camera is locked in PROFILE (side view) in every frame. He never shows his chest or back to the camera unless the text explicitly says "turns his back".
+5. Frame numbers were skipped or repeated (5,5 / no 5 / 10,10). WRONG. Before drawing, write the list of frame numbers you will draw; after drawing, count the cells.
+6. Soft shading, gradients, glow and pink shadows under the feet. WRONG. Flat pixel-art colors only, no shadows, no glow, no smudges on the background.
 
-CHARACTER: Miguel, the same boy from the attached reference images. Keep EXACTLY: curly dark-brown hair volume, skin tone, white short-sleeve polo shirt with green band at the bottom and green collar details, light-blue jeans, grey/white sneakers. Same head size, same body proportions, same outline thickness and same color palette as the reference. Do not redesign him.
-
-SHEET FORMAT (mandatory):
-- One single horizontal row of cells, numbered 1..N in small text ABOVE each cell (outside the cell).
-- Each cell is exactly 128 x 96 pixels, flat pure magenta background (#FF00FF), no gradients, no floor, no shadow, no motion lines, no effects, no text inside cells.
-- Character faces RIGHT in every cell.
-- Character size: 66 pixels tall in fighting guard, the same scale in every cell.
-- Ground line is invisible but fixed: the sole of the planted foot always touches y = 88 inside the cell. The body's balance point stays near x = 64 unless the animation says it travels.
-- Hard pixel edges, no anti-aliasing, no blur, maximum 48 colors.
-- Draw ONLY the frames I list, in this order, one pose per cell. Do not add, merge or skip frames.
-- Foot rule: a foot that is on the ground must stay on the same pixel in consecutive frames until the text says it lifts.
+WORKFLOW:
+- First draw one single cell: Miguel in fighting guard copied from the MASTER (style anchor).
+- Then generate the animations in the listed order, one image each, all in this reply, one after another. Before each image write: "Animation X of Y: <name>, N frames: 1,2,3...N". After each image write: "Check: N cells counted / side view in all / magenta only / same scale as anchor". If a check fails, redraw that image before moving on.
+- If you reach a limit, stop after a complete image; I will type "continue".
+- When I type "fix X: <note>", redraw only animation X.
+- Never change the character design between images. Compare each image with the MASTER and the anchor before drawing the next.
 ```
 
 ---
+
+## CABEÇALHO v2 (colar sempre)
+
+```
+Pixel art sprite animation for a 2D side-view sports fighting video game. No blood, no injuries, no gore: this is a sport/martial-arts animation.
+
+INSPIRATIONS (for MOTION, TIMING and POSES only, never for the character's look): the readable anticipation, contact and recovery poses of Street Fighter III: 3rd Strike; the punchy combos, grabs and throws of Streets of Rage 4 and River City Girls; the clinch, ground strikes and realistic MMA strikes of EA Sports UFC; the weight and stumbling hit reactions of Sifu. Miguel's design, colors and pixel style come ONLY from the MASTER image.
+
+CHARACTER: Miguel, exactly as in the MASTER: curly dark-brown hair volume, skin tone, white short-sleeve polo shirt with green band at the bottom and green collar details, light-blue jeans, grey/white sneakers. Same head size, proportions, outline and palette. Do not redesign him.
+
+IMAGE FORMAT (mandatory):
+- One image per animation. One single horizontal row of N equal cells, small frame number ABOVE each cell, nothing else written anywhere.
+- Each cell 128 x 96 pixels. Background flat pure magenta #FF00FF in the whole image, no floor, no shadow, no motion lines, no dust, no effects.
+- Real pixel art: hard pixel edges, no anti-aliasing, no gradients, no soft shading, no glow, at most 48 colors in the whole image.
+- Character faces RIGHT, camera locked in profile (side view) in every cell.
+- Same scale in every cell and every image: in fighting guard he is about 2/3 of the cell height, the soles of his feet always on the same invisible ground line near the bottom of the cell, his hips near the horizontal center of the cell.
+
+MEASUREMENTS: use the body as the ruler, not pixels. "1 foot" = the length of his sneaker. "1 head" = the height of his head.
+
+MOTION RULES:
+- Consecutive frames must be visibly different. Exaggerate the key pose of each frame.
+- A foot planted on the ground stays exactly in the same place until the text says it lifts.
+- Never spin, turn around, face the camera or show the back unless the text says so.
+- First and last frame of every loop/attack = the guard pose of the MASTER (except falls).
+```
 
 ## 1. Andar em guarda — frente (6 quadros, loop)
 
 ```
-ANIMATION: walking forward in fighting guard (boxing shuffle step), loop, 6 frames.
-Both fists stay up near the chin THE WHOLE TIME (they never drop). Torso slightly turned, left foot in front.
-1. Guard stance, feet shoulder-width, both feet flat.
-2. Front (left) foot lifts 3 px and slides forward.
-3. Front foot lands 14 px further forward; back foot still planted -> wide stance.
-4. Back (right) foot lifts 3 px and starts to follow.
-5. Back foot slides forward, almost back to normal width.
-6. Back foot lands; same stance as frame 1 but the whole body is 14 px further forward.
-Head height changes at most 1 px. Arms do not swing.
+ANIMATION: walking forward in fighting guard (boxer's step-drag), loop, 6 frames.
+Fists up at the chin in ALL frames. Left foot is the front foot. Normal stance width = 2 feet between the heels.
+1. Guard: heels 2 feet apart, both feet flat.
+2. Front foot LIFTED clearly off the ground (toe up, knee bent), moving forward. Back foot flat.
+3. Front foot lands 1 foot further forward: WIDE stance, heels 3 feet apart. Body leaning slightly forward.
+4. Back foot LIFTED clearly (heel up, knee bent), being dragged forward. Front foot flat, did not move.
+5. Back foot still in the air, close to normal distance.
+6. Back foot lands: heels 2 feet apart again, same pose as frame 1.
+Silhouette test: frame 3 is the widest stance, frames 2 and 4 each show ONE foot in the air. If frames look the same, it is wrong.
 ```
 
 ## 2. Andar em guarda — trás (6 quadros, loop)
 
 ```
-ANIMATION: walking backward in fighting guard, loop, 6 frames. Fists up the whole time.
-1. Guard stance.
-2. Back (right) foot lifts 3 px and moves back.
-3. Back foot lands 14 px further back; front foot still planted -> wide stance.
-4. Front foot lifts 3 px.
-5. Front foot slides back.
-6. Front foot lands; stance as frame 1, whole body 14 px further back.
+ANIMATION: walking backward in fighting guard, loop, 6 frames. Fists up at the chin in ALL frames.
+1. Guard: heels 2 feet apart.
+2. BACK foot LIFTED clearly, moving backward. Front foot flat.
+3. Back foot lands 1 foot further back: WIDE stance, heels 3 feet apart.
+4. FRONT foot LIFTED clearly, being pulled back. Back foot flat, did not move.
+5. Front foot still in the air.
+6. Front foot lands: heels 2 feet apart, same pose as frame 1.
+Silhouette test: frame 3 widest; frames 2 and 4 each show one foot in the air, a different foot each.
 ```
 
-## 3. Correr (8 quadros, loop) — atenção, foi o que mais saiu errado
+## 3. Correr (8 quadros, loop)
 
 ```
-ANIMATION: running cycle, side view, loop, 8 frames. This is a real sprint, not a jog and not a walk.
-Body leans forward about 10 degrees for the whole cycle. Fists loose (not in guard), elbows bent at 90 degrees, arms swing OPPOSITE to the legs (left leg forward = right arm forward). Head bobs: lowest on frames 2 and 6, highest on frames 4 and 8.
-1. CONTACT: right foot touches ground ahead of the hips (heel/midfoot), right leg almost straight; left leg behind, knee bent, left foot off the ground. Left arm forward, right arm back.
-2. DOWN: right foot flat under the hips, right knee bent (body lowest); left knee coming forward, left foot high behind near the buttocks.
-3. PASSING: right leg pushing, under the body; left knee passes the right knee, left foot at right-knee height.
-4. UP / FLIGHT: right foot pushes off and leaves the ground (toe last); left thigh high and forward; BOTH FEET IN THE AIR, body highest.
-5. CONTACT (mirror of 1): left foot touches ground ahead of hips; right leg behind, knee bent. Right arm forward, left arm back.
-6. DOWN (mirror of 2): left foot flat, left knee bent; right foot high behind.
-7. PASSING (mirror of 3).
-8. UP / FLIGHT (mirror of 4): both feet in the air.
-The supporting foot on frames 1-3 must stay on the same ground pixel while the body moves over it; same for frames 5-7. Each full cycle moves the body about 110 px (the game moves the sprite; inside the cells keep the hips near x = 64).
-Do NOT draw both legs straight, do NOT draw both feet on the ground at the same time, do NOT draw a walking pose.
+ANIMATION: full sprint, side view, loop, 8 frames. NOT a jog, NOT a crouching start, NOT a walk.
+Whole body leans forward (like falling forward) in every frame. Hands are loose fists, NOT in guard. Elbows bent like an L. Arms swing opposite to legs: when the left leg is forward, the right arm is forward.
+1. CONTACT: right heel touches the ground 1 foot in front of the hips, right leg almost straight. Left leg behind, knee bent, left foot in the air behind. Left arm forward, right arm back. Silhouette: a wide upside-down V.
+2. DOWN: right foot flat under the hips, right knee bent, body at its lowest. Left heel kicked up high behind, near the buttocks.
+3. PASSING: right leg under the body pushing; left knee swinging forward past the right knee.
+4. FLIGHT: BOTH FEET OFF THE GROUND. Left thigh high in front (knee at hip height), right leg stretched behind. Body at its highest. Silhouette: a running split in the air.
+5. CONTACT, opposite legs: left heel touches ground in front, right leg behind in the air. Right arm forward, left arm back.
+6. DOWN, opposite legs: left foot flat, right heel kicked up behind.
+7. PASSING, opposite legs.
+8. FLIGHT, opposite legs: BOTH FEET OFF THE GROUND, right thigh high in front.
+FORBIDDEN: both feet on the ground in the same frame; both legs straight; fists in guard; crouching start; upright posture.
 ```
 
 ## 4. Arrancada (5) e freada (5)
@@ -104,7 +124,7 @@ Do NOT draw both legs straight, do NOT draw both feet on the ground at the same 
 ANIMATION A: run start from guard, 5 frames.
 1. Guard. 2. Lowers hips, leans forward, arms drop from guard. 3. Back foot pushes, front knee drives forward. 4. First running stride (like run frame 4, both feet in the air). 5. Same as run frame 5 (so it connects to the run loop).
 ANIMATION B: run stop, 5 frames.
-1. Same as run frame 1. 2. Front foot plants far ahead, body leans BACK, heel skids. 3. Back foot comes forward, knees bent, arms come up. 4. Wide braking stance, almost stopped. 5. Fighting guard (same as reference guard).
+1. Same as run frame 1. 2. Front foot plants far ahead with the heel, front leg straight, torso leans BACKWARD (shoulders behind the hips, like pulling a brake). 3. Back foot comes forward, knees bent, arms come up. 4. Wide braking stance, almost stopped. 5. Fighting guard (same as reference guard).
 ```
 
 ## 5. Bloqueio alto (6)
@@ -117,14 +137,14 @@ ANIMATION: high block, side view (NOT facing the camera), 6 frames.
 ## 6. Reação leve na cabeça (5)
 
 ```
-ANIMATION: light hit reaction to the head (sport sparring, no injury), 5 frames. Feet do not move.
+ANIMATION: light hit reaction to the head (sport sparring, no injury), 5 frames. Feet do not move. Camera stays in profile: only the HEAD turns, the body never faces the camera.
 1. Guard. 2. Head turns away (to the left), chin up a little, guard opens slightly. 3. Head and shoulders 4 px back, eyes closed. 4. Coming back, fists rising. 5. Guard.
 ```
 
 ## 7. Reação forte na cabeça (7)
 
 ```
-ANIMATION: strong hit reaction to the head, 7 frames.
+ANIMATION: strong hit reaction to the head, 7 frames. He keeps facing RIGHT in all frames (pushed backward, not turned around).
 1. Guard. 2. Head snaps back hard, arms fly open. 3. Torso leans back 15 degrees, back foot steps back 8 px. 4. Front foot slides back to follow. 5. Stumbling, knees bent, arms low. 6. Raising guard. 7. Guard, 8 px further back than frame 1.
 ```
 
@@ -156,7 +176,7 @@ ANIMATION C: getting up to guard, 7 frames.
 
 ```
 ANIMATION: roundhouse kick to the head height, 12 frames. Contact on frame 6.
-1. Guard. 2. Weight shifts to the front (left) foot. 3. Left foot pivots on the ball, heel turns forward. 4. Right knee rises to chest height, pointing forward. 5. Hips turn, right leg starts to extend. 6. CONTACT: right leg fully extended, shin/instep at the height of the TOP of his own head (about 60-64 px above the ground), body leaning back to the left, arms protecting the face. 7. Same as 6, slightly further. 8. Leg folds back, knee high. 9. Knee comes down. 10. Right foot lands behind. 11. Back to stance. 12. Guard.
+1. Guard. 2. Weight shifts to the front (left) foot. 3. Left foot pivots on the ball, heel turns forward. 4. Right knee rises to chest height, pointing forward. 5. Hips turn, right leg starts to extend. 6. CONTACT: right leg fully extended, shin/instep at the height of the TOP of his own head (about 60-64 px above the ground), body leaning back to the left, arms protecting the face. 7. Same as 6, slightly further. 8. Leg folds back, knee high in front, he still faces right. 9. Knee comes down. 10. Right foot lands behind in stance. NO spin, he never turns his back in this kick. 11. Back to stance. 12. Guard.
 The supporting left foot stays on the same pixel in frames 2-10.
 ```
 
