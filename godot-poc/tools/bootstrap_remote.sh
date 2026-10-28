@@ -13,3 +13,4 @@ if (( ${#missing[@]} )); then
 fi
 bash godot-poc/tools/install_godot.sh
 bash godot-poc/tools/build_web.sh
+bash godot-poc/tools/start_preview.sh
