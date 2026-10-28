@@ -43,7 +43,7 @@ func banner() -> Variant:
 static func damage_taken(f: Dictionary) -> float:
 	return f.condition.head + f.condition.body + f.condition.legs + (100 - f.balance) * 0.05 + (100 - f.stamina) * 0.02
 
-func update(dt: float, duel: Dictionary) -> Variant:
+func update(dt: float, duel) -> Variant:
 	if phase == "done":
 		return null
 	phase_t += dt

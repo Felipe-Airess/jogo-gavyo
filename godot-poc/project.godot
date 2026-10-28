@@ -1,8 +1,8 @@
 config_version=5
 
 [application]
-config/name="GAVYO · Laboratório de combate"
-run/main_scene="res://main.tscn"
+config/name="GAVIÃO"
+run/main_scene="res://duel_game.tscn"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 
 [display]
