@@ -473,7 +473,7 @@ func paint_overlay(ci: CanvasItem, size: Vector2) -> void:
 		PixelFont.centered(ci, "GAVIAO", cx, 36, Color("#ded8b3"), 2)
 		var rows := menu_rows()
 		for i in rows.size():
-			var y := 60.0 + i * 15
+			var y := 58.0 + i * 13
 			var on := i == menu_row
 			if on: ci.draw_rect(Rect2(cx - 120, y - 3, 240, 11), Color("#2b3b33"))
 			var color := Color("#e7d38f") if on else Color("#a9b19a")
@@ -482,7 +482,7 @@ func paint_overlay(ci: CanvasItem, size: Vector2) -> void:
 				continue
 			PixelFont.draw(ci, rows[i][0], Vector2(cx - 108, y), color)
 			PixelFont.draw(ci, ("< " if on else "") + menu_label(rows[i][2], settings[rows[i][2]]) + (" >" if on else ""), Vector2(cx - 20, y), color)
-		PixelFont.centered(ci, "F2 CAIXAS  B SANGUE  N SOM  ESC PAUSA", cx, 152, Color("#82947e"))
+		PixelFont.centered(ci, "F2 CAIXAS  B SANGUE  N SOM  ESC PAUSA", cx, 158, Color("#82947e"))
 	else:
 		var won: bool = mode == "over" and match_state.winner == 1
 		PixelFont.centered(ci, ("VITORIA" if won else "DERROTA") if mode == "over" else "PAUSADO", cx, 52, Color("#ded8b3"), 2)
