@@ -1,0 +1,3 @@
+Versao Godot do GAVIAO (exportacao web de godot-poc, branch feat/godot-combat-poc).
+Nao editar a mao: exporte de novo (godot --headless --path godot-poc --export-release Web web/index.html)
+e copie web/index.* para esta pasta.
