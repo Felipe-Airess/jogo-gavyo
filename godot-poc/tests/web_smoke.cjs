@@ -57,10 +57,17 @@ fs.mkdirSync(output, { recursive: true });
         await cdp.send('Input.dispatchTouchEvent', { type: 'touchCancel', touchPoints: [] });
         await page.waitForTimeout(90);
         assert.equal(Object.keys((await state()).held).length, 0, 'cancelar o toque limpa os comandos');
-        await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ ...at('right'), id: 1 }, { ...at('attack'), id: 2 }] });
-        await page.waitForTimeout(120);
-        const attack = await state();
-        assert(attack.held.right && attack.fighters[0].state === 'attack', 'direção e soco juntos pelo toque');
+        // A IA continua lutando: espera o jogador livre e aceita o soco em até 600 ms
+        // (um golpe dela no mesmo instante adiaria o nosso).
+        let attacked = false;
+        for (let tries = 0; tries < 4 && !attacked; tries++) {
+          await page.waitForFunction(() => ['idle', 'walk', 'guard'].includes(window.__GAVYO_QA?.fighters[0].state), null, { timeout: 3000 });
+          await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ ...at('right'), id: 1 }, { ...at('attack'), id: 2 }] });
+          attacked = await page.waitForFunction(() => window.__GAVYO_QA?.held.right && window.__GAVYO_QA?.fighters[0].state === 'attack', null, { timeout: 600 }).then(() => true, () => false);
+          await cdp.send('Input.dispatchTouchEvent', { type: 'touchCancel', touchPoints: [] });
+          await page.waitForTimeout(150);
+        }
+        assert(attacked, 'direção e soco juntos pelo toque');
         await cdp.send('Input.dispatchTouchEvent', { type: 'touchCancel', touchPoints: [] });
         checks.push('multitouch guard + movement', 'touch cancellation', 'multitouch attack + movement');
       }
