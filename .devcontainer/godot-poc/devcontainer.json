@@ -1,0 +1,13 @@
+{
+  "name": "GAVYO · Godot remoto",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "remoteUser": "vscode",
+  "features": {"ghcr.io/devcontainers/features/sshd:1": {}},
+  "forwardPorts": [8060],
+  "portsAttributes": {"8060": {"label": "Jogar GAVYO Godot", "onAutoForward": "openBrowser", "visibility": "private"}},
+  "postCreateCommand": "bash godot-poc/tools/bootstrap_remote.sh",
+  "postStartCommand": "bash godot-poc/tools/start_preview.sh",
+  "postAttachCommand": "bash godot-poc/tools/start_preview.sh",
+  "remoteEnv": {"GODOT": "/home/vscode/.local/bin/godot"},
+  "customizations": {"vscode": {"extensions": ["geequlim.godot-tools"]}}
+}

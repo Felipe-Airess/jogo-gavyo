@@ -1,0 +1,53 @@
+name: Godot POC · Web
+on:
+  push:
+    branches: [main, feat/godot-combat-poc]
+    paths: ['godot-poc/**', '.github/workflows/godot-poc.yml', '.devcontainer/godot-poc/**', 'assets/sorriso-v70.*', 'assets/sorriso-markers.json', 'assets/miguel.*', 'assets/miguel-markers.json']
+  pull_request:
+    paths: ['godot-poc/**', '.github/workflows/godot-poc.yml', '.devcontainer/godot-poc/**', 'assets/sorriso-v70.*', 'assets/sorriso-markers.json', 'assets/miguel.*', 'assets/miguel-markers.json']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: godot-poc-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  web:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.local/bin/godot
+            ~/.local/share/godot/export_templates/4.5.1.stable
+          key: godot-4.5.1-linux-web-v1
+      - run: bash godot-poc/tools/install_godot.sh
+      - run: bash godot-poc/tools/build_web.sh
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser for Web QA
+        run: |
+          npm install --prefix "$RUNNER_TEMP/gavyo-qa" --no-save playwright@1.56.1
+          "$RUNNER_TEMP/gavyo-qa/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Test exported game in desktop and mobile viewports
+        run: |
+          python3 godot-poc/tools/serve.py > "$RUNNER_TEMP/godot-server.log" 2>&1 &
+          for attempt in {1..30}; do
+            if curl -fsS http://127.0.0.1:8060/ >/dev/null; then break; fi
+            sleep 1
+          done
+          PLAYWRIGHT_MODULE="$RUNNER_TEMP/gavyo-qa/node_modules/playwright" node godot-poc/tests/web_smoke.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: godot-web-qa-${{ github.sha }}
+          path: godot-poc/.godot/qa-evidence/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gavyo-godot-web-${{ github.sha }}
+          path: godot-poc/web/
+          if-no-files-found: error
+          retention-days: 14
