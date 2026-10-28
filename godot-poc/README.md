@@ -1,5 +1,9 @@
 # GAVYO — laboratório Godot 4
 
+**28/10/2026 — novo escopo:** migração completa e nativa autorizada pelo usuário.
+Está em andamento; consulte o [inventário com o estado real de cada sistema](docs/MIGRACAO-NATIVA.md).
+A prévia continua sendo a POC enquanto a cena completa é construída e validada.
+
 Prova de conceito isolada, sem migração do Phaser. Godot **4.5.1**, GDScript,
 renderer Compatibility, export Web sem threads. Combate lateral 2D, não uma
 simulação completa de MMA nem um protótipo 3D. Não altera a publicação Pages atual.

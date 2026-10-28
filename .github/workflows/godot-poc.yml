@@ -2,9 +2,9 @@ name: Godot POC · Web
 on:
   push:
     branches: [main, feat/godot-combat-poc]
-    paths: ['godot-poc/**', '.github/workflows/godot-poc.yml', '.devcontainer/godot-poc/**', 'assets/sorriso-v70.*', 'assets/sorriso-markers.json']
+    paths: ['godot-poc/**', '.github/workflows/godot-poc.yml', '.devcontainer/godot-poc/**', 'assets/sorriso-v70.*', 'assets/sorriso-markers.json', 'assets/miguel.*', 'assets/miguel-markers.json']
   pull_request:
-    paths: ['godot-poc/**', '.github/workflows/godot-poc.yml', '.devcontainer/godot-poc/**', 'assets/sorriso-v70.*', 'assets/sorriso-markers.json']
+    paths: ['godot-poc/**', '.github/workflows/godot-poc.yml', '.devcontainer/godot-poc/**', 'assets/sorriso-v70.*', 'assets/sorriso-markers.json', 'assets/miguel.*', 'assets/miguel-markers.json']
   workflow_dispatch:
 permissions:
   contents: read
