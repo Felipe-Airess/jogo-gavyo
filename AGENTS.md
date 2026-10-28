@@ -1,5 +1,11 @@
 # GAVIÃO — guia para o próximo agente
 
+> **28/10/2026 — leia primeiro [docs/RESUMO-27-28-OUT.md](docs/RESUMO-27-28-OUT.md).**
+> O jogo foi portado para o **Godot** (`godot-poc/`, branch `feat/godot-combat-poc`,
+> publicado em /godot/) e o usuário trocou para ele; o Phaser abaixo é referência.
+> Planos combinados (arte em rotoscopia, história, agressividade, reforma do 1×1):
+> `godot-poc/docs/DIRECAO-DO-JOGO.md`. O texto abaixo descreve a fase Phaser.
+
 Atualizado em 26/10/2026. Leia isto antes de mexer no código. Detalhes técnicos
 completos em [docs/DUELO-080.md](docs/DUELO-080.md); histórico em `docs/` e
 contexto do projeto em [docs/CONTEXTO.md](docs/CONTEXTO.md).
