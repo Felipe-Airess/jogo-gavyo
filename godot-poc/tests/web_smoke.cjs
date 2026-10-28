@@ -13,10 +13,18 @@ fs.mkdirSync(output, { recursive: true });
       const context = await browser.newContext({viewport:{width,height}, hasTouch:mobile, isMobile:mobile, deviceScaleFactor:1});
       const page = await context.newPage();
       const errors = [];
+      const startupDiagnostics = [];
       page.on('pageerror', error => errors.push(String(error)));
-      page.on('console', msg => { if (msg.type()==='error') errors.push(msg.text()); });
+      page.on('console', msg => {
+        if (msg.type() !== 'error') return;
+        const text = msg.text();
+        // Emscripten prints progress on stderr when WASM startup is slow.
+        // Loading must still complete and expose a running simulation below.
+        if (/^(still waiting on run dependencies:|dependency: wasm-instantiate|\(end of list\))$/.test(text)) startupDiagnostics.push(text);
+        else errors.push(text);
+      });
       await page.goto((process.env.QA_URL || 'http://127.0.0.1:8060/') + '?qa=1');
-      await page.waitForFunction(()=>window.__GAVYO_QA?.time > 0.2, null, {timeout:45000});
+      await page.waitForFunction(()=>window.__GAVYO_QA?.time > 0.2, null, {timeout:90000});
       const state = () => page.evaluate(()=>window.__GAVYO_QA);
       await page.keyboard.press('r');
       const start = await state();
@@ -56,7 +64,7 @@ fs.mkdirSync(output, { recursive: true });
       await page.waitForTimeout(90);
       await page.screenshot({path:path.join(output,`${name}.png`)});
       assert.deepEqual(errors,[], 'browser has no script or rendering errors');
-      report.push({name,width,height,checks:['load','keyboard movement','pause','reset',...(mobile?['multitouch guard + movement','touch cancellation','multitouch jab + movement']:[])],errors});
+      report.push({name,width,height,checks:['load','keyboard movement','pause','reset',...(mobile?['multitouch guard + movement','touch cancellation','multitouch jab + movement']:[])],errors,startupDiagnostics});
       await context.close();
     }
   } finally {

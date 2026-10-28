@@ -1,0 +1,47 @@
+[
+  {
+    "name": "desktop",
+    "width": 1280,
+    "height": 720,
+    "checks": [
+      "load",
+      "keyboard movement",
+      "pause",
+      "reset"
+    ],
+    "errors": [],
+    "startupDiagnostics": []
+  },
+  {
+    "name": "landscape",
+    "width": 844,
+    "height": 390,
+    "checks": [
+      "load",
+      "keyboard movement",
+      "pause",
+      "reset",
+      "multitouch guard + movement",
+      "touch cancellation",
+      "multitouch jab + movement"
+    ],
+    "errors": [],
+    "startupDiagnostics": []
+  },
+  {
+    "name": "portrait",
+    "width": 390,
+    "height": 844,
+    "checks": [
+      "load",
+      "keyboard movement",
+      "pause",
+      "reset",
+      "multitouch guard + movement",
+      "touch cancellation",
+      "multitouch jab + movement"
+    ],
+    "errors": [],
+    "startupDiagnostics": []
+  }
+]

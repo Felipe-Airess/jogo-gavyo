@@ -30,12 +30,17 @@ Há franquias e possíveis cobranças de computação e armazenamento conforme a
 Não há necessidade de instalar Godot no celular. O editor de código fica no navegador;
 esta configuração não disponibiliza a interface gráfica do editor Godot.
 
-**Estado de acesso nesta entrega:** a autenticação local do implementador não tem
-o escopo `codespace` (consulta retornou 403). Nenhum Codespace foi criado por ele.
-Portanto ainda não existe um endereço remoto da partida validado nesta entrega.
-O passo de criação acima deve ser feito na conta do usuário, ou o acesso Codespaces
-deve ser disponibilizado ao implementador. Não confundir a página de criação com
-um link de jogo já publicado.
+**Atualização de acesso — 28/10/2026:** autorização Codespaces concluída. Ambiente
+ativo: [GAVYO Godot](https://github.com/codespaces/gavyo-godot-w6pjv7j5j7pcg5g7).
+[Abrir a partida](https://gavyo-godot-w6pjv7j5j7pcg5g7-8060.app.github.dev), com login
+na mesma conta GitHub. A build foi gerada dentro do Codespace e o servidor respondeu
+HTTP 200. O ambiente para após 15 minutos sem uso; reabra o editor para retomá-lo.
+
+O primeiro ambiente, com `---` no nome, foi parado: o domínio `github.dev`
+interpretava essa sequência como endereço de empresa e redirecionava para um
+host `ghe.com` inválido. Não reutilize o link antigo. Use nomes como `GAVYO Godot`,
+sem separadores de pontuação. O bootstrap agora instala Python e as dependências
+de fontes ausentes na imagem base, e a configuração inclui diagnóstico por SSH.
 
 ## Jogar
 

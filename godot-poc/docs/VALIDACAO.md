@@ -45,11 +45,29 @@ Retrato tem botões maiores em duas filas. Paisagem prioriza área da luta.
 
 ## Ainda não confirmado
 
-Criação/reabertura real do Codespace, link remoto da porta 8060, celular físico,
-Safari/iOS, latência em rede móvel, desempenho no T400 e revisão do Claude.
-A consulta Codespaces retornou 403 por falta do escopo de autenticação `codespace`.
-A configuração remota foi preparada; sua execução deve ser distinguida de uma
-prévia remota já testada. O workflow Linux deve ter sua execução no Actions
-conferida antes de tratar o pipeline remoto como validado.
+Celular físico, Safari/iOS, latência em rede móvel, desempenho no T400,
+reabertura após parada automática e revisão do Claude.
+
+## Atualização remota — 28/10/2026
+
+Autorização Codespaces concluída pelo usuário. Os workflows Linux de Web e
+testes do Phaser passaram no Actions. Ambiente atual:
+`gavyo-godot-w6pjv7j5j7pcg5g7`, com porta 8060 privada e parada após 15 minutos.
+Build e as 21 verificações executadas dentro do Codespace; servidor HTTP 200.
+Prévia carregada a partir do servidor remoto através de encaminhamento de porta
+autenticado: desktop 1280×720, paisagem 844×390 e retrato 390×844 passaram em
+carga, movimento, pausa/reset e multitouch, sem erros de console. Relatório:
+`remote-web-report.json`. A captura desktop também foi inspecionada visualmente.
+O endereço público da porta responde com
+autenticação exigida, como esperado para uma porta privada; não exige tornar o
+repositório ou a porta públicos.
+
+Corrigidas duas falhas reais da primeira preparação: Python não instalado na
+imagem base e biblioteca fontconfig ausente. Bootstrap instala esses pacotes e
+fontes; diagnóstico remoto por SSH habilitado. Scripts shell preservam LF.
+O primeiro nome continha `---` e o serviço redirecionava para um host de empresa
+`ghe.com` inválido. Ambiente substituído por nome simples e o anterior parado,
+sem apagar arquivos. Confirmado que o novo endereço redireciona para
+`github.com/codespaces/...`, sem o host incorreto.
 
 Não foi habilitada publicação Pages, modificado seu endereço ou feito merge.
