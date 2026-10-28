@@ -74,3 +74,44 @@ static func choose_move(cmd: Dictionary, fighter: Dictionary, moves: Dictionary 
 	elif cmd.back: id = "hook"
 	elif cmd.up: id = "uppercut"
 	return resolve_move(moves, id) if not moves.is_empty() else id
+
+# ---- Port do restante de src/duel/moves.mjs usado pelo duelo -----------------
+const MAX_CHAIN := 4
+const MAX_REPEAT := 2
+
+## Quadro (índice em move.frames) no instante t do golpe.
+static func frame_index(move: Dictionary, t: float) -> int:
+	var rest := maxf(0.0, t)
+	var times: Array = move.times
+	for i in times.size():
+		if rest < float(times[i]):
+			return i
+		rest -= float(times[i])
+	return times.size() - 1
+
+## Em quem está no chão: J soco de martelo, K chute.
+static func ground_move(cmd: Dictionary) -> String:
+	return "groundKick" if cmd.kind == "kick" else "groundPunch"
+
+## Movimento seguinte permitido durante um golpe, ou "".
+static func cancel_target(move: Dictionary, cmd: Dictionary, fighter: Dictionary, history: Array, moves: Dictionary) -> String:
+	if move.cancels.is_empty():
+		return ""
+	var next := ""
+	if move.get("ground", false):
+		next = ground_move(cmd)
+	elif move.get("links") is Dictionary and move.links.has(cmd.kind):
+		next = move.links[cmd.kind]
+	else:
+		next = choose_move(cmd, fighter, moves)
+	if not move.cancels.has(next):
+		return ""
+	var tail := history.slice(maxi(0, history.size() - MAX_REPEAT))
+	if tail.size() == MAX_REPEAT:
+		var all_same := true
+		for id in tail:
+			if id != next:
+				all_same = false
+		if all_same:
+			return ""
+	return next
