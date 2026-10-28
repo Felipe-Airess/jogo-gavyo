@@ -68,7 +68,6 @@ fs.mkdirSync(output, { recursive: true });
           await page.waitForTimeout(150);
         }
         assert(attacked, 'direção e soco juntos pelo toque');
-        await cdp.send('Input.dispatchTouchEvent', { type: 'touchCancel', touchPoints: [] });
         checks.push('multitouch guard + movement', 'touch cancellation', 'multitouch attack + movement');
       }
       await page.waitForTimeout(400);
