@@ -61,6 +61,7 @@ var menu_row := 0
 var menu_held := {}
 var pressed := {}
 var camera_x := 80.0
+var qa := false   # ?qa=1 na web: estado somente leitura em window.__GAVYO_QA (teste de navegador)
 var last_sound_id := 0
 var last_step := -1
 
@@ -87,6 +88,7 @@ func _ready() -> void:
 	add_child(audio)
 	build_world()
 	build_ui()
+	qa = OS.has_feature("web") and str(JavaScriptBridge.eval("location.search", true)).contains("qa=1")
 	change_mode("select")
 
 # ---- montagem ------------------------------------------------------------------
@@ -334,6 +336,7 @@ func render() -> void:
 	floor_layer.queue_redraw()
 	fx_layer.queue_redraw()
 	hud.queue_redraw()
+	if qa: publish_qa()
 	# Control sob CanvasLayer não herda o tamanho da tela: acompanha a viewport.
 	if touch.size != get_viewport_rect().size:
 		touch.position = Vector2.ZERO
@@ -467,3 +470,16 @@ func paint_overlay(ci: CanvasItem, size: Vector2) -> void:
 			PixelFont.centered(ci, "J REVANCHE   K TROCAR LUTADORES", cx, 128, Color("#c7b376"))
 		else:
 			PixelFont.centered(ci, "ESC CONTINUA   M MENU   R REINICIA", cx, 92, Color("#c1c5a1"))
+
+func publish_qa() -> void:
+	var fs: Array = []
+	for f in model.fighters:
+		fs.append({"x": f.x, "state": f.state, "move": f.move, "character": f.character})
+	var buttons := {"left": touch.pad_center() + Vector2(-touch.pad_r() * 0.62, 0), "right": touch.pad_center() + Vector2(touch.pad_r() * 0.62, 0)}
+	for b in touch.BUTTONS:
+		buttons[b.action] = touch.button_center(b)
+	var out := {}
+	for k in buttons: out[k] = [buttons[k].x, buttons[k].y]
+	var snapshot := {"mode": mode, "phase": match_state.phase if match_state != null else "", "time": model.clock / 1000.0, "fighters": fs,
+		"held": touch.held(), "touch": touch.visible, "width": get_viewport_rect().size.x, "buttons": out}
+	JavaScriptBridge.eval("window.__GAVYO_QA = " + JSON.stringify(snapshot))
