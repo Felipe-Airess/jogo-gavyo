@@ -247,6 +247,7 @@ func update_menu(input: Dictionary) -> void:
 
 # ---- entrada -------------------------------------------------------------------
 func _unhandled_input(event: InputEvent) -> void:
+	if overlay_tap(event): return
 	if event is InputEventKey and event.pressed and not event.echo:
 		pressed[event.physical_keycode] = true
 		match event.physical_keycode:
@@ -403,6 +404,7 @@ func draw_debug(ci: CanvasItem, f: Dictionary) -> void:
 			if p != null: ci.draw_rect(Rect2(round(p.x), round(p.y), 1, 1), COLORS.point)
 
 func paint_hud(ci: CanvasItem) -> void:
+	overlay_buttons.clear()
 	var size := logical_size()
 	fx.render_flash(ci, size)
 	# Barra de cima.
@@ -490,9 +492,11 @@ func paint_overlay(ci: CanvasItem, size: Vector2) -> void:
 			PixelFont.centered(ci, "%d X %d" % [match_state.wins[0], match_state.wins[1]], cx, 74, Color("#d1bd85"), 2)
 			var last: String = str(match_state.history[-1].reason) if not match_state.history.is_empty() else ""
 			PixelFont.centered(ci, last.left(60), cx, 98, Color("#c1c5a1"))
-			PixelFont.centered(ci, "J REVANCHE   K TROCAR LUTADORES", cx, 128, Color("#c7b376"))
+			PixelFont.centered(ci, "J REVANCHE   K TROCAR LUTADORES", cx, 118, Color("#c7b376"))
+			draw_buttons(ci, [["REVANCHE", "revanche"], ["MENU", "menu"]], cx, 132)
 		else:
-			PixelFont.centered(ci, "ESC CONTINUA   M MENU   R REINICIA", cx, 92, Color("#c1c5a1"))
+			PixelFont.centered(ci, "ESC CONTINUA   M MENU   R REINICIA", cx, 80, Color("#c1c5a1"))
+			draw_buttons(ci, [["CONTINUAR", "continuar"], ["REINICIAR", "reiniciar"], ["MENU", "menu"]], cx, 96)
 
 func publish_qa() -> void:
 	var fs: Array = []
@@ -506,3 +510,37 @@ func publish_qa() -> void:
 	var snapshot := {"mode": mode, "phase": match_state.phase if match_state != null else "", "time": model.clock / 1000.0, "fighters": fs,
 		"held": touch.held(), "touch": touch.visible, "width": get_viewport_rect().size.x, "buttons": out}
 	JavaScriptBridge.eval("window.__GAVYO_QA = " + JSON.stringify(snapshot))
+
+# ---- botões tocáveis das telas de pausa/fim (o toque não tem Esc nem M) -------
+var overlay_buttons: Array = []
+
+func draw_buttons(ci: CanvasItem, items: Array, cx: float, y: float) -> void:
+	var w := 74.0
+	var gap := 8.0
+	var x := cx - (items.size() * w + (items.size() - 1) * gap) / 2.0
+	for it in items:
+		var r := Rect2(x, y, w, 16)
+		ci.draw_rect(r, Color("#2b3b33"))
+		ci.draw_rect(r, Color("#c7b376"), false, 1.0)
+		PixelFont.centered(ci, it[0], r.get_center().x, y + 6, Color("#e7d38f"))
+		overlay_buttons.append({"rect": r, "action": it[1]})
+		x += w + gap
+
+func overlay_tap(event: InputEvent) -> bool:
+	var pressed_at: Variant = null
+	if event is InputEventScreenTouch and event.pressed: pressed_at = event.position
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT: pressed_at = event.position
+	if pressed_at == null or mode == "playing": return false
+	var p: Vector2 = pressed_at / zoom()
+	for b in overlay_buttons:
+		if b.rect.has_point(p):
+			overlay_action(b.action)
+			get_viewport().set_input_as_handled()
+			return true
+	return false
+
+func overlay_action(action: String) -> void:
+	match action:
+		"continuar": toggle()
+		"reiniciar", "revanche": start_match()
+		"menu": change_mode("select")
