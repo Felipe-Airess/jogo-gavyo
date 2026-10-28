@@ -73,3 +73,26 @@ Nenhum módulo GDScript chama JavaScript para calcular combate.
 entradas de golpes, todos os quadros dos atlas, buffer, round/KO e pulso fixo.
 A POC mantém suas 21 verificações anteriores. Isto valida a fundação, não o
 Corredor, IA, clinch, efeitos ou a integração completa ainda pendentes.
+
+
+## Atualização 28/10/2026 (tarde) — duelo e corredor nativos
+
+| Sistema | Estado Godot |
+| --- | --- |
+| Duelo: estados, combos, varredura, aparo, grogue, chão, arremesso em par, clinch, pé de apoio, empurrão | `scripts/duel/duel.gd` e módulos; 9 replays do Phaser (6.231 ticks) batem tick a tick |
+| IA calmo/firme/difícil | `scripts/duel/ai.gd`; mesmas entradas que a IA do Phaser em todos os replays de IA |
+| Corredor: profundidade, dois manequins, carregar no golpe, clinch, ragdoll, aparo, modos | `scripts/corridor/`; 6 replays (14.400 quadros, Sorriso e Miguel, três modos) batem |
+| Cena do duelo, seleção, HUD, partida, pausa, fim, revanche | `scripts/game/duel_game.gd` |
+| Cena do corredor, HUD, barras dos alvos, sangue nas mãos, Miguel parado | `scripts/game/corridor_game.gd` |
+| Sangue, marcas, feridas, faíscas, poeira, tremida, clarão, câmera lenta, aparo azul | `scripts/game/blood.gd`, `impact_fx.gd` |
+| Som de golpe, defesa, aparo e passada | `scripts/game/combat_audio.gd` (gerado no jogo) |
+| Teclado, controle de videogame, multitoque | `duel_game.gd`, `corridor_game.gd`, `touch_pad.gd` |
+| Preferências | `user://gaviao.cfg` |
+
+Melhor que no Phaser: rival recolorido por shader; controle de videogame; HUD
+numa faixa própria (não cobre a luta); retrato com o mundo mais perto e os botões
+no piso; botões que crescem com a tela.
+
+Ainda não portado: seletor de pose do Miguel parado no corredor (fica no idle),
+modo de depuração extra do corredor (`window.gaviao`) e o leiaute HTML do Phaser
+(menus fora do canvas). Exportação Android/PC não foi testada.

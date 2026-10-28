@@ -1,8 +1,16 @@
 # GAVYO — laboratório Godot 4
 
-**28/10/2026 — novo escopo:** migração completa e nativa autorizada pelo usuário.
-Está em andamento; consulte o [inventário com o estado real de cada sistema](docs/MIGRACAO-NATIVA.md).
-A prévia continua sendo a POC enquanto a cena completa é construída e validada.
+**28/10/2026 — migração nativa jogável.** A cena principal agora é `game.tscn`:
+menu com **Duelo 1×1** (Sorriso/Miguel, IA calmo/firme/difícil, rounds, tempo) e
+**Corredor de treino** (reação/guarda/sparring). Regras em GDScript conferidas
+contra o Phaser por replays tick a tick (`tests/duel_trace_test.gd`,
+`tests/corridor_trace_test.gd`). A POC antiga continua em `main.tscn`.
+Estado de cada sistema: [MIGRACAO-NATIVA.md](docs/MIGRACAO-NATIVA.md).
+
+Controles: setas/WASD andam, J soco, K chute, G agarra, L defende, Shift corre,
+Esc pausa, F2 caixas, B sangue, N som, M menu (pausado), R reinicia. Controle de
+videogame: direcional/analógico, A soco, B chute, X agarra, RB/RT defende, LB corre,
+Start pausa. Toque: direcional e botões na tela, com vários dedos.
 
 Prova de conceito isolada, sem migração do Phaser. Godot **4.5.1**, GDScript,
 renderer Compatibility, export Web sem threads. Combate lateral 2D, não uma

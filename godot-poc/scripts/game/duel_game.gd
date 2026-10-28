@@ -3,6 +3,8 @@ extends Node2D
 ## lê a entrada: as regras ficam em scripts/duel/duel.gd, idêntico ao Phaser.
 ## Mundo em pixel art 320×180 ampliado 2× pela câmera; HUD e toque numa camada
 ## própria, nítidos em qualquer tela.
+signal corridor_requested
+
 const Duel = preload("res://scripts/duel/duel.gd")
 const AI = preload("res://scripts/duel/ai.gd")
 const Fighter = preload("res://scripts/duel/fighter.gd")
@@ -54,7 +56,7 @@ var stepper
 var blood
 var fx
 var audio
-var settings := {"player": "sorriso", "rival": "sorriso", "level": "firme", "bestOf": 3, "seconds": 60, "blood": true, "sound": true}
+var settings := {"mode": "duelo", "player": "sorriso", "rival": "sorriso", "level": "firme", "bestOf": 3, "seconds": 60, "training": "reaction", "blood": true, "sound": true}
 var mode := "select"
 var debug_visible := false
 var menu_row := 0
@@ -75,8 +77,11 @@ var ui_layer: CanvasLayer
 var hud: Node2D
 var touch: Control
 
+func setup(shared_art: Dictionary) -> void:
+	art = shared_art
+
 func _ready() -> void:
-	art = Art.load_all()
+	if art.is_empty(): art = Art.load_all()
 	model = Duel.new(art.roster, art.specs)
 	load_settings()
 	for name in ["sorriso", "miguel"]:
@@ -187,6 +192,10 @@ func toggle() -> void:
 	else: change_mode("paused" if mode == "playing" else "playing")
 
 func start_match() -> void:
+	if settings.mode == "corredor":
+		save_settings()
+		corridor_requested.emit()
+		return
 	if not model.set_characters([settings.player, settings.rival]): return
 	save_settings()
 	ai = AI.new(41, settings.level)
@@ -196,11 +205,24 @@ func start_match() -> void:
 
 func menu_rows() -> Array:
 	var chars: Array = art.roster.keys()
-	return [["VOCE", chars, "player"], ["RIVAL", chars, "rival"], ["IA", AI.LEVELS.keys(), "level"],
+	if settings.mode == "corredor":
+		return [["MODO", ["duelo", "corredor"], "mode"], ["VOCE", chars, "player"], ["TREINO", ["reaction", "guard", "sparring"], "training"], ["TREINAR", null, ""]]
+	return [["MODO", ["duelo", "corredor"], "mode"], ["VOCE", chars, "player"], ["RIVAL", chars, "rival"], ["IA", AI.LEVELS.keys(), "level"],
 		["ROUNDS", ROUND_OPTIONS, "bestOf"], ["TEMPO", TIME_OPTIONS, "seconds"], ["LUTAR", null, ""]]
+
+## Liga/desliga esta cena (a raiz alterna entre duelo e corredor).
+func activate(on: bool) -> void:
+	visible = on
+	ui_layer.visible = on
+	process_mode = Node.PROCESS_MODE_INHERIT if on else Node.PROCESS_MODE_DISABLED
+	if on:
+		camera.make_current()
+		change_mode("select")
 
 func menu_label(key: String, value: Variant) -> String:
 	match key:
+		"mode": return "DUELO 1X1" if value == "duelo" else "CORREDOR DE TREINO"
+		"training": return {"reaction": "REACAO", "guard": "GUARDA", "sparring": "SPARRING"}[value]
 		"player", "rival": return Fighter.CHARACTERS[value].name
 		"level": return AI.LEVEL_NAMES[value]
 		"bestOf": return "1 ROUND" if int(value) == 1 else "MELHOR DE %d" % int(value)
@@ -212,6 +234,7 @@ func update_menu(input: Dictionary) -> void:
 	var rows := menu_rows()
 	if edge.call("up"): menu_row = (menu_row + rows.size() - 1) % rows.size()
 	if edge.call("down"): menu_row = (menu_row + 1) % rows.size()
+	menu_row = mini(menu_row, rows.size() - 1)
 	var row: Array = rows[menu_row]
 	var step := 1 if edge.call("right") else (-1 if edge.call("left") else 0)
 	if step != 0 and row[1] != null:
@@ -447,7 +470,7 @@ func paint_overlay(ci: CanvasItem, size: Vector2) -> void:
 		return
 	ci.draw_rect(Rect2(0, 28, size.x, size.y - 39), Color(0.05, 0.09, 0.08, 0.9 if mode == "select" else 0.86))
 	if mode == "select":
-		PixelFont.centered(ci, "DUELO 1X1", cx, 36, Color("#ded8b3"), 2)
+		PixelFont.centered(ci, "GAVIAO", cx, 36, Color("#ded8b3"), 2)
 		var rows := menu_rows()
 		for i in rows.size():
 			var y := 60.0 + i * 15
@@ -455,7 +478,7 @@ func paint_overlay(ci: CanvasItem, size: Vector2) -> void:
 			if on: ci.draw_rect(Rect2(cx - 120, y - 3, 240, 11), Color("#2b3b33"))
 			var color := Color("#e7d38f") if on else Color("#a9b19a")
 			if rows[i][1] == null:
-				PixelFont.centered(ci, "> LUTAR <" if on else "LUTAR", cx, y, color)
+				PixelFont.centered(ci, "> %s <" % rows[i][0] if on else rows[i][0], cx, y, color)
 				continue
 			PixelFont.draw(ci, rows[i][0], Vector2(cx - 108, y), color)
 			PixelFont.draw(ci, ("< " if on else "") + menu_label(rows[i][2], settings[rows[i][2]]) + (" >" if on else ""), Vector2(cx - 20, y), color)
