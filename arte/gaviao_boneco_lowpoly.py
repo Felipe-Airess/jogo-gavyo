@@ -517,8 +517,9 @@ def _ossos():
     }
     for lado, sx in (("Left", 1), ("Right", -1)):
         o[lado + "Shoulder"] = ((sx * 0.03, 0, 1.39), (sx * 0.17, 0, 1.405), "UpperChest")
-        o[lado + "UpperArm"] = ((sx * 0.17, 0, 1.405), (sx * 0.47, 0, 1.405), lado + "Shoulder")
-        o[lado + "LowerArm"] = ((sx * 0.47, 0, 1.405), (sx * 0.71, 0, 1.405), lado + "UpperArm")
+        # cotovelo levemente para tras: com braco 100% reto o IK nao sabe dobrar
+        o[lado + "UpperArm"] = ((sx * 0.17, 0, 1.405), (sx * 0.47, 0.015, 1.405), lado + "Shoulder")
+        o[lado + "LowerArm"] = ((sx * 0.47, 0.015, 1.405), (sx * 0.71, 0, 1.405), lado + "UpperArm")
         o[lado + "Hand"] = ((sx * 0.71, 0, 1.405), (sx * 0.87, 0, 1.40), lado + "LowerArm")
         o[lado + "UpperLeg"] = ((sx * 0.092, 0, 0.90), (sx * 0.096, -0.005, 0.50), "Hips")
         o[lado + "LowerLeg"] = ((sx * 0.096, -0.005, 0.50), (sx * 0.098, 0.01, 0.09), lado + "UpperLeg")
@@ -662,4 +663,5 @@ def main():
         renderizar(os.path.abspath(args[args.index("--render-pose") + 1]), so_corpo=True)
 
 
-main()
+if __name__ == "__main__":  # importavel por arte/miguel_animacoes.py
+    main()
