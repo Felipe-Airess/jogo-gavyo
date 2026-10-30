@@ -204,8 +204,153 @@ def construir():
         c = pol.center
         pol.material_index = ordem.index(cor_do_ponto((c.x / k, c.y / k, c.z / k + min(zs))))
         pol.use_smooth = False
+    ob["k"], ob["z_min"] = k, min(zs)
     return ob
 
+
+
+# ---------------------------------------------------------------- textura
+# Textura 512x512 feita so com as fotos de referencia: cada texel da malha e
+# projetado (ortografico) na foto do lado para onde a face aponta.
+# Projecoes: foto -> (px0, sx, py0, sy, z0, eixo). px = px0 + sx * eixo,
+# py = py0 - sy * (z - z0); fotos normalizadas para 1500x2000.
+FOTOS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "referencias", "miguel")
+TEX = 512
+PROJ = {
+    # eixo: funcao (x, y) -> coordenada horizontal em metros
+    "rosto_frente": (840, 4263, 1000, 5055, 1.531, lambda x, y: x),
+    "perfil_direito": (1010, 6200, 1000, 4835, 1.531, lambda x, y: -y - 0.117),
+    "perfil_esquerdo": (300, 6200, 1010, 4835, 1.531, lambda x, y: y + 0.117),
+    "cabeca_costas": (640, 5570, 1230, 4240, 1.470, lambda x, y: -x),
+    "corpo_frente": (750, 957, 1840, 957, 0.0, lambda x, y: x),
+}
+
+
+def _carregar(nome):
+    import numpy as np
+    img = bpy.data.images.load(os.path.join(FOTOS, nome + ".jpg"))
+    w, h = img.size
+    px = np.empty(w * h * 4, dtype=np.float32)
+    img.pixels.foreach_get(px)
+    bpy.data.images.remove(img)
+    return px.reshape(h, w, 4)[::-1, :, :3]  # linha 0 = topo
+
+
+def _amostra(fotos, nome, x, y, z):
+    px0, sx, py0, sy, z0, eixo = PROJ[nome]
+    im = fotos[nome]
+    h, w = im.shape[:2]
+    u = int(px0 + sx * eixo(x, y))
+    v = int(py0 - sy * (z - z0))
+    if 0 <= u < w and 0 <= v < h:
+        return im[v, u]
+    return None
+
+
+def texturizar(ob, k, z_min):
+    import numpy as np
+    me = ob.data
+    bpy.context.view_layer.objects.active = ob
+    bpy.ops.object.mode_set(mode="EDIT")
+    bpy.ops.mesh.select_all(action="SELECT")
+    bpy.ops.uv.smart_project(angle_limit=math.radians(66), island_margin=0.004)
+    bpy.ops.object.mode_set(mode="OBJECT")
+
+    fotos = {n: _carregar(n) for n in PROJ}
+    # pele dos bracos: media da bochecha na foto de frente
+    pele = fotos["rosto_frente"][1050:1150, 560:680].reshape(-1, 3).mean(0)
+    # amostra de cachos (foto de costas) para o topo e onde a foto mostra fundo
+    cachos = fotos["cabeca_costas"][250:950, 250:950]
+    tex = np.zeros((TEX, TEX, 3), dtype=np.float32)
+    feito = np.zeros((TEX, TEX), dtype=bool)
+    uv = me.uv_layers.active.data
+
+    for pol in me.polygons:
+        n = pol.normal
+        cen = pol.center
+        cor = cor_do_ponto((cen.x / k, cen.y / k, cen.z / k + z_min))
+        cabeca = cen.z > 1.46 and cor in ("pele", "cabelo", "labio")
+        if cabeca:
+            pesos = {"rosto_frente": -n.y, "cabeca_costas": n.y,
+                     "perfil_direito": -n.x, "perfil_esquerdo": n.x}
+            fonte = max(pesos, key=pesos.get)
+        elif abs(cen.x) < 0.22:
+            fonte = "corpo_frente"
+        else:
+            fonte = None
+        base = np.array(CORES[cor]) ** (1 / 2.2)
+        li = list(pol.loop_indices)
+        P = [me.vertices[me.loops[i].vertex_index].co for i in li]
+        T = [uv[i].uv for i in li]
+        for t in range(1, len(li) - 1):
+            tri = (0, t, t + 1)
+            a, b, c = (np.array(T[i]) * TEX for i in tri)
+            pa, pb, pc = (np.array(P[i]) for i in tri)
+            x0, y0 = np.floor(np.minimum(np.minimum(a, b), c)).astype(int) - 1
+            x1, y1 = np.ceil(np.maximum(np.maximum(a, b), c)).astype(int) + 1
+            den = (b[1] - c[1]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[1] - c[1])
+            if abs(den) < 1e-12:
+                continue
+            for ty in range(max(y0, 0), min(y1, TEX)):
+                for tx in range(max(x0, 0), min(x1, TEX)):
+                    qx, qy = tx + 0.5, ty + 0.5
+                    l1 = ((b[1] - c[1]) * (qx - c[0]) + (c[0] - b[0]) * (qy - c[1])) / den
+                    l2 = ((c[1] - a[1]) * (qx - c[0]) + (a[0] - c[0]) * (qy - c[1])) / den
+                    l3 = 1 - l1 - l2
+                    if min(l1, l2, l3) < -0.02:
+                        continue
+                    q = l1 * pa + l2 * pb + l3 * pc
+                    col = None
+                    if fonte == "corpo_frente":
+                        # costas do corpo: mesma estampa espelhada
+                        xx = q[0] if n.y < 0.3 else -q[0]
+                        if q[2] < 0.86:  # pernas: fica dentro da perna da foto
+                            lado = 1 if xx > 0 else -1
+                            xx = lado * 0.09 + max(-0.035, min(0.035, xx - lado * 0.09))
+                        col = _amostra(fotos, fonte, max(-0.17, min(0.17, xx)), q[1], q[2])
+                    elif fonte:
+                        col = _amostra(fotos, fonte, q[0], q[1], q[2])
+                    if cor == "cabelo" and (col is None or col.mean() > 0.30
+                                            or q[2] > 1.74):
+                        ch, cw = cachos.shape[:2]
+                        col = cachos[int((q[1] + q[2]) * 3000) % ch,
+                                     int((q[0] + 0.5 * q[2]) * 3000) % cw]
+                    if cabeca and cor != "cabelo" and col is not None and col.min() > 0.55:
+                        col = None  # parede/gola atras do pescoco na foto
+                    if col is None:
+                        col = pele if cor == "pele" else base
+                    tex[ty, tx] = col
+                    feito[ty, tx] = True
+
+    # espalha a borda das ilhas para nao aparecer costura
+    for _ in range(4):
+        viz = np.zeros_like(tex)
+        cnt = np.zeros(feito.shape)
+        for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            m = np.roll(feito, (dy, dx), (0, 1))
+            viz += np.roll(tex, (dy, dx), (0, 1)) * m[..., None]
+            cnt += m
+        novo = ~feito & (cnt > 0)
+        tex[novo] = viz[novo] / cnt[novo][:, None]
+        feito |= novo
+
+    tex = np.round(tex * 31) / 31  # 15 bits de cor, como no PS1
+    img = bpy.data.images.new("miguel_textura", TEX, TEX)
+    rgba = np.concatenate([tex, np.ones((TEX, TEX, 1), np.float32)], 2)
+    img.pixels.foreach_set(rgba.ravel())
+    img.pack()
+
+    mat = bpy.data.materials.new("miguel")
+    mat.use_nodes = True
+    nt = mat.node_tree
+    no_tex = nt.nodes.new("ShaderNodeTexImage")
+    no_tex.image = img
+    no_tex.interpolation = "Closest"
+    bsdf = nt.nodes.get("Principled BSDF")
+    nt.links.new(no_tex.outputs["Color"], bsdf.inputs["Base Color"])
+    me.materials.clear()
+    me.materials.append(mat)
+    return img
 
 # ----------------------------------------------------------------- render
 def renderizar(pasta):
@@ -214,7 +359,7 @@ def renderizar(pasta):
     cena.render.engine = "BLENDER_WORKBENCH"
     sh = cena.display.shading
     sh.light = "STUDIO"
-    sh.color_type = "MATERIAL"
+    sh.color_type = "TEXTURE" if bpy.data.images.get("miguel_textura") else "MATERIAL"
     sh.show_object_outline = True
     sh.background_type = "VIEWPORT"
     sh.background_color = (0.55, 0.55, 0.57)
@@ -257,6 +402,12 @@ def main():
     zs = [v.co.z for v in me.vertices]
     print("Miguel: %d faces, %d tris, altura %.3f m" % (
         len(me.polygons), sum(len(p.vertices) - 2 for p in me.polygons), max(zs) - min(zs)))
+    if "--sem-textura" not in args:
+        img = texturizar(ob, ob["k"], ob["z_min"])
+        if "--textura" in args:
+            img.filepath_raw = os.path.abspath(args[args.index("--textura") + 1])
+            img.file_format = "PNG"
+            img.save()
     if "--render" in args:
         renderizar(os.path.abspath(args[args.index("--render") + 1]))
     if "--blend" in args:
