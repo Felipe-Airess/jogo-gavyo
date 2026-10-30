@@ -5,7 +5,7 @@ Anexar sempre:
   2. arte/renders/miguel_rosto_comparacao.png  (rosto)
   3. arte/referencias/miguel/guarda_lado.jpg   (guarda real dele)
   4. arte/referencias/miguel/corpo_frente2.jpg (roupa real)
-Trocar [GOLPE] e [POSES] pela linha da lista no fim.
+Trocar [GOLPE] e [POSES] por um item da LISTA COMPLETA no fim (nome e quadros).
 
 ----------------------------------------------------------------------------
 Você é animador de jogo de luta 2D em pixel art (estilo Street Fighter III /
@@ -48,23 +48,86 @@ ANATOMIA (o erro mais comum — siga à risca):
 - A pose de contato é a mais forte e clara da folha.
 ----------------------------------------------------------------------------
 
-LISTA (golpe | quadros):
-guarda respirando | 1 guarda, 2 peito sobe, 3 guarda, 4 peito desce
-andar em guarda   | 1 a 6: ciclo de passos sem perder a guarda
-correr            | 1 a 6: ciclo, tronco inclinado, braços alternando
-jab               | 1 guarda, 2 antecipação curta, 3 contato braço da frente esticado, 4 volta, 5 guarda
-direto            | 1 guarda, 2 carrega o quadril, 3 contato braço de trás esticado com giro do pé de trás, 4 volta, 5 guarda
-gancho            | 1 guarda, 2 cotovelo abre, 3 contato braço em L na altura do queixo, 4 volta
-uppercut          | 1 guarda, 2 agacha e baixa o punho, 3 contato punho subindo diante do queixo, 4 volta
-chute circular    | 1 guarda, 2 joelho sobe (câmara), 3 contato perna esticada na altura da costela, 4 câmara, 5 pé no chão
-chute baixo       | 1 guarda, 2 câmara baixa, 3 contato canela na coxa do rival, 4 volta
-chute alto        | 1 guarda, 2 câmara alta, 3 contato pé na altura da cabeça, perna ESTICADA para a frente, 4 volta
-joelhada          | 1 guarda, 2 mãos puxam à frente, 3 contato joelho alto, 4 volta
-bloqueio          | 1 guarda, 2 antebraços cobrindo o rosto, queixo baixo
-apanha na cabeça  | 1 impacto (cabeça 30° para trás), 2 recua, 3 volta à guarda
-apanha no corpo   | 1 impacto (dobra na barriga), 2 recua, 3 volta
-queda             | 1 desequilíbrio, 2 caindo de costas, 3 bate no chão, 4 deitado
-levantar          | 1 deitado, 2 apoia mão e joelho, 3 agachado, 4 guarda
+LISTA COMPLETA — tudo o que o jogo usa (44 folhas)
+Formato: nº. nome [id no jogo] — quantos quadros — quadros de contato — o que desenhar.
+"Contato" = quadros em que o golpe acerta; eles são a pose mais forte.
+"loop" = o último quadro emenda no primeiro.
+
+A) PARADO E TRANSIÇÕES
+ 1. Parado relaxado [idle] — 8 quadros, loop — em pé, braços soltos, respirando.
+ 2. Guarda respirando [m3_idle] — 6 quadros, loop — guarda, peito sobe e desce.
+ 3. Entrar na guarda [m_enterGuard] — 6 quadros — de relaxado até a guarda.
+ 4. Baixar a guarda [m_lowerGuard] — 6 quadros — da guarda até relaxado.
+ 5. Cansado [m5_tired] — 6 quadros, loop — guarda baixa, ombros caídos, ofegante.
+
+B) LOCOMOÇÃO
+ 6. Andar para frente em guarda [m4_walkFwd] — 6 quadros, loop — passos curtos sem baixar a guarda.
+ 7. Andar para trás em guarda [m4_walkBack] — 6 quadros, loop — idem, recuando.
+ 8. Começar a andar [m5_walkStart] — 3 quadros — guarda → primeiro passo.
+ 9. Parar de andar [m5_walkStop] — 3 quadros — último passo → guarda.
+10. Andar solto [m3_walk] — 8 quadros, loop — caminhada normal, braços balançando.
+11. Arrancar a correr [m4_runStart] — 5 quadros — guarda → corrida.
+12. Correr [m4_run] — 8 quadros, loop — tronco inclinado, braços alternando, um quadro no ar.
+13. Frear a corrida [m4_runStop] — 5 quadros — derrapa e volta à guarda.
+
+C) SOCOS
+14. Jab [m3_jab] — 8 quadros — contato 4–5 — braço da frente estica rápido e volta.
+15. Direto [m3_cross] — 8 quadros — contato 4–5 — braço de trás, quadril e pé de trás giram.
+16. Direto no corpo [m3_crossBody] — 9 quadros — contato 5–6 — abaixa e soca a barriga.
+17. Soco pesado / overhand [m3_overhand] — 12 quadros — contato 6–7 — soco em arco por cima, de cima para baixo.
+18. Gancho [m4_hook] — 9 quadros — contato 5–6 — braço em L na altura do queixo, quadril gira.
+19. Jab no corpo [m4_jabBody] — 8 quadros — contato 4–5 — abaixa e jab na barriga.
+20. Uppercut [m4_uppercut] — 9 quadros — contato 4–5 — agacha e o punho sobe diante do queixo.
+21. Cotovelada [m4_elbow] — 8 quadros — contato 4–5 — cotovelo horizontal na altura do rosto, curta distância.
+22. Jab com passo [m4_jabStep] — 8 quadros — contato 4–5 — pé da frente avança junto com o jab.
+23. Direto com passo [m4_crossStep] — 9 quadros — contato 5–6 — avança um passo e dá o direto.
+
+D) CHUTES E JOELHO
+24. Chute circular [m3_roundKick] — 12 quadros — contato 6–7 — câmara, perna esticada na costela, pé de apoio gira.
+25. Chute com passo [m3_stepKick] — 12 quadros — contato 7–8 — dá um passo e chuta de frente na cintura.
+26. Chute baixo [m3_lowKick] — 10 quadros — contato 5–6 — canela na coxa do rival.
+27. Chute alto [m4_kickHigh] — 12 quadros — contato 6–7 — pé na altura do ROSTO, perna esticada PARA A FRENTE (não colada no corpo).
+28. Joelhada [m3_knee] — 8 quadros — contato 4–5 — mãos puxam à frente, joelho sobe alto.
+
+E) COMBOS (vários contatos na mesma folha)
+29. Combo jab no corpo + uppercut [m4_comboBodyUpper] — 14 quadros — contatos no 5 e no 12.
+30. Combo jab + cotovelada + joelhada [m4_comboJabElbowKnee] — 12 quadros — contatos no 3, 6 e 11; anda para a frente.
+31. Combo chute baixo + chute alto [m4_comboLowHigh] — 14 quadros — contatos no 5 e no 11.
+
+F) DEFESA E CONTRA-ATAQUE
+32. Bloqueio [m4_block] — 6 quadros — antebraços cobrindo o rosto, queixo baixo, recua um pouco.
+33. Esquiva para trás [m4_leanBack] — 6 quadros — tronco inclina para trás, pés parados, volta.
+34. Esquiva + contra [m4_slipCounter] — 7 quadros — contato 6–7 — desvia para o lado e devolve um direto.
+35. Aparo + contra [m4_parryCounter] — 7 quadros — contato 4–5 — mão de trás desvia o golpe, jab em seguida.
+36. Guarda rompida [m5_guardBreak] — 6 quadros — braços abertos pelo impacto, recua desequilibrado.
+
+G) REAÇÕES (apanhando)
+37. Apanha na cabeça [m4_hitHead] — 5 quadros — cabeça vai 30° para trás e volta.
+38. Apanha forte na cabeça [m4_hitHeadHeavy] — 7 quadros — cabeça e tronco jogados para trás, passo atrás.
+39. Apanha no corpo [m4_hitBody] — 6 quadros — dobra na barriga e volta.
+40. Apanha na perna [m4_hitLeg] — 6 quadros — perna da frente cede, corpo inclina.
+41. Grogue [m4_dazed] — 5 quadros, loop — cambaleando, guarda baixa, cabeça mole.
+
+H) CHÃO
+42. Queda [m4_fall] — 6 quadros — desequilíbrio, cai de costas, bate no chão.
+43. Deitado [m4_lying] — 2 quadros, loop — deitado de costas respirando.
+44. Levantar [m4_rise] — 7 quadros — deitado → apoia mão e joelho → agachado → guarda.
+45. Apanha no chão [m5_groundHit] — 4 quadros — deitado, o corpo encolhe com o golpe.
+46. Soco no chão [m5_groundPunch] — 8 quadros — contato 5–6 — abaixa e soca o rival deitado.
+47. Pisão [m5_stomp] — 8 quadros — contato 5–6 — levanta o joelho e pisa no rival deitado.
+
+I) CLINCH E ARREMESSO
+48. Pegar no clinch [m5_clinchGrab] — 6 quadros — mãos vão à nuca do rival.
+49. Segurar no clinch [m5_clinchHold] — 4 quadros, loop — segurando a nuca, puxando para baixo.
+50. Joelhada no clinch [m5_clinchKnee] — 8 quadros — contato 5–6 — segurando e subindo o joelho.
+51. Soltar o clinch [m5_clinchRelease] — 6 quadros — empurra e volta à guarda.
+52. Ser segurado [m5_held] — 5 quadros, loop — cabeça puxada para baixo, mãos tentando soltar.
+53. Escapar do clinch [m5_clinchEscape] — 8 quadros — empurra os braços do rival e sai.
+54. Arremessar [m5_throw] — 8 quadros — gira o quadril e joga o rival para o chão (contato no 5).
+55. Ser arremessado [m5_thrown] — 9 quadros — puxado, gira no ar e cai de costas.
+
+Dica: as folhas 37–55 que têm outra pessoa (clinch, arremesso, chão) devem
+mostrar SÓ o Miguel, na mesma posição em que estaria com o rival.
 
 COMO USAR:
 1. Gere uma folha por golpe com o prompt acima.
