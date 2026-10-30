@@ -287,13 +287,13 @@ anim("diretoPasso", "m4_crossStep", False, 666, 225, com_passo(soco(
 def chute_circular(alto, contato, total, perna_z):
     golpe = {"hip": (0.05, -0.05, -0.04), "hipR": (0, -14, 80), "spine": (-10, 8, 5),
              "chest": (0, 6, 5), "neck": (0, 0, -40), "head": (6, 0, -40),
-             "pR": (0.22, -0.78, perna_z), "pRr": (40, 0, 80), "jR": (0.9, 0.2, 1.6),
+             "pR": (0.22, -0.78, perna_z), "pRsolto": 50, "jR": (0.9, 0.2, 1.6),
              "pL": (0.11, -0.27, TORNOZ), "pLr": (0, 0, -100),
              "mR": (-0.32, 0.22, 1.12), "cR": (-0.6, 0.6, 1.2),
              "mL": (0.11, -0.30, 1.32)}
     camara = {"hip": (0.04, -0.04, -0.05), "hipR": (0, -6, 35), "spine": (-4, 4, 0),
               "neck": (0, 0, -15), "head": (6, 0, -10),
-              "pR": (-0.02, -0.30, perna_z * 0.55), "pRr": (30, 0, 40), "jR": (0.4, -0.9, 1.5),
+              "pR": (-0.02, -0.30, perna_z * 0.55), "pRsolto": 40, "jR": (0.4, -0.9, 1.5),
               "pLr": (0, 0, -60), "mR": (-0.25, 0.10, 1.25)}
     return [(0, {}), (contato * 0.30, {"hip": (0.04, -0.02, -0.07), "hipR": (0, 0, -15)}),
             (contato * 0.70, camara), (contato, golpe), (contato + 50, dict(golpe)),
@@ -305,15 +305,15 @@ anim("chuteCircular", "m3_roundKick", False, 663, 301, chute_circular(False, 301
 anim("chuteAlto", "m4_kickHigh", False, 944, 294, chute_circular(True, 294, 944, 1.48))
 anim("chuteBaixo", "m3_lowKick", False, 717, 298, [
     (0, {}), (110, {"hip": (0.04, -0.02, -0.07), "hipR": (0, 0, -15)}),
-    (200, {"hipR": (0, -4, 30), "pR": (-0.10, -0.05, 0.30), "jR": (0.2, -1, 0.8),
+    (200, {"hipR": (0, -4, 30), "pR": (-0.10, -0.05, 0.30), "pRsolto": 30, "jR": (0.2, -1, 0.8),
            "pLr": (0, 0, -50)}),
     (298, {"hip": (0.04, -0.06, -0.06), "hipR": (0, -10, 62), "spine": (-6, 6, 4),
            "neck": (0, 0, -30), "head": (6, 0, -30),
-           "pR": (0.18, -0.58, 0.42), "pRr": (30, 0, 70), "jR": (0.8, -0.4, 0.9),
+           "pR": (0.18, -0.58, 0.42), "pRsolto": 45, "jR": (0.8, -0.4, 0.9),
            "pLr": (0, 0, -80), "mR": (-0.30, 0.18, 1.18), "mL": (0.11, -0.30, 1.30)}),
     (350, {"hip": (0.04, -0.06, -0.06), "hipR": (0, -10, 66), "spine": (-6, 6, 4),
            "neck": (0, 0, -30), "head": (6, 0, -30),
-           "pR": (0.24, -0.50, 0.38), "pRr": (30, 0, 75), "jR": (0.8, -0.4, 0.9),
+           "pR": (0.24, -0.50, 0.38), "pRsolto": 45, "jR": (0.8, -0.4, 0.9),
            "pLr": (0, 0, -80), "mR": (-0.30, 0.18, 1.18), "mL": (0.10, -0.26, 1.46)}),
     (520, {"hipR": (0, 0, 10), "pR": (-0.10, 0.05, 0.20)}), (717, {})])
 CHUTE_FRENTE = {"hip": (0, -0.02, -0.03), "hipR": (0, 0, -10), "spine": (-14, 0, -5),
@@ -588,6 +588,10 @@ def aplicar_pose(rig, ctl, pose):
     for chave in ("pL", "pR", "jL", "jR"):
         ctl[chave].location = Vector(pose[chave]) + off
     for chave, osso in (("pL", "LeftFoot"), ("pR", "RightFoot")):
+        # "pRsolto": pe segue a canela, com a ponta esticada (graus), nos chutes
+        solto = pose.get(chave + "solto")
+        pbs[osso].constraints[0].influence = 0.0 if solto is not None else 1.0
+        pbs[osso].rotation_quaternion = rot_local(pbs[osso], (solto or 0, 0, 0))
         repouso = (rig.matrix_world.to_3x3() @ pbs[osso].bone.matrix_local.to_3x3())
         r = Euler([math.radians(g) for g in pose[chave + "r"]], "XYZ").to_matrix() @ repouso
         q = r.to_quaternion()
@@ -609,8 +613,10 @@ def chavear(rig, ctl, frame):
         pbs[osso].keyframe_insert("rotation_quaternion", frame=frame)
     for e in ctl.values():
         e.keyframe_insert("location", frame=frame)
-    for chave in ("pL", "pR"):
+    for chave, osso in (("pL", "LeftFoot"), ("pR", "RightFoot")):
         ctl[chave].keyframe_insert("rotation_quaternion", frame=frame)
+        pbs[osso].keyframe_insert("rotation_quaternion", frame=frame)
+        pbs[osso].constraints[0].keyframe_insert("influence", frame=frame)
 
 
 def assar(rig, ctl, nome, dados):
@@ -647,6 +653,10 @@ def assar(rig, ctl, nome, dados):
 
 
 # ---------------------------------------------------------------- previa
+def ob_cor_vertice():
+    return any(o.type == "MESH" and o.data.color_attributes for o in bpy.data.objects)
+
+
 VISTAS = {"34": Vector((2.6, -3.6, 0.9)), "frente": Vector((0, -4.4, 0.4)),
           "lado": Vector((4.4, -0.2, 0.4))}
 
@@ -656,7 +666,8 @@ def renderizar_previas(rig, acoes, pasta, vista="34"):
     cena = bpy.context.scene
     cena.render.engine = "BLENDER_WORKBENCH"
     sh = cena.display.shading
-    sh.light, sh.color_type = "STUDIO", "TEXTURE"
+    sh.light = "STUDIO"
+    sh.color_type = "VERTEX" if ob_cor_vertice() else "TEXTURE"
     sh.show_specular_highlight = False
     sh.background_type = "VIEWPORT"
     sh.background_color = (0.55, 0.55, 0.57)
@@ -688,12 +699,17 @@ def renderizar_previas(rig, acoes, pasta, vista="34"):
 # ------------------------------------------------------------------ main
 def preparar(so=None):
     """Monta boneco, textura, rig e assa as animacoes. Devolve (rig, malha, acoes)."""
-    b = runpy.run_path(os.path.join(AQUI, "gaviao_boneco_lowpoly.py"), run_name="boneco")
     cena = bpy.context.scene
     cena.render.fps = FPS
-    ob = b["construir"]()
-    b["texturizar"](ob, ob["k"], ob["z_min"])
-    rig = b["riggar"](ob, ob["k"], ob["z_min"])
+    if os.environ.get("MIGUEL_BONECO", "hd") == "hd":
+        # boneco detalhado (malha do MakeHuman, cor por vertice)
+        h = runpy.run_path(os.path.join(AQUI, "miguel_humano.py"), run_name="humano")
+        ob, rig = h["construir_tudo"]()
+    else:  # boneco low poly antigo
+        b = runpy.run_path(os.path.join(AQUI, "gaviao_boneco_lowpoly.py"), run_name="boneco")
+        ob = b["construir"]()
+        b["texturizar"](ob, ob["k"], ob["z_min"])
+        rig = b["riggar"](ob, ob["k"], ob["z_min"])
     ctl = montar_controles(rig)
     calibrar_polos(rig, ctl)
 

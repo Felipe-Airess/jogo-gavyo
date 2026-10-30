@@ -92,7 +92,9 @@ def preparar_cena():
 def render(cena, modo):
     sh = cena.display.shading
     if modo == "cor":
-        sh.light, sh.color_type = "FLAT", "TEXTURE"
+        sh.light = "FLAT"
+        vc = any(o.type == "MESH" and o.data.color_attributes for o in bpy.data.objects)
+        sh.color_type = "VERTEX" if vc else "TEXTURE"
     elif modo == "luz":
         sh.light, sh.color_type = "STUDIO", "SINGLE"
         sh.single_color = (1, 1, 1)
