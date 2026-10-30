@@ -1,60 +1,74 @@
-PROMPT PARA O CHATGPT — FOLHA DE POSES-CHAVE DO MIGUEL
-(anexar: arte/renders/miguel_corpo_comparacao.png, arte/referencias/miguel/guarda_lado.jpg
- e arte/referencias/miguel/corpo_frente2.jpg; trocar [GOLPE] e [POSES] a cada pedido)
+PROMPT PARA O CHATGPT — SPRITES DO MIGUEL (um golpe por pedido)
+
+Anexar sempre:
+  1. arte/renders/miguel_corpo_comparacao.png  (modelo 3D de frente, lado e costas)
+  2. arte/renders/miguel_rosto_comparacao.png  (rosto)
+  3. arte/referencias/miguel/guarda_lado.jpg   (guarda real dele)
+  4. arte/referencias/miguel/corpo_frente2.jpg (roupa real)
+Trocar [GOLPE] e [POSES] pela linha da lista no fim.
 
 ----------------------------------------------------------------------------
-Você é animador de jogo de luta 2D (estilo Street Fighter / Dead Cells).
-Personagem: Miguel, 17 anos, 1,76 m, magro, ombros largos, pele parda, cabelo
-preto cacheado volumoso em cima e na franja, curto dos lados, orelhas grandes,
-sobrancelhas grossas e retas, lábios cheios, bigodinho ralo. Roupa: polo branca
-do uniforme do Ceará com gola branca de friso verde, listras verde/verde-azulado/
-amarelo nos ombros, barra verde ondulada com faixa amarela diagonal, calça jeans
-azul-claro reta e folgada, tênis branco com detalhe roxo. Use as imagens
-anexadas como referência exata de aparência e da guarda.
+Você é animador de jogo de luta 2D em pixel art (estilo Street Fighter III /
+Dead Cells). Faça uma folha de sprites do personagem MIGUEL executando
+[GOLPE].
 
-Desenhe UMA folha com o golpe [GOLPE], vista de LADO (perfil, olhando para a
-DIREITA), câmera na altura do quadril, corpo inteiro, fundo cinza liso, mesma
-escala em todas as poses, numeradas, em linha horizontal:
-[POSES]   (ex.: 1 guarda, 2 antecipação, 3 contato, 4 recuperação, 5 guarda)
+APARÊNCIA (igual às imagens anexadas, sem mudar nada):
+17 anos, 1,76 m, magro, ombros largos, pele parda, cabelo preto cacheado
+volumoso em cima e na franja e curto dos lados, orelhas grandes, sobrancelhas
+grossas e retas, lábios cheios, bigodinho ralo. Polo branca do uniforme do
+Ceará: gola branca com friso verde, listras verde / verde-azulado / amarelo nos
+ombros, barra verde ondulada com faixa amarela diagonal, punho da manga verde.
+Calça jeans azul-claro reta e folgada. Tênis branco com detalhe roxo.
 
-Regras de anatomia (obrigatórias):
-- Cotovelos e joelhos dobram só para o lado natural. Nunca invertidos.
-- Joelho sempre aponta na mesma direção dos dedos do pé.
-- No chute, o pé de apoio gira (calcanhar para o alvo), o tronco inclina para
-  trás e o braço do lado do chute desce para equilibrar; o outro braço protege
-  o rosto. Nenhum braço dobra para trás.
-- No soco, o movimento sai do pé de trás: gira o quadril, depois o ombro; a
-  outra mão fica no rosto (guarda).
-- Peso visível: base larga, joelhos dobrados, nada de pernas retas de compasso.
-- Silhueta clara: o braço ou perna que golpeia fica fora do tronco.
-- Exagere a pose (estilo jogo de luta), mas sem quebrar articulações.
-- Guarda: punhos juntos na frente do rosto, cotovelos baixos e fechados,
+FORMATO (obrigatório):
+- Vista de LADO, perfil, olhando para a DIREITA. Mesma câmera em todos os quadros.
+- Corpo inteiro, mesma escala em todos os quadros (Miguel em pé ≈ 70 px de altura
+  numa célula de 128×96 px), pé de apoio sempre na mesma linha do chão.
+- Quadros em UMA linha horizontal, numerados em cima, fundo magenta puro
+  (#FF00FF), sem sombra no chão, sem texto além dos números.
+- Pixel art limpo, contorno escuro de 1 px, paleta pequena, sem anti-aliasing,
+  sem desfoque de movimento.
+- Quadros: [POSES]
+
+ANATOMIA (o erro mais comum — siga à risca):
+- Cotovelos e joelhos dobram SÓ para o lado natural. Nunca invertidos.
+- O joelho aponta sempre na mesma direção dos dedos do pé.
+- No CHUTE: o pé de apoio gira (calcanhar para o alvo), o tronco inclina um
+  pouco para trás, o braço do lado do chute desce junto ao quadril para
+  equilibrar e o outro braço protege o rosto. Nenhum braço vai para trás em
+  ângulo estranho. A perna que chuta sobe dobrada (joelho primeiro) e só
+  depois estica.
+- No SOCO: o movimento sai do pé de trás → gira o quadril → gira o ombro →
+  braço estica. A outra mão fica no rosto (guarda).
+- Peso visível: joelhos dobrados, base larga; nada de pernas retas de compasso.
+- Silhueta clara: o braço ou a perna que golpeia fica fora do tronco.
+- Guarda dele: punhos juntos na frente do rosto, cotovelos baixos e fechados,
   ombros encolhidos, pé esquerdo à frente.
-Não escreva texto na imagem além dos números. Não mude roupa, cabelo ou rosto.
+- Exagere a pose como jogo de luta, sem quebrar articulação.
+- A pose de contato é a mais forte e clara da folha.
 ----------------------------------------------------------------------------
 
-LISTA DE GOLPES (um pedido por linha; poses sugeridas):
-jab .................. 1 guarda, 2 antecipação curta, 3 contato braço esquerdo esticado, 4 volta
-direto ............... 1 guarda, 2 carrega quadril, 3 contato braço direito esticado com giro do pé de trás, 4 volta
-gancho ............... 1 guarda, 2 cotovelo abre, 3 contato braço em L na altura do queixo, 4 volta
-uppercut ............. 1 guarda, 2 agacha e baixa o punho, 3 contato punho subindo em frente ao queixo, 4 volta
-chute circular ....... 1 guarda, 2 joelho sobe (câmara), 3 contato perna esticada na altura da costela, 4 câmara, 5 pé no chão
-chute baixo .......... 1 guarda, 2 câmara baixa, 3 contato canela na coxa do rival, 4 volta
-chute alto ........... 1 guarda, 2 câmara alta, 3 contato pé na altura da cabeça, 4 volta
-joelhada ............. 1 guarda, 2 puxa (mãos à frente), 3 contato joelho alto, 4 volta
-bloqueio ............. 1 guarda, 2 antebraços cobrindo o rosto, queixo baixo
-apanha cabeça ........ 1 impacto (cabeça vai 30° para trás), 2 recupera
-apanha corpo ......... 1 impacto (dobra na barriga), 2 recupera
-queda ................ 1 desequilíbrio, 2 caindo de costas, 3 bate no chão, 4 deitado
-levantar ............. 1 deitado, 2 apoia mão e joelho, 3 agachado, 4 guarda
-andar em guarda ...... 4 poses do ciclo, mantendo a guarda
-correr ............... 4 poses do ciclo, tronco inclinado, braços alternando
+LISTA (golpe | quadros):
+guarda respirando | 1 guarda, 2 peito sobe, 3 guarda, 4 peito desce
+andar em guarda   | 1 a 6: ciclo de passos sem perder a guarda
+correr            | 1 a 6: ciclo, tronco inclinado, braços alternando
+jab               | 1 guarda, 2 antecipação curta, 3 contato braço da frente esticado, 4 volta, 5 guarda
+direto            | 1 guarda, 2 carrega o quadril, 3 contato braço de trás esticado com giro do pé de trás, 4 volta, 5 guarda
+gancho            | 1 guarda, 2 cotovelo abre, 3 contato braço em L na altura do queixo, 4 volta
+uppercut          | 1 guarda, 2 agacha e baixa o punho, 3 contato punho subindo diante do queixo, 4 volta
+chute circular    | 1 guarda, 2 joelho sobe (câmara), 3 contato perna esticada na altura da costela, 4 câmara, 5 pé no chão
+chute baixo       | 1 guarda, 2 câmara baixa, 3 contato canela na coxa do rival, 4 volta
+chute alto        | 1 guarda, 2 câmara alta, 3 contato pé na altura da cabeça, perna ESTICADA para a frente, 4 volta
+joelhada          | 1 guarda, 2 mãos puxam à frente, 3 contato joelho alto, 4 volta
+bloqueio          | 1 guarda, 2 antebraços cobrindo o rosto, queixo baixo
+apanha na cabeça  | 1 impacto (cabeça 30° para trás), 2 recua, 3 volta à guarda
+apanha no corpo   | 1 impacto (dobra na barriga), 2 recua, 3 volta
+queda             | 1 desequilíbrio, 2 caindo de costas, 3 bate no chão, 4 deitado
+levantar          | 1 deitado, 2 apoia mão e joelho, 3 agachado, 4 guarda
 
-COMO USAR AS FOLHAS (tudo pela nuvem):
-1. Gere a folha no ChatGPT com o prompt acima.
-2. Mande a folha aqui para o Claude Code. Eu recrio as poses no modelo 3D por
-   FK, com os limites de articulação de arte/ANIMACAO-MIGUEL.md, seguro o quadro
-   de contato e gero os sprites com arte/miguel_sprites.py.
-3. Alternativa sem desenho: Mixamo (mixamo.com, grátis, no navegador) — sobe o
-   arte/miguel_animado.glb convertido em FBX, escolhe animações de boxe/luta e
-   baixa em FBX; eu faço o retarget para o nosso rig e renderizo.
+COMO USAR:
+1. Gere uma folha por golpe com o prompt acima.
+2. Se algum quadro sair com articulação invertida, peça para refazer SÓ aquele
+   quadro citando a regra ("o joelho aponta para onde o pé aponta").
+3. Mande as folhas para o Claude Code: ele recorta pelo magenta, alinha pelo pé
+   de apoio, iguala escala e paleta e põe no atlas, como nos lotes 3 a 5.
