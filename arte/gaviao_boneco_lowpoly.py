@@ -7,6 +7,18 @@ Uso:
   blender -b -P arte/gaviao_boneco_lowpoly.py                 # so gera o boneco
   blender -b -P arte/gaviao_boneco_lowpoly.py -- --render DIR # gera e renderiza
   blender -b -P arte/gaviao_boneco_lowpoly.py -- --blend ARQ  # salva .blend
+  opcoes: --glb ARQ, --textura ARQ.png, --render-pose DIR, --sem-textura, --sem-rig
+
+Pipeline (praticas de modelagem de personagem para jogo):
+  1. forma por metaballs (volumes simples, cabeca lisa estilo Fears to Fathom);
+  2. retopologia em quads uniformes e simetricos (voxel + QuadriFlow), centro
+     soldado, sombreamento suave;
+  3. UV automatico com o rosto ampliado na textura; textura 512 projetada das
+     fotos, misturada pelo angulo da superficie, pele igualada entre fotos,
+     cor de 15 bits e amostragem Closest;
+  4. rig com nomes do SkeletonProfileHumanoid do Godot (retarget automatico),
+     pesos automaticos suavizados, no maximo 4 ossos por vertice;
+  5. export glTF com transformacoes aplicadas (--glb).
 
 Referencia: 1,76 m, 67 kg, magro, ombros largos, rosto largo nas bochechas,
 orelhas marcadas, cabelo cacheado volumoso em cima e na franja.
@@ -56,6 +68,7 @@ cap((0.18, 0.0, 1.405), (0.33, 0.0, 1.405), 0.054, "camisa", True)
 cap((0.33, 0.0, 1.405), (0.48, 0.0, 1.405), 0.040, "pele", True)
 cap((0.48, 0.0, 1.405), (0.71, 0.0, 1.405), 0.033, "pele", True)
 eli((0.79, 0.0, 1.400), (0.085, 0.020, 0.045), "pele", True)
+cap((0.725, -0.020, 1.398), (0.765, -0.055, 1.398), 0.013, "pele", True)  # polegar
 # pescoco
 cap((0.0, 0.010, 1.42), (0.0, 0.005, 1.55), 0.056, "pele")
 # cabeca no estilo Fears to Fathom: volume simples e liso, o rosto vem da
@@ -107,8 +120,7 @@ CORES = {
     "tenis": (0.92, 0.92, 0.92),
 }
 
-ALVO_CORPO = 1450   # triangulos do pescoco para baixo
-ALVO_CABECA = 650   # triangulos da cabeca e cabelo
+ALVO_QUADS = 1450  # ~2700 triangulos depois de triangular no motor
 
 
 def _dist_capsula(p, a, b, r):
@@ -192,23 +204,38 @@ def construir():
     bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=0.002)
     bm.to_mesh(me)
     bm.free()
-    # cabeca guarda mais poligonos que o corpo (rosto precisa de forma)
-    bpy.ops.object.mode_set(mode="EDIT")
-    for regiao, alvo in (("corpo", ALVO_CORPO), ("cabeca", ALVO_CABECA)):
-        bpy.ops.mesh.select_all(action="DESELECT")
-        bpy.ops.object.mode_set(mode="OBJECT")
-        n = 0
-        for v in me.vertices:
-            v.select = (v.co.z > 1.47) == (regiao == "cabeca")
-        for f in me.polygons:
-            f.select = all(me.vertices[i].select for i in f.vertices)
-            n += f.select
-        bpy.ops.object.mode_set(mode="EDIT")
-        bpy.ops.mesh.decimate(ratio=min(1.0, alvo / max(2 * n, 1)))  # quads -> 2 tris
-    bpy.ops.mesh.select_all(action="SELECT")
-    bpy.ops.mesh.quads_convert_to_tris()
-    bpy.ops.object.mode_set(mode="OBJECT")
-
+    # Retopologia: em vez de decimar (triangulos soltos, sem fluxo), refaz a
+    # malha em quads de tamanho uniforme e simetricos (QuadriFlow), como um
+    # modelador faria na retopo. Antes, voxel remesh deixa a malha fechada.
+    me.use_mirror_x = True
+    rem = ob.modifiers.new("Voxel", "REMESH")
+    rem.mode = "VOXEL"
+    rem.voxel_size = 0.008
+    bpy.ops.object.modifier_apply(modifier="Voxel")
+    # vertices quase repetidos do voxel fazem o QuadriFlow recusar a malha
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=0.0005)
+    bmesh.ops.dissolve_degenerate(bm, edges=bm.edges, dist=0.0005)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    bm.to_mesh(me)
+    bm.free()
+    bpy.ops.object.quadriflow_remesh(target_faces=ALVO_QUADS, use_mesh_symmetry=True,
+                                     use_preserve_sharp=False, use_preserve_boundary=False,
+                                     smooth_normals=False, seed=7)
+    me = ob.data
+    if len(me.polygons) > ALVO_QUADS * 2:
+        raise RuntimeError("QuadriFlow falhou (%d faces)" % len(me.polygons))
+    # a simetria do QuadriFlow deixa o meio descosturado: solda (sem isso o
+    # sombreamento suave quebra numa linha no meio do rosto)
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    meio = [v for v in bm.verts if abs(v.co.x) < 0.004]
+    for v in meio:
+        v.co.x = 0.0
+    bmesh.ops.remove_doubles(bm, verts=meio, dist=0.003)
+    bm.to_mesh(me)
+    bm.free()
     # altura exata (topo do cabelo) e pes no chao
     zs = [v.co.z for v in me.vertices]
     k = ALTURA / (max(zs) - min(zs))
@@ -284,13 +311,20 @@ def texturizar(ob, k, z_min):
             v.co.z = 1.45 + (v.co.z - 1.45) * 2.2
     bpy.ops.object.mode_set(mode="EDIT")
     bpy.ops.mesh.select_all(action="SELECT")
-    bpy.ops.uv.smart_project(angle_limit=math.radians(66), island_margin=0.004)
+    bpy.ops.uv.smart_project(angle_limit=math.radians(80), island_margin=0.004)
     bpy.ops.object.mode_set(mode="OBJECT")
     for v, co in zip(me.vertices, orig):
         v.co = co
     me.update()
 
     fotos = {n: _carregar(n) for n in PROJ}
+    # "delighting" simples: a pele das fotos de perfil fica com a mesma cor
+    # media da pele da foto de frente, para nao aparecer emenda de luz
+    ref = fotos["rosto_frente"][1050:1150, 560:680].reshape(-1, 3).mean(0)
+    for nome, (y0, y1, x0, x1) in (("perfil_direito", (1000, 1100, 500, 650)),
+                                   ("perfil_esquerdo", (1050, 1150, 650, 800))):
+        m = fotos[nome][y0:y1, x0:x1].reshape(-1, 3).mean(0)
+        fotos[nome] = np.clip(fotos[nome] * (ref / m), 0, 1)
     # pele dos bracos: media da bochecha na foto de frente
     pele = fotos["rosto_frente"][1050:1150, 560:680].reshape(-1, 3).mean(0)
     # amostra de cachos (foto de costas) para o topo e onde a foto mostra fundo
@@ -299,6 +333,7 @@ def texturizar(ob, k, z_min):
     feito = np.zeros((TEX, TEX), dtype=bool)
     uv = me.uv_layers.active.data
 
+    vn = [v.normal.copy() for v in me.vertices]
     for pol in me.polygons:
         n = pol.normal
         cen = pol.center
@@ -317,11 +352,13 @@ def texturizar(ob, k, z_min):
         base = np.array(CORES[cor]) ** (1 / 2.2)
         li = list(pol.loop_indices)
         P = [me.vertices[me.loops[i].vertex_index].co for i in li]
+        N = [vn[me.loops[i].vertex_index] for i in li]
         T = [uv[i].uv for i in li]
         for t in range(1, len(li) - 1):
             tri = (0, t, t + 1)
             a, b, c = (np.array(T[i]) * TEX for i in tri)
             pa, pb, pc = (np.array(P[i]) for i in tri)
+            na, nb, nc = (np.array(N[i]) for i in tri)
             x0, y0 = np.floor(np.minimum(np.minimum(a, b), c)).astype(int) - 1
             x1, y1 = np.ceil(np.maximum(np.maximum(a, b), c)).astype(int) + 1
             den = (b[1] - c[1]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[1] - c[1])
@@ -343,8 +380,29 @@ def texturizar(ob, k, z_min):
                         xx = q[0] if n.y < 0.3 else -q[0]
                         if q[2] < 0.86:  # pernas: fica dentro da perna da foto
                             lado = 1 if xx > 0 else -1
-                            xx = lado * 0.10 + max(-0.03, min(0.03, xx - lado * 0.10))
-                        col = _amostra(fotos, fonte, max(-0.17, min(0.17, xx)), q[1], q[2])
+                            # na foto as pernas abrem do joelho para baixo
+                            centro = 0.10 + 0.07 * max(0.0, min(1.0, (0.50 - q[2]) / 0.40))
+                            xx = lado * centro + max(-0.03, min(0.03, xx - lado * 0.10))
+                        col = _amostra(fotos, fonte, max(-0.20, min(0.20, xx)), q[1], q[2])
+                    elif cabeca:
+                        # mistura as fotos pelo angulo da superficie (sem emenda dura)
+                        nq = l1 * na + l2 * nb + l3 * nc
+                        nq = nq / max(np.linalg.norm(nq), 1e-6)
+                        frente = 0.6 if q[1] < -0.045 and cor != "cabelo" else 0.0
+                        soma, peso = np.zeros(3), 0.0
+                        for nome, w in (("rosto_frente", -nq[1] + frente),
+                                        ("cabeca_costas", nq[1]),
+                                        ("perfil_direito", -nq[0]),
+                                        ("perfil_esquerdo", nq[0])):
+                            if w <= 0:
+                                continue
+                            amo = _amostra(fotos, nome, q[0], q[1], q[2])
+                            if amo is None or (cor != "cabelo" and amo.min() > 0.55) \
+                                    or (cor == "cabelo" and amo.mean() > 0.30):
+                                continue
+                            soma += amo * w ** 3
+                            peso += w ** 3
+                        col = soma / peso if peso > 0 else None
                     elif fonte:
                         col = _amostra(fotos, fonte, q[0], q[1], q[2])
                     if cor == "cabelo" and (col is None or col.mean() > 0.30
@@ -393,22 +451,26 @@ def texturizar(ob, k, z_min):
 # Ossos em coordenadas do modelo antes da escala (mesmas das partes acima).
 # nome: (cabeca do osso, cauda, pai). Nomes .L/.R para espelhar poses.
 def _ossos():
+    # Nomes do SkeletonProfileHumanoid do Godot 4: o importador mapeia sozinho
+    # e da para reaproveitar animacoes de outros humanoides (retarget).
+    # Left = esquerda do personagem (+x, ele olha para -y).
     o = {
-        "quadril": ((0, 0, 0.93), (0, 0, 1.03), None),
-        "coluna": ((0, 0, 1.03), (0, 0, 1.20), "quadril"),
-        "peito": ((0, 0, 1.20), (0, 0, 1.40), "coluna"),
-        "pescoco": ((0, 0.005, 1.40), (0, 0.005, 1.485), "peito"),
-        "cabeca": ((0, 0.005, 1.485), (0, 0.005, 1.75), "pescoco"),
+        "Hips": ((0, 0, 0.93), (0, 0, 1.03), None),
+        "Spine": ((0, 0, 1.03), (0, 0, 1.17), "Hips"),
+        "Chest": ((0, 0, 1.17), (0, 0, 1.29), "Spine"),
+        "UpperChest": ((0, 0, 1.29), (0, 0, 1.40), "Chest"),
+        "Neck": ((0, 0.005, 1.40), (0, 0.005, 1.485), "UpperChest"),
+        "Head": ((0, 0.005, 1.485), (0, 0.005, 1.75), "Neck"),
     }
-    for lado, sx in ((".L", 1), (".R", -1)):
-        o["clavicula" + lado] = ((sx * 0.03, 0, 1.39), (sx * 0.17, 0, 1.405), "peito")
-        o["braco" + lado] = ((sx * 0.17, 0, 1.405), (sx * 0.47, 0, 1.405), "clavicula" + lado)
-        o["antebraco" + lado] = ((sx * 0.47, 0, 1.405), (sx * 0.71, 0, 1.405), "braco" + lado)
-        o["mao" + lado] = ((sx * 0.71, 0, 1.405), (sx * 0.87, 0, 1.40), "antebraco" + lado)
-        o["coxa" + lado] = ((sx * 0.092, 0, 0.90), (sx * 0.096, -0.005, 0.50), "quadril")
-        o["canela" + lado] = ((sx * 0.096, -0.005, 0.50), (sx * 0.098, 0.01, 0.09), "coxa" + lado)
-        o["pe" + lado] = ((sx * 0.098, 0.01, 0.09), (sx * 0.100, -0.10, 0.03), "canela" + lado)
-        o["dedos" + lado] = ((sx * 0.100, -0.10, 0.03), (sx * 0.100, -0.17, 0.03), "pe" + lado)
+    for lado, sx in (("Left", 1), ("Right", -1)):
+        o[lado + "Shoulder"] = ((sx * 0.03, 0, 1.39), (sx * 0.17, 0, 1.405), "UpperChest")
+        o[lado + "UpperArm"] = ((sx * 0.17, 0, 1.405), (sx * 0.47, 0, 1.405), lado + "Shoulder")
+        o[lado + "LowerArm"] = ((sx * 0.47, 0, 1.405), (sx * 0.71, 0, 1.405), lado + "UpperArm")
+        o[lado + "Hand"] = ((sx * 0.71, 0, 1.405), (sx * 0.87, 0, 1.40), lado + "LowerArm")
+        o[lado + "UpperLeg"] = ((sx * 0.092, 0, 0.90), (sx * 0.096, -0.005, 0.50), "Hips")
+        o[lado + "LowerLeg"] = ((sx * 0.096, -0.005, 0.50), (sx * 0.098, 0.01, 0.09), lado + "UpperLeg")
+        o[lado + "Foot"] = ((sx * 0.098, 0.01, 0.09), (sx * 0.100, -0.10, 0.03), lado + "LowerLeg")
+        o[lado + "Toes"] = ((sx * 0.100, -0.10, 0.03), (sx * 0.100, -0.17, 0.03), lado + "Foot")
     return o
 
 
@@ -441,6 +503,16 @@ def riggar(ob, k, z_min):
     rig.select_set(True)
     bpy.context.view_layer.objects.active = rig
     bpy.ops.object.parent_set(type="ARMATURE_AUTO")
+    # suaviza e normaliza os pesos (dobras sem quinas nas articulacoes)
+    bpy.ops.object.select_all(action="DESELECT")
+    ob.select_set(True)
+    bpy.context.view_layer.objects.active = ob
+    bpy.ops.object.mode_set(mode="EDIT")
+    bpy.ops.mesh.select_all(action="SELECT")
+    bpy.ops.object.vertex_group_smooth(group_select_mode="ALL", factor=0.5, repeat=2)
+    bpy.ops.object.vertex_group_limit_total(group_select_mode="ALL", limit=4)
+    bpy.ops.object.vertex_group_normalize_all(lock_active=False)
+    bpy.ops.object.mode_set(mode="OBJECT")
     sem_peso = sum(1 for v in ob.data.vertices if not v.groups)
     print("Rig: %d ossos, %d vertices sem peso" % (len(ossos), sem_peso))
     return rig
@@ -452,13 +524,13 @@ def pose_teste(rig):
     pb = rig.pose.bones
     for b in pb:
         b.rotation_mode = "XYZ"
-    pb["braco.L"].rotation_euler = Euler((0, 0, math.radians(-65)))
-    pb["antebraco.L"].rotation_euler = Euler((0, 0, math.radians(-70)))
-    pb["braco.R"].rotation_euler = Euler((math.radians(-60), 0, 0))
-    pb["coxa.L"].rotation_euler = Euler((math.radians(-50), 0, 0))
-    pb["canela.L"].rotation_euler = Euler((math.radians(70), 0, 0))
-    pb["cabeca"].rotation_euler = Euler((0, 0, math.radians(30)))
-    pb["coluna"].rotation_euler = Euler((math.radians(10), 0, 0))
+    pb["LeftUpperArm"].rotation_euler = Euler((0, 0, math.radians(-65)))
+    pb["LeftLowerArm"].rotation_euler = Euler((0, 0, math.radians(-70)))
+    pb["RightUpperArm"].rotation_euler = Euler((math.radians(-60), 0, 0))
+    pb["LeftUpperLeg"].rotation_euler = Euler((math.radians(-50), 0, 0))
+    pb["LeftLowerLeg"].rotation_euler = Euler((math.radians(70), 0, 0))
+    pb["Head"].rotation_euler = Euler((0, 0, math.radians(30)))
+    pb["Spine"].rotation_euler = Euler((math.radians(10), 0, 0))
 
 
 # ----------------------------------------------------------------- render
@@ -526,7 +598,8 @@ def main():
     if "--glb" in args:
         bpy.ops.object.select_all(action="SELECT")
         bpy.ops.export_scene.gltf(filepath=os.path.abspath(args[args.index("--glb") + 1]),
-                                  export_format="GLB", use_selection=True)
+                                  export_format="GLB", use_selection=True,
+                                  export_apply=True, export_yup=True)
     if "--render" in args:
         renderizar(os.path.abspath(args[args.index("--render") + 1]))
     if "--blend" in args:
