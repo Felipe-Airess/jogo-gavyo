@@ -1,3 +1,6 @@
+> **30/10/2026 — VISÃO NOVA: leia [docs/VISAO-DO-JOGO.md](docs/VISAO-DO-JOGO.md)** (2.5D com
+> pixel, personagens, fases, desbloqueios, prioridades). Branch de arte: `boneco-miguel`.
+
 # GAVIÃO — guia para o próximo agente
 
 > **28/10/2026 — leia primeiro [docs/RESUMO-27-28-OUT.md](docs/RESUMO-27-28-OUT.md).**
