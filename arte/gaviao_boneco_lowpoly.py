@@ -40,12 +40,12 @@ def eli(c, raios, cor, espelho=False):
         ELIPSOIDES.append(((-c[0], c[1], c[2]), raios, cor))
 
 
-# pernas: jeans reto, finas; tenis brancos
-cap((0.095, 0.0, 0.10), (0.093, 0.0, 0.50), 0.050, "jeans", True)
-cap((0.093, 0.0, 0.50), (0.090, 0.0, 0.86), 0.064, "jeans", True)
+# pernas: jeans reto e folgado (nao colado), barra caindo no tenis
+cap((0.098, 0.0, 0.11), (0.096, 0.0, 0.50), 0.064, "jeans", True)
+cap((0.096, 0.0, 0.50), (0.092, 0.0, 0.86), 0.076, "jeans", True)
 eli((0.100, -0.045, 0.045), (0.050, 0.130, 0.050), "tenis", True)
 # quadril e cintura (magro)
-eli((0.0, 0.0, 0.92), (0.155, 0.095, 0.090), "jeans")
+eli((0.0, 0.0, 0.92), (0.165, 0.100, 0.095), "jeans")
 eli((0.0, 0.0, 1.03), (0.145, 0.092, 0.095), "verde")
 # tronco: afunila da cintura para os ombros largos
 eli((0.0, 0.0, 1.18), (0.150, 0.095, 0.110), "camisa")
@@ -347,7 +347,7 @@ def texturizar(ob, k, z_min):
                         xx = q[0] if n.y < 0.3 else -q[0]
                         if q[2] < 0.86:  # pernas: fica dentro da perna da foto
                             lado = 1 if xx > 0 else -1
-                            xx = lado * 0.09 + max(-0.035, min(0.035, xx - lado * 0.09))
+                            xx = lado * 0.10 + max(-0.03, min(0.03, xx - lado * 0.10))
                         col = _amostra(fotos, fonte, max(-0.17, min(0.17, xx)), q[1], q[2])
                     elif fonte:
                         col = _amostra(fotos, fonte, q[0], q[1], q[2])
@@ -393,8 +393,80 @@ def texturizar(ob, k, z_min):
     me.materials.append(mat)
     return img
 
+# -------------------------------------------------------------------- rig
+# Ossos em coordenadas do modelo antes da escala (mesmas das partes acima).
+# nome: (cabeca do osso, cauda, pai). Nomes .L/.R para espelhar poses.
+def _ossos():
+    o = {
+        "quadril": ((0, 0, 0.93), (0, 0, 1.03), None),
+        "coluna": ((0, 0, 1.03), (0, 0, 1.20), "quadril"),
+        "peito": ((0, 0, 1.20), (0, 0, 1.40), "coluna"),
+        "pescoco": ((0, 0.005, 1.40), (0, 0.005, 1.485), "peito"),
+        "cabeca": ((0, 0.005, 1.485), (0, 0.005, 1.75), "pescoco"),
+    }
+    for lado, sx in ((".L", 1), (".R", -1)):
+        o["clavicula" + lado] = ((sx * 0.03, 0, 1.39), (sx * 0.17, 0, 1.405), "peito")
+        o["braco" + lado] = ((sx * 0.17, 0, 1.405), (sx * 0.47, 0, 1.405), "clavicula" + lado)
+        o["antebraco" + lado] = ((sx * 0.47, 0, 1.405), (sx * 0.71, 0, 1.405), "braco" + lado)
+        o["mao" + lado] = ((sx * 0.71, 0, 1.405), (sx * 0.87, 0, 1.40), "antebraco" + lado)
+        o["coxa" + lado] = ((sx * 0.092, 0, 0.90), (sx * 0.096, -0.005, 0.50), "quadril")
+        o["canela" + lado] = ((sx * 0.096, -0.005, 0.50), (sx * 0.098, 0.01, 0.09), "coxa" + lado)
+        o["pe" + lado] = ((sx * 0.098, 0.01, 0.09), (sx * 0.100, -0.10, 0.03), "canela" + lado)
+        o["dedos" + lado] = ((sx * 0.100, -0.10, 0.03), (sx * 0.100, -0.17, 0.03), "pe" + lado)
+    return o
+
+
+def riggar(ob, k, z_min):
+    """Cria o esqueleto e liga a malha com pesos automaticos."""
+    def f(p):
+        return (p[0] * k, p[1] * k, (p[2] - z_min) * k)
+
+    arm_data = bpy.data.armatures.new("MiguelRig")
+    rig = bpy.data.objects.new("MiguelRig", arm_data)
+    bpy.context.scene.collection.objects.link(rig)
+    bpy.ops.object.select_all(action="DESELECT")
+    bpy.context.view_layer.objects.active = rig
+    rig.select_set(True)
+    bpy.ops.object.mode_set(mode="EDIT")
+    ossos = _ossos()
+    for nome, (a, b, _) in ossos.items():
+        e = arm_data.edit_bones.new(nome)
+        e.head, e.tail = f(a), f(b)
+        e.roll = 0.0
+    for nome, (_, _, pai) in ossos.items():
+        if pai:
+            e = arm_data.edit_bones[nome]
+            e.parent = arm_data.edit_bones[pai]
+            e.use_connect = (tuple(e.head) == tuple(e.parent.tail))
+    bpy.ops.object.mode_set(mode="OBJECT")
+
+    bpy.ops.object.select_all(action="DESELECT")
+    ob.select_set(True)
+    rig.select_set(True)
+    bpy.context.view_layer.objects.active = rig
+    bpy.ops.object.parent_set(type="ARMATURE_AUTO")
+    sem_peso = sum(1 for v in ob.data.vertices if not v.groups)
+    print("Rig: %d ossos, %d vertices sem peso" % (len(ossos), sem_peso))
+    return rig
+
+
+def pose_teste(rig):
+    """Pose para conferir os pesos: braco abaixado, joelho e cotovelo dobrados."""
+    from mathutils import Euler
+    pb = rig.pose.bones
+    for b in pb:
+        b.rotation_mode = "XYZ"
+    pb["braco.L"].rotation_euler = Euler((0, 0, math.radians(-65)))
+    pb["antebraco.L"].rotation_euler = Euler((0, 0, math.radians(-70)))
+    pb["braco.R"].rotation_euler = Euler((math.radians(-60), 0, 0))
+    pb["coxa.L"].rotation_euler = Euler((math.radians(-50), 0, 0))
+    pb["canela.L"].rotation_euler = Euler((math.radians(70), 0, 0))
+    pb["cabeca"].rotation_euler = Euler((0, 0, math.radians(30)))
+    pb["coluna"].rotation_euler = Euler((math.radians(10), 0, 0))
+
+
 # ----------------------------------------------------------------- render
-def renderizar(pasta):
+def renderizar(pasta, so_corpo=False):
     os.makedirs(pasta, exist_ok=True)
     cena = bpy.context.scene
     cena.render.engine = "BLENDER_WORKBENCH"
@@ -424,8 +496,10 @@ def renderizar(pasta):
     for nome, (loc, rot) in vistas.items():
         cam.location = loc
         cam.rotation_euler = rot
-        cena.render.filepath = os.path.join(pasta, "miguel_%s.png" % nome)
+        cena.render.filepath = os.path.join(pasta, "miguel_%s%s.png" % ("pose_" * so_corpo, nome))
         bpy.ops.render.render(write_still=True)
+    if so_corpo:
+        return
 
     # close do rosto
     cam_data.ortho_scale = 0.45
@@ -449,10 +523,20 @@ def main():
             img.filepath_raw = os.path.abspath(args[args.index("--textura") + 1])
             img.file_format = "PNG"
             img.save()
+    rig = None
+    if "--sem-rig" not in args:
+        rig = riggar(ob, ob["k"], ob["z_min"])
+    if "--glb" in args:
+        bpy.ops.object.select_all(action="SELECT")
+        bpy.ops.export_scene.gltf(filepath=os.path.abspath(args[args.index("--glb") + 1]),
+                                  export_format="GLB", use_selection=True)
     if "--render" in args:
         renderizar(os.path.abspath(args[args.index("--render") + 1]))
     if "--blend" in args:
         bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(args[args.index("--blend") + 1]))
+    if "--render-pose" in args and rig:
+        pose_teste(rig)
+        renderizar(os.path.abspath(args[args.index("--render-pose") + 1]), so_corpo=True)
 
 
 main()
