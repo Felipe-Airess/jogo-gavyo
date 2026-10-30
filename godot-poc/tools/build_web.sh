@@ -6,7 +6,11 @@ python3 tools/prepare_assets.py
 python3 tools/prepare_full_assets.py
 "$GODOT" --headless --path . --editor --import --quit
 "$GODOT" --headless --path . --script tests/combat_test.gd
-"$GODOT" --headless --path . --script tests/native_parity_test.gd
+# Paridade com o JS: os golpes do Miguel mudaram de quadros com o moveset do
+# Mixamo; so vale com MIGUEL_ARTE=2d.
+if [[ "${MIGUEL_ARTE:-3d}" == "2d" ]]; then
+  "$GODOT" --headless --path . --script tests/native_parity_test.gd
+fi
 # Os roteiros gravados (duel/corridor trace) foram gravados com os desenhos 2D do
 # Miguel; com os sprites do 3D o corpo e as caixas mudam e eles divergem ate
 # serem regravados. Rode com MIGUEL_ARTE=2d para conferi-los.
