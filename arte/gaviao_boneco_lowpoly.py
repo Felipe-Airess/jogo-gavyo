@@ -58,13 +58,18 @@ cap((0.48, 0.0, 1.405), (0.71, 0.0, 1.405), 0.033, "pele", True)
 eli((0.79, 0.0, 1.400), (0.085, 0.020, 0.045), "pele", True)
 # pescoco
 cap((0.0, 0.010, 1.42), (0.0, 0.005, 1.55), 0.056, "pele")
-# cabeca: queixo pequeno, bochechas largas, cranio
-eli((0.0, -0.005, 1.640), (0.088, 0.098, 0.105), "pele")
-eli((0.0, -0.030, 1.605), (0.095, 0.065, 0.050), "pele")        # bochechas
-eli((0.0, -0.040, 1.555), (0.045, 0.040, 0.028), "pele")        # queixo
-eli((0.0, -0.098, 1.620), (0.020, 0.024, 0.030), "pele")        # nariz
-eli((0.0, -0.085, 1.578), (0.034, 0.020, 0.012), "labio")       # boca
-eli((0.098, 0.012, 1.632), (0.016, 0.022, 0.036), "pele", True)  # orelhas
+# cabeca: cranio oval, rosto largo na maca do rosto, mandibula afinando
+# ate um queixo pequeno; sobrancelha, nariz largo e labios grossos
+eli((0.0, 0.010, 1.655), (0.080, 0.095, 0.095), "pele")         # cranio
+eli((0.0, -0.030, 1.610), (0.080, 0.070, 0.070), "pele")        # massa do rosto
+eli((0.050, -0.062, 1.612), (0.026, 0.022, 0.022), "pele", True)  # macas do rosto
+eli((0.0, -0.035, 1.550), (0.072, 0.058, 0.040), "pele")        # mandibula
+eli((0.0, -0.062, 1.522), (0.034, 0.030, 0.024), "pele")        # queixo
+eli((0.0, -0.080, 1.660), (0.068, 0.022, 0.014), "pele")        # sobrancelha
+eli((0.0, -0.100, 1.608), (0.018, 0.022, 0.032), "pele")        # nariz
+eli((0.0, -0.098, 1.588), (0.026, 0.016, 0.012), "pele")        # asas do nariz
+eli((0.0, -0.092, 1.566), (0.030, 0.016, 0.013), "labio")       # labios
+eli((0.090, 0.018, 1.622), (0.016, 0.024, 0.036), "pele", True)  # orelhas
 # cabelo cacheado: volume em cima, lados curtos, franja na testa
 for c, r in [((0.0, 0.0, 1.735), (0.088, 0.100, 0.055)),
              ((0.0, 0.040, 1.700), (0.088, 0.085, 0.060)),
@@ -79,6 +84,14 @@ for x, y, z, r in [(0.000, -0.010, 1.785, 0.045), (0.055, 0.020, 1.775, 0.040),
                    (-0.045, -0.085, 1.712, 0.026), (0.072, -0.065, 1.700, 0.022),
                    (-0.072, -0.065, 1.700, 0.022)]:
     eli((x, y, z), (r, r, r), "cabelo")
+
+# cabelo um pouco mais baixo (volume medido na foto de frente)
+ELIPSOIDES[:] = [((c[0], c[1], c[2] - 0.025 * (c[2] > 1.69)) if k == "cabelo" else c, r, k)
+                 for c, r, k in ELIPSOIDES]
+
+# franja sobe um pouco: a testa aparece entre a franja e a sobrancelha
+ELIPSOIDES[:] = [((c[0], c[1], c[2] + 0.018) if k == "cabelo" and c[1] < -0.05 and c[2] < 1.73
+                  else c, r, k) for c, r, k in ELIPSOIDES]
 
 # desce cabeca e cabelo: pescoco curto como nas fotos
 DZ_CABECA = -0.035
@@ -98,7 +111,8 @@ CORES = {
     "tenis": (0.92, 0.92, 0.92),
 }
 
-ALVO_FACES = 1400  # ~2800 triangulos
+ALVO_CORPO = 1450   # triangulos do pescoco para baixo
+ALVO_CABECA = 1350  # triangulos da cabeca e cabelo
 
 
 def _dist_capsula(p, a, b, r):
@@ -182,10 +196,22 @@ def construir():
     bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=0.002)
     bm.to_mesh(me)
     bm.free()
-    dec = ob.modifiers.new("Decimate", "DECIMATE")
-    dec.ratio = min(1.0, ALVO_FACES * 2 / max(1, len(me.polygons) * 2))
-    dec.use_collapse_triangulate = True
-    bpy.ops.object.modifier_apply(modifier="Decimate")
+    # cabeca guarda mais poligonos que o corpo (rosto precisa de forma)
+    bpy.ops.object.mode_set(mode="EDIT")
+    for regiao, alvo in (("corpo", ALVO_CORPO), ("cabeca", ALVO_CABECA)):
+        bpy.ops.mesh.select_all(action="DESELECT")
+        bpy.ops.object.mode_set(mode="OBJECT")
+        n = 0
+        for v in me.vertices:
+            v.select = (v.co.z > 1.47) == (regiao == "cabeca")
+        for f in me.polygons:
+            f.select = all(me.vertices[i].select for i in f.vertices)
+            n += f.select
+        bpy.ops.object.mode_set(mode="EDIT")
+        bpy.ops.mesh.decimate(ratio=min(1.0, alvo / max(2 * n, 1)))  # quads -> 2 tris
+    bpy.ops.mesh.select_all(action="SELECT")
+    bpy.ops.mesh.quads_convert_to_tris()
+    bpy.ops.object.mode_set(mode="OBJECT")
 
     # altura exata (topo do cabelo) e pes no chao
     zs = [v.co.z for v in me.vertices]
@@ -217,12 +243,12 @@ def construir():
 FOTOS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "referencias", "miguel")
 TEX = 512
 PROJ = {
-    # eixo: funcao (x, y) -> coordenada horizontal em metros
-    "rosto_frente": (840, 4263, 1000, 5055, 1.531, lambda x, y: x),
-    "perfil_direito": (1010, 6200, 1000, 4835, 1.531, lambda x, y: -y - 0.117),
-    "perfil_esquerdo": (300, 6200, 1010, 4835, 1.531, lambda x, y: y + 0.117),
-    "cabeca_costas": (640, 5570, 1230, 4240, 1.470, lambda x, y: -x),
-    "corpo_frente": (750, 957, 1840, 957, 0.0, lambda x, y: x),
+    # coordenadas do modelo antes do ajuste para 1,76 m (nao mudam com a escala)
+    "rosto_frente": (820, 4285, 1000, 4921, 1.568, lambda x, y: x),
+    "perfil_direito": (1010, 5730, 1000, 3916, 1.582, lambda x, y: -y - 0.122),
+    "perfil_esquerdo": (300, 5730, 1010, 4237, 1.583, lambda x, y: y + 0.122),
+    "cabeca_costas": (640, 5364, 1230, 4083, 1.521, lambda x, y: -x),
+    "corpo_frente": (750, 922, 1840, 922, -0.005, lambda x, y: x),
 }
 
 
@@ -252,9 +278,21 @@ def texturizar(ob, k, z_min):
     me = ob.data
     bpy.context.view_layer.objects.active = ob
     bpy.ops.object.mode_set(mode="EDIT")
+    # o rosto ganha mais area na textura: aumenta a cabeca so durante o UV
+    orig = [v.co.copy() for v in me.vertices]
+    bpy.ops.object.mode_set(mode="OBJECT")
+    for v in me.vertices:
+        if v.co.z > 1.45:
+            v.co.x *= 2.2
+            v.co.y *= 2.2
+            v.co.z = 1.45 + (v.co.z - 1.45) * 2.2
+    bpy.ops.object.mode_set(mode="EDIT")
     bpy.ops.mesh.select_all(action="SELECT")
     bpy.ops.uv.smart_project(angle_limit=math.radians(66), island_margin=0.004)
     bpy.ops.object.mode_set(mode="OBJECT")
+    for v, co in zip(me.vertices, orig):
+        v.co = co
+    me.update()
 
     fotos = {n: _carregar(n) for n in PROJ}
     # pele dos bracos: media da bochecha na foto de frente
@@ -271,7 +309,9 @@ def texturizar(ob, k, z_min):
         cor = cor_do_ponto((cen.x / k, cen.y / k, cen.z / k + z_min))
         cabeca = cen.z > 1.46 and cor in ("pele", "cabelo", "labio")
         if cabeca:
-            pesos = {"rosto_frente": -n.y, "cabeca_costas": n.y,
+            # a frente do rosto (nariz, macas) usa sempre a foto de frente
+            frente = 0.8 if cen.y < -0.045 and cor != "cabelo" else 0.0
+            pesos = {"rosto_frente": -n.y + frente, "cabeca_costas": n.y,
                      "perfil_direito": -n.x, "perfil_esquerdo": n.x}
             fonte = max(pesos, key=pesos.get)
         elif abs(cen.x) < 0.22:
@@ -300,6 +340,7 @@ def texturizar(ob, k, z_min):
                     if min(l1, l2, l3) < -0.02:
                         continue
                     q = l1 * pa + l2 * pb + l3 * pc
+                    q = np.array((q[0] / k, q[1] / k, q[2] / k + z_min))
                     col = None
                     if fonte == "corpo_frente":
                         # costas do corpo: mesma estampa espelhada
@@ -311,7 +352,7 @@ def texturizar(ob, k, z_min):
                     elif fonte:
                         col = _amostra(fotos, fonte, q[0], q[1], q[2])
                     if cor == "cabelo" and (col is None or col.mean() > 0.30
-                                            or q[2] > 1.74):
+                                            or q[2] > 1.76):
                         ch, cw = cachos.shape[:2]
                         col = cachos[int((q[1] + q[2]) * 3000) % ch,
                                      int((q[0] + 0.5 * q[2]) * 3000) % cw]
@@ -389,7 +430,7 @@ def renderizar(pasta):
     # close do rosto
     cam_data.ortho_scale = 0.45
     for nome, (loc, rot) in (("rosto_frente", vistas["frente"]), ("rosto_lado", vistas["lado"])):
-        cam.location = (loc[0], loc[1], 1.60)
+        cam.location = (loc[0], loc[1], ALTURA - 0.19)
         cam.rotation_euler = rot
         cena.render.filepath = os.path.join(pasta, "miguel_%s.png" % nome)
         bpy.ops.render.render(write_still=True)
