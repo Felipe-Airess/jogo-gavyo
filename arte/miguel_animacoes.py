@@ -34,13 +34,13 @@ FPS = 60
 TORNOZ = 0.085  # altura do tornozelo com o pe no chao
 
 GUARDA = {
-    "hip": (0.0, 0.03, -0.06), "hipR": (0, 0, -25),
+    "hip": (0.0, 0.03, -0.085), "hipR": (0, 0, -25),
     "spine": (11, 0, -5), "chest": (5, 0, -5), "uchest": (2, 0, 0),
     "neck": (-8, 0, 15), "head": (6, 0, 18),
     "mL": (0.11, -0.33, 1.27), "mR": (-0.10, -0.24, 1.29),
     "cL": (0.22, -0.05, 0.72), "cR": (-0.24, 0.05, 0.72),
-    "pL": (0.11, -0.18, TORNOZ), "pLr": (0, 0, -15),
-    "pR": (-0.12, 0.20, TORNOZ), "pRr": (0, 0, -45),
+    "pL": (0.11, -0.29, TORNOZ), "pLr": (0, 0, -15),
+    "pR": (-0.12, 0.30, TORNOZ), "pRr": (0, 0, -45),
     "jL": (0.25, -1.0, 0.5), "jR": (-0.15, -1.0, 0.5),
 }
 RELAXADO = dict(GUARDA, **{
@@ -196,7 +196,7 @@ anim("comecaCorrer", "m4_runStart", False, 350, None, [
     (350, CORRE[0][1])])
 anim("paraCorrer", "m4_runStop", False, 410, None, [
     (0, CORRE[0][1]),
-    (150, {"pL": (0.11, -0.35, TORNOZ), "hip": (0, 0.06, -0.12), "spine": (-4, 0, -5),
+    (150, {"pL": (0.11, -0.42, TORNOZ), "hip": (0, 0.06, -0.12), "spine": (-4, 0, -5),
            "mL": (0.15, -0.30, 1.25), "mR": (-0.15, -0.20, 1.25)}),
     (410, {})])
 
@@ -213,7 +213,7 @@ def soco(contato, total, prep, golpe, segura=35, recua=None):
 JAB = {"hip": (0, -0.03, -0.065), "hipR": (0, 0, -36), "chest": (4, 0, -10),
        "neck": (-4, 0, 22), "head": (10, 0, 24),
        "mL": (0.03, -0.70, 1.45), "cL": (0.45, 0.0, 1.20),
-       "mR": (-0.10, -0.24, 1.30), "pL": (0.11, -0.20, TORNOZ)}
+       "mR": (-0.10, -0.24, 1.30), "pL": (0.11, -0.31, TORNOZ)}
 anim("jab", "m3_jab", False, 327, 139, soco(
     139, 327, {"hip": (0, 0.0, -0.07), "hipR": (0, 0, -20),
                "mL": (0.08, -0.29, 1.37)}, JAB))
@@ -221,7 +221,7 @@ anim("jab", "m3_jab", False, 327, 139, soco(
 DIRETO = {"hip": (0, -0.06, -0.07), "hipR": (0, 0, 8), "spine": (8, 0, 6),
           "chest": (4, 0, 6), "neck": (-4, 0, -8), "head": (8, 0, -12),
           "mR": (-0.01, -0.72, 1.46), "cR": (-0.45, 0.2, 1.25),
-          "mL": (0.11, -0.26, 1.30), "pRr": (28, 0, -5), "pR": (-0.12, 0.18, TORNOZ + 0.04)}
+          "mL": (0.11, -0.26, 1.30), "pRr": (28, 0, -5), "pR": (-0.12, 0.28, TORNOZ + 0.04)}
 anim("direto", "m3_cross", False, 486, 157, soco(
     157, 486, {"hip": (0, 0.01, -0.075), "hipR": (0, 0, -33), "mR": (-0.11, -0.16, 1.40)},
     DIRETO))
@@ -244,7 +244,7 @@ anim("pesado", "m3_overhand", False, 688, 293, [
 GANCHO = {"hip": (0, -0.02, -0.08), "hipR": (0, 0, -58), "chest": (4, 0, -12),
           "neck": (-4, 0, 30), "head": (8, 0, 32),
           "mL": (-0.06, -0.46, 1.46), "cL": (0.55, -0.15, 1.65),
-          "pLr": (0, 0, -55), "pL": (0.11, -0.18, TORNOZ + 0.02)}
+          "pLr": (0, 0, -55), "pL": (0.11, -0.29, TORNOZ + 0.02)}
 anim("gancho", "m4_hook", False, 590, 213, soco(
     213, 590, {"hipR": (0, 0, -12), "hip": (0, 0, -0.08),
                "mL": (0.30, -0.26, 1.42), "cL": (0.6, 0.1, 1.5)}, GANCHO, segura=60))
@@ -277,18 +277,18 @@ def com_passo(chaves, avanco, desde):
 
 anim("jabPasso", "m4_jabStep", False, 562, 182, com_passo(soco(
     182, 562, {"hip": (0, 0.0, -0.07), "hipR": (0, 0, -20), "mL": (0.08, -0.29, 1.37),
-               "pL": (0.11, -0.25, TORNOZ + 0.04)},
-    dict(JAB, **{"pL": (0.11, -0.22, TORNOZ)})), 0.16, 60), avanco=0.16)
+               "pL": (0.11, -0.36, TORNOZ + 0.04)},
+    dict(JAB, **{"pL": (0.11, -0.33, TORNOZ)})), 0.16, 60), avanco=0.16)
 anim("diretoPasso", "m4_crossStep", False, 666, 225, com_passo(soco(
     225, 666, {"hip": (0, 0.01, -0.075), "hipR": (0, 0, -33), "mR": (-0.11, -0.16, 1.40),
-               "pL": (0.11, -0.25, TORNOZ + 0.04)}, DIRETO), 0.16, 80), avanco=0.16)
+               "pL": (0.11, -0.36, TORNOZ + 0.04)}, DIRETO), 0.16, 80), avanco=0.16)
 
 # --- chutes
 def chute_circular(alto, contato, total, perna_z):
     golpe = {"hip": (0.05, -0.05, -0.04), "hipR": (0, -14, 80), "spine": (-10, 8, 5),
              "chest": (0, 6, 5), "neck": (0, 0, -40), "head": (6, 0, -40),
              "pR": (0.22, -0.78, perna_z), "pRr": (40, 0, 80), "jR": (0.9, 0.2, 1.6),
-             "pL": (0.11, -0.16, TORNOZ), "pLr": (0, 0, -100),
+             "pL": (0.11, -0.27, TORNOZ), "pLr": (0, 0, -100),
              "mR": (-0.32, 0.22, 1.12), "cR": (-0.6, 0.6, 1.2),
              "mL": (0.11, -0.30, 1.32)}
     camara = {"hip": (0.04, -0.04, -0.05), "hipR": (0, -6, 35), "spine": (-4, 4, 0),
@@ -396,7 +396,7 @@ anim("apanhaCabecaForte", "m4_hitHeadHeavy", False, 580, None, [
                    "neck": (-18, 0, -10), "head": (-28, -10, -20),
                    "mL": (0.30, -0.10, 1.30), "mR": (-0.30, 0.0, 1.28),
                    "cL": (0.7, 0.3, 1.0), "cR": (-0.7, 0.3, 1.0)}),
-    (210, {"hip": (0, 0.14, -0.10), "pR": (-0.13, 0.36, TORNOZ), "hipR": (0, -4, -12),
+    (210, {"hip": (0, 0.14, -0.10), "pR": (-0.13, 0.44, TORNOZ), "hipR": (0, -4, -12),
            "uchest": (-6, 0, 8), "head": (-10, -6, 0),
            "mL": (0.20, -0.18, 1.24), "mR": (-0.20, -0.08, 1.22)}),
     (580, {})])
@@ -417,7 +417,7 @@ anim("guardaRompida", "m5_guardBreak", False, 655, None, [
                          "head": (-8, 0, 18),
                          "mL": (0.38, -0.12, 1.55), "mR": (-0.36, -0.06, 1.50),
                          "cL": (0.8, 0.2, 1.4), "cR": (-0.8, 0.2, 1.4)}),
-    (295, {"hip": (0, 0.14, -0.10), "pR": (-0.13, 0.36, TORNOZ), "spine": (-4, 0, -5),
+    (295, {"hip": (0, 0.14, -0.10), "pR": (-0.13, 0.44, TORNOZ), "spine": (-4, 0, -5),
            "mL": (0.30, -0.16, 1.30), "mR": (-0.28, -0.08, 1.28)}),
     (655, {"mL": (0.12, -0.26, 1.22), "mR": (-0.12, -0.18, 1.20)})])
 
@@ -453,13 +453,13 @@ anim("apanhaChao", "m5_groundHit", False, 320, None, [
     (320, DEITADO)], base=DEITADO)
 anim("socoChao", "m5_groundPunch", False, 540, 225, [
     (0, {}), (120, {"hip": (0, -0.06, -0.24), "spine": (32, 0, -5), "chest": (10, 0, 0),
-                    "mR": (-0.12, -0.12, 1.15), "pL": (0.11, -0.30, TORNOZ)}),
+                    "mR": (-0.12, -0.12, 1.15), "pL": (0.11, -0.38, TORNOZ)}),
     (225, {"hip": (0, -0.10, -0.34), "hipR": (0, 0, 0), "spine": (48, 0, 5), "chest": (14, 0, 0),
            "neck": (0, 0, 0), "head": (10, 0, -5),
            "mR": (-0.04, -0.60, 0.28), "cR": (-0.5, 0.2, 1.0), "mL": (0.10, -0.40, 0.80),
-           "pL": (0.11, -0.30, TORNOZ)}),
+           "pL": (0.11, -0.38, TORNOZ)}),
     (300, {"hip": (0, -0.10, -0.33), "spine": (46, 0, 5), "mR": (-0.04, -0.56, 0.34),
-           "pL": (0.11, -0.30, TORNOZ)}),
+           "pL": (0.11, -0.38, TORNOZ)}),
     (540, {})])
 anim("pisao", "m5_stomp", False, 550, 235, [
     (0, {}), (130, {"hip": (0, -0.04, -0.03), "pR": (-0.08, -0.15, 0.55), "pRr": (10, 0, -20),
@@ -493,7 +493,7 @@ anim("clinchEscapa", "m5_clinchEscape", False, 465, None, [
     (0, SEGURADO), (110, dict(SEGURADO, mL=(0.04, -0.38, 1.50), mR=(-0.04, -0.38, 1.50),
                               cL=(0.2, -0.3, 1.0), cR=(-0.2, -0.3, 1.0))),
     (220, {"hip": (0, 0.10, -0.07), "spine": (4, 0, -5), "mL": (0.18, -0.50, 1.60),
-           "mR": (-0.18, -0.48, 1.58), "pR": (-0.12, 0.34, TORNOZ)}),
+           "mR": (-0.18, -0.48, 1.58), "pR": (-0.12, 0.42, TORNOZ)}),
     (465, {})])
 anim("arremesso", "m5_throw", False, 615, 345, [
     (0, SEGURANDO), (115, dict(SEGURANDO, hip=(0, -0.04, -0.10), hipR=(0, 0, -20))),
@@ -686,9 +686,8 @@ def renderizar_previas(rig, acoes, pasta, vista="34"):
 
 
 # ------------------------------------------------------------------ main
-def main():
-    args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
-    so = args[args.index("--so") + 1].split(",") if "--so" in args else None
+def preparar(so=None):
+    """Monta boneco, textura, rig e assa as animacoes. Devolve (rig, malha, acoes)."""
     b = runpy.run_path(os.path.join(AQUI, "gaviao_boneco_lowpoly.py"), run_name="boneco")
     cena = bpy.context.scene
     cena.render.fps = FPS
@@ -715,6 +714,13 @@ def main():
     for pb in rig.pose.bones:
         pb.location = (0, 0, 0)
         pb.rotation_quaternion = (1, 0, 0, 0)
+    return rig, ob, acoes
+
+
+def main():
+    args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
+    so = args[args.index("--so") + 1].split(",") if "--so" in args else None
+    rig, ob, acoes = preparar(so)
 
     if "--manifesto" in args:
         man = {n: {"clipe2d": d["clipe"], "loop": d["loop"], "duracaoMs": d["total"],
