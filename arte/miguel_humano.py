@@ -25,25 +25,26 @@ ALTURA = 1.76
 # ---------------------------------------------------------------- medidas
 # Valores no jeito do MakeHuman (0..1). Miguel: 1,76 m, 67 kg, magro, ombros
 # largos, rosto largo nas bochechas, orelhas marcadas, labios cheios.
-MACRO = {"gender": 1.0, "age": 0.52, "muscle": 0.55, "weight": 0.40,
+MACRO = {"gender": 1.0, "age": 0.48, "muscle": 0.55, "weight": 0.40,
          "african": 0.40, "asian": 0.10, "caucasian": 0.50}
 # alvo (pasta/nome sem -incr/-decr e sem l-/r-) -> valor (-1..1)
 FORMA = {
-    # rosto comprido e largo nas macas; maxilar marcado, queixo redondo
-    "head/head-scale-vert": 0.05, "head/head-oval": 0.10, "head/head-scale-horiz": 0.40,
-    "cheek/cheek-bones": 0.70, "cheek/cheek-volume": 0.45,
-    "chin/chin-prominent": 0.15, "chin/chin-height": 0.20, "chin/chin-width": 0.15,
-    # testa e sobrancelha pesadas (olho fundo, sobrancelha baixa)
-    "eyebrows/eyebrows-trans-down": 0.30, "eyebrows/eyebrows-trans-forward": 0.10,
-    "forehead/forehead-trans-forward": 0.15,
+    # rosto largo e cheio (bochechas), jovem; maxilar largo e macio
+    "head/head-scale-vert": 0.10, "head/head-round": 0.10, "head/head-scale-horiz": 0.35,
+    "head/head-fat": 0.05,
+    "cheek/cheek-bones": 0.60, "cheek/cheek-volume": 0.50,
+    "chin/chin-prominent": 0.0, "chin/chin-height": 0.10, "chin/chin-width": 0.30,
+    # sobrancelha reta e baixa, sem testa saliente
+    "eyebrows/eyebrows-trans-down": 0.20, "eyebrows/eyebrows-angle-down": 0.20,
     # orelhas grandes e de abano
     "ears/ear-scale": 0.50, "ears/ear-flap": 0.65, "ears/ear-wing": 0.80,
-    # nariz longo, largo, ponta redonda e asas abertas
-    "nose/nose-scale-vert": 0.30, "nose/nose-scale-horiz": 0.35, "nose/nose-volume": 0.30,
-    "nose/nose-point-width": 0.55, "nose/nose-flaring": 0.55, "nose/nose-trans-forward": 0.15,
-    # labios cheios e largos, arco do cupido marcado
-    "mouth/mouth-upperlip-volume": 0.55, "mouth/mouth-lowerlip-volume": 0.75,
-    "mouth/mouth-scale-horiz": 0.25, "mouth/mouth-cupidsbow": 0.30,
+    # nariz largo, ponta redonda e asas abertas
+    "nose/nose-scale-vert": 0.20, "nose/nose-scale-horiz": 0.55, "nose/nose-volume": 0.40,
+    "nose/nose-point-width": 0.85, "nose/nose-flaring": 0.70,
+    # boca larga, labios cheios (o de baixo maior)
+    "mouth/mouth-upperlip-volume": 0.60, "mouth/mouth-lowerlip-volume": 0.85,
+    "mouth/mouth-scale-horiz": 0.50, "mouth/mouth-cupidsbow": 0.30,
+    "mouth/mouth-angles-up": 0.25,
     # corpo: ombros largos, cintura fina, pescoco longo
     "torso/torso-vshape": 0.45, "torso/measure-shoulder-dist": 0.35,
     "torso/measure-waist-circ": -0.30,
@@ -214,10 +215,10 @@ def pintar_corpo(ob, grupo_face, jt):
             continue
         ax = abs(c.x)
         # sobrancelha grossa, reta e baixa, caindo um pouco na ponta de fora
-        if 0.007 < ax < 0.056:
+        if 0.010 < ax < 0.056:
             t = (ax - 0.007) / 0.049
-            meio = oz + 0.016 + 0.0015 * t - 0.004 * max(0.0, t - 0.75) / 0.25
-            grossura = 0.0050 * (1.0 - 0.40 * t)
+            meio = oz + 0.017 + 0.004 * math.sin(math.pi * min(1.0, t * 1.1)) - 0.003 * max(0.0, t - 0.8) / 0.2
+            grossura = 0.0060 * (1.0 - 0.45 * t)
             dist = abs(c.z - meio)
             if dist < grossura * 1.6 and c.y < frente_rosto + 0.045:
                 f = 1.0 if dist < grossura else 1.0 - (dist - grossura) / (grossura * 0.6)
@@ -469,6 +470,11 @@ def fazer_camisa(ob, base_idx, dom, jt):
     ilhas.sort(key=len, reverse=True)
     for ilha in ilhas[1:]:
         bmesh.ops.delete(bm, geom=ilha, context="VERTS")
+    # tapa furos pequenos (onde a pele tinha peso da mao/antebraco) e
+    # subdivide para as listras sairem continuas
+    bmesh.ops.holes_fill(bm, edges=[e for e in bm.edges if e.is_boundary], sides=30)
+    bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 4])
+    bmesh.ops.subdivide_edges(bm, edges=bm.edges[:], cuts=1, use_grid_fill=True)
     bm.to_mesh(cam.data)
     bm.free()
     me2 = cam.data
@@ -489,7 +495,7 @@ def fazer_camisa(ob, base_idx, dom, jt):
             cor = VERDE if c.z > zq + 0.05 + 0.02 * math.sin(c.x * 9) else VERDE_ESC
         # diagonal amarela no lado esquerdo dele (desce do flanco ate a barra)
         diag = zq + 0.20 - (c.x - 0.06) * 1.6
-        if c.x > 0.06 and abs(c.z - diag) < 0.013 and c.z < zq + 0.22:
+        if c.x > 0.06 and c.y < 0.03 and abs(c.z - diag) < 0.011 and c.z < zq + 0.22:
             cor = AMARELO
         # listras do ombro: verde, verde-azulado e amarelo, da gola ate a manga
         ax = abs(c.x)
