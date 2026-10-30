@@ -25,21 +25,27 @@ ALTURA = 1.76
 # ---------------------------------------------------------------- medidas
 # Valores no jeito do MakeHuman (0..1). Miguel: 1,76 m, 67 kg, magro, ombros
 # largos, rosto largo nas bochechas, orelhas marcadas, labios cheios.
-MACRO = {"gender": 1.0, "age": 0.40, "muscle": 0.55, "weight": 0.40,
+MACRO = {"gender": 1.0, "age": 0.52, "muscle": 0.55, "weight": 0.40,
          "african": 0.40, "asian": 0.10, "caucasian": 0.50}
 # alvo (pasta/nome sem -incr/-decr e sem l-/r-) -> valor (-1..1)
 FORMA = {
-    "cheek/cheek-volume": 0.55, "cheek/cheek-bones": 0.35,
-    "ears/ear-scale": 0.35, "ears/ear-flap": 0.45, "ears/ear-wing": 0.50,
-    "nose/nose-flaring": 0.45, "nose/nose-scale-horiz": 0.30, "nose/nose-volume": 0.25,
-    "nose/nose-point-width": 0.30,
-    "mouth/mouth-upperlip-volume": 0.45, "mouth/mouth-lowerlip-volume": 0.60,
-    "mouth/mouth-scale-horiz": 0.15,
-    "chin/chin-width": -0.25, "chin/chin-prominent": -0.15,
-    "head/head-fat": 0.25, "head/head-scale-horiz": 0.10,
+    # rosto comprido, largo nas macas, maxilar marcado e queixo definido
+    "head/head-scale-vert": 0.15, "head/head-oval": 0.25, "head/head-fat": -0.05,
+    "head/head-scale-horiz": 0.15,
+    "cheek/cheek-bones": 0.65, "cheek/cheek-volume": 0.25,
+    "chin/chin-prominent": 0.35, "chin/chin-height": 0.30, "chin/chin-width": 0.05,
+    # orelhas grandes e de abano
+    "ears/ear-scale": 0.35, "ears/ear-flap": 0.55, "ears/ear-wing": 0.60,
+    # nariz longo e reto, ponta firme, base pouco aberta
+    "nose/nose-scale-vert": 0.45, "nose/nose-trans-forward": 0.30, "nose/nose-volume": 0.10,
+    "nose/nose-flaring": 0.20, "nose/nose-point-width": -0.10, "nose/nose-hump": 0.15,
+    # labios cheios, o de baixo maior
+    "mouth/mouth-upperlip-volume": 0.35, "mouth/mouth-lowerlip-volume": 0.55,
+    "mouth/mouth-scale-horiz": 0.10,
+    # corpo: ombros largos, cintura fina
     "torso/torso-vshape": 0.45, "torso/measure-shoulder-dist": 0.35,
     "torso/measure-waist-circ": -0.30,
-    "neck/measure-neck-circ": -0.10,
+    "neck/measure-neck-circ": -0.05, "neck/measure-neck-height": 0.20,
 }
 LADOS = ("cheek", "ears", "arms")  # alvos com versao l-/r-
 
@@ -124,7 +130,10 @@ def aplicar_forma(co):
         for prefixos in alvo_lados:
             for pre in prefixos:
                 base = "%s/%s%s" % (pasta, pre, nome)
-                somar(co, base + "-" + (sufixos[0] if val > 0 else sufixos[1]), abs(val))
+                rel = base + "-" + (sufixos[0] if val > 0 else sufixos[1])
+                if not os.path.exists(os.path.join(DADOS, "targets", rel + ".target.gz")):
+                    rel = base  # alvo de um lado so (ex.: head-square)
+                somar(co, rel, abs(val))
 
 
 # --------------------------------------------------------------- montagem
@@ -166,19 +175,11 @@ def construir_corpo():
 
 
 # ------------------------------------------------------------------ cores
-FOTOS = os.path.join(AQUI, "referencias", "miguel")
-PELE = (0.56, 0.37, 0.27)
-# pontos da foto de frente (rosto_frente.jpg, 1500x2000): olhos e boca
-FOTO_OLHO_DIR, FOTO_OLHO_ESQ, FOTO_BOCA = (640, 810), (1010, 810), (820, 1190)
-
-
-def carregar_foto(nome):
-    img = bpy.data.images.load(os.path.join(FOTOS, nome + ".jpg"))
-    w, h = img.size
-    px = np.empty(w * h * 4, np.float32)
-    img.pixels.foreach_get(px)
-    bpy.data.images.remove(img)
-    return px.reshape(h, w, 4)[::-1, :, :3]
+PELE = (0.62, 0.42, 0.30)       # pardo, tirado das fotos (corrigido da luz fria)
+LABIO = (0.66, 0.36, 0.30)
+SOBRANCELHA = (0.10, 0.07, 0.05)
+ESCLERA = (0.86, 0.84, 0.80)
+IRIS = (0.10, 0.06, 0.04)
 
 
 def centro_grupo(me, faces_grupo, nome):
@@ -186,127 +187,176 @@ def centro_grupo(me, faces_grupo, nome):
     return sum((me.vertices[i].co for i in vs), Vector()) / max(len(vs), 1), vs
 
 
-def pintar_corpo(ob, grupo_face):
-    """Cor por vertice: pele, rosto projetado da foto de frente, olhos."""
+def pintar_corpo(ob, grupo_face, jt):
+    """Pele uniforme e rosto pintado limpo: sobrancelha, labios e olhos."""
     me = ob.data
-    foto = carregar_foto("rosto_frente")
-    rosto = foto[900:1350, 520:1150].reshape(-1, 3)
-    lum = rosto.mean(1)
-    pele = np.median(rosto[(lum > 0.25) & (lum < 0.75)], 0)
+    me.update()
+    cores = np.tile(np.array([*PELE, 1.0], np.float32), (len(me.vertices), 1))
     olho_e, vs_e = centro_grupo(me, grupo_face, "helper-l-eye")
     olho_d, vs_d = centro_grupo(me, grupo_face, "helper-r-eye")
-    # boca: ponto mais a frente do rosto abaixo do nariz, perto do meio
-    cab = [v for v in me.vertices if v.co.z > olho_e.z - 0.09 and abs(v.co.x) < 0.02]
-    boca_z = olho_e.z - 0.072
-    sx = (FOTO_OLHO_ESQ[0] - FOTO_OLHO_DIR[0]) / (olho_e.x - olho_d.x)
-    sz = (FOTO_BOCA[1] - FOTO_OLHO_ESQ[1]) / (olho_e.z - boca_z)
-    cx = (FOTO_OLHO_ESQ[0] + FOTO_OLHO_DIR[0]) / 2
-
-    alvo = np.array(PELE, np.float32)  # tom de pele dele (a foto saiu palida na luz fria)
-    ganho = alvo / np.maximum(pele, 1e-3)
-    cores = np.tile(np.array([*alvo, 1.0], np.float32), (len(me.vertices), 1))
-    me.update()
+    oz = (olho_e.z + olho_d.z) / 2
+    # fenda da boca: ponto mais "fundo" (maior y) no meio do rosto abaixo do nariz
+    # boca: altura da junta "joint-mouth" do MakeHuman, na frente do rosto
+    # boca: abaixo da ponta do nariz (ponto mais a frente do rosto)
+    meio = [v for v in me.vertices if abs(v.co.x) < 0.006 and oz - 0.10 < v.co.z < oz]
+    nariz = min(meio, key=lambda v: v.co.y).co
+    bz = nariz.z - 0.040
+    perto = [v for v in meio if abs(v.co.z - bz) < 0.006]
+    boca = Vector((0, min(v.co.y for v in perto), bz))
+    frente_rosto = min(v.co.y for v in me.vertices if abs(v.co.x) < 0.01 and abs(v.co.z - oz) < 0.03)
     for v in me.vertices:
-        if v.co.z < olho_e.z - 0.16 or v.index in vs_e or v.index in vs_d:
+        c = v.co
+        if c.y > frente_rosto + 0.06 or v.index in vs_e or v.index in vs_d:
             continue
-        frente = max(0.0, -v.normal.y)
-        if frente <= 0.05:
-            continue
-        u = int(cx + v.co.x * sx)
-        r = int(FOTO_OLHO_ESQ[1] + (olho_e.z - v.co.z) * sz)
-        if 0 <= u < foto.shape[1] and 0 <= r < foto.shape[0]:
-            c = foto[r, u]
-            escuro = c.max() < 0.16  # sobrancelha, olho, cabelo da franja
-            if not escuro and not (c[0] > c[1] > c[2] and c[0] - c[2] > 0.06):
-                continue  # parede ou fundo atras do rosto
-            # da foto vem so o claro/escuro (sobrancelha, olho, sombra da boca) e um
-            # pouco da cor (labio); o tom de pele fica uniforme
-            rel = np.clip(c.mean() / max(pele.mean(), 1e-3), 0.15, 1.0) ** 1.2
-            if rel > 0.78:  # so tracos mais escuros que a pele (sem manchas de luz)
-                rel = 1.0
-            croma = c / max(c.mean(), 1e-3) * alvo.mean()
-            novo_c = np.clip(alvo * rel * 0.7 + croma * rel * 0.3, 0, 1)
-            w = min(1.0, frente * 1.6) ** 1.5
-            cores[v.index, :3] = (1 - w) * alvo + w * novo_c
-    for vs, centro in ((vs_e, olho_e), (vs_d, olho_d)):  # iris escura, branco em volta
+        ax = abs(c.x)
+        # sobrancelha: arco acima de cada olho
+        if 0.010 < ax < 0.058:
+            arco = oz + 0.020 + 0.006 * math.sin(math.pi * (ax - 0.010) / 0.048)
+            if abs(c.z - arco) < 0.0045 and c.y < frente_rosto + 0.04:
+                cores[v.index, :3] = SOBRANCELHA
+        # bigodinho ralo acima do labio de cima
+        if ax < 0.024 and boca.z + 0.010 < c.z < boca.z + 0.019 and c.y < boca.y:
+            cores[v.index, :3] = np.array(PELE) * 0.75 + np.array(SOBRANCELHA) * 0.25
+        # labios: faixa em volta da fenda da boca, afinando nos cantos
+        largura = 0.026
+        if ax < largura and c.y < boca.y + 0.012:
+            alto = 0.0075 * (1 - (ax / largura) ** 2)
+            if boca.z - alto * 1.3 < c.z < boca.z + alto:
+                cores[v.index, :3] = LABIO
+    for vs, centro in ((vs_e, olho_e), (vs_d, olho_d)):
         ys = [me.vertices[i].co.y for i in vs]
-        frente_y = min(ys)
-        raio = (max(ys) - frente_y) / 2
+        frente_y, raio = min(ys), (max(ys) - min(ys)) / 2
         for i in vs:
-            perto = me.vertices[i].co.y < frente_y + raio * 0.22
-            cores[i, :3] = (0.06, 0.04, 0.035) if perto else (0.80, 0.77, 0.72)
-    return cores
+            cores[i, :3] = IRIS if me.vertices[i].co.y < frente_y + raio * 0.30 else ESCLERA
+    return cores, boca
+
+
+# ------------------------------------------------------------ util malha
+def objeto_de_faces(nome, me_origem, faces):
+    """Objeto novo com uma copia das faces dadas (indices de poligono)."""
+    vs = sorted({i for f in faces for i in me_origem.polygons[f].vertices})
+    mapa = {o: n for n, o in enumerate(vs)}
+    me = bpy.data.meshes.new(nome)
+    me.from_pydata([me_origem.vertices[i].co[:] for i in vs], [],
+                   [[mapa[i] for i in me_origem.polygons[f].vertices] for f in faces])
+    ob = bpy.data.objects.new(nome, me)
+    bpy.context.scene.collection.objects.link(ob)
+    return ob
+
+
+def suavizar(bm, vezes, fator=0.5, manter_borda=True):
+    vs = [v for v in bm.verts if not (manter_borda and v.is_boundary)]
+    for _ in range(vezes):
+        bmesh.ops.smooth_vert(bm, verts=vs, factor=fator, use_axis_x=True,
+                              use_axis_y=True, use_axis_z=True)
+
+
+def cortar(bm, ponto, normal):
+    """Corta a malha num plano e joga fora o lado para onde a normal aponta."""
+    geom = list(bm.verts) + list(bm.edges) + list(bm.faces)
+    bmesh.ops.bisect_plane(bm, geom=geom, dist=1e-5, plane_co=ponto, plane_no=normal,
+                           clear_outer=True)
+
+
+def engrossar(bm, quanto):
+    """Desloca cada vertice pela normal (quanto: funcao do vertice -> metros)."""
+    bm.normal_update()
+    desloc = [(v, v.normal.copy() * quanto(v)) for v in bm.verts]
+    for v, d in desloc:
+        v.co += d
 
 
 # ---------------------------------------------------------------- cabelo
-CABELO = (0.045, 0.032, 0.026)
+CABELO = (0.055, 0.038, 0.030)
 
 
-def criar_cabelo(ob_corpo, olho_z):
-    """Cabelo cacheado: copia do couro cabeludo do corpo engrossada (volume em
-    cima e na franja, curto dos lados e na nuca), relevo de cachos e
-    cachinhos soltos por cima."""
-    from mathutils import noise
+def criar_cabelo(ob_corpo, olho_z):  # noqa: C901
+    """Cabelo cacheado como um volume so: casca do couro cabeludo engrossada
+    (alto em cima e na franja, curto nos lados) com cachos esculpidos na
+    superficie (calotas arredondadas), sem bolinhas soltas."""
     me_c = ob_corpo.data
-    me_c.update()
 
     def escalpo(co):
-        orelha = abs(co.x) > 0.062 and olho_z - 0.06 < co.z < olho_z + 0.03 and -0.03 < co.y < 0.045
+        orelha = abs(co.x) > 0.060 and olho_z - 0.065 < co.z < olho_z + 0.035 and -0.035 < co.y < 0.05
         if orelha:
             return False
-        if co.z > olho_z + 0.055:  # topo e testa alta
+        if co.z > olho_z + 0.050:
             return True
-        if co.z > olho_z + 0.012 and co.y > -0.055:  # lados acima da orelha
+        if co.z > olho_z + 0.010 and co.y > -0.06:
             return True
-        return co.y > 0.025 and co.z > olho_z - 0.085  # nuca
+        return co.y > 0.02 and co.z > olho_z - 0.09
 
-    sel = [p for p in me_c.polygons if all(escalpo(me_c.vertices[i].co) for i in p.vertices)]
-    idx = sorted({i for p in sel for i in p.vertices})
-    mapa = {o: n for n, o in enumerate(idx)}
-    me = bpy.data.meshes.new("Cabelo")
-    me.from_pydata([me_c.vertices[i].co[:] for i in idx], [],
-                   [[mapa[i] for i in p.vertices] for p in sel])
+    faces = [p.index for p in me_c.polygons if all(escalpo(me_c.vertices[i].co) for i in p.vertices)]
+    ob = objeto_de_faces("Cabelo", me_c, faces)
     bm = bmesh.new()
-    bm.from_mesh(me)
+    bm.from_mesh(ob.data)
     bm.normal_update()
     z1 = max(v.co.z for v in bm.verts)
-    for v in bm.verts:
+
+    def volume(v):  # alto em cima e na franja, curto nos lados e na nuca
         alto = max(0.0, (v.co.z - olho_z) / (z1 - olho_z))
-        frente = max(0.0, -v.co.y - 0.02) / 0.07
-        espessura = 0.010 + 0.075 * alto ** 1.4 + 0.025 * min(1.0, frente) * alto
-        cacho = noise.noise(v.co * 45.0) * 0.010 + noise.noise(v.co * 110.0) * 0.004
-        v.co += v.normal * max(0.005, espessura + cacho * (0.3 + alto))
-        if frente > 0.5 and v.co.z < olho_z + 0.10:  # franja cai na testa
-            v.co.z -= 0.012 * min(1.0, frente)
-    rng = np.random.default_rng(7)
-    topo = [(v.co.copy(), v.normal.copy()) for v in bm.verts
-            if (v.co.z - olho_z) / (z1 - olho_z) > 0.45]
-    for i in range(600):
-        co, nrm = topo[rng.integers(len(topo))]
-        r = rng.uniform(0.006, 0.011)
-        res = bmesh.ops.create_icosphere(bm, subdivisions=2, radius=r)
-        for nv in res["verts"]:
-            nv.co += co - nrm * r * 0.35
-    bm.to_mesh(me)
+        frente = min(1.0, max(0.0, -v.co.y - 0.02) / 0.07)
+        return 0.008 + 0.050 * alto ** 1.3 + 0.022 * frente * alto
+    engrossar(bm, volume)
+    for v in bm.verts:  # franja cai sobre a testa
+        if v.co.y < -0.045 and v.co.z < olho_z + 0.09:
+            v.co.z -= 0.016
+    bm.to_mesh(ob.data)
     bm.free()
+    sol = ob.modifiers.new("Solid", "SOLIDIFY")
+    sol.thickness = 0.03
+    sol.offset = -1
+    bpy.context.view_layer.objects.active = ob
+    bpy.ops.object.modifier_apply(modifier="Solid")
+    remesh(ob, 0.006)  # volume fechado de borda redonda (sem serrilhado)
+    bm = bmesh.new()
+    bm.from_mesh(ob.data)
+    suavizar(bm, 3, 0.5, manter_borda=False)
+    bm.normal_update()
+    rng = np.random.default_rng(11)
+    externos = [v for v in bm.verts if v.co.z > olho_z - 0.02 or v.co.y > 0.04]
+    sementes = [externos[i].co.copy() for i in rng.choice(len(externos), 480, replace=False)]
+    raios = rng.uniform(0.009, 0.016, len(sementes))
+    from mathutils.kdtree import KDTree
+    kd = KDTree(len(sementes))
+    for i, sp in enumerate(sementes):
+        kd.insert(sp, i)
+    kd.balance()
+    desloc = []
+    for v in bm.verts:
+        cacho = 0.0
+        for _, i, d in kd.find_range(v.co, 0.024):
+            r = raios[i]
+            if d < r:
+                cacho = max(cacho, math.sqrt(r * r - d * d))
+        desloc.append((v, v.normal * cacho * 0.9))
+    for v, d in desloc:
+        v.co += d
+    bm.to_mesh(ob.data)
+    bm.free()
+    me = ob.data
     for p in me.polygons:
         p.use_smooth = True
-    ob = bpy.data.objects.new("Cabelo", me)
-    bpy.context.scene.collection.objects.link(ob)
+    # cor: fundo dos cachos mais escuro, topo dos cachos com brilho castanho
     cores = np.zeros((len(me.vertices), 4), np.float32)
     for v in me.vertices:
-        t = 0.8 + 0.45 * noise.noise(v.co * 70.0)
-        cores[v.index] = (CABELO[0] * t * 1.3, CABELO[1] * t * 1.2, CABELO[2] * t, 1)
+        perto = min(((v.co - s).length / r for s, r in zip(sementes, raios)), default=2)
+        brilho = max(0.0, 1 - perto) ** 0.7
+        t = 0.75 + 0.9 * brilho
+        cores[v.index] = (CABELO[0] * t, CABELO[1] * t, CABELO[2] * t * 0.95, 1)
     return ob, cores
 
 
 # ----------------------------------------------------------------- roupas
-BRANCO = (0.86, 0.87, 0.85)
-VERDE = (0.06, 0.38, 0.20)
-VERDE_ESC = (0.03, 0.26, 0.15)
-AMARELO = (0.90, 0.72, 0.15)
-JEANS = (0.33, 0.50, 0.70)
-TENIS = (0.90, 0.90, 0.88)
+BRANCO = (0.88, 0.89, 0.87)
+VERDE = (0.05, 0.42, 0.22)
+VERDE_ESC = (0.03, 0.28, 0.17)
+TEAL = (0.05, 0.36, 0.38)
+AMARELO = (0.92, 0.74, 0.16)
+JEANS = (0.27, 0.42, 0.62)
+TENIS = (0.92, 0.92, 0.90)
+SOLA = (0.60, 0.60, 0.62)
+ROXO = (0.42, 0.30, 0.70)
 
 
 def osso_dominante():
@@ -320,93 +370,184 @@ def osso_dominante():
     return {vi: o for vi, (o, _) in melhor.items()}
 
 
-def regioes_roupa(me, base_idx, dom, jt):
-    """Regiao de cada vertice: camisa, jeans, tenis ou pele."""
-    reg = []
-    for v in me.vertices:
-        o = dom.get(int(base_idx[v.index]), "")
-        r = None
-        if o.startswith(("spine", "clavicle")) or o == "pelvis" and v.co.z > jt["joint-pelvis"].z - 0.02:
-            r = "camisa"
-        elif o.startswith("upperarm"):
-            lado = "l" if o.endswith("_l") else "r"
-            a, b = jt["joint-%s-shoulder" % lado], jt["joint-%s-elbow" % lado]
-            t = (v.co - a).dot(b - a) / (b - a).length_squared
-            r = "camisa" if t < 0.48 else None
-        elif o.startswith(("thigh", "calf")) or o in ("pelvis", "Root"):
-            r = "jeans"
-        elif o.startswith(("foot", "ball")):
-            r = "tenis"
-        reg.append(r)
-    return reg
+def faces_por_osso(me, base_idx, dom, ok):
+    """Faces cujos vertices todos passam no teste ok(osso, co)."""
+    osso = [dom.get(int(base_idx[v.index]), "") for v in me.vertices]
+    return [p.index for p in me.polygons
+            if all(ok(osso[i], me.vertices[i].co) for i in p.vertices)]
 
 
-def vestir(ob, cores, base_idx, dom, jt):
-    """Polo, jeans folgado e tenis como copias deslocadas da pele (seguem os
-    mesmos pesos); a pele coberta sai da malha."""
+def fazer_camisa(ob, base_idx, dom, jt):
     me = ob.data
-    reg_v = regioes_roupa(me, base_idx, dom, jt)
+    zq, zo = jt["joint-pelvis"].z, jt["joint-l-shoulder"].z
+    zp = jt["joint-neck"].z if "joint-neck" in jt else zo + 0.06
+
+    def ok(o, co):
+        if o.startswith(("head", "neck", "hand", "lowerarm", "calf", "foot", "ball",
+                         "thumb", "index", "middle", "ring", "pinky")):
+            return False
+        return co.z > zq - 0.16
+    cam = objeto_de_faces("Camisa", me, faces_por_osso(me, base_idx, dom, ok))
+    bm = bmesh.new()
+    bm.from_mesh(cam.data)
+    suavizar(bm, 6, 0.5, manter_borda=False)  # tecido: some o desenho dos musculos
+    # cortes retos: barra, mangas e decote
+    cortar(bm, Vector((0, 0, zq - 0.075)), Vector((0, 0, -1)))
+    for lado in ("l", "r"):
+        a, b = jt["joint-%s-shoulder" % lado], jt["joint-%s-elbow" % lado]
+        eixo = (b - a).normalized()
+        braco = [f for f in bm.faces if (f.calc_center_median() - a).dot(eixo) > 0.03
+                 and f.calc_center_median().z > zq + 0.22
+                 and (f.calc_center_median().x > 0.12 if lado == "l" else f.calc_center_median().x < -0.12)]
+        geom = list({v for f in braco for v in f.verts}) + list({e for f in braco for e in f.edges}) + braco
+        bmesh.ops.bisect_plane(bm, geom=geom, dist=1e-5, plane_co=a + (b - a) * 0.50,
+                               plane_no=eixo, clear_outer=True)
+    cortar(bm, Vector((0, -0.04, zp - 0.005)), Vector((0, -0.45, 1)).normalized())
+    def folga(v):
+        solto = max(0.0, min(1.0, (zq + 0.12 - v.co.z) / 0.2))  # barra mais solta
+        return 0.011 + 0.022 * solto
+    engrossar(bm, folga)
+    # decote: a borda abre um pouco para fora (gola baixa, sem pontas)
+    for e in bm.edges:
+        if e.is_boundary and all(v.co.z > zo - 0.02 and abs(v.co.x) < 0.12 for v in e.verts):
+            for v in e.verts:
+                v.co += Vector((v.co.x, v.co.y, 0)).normalized() * 0.002
+    bm.to_mesh(cam.data)
+    bm.free()
+    me2 = cam.data
+    cores = np.zeros((len(me2.vertices), 4), np.float32)
+    gola_i = set()
+    for v in me2.vertices:
+        c = v.co
+        cor = BRANCO
+        onda = zq + 0.075 + 0.025 * math.sin(c.x * 9 + 1.2)
+        if c.z < onda:
+            cor = VERDE if c.z > zq - 0.01 else VERDE_ESC
+            if c.x > 0.02 and abs(c.z - (onda - 0.012 + c.x * 0.15)) < 0.007:
+                cor = AMARELO
+        # tres listras (verde, verde-azulado, amarelo) do ombro ate a manga
+        ax = abs(c.x)
+        if 0.075 < ax < 0.25 and v.normal.z > 0.35 and c.z > zo - 0.05:
+            u = c.y + 0.045  # tres faixas de frente para tras no alto do ombro
+            if 0 <= u < 0.036:
+                cor = (VERDE, TEAL, AMARELO)[min(int(u / 0.012), 2)]
+        if v.index in gola_i:
+            cor = BRANCO if c.z < zo + 0.06 else VERDE
+        cores[v.index] = (*cor, 1)
+    # friso verde na boca da manga
+    me2.update()
+    bm = bmesh.new()
+    bm.from_mesh(me2)
+    for e in bm.edges:
+        if e.is_boundary:
+            for vv in e.verts:
+                if abs(vv.co.x) > 0.14 and vv.co.z > zq + 0.1:
+                    cores[vv.index, :3] = VERDE
+                if vv.co.z > zo + 0.05 and abs(vv.co.x) < 0.1:
+                    cores[vv.index, :3] = VERDE
+    bm.free()
+    return cam, cores
+
+
+def fazer_calca(ob, base_idx, dom, jt):
+    me = ob.data
+    zq = jt["joint-pelvis"].z
+    za = jt["joint-l-ankle"].z if "joint-l-ankle" in jt else 0.09
+
+    def ok(o, co):
+        if o.startswith(("thigh", "calf")) or o in ("pelvis", "Root"):
+            return True
+        return o.startswith("spine_01") and co.z < zq + 0.10
+    cal = objeto_de_faces("Calca", me, faces_por_osso(me, base_idx, dom, ok))
+    bm = bmesh.new()
+    bm.from_mesh(cal.data)
+    suavizar(bm, 8, 0.5, manter_borda=False)
+    cortar(bm, Vector((0, 0, zq + 0.07)), Vector((0, 0, 1)))
+    cortar(bm, Vector((0, 0, za + 0.012)), Vector((0, 0, -1)))
+    def folga(v):
+        baixo = max(0.0, min(1.0, (zq - 0.15 - v.co.z) / (zq - 0.15 - za)))
+        return 0.012 + 0.020 * baixo  # perna reta: abre ate a barra
+    engrossar(bm, folga)
+    bm.to_mesh(cal.data)
+    bm.free()
+    cores = np.zeros((len(cal.data.vertices), 4), np.float32)
+    for v in cal.data.vertices:
+        t = 0.93 + 0.07 * math.sin(v.co.z * 160 + v.co.x * 40)
+        costura = abs(abs(v.co.x) - 0.10) < 0.006 and v.co.y > -0.01  # lateral
+        cor = tuple(c * (0.8 if costura else 1.0) * t for c in JEANS)
+        if v.co.z < za + 0.03:
+            cor = tuple(c * 0.85 for c in JEANS)  # barra dobrada
+        cores[v.index] = (*cor, 1)
+    return cal, cores
+
+
+def remesh(ob, voxel):
+    mod = ob.modifiers.new("Voxel", "REMESH")
+    mod.mode = "VOXEL"
+    mod.voxel_size = voxel
+    bpy.context.view_layer.objects.active = ob
+    bpy.ops.object.modifier_apply(modifier="Voxel")
+
+
+def fazer_tenis(ob, base_idx, dom, jt):
+    """Tenis: o pe engrossado vira um volume fechado (voxel), que junta os dedos
+    num bico arredondado; sola reta e cano cortado no tornozelo."""
+    me = ob.data
+    za = jt["joint-l-ankle"].z
+
+    def ok(o, co):
+        return co.z < za + 0.05 and (o.startswith(("foot", "ball", "calf")))
+    ten = objeto_de_faces("Tenis", me, faces_por_osso(me, base_idx, dom, ok))
+    bm = bmesh.new()
+    bm.from_mesh(ten.data)
+    engrossar(bm, lambda v: 0.016)
+    bm.to_mesh(ten.data)
+    bm.free()
+    sol = ten.modifiers.new("Solid", "SOLIDIFY")
+    sol.thickness = 0.02
+    bpy.context.view_layer.objects.active = ten
+    bpy.ops.object.modifier_apply(modifier="Solid")
+    remesh(ten, 0.007)
+    bm = bmesh.new()
+    bm.from_mesh(ten.data)
+    suavizar(bm, 6, 0.5, manter_borda=False)
+    for v in bm.verts:  # sola reta no chao
+        if v.co.z < 0.014:
+            v.co.z = max(0.0, v.co.z * 0.3)
+    cortar(bm, Vector((0, 0, za + 0.03)), Vector((0, 0, 1)))
+    bm.to_mesh(ten.data)
+    bm.free()
+    cores = np.zeros((len(ten.data.vertices), 4), np.float32)
+    for v in ten.data.vertices:
+        cor = SOLA if v.co.z < 0.020 else TENIS
+        if abs(v.co.x) > 0.105 and 0.03 < v.co.z < 0.055 and -0.05 < v.co.y < 0.04:
+            cor = ROXO  # o simbolo roxo do tenis dele
+        cores[v.index] = (*cor, 1)
+    return ten, cores
+
+
+def esconder_pele(ob, base_idx, dom, jt):
+    """Tira a pele que fica toda coberta pela roupa (evita furar o tecido)."""
+    me = ob.data
+    zq, zo = jt["joint-pelvis"].z, jt["joint-l-shoulder"].z
+    za = jt["joint-l-ankle"].z if "joint-l-ankle" in jt else 0.09
+
+    def coberto(o, co):
+        if co.z < za + 0.02:
+            return o.startswith(("foot", "ball", "calf"))
+        if co.z < zq + 0.05:
+            return o.startswith(("thigh", "calf")) or o in ("pelvis", "Root")
+        if co.z < zo - 0.02:
+            return o.startswith(("spine", "clavicle")) or o in ("pelvis", "Root")
+        return False
+    faces = set(faces_por_osso(me, base_idx, dom, coberto))
     bm = bmesh.new()
     bm.from_mesh(me)
-    orig = bm.verts.layers.int.new("orig")
-    for v in bm.verts:
-        v[orig] = v.index
-    bm.verts.ensure_lookup_table()
-    bm.normal_update()
-    z_quadril = jt["joint-pelvis"].z
-    z_ombro = jt["joint-l-shoulder"].z
-
-    grupos = {"camisa": [], "jeans": [], "tenis": []}
-    for f in bm.faces:
-        rs = [reg_v[v.index] for v in f.verts]
-        if any(rs):
-            r = max(set(rs) - {None}, key=rs.count)
-            grupos[r].append(f)
-    folga = {"camisa": 0.010, "jeans": 0.014, "tenis": 0.014}
-    roupas = {}
-    for nome, fs in grupos.items():
-        res = bmesh.ops.duplicate(bm, geom=fs)
-        novas = [g for g in res["geom"] if isinstance(g, bmesh.types.BMFace)]
-        vs = {v for f in novas for v in f.verts}
-        for v in vs:
-            extra = 0.0
-            if nome == "jeans":  # perna reta: mais folga embaixo
-                extra = 0.016 * max(0.0, min(1.0, (z_quadril * 0.75 - v.co.z) / (z_quadril * 0.6)))
-            if nome == "camisa" and v.co.z < z_quadril + 0.12:  # barra solta por cima da calca
-                extra = 0.008
-            v.co += v.normal * (folga[nome] + extra)
-        roupas[nome] = (novas, vs)
-        bmesh.ops.delete(bm, geom=fs, context="FACES")
+    bm.faces.ensure_lookup_table()
+    bmesh.ops.delete(bm, geom=[bm.faces[i] for i in faces], context="FACES")
     bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")
-    bm.verts.ensure_lookup_table()
-    bm.verts.index_update()
-
-    n = len(bm.verts)
-    novas_cores = np.zeros((n, 4), np.float32)
-    origs = np.array([v[orig] for v in bm.verts])
-    novas_cores[:] = cores[origs]
-    for v in roupas["tenis"][1]:
-        novas_cores[v.index] = (*((0.55, 0.55, 0.56) if v.co.z < 0.03 else TENIS), 1)
-    for v in roupas["jeans"][1]:
-        t = 0.92 + 0.08 * math.sin(v.co.z * 140 + v.co.x * 50)
-        novas_cores[v.index] = (*(c * t for c in JEANS), 1)
-    for v in roupas["camisa"][1]:
-        cor = BRANCO
-        # barra verde (onda) com friso amarelo, como no uniforme
-        onda = z_quadril + 0.10 + 0.02 * math.sin(v.co.x * 9 + 1.2)
-        if v.co.z < onda:
-            cor = VERDE if v.co.z > z_quadril + 0.04 else VERDE_ESC
-        novas_cores[v.index] = (*cor, 1)
-    # gola: friso verde na borda de cima da camisa
-    for f in roupas["camisa"][0]:
-        for e in f.edges:
-            if e.is_boundary and all(v.co.z > z_ombro - 0.03 and abs(v.co.x) < 0.11 for v in e.verts):
-                for v in e.verts:
-                    novas_cores[v.index] = (*VERDE, 1)
     bm.to_mesh(me)
     bm.free()
-    origem = np.array([me.attributes["orig"].data[i].value for i in range(len(me.vertices))])
-    return novas_cores, origem
 
 
 def aplicar_cores(ob, cores):
@@ -414,16 +555,19 @@ def aplicar_cores(ob, cores):
     attr = me.color_attributes.new("Col", "FLOAT_COLOR", "POINT")
     attr.data.foreach_set("color", cores.ravel())
     me.color_attributes.active_color = attr
-    mat = bpy.data.materials.new("Miguel")
+    mat = bpy.data.materials.get("Miguel") or bpy.data.materials.new("Miguel")
     mat.use_nodes = True
     nt = mat.node_tree
-    vc = nt.nodes.new("ShaderNodeVertexColor")
-    vc.layer_name = "Col"
-    bsdf = nt.nodes.get("Principled BSDF")
-    nt.links.new(vc.outputs["Color"], bsdf.inputs["Base Color"])
-    bsdf.inputs["Roughness"].default_value = 0.8
+    if not any(n.type == "VERTEX_COLOR" for n in nt.nodes):
+        vc = nt.nodes.new("ShaderNodeVertexColor")
+        vc.layer_name = "Col"
+        bsdf = nt.nodes.get("Principled BSDF")
+        nt.links.new(vc.outputs["Color"], bsdf.inputs["Base Color"])
+        bsdf.inputs["Roughness"].default_value = 0.85
     me.materials.clear()
     me.materials.append(mat)
+    for p in me.polygons:
+        p.use_smooth = True
 
 
 # ------------------------------------------------------------------- rig
@@ -462,7 +606,7 @@ def juntas(bco, faces_todas, k, z_min):
             for g, vs in grupos.items()}
 
 
-def riggar(ob, bco, faces_todas, k, z_min, origem, ob_cabelo):
+def riggar(ob, bco, faces_todas, k, z_min, origem):
     rig_json = json.load(open(os.path.join(DADOS, "rig", "rig.game_engine.json")))
     pesos = json.load(open(os.path.join(DADOS, "rig", "weights.game_engine.json")))["weights"]
     jt = juntas(bco, faces_todas, k, z_min)
@@ -511,13 +655,32 @@ def riggar(ob, bco, faces_todas, k, z_min, origem, ob_cabelo):
         for nosso, w in por_vert.get(int(o), {}).items():
             if w > 0.002:
                 grupos[nosso].add([i], w, "REPLACE")
-    gh = ob_cabelo.vertex_groups.new(name="Head")
-    gh.add(list(range(len(ob_cabelo.data.vertices))), 1.0, "REPLACE")
-    for o in (ob, ob_cabelo):
+    return rig
+
+
+def copiar_pesos(dest, corpo, so_osso=None):
+    """Pesos de cada vertice da peca = os do vertice da pele mais proximo."""
+    from mathutils.kdtree import KDTree
+    kd = KDTree(len(corpo.data.vertices))
+    for v in corpo.data.vertices:
+        kd.insert(v.co, v.index)
+    kd.balance()
+    nomes = {g.index: g.name for g in corpo.vertex_groups}
+    grupos = {n: dest.vertex_groups.new(name=n) for n in MAPA_OSSOS}
+    for v in dest.data.vertices:
+        if so_osso:
+            grupos[so_osso].add([v.index], 1.0, "REPLACE")
+            continue
+        _, i, _ = kd.find(v.co)
+        for g in corpo.data.vertices[i].groups:
+            grupos[nomes[g.group]].add([v.index], g.weight, "REPLACE")
+
+
+def prender(objs, rig):
+    for o in objs:
         o.parent = rig
         mod = o.modifiers.new("Armature", "ARMATURE")
         mod.object = rig
-    return rig
 
 
 def fechar_maos(ob, bco, faces_todas, k, z_min, origem):
@@ -589,18 +752,22 @@ def construir_tudo():
     usados = np.array(sorted(novo, key=novo.get))
     dom = osso_dominante()
     olho_z = centro_grupo(ob.data, grupo_face, "helper-l-eye")[0].z
-    cores = pintar_corpo(ob, grupo_face)
-    ob_cab, cores_cab = criar_cabelo(ob, olho_z)
-    cores, origem_local = vestir(ob, cores, usados, dom, jt)
-    origem = usados[origem_local]  # indice na malha base do MakeHuman
-    fechar_maos(ob, bco, faces_todas, k, z_min, origem)
+    fechar_maos(ob, bco, faces_todas, k, z_min, usados)
+    cores, _ = pintar_corpo(ob, grupo_face, jt)
+    pecas = [fazer_camisa(ob, usados, dom, jt), fazer_calca(ob, usados, dom, jt),
+             fazer_tenis(ob, usados, dom, jt), criar_cabelo(ob, olho_z)]
     aplicar_cores(ob, cores)
-    aplicar_cores(ob_cab, cores_cab)
-    rig = riggar(ob, bco, faces_todas, k, z_min, origem, ob_cab)
+    rig = riggar(ob, bco, faces_todas, k, z_min, usados)
+    for peca, cor in pecas:
+        aplicar_cores(peca, cor)
+        copiar_pesos(peca, ob, "Head" if peca.name.startswith("Cabelo") else None)
+    esconder_pele(ob, usados, dom, jt)
+    objs = [ob] + [p for p, _ in pecas]
+    prender(objs, rig)
     # uma malha so (o pipeline de sprites e o glb esperam um objeto)
     bpy.ops.object.select_all(action="DESELECT")
-    ob_cab.select_set(True)
-    ob.select_set(True)
+    for o in objs:
+        o.select_set(True)
     bpy.context.view_layer.objects.active = ob
     bpy.ops.object.join()
     ob.data.color_attributes.active_color = ob.data.color_attributes["Col"]
