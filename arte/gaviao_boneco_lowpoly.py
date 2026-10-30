@@ -58,18 +58,14 @@ cap((0.48, 0.0, 1.405), (0.71, 0.0, 1.405), 0.033, "pele", True)
 eli((0.79, 0.0, 1.400), (0.085, 0.020, 0.045), "pele", True)
 # pescoco
 cap((0.0, 0.010, 1.42), (0.0, 0.005, 1.55), 0.056, "pele")
-# cabeca: cranio oval, rosto largo na maca do rosto, mandibula afinando
-# ate um queixo pequeno; sobrancelha, nariz largo e labios grossos
+# cabeca no estilo Fears to Fathom: volume simples e liso, o rosto vem da
+# textura. So o nariz tem um relevo discreto; boca e olhos sao so textura.
 eli((0.0, 0.010, 1.655), (0.080, 0.095, 0.095), "pele")         # cranio
-eli((0.0, -0.030, 1.610), (0.080, 0.070, 0.070), "pele")        # massa do rosto
-eli((0.050, -0.062, 1.612), (0.026, 0.022, 0.022), "pele", True)  # macas do rosto
-eli((0.0, -0.035, 1.550), (0.072, 0.058, 0.040), "pele")        # mandibula
-eli((0.0, -0.062, 1.522), (0.034, 0.030, 0.024), "pele")        # queixo
-eli((0.0, -0.080, 1.660), (0.068, 0.022, 0.014), "pele")        # sobrancelha
-eli((0.0, -0.100, 1.608), (0.018, 0.022, 0.032), "pele")        # nariz
-eli((0.0, -0.098, 1.588), (0.026, 0.016, 0.012), "pele")        # asas do nariz
-eli((0.0, -0.092, 1.566), (0.030, 0.016, 0.013), "labio")       # labios
-eli((0.090, 0.018, 1.622), (0.016, 0.024, 0.036), "pele", True)  # orelhas
+eli((0.0, -0.025, 1.600), (0.081, 0.075, 0.075), "pele")        # rosto
+eli((0.0, -0.035, 1.550), (0.070, 0.058, 0.042), "pele")        # mandibula
+eli((0.0, -0.058, 1.524), (0.034, 0.030, 0.024), "pele")        # queixo
+eli((0.0, -0.088, 1.600), (0.014, 0.020, 0.028), "pele")        # nariz
+eli((0.090, 0.018, 1.622), (0.014, 0.022, 0.034), "pele", True)  # orelhas
 # cabelo cacheado: volume em cima, lados curtos, franja na testa
 for c, r in [((0.0, 0.0, 1.735), (0.088, 0.100, 0.055)),
              ((0.0, 0.040, 1.700), (0.088, 0.085, 0.060)),
@@ -112,7 +108,7 @@ CORES = {
 }
 
 ALVO_CORPO = 1450   # triangulos do pescoco para baixo
-ALVO_CABECA = 1350  # triangulos da cabeca e cabelo
+ALVO_CABECA = 650   # triangulos da cabeca e cabelo
 
 
 def _dist_capsula(p, a, b, r):
@@ -229,7 +225,7 @@ def construir():
     for pol in me.polygons:
         c = pol.center
         pol.material_index = ordem.index(cor_do_ponto((c.x / k, c.y / k, c.z / k + min(zs))))
-        pol.use_smooth = False
+        pol.use_smooth = True  # sombreamento suave, como no Fears to Fathom
     ob["k"], ob["z_min"] = k, min(zs)
     return ob
 
@@ -474,6 +470,7 @@ def renderizar(pasta, so_corpo=False):
     sh.light = "STUDIO"
     sh.color_type = "TEXTURE" if bpy.data.images.get("miguel_textura") else "MATERIAL"
     sh.show_object_outline = True
+    sh.show_specular_highlight = False
     sh.background_type = "VIEWPORT"
     sh.background_color = (0.55, 0.55, 0.57)
     cena.render.film_transparent = False
