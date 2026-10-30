@@ -285,19 +285,21 @@ anim("diretoPasso", "m4_crossStep", False, 666, 225, com_passo(soco(
 
 # --- chutes
 def chute_circular(alto, contato, total, perna_z):
-    golpe = {"hip": (0.05, -0.05, -0.04), "hipR": (0, -14, 80), "spine": (-10, 8, 5),
+    golpe = {"hip": (0.05, -0.05, -0.10), "hipR": (0, -14, 80), "spine": (-10, 8, 5),
              "chest": (0, 6, 5), "neck": (0, 0, -40), "head": (6, 0, -40),
              "pR": (0.22, -0.78, perna_z), "pRsolto": 50, "jR": (0.9, 0.2, 1.6),
              "pL": (0.11, -0.27, TORNOZ), "pLr": (0, 0, -100),
-             "mR": (-0.32, 0.22, 1.12), "cR": (-0.6, 0.6, 1.2),
+             "mR": (-0.30, -0.12, 0.96), "cR": (-0.53, 0.18, 1.18),
              "mL": (0.11, -0.30, 1.32)}
-    camara = {"hip": (0.04, -0.04, -0.05), "hipR": (0, -6, 35), "spine": (-4, 4, 0),
+    camara = {"hip": (0.04, -0.04, -0.10), "hipR": (0, -6, 35), "spine": (-4, 4, 0),
               "neck": (0, 0, -15), "head": (6, 0, -10),
-              "pR": (-0.02, -0.30, perna_z * 0.55), "pRsolto": 40, "jR": (0.4, -0.9, 1.5),
+              "pR": (-0.02, -0.30, perna_z * (0.47 if alto else 0.55)),
+              "pRsolto": 40, "jR": (0.4, -0.9, 1.5),
               "pLr": (0, 0, -60), "mR": (-0.25, 0.10, 1.25)}
     return [(0, {}), (contato * 0.30, {"hip": (0.04, -0.02, -0.07), "hipR": (0, 0, -15)}),
             (contato * 0.70, camara), (contato, golpe), (contato + 50, dict(golpe)),
-            (contato + (total - contato) * 0.45, dict(camara, **{"pR": (-0.06, -0.05, perna_z * 0.45)})),
+            (contato + (total - contato) * 0.45, dict(camara, **{
+                "pR": (-0.06, -0.30, perna_z * (0.43 if alto else 0.50))})),
             (total, {})]
 
 
@@ -585,6 +587,19 @@ def aplicar_pose(rig, ctl, pose):
     for chave in ("mL", "mR", "cL", "cR"):
         segue = Vector((0, 0, 0)) if deitado else Vector(pose["hip"]) - Vector(GUARDA["hip"])
         ctl[chave].location = Vector(pose[chave]) + off + segue
+    # O IK nao conhece o limite anatomico do cotovelo. Quando a mao chega
+    # perto demais do ombro, o solver dobra o braco ate 180 graus.
+    bpy.context.view_layer.update()
+    for lado, chave in (("Left", "mL"), ("Right", "mR")):
+        ombro = rig.matrix_world @ pbs[lado + "UpperArm"].head
+        alvo = ctl[chave].location
+        superior = pbs[lado + "UpperArm"].bone.length
+        inferior = pbs[lado + "LowerArm"].bone.length
+        minimo = math.sqrt(superior**2 + inferior**2 +
+                           2 * superior * inferior * math.cos(math.radians(145)))
+        vetor = alvo - ombro
+        if vetor.length < minimo:
+            ctl[chave].location = ombro + vetor.normalized() * minimo if vetor.length > 1e-6 else ombro + Vector((0, -minimo, 0))
     for chave in ("pL", "pR", "jL", "jR"):
         ctl[chave].location = Vector(pose[chave]) + off
     for chave, osso in (("pL", "LeftFoot"), ("pR", "RightFoot")):
@@ -619,6 +634,41 @@ def chavear(rig, ctl, frame):
         pbs[osso].constraints[0].keyframe_insert("influence", frame=frame)
 
 
+def interpolar_controles(rig, ctl):
+    """Evita overshoot dos alvos IK entre as poses-chave de um golpe."""
+    for ob in (rig, *ctl.values()):
+        action = ob.animation_data.action if ob.animation_data else None
+        if not action:
+            continue
+        for curve in action.fcurves:
+            for key in curve.keyframe_points:
+                key.interpolation = "LINEAR"
+
+
+def limitar_cotovelos(rig, ctl, fim):
+    """Corrige os alvos tambem ENTRE poses-chave, antes de assar o IK."""
+    corrigidos = {"mL": [], "mR": []}
+    for frame in range(fim + 1):
+        bpy.context.scene.frame_set(frame)
+        for lado, chave in (("Left", "mL"), ("Right", "mR")):
+            pbs = rig.pose.bones
+            ombro = rig.matrix_world @ pbs[lado + "UpperArm"].head
+            superior = pbs[lado + "UpperArm"].bone.length
+            inferior = pbs[lado + "LowerArm"].bone.length
+            minimo = math.sqrt(superior**2 + inferior**2 +
+                               2 * superior * inferior * math.cos(math.radians(145)))
+            alvo = ctl[chave].matrix_world.translation.copy()
+            vetor = alvo - ombro
+            if vetor.length < minimo:
+                alvo = ombro + (vetor.normalized() if vetor.length > 1e-6 else Vector((0, -1, 0))) * minimo
+            corrigidos[chave].append(alvo)
+    for chave, pontos in corrigidos.items():
+        for frame, alvo in enumerate(pontos):
+            ctl[chave].location = alvo
+            ctl[chave].keyframe_insert("location", frame=frame)
+    interpolar_controles(rig, ctl)
+
+
 def assar(rig, ctl, nome, dados):
     """Chaveia os controles, assa nos ossos e devolve a acao final."""
     rig.animation_data_create()
@@ -629,7 +679,9 @@ def assar(rig, ctl, nome, dados):
     for t, sobre in dados["chaves"]:
         aplicar_pose(rig, ctl, pose_cheia(dados["base"], sobre))
         chavear(rig, ctl, t * FPS / 1000)
+    interpolar_controles(rig, ctl)
     bpy.context.scene.frame_start, bpy.context.scene.frame_end = 0, fim
+    limitar_cotovelos(rig, ctl, fim)
     bpy.ops.object.select_all(action="DESELECT")
     rig.select_set(True)
     bpy.context.view_layer.objects.active = rig

@@ -82,3 +82,11 @@ Ver `arte/PROMPT-ANIMACOES-GPT.txt`.
 - [ ] Silhueta legível de lado; o membro do golpe está fora do tronco.
 - [ ] A mão que não golpeia volta para a guarda (rosto).
 - [ ] Duração e quadro de contato iguais aos do clipe 2D (`assets/miguel.json`).
+
+## 6. Auditoria automática do rig
+
+Execute `blender -b -t 2 -P arte/auditar_articulacoes.py` antes de exportar.
+O script assa os 55 clipes e verifica a flexão de ambos os cotovelos e joelhos
+em cada quadro (limite de 150°). Ainda é preciso ver as prévias de lado:
+o valor da flexão sozinho não detecta uma junta dobrando na direção errada,
+silhueta ruim ou pé escorregando.
