@@ -285,6 +285,11 @@ def _carregar(nome):
     return px.reshape(h, w, 4)[::-1, :, :3]  # linha 0 = topo
 
 
+def _fundo(c):
+    """Parede/gola: claro e sem cor. Brilho de pele e claro mas tem cor."""
+    return c.min() > 0.55 and (c.max() - c.min()) < 0.10
+
+
 def _amostra(fotos, nome, x, y, z):
     px0, sx, py0, sy, z0, eixo = PROJ[nome]
     im = fotos[nome]
@@ -311,11 +316,27 @@ def texturizar(ob, k, z_min):
             v.co.z = 1.45 + (v.co.z - 1.45) * 2.2
     bpy.ops.object.mode_set(mode="EDIT")
     bpy.ops.mesh.select_all(action="SELECT")
-    bpy.ops.uv.smart_project(angle_limit=math.radians(80), island_margin=0.004)
+    bpy.ops.uv.smart_project(angle_limit=math.radians(80), island_margin=0.012)
     bpy.ops.object.mode_set(mode="OBJECT")
     for v, co in zip(me.vertices, orig):
         v.co = co
     me.update()
+
+    # Rosto numa ilha UNICA projetada de frente (como se faz em personagem de
+    # jogo): sem emendas cortando olhos, nariz e boca, e com bastante area.
+    uvl = me.uv_layers.active.data
+    zc = 1.45  # abaixo disso e pescoco/corpo
+    rosto = [p for p in me.polygons
+             if p.center.z > zc and p.normal.y < -0.35 and p.center.y < 0.0]
+    for p in rosto:
+        for li in p.loop_indices:
+            co = me.vertices[me.loops[li].vertex_index].co
+            uvl[li].uv = (co.x * 2.2 + 1.5, co.z * 2.2)  # longe das outras ilhas
+    bpy.ops.object.mode_set(mode="EDIT")
+    bpy.ops.mesh.select_all(action="SELECT")
+    bpy.ops.uv.select_all(action="SELECT")
+    bpy.ops.uv.pack_islands(rotate=False, margin=0.012)
+    bpy.ops.object.mode_set(mode="OBJECT")
 
     fotos = {n: _carregar(n) for n in PROJ}
     # "delighting" simples: a pele das fotos de perfil fica com a mesma cor
@@ -329,8 +350,14 @@ def texturizar(ob, k, z_min):
     pele = fotos["rosto_frente"][1050:1150, 560:680].reshape(-1, 3).mean(0)
     # amostra de cachos (foto de costas) para o topo e onde a foto mostra fundo
     cachos = fotos["cabeca_costas"][250:950, 250:950]
+    # amostra de pele da bochecha (foto de frente), repetida nas laterais
+    # cor mediana da pele do rosto (sem cabelo, olhos ou fundo claro)
+    rosto = fotos["rosto_frente"][900:1350, 520:1150].reshape(-1, 3)
+    lum = rosto.mean(1)
+    pele = np.median(rosto[(lum > 0.25) & (lum < 0.75)], axis=0)
     tex = np.zeros((TEX, TEX, 3), dtype=np.float32)
     feito = np.zeros((TEX, TEX), dtype=bool)
+    forte = np.zeros((TEX, TEX), dtype=bool)  # texel no interior de um triangulo
     uv = me.uv_layers.active.data
 
     vn = [v.normal.copy() for v in me.vertices]
@@ -339,6 +366,7 @@ def texturizar(ob, k, z_min):
         cen = pol.center
         cor = cor_do_ponto((cen.x / k, cen.y / k, cen.z / k + z_min))
         cabeca = cen.z > 1.46 and cor in ("pele", "cabelo", "labio")
+        ilha_rosto = cen.z > 1.45 and n.y < -0.35 and cen.y < 0.0  # ilha da frente
         if cabeca:
             # a frente do rosto (nariz, macas) usa sempre a foto de frente
             frente = 0.8 if cen.y < -0.045 and cor != "cabelo" else 0.0
@@ -359,25 +387,33 @@ def texturizar(ob, k, z_min):
             a, b, c = (np.array(T[i]) * TEX for i in tri)
             pa, pb, pc = (np.array(P[i]) for i in tri)
             na, nb, nc = (np.array(N[i]) for i in tri)
-            x0, y0 = np.floor(np.minimum(np.minimum(a, b), c)).astype(int) - 1
-            x1, y1 = np.ceil(np.maximum(np.maximum(a, b), c)).astype(int) + 1
+            x0, y0 = np.floor(np.minimum(np.minimum(a, b), c)).astype(int) - 2
+            x1, y1 = np.ceil(np.maximum(np.maximum(a, b), c)).astype(int) + 2
             den = (b[1] - c[1]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[1] - c[1])
             if abs(den) < 1e-12:
                 continue
+            # baricentrica -> texels (aprox. pela altura do triangulo)
+            lados = max(np.linalg.norm(a - b), np.linalg.norm(b - c), np.linalg.norm(c - a))
+            escala = abs(den) / max(lados, 1e-6)
             for ty in range(max(y0, 0), min(y1, TEX)):
                 for tx in range(max(x0, 0), min(x1, TEX)):
                     qx, qy = tx + 0.5, ty + 0.5
                     l1 = ((b[1] - c[1]) * (qx - c[0]) + (c[0] - b[0]) * (qy - c[1])) / den
                     l2 = ((c[1] - a[1]) * (qx - c[0]) + (a[0] - c[0]) * (qy - c[1])) / den
                     l3 = 1 - l1 - l2
-                    if min(l1, l2, l3) < -0.02:
+                    # borda de ~1,5 texel pintada com a projecao do proprio
+                    # triangulo, sem sobrescrever o interior de outra ilha
+                    dentro = min(l1, l2, l3) >= 0
+                    if not dentro and (forte[ty, tx] or
+                                       min(l1, l2, l3) * escala < -1.5):
                         continue
                     q = l1 * pa + l2 * pb + l3 * pc
                     q = np.array((q[0] / k, q[1] / k, q[2] / k + z_min))
                     col = None
                     if fonte == "corpo_frente":
-                        # costas do corpo: mesma estampa espelhada
-                        xx = q[0] if n.y < 0.3 else -q[0]
+                        # costas: lado liso da camisa (sem escudo nem faixa
+                        # amarela), branca com o verde embaixo
+                        xx = q[0] if n.y < 0.3 else -abs(q[0])
                         if q[2] < 0.86:  # pernas: fica dentro da perna da foto
                             lado = 1 if xx > 0 else -1
                             # na foto as pernas abrem do joelho para baixo
@@ -389,20 +425,36 @@ def texturizar(ob, k, z_min):
                         nq = l1 * na + l2 * nb + l3 * nc
                         nq = nq / max(np.linalg.norm(nq), 1e-6)
                         frente = 0.6 if q[1] < -0.045 and cor != "cabelo" else 0.0
+                        # pele: so a foto de frente (o perfil tem outra luz e
+                        # desenha o contorno do nariz/queixo na bochecha)
+                        so_frente = cor != "cabelo"
                         soma, peso = np.zeros(3), 0.0
                         for nome, w in (("rosto_frente", -nq[1] + frente),
                                         ("cabeca_costas", nq[1]),
                                         ("perfil_direito", -nq[0]),
                                         ("perfil_esquerdo", nq[0])):
+                            if so_frente:
+                                if nome != "rosto_frente":
+                                    continue
+                                w = 1.0
                             if w <= 0:
                                 continue
                             amo = _amostra(fotos, nome, q[0], q[1], q[2])
-                            if amo is None or (cor != "cabelo" and amo.min() > 0.55) \
+                            if amo is None or (cor != "cabelo" and _fundo(amo)) \
                                     or (cor == "cabelo" and amo.mean() > 0.30):
                                 continue
                             soma += amo * w ** 3
                             peso += w ** 3
                         col = soma / peso if peso > 0 else None
+                        if so_frente:
+                            # frente: foto; laterais/pescoco/nuca: cor da pele,
+                            # com transicao suave pelo angulo da superficie
+                            lat = pele
+                            wf = max(0.0, min(1.0, (-nq[1] - 0.15) / 0.45),
+                                     min(1.0, (-q[1] - 0.01) / 0.04))  # frente do rosto
+                            if ilha_rosto:
+                                wf = 1.0
+                            col = lat if col is None else wf * col + (1 - wf) * lat
                     elif fonte:
                         col = _amostra(fotos, fonte, q[0], q[1], q[2])
                     if cor == "cabelo" and (col is None or col.mean() > 0.30
@@ -410,12 +462,13 @@ def texturizar(ob, k, z_min):
                         ch, cw = cachos.shape[:2]
                         col = cachos[int((q[1] + q[2]) * 3000) % ch,
                                      int((q[0] + 0.5 * q[2]) * 3000) % cw]
-                    if cabeca and cor != "cabelo" and col is not None and col.min() > 0.55:
+                    if cabeca and cor != "cabelo" and col is not None and _fundo(col):
                         col = None  # parede/gola atras do pescoco na foto
                     if col is None:
                         col = pele if cor == "pele" else base
                     tex[ty, tx] = col
                     feito[ty, tx] = True
+                    forte[ty, tx] |= dentro
 
     # espalha a borda das ilhas para nao aparecer costura
     for _ in range(4):
