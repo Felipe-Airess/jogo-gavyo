@@ -34,7 +34,7 @@ FORMA = {
     "cheek/cheek-bones": 0.70, "cheek/cheek-volume": 0.45,
     "chin/chin-prominent": 0.15, "chin/chin-height": 0.20, "chin/chin-width": 0.15,
     # testa e sobrancelha pesadas (olho fundo, sobrancelha baixa)
-    "eyebrows/eyebrows-trans-down": 0.35, "eyebrows/eyebrows-trans-forward": 0.30,
+    "eyebrows/eyebrows-trans-down": 0.30, "eyebrows/eyebrows-trans-forward": 0.10,
     "forehead/forehead-trans-forward": 0.15,
     # orelhas grandes e de abano
     "ears/ear-scale": 0.50, "ears/ear-flap": 0.65, "ears/ear-wing": 0.80,
@@ -47,6 +47,8 @@ FORMA = {
     # corpo: ombros largos, cintura fina, pescoco longo
     "torso/torso-vshape": 0.45, "torso/measure-shoulder-dist": 0.35,
     "torso/measure-waist-circ": -0.30,
+    "buttocks/buttocks-volume": -0.80,  # magro: quadril e bumbum retos
+    "torso/measure-hips-circ": -0.40,
     "neck/measure-neck-circ": -0.05, "neck/measure-neck-height": 0.25,
 }
 LADOS = ("cheek", "ears", "arms")  # alvos com versao l-/r-
@@ -181,7 +183,7 @@ PELE = (0.62, 0.42, 0.30)       # pardo, tirado das fotos (corrigido da luz fria
 LABIO = (0.72, 0.45, 0.40)
 SOBRANCELHA = (0.10, 0.07, 0.05)
 ESCLERA = (0.86, 0.84, 0.80)
-IRIS = (0.10, 0.06, 0.04)
+IRIS = (0.12, 0.065, 0.04)
 
 
 def centro_grupo(me, faces_grupo, nome):
@@ -215,9 +217,11 @@ def pintar_corpo(ob, grupo_face, jt):
         if 0.007 < ax < 0.056:
             t = (ax - 0.007) / 0.049
             meio = oz + 0.016 + 0.0015 * t - 0.004 * max(0.0, t - 0.75) / 0.25
-            grossura = 0.0052 * (1.0 - 0.40 * t)
-            if abs(c.z - meio) < grossura and c.y < frente_rosto + 0.045:
-                cores[v.index, :3] = SOBRANCELHA
+            grossura = 0.0050 * (1.0 - 0.40 * t)
+            dist = abs(c.z - meio)
+            if dist < grossura * 1.6 and c.y < frente_rosto + 0.045:
+                f = 1.0 if dist < grossura else 1.0 - (dist - grossura) / (grossura * 0.6)
+                cores[v.index, :3] = np.array(PELE) * (1 - f) + np.array(SOBRANCELHA) * f
         # bigodinho ralo: acima do labio e descendo nos cantos da boca
         if ax < 0.027 and c.y < boca.y + 0.01:
             acima = boca.z + 0.009 < c.z < boca.z + 0.016
@@ -239,10 +243,16 @@ def pintar_corpo(ob, grupo_face, jt):
             if horiz < 0.014 and 0.0045 < d.z < 0.0072:
                 cores[v.index, :3] = SOBRANCELHA
     for vs, centro in ((vs_e, olho_e), (vs_d, olho_d)):
-        ys = [me.vertices[i].co.y for i in vs]
-        frente_y, raio = min(ys), (max(ys) - min(ys)) / 2
+        # olho: pupila e iris pelo angulo a partir da frente (-y); o resto e branco
         for i in vs:
-            cores[i, :3] = IRIS if me.vertices[i].co.y < frente_y + raio * 0.45 else ESCLERA
+            d = (me.vertices[i].co - centro).normalized()
+            ang = math.degrees(math.acos(max(-1.0, min(1.0, -d.y))))
+            if ang < 12:
+                cores[i, :3] = (0.02, 0.015, 0.012)
+            elif ang < 27:
+                cores[i, :3] = IRIS
+            else:
+                cores[i, :3] = ESCLERA
     return cores, boca
 
 
@@ -423,13 +433,16 @@ def fazer_camisa(ob, base_idx, dom, jt):
     # da cintura para baixo a camisa cai reta como um tubo por cima da calca
     zc = zq + 0.10
     faixa = [v.co for v in bm.verts if abs(v.co.z - zc) < 0.012]
-    ra = max(abs(c.x) for c in faixa) * 1.16
-    rb = max(abs(c.y) for c in faixa) * 1.22
+    ra = max(abs(c.x) for c in faixa) * 1.10
+    cy = (max(c.y for c in faixa) + min(c.y for c in faixa)) / 2
+    rf = (cy - min(c.y for c in faixa)) * 1.12  # frente
+    rt = (max(c.y for c in faixa) - cy) * 1.05  # costas (nao segue o bumbum)
     for v in bm.verts:
         if v.co.z < zc:
             t = min(1.0, (zc - v.co.z) / 0.08) ** 0.7
-            ang = math.atan2(v.co.y / rb, v.co.x / ra)
-            alvo = Vector((ra * math.cos(ang), rb * math.sin(ang), v.co.z))
+            ry = rt if v.co.y > cy else rf
+            ang = math.atan2((v.co.y - cy) / ry, v.co.x / ra)
+            alvo = Vector((ra * math.cos(ang), cy + ry * math.sin(ang), v.co.z))
             atual = Vector((v.co.x, v.co.y, v.co.z))
             v.co = atual.lerp(alvo, t)
     suavizar(bm, 2, 0.4, manter_borda=False)
