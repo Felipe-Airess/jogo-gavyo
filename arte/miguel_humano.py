@@ -29,23 +29,25 @@ MACRO = {"gender": 1.0, "age": 0.52, "muscle": 0.55, "weight": 0.40,
          "african": 0.40, "asian": 0.10, "caucasian": 0.50}
 # alvo (pasta/nome sem -incr/-decr e sem l-/r-) -> valor (-1..1)
 FORMA = {
-    # rosto comprido, largo nas macas, maxilar marcado e queixo definido
-    "head/head-scale-vert": 0.15, "head/head-oval": 0.25, "head/head-fat": -0.05,
-    "head/head-scale-horiz": 0.15,
-    "cheek/cheek-bones": 0.65, "cheek/cheek-volume": 0.25,
-    "chin/chin-prominent": 0.35, "chin/chin-height": 0.30, "chin/chin-width": 0.05,
+    # rosto comprido e largo nas macas; maxilar marcado, queixo redondo
+    "head/head-scale-vert": 0.05, "head/head-oval": 0.10, "head/head-scale-horiz": 0.40,
+    "cheek/cheek-bones": 0.70, "cheek/cheek-volume": 0.45,
+    "chin/chin-prominent": 0.15, "chin/chin-height": 0.20, "chin/chin-width": 0.15,
+    # testa e sobrancelha pesadas (olho fundo, sobrancelha baixa)
+    "eyebrows/eyebrows-trans-down": 0.35, "eyebrows/eyebrows-trans-forward": 0.30,
+    "forehead/forehead-trans-forward": 0.15,
     # orelhas grandes e de abano
-    "ears/ear-scale": 0.35, "ears/ear-flap": 0.55, "ears/ear-wing": 0.60,
-    # nariz longo e reto, ponta firme, base pouco aberta
-    "nose/nose-scale-vert": 0.45, "nose/nose-trans-forward": 0.30, "nose/nose-volume": 0.10,
-    "nose/nose-flaring": 0.20, "nose/nose-point-width": -0.10, "nose/nose-hump": 0.15,
-    # labios cheios, o de baixo maior
-    "mouth/mouth-upperlip-volume": 0.35, "mouth/mouth-lowerlip-volume": 0.55,
-    "mouth/mouth-scale-horiz": 0.10,
-    # corpo: ombros largos, cintura fina
+    "ears/ear-scale": 0.50, "ears/ear-flap": 0.65, "ears/ear-wing": 0.80,
+    # nariz longo, largo, ponta redonda e asas abertas
+    "nose/nose-scale-vert": 0.30, "nose/nose-scale-horiz": 0.35, "nose/nose-volume": 0.30,
+    "nose/nose-point-width": 0.55, "nose/nose-flaring": 0.55, "nose/nose-trans-forward": 0.15,
+    # labios cheios e largos, arco do cupido marcado
+    "mouth/mouth-upperlip-volume": 0.55, "mouth/mouth-lowerlip-volume": 0.75,
+    "mouth/mouth-scale-horiz": 0.25, "mouth/mouth-cupidsbow": 0.30,
+    # corpo: ombros largos, cintura fina, pescoco longo
     "torso/torso-vshape": 0.45, "torso/measure-shoulder-dist": 0.35,
     "torso/measure-waist-circ": -0.30,
-    "neck/measure-neck-circ": -0.05, "neck/measure-neck-height": 0.20,
+    "neck/measure-neck-circ": -0.05, "neck/measure-neck-height": 0.25,
 }
 LADOS = ("cheek", "ears", "arms")  # alvos com versao l-/r-
 
@@ -176,7 +178,7 @@ def construir_corpo():
 
 # ------------------------------------------------------------------ cores
 PELE = (0.62, 0.42, 0.30)       # pardo, tirado das fotos (corrigido da luz fria)
-LABIO = (0.66, 0.36, 0.30)
+LABIO = (0.72, 0.45, 0.40)
 SOBRANCELHA = (0.10, 0.07, 0.05)
 ESCLERA = (0.86, 0.84, 0.80)
 IRIS = (0.10, 0.06, 0.04)
@@ -209,25 +211,38 @@ def pintar_corpo(ob, grupo_face, jt):
         if c.y > frente_rosto + 0.06 or v.index in vs_e or v.index in vs_d:
             continue
         ax = abs(c.x)
-        # sobrancelha: arco acima de cada olho
-        if 0.010 < ax < 0.058:
-            arco = oz + 0.020 + 0.006 * math.sin(math.pi * (ax - 0.010) / 0.048)
-            if abs(c.z - arco) < 0.0045 and c.y < frente_rosto + 0.04:
+        # sobrancelha grossa, reta e baixa, caindo um pouco na ponta de fora
+        if 0.007 < ax < 0.056:
+            t = (ax - 0.007) / 0.049
+            meio = oz + 0.016 + 0.0015 * t - 0.004 * max(0.0, t - 0.75) / 0.25
+            grossura = 0.0052 * (1.0 - 0.40 * t)
+            if abs(c.z - meio) < grossura and c.y < frente_rosto + 0.045:
                 cores[v.index, :3] = SOBRANCELHA
-        # bigodinho ralo acima do labio de cima
-        if ax < 0.024 and boca.z + 0.010 < c.z < boca.z + 0.019 and c.y < boca.y:
-            cores[v.index, :3] = np.array(PELE) * 0.75 + np.array(SOBRANCELHA) * 0.25
+        # bigodinho ralo: acima do labio e descendo nos cantos da boca
+        if ax < 0.027 and c.y < boca.y + 0.01:
+            acima = boca.z + 0.009 < c.z < boca.z + 0.016
+            canto = 0.019 < ax and boca.z - 0.004 < c.z < boca.z + 0.012
+            if acima or canto:
+                cores[v.index, :3] = np.array(PELE) * 0.6 + np.array(SOBRANCELHA) * 0.4
         # labios: faixa em volta da fenda da boca, afinando nos cantos
         largura = 0.026
         if ax < largura and c.y < boca.y + 0.012:
             alto = 0.0075 * (1 - (ax / largura) ** 2)
             if boca.z - alto * 1.3 < c.z < boca.z + alto:
                 cores[v.index, :3] = LABIO
+    for centro in (olho_e, olho_d):  # linha dos cilios em cima do olho
+        for v in me.vertices:
+            d = v.co - centro
+            if v.index in vs_e or v.index in vs_d or v.co.y > centro.y:
+                continue
+            horiz = math.hypot(d.x, d.y)
+            if horiz < 0.014 and 0.0045 < d.z < 0.0072:
+                cores[v.index, :3] = SOBRANCELHA
     for vs, centro in ((vs_e, olho_e), (vs_d, olho_d)):
         ys = [me.vertices[i].co.y for i in vs]
         frente_y, raio = min(ys), (max(ys) - min(ys)) / 2
         for i in vs:
-            cores[i, :3] = IRIS if me.vertices[i].co.y < frente_y + raio * 0.30 else ESCLERA
+            cores[i, :3] = IRIS if me.vertices[i].co.y < frente_y + raio * 0.45 else ESCLERA
     return cores, boca
 
 
@@ -296,11 +311,12 @@ def criar_cabelo(ob_corpo, olho_z):  # noqa: C901
     def volume(v):  # alto em cima e na franja, curto nos lados e na nuca
         alto = max(0.0, (v.co.z - olho_z) / (z1 - olho_z))
         frente = min(1.0, max(0.0, -v.co.y - 0.02) / 0.07)
-        return 0.008 + 0.050 * alto ** 1.3 + 0.022 * frente * alto
+        return 0.006 + 0.030 * alto ** 1.3 + 0.014 * frente * alto
     engrossar(bm, volume)
     for v in bm.verts:  # franja cai sobre a testa
-        if v.co.y < -0.045 and v.co.z < olho_z + 0.09:
-            v.co.z -= 0.016
+        if v.co.y < -0.04 and v.co.z < olho_z + 0.10:  # cachos caem na testa
+            v.co.z -= 0.012
+            v.co.y -= 0.004
     bm.to_mesh(ob.data)
     bm.free()
     sol = ob.modifiers.new("Solid", "SOLIDIFY")
@@ -392,7 +408,7 @@ def fazer_camisa(ob, base_idx, dom, jt):
     bm.from_mesh(cam.data)
     suavizar(bm, 6, 0.5, manter_borda=False)  # tecido: some o desenho dos musculos
     # cortes retos: barra, mangas e decote
-    cortar(bm, Vector((0, 0, zq - 0.075)), Vector((0, 0, -1)))
+    cortar(bm, Vector((0, 0, zq - 0.035)), Vector((0, 0, -1)))
     for lado in ("l", "r"):
         a, b = jt["joint-%s-shoulder" % lado], jt["joint-%s-elbow" % lado]
         eixo = (b - a).normalized()
@@ -403,36 +419,74 @@ def fazer_camisa(ob, base_idx, dom, jt):
         bmesh.ops.bisect_plane(bm, geom=geom, dist=1e-5, plane_co=a + (b - a) * 0.50,
                                plane_no=eixo, clear_outer=True)
     cortar(bm, Vector((0, -0.04, zp - 0.005)), Vector((0, -0.45, 1)).normalized())
-    def folga(v):
-        solto = max(0.0, min(1.0, (zq + 0.12 - v.co.z) / 0.2))  # barra mais solta
-        return 0.011 + 0.022 * solto
-    engrossar(bm, folga)
+    engrossar(bm, lambda v: 0.014)
+    # da cintura para baixo a camisa cai reta como um tubo por cima da calca
+    zc = zq + 0.10
+    faixa = [v.co for v in bm.verts if abs(v.co.z - zc) < 0.012]
+    ra = max(abs(c.x) for c in faixa) * 1.16
+    rb = max(abs(c.y) for c in faixa) * 1.22
+    for v in bm.verts:
+        if v.co.z < zc:
+            t = min(1.0, (zc - v.co.z) / 0.08) ** 0.7
+            ang = math.atan2(v.co.y / rb, v.co.x / ra)
+            alvo = Vector((ra * math.cos(ang), rb * math.sin(ang), v.co.z))
+            atual = Vector((v.co.x, v.co.y, v.co.z))
+            v.co = atual.lerp(alvo, t)
+    suavizar(bm, 2, 0.4, manter_borda=False)
     # decote: a borda abre um pouco para fora (gola baixa, sem pontas)
     for e in bm.edges:
         if e.is_boundary and all(v.co.z > zo - 0.02 and abs(v.co.x) < 0.12 for v in e.verts):
             for v in e.verts:
                 v.co += Vector((v.co.x, v.co.y, 0)).normalized() * 0.002
+    ilhas, visto = [], set()
+    for v0 in bm.verts:
+        if v0 in visto:
+            continue
+        pilha, ilha = [v0], []
+        visto.add(v0)
+        while pilha:
+            x = pilha.pop()
+            ilha.append(x)
+            for e in x.link_edges:
+                o = e.other_vert(x)
+                if o not in visto:
+                    visto.add(o)
+                    pilha.append(o)
+        ilhas.append(ilha)
+    ilhas.sort(key=len, reverse=True)
+    for ilha in ilhas[1:]:
+        bmesh.ops.delete(bm, geom=ilha, context="VERTS")
     bm.to_mesh(cam.data)
     bm.free()
     me2 = cam.data
     cores = np.zeros((len(me2.vertices), 4), np.float32)
     gola_i = set()
+    # linha do ombro: z mais alto da camisa em cada faixa de 1 cm de |x|
+    topo = [0.0] * 40
+    for v in me2.vertices:
+        i = min(int(abs(v.co.x) / 0.01), 39)
+        topo[i] = max(topo[i], v.co.z)
     for v in me2.vertices:
         c = v.co
         cor = BRANCO
-        onda = zq + 0.075 + 0.025 * math.sin(c.x * 9 + 1.2)
+        frente = c.y < 0.0
+        # faixa verde ondulada na barra (verde claro em cima, escuro embaixo)
+        onda = zq + 0.16 + 0.03 * math.sin(c.x * 11 + 0.8)
         if c.z < onda:
-            cor = VERDE if c.z > zq - 0.01 else VERDE_ESC
-            if c.x > 0.02 and abs(c.z - (onda - 0.012 + c.x * 0.15)) < 0.007:
-                cor = AMARELO
-        # tres listras (verde, verde-azulado, amarelo) do ombro ate a manga
+            cor = VERDE if c.z > zq + 0.05 + 0.02 * math.sin(c.x * 9) else VERDE_ESC
+        # diagonal amarela no lado esquerdo dele (desce do flanco ate a barra)
+        diag = zq + 0.20 - (c.x - 0.06) * 1.6
+        if c.x > 0.06 and abs(c.z - diag) < 0.013 and c.z < zq + 0.22:
+            cor = AMARELO
+        # listras do ombro: verde, verde-azulado e amarelo, da gola ate a manga
         ax = abs(c.x)
-        if 0.075 < ax < 0.25 and v.normal.z > 0.35 and c.z > zo - 0.05:
-            u = c.y + 0.045  # tres faixas de frente para tras no alto do ombro
-            if 0 <= u < 0.036:
-                cor = (VERDE, TEAL, AMARELO)[min(int(u / 0.012), 2)]
-        if v.index in gola_i:
-            cor = BRANCO if c.z < zo + 0.06 else VERDE
+        if 0.075 < ax < 0.25 and c.y < 0.03:
+            d = topo[min(int(ax / 0.01), len(topo) - 1)] - c.z
+            if 0.0 <= d < 0.039:  # da linha do ombro para baixo, na frente
+                cor = (VERDE, TEAL, AMARELO)[min(int(d / 0.013), 2)]
+        # escudo/inscricao "CEARA" no peito esquerdo (mancha escura pequena)
+        if frente and 0.045 < c.x < 0.085 and zo - 0.12 < c.z < zo - 0.095 and c.y < -0.05:
+            cor = (0.15, 0.18, 0.28)
         cores[v.index] = (*cor, 1)
     # friso verde na boca da manga
     me2.update()
@@ -462,11 +516,11 @@ def fazer_calca(ob, base_idx, dom, jt):
     bm = bmesh.new()
     bm.from_mesh(cal.data)
     suavizar(bm, 8, 0.5, manter_borda=False)
-    cortar(bm, Vector((0, 0, zq + 0.07)), Vector((0, 0, 1)))
-    cortar(bm, Vector((0, 0, za + 0.012)), Vector((0, 0, -1)))
+    cortar(bm, Vector((0, 0, zq + 0.02)), Vector((0, 0, 1)))
+    cortar(bm, Vector((0, 0, za - 0.015)), Vector((0, 0, -1)))
     def folga(v):
         baixo = max(0.0, min(1.0, (zq - 0.15 - v.co.z) / (zq - 0.15 - za)))
-        return 0.012 + 0.020 * baixo  # perna reta: abre ate a barra
+        return 0.012 + 0.032 * baixo  # perna reta: abre ate a barra
     engrossar(bm, folga)
     bm.to_mesh(cal.data)
     bm.free()
@@ -514,7 +568,7 @@ def fazer_tenis(ob, base_idx, dom, jt):
     for v in bm.verts:  # sola reta no chao
         if v.co.z < 0.014:
             v.co.z = max(0.0, v.co.z * 0.3)
-    cortar(bm, Vector((0, 0, za + 0.03)), Vector((0, 0, 1)))
+    cortar(bm, Vector((0, 0, za + 0.045)), Vector((0, 0, 1)))
     bm.to_mesh(ten.data)
     bm.free()
     cores = np.zeros((len(ten.data.vertices), 4), np.float32)

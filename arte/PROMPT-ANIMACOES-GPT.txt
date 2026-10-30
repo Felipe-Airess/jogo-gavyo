@@ -1,0 +1,60 @@
+PROMPT PARA O CHATGPT — FOLHA DE POSES-CHAVE DO MIGUEL
+(anexar: arte/renders/miguel_corpo_comparacao.png, arte/referencias/miguel/guarda_lado.jpg
+ e arte/referencias/miguel/corpo_frente2.jpg; trocar [GOLPE] e [POSES] a cada pedido)
+
+----------------------------------------------------------------------------
+Você é animador de jogo de luta 2D (estilo Street Fighter / Dead Cells).
+Personagem: Miguel, 17 anos, 1,76 m, magro, ombros largos, pele parda, cabelo
+preto cacheado volumoso em cima e na franja, curto dos lados, orelhas grandes,
+sobrancelhas grossas e retas, lábios cheios, bigodinho ralo. Roupa: polo branca
+do uniforme do Ceará com gola branca de friso verde, listras verde/verde-azulado/
+amarelo nos ombros, barra verde ondulada com faixa amarela diagonal, calça jeans
+azul-claro reta e folgada, tênis branco com detalhe roxo. Use as imagens
+anexadas como referência exata de aparência e da guarda.
+
+Desenhe UMA folha com o golpe [GOLPE], vista de LADO (perfil, olhando para a
+DIREITA), câmera na altura do quadril, corpo inteiro, fundo cinza liso, mesma
+escala em todas as poses, numeradas, em linha horizontal:
+[POSES]   (ex.: 1 guarda, 2 antecipação, 3 contato, 4 recuperação, 5 guarda)
+
+Regras de anatomia (obrigatórias):
+- Cotovelos e joelhos dobram só para o lado natural. Nunca invertidos.
+- Joelho sempre aponta na mesma direção dos dedos do pé.
+- No chute, o pé de apoio gira (calcanhar para o alvo), o tronco inclina para
+  trás e o braço do lado do chute desce para equilibrar; o outro braço protege
+  o rosto. Nenhum braço dobra para trás.
+- No soco, o movimento sai do pé de trás: gira o quadril, depois o ombro; a
+  outra mão fica no rosto (guarda).
+- Peso visível: base larga, joelhos dobrados, nada de pernas retas de compasso.
+- Silhueta clara: o braço ou perna que golpeia fica fora do tronco.
+- Exagere a pose (estilo jogo de luta), mas sem quebrar articulações.
+- Guarda: punhos juntos na frente do rosto, cotovelos baixos e fechados,
+  ombros encolhidos, pé esquerdo à frente.
+Não escreva texto na imagem além dos números. Não mude roupa, cabelo ou rosto.
+----------------------------------------------------------------------------
+
+LISTA DE GOLPES (um pedido por linha; poses sugeridas):
+jab .................. 1 guarda, 2 antecipação curta, 3 contato braço esquerdo esticado, 4 volta
+direto ............... 1 guarda, 2 carrega quadril, 3 contato braço direito esticado com giro do pé de trás, 4 volta
+gancho ............... 1 guarda, 2 cotovelo abre, 3 contato braço em L na altura do queixo, 4 volta
+uppercut ............. 1 guarda, 2 agacha e baixa o punho, 3 contato punho subindo em frente ao queixo, 4 volta
+chute circular ....... 1 guarda, 2 joelho sobe (câmara), 3 contato perna esticada na altura da costela, 4 câmara, 5 pé no chão
+chute baixo .......... 1 guarda, 2 câmara baixa, 3 contato canela na coxa do rival, 4 volta
+chute alto ........... 1 guarda, 2 câmara alta, 3 contato pé na altura da cabeça, 4 volta
+joelhada ............. 1 guarda, 2 puxa (mãos à frente), 3 contato joelho alto, 4 volta
+bloqueio ............. 1 guarda, 2 antebraços cobrindo o rosto, queixo baixo
+apanha cabeça ........ 1 impacto (cabeça vai 30° para trás), 2 recupera
+apanha corpo ......... 1 impacto (dobra na barriga), 2 recupera
+queda ................ 1 desequilíbrio, 2 caindo de costas, 3 bate no chão, 4 deitado
+levantar ............. 1 deitado, 2 apoia mão e joelho, 3 agachado, 4 guarda
+andar em guarda ...... 4 poses do ciclo, mantendo a guarda
+correr ............... 4 poses do ciclo, tronco inclinado, braços alternando
+
+COMO USAR AS FOLHAS (tudo pela nuvem):
+1. Gere a folha no ChatGPT com o prompt acima.
+2. Mande a folha aqui para o Claude Code. Eu recrio as poses no modelo 3D por
+   FK, com os limites de articulação de arte/ANIMACAO-MIGUEL.md, seguro o quadro
+   de contato e gero os sprites com arte/miguel_sprites.py.
+3. Alternativa sem desenho: Mixamo (mixamo.com, grátis, no navegador) — sobe o
+   arte/miguel_animado.glb convertido em FBX, escolhe animações de boxe/luta e
+   baixa em FBX; eu faço o retarget para o nosso rig e renderizo.
