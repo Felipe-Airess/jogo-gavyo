@@ -10,7 +10,7 @@
   88
  ],
  "reference": "Miguel em pe com ~70 px, igual aos sprites 2D.",
- "preparation": "Renderizado das animacoes 3D (arte/miguel_sprites.py): sem anti-aliasing, 3 tons, contorno de 1 px, 15 bits.",
+ "preparation": "Renderizado do 3D (Mixamo (arte/mixamo) no Miguel HD): sem anti-aliasing, 3 tons, contorno de 1 px, 15 bits.",
  "clips": [
   {
    "id": "idle",
@@ -29,7 +29,7 @@
    ],
    "totalMs": 3500,
    "contactFrames": [],
-   "source": "3d:idle",
+   "source": "mixamo:Ready_Idle",
    "frames": [
     {
      "index": 0,
@@ -40,7 +40,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 1,
@@ -51,7 +51,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 350
+     "mixamoFrame": 15
     },
     {
      "index": 2,
@@ -62,7 +62,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 700
+     "mixamoFrame": 30
     },
     {
      "index": 3,
@@ -73,7 +73,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 1050
+     "mixamoFrame": 45
     },
     {
      "index": 4,
@@ -84,7 +84,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 1400
+     "mixamoFrame": 60
     },
     {
      "index": 5,
@@ -95,7 +95,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 1750
+     "mixamoFrame": 75
     },
     {
      "index": 6,
@@ -106,7 +106,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 2100
+     "mixamoFrame": 90
     },
     {
      "index": 7,
@@ -117,7 +117,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 2450
+     "mixamoFrame": 105
     },
     {
      "index": 8,
@@ -128,7 +128,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 2800
+     "mixamoFrame": 120
     },
     {
      "index": 9,
@@ -139,7 +139,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 3150
+     "mixamoFrame": 135
     }
    ]
   },
@@ -166,7 +166,7 @@
    ],
    "totalMs": 2400,
    "contactFrames": [],
-   "source": "3d:guarda",
+   "source": "mixamo:Ready_Idle",
    "frames": [
     {
      "index": 10,
@@ -177,7 +177,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 11,
@@ -188,7 +188,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 75
+     "mixamoFrame": 9
     },
     {
      "index": 12,
@@ -199,7 +199,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 150
+     "mixamoFrame": 19
     },
     {
      "index": 13,
@@ -210,7 +210,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 225
+     "mixamoFrame": 28
     },
     {
      "index": 14,
@@ -221,7 +221,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 300
+     "mixamoFrame": 38
     },
     {
      "index": 15,
@@ -232,7 +232,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 375
+     "mixamoFrame": 47
     },
     {
      "index": 16,
@@ -243,7 +243,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 450
+     "mixamoFrame": 56
     },
     {
      "index": 17,
@@ -254,7 +254,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 525
+     "mixamoFrame": 66
     },
     {
      "index": 18,
@@ -265,7 +265,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 600
+     "mixamoFrame": 75
     },
     {
      "index": 19,
@@ -276,7 +276,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 675
+     "mixamoFrame": 84
     },
     {
      "index": 20,
@@ -287,7 +287,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 750
+     "mixamoFrame": 94
     },
     {
      "index": 21,
@@ -298,7 +298,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 825
+     "mixamoFrame": 103
     },
     {
      "index": 22,
@@ -309,7 +309,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 900
+     "mixamoFrame": 112
     },
     {
      "index": 23,
@@ -320,7 +320,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 975
+     "mixamoFrame": 122
     },
     {
      "index": 24,
@@ -331,7 +331,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 1050
+     "mixamoFrame": 131
     },
     {
      "index": 25,
@@ -342,7 +342,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 1125
+     "mixamoFrame": 141
     }
    ]
   },
@@ -359,7 +359,7 @@
    ],
    "totalMs": 550,
    "contactFrames": [],
-   "source": "3d:entraGuarda",
+   "source": "mixamo:Ready_Idle",
    "frames": [
     {
      "index": 26,
@@ -370,7 +370,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 27,
@@ -381,7 +381,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 100
+     "mixamoFrame": 9
     },
     {
      "index": 28,
@@ -392,7 +392,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 185
+     "mixamoFrame": 18
     },
     {
      "index": 29,
@@ -403,7 +403,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 260
+     "mixamoFrame": 27
     },
     {
      "index": 30,
@@ -414,7 +414,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 335
+     "mixamoFrame": 36
     },
     {
      "index": 31,
@@ -425,7 +425,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 420
+     "mixamoFrame": 45
     }
    ]
   },
@@ -443,7 +443,7 @@
    ],
    "totalMs": 700,
    "contactFrames": [],
-   "source": "3d:andaFrente",
+   "source": "mixamo:Start_Walking",
    "frames": [
     {
      "index": 32,
@@ -454,7 +454,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 79
     },
     {
      "index": 33,
@@ -465,7 +465,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 111
+     "mixamoFrame": 93
     },
     {
      "index": 34,
@@ -476,7 +476,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 223
+     "mixamoFrame": 107
     },
     {
      "index": 35,
@@ -487,7 +487,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 334
+     "mixamoFrame": 121
     },
     {
      "index": 36,
@@ -498,7 +498,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 446
+     "mixamoFrame": 135
     },
     {
      "index": 37,
@@ -509,7 +509,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 557
+     "mixamoFrame": 148
     },
     {
      "index": 38,
@@ -520,7 +520,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 669
+     "mixamoFrame": 162
     }
    ]
   },
@@ -539,7 +539,7 @@
    ],
    "totalMs": 880,
    "contactFrames": [],
-   "source": "3d:andaTras",
+   "source": "mixamo:Start_Walking",
    "frames": [
     {
      "index": 39,
@@ -550,7 +550,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 176
     },
     {
      "index": 40,
@@ -561,7 +561,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 105
+     "mixamoFrame": 164
     },
     {
      "index": 41,
@@ -572,7 +572,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 210
+     "mixamoFrame": 152
     },
     {
      "index": 42,
@@ -583,7 +583,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 315
+     "mixamoFrame": 140
     },
     {
      "index": 43,
@@ -594,7 +594,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 420
+     "mixamoFrame": 128
     },
     {
      "index": 44,
@@ -605,7 +605,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 525
+     "mixamoFrame": 116
     },
     {
      "index": 45,
@@ -616,7 +616,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 630
+     "mixamoFrame": 103
     },
     {
      "index": 46,
@@ -627,7 +627,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 735
+     "mixamoFrame": 91
     }
    ]
   },
@@ -646,7 +646,7 @@
    ],
    "totalMs": 455,
    "contactFrames": [],
-   "source": "3d:baixaGuarda",
+   "source": "mixamo:Ready_Idle",
    "frames": [
     {
      "index": 47,
@@ -657,7 +657,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 45
     },
     {
      "index": 48,
@@ -668,7 +668,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 45
+     "mixamoFrame": 51
     },
     {
      "index": 49,
@@ -679,7 +679,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 90
+     "mixamoFrame": 58
     },
     {
      "index": 50,
@@ -690,7 +690,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 140
+     "mixamoFrame": 64
     },
     {
      "index": 51,
@@ -701,7 +701,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 190
+     "mixamoFrame": 71
     },
     {
      "index": 52,
@@ -712,7 +712,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 245
+     "mixamoFrame": 77
     },
     {
      "index": 53,
@@ -723,7 +723,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 305
+     "mixamoFrame": 84
     },
     {
      "index": 54,
@@ -734,7 +734,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 370
+     "mixamoFrame": 90
     }
    ]
   },
@@ -751,7 +751,7 @@
    ],
    "totalMs": 490,
    "contactFrames": [],
-   "source": "3d:bloqueio",
+   "source": "mixamo:Body_Block",
    "frames": [
     {
      "index": 55,
@@ -762,7 +762,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 56,
@@ -773,7 +773,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 88
+     "mixamoFrame": 21
     },
     {
      "index": 57,
@@ -784,7 +784,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 136
+     "mixamoFrame": 41
     },
     {
      "index": 58,
@@ -795,7 +795,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 184
+     "mixamoFrame": 62
     },
     {
      "index": 59,
@@ -806,7 +806,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 259
+     "mixamoFrame": 82
     },
     {
      "index": 60,
@@ -817,7 +817,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 338
+     "mixamoFrame": 103
     }
    ]
   },
@@ -834,7 +834,7 @@
    ],
    "totalMs": 1200,
    "contactFrames": [],
-   "source": "3d:guarda",
+   "source": "mixamo:Ready_Idle",
    "frames": [
     {
      "index": 61,
@@ -845,7 +845,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 62,
@@ -856,7 +856,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 200
+     "mixamoFrame": 25
     },
     {
      "index": 63,
@@ -867,7 +867,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 400
+     "mixamoFrame": 50
     },
     {
      "index": 64,
@@ -878,7 +878,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 600
+     "mixamoFrame": 75
     },
     {
      "index": 65,
@@ -889,7 +889,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 800
+     "mixamoFrame": 100
     },
     {
      "index": 66,
@@ -900,7 +900,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 1000
+     "mixamoFrame": 125
     }
    ]
   },
@@ -919,7 +919,7 @@
    ],
    "totalMs": 1000,
    "contactFrames": [],
-   "source": "3d:andarSolto",
+   "source": "mixamo:Start_Walking",
    "frames": [
     {
      "index": 67,
@@ -930,7 +930,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 79
     },
     {
      "index": 68,
@@ -941,7 +941,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 125
+     "mixamoFrame": 91
     },
     {
      "index": 69,
@@ -952,7 +952,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 250
+     "mixamoFrame": 103
     },
     {
      "index": 70,
@@ -963,7 +963,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 375
+     "mixamoFrame": 116
     },
     {
      "index": 71,
@@ -974,7 +974,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 500
+     "mixamoFrame": 128
     },
     {
      "index": 72,
@@ -985,7 +985,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 625
+     "mixamoFrame": 140
     },
     {
      "index": 73,
@@ -996,7 +996,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 750
+     "mixamoFrame": 152
     },
     {
      "index": 74,
@@ -1007,7 +1007,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 875
+     "mixamoFrame": 164
     }
    ],
    "stride": 42.0
@@ -1030,7 +1030,7 @@
     3,
     4
    ],
-   "source": "3d:jab",
+   "source": "mixamo:Punching_1",
    "frames": [
     {
      "index": 75,
@@ -1041,7 +1041,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 76,
@@ -1052,7 +1052,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 62
+     "mixamoFrame": 9
     },
     {
      "index": 77,
@@ -1063,7 +1063,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 104
+     "mixamoFrame": 19
     },
     {
      "index": 78,
@@ -1074,7 +1074,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 139
+     "mixamoFrame": 28
     },
     {
      "index": 79,
@@ -1085,7 +1085,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 174
+     "mixamoFrame": 28
     },
     {
      "index": 80,
@@ -1096,7 +1096,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 209
+     "mixamoFrame": 39
     },
     {
      "index": 81,
@@ -1107,7 +1107,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 244
+     "mixamoFrame": 51
     },
     {
      "index": 82,
@@ -1118,7 +1118,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 283
+     "mixamoFrame": 62
     }
    ]
   },
@@ -1140,7 +1140,7 @@
     3,
     4
    ],
-   "source": "3d:direto",
+   "source": "mixamo:Fist_Fight_A",
    "frames": [
     {
      "index": 83,
@@ -1151,7 +1151,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 84,
@@ -1162,7 +1162,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 72
+     "mixamoFrame": 20
     },
     {
      "index": 85,
@@ -1173,7 +1173,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 122
+     "mixamoFrame": 39
     },
     {
      "index": 86,
@@ -1184,7 +1184,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 157
+     "mixamoFrame": 59
     },
     {
      "index": 87,
@@ -1195,7 +1195,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 222
+     "mixamoFrame": 59
     },
     {
      "index": 88,
@@ -1206,7 +1206,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 273
+     "mixamoFrame": 65
     },
     {
      "index": 89,
@@ -1217,7 +1217,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 334
+     "mixamoFrame": 70
     },
     {
      "index": 90,
@@ -1228,7 +1228,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 405
+     "mixamoFrame": 76
     }
    ]
   },
@@ -1251,7 +1251,7 @@
     4,
     5
    ],
-   "source": "3d:diretoCorpo",
+   "source": "mixamo:Fist_Fight_A",
    "frames": [
     {
      "index": 91,
@@ -1262,7 +1262,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 76
     },
     {
      "index": 92,
@@ -1273,7 +1273,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 90
+     "mixamoFrame": 95
     },
     {
      "index": 93,
@@ -1284,7 +1284,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 161
+     "mixamoFrame": 114
     },
     {
      "index": 94,
@@ -1295,7 +1295,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 213
+     "mixamoFrame": 132
     },
     {
      "index": 95,
@@ -1306,7 +1306,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 248
+     "mixamoFrame": 151
     },
     {
      "index": 96,
@@ -1317,7 +1317,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 307
+     "mixamoFrame": 151
     },
     {
      "index": 97,
@@ -1328,7 +1328,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 354
+     "mixamoFrame": 151
     },
     {
      "index": 98,
@@ -1339,7 +1339,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 410
+     "mixamoFrame": 152
     },
     {
      "index": 99,
@@ -1350,7 +1350,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 475
+     "mixamoFrame": 152
     }
    ]
   },
@@ -1376,7 +1376,7 @@
     5,
     6
    ],
-   "source": "3d:pesado",
+   "source": "mixamo:Hell_Slammer_A",
    "frames": [
     {
      "index": 100,
@@ -1387,7 +1387,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 101,
@@ -1398,7 +1398,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 84
+     "mixamoFrame": 17
     },
     {
      "index": 102,
@@ -1409,7 +1409,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 155
+     "mixamoFrame": 34
     },
     {
      "index": 103,
@@ -1420,7 +1420,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 213
+     "mixamoFrame": 51
     },
     {
      "index": 104,
@@ -1431,7 +1431,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 258
+     "mixamoFrame": 68
     },
     {
      "index": 105,
@@ -1442,7 +1442,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 293
+     "mixamoFrame": 85
     },
     {
      "index": 106,
@@ -1453,7 +1453,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 349
+     "mixamoFrame": 85
     },
     {
      "index": 107,
@@ -1464,7 +1464,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 393
+     "mixamoFrame": 109
     },
     {
      "index": 108,
@@ -1475,7 +1475,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 442
+     "mixamoFrame": 133
     },
     {
      "index": 109,
@@ -1486,7 +1486,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 496
+     "mixamoFrame": 157
     },
     {
      "index": 110,
@@ -1497,7 +1497,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 555
+     "mixamoFrame": 180
     },
     {
      "index": 111,
@@ -1508,7 +1508,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 619
+     "mixamoFrame": 204
     }
    ]
   },
@@ -1534,7 +1534,7 @@
     5,
     6
    ],
-   "source": "3d:chuteCircular",
+   "source": "mixamo:Kicking",
    "frames": [
     {
      "index": 112,
@@ -1545,7 +1545,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 113,
@@ -1556,7 +1556,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 87
+     "mixamoFrame": 14
     },
     {
      "index": 114,
@@ -1567,7 +1567,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 160
+     "mixamoFrame": 28
     },
     {
      "index": 115,
@@ -1578,7 +1578,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 220
+     "mixamoFrame": 42
     },
     {
      "index": 116,
@@ -1589,7 +1589,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 266
+     "mixamoFrame": 56
     },
     {
      "index": 117,
@@ -1600,7 +1600,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 301
+     "mixamoFrame": 70
     },
     {
      "index": 118,
@@ -1611,7 +1611,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 352
+     "mixamoFrame": 70
     },
     {
      "index": 119,
@@ -1622,7 +1622,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 392
+     "mixamoFrame": 82
     },
     {
      "index": 120,
@@ -1633,7 +1633,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 437
+     "mixamoFrame": 94
     },
     {
      "index": 121,
@@ -1644,7 +1644,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 487
+     "mixamoFrame": 106
     },
     {
      "index": 122,
@@ -1655,7 +1655,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 541
+     "mixamoFrame": 118
     },
     {
      "index": 123,
@@ -1666,7 +1666,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 600
+     "mixamoFrame": 130
     }
    ]
   },
@@ -1692,7 +1692,7 @@
     6,
     7
    ],
-   "source": "3d:chutePasso",
+   "source": "mixamo:Kicking",
    "frames": [
     {
      "index": 124,
@@ -1703,7 +1703,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 125,
@@ -1714,7 +1714,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 97
+     "mixamoFrame": 12
     },
     {
      "index": 126,
@@ -1725,7 +1725,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 182
+     "mixamoFrame": 23
     },
     {
      "index": 127,
@@ -1736,7 +1736,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 255
+     "mixamoFrame": 35
     },
     {
      "index": 128,
@@ -1747,7 +1747,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 316
+     "mixamoFrame": 47
     },
     {
      "index": 129,
@@ -1758,7 +1758,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 364
+     "mixamoFrame": 58
     },
     {
      "index": 130,
@@ -1769,7 +1769,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 400
+     "mixamoFrame": 70
     },
     {
      "index": 131,
@@ -1780,7 +1780,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 474
+     "mixamoFrame": 70
     },
     {
      "index": 132,
@@ -1791,7 +1791,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 533
+     "mixamoFrame": 85
     },
     {
      "index": 133,
@@ -1802,7 +1802,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 600
+     "mixamoFrame": 100
     },
     {
      "index": 134,
@@ -1813,7 +1813,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 676
+     "mixamoFrame": 115
     },
     {
      "index": 135,
@@ -1824,7 +1824,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 760
+     "mixamoFrame": 130
     }
    ]
   },
@@ -1848,7 +1848,7 @@
     4,
     5
    ],
-   "source": "3d:chuteBaixo",
+   "source": "mixamo:Kicking",
    "frames": [
     {
      "index": 136,
@@ -1859,7 +1859,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 137,
@@ -1870,7 +1870,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 108
+     "mixamoFrame": 18
     },
     {
      "index": 138,
@@ -1881,7 +1881,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 194
+     "mixamoFrame": 35
     },
     {
      "index": 139,
@@ -1892,7 +1892,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 257
+     "mixamoFrame": 52
     },
     {
      "index": 140,
@@ -1903,7 +1903,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 298
+     "mixamoFrame": 70
     },
     {
      "index": 141,
@@ -1914,7 +1914,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 367
+     "mixamoFrame": 70
     },
     {
      "index": 142,
@@ -1925,7 +1925,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 421
+     "mixamoFrame": 85
     },
     {
      "index": 143,
@@ -1936,7 +1936,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 483
+     "mixamoFrame": 100
     },
     {
      "index": 144,
@@ -1947,7 +1947,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 553
+     "mixamoFrame": 115
     },
     {
      "index": 145,
@@ -1958,7 +1958,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 631
+     "mixamoFrame": 130
     }
    ]
   },
@@ -1980,7 +1980,7 @@
     3,
     4
    ],
-   "source": "3d:joelhada",
+   "source": "mixamo:Knee_Jab",
    "frames": [
     {
      "index": 146,
@@ -1991,7 +1991,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 108
     },
     {
      "index": 147,
@@ -2002,7 +2002,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 115
+     "mixamoFrame": 123
     },
     {
      "index": 148,
@@ -2013,7 +2013,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 194
+     "mixamoFrame": 139
     },
     {
      "index": 149,
@@ -2024,7 +2024,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 237
+     "mixamoFrame": 154
     },
     {
      "index": 150,
@@ -2035,7 +2035,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 305
+     "mixamoFrame": 154
     },
     {
      "index": 151,
@@ -2046,7 +2046,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 358
+     "mixamoFrame": 205
     },
     {
      "index": 152,
@@ -2057,7 +2057,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 422
+     "mixamoFrame": 255
     },
     {
      "index": 153,
@@ -2068,7 +2068,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 496
+     "mixamoFrame": 306
     }
    ]
   },
@@ -2085,7 +2085,7 @@
    ],
    "totalMs": 780,
    "contactFrames": [],
-   "source": "3d:andaFrente",
+   "source": "mixamo:Start_Walking",
    "frames": [
     {
      "index": 154,
@@ -2096,7 +2096,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 79
     },
     {
      "index": 155,
@@ -2107,7 +2107,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 130
+     "mixamoFrame": 95
     },
     {
      "index": 156,
@@ -2118,7 +2118,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 260
+     "mixamoFrame": 111
     },
     {
      "index": 157,
@@ -2129,7 +2129,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 390
+     "mixamoFrame": 128
     },
     {
      "index": 158,
@@ -2140,7 +2140,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 520
+     "mixamoFrame": 144
     },
     {
      "index": 159,
@@ -2151,7 +2151,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 650
+     "mixamoFrame": 160
     }
    ],
    "stride": 14.0
@@ -2169,7 +2169,7 @@
    ],
    "totalMs": 840,
    "contactFrames": [],
-   "source": "3d:andaTras",
+   "source": "mixamo:Start_Walking",
    "frames": [
     {
      "index": 160,
@@ -2180,7 +2180,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 176
     },
     {
      "index": 161,
@@ -2191,7 +2191,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 140
+     "mixamoFrame": 160
     },
     {
      "index": 162,
@@ -2202,7 +2202,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 280
+     "mixamoFrame": 144
     },
     {
      "index": 163,
@@ -2213,7 +2213,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 420
+     "mixamoFrame": 128
     },
     {
      "index": 164,
@@ -2224,7 +2224,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 560
+     "mixamoFrame": 111
     },
     {
      "index": 165,
@@ -2235,7 +2235,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 700
+     "mixamoFrame": 95
     }
    ],
    "stride": 11.0
@@ -2253,7 +2253,7 @@
    ],
    "totalMs": 430,
    "contactFrames": [],
-   "source": "3d:bloqueio",
+   "source": "mixamo:Body_Block",
    "frames": [
     {
      "index": 166,
@@ -2264,7 +2264,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 167,
@@ -2275,7 +2275,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 60
+     "mixamoFrame": 21
     },
     {
      "index": 168,
@@ -2286,7 +2286,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 120
+     "mixamoFrame": 41
     },
     {
      "index": 169,
@@ -2297,7 +2297,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 190
+     "mixamoFrame": 62
     },
     {
      "index": 170,
@@ -2308,7 +2308,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 260
+     "mixamoFrame": 82
     },
     {
      "index": 171,
@@ -2319,7 +2319,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 340
+     "mixamoFrame": 103
     }
    ]
   },
@@ -2335,7 +2335,7 @@
    ],
    "totalMs": 380,
    "contactFrames": [],
-   "source": "3d:apanhaCabeca",
+   "source": "mixamo:Blocking",
    "frames": [
     {
      "index": 172,
@@ -2346,7 +2346,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 173,
@@ -2357,7 +2357,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 50
+     "mixamoFrame": 11
     },
     {
      "index": 174,
@@ -2368,7 +2368,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 120
+     "mixamoFrame": 22
     },
     {
      "index": 175,
@@ -2379,7 +2379,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 210
+     "mixamoFrame": 32
     },
     {
      "index": 176,
@@ -2390,7 +2390,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 300
+     "mixamoFrame": 43
     }
    ]
   },
@@ -2407,7 +2407,7 @@
    ],
    "totalMs": 450,
    "contactFrames": [],
-   "source": "3d:apanhaCorpo",
+   "source": "mixamo:Body_Block",
    "frames": [
     {
      "index": 177,
@@ -2418,7 +2418,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 62
     },
     {
      "index": 178,
@@ -2429,7 +2429,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 50
+     "mixamoFrame": 82
     },
     {
      "index": 179,
@@ -2440,7 +2440,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 120
+     "mixamoFrame": 103
     },
     {
      "index": 180,
@@ -2451,7 +2451,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 210
+     "mixamoFrame": 124
     },
     {
      "index": 181,
@@ -2462,7 +2462,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 300
+     "mixamoFrame": 144
     },
     {
      "index": 182,
@@ -2473,7 +2473,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 380
+     "mixamoFrame": 165
     }
    ]
   },
@@ -2490,7 +2490,7 @@
    ],
    "totalMs": 450,
    "contactFrames": [],
-   "source": "3d:apanhaPerna",
+   "source": "mixamo:Body_Block",
    "frames": [
     {
      "index": 183,
@@ -2501,7 +2501,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 103
     },
     {
      "index": 184,
@@ -2512,7 +2512,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 50
+     "mixamoFrame": 124
     },
     {
      "index": 185,
@@ -2523,7 +2523,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 120
+     "mixamoFrame": 144
     },
     {
      "index": 186,
@@ -2534,7 +2534,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 210
+     "mixamoFrame": 165
     },
     {
      "index": 187,
@@ -2545,7 +2545,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 300
+     "mixamoFrame": 185
     },
     {
      "index": 188,
@@ -2556,7 +2556,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 380
+     "mixamoFrame": 206
     }
    ]
   },
@@ -2572,7 +2572,7 @@
    ],
    "totalMs": 750,
    "contactFrames": [],
-   "source": "3d:grogue",
+   "source": "mixamo:Look_Over_Shoulder",
    "frames": [
     {
      "index": 189,
@@ -2583,7 +2583,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 190,
@@ -2594,7 +2594,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 150
+     "mixamoFrame": 45
     },
     {
      "index": 191,
@@ -2605,7 +2605,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 300
+     "mixamoFrame": 90
     },
     {
      "index": 192,
@@ -2616,7 +2616,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 450
+     "mixamoFrame": 136
     },
     {
      "index": 193,
@@ -2627,7 +2627,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 600
+     "mixamoFrame": 181
     }
    ]
   },
@@ -2640,7 +2640,7 @@
    ],
    "totalMs": 900,
    "contactFrames": [],
-   "source": "3d:deitado",
+   "source": "mixamo:Sweep_Fall",
    "frames": [
     {
      "index": 194,
@@ -2651,7 +2651,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 142
     },
     {
      "index": 195,
@@ -2662,7 +2662,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 450
+     "mixamoFrame": 146
     }
    ]
   },
@@ -2678,7 +2678,7 @@
    ],
    "totalMs": 350,
    "contactFrames": [],
-   "source": "3d:comecaCorrer",
+   "source": "mixamo:Running",
    "frames": [
     {
      "index": 196,
@@ -2689,7 +2689,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 197,
@@ -2700,7 +2700,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 70
+     "mixamoFrame": 5
     },
     {
      "index": 198,
@@ -2711,7 +2711,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 140
+     "mixamoFrame": 10
     },
     {
      "index": 199,
@@ -2722,7 +2722,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 210
+     "mixamoFrame": 15
     },
     {
      "index": 200,
@@ -2733,7 +2733,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 280
+     "mixamoFrame": 20
     }
    ]
   },
@@ -2749,7 +2749,7 @@
    ],
    "totalMs": 410,
    "contactFrames": [],
-   "source": "3d:paraCorrer",
+   "source": "mixamo:Running_To_Turn",
    "frames": [
     {
      "index": 201,
@@ -2760,7 +2760,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 202,
@@ -2771,7 +2771,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 70
+     "mixamoFrame": 10
     },
     {
      "index": 203,
@@ -2782,7 +2782,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 150
+     "mixamoFrame": 20
     },
     {
      "index": 204,
@@ -2793,7 +2793,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 230
+     "mixamoFrame": 31
     },
     {
      "index": 205,
@@ -2804,7 +2804,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 320
+     "mixamoFrame": 41
     }
    ]
   },
@@ -2822,7 +2822,7 @@
    ],
    "totalMs": 580,
    "contactFrames": [],
-   "source": "3d:apanhaCabecaForte",
+   "source": "mixamo:Blocking",
    "frames": [
     {
      "index": 206,
@@ -2833,7 +2833,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 207,
@@ -2844,7 +2844,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 50
+     "mixamoFrame": 12
     },
     {
      "index": 208,
@@ -2855,7 +2855,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 120
+     "mixamoFrame": 24
     },
     {
      "index": 209,
@@ -2866,7 +2866,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 210
+     "mixamoFrame": 36
     },
     {
      "index": 210,
@@ -2877,7 +2877,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 310
+     "mixamoFrame": 48
     },
     {
      "index": 211,
@@ -2888,7 +2888,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 410
+     "mixamoFrame": 60
     },
     {
      "index": 212,
@@ -2899,7 +2899,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 500
+     "mixamoFrame": 72
     }
    ]
   },
@@ -2916,7 +2916,7 @@
    ],
    "totalMs": 460,
    "contactFrames": [],
-   "source": "3d:esquivaTras",
+   "source": "mixamo:Dodging",
    "frames": [
     {
      "index": 213,
@@ -2927,7 +2927,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 214,
@@ -2938,7 +2938,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 60
+     "mixamoFrame": 13
     },
     {
      "index": 215,
@@ -2949,7 +2949,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 130
+     "mixamoFrame": 27
     },
     {
      "index": 216,
@@ -2960,7 +2960,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 220
+     "mixamoFrame": 40
     },
     {
      "index": 217,
@@ -2971,7 +2971,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 310
+     "mixamoFrame": 54
     },
     {
      "index": 218,
@@ -2982,7 +2982,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 390
+     "mixamoFrame": 67
     }
    ]
   },
@@ -2999,7 +2999,7 @@
    ],
    "totalMs": 1580,
    "contactFrames": [],
-   "source": "3d:queda",
+   "source": "mixamo:Sweep_Fall",
    "frames": [
     {
      "index": 219,
@@ -3010,7 +3010,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 30
     },
     {
      "index": 220,
@@ -3021,7 +3021,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 80
+     "mixamoFrame": 54
     },
     {
      "index": 221,
@@ -3032,7 +3032,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 170
+     "mixamoFrame": 78
     },
     {
      "index": 222,
@@ -3043,7 +3043,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 280
+     "mixamoFrame": 102
     },
     {
      "index": 223,
@@ -3054,7 +3054,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 420
+     "mixamoFrame": 126
     },
     {
      "index": 224,
@@ -3065,7 +3065,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 580
+     "mixamoFrame": 150
     }
    ]
   },
@@ -3083,7 +3083,7 @@
    ],
    "totalMs": 670,
    "contactFrames": [],
-   "source": "3d:levantar",
+   "source": "mixamo:Sweep_Fall",
    "frames": [
     {
      "index": 225,
@@ -3094,7 +3094,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 150
     },
     {
      "index": 226,
@@ -3105,7 +3105,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 120
+     "mixamoFrame": 130
     },
     {
      "index": 227,
@@ -3116,7 +3116,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 230
+     "mixamoFrame": 110
     },
     {
      "index": 228,
@@ -3127,7 +3127,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 330
+     "mixamoFrame": 90
     },
     {
      "index": 229,
@@ -3138,7 +3138,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 420
+     "mixamoFrame": 70
     },
     {
      "index": 230,
@@ -3149,7 +3149,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 500
+     "mixamoFrame": 50
     },
     {
      "index": 231,
@@ -3160,7 +3160,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 580
+     "mixamoFrame": 30
     }
    ]
   },
@@ -3179,7 +3179,7 @@
    ],
    "totalMs": 560,
    "contactFrames": [],
-   "source": "3d:correr",
+   "source": "mixamo:Running",
    "frames": [
     {
      "index": 232,
@@ -3190,7 +3190,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 233,
@@ -3201,7 +3201,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 70
+     "mixamoFrame": 4
     },
     {
      "index": 234,
@@ -3212,7 +3212,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 140
+     "mixamoFrame": 9
     },
     {
      "index": 235,
@@ -3223,7 +3223,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 210
+     "mixamoFrame": 13
     },
     {
      "index": 236,
@@ -3234,7 +3234,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 280
+     "mixamoFrame": 18
     },
     {
      "index": 237,
@@ -3245,7 +3245,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 350
+     "mixamoFrame": 22
     },
     {
      "index": 238,
@@ -3256,7 +3256,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 420
+     "mixamoFrame": 26
     },
     {
      "index": 239,
@@ -3267,7 +3267,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 490
+     "mixamoFrame": 31
     }
    ]
   },
@@ -3293,7 +3293,7 @@
     5,
     6
    ],
-   "source": "3d:chuteAlto",
+   "source": "mixamo:Kicking",
    "frames": [
     {
      "index": 240,
@@ -3304,7 +3304,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 241,
@@ -3315,7 +3315,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 85
+     "mixamoFrame": 14
     },
     {
      "index": 242,
@@ -3326,7 +3326,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 156
+     "mixamoFrame": 28
     },
     {
      "index": 243,
@@ -3337,7 +3337,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 214
+     "mixamoFrame": 42
     },
     {
      "index": 244,
@@ -3348,7 +3348,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 259
+     "mixamoFrame": 56
     },
     {
      "index": 245,
@@ -3359,7 +3359,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 294
+     "mixamoFrame": 70
     },
     {
      "index": 246,
@@ -3370,7 +3370,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 385
+     "mixamoFrame": 70
     },
     {
      "index": 247,
@@ -3381,7 +3381,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 457
+     "mixamoFrame": 82
     },
     {
      "index": 248,
@@ -3392,7 +3392,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 538
+     "mixamoFrame": 94
     },
     {
      "index": 249,
@@ -3403,7 +3403,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 627
+     "mixamoFrame": 106
     },
     {
      "index": 250,
@@ -3414,7 +3414,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 724
+     "mixamoFrame": 118
     },
     {
      "index": 251,
@@ -3425,7 +3425,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 830
+     "mixamoFrame": 130
     }
    ]
   },
@@ -3448,7 +3448,7 @@
     4,
     5
    ],
-   "source": "3d:gancho",
+   "source": "mixamo:Hook_Punch",
    "frames": [
     {
      "index": 252,
@@ -3459,7 +3459,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 253,
@@ -3470,7 +3470,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 75
+     "mixamoFrame": 15
     },
     {
      "index": 254,
@@ -3481,7 +3481,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 134
+     "mixamoFrame": 30
     },
     {
      "index": 255,
@@ -3492,7 +3492,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 178
+     "mixamoFrame": 46
     },
     {
      "index": 256,
@@ -3503,7 +3503,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 213
+     "mixamoFrame": 61
     },
     {
      "index": 257,
@@ -3514,7 +3514,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 287
+     "mixamoFrame": 61
     },
     {
      "index": 258,
@@ -3525,7 +3525,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 346
+     "mixamoFrame": 84
     },
     {
      "index": 259,
@@ -3536,7 +3536,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 416
+     "mixamoFrame": 107
     },
     {
      "index": 260,
@@ -3547,7 +3547,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 497
+     "mixamoFrame": 130
     }
    ]
   },
@@ -3569,7 +3569,7 @@
     3,
     4
    ],
-   "source": "3d:jabCorpo",
+   "source": "mixamo:Fist_Fight_A",
    "frames": [
     {
      "index": 261,
@@ -3580,7 +3580,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 152
     },
     {
      "index": 262,
@@ -3591,7 +3591,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 78
+     "mixamoFrame": 152
     },
     {
      "index": 263,
@@ -3602,7 +3602,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 132
+     "mixamoFrame": 152
     },
     {
      "index": 264,
@@ -3613,7 +3613,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 167
+     "mixamoFrame": 152
     },
     {
      "index": 265,
@@ -3624,7 +3624,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 244
+     "mixamoFrame": 152
     },
     {
      "index": 266,
@@ -3635,7 +3635,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 305
+     "mixamoFrame": 186
     },
     {
      "index": 267,
@@ -3646,7 +3646,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 378
+     "mixamoFrame": 220
     },
     {
      "index": 268,
@@ -3657,7 +3657,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 463
+     "mixamoFrame": 254
     }
    ]
   },
@@ -3680,7 +3680,7 @@
     3,
     4
    ],
-   "source": "3d:uppercut",
+   "source": "mixamo:Knee_Jabs_To_Uppercut",
    "frames": [
     {
      "index": 269,
@@ -3691,7 +3691,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 187
     },
     {
      "index": 270,
@@ -3702,7 +3702,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 107
+     "mixamoFrame": 187
     },
     {
      "index": 271,
@@ -3713,7 +3713,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 180
+     "mixamoFrame": 187
     },
     {
      "index": 272,
@@ -3724,7 +3724,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 220
+     "mixamoFrame": 187
     },
     {
      "index": 273,
@@ -3735,7 +3735,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 295
+     "mixamoFrame": 187
     },
     {
      "index": 274,
@@ -3746,7 +3746,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 355
+     "mixamoFrame": 212
     },
     {
      "index": 275,
@@ -3757,7 +3757,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 423
+     "mixamoFrame": 238
     },
     {
      "index": 276,
@@ -3768,7 +3768,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 500
+     "mixamoFrame": 264
     },
     {
      "index": 277,
@@ -3779,7 +3779,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 586
+     "mixamoFrame": 289
     }
    ]
   },
@@ -3801,7 +3801,7 @@
     3,
     4
    ],
-   "source": "3d:cotovelada",
+   "source": "mixamo:Hook_Punch_1",
    "frames": [
     {
      "index": 278,
@@ -3812,7 +3812,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 279,
@@ -3823,7 +3823,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 73
+     "mixamoFrame": 20
     },
     {
      "index": 280,
@@ -3834,7 +3834,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 123
+     "mixamoFrame": 41
     },
     {
      "index": 281,
@@ -3845,7 +3845,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 158
+     "mixamoFrame": 61
     },
     {
      "index": 282,
@@ -3856,7 +3856,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 233
+     "mixamoFrame": 61
     },
     {
      "index": 283,
@@ -3867,7 +3867,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 292
+     "mixamoFrame": 84
     },
     {
      "index": 284,
@@ -3878,7 +3878,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 363
+     "mixamoFrame": 107
     },
     {
      "index": 285,
@@ -3889,7 +3889,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 445
+     "mixamoFrame": 130
     }
    ]
   },
@@ -3911,7 +3911,7 @@
     3,
     4
    ],
-   "source": "3d:jabPasso",
+   "source": "mixamo:Punching_1",
    "frames": [
     {
      "index": 286,
@@ -3922,7 +3922,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 287,
@@ -3933,7 +3933,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 87
+     "mixamoFrame": 9
     },
     {
      "index": 288,
@@ -3944,7 +3944,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 147
+     "mixamoFrame": 19
     },
     {
      "index": 289,
@@ -3955,7 +3955,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 182
+     "mixamoFrame": 28
     },
     {
      "index": 290,
@@ -3966,7 +3966,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 257
+     "mixamoFrame": 28
     },
     {
      "index": 291,
@@ -3977,7 +3977,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 316
+     "mixamoFrame": 39
     },
     {
      "index": 292,
@@ -3988,7 +3988,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 387
+     "mixamoFrame": 51
     },
     {
      "index": 293,
@@ -3999,7 +3999,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 469
+     "mixamoFrame": 62
     }
    ]
   },
@@ -4022,7 +4022,7 @@
     4,
     5
    ],
-   "source": "3d:diretoPasso",
+   "source": "mixamo:Fist_Fight_A",
    "frames": [
     {
      "index": 294,
@@ -4033,7 +4033,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 295,
@@ -4044,7 +4044,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 80
+     "mixamoFrame": 15
     },
     {
      "index": 296,
@@ -4055,7 +4055,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 143
+     "mixamoFrame": 30
     },
     {
      "index": 297,
@@ -4066,7 +4066,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 190
+     "mixamoFrame": 44
     },
     {
      "index": 298,
@@ -4077,7 +4077,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 225
+     "mixamoFrame": 59
     },
     {
      "index": 299,
@@ -4088,7 +4088,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 312
+     "mixamoFrame": 59
     },
     {
      "index": 300,
@@ -4099,7 +4099,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 381
+     "mixamoFrame": 65
     },
     {
      "index": 301,
@@ -4110,7 +4110,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 463
+     "mixamoFrame": 70
     },
     {
      "index": 302,
@@ -4121,7 +4121,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 558
+     "mixamoFrame": 76
     }
    ]
   },
@@ -4149,7 +4149,7 @@
     11,
     12
    ],
-   "source": "3d:comboCorpoUpper",
+   "source": "mixamo:Knee_Jabs_To_Uppercut",
    "frames": [
     {
      "index": 303,
@@ -4160,7 +4160,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 304,
@@ -4171,7 +4171,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 35
+     "mixamoFrame": 5
     },
     {
      "index": 305,
@@ -4182,7 +4182,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 70
+     "mixamoFrame": 10
     },
     {
      "index": 306,
@@ -4193,7 +4193,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 105
+     "mixamoFrame": 15
     },
     {
      "index": 307,
@@ -4204,7 +4204,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 140
+     "mixamoFrame": 20
     },
     {
      "index": 308,
@@ -4215,7 +4215,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 175
+     "mixamoFrame": 25
     },
     {
      "index": 309,
@@ -4226,7 +4226,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 210
+     "mixamoFrame": 31
     },
     {
      "index": 310,
@@ -4237,7 +4237,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 245
+     "mixamoFrame": 36
     },
     {
      "index": 311,
@@ -4248,7 +4248,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 280
+     "mixamoFrame": 41
     },
     {
      "index": 312,
@@ -4259,7 +4259,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 315
+     "mixamoFrame": 46
     },
     {
      "index": 313,
@@ -4270,7 +4270,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 350
+     "mixamoFrame": 51
     },
     {
      "index": 314,
@@ -4281,7 +4281,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 385
+     "mixamoFrame": 56
     },
     {
      "index": 315,
@@ -4292,7 +4292,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 556
+     "mixamoFrame": 56
     },
     {
      "index": 316,
@@ -4303,7 +4303,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 691
+     "mixamoFrame": 340
     }
    ]
   },
@@ -4329,7 +4329,7 @@
     10,
     11
    ],
-   "source": "3d:comboJabCotoveloJoelho",
+   "source": "mixamo:Knee_Jab",
    "frames": [
     {
      "index": 317,
@@ -4340,8 +4340,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0,
-     "advance": 0
+     "mixamoFrame": 0
     },
     {
      "index": 318,
@@ -4352,8 +4351,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 35,
-     "advance": 0
+     "mixamoFrame": 15
     },
     {
      "index": 319,
@@ -4364,8 +4362,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 70,
-     "advance": 1
+     "mixamoFrame": 31
     },
     {
      "index": 320,
@@ -4376,8 +4373,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 105,
-     "advance": 2
+     "mixamoFrame": 46
     },
     {
      "index": 321,
@@ -4388,8 +4384,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 140,
-     "advance": 1
+     "mixamoFrame": 62
     },
     {
      "index": 322,
@@ -4400,8 +4395,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 175,
-     "advance": 2
+     "mixamoFrame": 77
     },
     {
      "index": 323,
@@ -4412,8 +4406,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 210,
-     "advance": 6
+     "mixamoFrame": 92
     },
     {
      "index": 324,
@@ -4424,8 +4417,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 245,
-     "advance": 8
+     "mixamoFrame": 108
     },
     {
      "index": 325,
@@ -4436,8 +4428,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 280,
-     "advance": 9
+     "mixamoFrame": 123
     },
     {
      "index": 326,
@@ -4448,8 +4439,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 315,
-     "advance": 9
+     "mixamoFrame": 139
     },
     {
      "index": 327,
@@ -4460,8 +4450,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 350,
-     "advance": 9
+     "mixamoFrame": 154
     },
     {
      "index": 328,
@@ -4472,8 +4461,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 640,
-     "advance": 4
+     "mixamoFrame": 154
     }
    ]
   },
@@ -4501,7 +4489,7 @@
     10,
     11
    ],
-   "source": "3d:comboBaixoAlto",
+   "source": "mixamo:Kicking",
    "frames": [
     {
      "index": 329,
@@ -4512,7 +4500,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 330,
@@ -4523,7 +4511,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 44
+     "mixamoFrame": 7
     },
     {
      "index": 331,
@@ -4534,7 +4522,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 85
+     "mixamoFrame": 14
     },
     {
      "index": 332,
@@ -4545,7 +4533,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 123
+     "mixamoFrame": 21
     },
     {
      "index": 333,
@@ -4556,7 +4544,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 158
+     "mixamoFrame": 28
     },
     {
      "index": 334,
@@ -4567,7 +4555,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 193
+     "mixamoFrame": 35
     },
     {
      "index": 335,
@@ -4578,7 +4566,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 228
+     "mixamoFrame": 42
     },
     {
      "index": 336,
@@ -4589,7 +4577,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 263
+     "mixamoFrame": 49
     },
     {
      "index": 337,
@@ -4600,7 +4588,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 298
+     "mixamoFrame": 56
     },
     {
      "index": 338,
@@ -4611,7 +4599,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 333
+     "mixamoFrame": 63
     },
     {
      "index": 339,
@@ -4622,7 +4610,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 368
+     "mixamoFrame": 70
     },
     {
      "index": 340,
@@ -4633,7 +4621,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 506
+     "mixamoFrame": 70
     },
     {
      "index": 341,
@@ -4644,7 +4632,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 615
+     "mixamoFrame": 100
     },
     {
      "index": 342,
@@ -4655,7 +4643,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 756
+     "mixamoFrame": 130
     }
    ]
   },
@@ -4681,7 +4669,7 @@
     6,
     7
    ],
-   "source": "3d:chuteAlto",
+   "source": "mixamo:Armada",
    "frames": [
     {
      "index": 343,
@@ -4692,7 +4680,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 15
     },
     {
      "index": 344,
@@ -4703,7 +4691,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 70
+     "mixamoFrame": 25
     },
     {
      "index": 345,
@@ -4714,7 +4702,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 130
+     "mixamoFrame": 36
     },
     {
      "index": 346,
@@ -4725,7 +4713,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 182
+     "mixamoFrame": 46
     },
     {
      "index": 347,
@@ -4736,7 +4724,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 225
+     "mixamoFrame": 57
     },
     {
      "index": 348,
@@ -4747,7 +4735,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 260
+     "mixamoFrame": 67
     },
     {
      "index": 349,
@@ -4758,7 +4746,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 294
+     "mixamoFrame": 78
     },
     {
      "index": 350,
@@ -4769,7 +4757,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 400
+     "mixamoFrame": 78
     },
     {
      "index": 351,
@@ -4780,7 +4768,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 484
+     "mixamoFrame": 81
     },
     {
      "index": 352,
@@ -4791,7 +4779,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 581
+     "mixamoFrame": 83
     },
     {
      "index": 353,
@@ -4802,7 +4790,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 690
+     "mixamoFrame": 86
     },
     {
      "index": 354,
@@ -4813,7 +4801,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 811
+     "mixamoFrame": 88
     }
    ]
   },
@@ -4834,7 +4822,7 @@
     5,
     6
    ],
-   "source": "3d:esquivaContra",
+   "source": "mixamo:Dodging",
    "frames": [
     {
      "index": 355,
@@ -4845,7 +4833,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 54
     },
     {
      "index": 356,
@@ -4856,7 +4844,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 96
+     "mixamoFrame": 61
     },
     {
      "index": 357,
@@ -4867,7 +4855,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 177
+     "mixamoFrame": 69
     },
     {
      "index": 358,
@@ -4878,7 +4866,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 243
+     "mixamoFrame": 76
     },
     {
      "index": 359,
@@ -4889,7 +4877,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 294
+     "mixamoFrame": 84
     },
     {
      "index": 360,
@@ -4900,7 +4888,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 330
+     "mixamoFrame": 91
     },
     {
      "index": 361,
@@ -4911,7 +4899,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 497
+     "mixamoFrame": 91
     }
    ]
   },
@@ -4932,7 +4920,7 @@
     3,
     4
    ],
-   "source": "3d:aparaContra",
+   "source": "mixamo:Hook_Punch_1",
    "frames": [
     {
      "index": 362,
@@ -4943,7 +4931,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 363,
@@ -4954,7 +4942,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 112
+     "mixamoFrame": 20
     },
     {
      "index": 364,
@@ -4965,7 +4953,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 189
+     "mixamoFrame": 41
     },
     {
      "index": 365,
@@ -4976,7 +4964,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 231
+     "mixamoFrame": 61
     },
     {
      "index": 366,
@@ -4987,7 +4975,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 329
+     "mixamoFrame": 61
     },
     {
      "index": 367,
@@ -4998,7 +4986,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 407
+     "mixamoFrame": 96
     },
     {
      "index": 368,
@@ -5009,7 +4997,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 508
+     "mixamoFrame": 130
     }
    ]
   },
@@ -5023,7 +5011,7 @@
    ],
    "totalMs": 160,
    "contactFrames": [],
-   "source": "3d:comecaAndar",
+   "source": "mixamo:Start_Walking",
    "frames": [
     {
      "index": 369,
@@ -5034,7 +5022,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 370,
@@ -5045,7 +5033,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 55
+     "mixamoFrame": 40
     },
     {
      "index": 371,
@@ -5056,7 +5044,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 105
+     "mixamoFrame": 79
     }
    ]
   },
@@ -5070,7 +5058,7 @@
    ],
    "totalMs": 165,
    "contactFrames": [],
-   "source": "3d:paraAndar",
+   "source": "mixamo:Start_Walking",
    "frames": [
     {
      "index": 372,
@@ -5081,7 +5069,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 79
     },
     {
      "index": 373,
@@ -5092,7 +5080,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 55
+     "mixamoFrame": 40
     },
     {
      "index": 374,
@@ -5103,7 +5091,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 105
+     "mixamoFrame": 0
     }
    ]
   },
@@ -5120,7 +5108,7 @@
    ],
    "totalMs": 655,
    "contactFrames": [],
-   "source": "3d:guardaRompida",
+   "source": "mixamo:Blocking",
    "frames": [
     {
      "index": 375,
@@ -5131,7 +5119,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 376,
@@ -5142,7 +5130,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 95
+     "mixamoFrame": 14
     },
     {
      "index": 377,
@@ -5153,7 +5141,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 195
+     "mixamoFrame": 29
     },
     {
      "index": 378,
@@ -5164,7 +5152,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 295
+     "mixamoFrame": 43
     },
     {
      "index": 379,
@@ -5175,7 +5163,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 405
+     "mixamoFrame": 58
     },
     {
      "index": 380,
@@ -5186,7 +5174,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 510
+     "mixamoFrame": 72
     }
    ]
   },
@@ -5203,7 +5191,7 @@
    ],
    "totalMs": 950,
    "contactFrames": [],
-   "source": "3d:cansado",
+   "source": "mixamo:Look_Over_Shoulder",
    "frames": [
     {
      "index": 381,
@@ -5214,7 +5202,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 382,
@@ -5225,7 +5213,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 150
+     "mixamoFrame": 38
     },
     {
      "index": 383,
@@ -5236,7 +5224,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 310
+     "mixamoFrame": 75
     },
     {
      "index": 384,
@@ -5247,7 +5235,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 470
+     "mixamoFrame": 113
     },
     {
      "index": 385,
@@ -5258,7 +5246,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 640
+     "mixamoFrame": 151
     },
     {
      "index": 386,
@@ -5269,7 +5257,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 800
+     "mixamoFrame": 188
     }
    ]
   },
@@ -5295,7 +5283,7 @@
     6,
     7
    ],
-   "source": "3d:chuteAlto",
+   "source": "mixamo:Kicking",
    "frames": [
     {
      "index": 387,
@@ -5306,7 +5294,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 388,
@@ -5317,7 +5305,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 70
+     "mixamoFrame": 12
     },
     {
      "index": 389,
@@ -5328,7 +5316,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 130
+     "mixamoFrame": 23
     },
     {
      "index": 390,
@@ -5339,7 +5327,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 182
+     "mixamoFrame": 35
     },
     {
      "index": 391,
@@ -5350,7 +5338,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 225
+     "mixamoFrame": 47
     },
     {
      "index": 392,
@@ -5361,7 +5349,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 260
+     "mixamoFrame": 58
     },
     {
      "index": 393,
@@ -5372,7 +5360,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 294
+     "mixamoFrame": 70
     },
     {
      "index": 394,
@@ -5383,7 +5371,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 400
+     "mixamoFrame": 70
     },
     {
      "index": 395,
@@ -5394,7 +5382,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 484
+     "mixamoFrame": 85
     },
     {
      "index": 396,
@@ -5405,7 +5393,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 581
+     "mixamoFrame": 100
     },
     {
      "index": 397,
@@ -5416,7 +5404,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 690
+     "mixamoFrame": 115
     },
     {
      "index": 398,
@@ -5427,7 +5415,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 811
+     "mixamoFrame": 130
     }
    ]
   },
@@ -5446,7 +5434,7 @@
    ],
    "totalMs": 615,
    "contactFrames": [],
-   "source": "3d:arremesso",
+   "source": "mixamo:Brutal_Assassination_1",
    "frames": [
     {
      "index": 399,
@@ -5457,7 +5445,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 400,
@@ -5468,7 +5456,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 60
+     "mixamoFrame": 25
     },
     {
      "index": 401,
@@ -5479,7 +5467,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 115
+     "mixamoFrame": 51
     },
     {
      "index": 402,
@@ -5490,7 +5478,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 175
+     "mixamoFrame": 76
     },
     {
      "index": 403,
@@ -5501,7 +5489,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 245
+     "mixamoFrame": 101
     },
     {
      "index": 404,
@@ -5512,7 +5500,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 325
+     "mixamoFrame": 127
     },
     {
      "index": 405,
@@ -5523,7 +5511,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 415
+     "mixamoFrame": 152
     },
     {
      "index": 406,
@@ -5534,7 +5522,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 505
+     "mixamoFrame": 178
     }
    ]
   },
@@ -5554,7 +5542,7 @@
    ],
    "totalMs": 915,
    "contactFrames": [],
-   "source": "3d:arremessado",
+   "source": "mixamo:Brutal_Assassination",
    "frames": [
     {
      "index": 407,
@@ -5565,7 +5553,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 59
     },
     {
      "index": 408,
@@ -5576,7 +5564,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 60
+     "mixamoFrame": 89
     },
     {
      "index": 409,
@@ -5587,7 +5575,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 115
+     "mixamoFrame": 118
     },
     {
      "index": 410,
@@ -5598,7 +5586,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 175
+     "mixamoFrame": 148
     },
     {
      "index": 411,
@@ -5609,7 +5597,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 245
+     "mixamoFrame": 178
     },
     {
      "index": 412,
@@ -5620,7 +5608,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 325
+     "mixamoFrame": 207
     },
     {
      "index": 413,
@@ -5631,7 +5619,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 415
+     "mixamoFrame": 237
     },
     {
      "index": 414,
@@ -5642,7 +5630,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 505
+     "mixamoFrame": 266
     },
     {
      "index": 415,
@@ -5653,7 +5641,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 615
+     "mixamoFrame": 296
     }
    ]
   },
@@ -5672,7 +5660,7 @@
    ],
    "totalMs": 540,
    "contactFrames": [],
-   "source": "3d:socoChao",
+   "source": "mixamo:Hell_Slammer_A",
    "frames": [
     {
      "index": 416,
@@ -5683,7 +5671,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 182
     },
     {
      "index": 417,
@@ -5694,7 +5682,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 60
+     "mixamoFrame": 208
     },
     {
      "index": 418,
@@ -5705,7 +5693,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 115
+     "mixamoFrame": 233
     },
     {
      "index": 419,
@@ -5716,7 +5704,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 175
+     "mixamoFrame": 259
     },
     {
      "index": 420,
@@ -5727,7 +5715,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 225
+     "mixamoFrame": 285
     },
     {
      "index": 421,
@@ -5738,7 +5726,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 295
+     "mixamoFrame": 311
     },
     {
      "index": 422,
@@ -5749,7 +5737,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 365
+     "mixamoFrame": 337
     },
     {
      "index": 423,
@@ -5760,7 +5748,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 440
+     "mixamoFrame": 363
     }
    ]
   },
@@ -5779,7 +5767,7 @@
    ],
    "totalMs": 550,
    "contactFrames": [],
-   "source": "3d:pisao",
+   "source": "mixamo:Kicking",
    "frames": [
     {
      "index": 424,
@@ -5790,7 +5778,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 425,
@@ -5801,7 +5789,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 60
+     "mixamoFrame": 19
     },
     {
      "index": 426,
@@ -5812,7 +5800,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 120
+     "mixamoFrame": 37
     },
     {
      "index": 427,
@@ -5823,7 +5811,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 185
+     "mixamoFrame": 56
     },
     {
      "index": 428,
@@ -5834,7 +5822,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 235
+     "mixamoFrame": 74
     },
     {
      "index": 429,
@@ -5845,7 +5833,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 305
+     "mixamoFrame": 93
     },
     {
      "index": 430,
@@ -5856,7 +5844,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 375
+     "mixamoFrame": 111
     },
     {
      "index": 431,
@@ -5867,7 +5855,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 450
+     "mixamoFrame": 130
     }
    ]
   },
@@ -5882,7 +5870,7 @@
    ],
    "totalMs": 320,
    "contactFrames": [],
-   "source": "3d:apanhaChao",
+   "source": "mixamo:Dying",
    "frames": [
     {
      "index": 432,
@@ -5893,7 +5881,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 311
     },
     {
      "index": 433,
@@ -5904,7 +5892,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 50
+     "mixamoFrame": 323
     },
     {
      "index": 434,
@@ -5915,7 +5903,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 120
+     "mixamoFrame": 334
     },
     {
      "index": 435,
@@ -5926,7 +5914,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 210
+     "mixamoFrame": 346
     }
    ]
   },
@@ -5943,7 +5931,7 @@
    ],
    "totalMs": 260,
    "contactFrames": [],
-   "source": "3d:clinchPega",
+   "source": "mixamo:Knee_Jab",
    "frames": [
     {
      "index": 436,
@@ -5954,7 +5942,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 437,
@@ -5965,7 +5953,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 40
+     "mixamoFrame": 22
     },
     {
      "index": 438,
@@ -5976,7 +5964,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 80
+     "mixamoFrame": 43
     },
     {
      "index": 439,
@@ -5987,7 +5975,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 120
+     "mixamoFrame": 65
     },
     {
      "index": 440,
@@ -5998,7 +5986,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 160
+     "mixamoFrame": 86
     },
     {
      "index": 441,
@@ -6009,7 +5997,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 200
+     "mixamoFrame": 108
     }
    ]
   },
@@ -6024,7 +6012,7 @@
    ],
    "totalMs": 640,
    "contactFrames": [],
-   "source": "3d:clinchSegura",
+   "source": "mixamo:Knee_Jab",
    "frames": [
     {
      "index": 442,
@@ -6035,7 +6023,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 108
     },
     {
      "index": 443,
@@ -6046,7 +6034,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 160
+     "mixamoFrame": 117
     },
     {
      "index": 444,
@@ -6057,7 +6045,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 320
+     "mixamoFrame": 126
     },
     {
      "index": 445,
@@ -6068,7 +6056,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 480
+     "mixamoFrame": 135
     }
    ]
   },
@@ -6090,7 +6078,7 @@
     4,
     5
    ],
-   "source": "3d:clinchJoelhada",
+   "source": "mixamo:Knee_Jab",
    "frames": [
     {
      "index": 446,
@@ -6101,7 +6089,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "mixamoFrame": 126
     },
     {
      "index": 447,
@@ -6112,7 +6100,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 65
+     "mixamoFrame": 133
     },
     {
      "index": 448,
@@ -6123,7 +6111,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 117
+     "mixamoFrame": 140
     },
     {
      "index": 449,
@@ -6134,7 +6122,7 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 155
+     "mixamoFrame": 147
     },
     {
      "index": 450,
@@ -6145,7 +6133,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 190
+     "mixamoFrame": 154
     },
     {
      "index": 451,
@@ -6156,7 +6144,7 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 259
+     "mixamoFrame": 154
     },
     {
      "index": 452,
@@ -6167,7 +6155,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 314
+     "mixamoFrame": 212
     },
     {
      "index": 453,
@@ -6178,7 +6166,7 @@
       88
      ],
      "phase": "recuperação",
-     "t3dMs": 384
+     "mixamoFrame": 270
     }
    ]
   },
@@ -6195,7 +6183,7 @@
    ],
    "totalMs": 360,
    "contactFrames": [],
-   "source": "3d:clinchSolta",
+   "source": "mixamo:Knee_Jab",
    "frames": [
     {
      "index": 454,
@@ -6206,7 +6194,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 288
     },
     {
      "index": 455,
@@ -6217,7 +6205,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 50
+     "mixamoFrame": 302
     },
     {
      "index": 456,
@@ -6228,7 +6216,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 110
+     "mixamoFrame": 317
     },
     {
      "index": 457,
@@ -6239,7 +6227,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 170
+     "mixamoFrame": 331
     },
     {
      "index": 458,
@@ -6250,7 +6238,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 230
+     "mixamoFrame": 346
     },
     {
      "index": 459,
@@ -6261,7 +6249,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 290
+     "mixamoFrame": 360
     }
    ]
   },
@@ -6277,7 +6265,7 @@
    ],
    "totalMs": 850,
    "contactFrames": [],
-   "source": "3d:segurado",
+   "source": "mixamo:Body_Block",
    "frames": [
     {
      "index": 460,
@@ -6288,7 +6276,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 461,
@@ -6299,7 +6287,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 170
+     "mixamoFrame": 41
     },
     {
      "index": 462,
@@ -6310,7 +6298,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 340
+     "mixamoFrame": 82
     },
     {
      "index": 463,
@@ -6321,7 +6309,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 510
+     "mixamoFrame": 124
     },
     {
      "index": 464,
@@ -6332,7 +6320,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 680
+     "mixamoFrame": 165
     }
    ]
   },
@@ -6351,7 +6339,7 @@
    ],
    "totalMs": 465,
    "contactFrames": [],
-   "source": "3d:clinchEscapa",
+   "source": "mixamo:Dodging",
    "frames": [
     {
      "index": 465,
@@ -6362,7 +6350,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 0
+     "mixamoFrame": 0
     },
     {
      "index": 466,
@@ -6373,7 +6361,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 50
+     "mixamoFrame": 11
     },
     {
      "index": 467,
@@ -6384,7 +6372,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 100
+     "mixamoFrame": 23
     },
     {
      "index": 468,
@@ -6395,7 +6383,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 155
+     "mixamoFrame": 34
     },
     {
      "index": 469,
@@ -6406,7 +6394,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 215
+     "mixamoFrame": 46
     },
     {
      "index": 470,
@@ -6417,7 +6405,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 275
+     "mixamoFrame": 57
     },
     {
      "index": 471,
@@ -6428,7 +6416,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 335
+     "mixamoFrame": 69
     },
     {
      "index": 472,
@@ -6439,7 +6427,7 @@
       88
      ],
      "phase": "",
-     "t3dMs": 395
+     "mixamoFrame": 80
     }
    ]
   }
