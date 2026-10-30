@@ -5,8 +5,9 @@ Hips, Spine, ..., LeftUpperArm, ...). A postura de repouso do Mixamo e outra
 (e o objeto vem girado), entao a transferencia e por DIRECAO de osso: em cada
 quadro, cada osso do nosso rig passa a apontar para onde o osso do FBX aponta.
 O quadril usa a base (frente, lado, cima) medida pelas pernas e coluna.
-O deslocamento horizontal do quadril sai (o jogo move o personagem); o
-vertical fica (agachar, cair, pular).
+O deslocamento horizontal do quadril sai (o jogo move o personagem). A altura
+vem do ponto mais baixo do corpo em cada quadro (pe no chao, salto, deitado),
+e a orientacao e alinhada pela pose de repouso do FBX (nao inclina o corpo).
 
 Uso:
   blender -b -P arte/miguel_mixamo.py -- --fbx PASTA [--previa DIR]
@@ -23,6 +24,9 @@ import bpy
 from mathutils import Matrix, Vector
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
+# salto reduzido para caber na celula do sprite (128x96, ~0,45 m acima da cabeca)
+SALTO = 0.6
+SALTO_MAX = 0.40
 ORDEM = ["Spine", "Chest", "UpperChest", "Neck", "Head"] + [
     l + o for l in ("Left", "Right")
     for o in ("Shoulder", "UpperArm", "LowerArm", "Hand", "UpperLeg", "LowerLeg", "Foot", "Toes")]
@@ -49,6 +53,7 @@ def ler_fbx(caminho):
     cena = bpy.context.scene
 
     def amostra():
+        # mundo: o FBX guarda a queda/giro do corpo no OBJETO da armadura
         mw = arm.matrix_world
         pb = arm.pose.bones
         pos = {b.name: mw @ b.head for b in pb}
@@ -56,23 +61,35 @@ def ler_fbx(caminho):
         dirs = {b.name: ((mw @ b.tail) - (mw @ b.head)).normalized() for b in pb}
         return pos, dirs
 
-    cena.frame_set(f0)
-    pos0, _ = amostra()
-    # alinha a postura de pe do primeiro quadro com "frente = -y"
-    alinhar = base_quadril(pos0).transposed()
-    alinhar = Matrix(((1, 0, 0), (0, 1, 0), (0, 0, 1))) @ alinhar
-    chao = min((alinhar @ p).z for k, p in pos0.items() if "Foot" in k or "Toes" in k)
+    # Em cada quadro so o GIRO no chao (para onde ele olha) e tirado: o corpo
+    # passa a olhar sempre para -y (camera de lado). Inclinacao, queda e salto
+    # ficam como na animacao (z do mundo = cima de verdade).
+    rp = {b.name: b.head_local.copy() for b in arm.data.bones}
+    alt_pe = (rp["Head"] - rp["Hips"]).length + (rp["Hips"] - rp["LeftFoot"]).length
     quadros = []
     for f in range(f0, f1 + 1):
         cena.frame_set(f)
         pos, dirs = amostra()
-        posA = {k: alinhar @ v for k, v in pos.items()}
+        b0 = base_quadril(pos)
+        frente = -b0.col[1]
+        lado = b0.col[0]
+        # direcao no chao: frente do quadril, ou (deitado) a perpendicular ao lado
+        chao_dir = Vector((frente.x, frente.y, 0))
+        if chao_dir.length < 0.3:
+            chao_dir = Vector((-lado.y, lado.x, 0))
+        ang = math.atan2(chao_dir.x, -chao_dir.y)
+        rz = Matrix.Rotation(-ang, 3, "Z")
+        posA = {k: rz @ v for k, v in pos.items()}
+        pontos = [rz @ (arm.matrix_world @ b.tail) for b in arm.pose.bones] + list(posA.values())
         quadros.append({
-            "dirs": {k: alinhar @ v for k, v in dirs.items()},
+            "dirs": {k: rz @ v for k, v in dirs.items()},
             "base": base_quadril(posA),
-            "altura": posA["Hips"].z - chao,
-            "pes": min(posA[k].z for k in ("LeftToes", "RightToes", "LeftFoot", "RightFoot")) - chao,
+            "baixo": min(p.z for p in pontos),
+            "altura": posA["Hips"].z,
         })
+    chao = min(q["baixo"] for q in quadros)
+    for q in quadros:
+        q["folga"] = (q["baixo"] - chao) / max(alt_pe, 1e-6)  # altura do ponto mais baixo, em "alturas do corpo"
     for o in novos:
         bpy.data.objects.remove(o, do_unlink=True)
     bpy.data.actions.remove(acao)
@@ -80,7 +97,12 @@ def ler_fbx(caminho):
     return nome, quadros, cena.render.fps if False else 30
 
 
-def aplicar(rig, q, altura_ref, altura_nossa, base_nossa):
+def _baixo_rig(rig):
+    mw = rig.matrix_world
+    return min(min((mw @ b.head).z, (mw @ b.tail).z) for b in rig.pose.bones)
+
+
+def aplicar(rig, q, base_nossa, baixo_repouso, alt_nossa):
     pbs = rig.pose.bones
     for pb in pbs:
         pb.rotation_mode = "QUATERNION"
@@ -91,8 +113,7 @@ def aplicar(rig, q, altura_ref, altura_nossa, base_nossa):
     hb = pbs["Hips"]
     m = hb.matrix.copy()
     giro = q["base"] @ base_nossa.inverted()
-    desce = (q["altura"] - altura_ref) * (altura_nossa / altura_ref)
-    hb.matrix = Matrix.Translation(m.translation + Vector((0, 0, desce))) @ (giro @ m.to_3x3()).normalized().to_4x4()
+    hb.matrix = Matrix.Translation(m.translation) @ (giro @ m.to_3x3()).normalized().to_4x4()
     bpy.context.view_layer.update()
     for nome in ORDEM:
         alvo = q["dirs"].get(nome)
@@ -104,6 +125,11 @@ def aplicar(rig, q, altura_ref, altura_nossa, base_nossa):
         r = atual.rotation_difference(alvo).to_matrix()
         pb.matrix = Matrix.Translation(mm.translation) @ (r @ mm.to_3x3()).normalized().to_4x4()
         bpy.context.view_layer.update()
+    # chao: o ponto mais baixo do corpo fica onde estava na animacao (pe no chao,
+    # salto no ar, deitado no chao) - nada afunda nem flutua
+    alvo_z = baixo_repouso + min(q["folga"] * alt_nossa * SALTO, SALTO_MAX)
+    hb.matrix = Matrix.Translation((0, 0, alvo_z - _baixo_rig(rig))) @ hb.matrix
+    bpy.context.view_layer.update()
 
 
 def preparar_rig(rig):
@@ -123,14 +149,16 @@ def preparar_rig(rig):
 
 
 def transferir(rig, nome, quadros, fps_fbx=30, fps=60):
-    altura_nossa, base_nossa = preparar_rig(rig)
-    altura_ref = quadros[0]["altura"]
+    _, base_nossa = preparar_rig(rig)
+    baixo_repouso = _baixo_rig(rig)
+    mw = rig.matrix_world
+    alt_nossa = (mw @ rig.pose.bones["Head"].tail).z - baixo_repouso
     rig.animation_data_create()
     acao = bpy.data.actions.new(nome)
     acao.use_fake_user = True
     rig.animation_data.action = acao
     for i, q in enumerate(quadros):
-        aplicar(rig, q, altura_ref, altura_nossa, base_nossa)
+        aplicar(rig, q, base_nossa, baixo_repouso, alt_nossa)
         f = i * fps / fps_fbx
         for pb in rig.pose.bones:
             pb.keyframe_insert("rotation_quaternion", frame=f)

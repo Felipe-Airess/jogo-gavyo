@@ -29,7 +29,7 @@ RAIZ = os.path.dirname(AQUI)
 W, H = 128, 96             # celula do atlas (igual a assets/miguel.json)
 PIVO = (64, 88)            # pe no chao
 PX_M = 70 / 1.76           # Miguel em pe com ~70 px, como nos sprites atuais
-COLUNAS = 8
+COLUNAS = 16  # atlas 2048 px de largura (o moveset do Mixamo tem muitos quadros)
 CONTORNO = (0.10, 0.075, 0.065)
 GIRO = 25  # graus: camera de lado, um pouco para a frente dele (3/4, como nos sprites 2D)
 
@@ -229,88 +229,94 @@ def marcadores(rig, alfa):
 
 
 # -------------------------------------------------------------------- main
-# Animacoes do Mixamo (arte/mixamo/*.fbx) para cada clipe do jogo:
-# clipe: (animacao, inicio, fim [fracao da animacao], efetor do contato, ao contrario)
+# MOVESET NOVO (Mixamo). Cada clipe do jogo usa a animacao inteira (ou o
+# trecho dela), amostrada a cada PASSO quadros do FBX (30 fps), na velocidade
+# original x VEL. O numero de quadros e os contatos saem da animacao, nao do 2D.
+# clipe: (animacao, inicio, fim [fracao], efetor ou None, golpes, ao contrario, loop)
+PASSO = 2
+VEL_GOLPE = 1.3
 MIXAMO = {
-    "idle": ("Ready_Idle", 0, 1, None, False), "guard": ("Ready_Idle", 0, 1, None, False),
-    "m3_idle": ("Ready_Idle", 0, 1, None, False),
-    "m_enterGuard": ("Ready_Idle", 0, 0.3, None, False), "m_lowerGuard": ("Ready_Idle", 0.3, 0.6, None, False),
-    "m5_tired": ("Look_Over_Shoulder", 0, 1, None, False), "m4_dazed": ("Look_Over_Shoulder", 0, 1, None, False),
-    "m_walkFwd": ("Start_Walking", 0.45, 1, None, False), "m3_walk": ("Start_Walking", 0.45, 1, None, False),
-    "m4_walkFwd": ("Start_Walking", 0.45, 1, None, False),
-    "m_walkBack": ("Start_Walking", 0.45, 1, None, True), "m4_walkBack": ("Start_Walking", 0.45, 1, None, True),
-    "m5_walkStart": ("Start_Walking", 0, 0.45, None, False), "m5_walkStop": ("Start_Walking", 0, 0.45, None, True),
-    "m4_run": ("Running", 0, 0.36, None, False), "m4_runStart": ("Running", 0, 0.2, None, False),
-    "m4_runStop": ("Running_To_Turn", 0, 0.3, None, False),
-    "m3_jab": ("Punching_1", 0, 1, "mao", False), "m4_jabStep": ("Punching_1", 0, 1, "mao", False),
-    "m3_cross": ("Fist_Fight_A", 0, 0.3, "mao", False), "m4_crossStep": ("Fist_Fight_A", 0, 0.3, "mao", False),
-    "m3_crossBody": ("Fist_Fight_A", 0.3, 0.6, "mao", False), "m4_jabBody": ("Fist_Fight_A", 0.6, 1, "mao", False),
-    "m3_overhand": ("Hell_Slammer_A", 0, 0.45, "mao", False), "m4_hook": ("Hook_Punch", 0, 1, "mao", False),
-    "m4_elbow": ("Hook_Punch_1", 0, 1, "mao", False), "m4_parryCounter": ("Hook_Punch_1", 0, 1, "mao", False),
-    "m4_uppercut": ("Knee_Jabs_To_Uppercut", 0.55, 0.85, "mao", False),
-    "m3_roundKick": ("Kicking", 0, 1, "pe", False), "m3_stepKick": ("Kicking", 0, 1, "pe", False),
-    "m3_lowKick": ("Kicking", 0, 1, "pe", False), "m4_kickHigh": ("Kicking", 0, 1, "pe", False),
-    "m5_kickHigh": ("Kicking", 0, 1, "pe", False), "m4_kickHigh2": ("Armada", 0.15, 0.9, "pe", False),
-    "m3_knee": ("Knee_Jab", 0.3, 0.85, "pe", False),
-    "m4_comboJabElbowKnee": ("Knee_Jab", 0, 1, "pe", False),
-    "m4_comboBodyUpper": ("Knee_Jabs_To_Uppercut", 0, 1, "mao", False),
-    "m4_comboLowHigh": ("Kicking", 0, 1, "pe", False),
-    "m_block": ("Body_Block", 0, 0.5, None, False), "m4_block": ("Body_Block", 0, 0.5, None, False),
-    "m4_leanBack": ("Dodging", 0, 0.5, None, False), "m4_slipCounter": ("Dodging", 0.4, 1, "mao", False),
-    "m5_guardBreak": ("Blocking", 0, 1, None, False),
-    "m4_hitHead": ("Blocking", 0, 0.6, None, False), "m4_hitHeadHeavy": ("Blocking", 0, 1, None, False),
-    "m4_hitBody": ("Body_Block", 0.3, 0.8, None, False), "m4_hitLeg": ("Body_Block", 0.5, 1, None, False),
-    "m4_fall": ("Sweep_Fall", 0.2, 1, None, False), "m4_lying": ("Sweep_Fall", 0.95, 1, None, False),
-    "m4_rise": ("Sweep_Fall", 0.2, 1, None, True), "m5_groundHit": ("Dying", 0.9, 1, None, False),
-    "m5_thrown": ("Brutal_Assassination", 0.2, 1, None, False),
-    "m5_throw": ("Brutal_Assassination_1", 0, 0.6, None, False),
-    "m5_groundPunch": ("Hell_Slammer_A", 0.4, 0.8, "mao", False), "m5_stomp": ("Kicking", 0, 1, "pe", False),
-    "m5_clinchGrab": ("Knee_Jab", 0, 0.3, None, False), "m5_clinchHold": ("Knee_Jab", 0.3, 0.4, None, False),
-    "m5_clinchKnee": ("Knee_Jab", 0.35, 0.75, "pe", False), "m5_clinchRelease": ("Knee_Jab", 0.8, 1, None, False),
-    "m5_held": ("Body_Block", 0, 1, None, False), "m5_clinchEscape": ("Dodging", 0, 0.6, None, False),
+    # parado e transicoes
+    "idle": ("Ready_Idle", 0, 1, None, 0, False), "guard": ("Ready_Idle", 0, 1, None, 0, False),
+    "m3_idle": ("Ready_Idle", 0, 1, None, 0, False),
+    "m_enterGuard": ("Pivot", 0, 0.5, None, 0, False), "m_lowerGuard": ("Pivot", 0.5, 1, None, 0, False),
+    "m5_tired": ("Look_Over_Shoulder", 0, 1, None, 0, False),
+    "m4_dazed": ("Look_Over_Shoulder", 0, 1, None, 0, False),
+    # locomocao
+    "m5_walkStart": ("Start_Walking", 0, 0.5, None, 0, False),
+    "m5_walkStop": ("Start_Walking", 0, 0.5, None, 0, True),
+    "m_walkFwd": ("Start_Walking", 0.5, 1, None, 0, False), "m3_walk": ("Start_Walking", 0.5, 1, None, 0, False),
+    "m4_walkFwd": ("Start_Walking", 0.5, 1, None, 0, False),
+    "m_walkBack": ("Start_Walking", 0.5, 1, None, 0, True), "m4_walkBack": ("Start_Walking", 0.5, 1, None, 0, True),
+    "m4_runStart": ("Running", 0, 0.3, None, 0, False), "m4_run": ("Running", 0.3, 1, None, 0, False),
+    "m4_runStop": ("Running_To_Turn", 0, 1, None, 0, False),
+    # socos
+    "m3_jab": ("Punching_1", 0, 1, "mao", 1, False), "m4_jabStep": ("Punching_1", 0, 1, "mao", 1, False),
+    "m3_cross": ("Fist_Fight_A", 0, 0.34, "mao", 1, False), "m4_crossStep": ("Fist_Fight_A", 0, 0.34, "mao", 1, False),
+    "m3_crossBody": ("Fist_Fight_A", 0.34, 0.67, "mao", 1, False),
+    "m4_jabBody": ("Fist_Fight_A", 0.67, 1, "mao", 1, False),
+    "m3_overhand": ("Hell_Slammer_A", 0, 0.5, "mao", 1, False),
+    "m4_hook": ("Hook_Punch", 0, 1, "mao", 1, False),
+    "m4_elbow": ("Hook_Punch_1", 0, 1, "mao", 1, False),
+    "m4_parryCounter": ("Hook_Punch_1", 0, 1, "mao", 1, False),
+    "m4_uppercut": ("Knee_Jabs_To_Uppercut", 0.6, 1, "mao", 1, False),
+    # chutes
+    "m3_roundKick": ("Kicking", 0, 1, "pe", 1, False),
+    "m3_lowKick": ("Kicking", 0, 1, "pe", 1, False),
+    "m3_stepKick": ("Armada", 0, 1, "pe", 1, False),
+    "m4_kickHigh": ("Armada", 0, 1, "pe", 1, False), "m5_kickHigh": ("Armada", 0, 1, "pe", 1, False),
+    "m4_kickHigh2": ("Flying_Kick", 0, 1, "pe", 1, False),
+    "m3_knee": ("Knee_Jab", 0.3, 0.7, "pe", 1, False),
+    # combos (varios contatos)
+    "m4_comboBodyUpper": ("Knee_Jabs_To_Uppercut", 0, 1, "mao", 4, False),
+    "m4_comboJabElbowKnee": ("Knee_Jab", 0, 1, "pe", 3, False),
+    "m4_comboLowHigh": ("Flying_Kick", 0, 1, "pe", 2, False),
+    # defesa
+    "m_block": ("Blocking", 0, 1, None, 0, False), "m4_block": ("Blocking", 0, 1, None, 0, False),
+    "m4_leanBack": ("Dodging", 0, 1, None, 0, False),
+    "m4_slipCounter": ("Esquiva_2", 0, 1, "mao", 1, False),
+    "m5_guardBreak": ("Body_Block", 0, 1, None, 0, False),
+    # reacoes
+    "m4_hitHead": ("Body_Block", 0, 0.4, None, 0, False), "m4_hitBody": ("Body_Block", 0.3, 0.7, None, 0, False),
+    "m4_hitLeg": ("Body_Block", 0.5, 1, None, 0, False), "m4_hitHeadHeavy": ("Dodging", 0, 0.6, None, 0, False),
+    # chao
+    "m4_fall": ("Sweep_Fall", 0, 0.85, None, 0, False), "m4_lying": ("Sweep_Fall", 0.85, 1, None, 0, False),
+    "m4_rise": ("Getting_Up", 0.3, 1, None, 0, False),
+    "m5_groundHit": ("Dying", 0.75, 1, None, 0, False),
+    "m5_groundPunch": ("Hell_Slammer_A", 0.5, 1, "mao", 1, False),
+    "m5_stomp": ("Kicking", 0, 1, "pe", 1, False),
+    # clinch e arremesso
+    "m5_clinchGrab": ("Knee_Jab", 0, 0.25, None, 0, False), "m5_clinchHold": ("Knee_Jab", 0.25, 0.35, None, 0, False),
+    "m5_clinchKnee": ("Knee_Jab", 0.3, 0.7, "pe", 1, False),
+    "m5_clinchRelease": ("Knee_Jab", 0.75, 1, None, 0, False),
+    "m5_held": ("Body_Block", 0, 1, None, 0, False), "m5_clinchEscape": ("Esquiva_2", 0, 0.5, None, 0, False),
+    "m5_throw": ("Brutal_Assassination_1", 0, 1, "mao", 1, False),
+    "m5_thrown": ("Brutal_Assassination", 0, 1, None, 0, False),
 }
 
 
 def extensao(rig, efetor):
-    """Quanto o punho (ou o pe) esta para a frente e para cima do quadril."""
+    """Quanto o punho (ou o pe) esta a frente do quadril (+ altura do pe)."""
     mw = rig.matrix_world
     pb = rig.pose.bones
     q = mw @ pb["Hips"].head
     nomes = ("LeftHand", "RightHand") if efetor == "mao" else ("LeftToes", "RightToes")
-    return max(-(mw @ pb[n].tail - q).y + (0.4 * (mw @ pb[n].tail).z if efetor == "pe" else 0)
+    return max(-(mw @ pb[n].tail - q).y + (0.5 * (mw @ pb[n].tail).z if efetor == "pe" else 0)
                for n in nomes)
 
 
-def quadros_mixamo(rig, cena, fim, plano, c):
-    """Quadro da acao (60 fps) para cada quadro do clipe 2D, com o contato no
-    pico de extensao do punho/pe dentro do trecho."""
-    _, ini, fi, efetor, inverte = plano
-    a, b = ini * fim, fi * fim
-    n = len(c["durations"])
-    contato = c.get("contactFrames") or []
-    if c.get("loop"):
-        ts = [a + (b - a) * k / n for k in range(n)]
-    else:
-        ts = [a + (b - a) * k / max(n - 1, 1) for k in range(n)]
-    if inverte:
-        ts = [a + b - t for t in ts]
-    if efetor and contato and not inverte:
-        melhor, pico = -1e9, a
-        for f in range(int(a), int(b) + 1):
-            cena.frame_set(f)
-            e = extensao(rig, efetor)
-            if e > melhor:
-                melhor, pico = e, f
-        c0, c1 = contato[0], contato[-1]
-        ts = []
-        for k in range(n):
-            if k < c0:
-                ts.append(a + (pico - a) * k / max(c0, 1))
-            elif k <= c1:
-                ts.append(pico)
-            else:
-                ts.append(pico + (b - pico) * (k - c1) / max(n - 1 - c1, 1))
-    return [int(round(t)) for t in ts]
+def picos(valores, n):
+    """Indices dos n maiores picos locais, em ordem, separados por >= 3 amostras."""
+    cand = [i for i in range(len(valores))
+            if (i == 0 or valores[i] >= valores[i - 1]) and (i == len(valores) - 1 or valores[i] >= valores[i + 1])]
+    cand.sort(key=lambda i: -valores[i])
+    esc = []
+    for i in cand:
+        if all(abs(i - j) >= 3 for j in esc):
+            esc.append(i)
+        if len(esc) == n:
+            break
+    return sorted(esc)
 
 
 def main_mixamo(args):
@@ -318,52 +324,70 @@ def main_mixamo(args):
         else os.path.join(RAIZ, "assets", "miguel3d")
     so = args[args.index("--so") + 1].split(",") if "--so" in args else None
     atlas2d = json.load(open(os.path.join(RAIZ, "assets", "miguel.json")))
-    for c in atlas2d["clips"]:
-        c.setdefault("durations", [f["duration"] for f in c["frames"]])
-    clipes = [c for c in atlas2d["clips"] if (not so or c["id"] in so) and c["id"] in MIXAMO]
+    loops = {c["id"]: c.get("loop", False) for c in atlas2d["clips"]}
+    strides = {c["id"]: c["stride"] for c in atlas2d["clips"] if "stride" in c}
+    ids = [i for i in MIXAMO if not so or i in so]
     mx = runpy.run_path(os.path.join(AQUI, "miguel_mixamo.py"), run_name="mixamo")
-    precisa = sorted({MIXAMO[c["id"]][0] for c in clipes})
+    precisa = sorted({MIXAMO[i][0] for i in ids})
     ob, rig, acoes = mx["carregar_tudo"](os.path.join(AQUI, "mixamo"), precisa)
     cena = preparar_cena()
     por_face = materiais_de_regiao(ob, rig)
     quadros, saida_clipes, saida_marc = [], [], {}
-    for c in clipes:
-        plano = MIXAMO[c["id"]]
-        acao, fim = acoes[plano[0]]
+    cache = {}  # (animacao, quadro) -> (indice no atlas, marcadores)
+    for cid in ids:
+        anim, ini, fi, efetor, golpes, inverte = MIXAMO[cid]
+        acao, fim = acoes[anim]  # fim em quadros de 60 fps
         rig.animation_data_create()
         rig.animation_data.action = acao
-        fs = quadros_mixamo(rig, cena, fim, plano, c)
-        contato = c.get("contactFrames") or []
+        passo = PASSO * 2  # quadros de 60 fps por amostra
+        a, b = int(ini * fim), int(fi * fim)
+        fs = list(range(a, max(a + 1, b) + 1, passo))
+        if inverte:
+            fs = fs[::-1]
+        if loops.get(cid) and len(fs) > 2:
+            fs = fs[:-1]  # o ultimo quadro do ciclo e o primeiro
+        vel = VEL_GOLPE if golpes else 1.0
+        dur = round(1000.0 * PASSO / 30 / vel)
+        contatos = []
+        if golpes:
+            ext = []
+            for f in fs:
+                cena.frame_set(f)
+                ext.append(extensao(rig, efetor))
+            contatos = picos(ext, golpes)
         frames, marcs = [], []
-        for k, (f, dur) in enumerate(zip(fs, c["durations"])):
-            cena.frame_set(f)
-            usar_regioes(ob, por_face, False)
-            cor = render(cena, "cor")
-            luz = render(cena, "luz")
-            usar_regioes(ob, por_face, True)
-            reg = render(cena, "reg")
-            usar_regioes(ob, por_face, False)
-            img = compor(cor, luz)
-            idx = len(quadros)
-            quadros.append(img)
-            fase = "" if not contato else ("preparação" if k < contato[0] else
-                                            "contato" if k <= contato[-1] else "recuperação")
+        for k, f in enumerate(fs):
+            chave = (anim, f)
+            if chave not in cache:
+                cena.frame_set(f)
+                usar_regioes(ob, por_face, False)
+                cor = render(cena, "cor")
+                luz = render(cena, "luz")
+                usar_regioes(ob, por_face, True)
+                reg = render(cena, "reg")
+                usar_regioes(ob, por_face, False)
+                img = compor(cor, luz)
+                m = marcadores(rig, img[..., 3] > 0.5)
+                m["hurt"] = caixas(reg)
+                m["index"] = len(quadros)
+                cache[chave] = (len(quadros), m)
+                quadros.append(img)
+            idx, m = cache[chave]
+            fase = "" if not contatos else ("preparação" if k < contatos[0] else
+                                             "contato" if k in contatos else "recuperação")
             frames.append({"index": idx, "duration": dur, "sourceFacing": 1, "root": list(PIVO),
                            "phase": fase, "mixamoFrame": f})
-            m = marcadores(rig, img[..., 3] > 0.5)
-            m["hurt"] = caixas(reg)
-            m["index"] = idx
             marcs.append(m)
-        clipe = {"id": c["id"], "loop": c["loop"], "durations": c["durations"],
-                 "totalMs": sum(c["durations"]), "contactFrames": contato,
-                 "source": "mixamo:" + plano[0], "frames": frames}
-        if "stride" in c:
-            clipe["stride"] = c["stride"]
+        clipe = {"id": cid, "loop": loops.get(cid, False), "durations": [dur] * len(fs),
+                 "totalMs": dur * len(fs), "contactFrames": contatos,
+                 "source": "mixamo:" + anim, "frames": frames}
+        if cid in strides:
+            clipe["stride"] = strides[cid]
         saida_clipes.append(clipe)
-        saida_marc[c["id"]] = marcs
-        print("sprites %-22s <- %-24s quadros %s" % (c["id"], plano[0], fs))
+        saida_marc[cid] = marcs
+        print("sprites %-22s <- %-24s %3d quadros, contatos %s" % (cid, anim, len(fs), contatos))
         rig.animation_data.action = None
-    salvar(quadros, saida_clipes, saida_marc, saida, "Mixamo (arte/mixamo) no Miguel HD")
+    salvar(quadros, saida_clipes, saida_marc, saida, "moveset Mixamo (arte/mixamo) no Miguel HD")
 
 
 def salvar(quadros, saida_clipes, saida_marc, saida, origem):
