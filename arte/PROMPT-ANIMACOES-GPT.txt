@@ -1,137 +1,209 @@
-PROMPT PARA O CHATGPT — SPRITES DO MIGUEL (um golpe por pedido)
+PROMPT MESTRE PARA O CHATGPT — ANIMAÇÕES DO MIGUEL (GAVIÃO)
+Cole tudo abaixo da linha numa conversa nova do ChatGPT (com GitHub conectado,
+geração de imagem e Python/análise de dados ligados). Depois só responda "próxima".
+==============================================================================
 
-Anexar sempre:
-  1. arte/renders/miguel_corpo_comparacao.png  (modelo 3D de frente, lado e costas)
-  2. arte/renders/miguel_rosto_comparacao.png  (rosto)
-  3. arte/referencias/miguel/guarda_lado.jpg   (guarda real dele)
-  4. arte/referencias/miguel/corpo_frente2.jpg (roupa real)
-Trocar [GOLPE] e [POSES] por um item da LISTA COMPLETA no fim (nome e quadros).
+Você vai produzir as 55 animações em sprite do personagem MIGUEL para o jogo de
+luta 2D "GAVIÃO" (Godot, pixel art, câmera lateral). Trabalhe sozinho, uma
+animação por vez, na ordem da LISTA. Não me faça perguntas: tudo o que você
+precisa está aqui. Quando terminar uma animação, entregue os arquivos e pare,
+esperando eu dizer "próxima" (ou "refaz o quadro N").
 
-----------------------------------------------------------------------------
-Você é animador de jogo de luta 2D em pixel art (estilo Street Fighter III /
-Dead Cells). Faça uma folha de sprites do personagem MIGUEL executando
-[GOLPE].
+------------------------------------------------------------------------------
+1. REFERÊNCIAS (abra todas antes de começar)
+------------------------------------------------------------------------------
+Repositório: Felipe-Airess/jogo-gavyo, branch boneco-miguel (público).
+Se o conector do GitHub não abrir, baixe pelos links diretos:
 
-APARÊNCIA (igual às imagens anexadas, sem mudar nada):
-17 anos, 1,76 m, magro, ombros largos, pele parda, cabelo preto cacheado
-volumoso em cima e na franja e curto dos lados, orelhas grandes, sobrancelhas
-grossas e retas, lábios cheios, bigodinho ralo. Polo branca do uniforme do
-Ceará: gola branca com friso verde, listras verde / verde-azulado / amarelo nos
-ombros, barra verde ondulada com faixa amarela diagonal, punho da manga verde.
-Calça jeans azul-claro reta e folgada. Tênis branco com detalhe roxo.
+Modelo 3D (aparência oficial):
+https://raw.githubusercontent.com/Felipe-Airess/jogo-gavyo/boneco-miguel/arte/renders/miguel_corpo_comparacao.png
+https://raw.githubusercontent.com/Felipe-Airess/jogo-gavyo/boneco-miguel/arte/renders/miguel_rosto_comparacao.png
+Fotos reais:
+https://raw.githubusercontent.com/Felipe-Airess/jogo-gavyo/boneco-miguel/arte/referencias/miguel/guarda_lado.jpg
+https://raw.githubusercontent.com/Felipe-Airess/jogo-gavyo/boneco-miguel/arte/referencias/miguel/guarda_lado2.jpg
+https://raw.githubusercontent.com/Felipe-Airess/jogo-gavyo/boneco-miguel/arte/referencias/miguel/corpo_frente2.jpg
+https://raw.githubusercontent.com/Felipe-Airess/jogo-gavyo/boneco-miguel/arte/referencias/miguel/camisa_frente.jpg
+https://raw.githubusercontent.com/Felipe-Airess/jogo-gavyo/boneco-miguel/arte/referencias/miguel/rosto_frente4.jpg
+https://raw.githubusercontent.com/Felipe-Airess/jogo-gavyo/boneco-miguel/arte/referencias/miguel/perfil_dir2.jpg
+Sprites que o jogo usa hoje (estilo, escala e cores a manter):
+https://raw.githubusercontent.com/Felipe-Airess/jogo-gavyo/boneco-miguel/assets/miguel.png
+https://raw.githubusercontent.com/Felipe-Airess/jogo-gavyo/boneco-miguel/assets/miguel.json
+(miguel.json diz, para cada animação, quantos quadros, a duração e o quadro de
+contato. Os números da LISTA abaixo vêm dele; não mude.)
 
-FORMATO (obrigatório):
-- Vista de LADO, perfil, olhando para a DIREITA. Mesma câmera em todos os quadros.
-- Corpo inteiro, mesma escala em todos os quadros (Miguel em pé ≈ 70 px de altura
-  numa célula de 128×96 px), pé de apoio sempre na mesma linha do chão.
-- Quadros em UMA linha horizontal, numerados em cima, fundo magenta puro
-  (#FF00FF), sem sombra no chão, sem texto além dos números.
-- Pixel art limpo, contorno escuro de 1 px, paleta pequena, sem anti-aliasing,
-  sem desfoque de movimento.
-- Quadros: [POSES]
+Se não conseguir abrir algum arquivo, diga qual e continue com os outros.
 
-ANATOMIA (o erro mais comum — siga à risca):
-- Cotovelos e joelhos dobram SÓ para o lado natural. Nunca invertidos.
-- O joelho aponta sempre na mesma direção dos dedos do pé.
-- No CHUTE: o pé de apoio gira (calcanhar para o alvo), o tronco inclina um
-  pouco para trás, o braço do lado do chute desce junto ao quadril para
-  equilibrar e o outro braço protege o rosto. Nenhum braço vai para trás em
-  ângulo estranho. A perna que chuta sobe dobrada (joelho primeiro) e só
-  depois estica.
-- No SOCO: o movimento sai do pé de trás → gira o quadril → gira o ombro →
-  braço estica. A outra mão fica no rosto (guarda).
-- Peso visível: joelhos dobrados, base larga; nada de pernas retas de compasso.
-- Silhueta clara: o braço ou a perna que golpeia fica fora do tronco.
-- Guarda dele: punhos juntos na frente do rosto, cotovelos baixos e fechados,
-  ombros encolhidos, pé esquerdo à frente.
-- Exagere a pose como jogo de luta, sem quebrar articulação.
-- A pose de contato é a mais forte e clara da folha.
-----------------------------------------------------------------------------
+------------------------------------------------------------------------------
+2. O PERSONAGEM (nunca mudar)
+------------------------------------------------------------------------------
+Miguel, 17 anos, 1,76 m, magro, ombros largos, pele parda. Cabelo preto
+cacheado, volumoso em cima e na franja, curto dos lados. Orelhas grandes e de
+abano. Sobrancelhas grossas, retas e baixas. Olhos castanho-escuros. Nariz largo
+de ponta redonda. Lábios cheios. Bigodinho ralo.
+Roupa: polo branca do uniforme do Ceará — gola branca com friso verde; três
+listras (verde, verde-azulado, amarelo) do ombro até a manga; barra verde
+ondulada com uma faixa amarela diagonal; punho da manga verde. Calça jeans
+azul-claro, reta e folgada. Tênis branco com detalhe roxo.
 
-LISTA COMPLETA — tudo o que o jogo usa (44 folhas)
-Formato: nº. nome [id no jogo] — quantos quadros — quadros de contato — o que desenhar.
-"Contato" = quadros em que o golpe acerta; eles são a pose mais forte.
-"loop" = o último quadro emenda no primeiro.
+------------------------------------------------------------------------------
+3. COMO PRODUZIR CADA ANIMAÇÃO (siga os passos)
+------------------------------------------------------------------------------
+Passo A — Planejar (escreva antes de desenhar, em 5 a 10 linhas):
+  para cada quadro, a pose em palavras: onde está cada pé, joelho, quadril,
+  ombro, cotovelo e punho, e para onde o tronco inclina. Marque qual quadro é
+  antecipação, contato e recuperação.
 
-A) PARADO E TRANSIÇÕES
- 1. Parado relaxado [idle] — 8 quadros, loop — em pé, braços soltos, respirando.
- 2. Guarda respirando [m3_idle] — 6 quadros, loop — guarda, peito sobe e desce.
- 3. Entrar na guarda [m_enterGuard] — 6 quadros — de relaxado até a guarda.
- 4. Baixar a guarda [m_lowerGuard] — 6 quadros — da guarda até relaxado.
- 5. Cansado [m5_tired] — 6 quadros, loop — guarda baixa, ombros caídos, ofegante.
+Passo B — Gerar a imagem (ferramenta de imagem):
+  - UMA imagem larga com todos os quadros em uma linha, numerados em cima.
+  - Vista de LADO (perfil), Miguel olhando para a DIREITA, corpo inteiro,
+    mesma câmera e mesma escala em todos os quadros, pés na mesma linha de chão.
+  - Fundo magenta puro #FF00FF, liso. Sem sombra, sem cenário, sem texto além
+    dos números, sem outra pessoa.
+  - Estilo: pixel art de jogo de luta (Street Fighter III, Dead Cells),
+    contorno escuro, sombras em 2–3 tons, sem desfoque de movimento.
+  - Se a animação tiver mais de 8 quadros, gere em duas imagens (1–6 e 7–fim)
+    e diga isso na entrega.
 
+Passo C — Conferir a imagem gerada com o CHECKLIST (seção 5). Para cada item que
+  falhar, gere de novo só aquele quadro (ou a folha) até passar. Não entregue
+  quadro reprovado.
+
+Passo D — Montar os arquivos com Python (análise de dados):
+  1. Separar os quadros: tirar o fundo (pixels perto de #FF00FF viram
+     transparentes, tolerância 60) e cortar cada figura pelas colunas vazias.
+  2. Escala: medir a altura do Miguel no quadro de guarda (do topo do cabelo à
+     sola) e redimensionar TODOS os quadros pelo mesmo fator para ele ter 70 px
+     em pé. Use Image.NEAREST (nunca suavizar).
+  3. Célula: colar cada quadro numa célula transparente de 128×96 px com o pé
+     de apoio no ponto (64, 88). O pé de apoio fica no mesmo lugar em todos os
+     quadros (menos quando a animação anda, salta ou cai).
+  4. Paleta: reduzir para no máximo 24 cores (Image.quantize) e garantir
+     contorno de 1 px escuro em volta da figura.
+  5. Exportar:
+     - NN_nome.png: tira horizontal com as células de 128×96 lado a lado;
+     - NN_nome.json: {"id": "...", "frames": N, "frame": [128,96],
+       "root": [64,88], "contactFrames": [...], "durations": [...ms...],
+       "loop": true/false} (durações iguais às do miguel.json para esse id);
+     - NN_nome_folha.png: a imagem original gerada, sem cortes;
+     - NN_nome_preview.gif: os quadros animados nas durações, ampliados 3×.
+  6. Juntar tudo num zip NN_nome.zip e me dar o link de download.
+
+Passo E — Mostrar o GIF de prévia e uma linha por quadro dizendo a pose.
+  Dizer: "Pronto. Diga 'próxima' ou 'refaz o quadro N: motivo'."
+
+------------------------------------------------------------------------------
+4. REGRAS DE ANIMAÇÃO (os erros que já aconteceram — proibidos)
+------------------------------------------------------------------------------
+- Cotovelo e joelho dobram SÓ para o lado natural. Nunca invertidos, nunca
+  "perna do Exorcista".
+- O joelho aponta sempre para onde os dedos do pé apontam.
+- CHUTE: a perna sobe dobrada (joelho primeiro), depois estica; o pé de apoio
+  gira com o calcanhar para o alvo; o tronco inclina um pouco para trás; o
+  braço do lado do chute desce junto ao quadril; o outro braço protege o rosto.
+  NENHUM braço vai para trás em ângulo estranho.
+- SOCO: começa no pé de trás → quadril gira → ombro gira → braço estica. A outra
+  mão fica no rosto. O braço volta pelo mesmo caminho.
+- Peso: joelhos sempre um pouco dobrados, base larga. Nada de pernas retas de
+  compasso. O corpo não flutua: um pé sempre no chão (menos na corrida e na queda).
+- Silhueta: o braço ou a perna que golpeia aparece FORA do tronco, legível só
+  pelo contorno.
+- Guarda do Miguel (fotos guarda_lado): punhos juntos na frente do rosto,
+  cotovelos baixos e fechados, ombros encolhidos, pé esquerdo à frente.
+- Tempo: antecipação clara (1–3 quadros), contato é a pose mais forte e fica
+  no quadro indicado, recuperação mais lenta que a ida.
+- Exagere como jogo de luta, sem quebrar articulação.
+- Proporção constante: cabeça, mãos e roupa com o mesmo tamanho em todos os
+  quadros e em todas as animações (compare com a guarda da animação 2).
+
+------------------------------------------------------------------------------
+5. CHECKLIST (todo quadro precisa passar)
+------------------------------------------------------------------------------
+[ ] Olha para a direita, de lado, corpo inteiro, nada cortado.
+[ ] Mesma roupa, cabelo e rosto das referências (listras, barra verde, tênis).
+[ ] Joelhos e cotovelos dobrando para o lado certo.
+[ ] Joelho na direção do pé.
+[ ] Mão que não golpeia está no rosto.
+[ ] Pé de apoio no chão e no mesmo lugar.
+[ ] Silhueta do golpe legível.
+[ ] Mesma altura do Miguel em pé (70 px depois da escala).
+[ ] Número de quadros e quadro de contato iguais aos da LISTA.
+
+------------------------------------------------------------------------------
+6. LISTA (55 animações, nesta ordem)
+------------------------------------------------------------------------------
+Formato: nº. nome [id] — quadros — contato — o que desenhar.
+
+A) PARADO
+ 1. Parado relaxado [idle] — 10, loop — em pé, braços soltos, respirando.
+ 2. Guarda respirando [m3_idle] — 6, loop — guarda; peito sobe e desce.
+ 3. Entrar na guarda [m_enterGuard] — 6 — relaxado → guarda.
+ 4. Baixar a guarda [m_lowerGuard] — 8 — guarda → relaxado.
+ 5. Cansado [m5_tired] — 6, loop — guarda baixa, ombros caídos, ofegante.
 B) LOCOMOÇÃO
- 6. Andar para frente em guarda [m4_walkFwd] — 6 quadros, loop — passos curtos sem baixar a guarda.
- 7. Andar para trás em guarda [m4_walkBack] — 6 quadros, loop — idem, recuando.
- 8. Começar a andar [m5_walkStart] — 3 quadros — guarda → primeiro passo.
- 9. Parar de andar [m5_walkStop] — 3 quadros — último passo → guarda.
-10. Andar solto [m3_walk] — 8 quadros, loop — caminhada normal, braços balançando.
-11. Arrancar a correr [m4_runStart] — 5 quadros — guarda → corrida.
-12. Correr [m4_run] — 8 quadros, loop — tronco inclinado, braços alternando, um quadro no ar.
-13. Frear a corrida [m4_runStop] — 5 quadros — derrapa e volta à guarda.
-
+ 6. Andar para frente em guarda [m4_walkFwd] — 6, loop — passos curtos, guarda alta.
+ 7. Andar para trás em guarda [m4_walkBack] — 6, loop — recuando, guarda alta.
+ 8. Começar a andar [m5_walkStart] — 3 — guarda → primeiro passo.
+ 9. Parar de andar [m5_walkStop] — 3 — último passo → guarda.
+10. Andar solto [m3_walk] — 8, loop — caminhada normal, braços balançando.
+11. Arrancar a correr [m4_runStart] — 5 — guarda → corrida.
+12. Correr [m4_run] — 8, loop — tronco inclinado, braços alternando, um quadro no ar.
+13. Frear a corrida [m4_runStop] — 5 — derrapa e volta à guarda.
 C) SOCOS
-14. Jab [m3_jab] — 8 quadros — contato 4–5 — braço da frente estica rápido e volta.
-15. Direto [m3_cross] — 8 quadros — contato 4–5 — braço de trás, quadril e pé de trás giram.
-16. Direto no corpo [m3_crossBody] — 9 quadros — contato 5–6 — abaixa e soca a barriga.
-17. Soco pesado / overhand [m3_overhand] — 12 quadros — contato 6–7 — soco em arco por cima, de cima para baixo.
-18. Gancho [m4_hook] — 9 quadros — contato 5–6 — braço em L na altura do queixo, quadril gira.
-19. Jab no corpo [m4_jabBody] — 8 quadros — contato 4–5 — abaixa e jab na barriga.
-20. Uppercut [m4_uppercut] — 9 quadros — contato 4–5 — agacha e o punho sobe diante do queixo.
-21. Cotovelada [m4_elbow] — 8 quadros — contato 4–5 — cotovelo horizontal na altura do rosto, curta distância.
-22. Jab com passo [m4_jabStep] — 8 quadros — contato 4–5 — pé da frente avança junto com o jab.
-23. Direto com passo [m4_crossStep] — 9 quadros — contato 5–6 — avança um passo e dá o direto.
-
-D) CHUTES E JOELHO
-24. Chute circular [m3_roundKick] — 12 quadros — contato 6–7 — câmara, perna esticada na costela, pé de apoio gira.
-25. Chute com passo [m3_stepKick] — 12 quadros — contato 7–8 — dá um passo e chuta de frente na cintura.
-26. Chute baixo [m3_lowKick] — 10 quadros — contato 5–6 — canela na coxa do rival.
-27. Chute alto [m4_kickHigh] — 12 quadros — contato 6–7 — pé na altura do ROSTO, perna esticada PARA A FRENTE (não colada no corpo).
-28. Joelhada [m3_knee] — 8 quadros — contato 4–5 — mãos puxam à frente, joelho sobe alto.
-
-E) COMBOS (vários contatos na mesma folha)
-29. Combo jab no corpo + uppercut [m4_comboBodyUpper] — 14 quadros — contatos no 5 e no 12.
-30. Combo jab + cotovelada + joelhada [m4_comboJabElbowKnee] — 12 quadros — contatos no 3, 6 e 11; anda para a frente.
-31. Combo chute baixo + chute alto [m4_comboLowHigh] — 14 quadros — contatos no 5 e no 11.
-
-F) DEFESA E CONTRA-ATAQUE
-32. Bloqueio [m4_block] — 6 quadros — antebraços cobrindo o rosto, queixo baixo, recua um pouco.
-33. Esquiva para trás [m4_leanBack] — 6 quadros — tronco inclina para trás, pés parados, volta.
-34. Esquiva + contra [m4_slipCounter] — 7 quadros — contato 6–7 — desvia para o lado e devolve um direto.
-35. Aparo + contra [m4_parryCounter] — 7 quadros — contato 4–5 — mão de trás desvia o golpe, jab em seguida.
-36. Guarda rompida [m5_guardBreak] — 6 quadros — braços abertos pelo impacto, recua desequilibrado.
-
-G) REAÇÕES (apanhando)
-37. Apanha na cabeça [m4_hitHead] — 5 quadros — cabeça vai 30° para trás e volta.
-38. Apanha forte na cabeça [m4_hitHeadHeavy] — 7 quadros — cabeça e tronco jogados para trás, passo atrás.
-39. Apanha no corpo [m4_hitBody] — 6 quadros — dobra na barriga e volta.
-40. Apanha na perna [m4_hitLeg] — 6 quadros — perna da frente cede, corpo inclina.
-41. Grogue [m4_dazed] — 5 quadros, loop — cambaleando, guarda baixa, cabeça mole.
-
+14. Jab [m3_jab] — 8 — contato 4–5 — braço da frente estica rápido e volta.
+15. Direto [m3_cross] — 8 — contato 4–5 — braço de trás; quadril e pé de trás giram.
+16. Direto no corpo [m3_crossBody] — 9 — contato 5–6 — abaixa e soca a barriga.
+17. Soco pesado [m3_overhand] — 12 — contato 6–7 — soco em arco de cima para baixo.
+18. Gancho [m4_hook] — 9 — contato 5–6 — braço em L na altura do queixo.
+19. Jab no corpo [m4_jabBody] — 8 — contato 4–5 — abaixa e jab na barriga.
+20. Uppercut [m4_uppercut] — 9 — contato 4–5 — agacha; punho sobe diante do queixo.
+21. Cotovelada [m4_elbow] — 8 — contato 4–5 — cotovelo horizontal na altura do rosto.
+22. Jab com passo [m4_jabStep] — 8 — contato 4–5 — pé da frente avança com o jab.
+23. Direto com passo [m4_crossStep] — 9 — contato 5–6 — avança e dá o direto.
+D) CHUTES
+24. Chute circular [m3_roundKick] — 12 — contato 6–7 — câmara; perna esticada na costela.
+25. Chute com passo [m3_stepKick] — 12 — contato 7–8 — passo e chute de frente na cintura.
+26. Chute baixo [m3_lowKick] — 10 — contato 5–6 — canela na coxa do rival.
+27. Chute alto [m4_kickHigh] — 12 — contato 6–7 — pé na altura do rosto, perna esticada PARA A FRENTE.
+28. Joelhada [m3_knee] — 8 — contato 4–5 — mãos puxam à frente, joelho sobe alto.
+29. Chute alto 2 [m4_kickHigh2] — 12 — contato 7–8 — variação do 27, mais lento e mais alto.
+E) COMBOS
+30. Jab no corpo + uppercut [m4_comboBodyUpper] — 14 — contatos 5 e 12.
+31. Jab + cotovelada + joelhada [m4_comboJabElbowKnee] — 12 — contatos 3, 6 e 11; anda para a frente.
+32. Chute baixo + chute alto [m4_comboLowHigh] — 14 — contatos 5 e 11.
+F) DEFESA
+33. Bloqueio [m4_block] — 6 — antebraços cobrindo o rosto, queixo baixo, recua um pouco.
+34. Esquiva para trás [m4_leanBack] — 6 — tronco inclina para trás, pés parados, volta.
+35. Esquiva + contra [m4_slipCounter] — 7 — contato 6–7 — desvia de lado e devolve um direto.
+36. Aparo + contra [m4_parryCounter] — 7 — contato 4–5 — mão de trás desvia, jab em seguida.
+37. Guarda rompida [m5_guardBreak] — 6 — braços abertos pelo impacto, recua desequilibrado.
+G) REAÇÕES
+38. Apanha na cabeça [m4_hitHead] — 5 — cabeça vai 30° para trás e volta.
+39. Apanha forte na cabeça [m4_hitHeadHeavy] — 7 — cabeça e tronco para trás, passo atrás.
+40. Apanha no corpo [m4_hitBody] — 6 — dobra na barriga e volta.
+41. Apanha na perna [m4_hitLeg] — 6 — perna da frente cede, corpo inclina.
+42. Grogue [m4_dazed] — 5, loop — cambaleando, guarda baixa, cabeça mole.
 H) CHÃO
-42. Queda [m4_fall] — 6 quadros — desequilíbrio, cai de costas, bate no chão.
-43. Deitado [m4_lying] — 2 quadros, loop — deitado de costas respirando.
-44. Levantar [m4_rise] — 7 quadros — deitado → apoia mão e joelho → agachado → guarda.
-45. Apanha no chão [m5_groundHit] — 4 quadros — deitado, o corpo encolhe com o golpe.
-46. Soco no chão [m5_groundPunch] — 8 quadros — contato 5–6 — abaixa e soca o rival deitado.
-47. Pisão [m5_stomp] — 8 quadros — contato 5–6 — levanta o joelho e pisa no rival deitado.
+43. Queda [m4_fall] — 6 — desequilíbrio, cai de costas, bate no chão.
+44. Deitado [m4_lying] — 2, loop — deitado de costas respirando.
+45. Levantar [m4_rise] — 7 — deitado → mão e joelho no chão → agachado → guarda.
+46. Apanha no chão [m5_groundHit] — 4 — deitado, o corpo encolhe com o golpe.
+47. Soco no chão [m5_groundPunch] — 8 — contato 5–6 — abaixa e soca o rival deitado.
+48. Pisão [m5_stomp] — 8 — contato 5–6 — levanta o joelho e pisa no rival deitado.
+I) CLINCH E ARREMESSO (desenhe só o Miguel, na posição que teria com o rival)
+49. Pegar no clinch [m5_clinchGrab] — 6 — mãos vão à nuca do rival.
+50. Segurar no clinch [m5_clinchHold] — 4, loop — segurando a nuca, puxando para baixo.
+51. Joelhada no clinch [m5_clinchKnee] — 8 — contato 5–6 — segurando e subindo o joelho.
+52. Soltar o clinch [m5_clinchRelease] — 6 — empurra e volta à guarda.
+53. Ser segurado [m5_held] — 5, loop — cabeça puxada para baixo, mãos tentando soltar.
+54. Escapar do clinch [m5_clinchEscape] — 8 — empurra os braços do rival e sai.
+55. Arremessar [m5_throw] — 8 — contato 5 — gira o quadril e joga o rival no chão.
+56. Ser arremessado [m5_thrown] — 9 — puxado, gira no ar e cai de costas.
 
-I) CLINCH E ARREMESSO
-48. Pegar no clinch [m5_clinchGrab] — 6 quadros — mãos vão à nuca do rival.
-49. Segurar no clinch [m5_clinchHold] — 4 quadros, loop — segurando a nuca, puxando para baixo.
-50. Joelhada no clinch [m5_clinchKnee] — 8 quadros — contato 5–6 — segurando e subindo o joelho.
-51. Soltar o clinch [m5_clinchRelease] — 6 quadros — empurra e volta à guarda.
-52. Ser segurado [m5_held] — 5 quadros, loop — cabeça puxada para baixo, mãos tentando soltar.
-53. Escapar do clinch [m5_clinchEscape] — 8 quadros — empurra os braços do rival e sai.
-54. Arremessar [m5_throw] — 8 quadros — gira o quadril e joga o rival para o chão (contato no 5).
-55. Ser arremessado [m5_thrown] — 9 quadros — puxado, gira no ar e cai de costas.
+(São 56 itens: o 29 "chute alto 2" também existe no jogo.)
 
-Dica: as folhas 37–55 que têm outra pessoa (clinch, arremesso, chão) devem
-mostrar SÓ o Miguel, na mesma posição em que estaria com o rival.
-
-COMO USAR:
-1. Gere uma folha por golpe com o prompt acima.
-2. Se algum quadro sair com articulação invertida, peça para refazer SÓ aquele
-   quadro citando a regra ("o joelho aponta para onde o pé aponta").
-3. Mande as folhas para o Claude Code: ele recorta pelo magenta, alinha pelo pé
-   de apoio, iguala escala e paleta e põe no atlas, como nos lotes 3 a 5.
+------------------------------------------------------------------------------
+7. COMEÇO
+------------------------------------------------------------------------------
+Comece agora pela animação 2 (Guarda respirando): ela vira a referência de
+escala, cores e proporção para todas as outras. Depois siga 14, 15, 24, 33, 38,
+e então a lista na ordem, pulando as já feitas.
