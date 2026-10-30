@@ -1,0 +1,562 @@
+{
+ "idle": {
+  "clipe2d": "idle",
+  "loop": true,
+  "duracaoMs": 3500,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 211,
+  "fps": 60
+ },
+ "guarda": {
+  "clipe2d": "m3_idle",
+  "loop": true,
+  "duracaoMs": 1200,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 73,
+  "fps": 60
+ },
+ "cansado": {
+  "clipe2d": "m5_tired",
+  "loop": true,
+  "duracaoMs": 950,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 58,
+  "fps": 60
+ },
+ "entraGuarda": {
+  "clipe2d": "m_enterGuard",
+  "loop": false,
+  "duracaoMs": 550,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 34,
+  "fps": 60
+ },
+ "baixaGuarda": {
+  "clipe2d": "m_lowerGuard",
+  "loop": false,
+  "duracaoMs": 455,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 28,
+  "fps": 60
+ },
+ "andaFrente": {
+  "clipe2d": "m4_walkFwd",
+  "loop": true,
+  "duracaoMs": 780,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 48,
+  "fps": 60
+ },
+ "andaTras": {
+  "clipe2d": "m4_walkBack",
+  "loop": true,
+  "duracaoMs": 840,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 51,
+  "fps": 60
+ },
+ "comecaAndar": {
+  "clipe2d": "m5_walkStart",
+  "loop": false,
+  "duracaoMs": 160,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 11,
+  "fps": 60
+ },
+ "paraAndar": {
+  "clipe2d": "m5_walkStop",
+  "loop": false,
+  "duracaoMs": 165,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 11,
+  "fps": 60
+ },
+ "andarSolto": {
+  "clipe2d": "m3_walk",
+  "loop": true,
+  "duracaoMs": 1000,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 61,
+  "fps": 60
+ },
+ "correr": {
+  "clipe2d": "m4_run",
+  "loop": true,
+  "duracaoMs": 560,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 35,
+  "fps": 60
+ },
+ "comecaCorrer": {
+  "clipe2d": "m4_runStart",
+  "loop": false,
+  "duracaoMs": 350,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 22,
+  "fps": 60
+ },
+ "paraCorrer": {
+  "clipe2d": "m4_runStop",
+  "loop": false,
+  "duracaoMs": 410,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 26,
+  "fps": 60
+ },
+ "jab": {
+  "clipe2d": "m3_jab",
+  "loop": false,
+  "duracaoMs": 327,
+  "contatoMs": 139,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 21,
+  "fps": 60
+ },
+ "direto": {
+  "clipe2d": "m3_cross",
+  "loop": false,
+  "duracaoMs": 486,
+  "contatoMs": 157,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 30,
+  "fps": 60
+ },
+ "diretoCorpo": {
+  "clipe2d": "m3_crossBody",
+  "loop": false,
+  "duracaoMs": 549,
+  "contatoMs": 248,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 34,
+  "fps": 60
+ },
+ "pesado": {
+  "clipe2d": "m3_overhand",
+  "loop": false,
+  "duracaoMs": 688,
+  "contatoMs": 293,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 42,
+  "fps": 60
+ },
+ "gancho": {
+  "clipe2d": "m4_hook",
+  "loop": false,
+  "duracaoMs": 590,
+  "contatoMs": 213,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 36,
+  "fps": 60
+ },
+ "jabCorpo": {
+  "clipe2d": "m4_jabBody",
+  "loop": false,
+  "duracaoMs": 559,
+  "contatoMs": 167,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 35,
+  "fps": 60
+ },
+ "uppercut": {
+  "clipe2d": "m4_uppercut",
+  "loop": false,
+  "duracaoMs": 680,
+  "contatoMs": 220,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 42,
+  "fps": 60
+ },
+ "cotovelada": {
+  "clipe2d": "m4_elbow",
+  "loop": false,
+  "duracaoMs": 538,
+  "contatoMs": 158,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 33,
+  "fps": 60
+ },
+ "jabPasso": {
+  "clipe2d": "m4_jabStep",
+  "loop": false,
+  "duracaoMs": 562,
+  "contatoMs": 182,
+  "contatosMs": null,
+  "avancoM": 0.16,
+  "quadros": 35,
+  "fps": 60
+ },
+ "diretoPasso": {
+  "clipe2d": "m4_crossStep",
+  "loop": false,
+  "duracaoMs": 666,
+  "contatoMs": 225,
+  "contatosMs": null,
+  "avancoM": 0.16,
+  "quadros": 41,
+  "fps": 60
+ },
+ "chuteCircular": {
+  "clipe2d": "m3_roundKick",
+  "loop": false,
+  "duracaoMs": 663,
+  "contatoMs": 301,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 41,
+  "fps": 60
+ },
+ "chuteAlto": {
+  "clipe2d": "m4_kickHigh",
+  "loop": false,
+  "duracaoMs": 944,
+  "contatoMs": 294,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 58,
+  "fps": 60
+ },
+ "chuteBaixo": {
+  "clipe2d": "m3_lowKick",
+  "loop": false,
+  "duracaoMs": 717,
+  "contatoMs": 298,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 44,
+  "fps": 60
+ },
+ "chutePasso": {
+  "clipe2d": "m3_stepKick",
+  "loop": false,
+  "duracaoMs": 852,
+  "contatoMs": 400,
+  "contatosMs": null,
+  "avancoM": 0.2,
+  "quadros": 52,
+  "fps": 60
+ },
+ "joelhada": {
+  "clipe2d": "m3_knee",
+  "loop": false,
+  "duracaoMs": 581,
+  "contatoMs": 237,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 36,
+  "fps": 60
+ },
+ "comboCorpoUpper": {
+  "clipe2d": "m4_comboBodyUpper",
+  "loop": false,
+  "duracaoMs": 905,
+  "contatoMs": 385,
+  "contatosMs": [
+   167,
+   385
+  ],
+  "avancoM": 0.0,
+  "quadros": 55,
+  "fps": 60
+ },
+ "comboJabCotoveloJoelho": {
+  "clipe2d": "m4_comboJabElbowKnee",
+  "loop": false,
+  "duracaoMs": 870,
+  "contatoMs": 350,
+  "contatosMs": [
+   90,
+   220,
+   350
+  ],
+  "avancoM": 0.12,
+  "quadros": 53,
+  "fps": 60
+ },
+ "comboBaixoAlto": {
+  "clipe2d": "m4_comboLowHigh",
+  "loop": false,
+  "duracaoMs": 928,
+  "contatoMs": 368,
+  "contatosMs": [
+   164,
+   368
+  ],
+  "avancoM": 0.0,
+  "quadros": 57,
+  "fps": 60
+ },
+ "esquivaContra": {
+  "clipe2d": "m4_slipCounter",
+  "loop": false,
+  "duracaoMs": 630,
+  "contatoMs": 330,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 39,
+  "fps": 60
+ },
+ "aparaContra": {
+  "clipe2d": "m4_parryCounter",
+  "loop": false,
+  "duracaoMs": 631,
+  "contatoMs": 231,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 39,
+  "fps": 60
+ },
+ "bloqueio": {
+  "clipe2d": "m4_block",
+  "loop": false,
+  "duracaoMs": 430,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 27,
+  "fps": 60
+ },
+ "apanhaCabeca": {
+  "clipe2d": "m4_hitHead",
+  "loop": false,
+  "duracaoMs": 380,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 24,
+  "fps": 60
+ },
+ "apanhaCorpo": {
+  "clipe2d": "m4_hitBody",
+  "loop": false,
+  "duracaoMs": 450,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 28,
+  "fps": 60
+ },
+ "apanhaPerna": {
+  "clipe2d": "m4_hitLeg",
+  "loop": false,
+  "duracaoMs": 450,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 28,
+  "fps": 60
+ },
+ "apanhaCabecaForte": {
+  "clipe2d": "m4_hitHeadHeavy",
+  "loop": false,
+  "duracaoMs": 580,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 36,
+  "fps": 60
+ },
+ "grogue": {
+  "clipe2d": "m4_dazed",
+  "loop": true,
+  "duracaoMs": 750,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 46,
+  "fps": 60
+ },
+ "esquivaTras": {
+  "clipe2d": "m4_leanBack",
+  "loop": false,
+  "duracaoMs": 460,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 29,
+  "fps": 60
+ },
+ "guardaRompida": {
+  "clipe2d": "m5_guardBreak",
+  "loop": false,
+  "duracaoMs": 655,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 40,
+  "fps": 60
+ },
+ "queda": {
+  "clipe2d": "m4_fall",
+  "loop": false,
+  "duracaoMs": 1580,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 96,
+  "fps": 60
+ },
+ "deitado": {
+  "clipe2d": "m4_lying",
+  "loop": true,
+  "duracaoMs": 900,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 55,
+  "fps": 60
+ },
+ "levantar": {
+  "clipe2d": "m4_rise",
+  "loop": false,
+  "duracaoMs": 670,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 41,
+  "fps": 60
+ },
+ "apanhaChao": {
+  "clipe2d": "m5_groundHit",
+  "loop": false,
+  "duracaoMs": 320,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 20,
+  "fps": 60
+ },
+ "socoChao": {
+  "clipe2d": "m5_groundPunch",
+  "loop": false,
+  "duracaoMs": 540,
+  "contatoMs": 225,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 33,
+  "fps": 60
+ },
+ "pisao": {
+  "clipe2d": "m5_stomp",
+  "loop": false,
+  "duracaoMs": 550,
+  "contatoMs": 235,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 34,
+  "fps": 60
+ },
+ "clinchPega": {
+  "clipe2d": "m5_clinchGrab",
+  "loop": false,
+  "duracaoMs": 260,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 17,
+  "fps": 60
+ },
+ "clinchSegura": {
+  "clipe2d": "m5_clinchHold",
+  "loop": true,
+  "duracaoMs": 640,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 39,
+  "fps": 60
+ },
+ "clinchJoelhada": {
+  "clipe2d": "m5_clinchKnee",
+  "loop": false,
+  "duracaoMs": 470,
+  "contatoMs": 190,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 29,
+  "fps": 60
+ },
+ "clinchSolta": {
+  "clipe2d": "m5_clinchRelease",
+  "loop": false,
+  "duracaoMs": 360,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 23,
+  "fps": 60
+ },
+ "segurado": {
+  "clipe2d": "m5_held",
+  "loop": true,
+  "duracaoMs": 850,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 52,
+  "fps": 60
+ },
+ "clinchEscapa": {
+  "clipe2d": "m5_clinchEscape",
+  "loop": false,
+  "duracaoMs": 465,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 29,
+  "fps": 60
+ },
+ "arremesso": {
+  "clipe2d": "m5_throw",
+  "loop": false,
+  "duracaoMs": 615,
+  "contatoMs": 345,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 38,
+  "fps": 60
+ },
+ "arremessado": {
+  "clipe2d": "m5_thrown",
+  "loop": false,
+  "duracaoMs": 915,
+  "contatoMs": null,
+  "contatosMs": null,
+  "avancoM": 0.0,
+  "quadros": 56,
+  "fps": 60
+ }
+}
