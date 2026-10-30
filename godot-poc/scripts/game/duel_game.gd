@@ -341,7 +341,7 @@ func render() -> void:
 		if model.hitstop > 0 and model.last_hit != null and model.last_hit.target == f.id:
 			x += 1.0 if int(floor(model.hitstop / 33.0)) % 2 else -1.0
 		view.texture = textures[f.character]
-		view.region_rect = Rect2(Vector2(index % 8, index / 8) * Vector2(128, 96), Vector2(128, 96))
+		view.region_rect = Rect2(Vector2(index % (view.texture.get_width() / 128), index / (view.texture.get_width() / 128)) * Vector2(128, 96), Vector2(128, 96))
 		view.position = Vector2(round(x), f.y)
 		view.flip_h = f.facing < 0
 		view.z_index = 1 if f.state == "attack" else 0

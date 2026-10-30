@@ -251,7 +251,7 @@ func set_frame(s: Sprite2D, tex_name: String, clips: Dictionary, ref: Dictionary
 	if clip == null: return
 	var index := int(clip.frames[int(ref.frame)].index)
 	s.texture = textures[tex_name]
-	s.region_rect = Rect2(Vector2(index % 8, index / 8) * Vector2(128, 96), Vector2(128, 96))
+	s.region_rect = Rect2(Vector2(index % (s.texture.get_width() / 128), index / (s.texture.get_width() / 128)) * Vector2(128, 96), Vector2(128, 96))
 
 func player_ref() -> Dictionary:
 	var p: Dictionary = model.player
@@ -287,7 +287,7 @@ func render(_ms: float) -> void:
 		var frame: Dictionary = idle.frames[fi]
 		npc_sprite.texture = textures.miguel
 		var index := int(frame.index)
-		npc_sprite.region_rect = Rect2(Vector2(index % 8, index / 8) * Vector2(128, 96), Vector2(128, 96))
+		npc_sprite.region_rect = Rect2(Vector2(index % (npc_sprite.texture.get_width() / 128), index / (npc_sprite.texture.get_width() / 128)) * Vector2(128, 96), Vector2(128, 96))
 		npc_sprite.position = Vector2(150, 132)
 		npc_sprite.flip_h = frame.get("sourceFacing", 1) > 0
 		npc_sprite.z_index = 32
