@@ -1009,7 +1009,8 @@
      "phase": "",
      "t3dMs": 875
     }
-   ]
+   ],
+   "stride": 42.0
   },
   {
    "id": "m3_jab",
@@ -2152,7 +2153,8 @@
      "phase": "",
      "t3dMs": 650
     }
-   ]
+   ],
+   "stride": 14.0
   },
   {
    "id": "m4_walkBack",
@@ -2235,7 +2237,8 @@
      "phase": "",
      "t3dMs": 700
     }
-   ]
+   ],
+   "stride": 11.0
   },
   {
    "id": "m4_block",
@@ -4337,7 +4340,8 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 0
+     "t3dMs": 0,
+     "advance": 0
     },
     {
      "index": 318,
@@ -4348,7 +4352,8 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 35
+     "t3dMs": 35,
+     "advance": 0
     },
     {
      "index": 319,
@@ -4359,7 +4364,8 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 70
+     "t3dMs": 70,
+     "advance": 1
     },
     {
      "index": 320,
@@ -4370,7 +4376,8 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 105
+     "t3dMs": 105,
+     "advance": 2
     },
     {
      "index": 321,
@@ -4381,7 +4388,8 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 140
+     "t3dMs": 140,
+     "advance": 1
     },
     {
      "index": 322,
@@ -4392,7 +4400,8 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 175
+     "t3dMs": 175,
+     "advance": 2
     },
     {
      "index": 323,
@@ -4403,7 +4412,8 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 210
+     "t3dMs": 210,
+     "advance": 6
     },
     {
      "index": 324,
@@ -4414,7 +4424,8 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 245
+     "t3dMs": 245,
+     "advance": 8
     },
     {
      "index": 325,
@@ -4425,7 +4436,8 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 280
+     "t3dMs": 280,
+     "advance": 9
     },
     {
      "index": 326,
@@ -4436,7 +4448,8 @@
       88
      ],
      "phase": "preparação",
-     "t3dMs": 315
+     "t3dMs": 315,
+     "advance": 9
     },
     {
      "index": 327,
@@ -4447,7 +4460,8 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 350
+     "t3dMs": 350,
+     "advance": 9
     },
     {
      "index": 328,
@@ -4458,7 +4472,8 @@
       88
      ],
      "phase": "contato",
-     "t3dMs": 640
+     "t3dMs": 640,
+     "advance": 4
     }
    ]
   },

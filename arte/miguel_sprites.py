@@ -237,6 +237,12 @@ def main():
         c.setdefault("durations", [f["duration"] for f in c["frames"]])
         c.setdefault("totalMs", sum(c["durations"]))
     anim = runpy.run_path(os.path.join(AQUI, "miguel_animacoes.py"), run_name="sprites")
+    # no duelo so o combo tem avanco desenhado (advance); nos outros golpes com
+    # passo o corpo fica no lugar, senao o sprite "volta" ao fim do golpe
+    COM_AVANCO = {"comboJabCotoveloJoelho"}
+    for n, d in anim["A"].items():
+        if n not in COM_AVANCO:
+            d["chaves"] = [(t, {k: v for k, v in p.items() if k != "off"}) for t, p in d["chaves"]]
     por_clipe = {d["clipe"]: n for n, d in anim["A"].items()}
     por_clipe.update(EXTRA)
     clipes = [c for c in atlas2d["clips"] if (not so or c["id"] in so) and c["id"] in por_clipe]
@@ -276,9 +282,16 @@ def main():
             m["index"] = idx
             marcs.append(m)
             t2 += dur
-        saida_clipes.append({"id": c["id"], "loop": c["loop"], "durations": durs,
-                             "totalMs": sum(durs), "contactFrames": contato,
-                             "source": "3d:" + nome3d, "frames": frames})
+        if nome3d in COM_AVANCO:  # avanco desenhado em px, medido no quadril
+            x0 = marcs[0]["hip"]["x"]
+            for f, m in zip(frames, marcs):
+                f["advance"] = round(m["hip"]["x"] - x0)
+        clipe = {"id": c["id"], "loop": c["loop"], "durations": durs,
+                 "totalMs": sum(durs), "contactFrames": contato,
+                 "source": "3d:" + nome3d, "frames": frames}
+        if "stride" in c:
+            clipe["stride"] = c["stride"]
+        saida_clipes.append(clipe)
         saida_marc[c["id"]] = marcs
         print("sprites %-22s <- %-22s %2d quadros" % (c["id"], nome3d, len(durs)))
         rig.animation_data.action = None
