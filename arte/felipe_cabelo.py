@@ -9,6 +9,7 @@ fotos; depois vira volume fechado (voxel) e e suavizada.
 Usado por felipe_humano.py; sozinho:  python arte/felipe_cabelo.py --mascaras DIR
 """
 import json
+import math
 import os
 
 import numpy as np
@@ -240,3 +241,148 @@ def salvar_mascaras(pasta):
 if __name__ == "__main__":
     import sys
     salvar_mascaras(sys.argv[sys.argv.index("--mascaras") + 1])
+
+
+# ------------------------------------------------------------ cards
+TEXTURA = os.path.join(AQUI, "felipe_cachos.png")  # gerada por textura_cachos()
+VARIANTES = 4  # colunas do atlas
+
+
+def textura_cachos(caminho=TEXTURA, larg=128, alt=256, semente=5):
+    """Atlas RGBA de cachos fechados (molinhas), VARIANTES colunas larg x alt.
+    Cada cacho: fio em espiral descendo (projecao de uma helice), com o lado
+    de tras mais escuro, brilho castanho na frente e fios soltos na ponta."""
+    from PIL import Image, ImageDraw
+    rng = np.random.default_rng(semente)
+    esc = 4  # desenha grande e reduz (borda suave)
+    W, H = larg * esc, alt * esc
+    atlas = Image.new("RGBA", (W * VARIANTES, H), (0, 0, 0, 0))
+    for var in range(VARIANTES):
+        im = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        d = ImageDraw.Draw(im)
+        n = 2 + var // 2  # cachos por card
+        for c in range(n):
+            x0 = W * (0.15 + 0.7 * rng.random())
+            y0 = H * 0.02 * rng.random()
+            raio = W * rng.uniform(0.13, 0.19)
+            passo = raio * rng.uniform(1.0, 1.4)
+            voltas = (H * rng.uniform(0.6, 0.95) - y0) / passo
+            fase = rng.random() * 6.28
+            ph1, ph2 = rng.random(2) * 6.28
+            for fio in range(5):  # 5 fios por cacho (mecha grossa)
+                dx, dr = rng.normal(0, raio * 0.12), rng.uniform(0.8, 1.1)
+                pts = []
+                for t in np.linspace(0, voltas * 6.283, int(voltas * 40)):
+                    rr = dr * (1 + 0.28 * np.sin(t * 0.31 + ph1))  # cacho irregular
+                    yy = passo * t / 6.283 * (1 + 0.15 * np.sin(t * 0.23 + ph2))
+                    # helice vista de cima em angulo: a profundidade (sin) sobe na
+                    # imagem e o fio desenha lacos, como os cachos da foto
+                    pts.append((x0 + dx + raio * rr * np.cos(t + fase) + 0.05 * W * np.sin(t / 9 + ph2),
+                                y0 + yy + 0.75 * raio * rr * np.sin(t + fase),
+                                np.sin(t + fase)))
+                for (xa, ya, fa), (xb, yb, _) in zip(pts, pts[1:]):
+                    frente = fa > 0
+                    base = 18 if frente else 8
+                    brilho = int(base + (34 * fa if frente else 0))
+                    cor = (brilho + 8, brilho + 3, brilho, 255)
+                    d.line([(xa, ya), (xb, yb)], fill=cor, width=int(esc * (3.2 if frente else 3.8)))
+        atlas.paste(im, (W * var, 0))
+    atlas = atlas.resize((larg * VARIANTES, alt), Image.LANCZOS)
+    a = np.asarray(atlas).copy()
+    a[..., 3] = np.where(a[..., 3] > 110, 255, 0)  # recorte (alpha scissor no Godot)
+    Image.fromarray(a).save(caminho)
+    return caminho
+
+
+def material_cards():
+    """Textura de cachos com recorte de alfa (Greater Than -> exporta como MASK
+    no glTF; no Godot vira alpha scissor) e as duas faces visiveis."""
+    import bpy
+    mat = bpy.data.materials.get("CabeloCachos")
+    if mat:
+        return mat
+    if not os.path.exists(TEXTURA):
+        textura_cachos()
+    mat = bpy.data.materials.new("CabeloCachos")
+    mat.use_nodes = True
+    mat.use_backface_culling = False
+    nt = mat.node_tree
+    bsdf = nt.nodes.get("Principled BSDF")
+    tex = nt.nodes.new("ShaderNodeTexImage")
+    tex.image = bpy.data.images.load(TEXTURA)
+    tex.interpolation = "Closest"
+    corte = nt.nodes.new("ShaderNodeMath")
+    corte.operation = "GREATER_THAN"
+    corte.inputs[1].default_value = 0.5
+    nt.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
+    nt.links.new(tex.outputs["Alpha"], corte.inputs[0])
+    nt.links.new(corte.outputs[0], bsdf.inputs["Alpha"])
+    bsdf.inputs["Roughness"].default_value = 0.6
+    if hasattr(mat, "surface_render_method"):
+        mat.surface_render_method = "DITHERED"
+    return mat
+
+
+def criar_cards(nucleo, olho, n=260, semente=3, nome="CabeloCards"):
+    """Cards de cachos espetadas no miolo: base enterrada ~1 cm, saindo para fora
+    e um pouco para baixo, girando em volta da normal; na borda da franja, cards
+    penduradas sobre a testa. Um objeto, UV por variante do atlas."""
+    import bpy
+    from mathutils import Vector
+    rng = np.random.default_rng(semente)
+    me = nucleo.data
+    me.update()
+    o = Vector(olho[:])
+    pt = json.load(open(PINTURA))
+    topo_sob = max(z for _, z in pt["sobrancelha_d"])
+    # nada embaixo do volume (pescoco) nem na cara
+    pol = [pl for pl in me.polygons if pl.normal.z > -0.5 and pl.center.z - o.z > -0.06]
+    area = np.array([pl.area for pl in pol])
+    escolha = rng.choice(len(pol), n, p=area / area.sum())
+    cartas = []
+    for i in escolha:
+        pl = pol[i]
+        c = pl.center.copy()
+        nrm = pl.normal.copy()
+        # para baixo pela superficie; 70% deitadas sobre o volume, 30% saindo
+        # para fora (quebram a silhueta, como os cachos soltos da foto)
+        baixo = Vector((0, 0, -1)) - nrm * nrm.z
+        if baixo.length < 0.2:  # topo da cabeca: direcao qualquer na superficie
+            baixo = nrm.orthogonal()
+        baixo.normalize()
+        ang = rng.normal(0, 0.6)
+        baixo = (baixo * math.cos(ang) + nrm.cross(baixo) * math.sin(ang)).normalized()
+        solta = rng.random() < 0.3
+        u = (baixo + nrm * (0.9 if solta else 0.25)).normalized()
+        w = nrm.cross(u).normalized()
+        if solta:  # gira a card em volta do comprimento para nao ser chapada
+            g = rng.uniform(-1.0, 1.0)
+            w = (w * math.cos(g) + nrm * math.sin(g)).normalized()
+        cartas.append((c - u * 0.008 + nrm * 0.004, u, w, rng.uniform(0.04, 0.055), rng.uniform(0.05, 0.07)))
+    # franja: pontos do miolo na frente da testa, logo acima da sobrancelha
+    franja = [v.co.copy() for v in me.vertices
+              if v.co.y - o.y < -0.02 and topo_sob < v.co.z - o.z < topo_sob + 0.04]
+    for k in rng.choice(len(franja), min(len(franja), 18), replace=False):
+        c = franja[k]
+        u = Vector((0, -0.25, -1)).normalized()
+        w = Vector((1, 0, 0))
+        cartas.append((c + Vector((0, -0.004, 0.012)), u, w, rng.uniform(0.03, 0.045), rng.uniform(0.035, 0.05)))
+    vs, fs, uvs = [], [], []
+    for base, u, w, larg, comp in cartas:
+        a = base - w * larg / 2
+        q = len(vs)
+        vs += [a, a + w * larg, a + w * larg + u * comp, a + u * comp]
+        fs.append((q, q + 1, q + 2, q + 3))
+        var = rng.integers(VARIANTES)
+        u0, u1 = var / VARIANTES, (var + 1) / VARIANTES
+        uvs += [(u0, 1), (u1, 1), (u1, 0), (u0, 0)]  # topo da textura na base
+    malha = bpy.data.meshes.new(nome)
+    malha.from_pydata([v[:] for v in vs], [], fs)
+    uvl = malha.uv_layers.new(name="UVMap")
+    for li, l in enumerate(malha.loops):
+        uvl.data[li].uv = uvs[l.vertex_index]
+    ob = bpy.data.objects.new(nome, malha)
+    bpy.context.scene.collection.objects.link(ob)
+    ob.data.materials.append(material_cards())
+    print("cards de cabelo: %d (%d na franja)" % (len(cartas), len(cartas) - n))
+    return ob

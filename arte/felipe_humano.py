@@ -7,7 +7,7 @@ com estampa, short, pes descalcos, cabelo mais volumoso).
 Referencias: arte/referencias/felipe/ (1,72 m, 72 kg, luta descalco).
 
 Uso (Blender 3.6+ ou o modulo bpy):
-  python arte/felipe_humano.py -- --render DIR [--blend ARQ]
+  python arte/felipe_humano.py -- --render DIR [--blend ARQ] [--cards]
 """
 import gzip
 import math
@@ -45,7 +45,7 @@ FORMA = {
 }
 PELE = (0.66, 0.46, 0.34)       # morena clara (fotos, corrigida da luz fria)
 PRETO = (0.035, 0.035, 0.04)    # camiseta e short
-CABELO = (0.040, 0.032, 0.030)
+CABELO = (0.018, 0.014, 0.013)
 
 
 ALVO_ROSTO = os.path.join(AQUI, "felipe_rosto.target.gz")  # gerado por felipe_rosto.py
@@ -357,7 +357,7 @@ def criar_cabelo(ob_corpo, olho):
 
 
 # ------------------------------------------------------------- tudo junto
-def construir_tudo():
+def construir_tudo(com_cards=False):
     configurar_base()
     for o in list(bpy.data.objects):
         bpy.data.objects.remove(o, do_unlink=True)
@@ -381,8 +381,16 @@ def construir_tudo():
     for peca, cor in pecas:
         base.aplicar_cores(peca, cor)
         base.copiar_pesos(peca, ob, "Head" if peca.name.startswith("Cabelo") else None)
+    extras = []
+    if com_cards:  # experimental: cachos em cards (textura com recorte de alfa)
+        import felipe_cabelo
+        cards = felipe_cabelo.criar_cards(pecas[-1][0], olho)
+        attr = cards.data.color_attributes.new("Col", "FLOAT_COLOR", "POINT")  # p/ o join
+        attr.data.foreach_set("color", np.ones(len(cards.data.vertices) * 4, np.float32))
+        base.copiar_pesos(cards, ob, "Head")
+        extras.append(cards)
     esconder_pele(ob, usados, dom, jt)
-    objs = [ob] + [p for p, _ in pecas]
+    objs = [ob] + [p for p, _ in pecas] + extras
     base.prender(objs, rig)
     bpy.ops.object.select_all(action="DESELECT")
     for o in objs:
@@ -394,17 +402,39 @@ def construir_tudo():
     return ob, rig
 
 
-def renderizar(pasta, ob, olho_z):
+def _luz_eevee(cena):
+    """EEVEE: mostra a cor por vertice (pele, roupa) e a textura das cards juntas."""
+    cena.render.engine = "BLENDER_EEVEE"
+    cena.render.film_transparent = True
+    cena.view_settings.view_transform = "Standard"
+    mundo = cena.world or bpy.data.worlds.new("Mundo")
+    cena.world = mundo
+    mundo.use_nodes = True
+    mundo.node_tree.nodes["Background"].inputs["Color"].default_value = (0.35, 0.35, 0.35, 1)
+    cena.eevee.taa_render_samples = 16
+    for nome_luz, energia, rot in (("Sol", 1.8, (50, 0, 30)), ("Contra", 0.8, (60, 0, 200))):
+        luz = bpy.data.lights.new(nome_luz, "SUN")
+        luz.energy = energia
+        lo = bpy.data.objects.new(nome_luz, luz)
+        lo.rotation_euler = [math.radians(a) for a in rot]
+        cena.collection.objects.link(lo)
+
+
+def renderizar(pasta, ob, olho_z, eevee=False):
     """Frente, lado, costas (corpo) e rosto de frente, 3/4 e perfil; fundo
-    transparente para a comparacao com as fotos (arte/felipe_comparar.py)."""
+    transparente para a comparacao com as fotos (arte/felipe_comparar.py).
+    Workbench (rapido, cor por vertice); com cards precisa de EEVEE (textura)."""
     os.makedirs(pasta, exist_ok=True)
     cena = bpy.context.scene
-    cena.render.engine = "BLENDER_WORKBENCH"
-    cena.render.film_transparent = True
-    sh = cena.display.shading
-    sh.light, sh.color_type = "STUDIO", "VERTEX"
-    sh.show_specular_highlight = False
-    cena.view_settings.view_transform = "Standard"
+    if not eevee:
+        cena.render.engine = "BLENDER_WORKBENCH"
+        cena.render.film_transparent = True
+        sh = cena.display.shading
+        sh.light, sh.color_type = "STUDIO", "VERTEX"
+        sh.show_specular_highlight = False
+        cena.view_settings.view_transform = "Standard"
+    else:
+        _luz_eevee(cena)
     cam_d = bpy.data.cameras.new("Cam")
     cam_d.type = "ORTHO"
     cam = bpy.data.objects.new("Cam", cam_d)
@@ -428,11 +458,12 @@ def renderizar(pasta, ob, olho_z):
 
 def main():
     args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
-    ob, rig = construir_tudo()
+    cards = "--cards" in args  # experimental (ver felipe_cabelo.criar_cards)
+    ob, rig = construir_tudo(com_cards=cards)
     print("Felipe HD: %d vertices, %d faces, %d ossos" % (
         len(ob.data.vertices), len(ob.data.polygons), len(rig.data.bones)))
     if "--render" in args:
-        renderizar(os.path.abspath(args[args.index("--render") + 1]), ob, ob["olho_z"])
+        renderizar(os.path.abspath(args[args.index("--render") + 1]), ob, ob["olho_z"], eevee=cards)
     if "--blend" in args:
         bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(args[args.index("--blend") + 1]))
 
