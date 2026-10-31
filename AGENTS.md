@@ -1,3 +1,7 @@
+> **31/10/2026 — PERSONAGENS 3D: siga a técnica padrão em
+> [docs/TECNICA-PERSONAGEM-3D.md](docs/TECNICA-PERSONAGEM-3D.md)** (rosto encaixado nas fotos por
+> pontos; referência: Felipe em `arte/felipe_*.py`).
+
 > **30/10/2026 — VISÃO NOVA: leia [docs/VISAO-DO-JOGO.md](docs/VISAO-DO-JOGO.md)** (2.5D com
 > pixel, personagens, fases, desbloqueios, prioridades). Branch de arte: `boneco-miguel`.
 
