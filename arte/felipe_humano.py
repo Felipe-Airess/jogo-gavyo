@@ -43,8 +43,8 @@ FORMA = {
     "buttocks/buttocks-volume": -0.70, "torso/measure-hips-circ": -0.30,
     "neck/measure-neck-circ": 0.15,
 }
-PELE = (0.66, 0.46, 0.34)       # morena clara (fotos, corrigida da luz fria)
-PRETO = (0.035, 0.035, 0.04)    # camiseta e short
+PELE = (0.54, 0.29, 0.19)      # morena: mediana das bochechas em 6 fotos (linear)
+PRETO = (0.012, 0.012, 0.014)    # camiseta e short
 CABELO = (0.018, 0.014, 0.013)
 
 
@@ -81,7 +81,7 @@ def configurar_base():
 # ------------------------------------------------------------ rosto
 PINTURA = os.path.join(AQUI, "felipe_rosto_pintura.json")  # gerado por felipe_rosto.py
 SOBRANCELHA = (0.035, 0.025, 0.022)
-LABIO = (0.66, 0.40, 0.36)
+LABIO = (0.56, 0.25, 0.20)
 PELO = (0.07, 0.05, 0.04)  # cavanhaque/bigode
 
 
@@ -433,6 +433,9 @@ def renderizar(pasta, ob, olho_z, eevee=False):
         sh.light, sh.color_type = "STUDIO", "VERTEX"
         sh.show_specular_highlight = False
         cena.view_settings.view_transform = "Standard"
+        # a luz de estudio escurece ~0,385x; +1,38 de exposicao faz a cor no render
+        # bater com a cor da pele nas fotos (comparacao justa)
+        cena.view_settings.exposure = 1.38
     else:
         _luz_eevee(cena)
     cam_d = bpy.data.cameras.new("Cam")

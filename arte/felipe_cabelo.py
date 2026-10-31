@@ -22,6 +22,7 @@ ESCURO = 78         # luminancia maxima do cabelo nas fotos
 CORTE_BAIXO = -0.115  # nada de cabelo abaixo disto (relativo aos olhos): camiseta
 GRADE = ((-0.20, 0.20), (-0.14, 0.32), (-0.13, 0.27))  # x, y, z em volta dos olhos
 PASSO = 0.002       # grade das mascaras (m)
+SILHUETA = "selfie"  # "selfie" (compacto, escolhido) ou "video" (tamanho medido de longe)
 ESP_FRENTE, ESP_MAX, ESP_MIN = 0.025, 0.085, 0.008  # espessura do cabelo (m)
 
 
@@ -80,7 +81,7 @@ def _contorno_dir(mask, linhas):
     return out
 
 
-def mascaras(xs, ys, zs, nariz=(-0.05, -0.045)):
+def mascaras(xs, ys, zs, nariz=(-0.05, -0.045), fonte=None):
     """Cabelo no espaco do modelo (z e y relativos aos olhos):
     F[x, z] e P[y, z]: silhueta externa, dos quadros do video (de longe, mesma
     camera e escala nos dois); R[x, z]: cabelo na frente do rosto, da selfie de
@@ -112,6 +113,13 @@ def mascaras(xs, ys, zs, nariz=(-0.05, -0.045)):
     ms = _mascara_foto(os.path.join(FOTOS, al["frente"]["foto"]))
     ms = ndimage.binary_opening(ndimage.binary_closing(ms, iterations=4), iterations=2)
     r = _amostrar(ms, al["frente"]["px_para_xz"], xz).reshape(gx.shape)
+    if (fonte or SILHUETA) == "selfie":
+        # cabelo compacto (escolha do Felipe): silhueta das selfies, que deixam o
+        # cabelo menor e colado na cabeca
+        f = r.copy()
+        mp2 = _mascara_foto(os.path.join(FOTOS, al["perfil"]["foto"]))
+        mp2 = ndimage.binary_opening(ndimage.binary_closing(mp2, iterations=4), iterations=2)
+        p = _amostrar(mp2, al["perfil"]["px_para_yz"], np.stack([gy.ravel(), gz2.ravel()], 1)).reshape(gy.shape)
     for m in (f, p, r):
         m[:, zs < CORTE_BAIXO] = False
     return f, p, r
@@ -133,7 +141,7 @@ def _espessura(y, z):
     """Maior espessura: franja fina na frente do rosto, volume cheio atras e em
     cima; abaixo da linha dos olhos afina (sem "protetor de ouvido")."""
     t = np.clip((y + 0.02) / 0.08, 0.0, 1.0)
-    baixo = np.clip((z + 0.06) / 0.08, 0.35, 1.0)
+    baixo = np.clip((z + 0.03) / 0.06, 0.3, 1.0)
     return (ESP_FRENTE + (ESP_MAX - ESP_FRENTE) * t) * baixo
 
 
@@ -188,7 +196,9 @@ def criar_nucleo(ob_corpo, olho, nome="Cabelo"):
     orelha = (np.abs(x) > 0.055) & (z > -0.07) & (z < 0.015) & (y > -0.02) & (y < 0.045)
     # couro cabeludo: atras da orelha acima da nuca; na frente e nos lados, so
     # onde a selfie de frente mostra cabelo, e acima da sobrancelha
-    tras = (y > 0.035) & (z > -0.075)
+    # atras desce ate a nuca; nos lados para na metade da orelha (sem "abas")
+    lateral = np.abs(x) > 0.045
+    tras = (y > 0.035) & (z > -0.075) & ~(lateral & (y < 0.10) & (z < -0.035))
     lado = (np.abs(x) > 0.058) & (z > -0.045)  # costeletas/lados alem do rosto
     frente = (y <= 0.035) & R(x, z) & ((z > topo_sob + 0.006) | lado)
     escalpo = (z > -0.10) & ~orelha & (tras | frente)
@@ -201,7 +211,7 @@ def criar_nucleo(ob_corpo, olho, nome="Cabelo"):
     bm.verts.ensure_lookup_table()
     esp = t[vs]
     viz = [[e.other_vert(v).index for e in v.link_edges] for v in bm.verts]
-    for _ in range(15):  # silhueta tem fios soltos: espessura suave
+    for _ in range(40):  # silhueta tem fios soltos: espessura suave, peca unica
         esp = np.array([0.5 * esp[i] + 0.5 * esp[n].mean() if n else esp[i]
                         for i, n in enumerate(viz)])
     bm.normal_update()
