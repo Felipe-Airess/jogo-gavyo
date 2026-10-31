@@ -82,3 +82,13 @@ Mixamo, YouTube e outro jogo 3D abertos: **11 Miguels HD (~27 mil faces cada),
 sombra ligada, 640×360 → 29–30 FPS estáveis**. Conclusão: o 3D pixelado é viável
 nessa máquina. Uma luta tem 2–4 personagens; alvo de jogo: 60 FPS em 320×180 ou
 426×240. Medir de novo fora do navegador (export macOS) quando houver protótipo.
+
+## Felipe ("Bungas") — referências recebidas (31/10)
+`arte/referencias/felipe/`: 12 ângulos do corpo (vídeo girando), 18 fotos (rosto em
+todos os ângulos, cabelo de cima e de trás, camiseta e short esticados), índices do
+vídeo e tempos. Dados: **1,72 m, 72 kg, luta descalço**; camiseta preta da banda
+Death (*Scream Bloody Gore*: logo vermelho na frente e nas costas, arte da capa na
+frente), short preto. Cabelo preto cacheado volumoso (mais alto e cheio que o do
+Miguel), sobrancelha grossa, cavanhaque ralo no queixo, pulseira no pulso.
+Obs.: a arte da camiseta é de banda real; para o jogo publicado, considerar uma
+estampa inspirada (mesmo clima, sem copiar logo/capa).
