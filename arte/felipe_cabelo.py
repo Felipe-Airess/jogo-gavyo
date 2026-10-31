@@ -1,0 +1,242 @@
+"""Cabelo do Felipe: miolo de volume tirado das fotos + cards de cachos.
+
+Miolo: o couro cabeludo do modelo (linha do cabelo na testa tirada da selfie de
+frente) e empurrado para fora, pela normal, ate sair da silhueta do cabelo nas
+fotos de frente ou de perfil do video (de longe, mesma camera; a selfie de
+perto encolhe o cabelo ~20-27%). A forma segue o cranio e a espessura vem das
+fotos; depois vira volume fechado (voxel) e e suavizada.
+
+Usado por felipe_humano.py; sozinho:  python arte/felipe_cabelo.py --mascaras DIR
+"""
+import json
+import os
+
+import numpy as np
+
+AQUI = os.path.dirname(os.path.abspath(__file__))
+FOTOS = os.path.join(AQUI, "referencias", "felipe", "fotos_originais")
+ALINHAMENTO = os.path.join(AQUI, "felipe_fotos_alinhamento.json")
+PINTURA = os.path.join(AQUI, "felipe_rosto_pintura.json")
+ESCURO = 78         # luminancia maxima do cabelo nas fotos
+CORTE_BAIXO = -0.115  # nada de cabelo abaixo disto (relativo aos olhos): camiseta
+GRADE = ((-0.20, 0.20), (-0.14, 0.32), (-0.13, 0.27))  # x, y, z em volta dos olhos
+PASSO = 0.002       # grade das mascaras (m)
+ESP_FRENTE, ESP_MAX, ESP_MIN = 0.025, 0.085, 0.008  # espessura do cabelo (m)
+
+
+def _mascara_foto(caminho, limite=ESCURO, sem_pele=False):
+    """Pixels escuros; sem_pele tira a pele na sombra (avermelhada; cabelo e neutro)."""
+    from PIL import Image
+    a = np.asarray(Image.open(os.path.join(FOTOS, caminho)).convert("RGB"), np.float32)
+    m = a.mean(2) < limite
+    if sem_pele:
+        m &= (a[..., 0] - a[..., 2]) < 16
+    return m
+
+
+def _amostrar(mask, m, coords):
+    """mask[foto] nos pontos do modelo: inverte a afim foto px -> modelo."""
+    a = np.vstack([np.array(m), [0, 0, 1]])
+    inv = np.linalg.inv(a)
+    px = coords @ inv[:2, :2].T + inv[:2, 2]
+    h, w = mask.shape
+    xi, yi = np.round(px[:, 0]).astype(int), np.round(px[:, 1]).astype(int)
+    ok = (xi >= 0) & (xi < w) & (yi >= 0) & (yi < h)
+    out = np.zeros(len(coords), bool)
+    out[ok] = mask[yi[ok], xi[ok]]
+    return out
+
+
+VIDEO = os.path.join(AQUI, "referencias", "felipe", "angulos_principais")
+VIDEO_FRENTE = "frente_neutra_19.50s.jpg"
+VIDEO_PERFIL = "perfil_virado_direita_28.50s.jpg"  # olhando para a direita
+
+
+def _olho_queixo_video():
+    """Olhos e queixo no quadro de frente do video (detector numa ampliacao)."""
+    import mediapipe as mp
+    from mediapipe.tasks.python import BaseOptions, vision
+    from PIL import Image
+    caixa, amp = (420, 250, 860, 750), 4
+    im = Image.open(os.path.join(VIDEO, VIDEO_FRENTE)).convert("RGB").crop(caixa)
+    im = im.resize((im.width * amp, im.height * amp), Image.LANCZOS)
+    det = vision.FaceLandmarker.create_from_options(vision.FaceLandmarkerOptions(
+        base_options=BaseOptions(model_asset_path=os.environ.get(
+            "FACE_LANDMARKER", os.path.join(AQUI, "..", "..", "face_landmarker.task"))), num_faces=1))
+    r = det.detect(mp.Image(image_format=mp.ImageFormat.SRGB, data=np.asarray(im).copy()))
+    p = np.array([[q.x * im.width, q.y * im.height] for q in r.face_landmarks[0]]) / amp
+    p += caixa[:2]
+    return (p[468] + p[473]) / 2, p[152]
+
+
+def _contorno_dir(mask, linhas):
+    """x mais a direita de cada linha (perfil virado para a direita)."""
+    out = np.full(len(linhas), np.nan)
+    for n, y in enumerate(linhas):
+        c = np.where(mask[int(y)])[0]
+        if len(c):
+            out[n] = c.max()
+    return out
+
+
+def mascaras(xs, ys, zs, nariz=(-0.05, -0.045)):
+    """Cabelo no espaco do modelo (z e y relativos aos olhos):
+    F[x, z] e P[y, z]: silhueta externa, dos quadros do video (de longe, mesma
+    camera e escala nos dois); R[x, z]: cabelo na frente do rosto, da selfie de
+    frente (alinhada pelos 478 pontos; de perto ela encolhe o cabelo, mas na
+    frente do rosto o alinhamento e exato)."""
+    from scipy import ndimage
+    pt = json.load(open(PINTURA))
+    olho, queixo = _olho_queixo_video()
+    k = -pt["queixo"][1] / (queixo[1] - olho[1])  # m por pixel do video
+    mf = _mascara_foto(os.path.join(VIDEO, VIDEO_FRENTE), sem_pele=True)
+    mp_ = _mascara_foto(os.path.join(VIDEO, VIDEO_PERFIL), sem_pele=True)
+    mf = ndimage.binary_opening(ndimage.binary_closing(mf, iterations=2), iterations=1)
+    mp_ = ndimage.binary_opening(ndimage.binary_closing(mp_, iterations=2), iterations=1)
+    m_f = [[k, 0, -olho[0] * k], [0, -k, olho[1] * k]]
+    # perfil: mesma escala e mesma altura dos olhos (ele gira no lugar); em y, a
+    # ponta do nariz (mais a direita entre olho e boca) cai na do modelo
+    linhas = np.arange(olho[1] + 0.3 * (queixo[1] - olho[1]), olho[1] + 0.75 * (queixo[1] - olho[1]))
+    pele = _mascara_foto(os.path.join(VIDEO, VIDEO_PERFIL), 150)  # pessoa inteira
+    cont = _contorno_dir(pele, linhas)
+    ponta, linha_ponta = np.nanmax(cont), linhas[np.nanargmax(cont)]
+    # ponta do nariz do video -> ponta do nariz do modelo (y, z relativos aos olhos)
+    m_p = [[-k, 0, ponta * k + nariz[0]], [0, -k, linha_ponta * k + nariz[1]]]
+    gx, gz = np.meshgrid(xs, zs, indexing="ij")
+    xz = np.stack([gx.ravel(), gz.ravel()], 1)
+    f = _amostrar(mf, m_f, xz).reshape(gx.shape)
+    gy, gz2 = np.meshgrid(ys, zs, indexing="ij")
+    p = _amostrar(mp_, m_p, np.stack([gy.ravel(), gz2.ravel()], 1)).reshape(gy.shape)
+    al = json.load(open(ALINHAMENTO))
+    ms = _mascara_foto(os.path.join(FOTOS, al["frente"]["foto"]))
+    ms = ndimage.binary_opening(ndimage.binary_closing(ms, iterations=4), iterations=2)
+    r = _amostrar(ms, al["frente"]["px_para_xz"], xz).reshape(gx.shape)
+    for m in (f, p, r):
+        m[:, zs < CORTE_BAIXO] = False
+    return f, p, r
+
+
+def _grade_mask(mask, a0, b0, passo=PASSO):
+    """Consulta mask[i, j] em pontos (a, b) em metros."""
+    def f(a, b):
+        i = np.round((np.asarray(a) - a0) / passo).astype(int)
+        j = np.round((np.asarray(b) - b0) / passo).astype(int)
+        ok = (i >= 0) & (i < mask.shape[0]) & (j >= 0) & (j < mask.shape[1])
+        out = np.zeros(np.shape(i), bool)
+        out[ok] = mask[i[ok], j[ok]]
+        return out
+    return f
+
+
+def _espessura(y, z):
+    """Maior espessura: franja fina na frente do rosto, volume cheio atras e em
+    cima; abaixo da linha dos olhos afina (sem "protetor de ouvido")."""
+    t = np.clip((y + 0.02) / 0.08, 0.0, 1.0)
+    baixo = np.clip((z + 0.06) / 0.08, 0.35, 1.0)
+    return (ESP_FRENTE + (ESP_MAX - ESP_FRENTE) * t) * baixo
+
+
+def espessuras(co, nor, escalpo, f, p, xs, ys, zs):
+    """Anda pela normal de cada vertice do couro cabeludo ate sair da silhueta
+    de frente OU da de perfil (cabelo + cabeca, buracos fechados)."""
+    from scipy import ndimage
+    f, p = f.copy(), p.copy()
+    cab = co[co[:, 2] > -0.14]
+    for m, a, a0 in ((f, 0, xs[0]), (p, 1, ys[0])):  # a cabeca tambem e silhueta
+        i = np.round((cab[:, a] - a0) / PASSO).astype(int)
+        j = np.round((cab[:, 2] - zs[0]) / PASSO).astype(int)
+        ok = (i >= 0) & (i < m.shape[0]) & (j >= 0) & (j < m.shape[1])
+        m[i[ok], j[ok]] = True
+    f = ndimage.binary_fill_holes(ndimage.binary_closing(f, iterations=3))
+    p = ndimage.binary_fill_holes(ndimage.binary_closing(p, iterations=3))
+    F, P = _grade_mask(f, xs[0], zs[0]), _grade_mask(p, ys[0], zs[0])
+    t = np.zeros(len(co))
+    vivo = escalpo.copy()
+    for s in np.arange(0.0, ESP_MAX + 1e-9, PASSO):
+        q = co + nor * s
+        vivo &= F(q[:, 0], q[:, 2]) & P(q[:, 1], q[:, 2])
+        t[vivo] = s
+    return np.clip(t, ESP_MIN, _espessura(co[:, 1], co[:, 2]))
+
+
+def criar_nucleo(ob_corpo, olho, nome="Cabelo"):
+    """Miolo do cabelo (objeto Blender) na posicao do corpo."""
+    import bmesh
+    import bpy
+    from miguel_humano import objeto_de_faces, remesh, suavizar
+    pt = json.load(open(PINTURA))
+    topo_sob = max(z for _, z in pt["sobrancelha_d"])
+    me = ob_corpo.data
+    me.update()
+    co = np.array([v.co[:] for v in me.vertices]) - np.array(olho[:])
+    nor = np.array([v.normal[:] for v in me.vertices])
+    xs, ys, zs = (np.arange(a, b + 1e-9, PASSO) for a, b in GRADE)
+    meio = co[(co[:, 2] > -0.14) & (np.abs(co[:, 0]) < 0.01) & (co[:, 2] > -0.07) & (co[:, 2] < -0.02)]
+    ponta = meio[meio[:, 1].argmin()]
+    f, p, r = mascaras(xs, ys, zs, (ponta[1], ponta[2]))
+    # franja: em cada coluna, cabelo de cima ate o cacho mais baixo (acima da
+    # sobrancelha) - os vaos de pele entre os cachos nao viram testa careca
+    r = r.copy()
+    acima = zs > topo_sob
+    for i in range(r.shape[0]):
+        c = np.where(r[i] & acima)[0]
+        if len(c):
+            r[i, c.min():] = True
+    R = _grade_mask(r, xs[0], zs[0])
+    x, y, z = co[:, 0], co[:, 1], co[:, 2]
+    orelha = (np.abs(x) > 0.055) & (z > -0.07) & (z < 0.015) & (y > -0.02) & (y < 0.045)
+    # couro cabeludo: atras da orelha acima da nuca; na frente e nos lados, so
+    # onde a selfie de frente mostra cabelo, e acima da sobrancelha
+    tras = (y > 0.035) & (z > -0.075)
+    lado = (np.abs(x) > 0.058) & (z > -0.045)  # costeletas/lados alem do rosto
+    frente = (y <= 0.035) & R(x, z) & ((z > topo_sob + 0.006) | lado)
+    escalpo = (z > -0.10) & ~orelha & (tras | frente)
+    t = espessuras(co, nor, escalpo, f, p, xs, ys, zs)
+    faces = [pl.index for pl in me.polygons if all(escalpo[i] for i in pl.vertices)]
+    ob = objeto_de_faces(nome, me, faces)
+    vs = sorted({i for fi in faces for i in me.polygons[fi].vertices})
+    bm = bmesh.new()
+    bm.from_mesh(ob.data)
+    bm.verts.ensure_lookup_table()
+    esp = t[vs]
+    viz = [[e.other_vert(v).index for e in v.link_edges] for v in bm.verts]
+    for _ in range(15):  # silhueta tem fios soltos: espessura suave
+        esp = np.array([0.5 * esp[i] + 0.5 * esp[n].mean() if n else esp[i]
+                        for i, n in enumerate(viz)])
+    bm.normal_update()
+    for v, e in zip(bm.verts, esp):
+        v.co += v.normal * e
+    bm.to_mesh(ob.data)
+    bm.free()
+    sol = ob.modifiers.new("Solid", "SOLIDIFY")
+    sol.thickness = 0.03
+    sol.offset = -1
+    bpy.context.view_layer.objects.active = ob
+    bpy.ops.object.modifier_apply(modifier="Solid")
+    remesh(ob, 0.005)
+    bm = bmesh.new()
+    bm.from_mesh(ob.data)
+    suavizar(bm, 4, 0.5, manter_borda=False)
+    bm.to_mesh(ob.data)
+    bm.free()
+    for pl in ob.data.polygons:
+        pl.use_smooth = True
+    dec = ob.modifiers.new("Dec", "DECIMATE")
+    dec.ratio = min(1.0, 6000 / max(1, len(ob.data.polygons)))
+    bpy.ops.object.modifier_apply(modifier="Dec")
+    return ob
+
+
+def salvar_mascaras(pasta):
+    """Confere as mascaras: cabelo das fotos levado ao modelo."""
+    from PIL import Image
+    os.makedirs(pasta, exist_ok=True)
+    xs, ys, zs = (np.arange(a, b, 0.001) for a, b in GRADE)
+    f, p, r = mascaras(xs, ys, zs)
+    for nome, m in (("frente", f.T[::-1]), ("perfil", p.T[::-1, ::-1]), ("rosto", r.T[::-1])):
+        Image.fromarray((m * 255).astype(np.uint8)).save(os.path.join(pasta, "mascara_%s.png" % nome))
+
+
+if __name__ == "__main__":
+    import sys
+    salvar_mascaras(sys.argv[sys.argv.index("--mascaras") + 1])

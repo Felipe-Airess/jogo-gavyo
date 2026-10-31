@@ -186,6 +186,7 @@ POLIGONOS = {
                17, 84, 181, 91, 146],
 }
 PINTURA = os.path.join(AQUI, "felipe_rosto_pintura.json")
+ALINHAMENTO = os.path.join(AQUI, "felipe_fotos_alinhamento.json")  # foto px -> modelo
 
 
 def salvar_pintura(pf_m, s):
@@ -297,6 +298,11 @@ def main():
         painel(os.path.join(FOTOS, FOTO_FRENTE), r_frente, m, os.path.join(chk, "rosto_frente.png"))
     if not chk:
         salvar_pintura(pf_m, s)
+    # foto de frente px -> (x, z) do modelo, relativo ao meio dos olhos (cabelo usa)
+    olho_m = (olho_e + olho_d) / 2
+    sr = s * r
+    alinhamento = {"frente": {"foto": FOTO_FRENTE, "px_para_xz": [
+        [sr[0, 0], -sr[0, 1], t[0] - olho_m.x], [sr[1, 0], -sr[1, 1], t[1] - olho_m.z]]}}
     d3 = np.zeros((len(ctrl), 3))
     d3[:, 0], d3[:, 2] = alvo2d[:, 0], alvo2d[:, 1]
     cabeca = co[:, 2] > jt["joint-neck"].z - 0.02
@@ -330,6 +336,15 @@ def main():
         if chk:
             m = np.array([[e, 0, tm["raiz"][1] - tf["raiz"][1] * e], [0, e, c0]])
             painel(os.path.join(FOTOS, FOTO_PERFIL), r_lado, m, os.path.join(chk, "rosto_perfil.png"))
+        # foto de perfil px -> (y, z) do modelo, relativo ao meio dos olhos:
+        # u = raiz_m + (xf - raiz_f) e; v = c0 + e lf; y = cy - (u/RES - .5) ESC
+        k_ = ESC / RES
+        u0 = tm["raiz"][1] - tf["raiz"][1] * e
+        alinhamento["perfil"] = {"foto": FOTO_PERFIL, "px_para_yz": [
+            [-e * k_, 0, centro.y - (u0 * k_ - ESC / 2) - olho_m.y],
+            [0, -e * k_, centro.z + ESC / 2 - c0 * k_ - olho_m.z]]}
+        import json
+        json.dump(alinhamento, open(ALINHAMENTO, "w"), indent=1)
         lin_f = np.arange(len(cf))
         lin_fm = linha_m(lin_f)
         a, b = int(tm["raiz"][0]) - 6, int(tm["queixo"][0] + 0.25 * (tm["queixo"][0] - tm["ponta"][0]))

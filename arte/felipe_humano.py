@@ -343,80 +343,15 @@ def esconder_pele(ob, base_idx, dom, jt):
 
 
 # ---------------------------------------------------------------- cabelo
-def criar_cabelo(ob_corpo, olho_z):
-    """Cabelo cacheado volumoso: mesma ideia do Miguel (um volume so com cachos
-    esculpidos), mais alto, cheio dos lados e atras, franja na testa."""
-    me_c = ob_corpo.data
-
-    def escalpo(co):
-        orelha = abs(co.x) > 0.062 and olho_z - 0.060 < co.z < olho_z + 0.010 and -0.03 < co.y < 0.04
-        if orelha:
-            return False
-        if co.z > olho_z + 0.045:
-            return True
-        if co.z > olho_z - 0.010 and co.y > -0.055:
-            return True
-        return co.y > 0.015 and co.z > olho_z - 0.095
-
-    faces = [p.index for p in me_c.polygons if all(escalpo(me_c.vertices[i].co) for i in p.vertices)]
-    ob = objeto_de_faces("Cabelo", me_c, faces)
-    bm = bmesh.new()
-    bm.from_mesh(ob.data)
-    bm.normal_update()
-    z1 = max(v.co.z for v in bm.verts)
-
-    def volume(v):
-        alto = max(0.0, (v.co.z - olho_z) / (z1 - olho_z))
-        tras = min(1.0, max(0.0, v.co.y + 0.02) / 0.08)
-        return 0.020 + 0.034 * alto ** 1.1 + 0.016 * tras
-    engrossar(bm, volume)
-    for v in bm.verts:  # franja cai na testa, ate perto da sobrancelha
-        if v.co.y < -0.045 and v.co.z < olho_z + 0.11:
-            v.co.z -= 0.020 * max(0.0, 1 - abs(v.co.x) / 0.07)
-            v.co.y -= 0.006
-    bm.to_mesh(ob.data)
-    bm.free()
-    sol = ob.modifiers.new("Solid", "SOLIDIFY")
-    sol.thickness = 0.04
-    sol.offset = -1
-    bpy.context.view_layer.objects.active = ob
-    bpy.ops.object.modifier_apply(modifier="Solid")
-    remesh(ob, 0.006)
-    bm = bmesh.new()
-    bm.from_mesh(ob.data)
-    suavizar(bm, 3, 0.5, manter_borda=False)
-    bm.normal_update()
-    rng = np.random.default_rng(23)
-    externos = [v for v in bm.verts if v.co.z > olho_z - 0.03 or v.co.y > 0.03]
-    sementes = [externos[i].co.copy() for i in rng.choice(len(externos), 900, replace=False)]
-    raios = rng.uniform(0.008, 0.014, len(sementes))  # cachos fechados
-    from mathutils.kdtree import KDTree
-    kd = KDTree(len(sementes))
-    for i, sp in enumerate(sementes):
-        kd.insert(sp, i)
-    kd.balance()
-    desloc = []
-    for v in bm.verts:
-        cacho = 0.0
-        for _, i, d in kd.find_range(v.co, 0.02):
-            r = raios[i]
-            if d < r:
-                cacho = max(cacho, math.sqrt(r * r - d * d))
-        desloc.append((v, v.normal * cacho))
-    for v, d in desloc:
-        v.co += d
-    bm.to_mesh(ob.data)
-    bm.free()
+def criar_cabelo(ob_corpo, olho):
+    """Miolo do cabelo tirado das fotos (arte/felipe_cabelo.py), cor escura com
+    leve variacao (o brilho dos cachos vem das cards)."""
+    import felipe_cabelo
+    ob = felipe_cabelo.criar_nucleo(ob_corpo, olho)
     me = ob.data
     cores = np.zeros((len(me.vertices), 4), np.float32)
-    kd2 = KDTree(len(sementes))
-    for i, sp in enumerate(sementes):
-        kd2.insert(sp, i)
-    kd2.balance()
     for v in me.vertices:
-        _, i, d = kd2.find(v.co)
-        brilho = max(0.0, 1 - d / raios[i]) ** 0.7
-        t = 0.7 + 1.0 * brilho
+        t = 0.85 + 0.25 * math.sin(v.co.x * 260) * math.sin(v.co.z * 230 + v.co.y * 190)
         cores[v.index] = (CABELO[0] * t, CABELO[1] * t, CABELO[2] * t, 1)
     return ob, cores
 
@@ -432,11 +367,14 @@ def construir_tudo():
     jt = base.juntas(bco, faces_todas, k, z_min)
     usados = np.array(sorted(novo, key=novo.get))
     dom = base.osso_dominante()
-    olho_z = base.centro_grupo(ob.data, grupo_face, "helper-l-eye")[0].z
+    olho_e = base.centro_grupo(ob.data, grupo_face, "helper-l-eye")[0]
+    olho_d = base.centro_grupo(ob.data, grupo_face, "helper-r-eye")[0]
+    olho = (olho_e + olho_d) / 2
+    olho_z = olho.z
     base.fechar_maos(ob, bco, faces_todas, k, z_min, usados)
     cores = pintar_rosto(ob, grupo_face)
     pecas = [fazer_camiseta(ob, usados, dom, jt), fazer_short(ob, usados, dom, jt),
-             criar_cabelo(ob, olho_z)]
+             criar_cabelo(ob, olho)]
     base.aplicar_cores(ob, cores)
     rig = base.riggar(ob, bco, faces_todas, k, z_min, usados)
     rig.name = rig.data.name = "FelipeRig"
