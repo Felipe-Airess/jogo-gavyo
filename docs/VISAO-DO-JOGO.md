@@ -51,3 +51,27 @@ Cada um deve ter **jeito de lutar e habilidade própria** (ex.: força, agilidad
    Knocked Out, Getting Up (de costas), Throw, Low Kick, Front Kick, Boxing idle,
    Walking Backwards, Injured Idle, Running reto, Jump, Running Jump, Climbing,
    Opening Door.
+
+## Ideias aprovadas pelo Felipe (31/10)
+**Golpes interligados**
+- Cada golpe com 3 fases marcadas na animação: preparação → ativo (caixa ligada) → recuperação.
+- Janela de emenda no começo da recuperação, só se o golpe tocou (acerto ou bloqueio);
+  aperto antecipado guardado ~150 ms; golpe que erra não emenda (paga a recuperação).
+- Tabela de emendas por personagem (identidade: Felipe curto e pesado → agarrão;
+  Miguel soco → chute; Sorriso sequências rápidas e fracas).
+- Mistura de 2–3 quadros entre animações ao emendar (sem voltar à guarda).
+
+**Agressividade / impacto**
+- Pausa no impacto (50–100 ms, maior no pesado); reação na direção do golpe.
+- Pressão: quem ataca avança, quem apanha recua; parede pune o encurralado.
+- Clinch como mini-luta (joelhada, soco curto, empurrar na parede, jogar no chão; escapar).
+- Fôlego: atacar cansa e abre a guarda.
+
+**Design**
+- Luta e exploração no mesmo mundo (duelo 1×1 vira modo extra).
+- Menos golpes, bem feitos: 6–8 por personagem + clinch, agarrão e esquiva.
+- Habilidade de exploração por personagem (Felipe empurra/arromba, Miguel pula/sobe,
+  Sorriso passa em lugar apertado, Bola alcança alto) → voltar a fases antigas.
+- Trocar de personagem a qualquer hora após desbloquear; vida separada.
+- Inimigos da escola/bairro (valentão, turma do fundão, inspetor).
+- Tom: piada interna dos amigos + luta séria e pesada.
