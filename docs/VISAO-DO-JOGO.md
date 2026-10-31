@@ -75,3 +75,10 @@ Cada um deve ter **jeito de lutar e habilidade própria** (ex.: força, agilidad
 - Trocar de personagem a qualquer hora após desbloquear; vida separada.
 - Inimigos da escola/bairro (valentão, turma do fundão, inspetor).
 - Tom: piada interna dos amigos + luta séria e pesada.
+
+## Teste de desempenho no MacBook Pro 2014 (31/10)
+`godot-3d/bench` (artifact "Teste 3D Gavião"), navegador dentro do Claude, com
+Mixamo, YouTube e outro jogo 3D abertos: **11 Miguels HD (~27 mil faces cada),
+sombra ligada, 640×360 → 29–30 FPS estáveis**. Conclusão: o 3D pixelado é viável
+nessa máquina. Uma luta tem 2–4 personagens; alvo de jogo: 60 FPS em 320×180 ou
+426×240. Medir de novo fora do navegador (export macOS) quando houver protótipo.
