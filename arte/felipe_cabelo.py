@@ -22,6 +22,8 @@ ESCURO = 78         # luminancia maxima do cabelo nas fotos
 CORTE_BAIXO = -0.115  # nada de cabelo abaixo disto (relativo aos olhos): camiseta
 GRADE = ((-0.20, 0.20), (-0.14, 0.32), (-0.13, 0.27))  # x, y, z em volta dos olhos
 PASSO = 0.002       # grade das mascaras (m)
+LATERAL = 0.75      # quanto os lados afinam (0 = igual ao resto)
+ALTURA_LADO = 0.0   # nos lados o cabelo para aqui (rel. aos olhos): orelha a mostra
 SILHUETA = "selfie"  # "selfie" (compacto, escolhido) ou "video" (tamanho medido de longe)
 ESP_FRENTE, ESP_MAX, ESP_MIN = 0.025, 0.085, 0.008  # espessura do cabelo (m)
 
@@ -165,7 +167,9 @@ def espessuras(co, nor, escalpo, f, p, xs, ys, zs):
         q = co + nor * s
         vivo &= F(q[:, 0], q[:, 2]) & P(q[:, 1], q[:, 2])
         t[vivo] = s
-    return np.clip(t, ESP_MIN, _espessura(co[:, 1], co[:, 2]))
+    # lados mais finos (pedido do Felipe): corta onde a normal aponta para o lado
+    lados = 1.0 - LATERAL * np.abs(nor[:, 0])
+    return np.clip(t, ESP_MIN, _espessura(co[:, 1], co[:, 2]) * lados)
 
 
 def criar_nucleo(ob_corpo, olho, nome="Cabelo"):
@@ -198,8 +202,8 @@ def criar_nucleo(ob_corpo, olho, nome="Cabelo"):
     # onde a selfie de frente mostra cabelo, e acima da sobrancelha
     # atras desce ate a nuca; nos lados para na metade da orelha (sem "abas")
     lateral = np.abs(x) > 0.045
-    tras = (y > 0.035) & (z > -0.075) & ~(lateral & (y < 0.10) & (z < -0.035))
-    lado = (np.abs(x) > 0.058) & (z > -0.045)  # costeletas/lados alem do rosto
+    tras = (y > 0.035) & (z > -0.075) & ~(lateral & (y < 0.11) & (z < ALTURA_LADO))
+    lado = (np.abs(x) > 0.058) & (z > ALTURA_LADO)  # lados alem do rosto
     frente = (y <= 0.035) & R(x, z) & ((z > topo_sob + 0.006) | lado)
     escalpo = (z > -0.10) & ~orelha & (tras | frente)
     t = espessuras(co, nor, escalpo, f, p, xs, ys, zs)
