@@ -10,7 +10,8 @@ vem do ponto mais baixo do corpo em cada quadro (pe no chao, salto, deitado),
 e a orientacao e alinhada pela pose de repouso do FBX (nao inclina o corpo).
 
 Uso:
-  blender -b -P arte/miguel_mixamo.py -- --fbx PASTA [--previa DIR]
+  blender -b -P arte/miguel_mixamo.py -- --fbx PASTA [--previa DIR] [--so A,B]
+                                         [--humano felipe_humano.py]
 Cria uma acao por arquivo (nome = arquivo sem extensao) no rig do Miguel.
 """
 import glob
@@ -172,7 +173,7 @@ def transferir(rig, nome, quadros, fps_fbx=30, fps=60):
     return acao, int(round((len(quadros) - 1) * fps / fps_fbx))
 
 
-def carregar_tudo(pasta, so=None):
+def carregar_tudo(pasta, so=None, humano="miguel_humano.py"):
     # 1) le todos os FBX ANTES de montar o Miguel (o importador do FBX reusa
     #    nomes como "MiguelRig" e estragava o nosso rig)
     lidos = []
@@ -183,7 +184,7 @@ def carregar_tudo(pasta, so=None):
         lidos.append(ler_fbx(arq))
     bpy.ops.wm.read_factory_settings(use_empty=True)
     # 2) monta o Miguel e transfere
-    h = runpy.run_path(os.path.join(AQUI, "miguel_humano.py"), run_name="humano")
+    h = runpy.run_path(os.path.join(AQUI, humano), run_name="humano")
     ob, rig = h["construir_tudo"]()
     bpy.context.scene.render.fps = 60
     acoes = {}
@@ -228,7 +229,10 @@ def previa(rig, acoes, pasta, n=8):
 def main():
     args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     pasta = os.path.abspath(args[args.index("--fbx") + 1])
-    ob, rig, acoes = carregar_tudo(pasta)
+    so = args[args.index("--so") + 1].split(",") if "--so" in args else None
+    # --humano felipe_humano.py: mesmo esqueleto (nomes de osso), outro personagem
+    humano = args[args.index("--humano") + 1] if "--humano" in args else "miguel_humano.py"
+    ob, rig, acoes = carregar_tudo(pasta, so, humano)
     if "--previa" in args:
         previa(rig, acoes, os.path.abspath(args[args.index("--previa") + 1]))
 

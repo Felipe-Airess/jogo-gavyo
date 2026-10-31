@@ -101,3 +101,18 @@ Leia isto inteiro antes de começar. Repositório `Felipe-Airess/jogo-gavyo`,
   https://claude.ai/artifact/3E92jPHykXEypoYN1j2tPu (teste de desempenho).
 - Miguel: `arte/miguel_humano.py`, animações Mixamo em `arte/mixamo/` e
   `arte/miguel_mixamo.py` (transferência FBX→rig), estudo em `arte/MIXAMO-ESTUDO.md`.
+
+## Estado em 31/10 (modelo pronto para animar)
+- `arte/felipe_humano.py` gera o Felipe; `--glb arte/felipe_boneco.glb` (Godot) e
+  `--fbx arte/felipe_boneco.fbx` (Mixamo). Rig de 22 ossos, mesmos nomes do Miguel.
+- Rosto: `arte/felipe_rosto.py` (478 pontos do MediaPipe na foto e num render do
+  modelo + contorno do perfil) grava `felipe_rosto.target.gz` e a pintura.
+- Cabelo: `arte/felipe_cabelo.py`, `MIOLO = "fatias"` (o aprovado pelo Felipe);
+  pele medida nas fotos (`PELE`). Precisa do modelo `face_landmarker.task` do
+  MediaPipe (variavel `FACE_LANDMARKER`).
+- Animacoes do Mixamo ja baixadas servem direto:
+  `python arte/miguel_mixamo.py -- --fbx arte/mixamo --humano felipe_humano.py --previa DIR`.
+  Teste em `arte/renders/felipe_rig_teste_mixamo.png`.
+- Defeito conhecido: na joelhada alta o joelho atravessa a barra da camiseta.
+- Descartado pelo Felipe: cilios em geometria e brincos (argolas pretas); cards de
+  cachos (`--cards`, ficaram espetados).

@@ -7,7 +7,7 @@ com estampa, short, pes descalcos, cabelo mais volumoso).
 Referencias: arte/referencias/felipe/ (1,72 m, 72 kg, luta descalco).
 
 Uso (Blender 3.6+ ou o modulo bpy):
-  python arte/felipe_humano.py -- --render DIR [--blend ARQ] [--cards]
+  python arte/felipe_humano.py -- --render DIR [--blend ARQ] [--glb ARQ] [--fbx ARQ] [--cards]
 """
 import gzip
 import math
@@ -472,6 +472,24 @@ def main():
         renderizar(os.path.abspath(args[args.index("--render") + 1]), ob, ob["olho_z"], eevee=cards)
     if "--blend" in args:
         bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(args[args.index("--blend") + 1]))
+    exportar(args)
+
+
+def exportar(args):
+    """--glb ARQ (Godot) e --fbx ARQ (subir no Mixamo): malha unica + rig de 22
+    ossos com nomes humanoides (Hips, Spine, ..., LeftUpperArm), pose em A."""
+    bpy.ops.object.select_all(action="DESELECT")
+    for o in bpy.data.objects:
+        if o.type in ("MESH", "ARMATURE"):
+            o.select_set(True)
+    if "--glb" in args:
+        bpy.ops.export_scene.gltf(filepath=os.path.abspath(args[args.index("--glb") + 1]),
+                                  export_format="GLB", use_selection=True,
+                                  export_apply=True, export_yup=True)
+    if "--fbx" in args:
+        bpy.ops.export_scene.fbx(filepath=os.path.abspath(args[args.index("--fbx") + 1]),
+                                 use_selection=True, add_leaf_bones=False,
+                                 bake_anim=False, colors_type="SRGB")
 
 
 if __name__ == "__main__":
