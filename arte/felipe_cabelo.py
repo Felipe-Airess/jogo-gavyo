@@ -439,3 +439,110 @@ def criar_cards(nucleo, olho, n=260, semente=3, nome="CabeloCards"):
     ob.data.materials.append(material_cards())
     print("cards de cabelo: %d (%d na franja)" % (len(cartas), len(cartas) - n))
     return ob
+
+
+# ------------------------------------------- miolo por fatias (versao aprovada)
+MIOLO = "fatias"     # "fatias" (o do print aprovado pelo Felipe) ou "normal"
+VOXEL = 0.004
+EXPOENTE = 2.6       # superelipse das fatias (2 = elipse, maior = mais quadrada)
+TOPO_MIN = 0.014     # camada minima de cabelo sobre o couro cabeludo (conserta o topo)
+
+
+def _meia_face(cab, z):
+    """Meia largura do rosto naquela altura (pele na frente da orelha)."""
+    fat = cab[(np.abs(cab[:, 2] - z) < 0.006) & (cab[:, 1] < 0.0)]
+    return np.abs(fat[:, 0]).max() + 0.004 if len(fat) else 0.0
+
+
+def criar_nucleo_fatias(ob_corpo, olho, nome="Cabelo"):
+    """O cabelo do print aprovado: cada fatia horizontal e uma superelipse dentro
+    da largura (selfie de frente) e da profundidade (selfie de perfil), sem a
+    cabeca e sem a frente do rosto abaixo da franja. Conserto do topo: as
+    selfies cortam o alto da cabeca, entao todo o couro cabeludo de cima e de
+    tras ganha uma camada de TOPO_MIN (antes aparecia pele e o topo era reto)."""
+    import bpy
+    from mathutils import Vector
+    from mathutils.bvhtree import BVHTree
+    from scipy import ndimage
+    from skimage import measure
+    pt = json.load(open(PINTURA))
+    topo_sob = max(z for _, z in pt["sobrancelha_d"])
+    o = np.array(olho[:])
+    me = ob_corpo.data
+    me.update()
+    co = np.array([v.co[:] for v in me.vertices]) - o
+    nor = np.array([v.normal[:] for v in me.vertices])
+    cab = co[co[:, 2] > -0.16]
+    xs, ys, zs = (np.arange(a, b + 1e-9, VOXEL) for a, b in GRADE)
+    meio = cab[(np.abs(cab[:, 0]) < 0.01) & (cab[:, 2] > -0.07) & (cab[:, 2] < -0.02)]
+    ponta = meio[meio[:, 1].argmin()]
+    f, p, _ = mascaras(xs, ys, zs, (ponta[1], ponta[2]), fonte="selfie")
+    ocup = np.zeros((len(xs), len(ys), len(zs)), np.float32)
+    gx, gy = np.meshgrid(xs, ys, indexing="ij")
+    for k, z in enumerate(zs):
+        fx, py = xs[f[:, k]], ys[p[:, k]]
+        fatia = cab[np.abs(cab[:, 2] - z) < VOXEL]
+        if len(fatia):  # a cabeca tambem conta na silhueta
+            fx = np.concatenate([fx, fatia[:, 0]])
+            py = np.concatenate([py, fatia[:, 1]])
+        if len(fx) < 2 or len(py) < 2 or not f[:, k].any():
+            continue
+        hx = (abs(fx.min()) + fx.max()) / 2
+        yc, hy = (py.min() + py.max()) / 2, (py.max() - py.min()) / 2
+        dentro = (np.abs(gx / hx) ** EXPOENTE + np.abs((gy - yc) / hy) ** EXPOENTE) <= 1
+        frente = gy < 0.03
+        rosto = frente & (z < topo_sob + 0.004) & (np.abs(gx) < _meia_face(cab, z))
+        dentro &= ~rosto
+        dentro &= ~(frente & ~f[:, k][:, None])
+        ocup[:, :, k] = dentro
+    # topo: camada sobre o couro cabeludo de cima e de tras (acima da testa)
+    x, y, z = co[:, 0], co[:, 1], co[:, 2]
+    escalpo = ((z > topo_sob + 0.03) | ((y > 0.04) & (z > -0.02))) & (z > -0.10)
+    # pontos densos nas faces (o topo da malha base tem vertices a ~2 cm)
+    rng = np.random.default_rng(1)
+    pts, nrs = [], []
+    for pl in me.polygons:
+        vs = list(pl.vertices)
+        if not all(escalpo[i] for i in vs):
+            continue
+        for a, b in zip(vs[1:-1], vs[2:]):
+            tri = co[[vs[0], a, b]]
+            area = 0.5 * np.linalg.norm(np.cross(tri[1] - tri[0], tri[2] - tri[0]))
+            n = max(3, int(area / (VOXEL / 2) ** 2))
+            r = rng.random((n, 2))
+            r[r.sum(1) > 1] = 1 - r[r.sum(1) > 1]
+            pts.append(tri[0] + r[:, :1] * (tri[1] - tri[0]) + r[:, 1:] * (tri[2] - tri[0]))
+            nrs.append(np.repeat([pl.normal[:]], n, 0))
+    pts, nrs = np.concatenate(pts), np.concatenate(nrs)
+    for s in np.arange(0.0, TOPO_MIN + 1e-9, VOXEL / 2):
+        q = pts + nrs * s
+        i = np.round((q[:, 0] - xs[0]) / VOXEL).astype(int)
+        j = np.round((q[:, 1] - ys[0]) / VOXEL).astype(int)
+        kk = np.round((q[:, 2] - zs[0]) / VOXEL).astype(int)
+        ok = (i >= 0) & (i < len(xs)) & (j >= 0) & (j < len(ys)) & (kk >= 0) & (kk < len(zs))
+        ocup[i[ok], j[ok], kk[ok]] = 1
+    bvh = BVHTree.FromObject(ob_corpo, bpy.context.evaluated_depsgraph_get())
+    for i, j, k in np.argwhere(ocup > 0):
+        q = Vector((xs[i], ys[j], zs[k])) + Vector(o)
+        loc, nr, _, _ = bvh.find_nearest(q)
+        if loc is not None and (q - loc).dot(nr) < 0.002:
+            ocup[i, j, k] = 0
+    ocup = ndimage.binary_closing(ocup > 0, iterations=1)
+    ocup = ndimage.binary_opening(ocup, iterations=1)
+    rot, n = ndimage.label(ocup)  # so o pedaco maior (some o pontinho no pescoco)
+    if n > 1:
+        ocup = rot == (np.bincount(rot.ravel())[1:].argmax() + 1)
+    ocup = ndimage.gaussian_filter(ocup.astype(np.float32), 1.4)
+    v, faces, _, _ = measure.marching_cubes(np.pad(ocup, 2), 0.5, spacing=(VOXEL,) * 3)
+    v += np.array([xs[0], ys[0], zs[0]]) - 2 * VOXEL + o
+    malha = bpy.data.meshes.new(nome)
+    malha.from_pydata(v.tolist(), [], faces[:, ::-1].tolist())
+    ob = bpy.data.objects.new(nome, malha)
+    bpy.context.scene.collection.objects.link(ob)
+    for pl in malha.polygons:
+        pl.use_smooth = True
+    dec = ob.modifiers.new("Dec", "DECIMATE")
+    dec.ratio = min(1.0, 6000 / max(1, len(malha.polygons)))
+    bpy.context.view_layer.objects.active = ob
+    bpy.ops.object.modifier_apply(modifier="Dec")
+    return ob

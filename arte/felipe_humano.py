@@ -347,7 +347,10 @@ def criar_cabelo(ob_corpo, olho):
     """Miolo do cabelo tirado das fotos (arte/felipe_cabelo.py), cor escura com
     leve variacao (o brilho dos cachos vem das cards)."""
     import felipe_cabelo
-    ob = felipe_cabelo.criar_nucleo(ob_corpo, olho)
+    if felipe_cabelo.MIOLO == "fatias":
+        ob = felipe_cabelo.criar_nucleo_fatias(ob_corpo, olho)
+    else:
+        ob = felipe_cabelo.criar_nucleo(ob_corpo, olho)
     me = ob.data
     cores = np.zeros((len(me.vertices), 4), np.float32)
     for v in me.vertices:
