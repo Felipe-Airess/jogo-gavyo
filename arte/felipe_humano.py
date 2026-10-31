@@ -9,6 +9,7 @@ Referencias: arte/referencias/felipe/ (1,72 m, 72 kg, luta descalco).
 Uso (Blender 3.6+ ou o modulo bpy):
   python arte/felipe_humano.py -- --render DIR [--blend ARQ]
 """
+import gzip
 import math
 import os
 import sys
@@ -47,10 +48,118 @@ PRETO = (0.035, 0.035, 0.04)    # camiseta e short
 CABELO = (0.040, 0.032, 0.030)
 
 
+ALVO_ROSTO = os.path.join(AQUI, "felipe_rosto.target.gz")  # gerado por felipe_rosto.py
+_forma_base = base.aplicar_forma
+
+
+def ler_alvo_rosto():
+    idx, d = [], []
+    with gzip.open(ALVO_ROSTO, "rt") as f:
+        for linha in f:
+            p = linha.split()
+            if len(p) == 4 and not linha.startswith("#"):
+                idx.append(int(p[0]))
+                d.append([float(x) for x in p[1:]])
+    return np.array(idx, np.int64), np.array(d, np.float64)
+
+
+def aplicar_forma(co):
+    """FORMA (alvos do MakeHuman) e depois o rosto encaixado nas fotos."""
+    _forma_base(co)
+    if os.path.exists(ALVO_ROSTO):
+        idx, d = ler_alvo_rosto()
+        np.add.at(co, idx, d)
+
+
 def configurar_base():
     """Os modulos do Miguel leem estes globais; troca para o Felipe."""
     base.ALTURA, base.MACRO, base.FORMA = ALTURA, MACRO, FORMA
     base.PELE, base.CABELO = PELE, CABELO
+    base.aplicar_forma = aplicar_forma
+
+
+# ------------------------------------------------------------ rosto
+PINTURA = os.path.join(AQUI, "felipe_rosto_pintura.json")  # gerado por felipe_rosto.py
+SOBRANCELHA = (0.035, 0.025, 0.022)
+LABIO = (0.66, 0.40, 0.36)
+PELO = (0.07, 0.05, 0.04)  # cavanhaque/bigode
+
+
+def dentro(px, pz, poli):
+    """Ponto dentro do poligono (raio horizontal)."""
+    n, ok = len(poli), False
+    for i in range(n):
+        x1, z1 = poli[i]
+        x2, z2 = poli[(i + 1) % n]
+        if (z1 > pz) != (z2 > pz) and px < x1 + (pz - z1) * (x2 - x1) / (z2 - z1):
+            ok = not ok
+    return ok
+
+
+def cobertura(x, z, poli, r=0.0018):
+    """Fracao de uma vizinhanca (raio r) dentro do poligono: borda suave mesmo
+    com poucos vertices na pele."""
+    pts = [(0, 0), (r, 0), (-r, 0), (0, r), (0, -r), (r * .7, r * .7), (-r * .7, r * .7),
+           (r * .7, -r * .7), (-r * .7, -r * .7)]
+    return sum(dentro(x + a, z + b, poli) for a, b in pts) / len(pts)
+
+
+def pintar_rosto(ob, grupo_face):
+    """Pele, olhos (como no Miguel) e, pelos poligonos tirados da foto de frente,
+    sobrancelha grossa, labios, cavanhaque ralo no queixo e bigode bem fraco."""
+    import json
+    me = ob.data
+    me.update()
+    cores = np.tile(np.array([*PELE, 1.0], np.float32), (len(me.vertices), 1))
+    olho_e, vs_e = base.centro_grupo(me, grupo_face, "helper-l-eye")
+    olho_d, vs_d = base.centro_grupo(me, grupo_face, "helper-r-eye")
+    meio = (olho_e + olho_d) / 2
+    pt = json.load(open(PINTURA)) if os.path.exists(PINTURA) else None
+    if pt:  # sobrancelha dele e mais grossa que o contorno do detector
+        for k in ("sobrancelha_d", "sobrancelha_e"):
+            p = np.array(pt[k])
+            c = p.mean(0)
+            pt[k] = (c + (p - c) * [1.04, 1.35]).tolist()
+    pele, pelo = np.array(PELE), np.array(PELO)
+    for v in me.vertices:
+        if pt is None or v.index in vs_e or v.index in vs_d or v.normal.y > -0.15:
+            continue
+        x, z = v.co.x - meio.x, v.co.z - meio.z
+        if z < -0.16 or z > 0.06 or v.co.y > meio.y + 0.02:
+            continue
+        sob = max(cobertura(x, z, pt["sobrancelha_d"]), cobertura(x, z, pt["sobrancelha_e"]))
+        lab = cobertura(x, z, pt["labios"], 0.0012)
+        if sob > 0:
+            cores[v.index, :3] = pele * (1 - sob) + np.array(SOBRANCELHA) * sob
+        elif lab > 0:
+            cores[v.index, :3] = pele * (1 - lab) + np.array(LABIO) * lab
+        else:
+            # cavanhaque: faixa estreita do labio de baixo ate a ponta do queixo
+            # (ralo logo abaixo do labio, cheio e mais largo na ponta do queixo)
+            zl, zq = pt["labio_baixo"][1] - 0.004, pt["queixo"][1] - 0.008
+            if zq < z < zl:
+                t = (zl - z) / (zl - zq)
+                larg = 0.003 + 0.009 * t ** 1.5
+                if abs(x) < larg:
+                    f = (0.25 + 0.6 * t) * (1 - (abs(x) / larg) ** 2)
+                    cores[v.index, :3] = pele * (1 - f) + pelo * f
+            # bigode ralo entre o nariz e o labio
+            zs, zc = pt["subnasal"][1], pt["labio_cima"][1]
+            if zc < z < zs - 0.002 and abs(x) < abs(pt["canto_boca"][0]) * 0.9:
+                cores[v.index, :3] = pele * 0.78 + pelo * 0.22
+    for centro in (olho_e, olho_d):  # linha dos cilios em cima do olho
+        for v in me.vertices:
+            d = v.co - centro
+            if v.index in vs_e or v.index in vs_d or v.co.y > centro.y:
+                continue
+            if math.hypot(d.x, d.y) < 0.014 and 0.0045 < d.z < 0.0072:
+                cores[v.index, :3] = SOBRANCELHA
+    for vs, centro in ((vs_e, olho_e), (vs_d, olho_d)):
+        for i in vs:  # pupila e iris pelo angulo a partir da frente; o resto branco
+            d = (me.vertices[i].co - centro).normalized()
+            ang = math.degrees(math.acos(max(-1.0, min(1.0, -d.y))))
+            cores[i, :3] = (0.02, 0.015, 0.012) if ang < 12 else base.IRIS if ang < 27 else base.ESCLERA
+    return cores
 
 
 # ------------------------------------------------------------- estampa
@@ -325,7 +434,7 @@ def construir_tudo():
     dom = base.osso_dominante()
     olho_z = base.centro_grupo(ob.data, grupo_face, "helper-l-eye")[0].z
     base.fechar_maos(ob, bco, faces_todas, k, z_min, usados)
-    cores, _ = base.pintar_corpo(ob, grupo_face, jt)
+    cores = pintar_rosto(ob, grupo_face)
     pecas = [fazer_camiseta(ob, usados, dom, jt), fazer_short(ob, usados, dom, jt),
              criar_cabelo(ob, olho_z)]
     base.aplicar_cores(ob, cores)

@@ -1,6 +1,7 @@
 """Comparacao lado a lado: foto do Felipe x render do modelo, mesma altura.
 
   python arte/felipe_comparar.py RENDERS SAIDA.png
+  python arte/felipe_comparar.py --rosto RENDERS SAIDA.png
 
 RENDERS: pasta com frente.png, lado.png, costas.png (fundo transparente) feita
 por `felipe_humano.py -- --render`. A pessoa na foto e achada pela diferenca
@@ -65,7 +66,32 @@ def ajustar(im, caixa, fundo):
     return rec
 
 
+FOTOS = os.path.join(AQUI, "referencias", "felipe", "fotos_originais")
+ROSTOS = [  # (foto, caixa na foto, render, espelhar render)
+    ("36554.jpg", (150, 300, 1050, 1200), "rosto.png", False),
+    ("36555.jpg", (150, 300, 1050, 1200), "rosto_34.png", False),
+    ("36560.jpg", (250, 300, 1150, 1200), "rosto_lado.png", True),
+]
+
+
+def comparar_rostos(pasta, saida, lado=600):
+    """Fotos do rosto em cima, renders do modelo embaixo."""
+    from PIL import ImageOps
+    out = Image.new("RGB", (lado * len(ROSTOS), lado * 2), (205, 205, 200))
+    for i, (foto, caixa, render, esp) in enumerate(ROSTOS):
+        f = Image.open(os.path.join(FOTOS, foto)).convert("RGB").crop(caixa).resize((lado, lado))
+        r = Image.open(os.path.join(pasta, render)).convert("RGBA").resize((lado, lado))
+        if esp:
+            r = ImageOps.mirror(r)
+        out.paste(f, (lado * i, 0))
+        out.paste(r, (lado * i, lado), r)
+    out.save(saida)
+
+
 def main():
+    if sys.argv[1] == "--rosto":
+        comparar_rostos(sys.argv[2], sys.argv[3])
+        return
     pasta, saida = sys.argv[1], sys.argv[2]
     blocos = []
     for foto, render, rot in PARES:
