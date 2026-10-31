@@ -235,6 +235,19 @@ def main():
     ob, rig, acoes = carregar_tudo(pasta, so, humano)
     if "--previa" in args:
         previa(rig, acoes, os.path.abspath(args[args.index("--previa") + 1]))
+    if "--glb" in args:  # boneco + uma animacao por faixa NLA (Godot / visualizador)
+        rig.animation_data_create()
+        for nome, (acao, fim) in acoes.items():
+            tr = rig.animation_data.nla_tracks.new()
+            tr.name = nome
+            tr.strips.new(nome, 0, acao)
+        bpy.ops.object.select_all(action="DESELECT")
+        for o in bpy.data.objects:
+            if o.type in ("MESH", "ARMATURE"):
+                o.select_set(True)
+        bpy.ops.export_scene.gltf(filepath=os.path.abspath(args[args.index("--glb") + 1]),
+                                  export_format="GLB", use_selection=True, export_apply=True,
+                                  export_yup=True, export_animation_mode="NLA_TRACKS")
 
 
 if __name__ == "__main__":
