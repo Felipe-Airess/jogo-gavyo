@@ -23,7 +23,9 @@ CORTE_BAIXO = -0.115  # nada de cabelo abaixo disto (relativo aos olhos): camise
 GRADE = ((-0.20, 0.20), (-0.14, 0.32), (-0.13, 0.27))  # x, y, z em volta dos olhos
 PASSO = 0.002       # grade das mascaras (m)
 LATERAL = 0.75      # quanto os lados afinam (0 = igual ao resto)
-ALTURA_LADO = 0.0   # nos lados o cabelo para aqui (rel. aos olhos): orelha a mostra
+ALTURA_LADO = -0.035  # nos lados o cabelo desce ate aqui (rel. aos olhos): altura do nariz
+FOLGA_LADO = 0.013  # lados retos: quanto passam da cabeca abaixo dos olhos (m)
+ESP_LADO = 0.014    # espessura maxima nos lados abaixo dos olhos (colado na cabeca)
 SILHUETA = "selfie"  # "selfie" (compacto, escolhido) ou "video" (tamanho medido de longe)
 ESP_FRENTE, ESP_MAX, ESP_MIN = 0.025, 0.085, 0.008  # espessura do cabelo (m)
 
@@ -169,7 +171,27 @@ def espessuras(co, nor, escalpo, f, p, xs, ys, zs):
         t[vivo] = s
     # lados mais finos (pedido do Felipe): corta onde a normal aponta para o lado
     lados = 1.0 - LATERAL * np.abs(nor[:, 0])
-    return np.clip(t, ESP_MIN, _espessura(co[:, 1], co[:, 2]) * lados)
+    lim = _espessura(co[:, 1], co[:, 2]) * lados
+    # abaixo da linha dos olhos, nos lados: cabelo colado (como a versao aprovada)
+    baixo_lado = (np.abs(co[:, 0]) > 0.045) & (co[:, 2] < 0.01) & (co[:, 1] < 0.11)
+    lim[baixo_lado] = np.minimum(lim[baixo_lado], ESP_LADO)
+    return np.clip(t, ESP_MIN, lim)
+
+
+def _lados_retos(ob, co, o):
+    """Abaixo da linha dos olhos os lados descem retos, no maximo FOLGA_LADO alem
+    da cabeca (sem contar a orelha), como na versao aprovada pelo Felipe."""
+    x, y, z = co[:, 0], co[:, 1], co[:, 2]
+    orelha = (np.abs(x) > 0.055) & (z > -0.075) & (z < 0.02) & (y > -0.025) & (y < 0.05)
+    cab = co[~orelha & (z > -0.12)]
+    zs = np.arange(-0.12, 0.08, 0.004)
+    meia = np.array([np.abs(cab[np.abs(cab[:, 2] - zz) < 0.004, 0]).max() for zz in zs])
+    for v in ob.data.vertices:
+        p = np.array(v.co[:]) - o
+        lim = np.interp(p[2], zs, meia) + FOLGA_LADO
+        lim += 0.08 * min(1.0, max(0.0, p[2] / 0.04))  # some acima dos olhos
+        if abs(p[0]) > lim:
+            v.co.x = o[0] + math.copysign(lim, p[0])
 
 
 def criar_nucleo(ob_corpo, olho, nome="Cabelo"):
@@ -215,9 +237,25 @@ def criar_nucleo(ob_corpo, olho, nome="Cabelo"):
     bm.verts.ensure_lookup_table()
     esp = t[vs]
     viz = [[e.other_vert(v).index for e in v.link_edges] for v in bm.verts]
+    # distancia (em arestas) ate a borda: nos lados a ponta do cabelo afina e
+    # encosta na cabeca em vez de abrir como sino
+    dist = np.full(len(bm.verts), 99)
+    fila = [v.index for v in bm.verts if v.is_boundary]
+    dist[fila] = 0
+    while fila:
+        prox = []
+        for i in fila:
+            for j in viz[i]:
+                if dist[j] > dist[i] + 1:
+                    dist[j] = dist[i] + 1
+                    prox.append(j)
+        fila = prox
+    lado_v = np.abs(co[vs, 0]) > 0.04
+    afina = np.where(lado_v, np.clip(dist / 5.0, 0.25, 1.0), 1.0)
     for _ in range(40):  # silhueta tem fios soltos: espessura suave, peca unica
         esp = np.array([0.5 * esp[i] + 0.5 * esp[n].mean() if n else esp[i]
                         for i, n in enumerate(viz)])
+    esp *= afina
     bm.normal_update()
     for v, e in zip(bm.verts, esp):
         v.co += v.normal * e
@@ -234,6 +272,7 @@ def criar_nucleo(ob_corpo, olho, nome="Cabelo"):
     suavizar(bm, 4, 0.5, manter_borda=False)
     bm.to_mesh(ob.data)
     bm.free()
+    _lados_retos(ob, co, np.array(olho[:]))
     for pl in ob.data.polygons:
         pl.use_smooth = True
     dec = ob.modifiers.new("Dec", "DECIMATE")
