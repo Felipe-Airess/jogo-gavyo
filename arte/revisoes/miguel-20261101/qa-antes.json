@@ -1,0 +1,70 @@
+{
+  "ok": true,
+  "pass": false,
+  "errors": [
+    "Miguel: 657 verts with >4 bone influences",
+    "Miguel: 23904 zero-area UV faces",
+    "z-fighting: Miguel (1 overlapping coplanar tri pairs)"
+  ],
+  "warnings": [
+    "Miguel: 24 n-gons",
+    "hidden back-to-back faces: Miguel (24 pairs) - delete to save tris",
+    "1 parts fully enclosed, not touching (eyes/internals?): ['Miguel']"
+  ],
+  "ground_z": -0.0,
+  "zfighting": [
+    {
+      "where": "Miguel",
+      "tri_pairs": 1
+    }
+  ],
+  "floating": [],
+  "back_to_back": [
+    {
+      "where": "Miguel",
+      "tri_pairs": 24
+    }
+  ],
+  "enclosed": [
+    {
+      "object": "Miguel",
+      "island_verts": 21,
+      "center": [
+        0.0,
+        -0.124,
+        0.984
+      ]
+    }
+  ],
+  "objects": {
+    "Miguel": {
+      "verts": 32955,
+      "faces": 32942,
+      "tris": 65463,
+      "ngons": 24,
+      "boundary_edges": 425,
+      "nonmanifold_edges": 0,
+      "wire_edges": 0,
+      "loose_verts": 0,
+      "degenerate_faces": 0,
+      "zero_length_edges": 0,
+      "inconsistent_normals_edges": 0,
+      "duplicate_verts": 0,
+      "islands": 11,
+      "inside_out_islands": 0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "materials": 1,
+      "unweighted_verts": 0,
+      "verts_over_4_influences": 657,
+      "uv_maps": 1,
+      "uv_oob_pct": 0.0,
+      "uv_zero_area_faces": 23904,
+      "uv_overlap_pct": 0.0,
+      "uv_coverage_pct": 34.0
+    }
+  }
+}

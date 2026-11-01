@@ -111,6 +111,7 @@ func _acao(t: String) -> void:
 func _unhandled_input(ev: InputEvent) -> void:
 	if ev is InputEventKey and ev.pressed and not ev.echo:
 		match ev.keycode:
+			KEY_ESCAPE, KEY_F2: get_tree().change_scene_to_file("res://main.tscn")
 			KEY_EQUAL, KEY_PLUS, KEY_KP_ADD: _acao("+")
 			KEY_MINUS, KEY_KP_SUBTRACT: _acao("-")
 			KEY_S: _acao("S")

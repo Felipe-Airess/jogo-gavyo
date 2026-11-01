@@ -1,0 +1,27 @@
+{
+  "scope": "Contorno facial frontal detectado; exclui cabelo e orelhas.",
+  "iou": 0.9491080123490044,
+  "reference_bbox": [
+    279.0,
+    241.0,
+    477.0,
+    578.0
+  ],
+  "render_bbox": [
+    261.0,
+    244.0,
+    491.0,
+    576.0
+  ],
+  "bbox_center_drift_px": [
+    -11.0,
+    2.0
+  ],
+  "bbox_size_error_ratio": [
+    0.029350104821802937,
+    -0.0034602076124567475
+  ],
+  "pass_iou_90pct": true,
+  "pass_bbox_center_1p5pct": true,
+  "pass_bbox_size_3pct": true
+}

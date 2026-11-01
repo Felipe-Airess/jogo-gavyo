@@ -1,0 +1,60 @@
+{
+  "ok": true,
+  "pass": true,
+  "errors": [],
+  "warnings": [
+    "hidden back-to-back faces: Miguel (24 pairs) - delete to save tris",
+    "1 parts fully enclosed, not touching (eyes/internals?): ['Miguel']"
+  ],
+  "ground_z": -0.0,
+  "zfighting": [],
+  "floating": [],
+  "back_to_back": [
+    {
+      "where": "Miguel",
+      "tri_pairs": 24
+    }
+  ],
+  "enclosed": [
+    {
+      "object": "Miguel",
+      "island_verts": 21,
+      "center": [
+        0.0,
+        -0.124,
+        0.984
+      ]
+    }
+  ],
+  "objects": {
+    "Miguel": {
+      "verts": 32996,
+      "faces": 39370,
+      "tris": 65545,
+      "ngons": 0,
+      "boundary_edges": 425,
+      "nonmanifold_edges": 0,
+      "wire_edges": 0,
+      "loose_verts": 0,
+      "degenerate_faces": 0,
+      "zero_length_edges": 0,
+      "inconsistent_normals_edges": 0,
+      "duplicate_verts": 0,
+      "islands": 11,
+      "inside_out_islands": 0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "materials": 1,
+      "unweighted_verts": 0,
+      "verts_over_4_influences": 0,
+      "uv_maps": 1,
+      "uv_oob_pct": 0.0,
+      "uv_zero_area_faces": 0,
+      "uv_overlap_pct": 0.04,
+      "uv_coverage_pct": 15.2
+    }
+  }
+}
