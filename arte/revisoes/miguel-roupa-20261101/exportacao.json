@@ -1,0 +1,15 @@
+{
+  "arquivo": "miguel-previa.glb",
+  "bytes": 3569420,
+  "joints": 22,
+  "materials": 2,
+  "imagens_embutidas": 1,
+  "reimportado": true,
+  "vertices_importados": 43946,
+  "triangulos": 66641,
+  "pesos_normalizados": true,
+  "max_influencias": 4,
+  "cores_atributos": [
+    "Col"
+  ]
+}

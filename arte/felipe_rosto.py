@@ -41,10 +41,13 @@ ALVO = fh.ALVO_ROSTO
 MODELO_MP = os.environ.get("FACE_LANDMARKER", os.path.join(AQUI, "..", "..", "face_landmarker.task"))
 ESC = 0.30                  # largura (m) do quadro do render da cabeca
 RES = 1024
+PERSONAGEM = "Felipe"
 
 
 # ----------------------------------------------------------- detector
 def detector():
+    if os.environ.get("FACE_LANDMARKER_URL"):
+        return ("web", os.environ["FACE_LANDMARKER_URL"])
     import mediapipe as mp
     from mediapipe.tasks.python import BaseOptions, vision
     return mp, vision.FaceLandmarker.create_from_options(vision.FaceLandmarkerOptions(
@@ -53,6 +56,12 @@ def detector():
 
 def pontos(det, caminho):
     mp, d = det
+    if mp == "web":
+        import json
+        from urllib.parse import urlencode
+        from urllib.request import urlopen
+        with urlopen(d + "?" + urlencode({"file": os.path.abspath(caminho)}), timeout=100) as r:
+            return np.array(json.load(r), dtype=np.float64)
     r = d.detect(mp.Image.create_from_file(caminho))
     if not r.face_landmarks:
         raise RuntimeError("rosto nao achado em " + caminho)
@@ -237,7 +246,7 @@ def main():
         os.makedirs(chk, exist_ok=True)
     if dbg:
         os.makedirs(dbg, exist_ok=True)
-    tmp = dbg or os.path.join(AQUI, "..", "..", "tmp_rosto")
+    tmp = dbg or chk or os.path.join(AQUI, "..", "work", "tmp_rosto")
     os.makedirs(tmp, exist_ok=True)
 
     fh.configurar_base()
@@ -287,6 +296,14 @@ def main():
     erro_antes = np.sqrt((desl ** 2).sum(1)).mean()
     print("frente: %d pontos, desvio medio %.1f mm, escala foto->modelo %.5f m/px"
           % (len(ctrl), erro_antes * 1000, s))
+    import json
+    with open(os.path.join(chk or dbg or tmp, "medidas_frente.json"), "w") as arq:
+        json.dump({"personagem": PERSONAGEM, "foto": FOTO_FRENTE,
+                   "landmarks": len(pm), "controles_na_malha": len(ctrl),
+                   "desvio_projetado_medio_mm": float(erro_antes * 1000),
+                   "desvio_projetado_p95_mm": float(np.percentile(np.linalg.norm(desl, axis=1), 95) * 1000),
+                   "nota": "Desvio na projeção alinhada do modelo; não mede precisão 3D da pessoa."},
+                  arq, indent=2)
     if chk:
         # foto px -> (x, -y) -> mundo (s, r, t) -> pixel do render
         sr = s * r
@@ -296,6 +313,12 @@ def main():
         m = mm[:, :2] @ a
         m[:, 2] += mm[:, 2]
         painel(os.path.join(FOTOS, FOTO_FRENTE), r_frente, m, os.path.join(chk, "rosto_frente.png"))
+        # Pontos na mesma projeção para máscaras e auditoria reproduzível.
+        foto_px = np.stack([(pf_m[:, 0] - centro.x) / ESC * RES + RES / 2,
+                            (centro.z - pf_m[:, 1]) / ESC * RES + RES / 2], 1)
+        with open(os.path.join(chk, "landmarks_frente.json"), "w") as arq:
+            json.dump({"foto_alinhada_px": foto_px.tolist(), "modelo_px": pm.tolist(),
+                       "foto_para_render": m.tolist(), "resolucao": RES}, arq)
     if not chk:
         salvar_pintura(pf_m, s)
     # foto de frente px -> (x, z) do modelo, relativo ao meio dos olhos (cabelo usa)
@@ -303,6 +326,9 @@ def main():
     sr = s * r
     alinhamento = {"frente": {"foto": FOTO_FRENTE, "px_para_xz": [
         [sr[0, 0], -sr[0, 1], t[0] - olho_m.x], [sr[1, 0], -sr[1, 1], t[1] - olho_m.z]]}}
+    if not chk:
+        with open(ALINHAMENTO, "w") as arq:
+            json.dump(alinhamento, arq, indent=1)
     d3 = np.zeros((len(ctrl), 3))
     d3[:, 0], d3[:, 2] = alvo2d[:, 0], alvo2d[:, 1]
     cabeca = co[:, 2] > jt["joint-neck"].z - 0.02
@@ -402,7 +428,7 @@ def main():
         novo_d = np.array([dx * f, dz * f, -dy * f]) + ant.get(bi, 0)
         ant[bi] = novo_d
     with gzip.open(ALVO, "wt") as arq:
-        arq.write("# Felipe: rosto encaixado nas fotos (arte/felipe_rosto.py)\n")
+        arq.write("# %s: rosto encaixado nas fotos (arte/felipe_rosto.py)\n" % PERSONAGEM)
         for bi in sorted(ant):
             arq.write("%d %.5f %.5f %.5f\n" % (bi, *ant[bi]))
     print("alvo gravado: %s (%d vertices)" % (ALVO, len(ant)))

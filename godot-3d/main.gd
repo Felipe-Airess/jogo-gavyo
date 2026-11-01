@@ -1,7 +1,6 @@
 extends Node3D
-## Teste do Miguel 3D: treino contra um boneco e galeria das 55 animacoes.
-## O modelo, o rig e as animacoes vem de arte/miguel_animacoes.py (glb), e os
-## tempos de contato de miguel_animacoes.json (os mesmos do 2D).
+## Treino e galeria do Miguel aprovado, com movimentos dos FBX do Mixamo.
+## Manifesto registra fonte, recorte e duração real de cada ação.
 
 const MODELO := preload("res://miguel_animado.glb")
 const VEL_ANDAR := 1.1      # m/s
@@ -11,23 +10,17 @@ const MIX := 0.08           # transicao entre animacoes (s)
 
 # golpe: [animacao, alcance (m), reacao do alvo]
 const GOLPES := {
-	"jab": ["jab", 0.98, "apanhaCabeca"],
-	"direto": ["direto", 1.02, "apanhaCabeca"],
-	"gancho": ["gancho", 0.85, "apanhaCabecaForte"],
-	"uppercut": ["uppercut", 0.82, "apanhaCabecaForte"],
-	"pesado": ["pesado", 1.02, "apanhaCabecaForte"],
-	"jabCorpo": ["jabCorpo", 0.95, "apanhaCorpo"],
-	"circular": ["chuteCircular", 1.18, "apanhaCorpo"],
-	"chuteAlto": ["chuteAlto", 1.18, "apanhaCabecaForte"],
-	"chuteBaixo": ["chuteBaixo", 1.08, "apanhaPerna"],
-	"joelhada": ["joelhada", 0.84, "apanhaCorpo"],
-	"cotovelada": ["cotovelada", 0.82, "apanhaCabeca"],
-	"combo": ["comboJabCotoveloJoelho", 0.90, "apanhaCorpo"],
+	"jab": ["jab", 0.98, "reacaoBloqueio"],
+	"direto": ["direto", 1.02, "reacaoBloqueio"],
+	"gancho": ["gancho", 0.85, "reacaoBloqueio"],
+	"pesado": ["pesado", 1.02, "reacaoBloqueio"],
+	"circular": ["chuteCircular", 1.18, "reacaoBloqueio"],
+	"chuteAlto": ["chuteAlto", 1.18, "reacaoBloqueio"],
+	"joelhada": ["joelhada", 0.84, "reacaoBloqueio"],
 }
 const TECLAS := {
-	KEY_J: "jab", KEY_K: "direto", KEY_L: "gancho", KEY_U: "uppercut",
-	KEY_H: "pesado", KEY_N: "jabCorpo", KEY_I: "circular", KEY_O: "chuteAlto",
-	KEY_M: "chuteBaixo", KEY_P: "joelhada", KEY_Y: "cotovelada", KEY_B: "combo",
+	KEY_J: "jab", KEY_K: "direto", KEY_L: "gancho", KEY_H: "pesado",
+	KEY_I: "circular", KEY_O: "chuteAlto", KEY_P: "joelhada",
 }
 
 var manifesto: Dictionary = {}
@@ -54,7 +47,7 @@ func _ready() -> void:
 	jogador = _criar_lutador(Vector3(-0.75, 0, 0), 1)
 	boneco = _criar_lutador(Vector3(0.75, 0, 0), -1)
 	_montar_interface()
-	_tocar(jogador, "entraGuarda")
+	_tocar(jogador, "guarda")
 	_tocar(boneco, "guarda")
 
 
@@ -170,7 +163,7 @@ func _fim_animacao(nome: StringName, raiz: Node3D) -> void:
 
 # ---------------------------------------------------------------- jogo
 func _golpear(chave: String) -> void:
-	if galeria or jogador["estado"] == "golpe":
+	if galeria or jogador["estado"] == "golpe" or not GOLPES.has(chave):
 		return
 	var g: Array = GOLPES[chave]
 	jogador["estado"] = "golpe"
@@ -227,7 +220,7 @@ func _checar_acerto(g: Array) -> void:
 	var dist: float = boneco["raiz"].position.x - jogador["raiz"].position.x
 	if dist > g[1] + 0.05:
 		return
-	jogador["acertou"] = g[0] != "comboJabCotoveloJoelho"  # combo acerta em cada golpe
+	jogador["acertou"] = true
 	acertos += 1
 	var alvo: Node3D = boneco["raiz"]
 	var reacao: String = g[2]
@@ -267,9 +260,9 @@ func _mostrar_galeria() -> void:
 	var nome: String = nomes_galeria[idx_galeria]
 	var d: Dictionary = manifesto[nome]
 	_tocar(jogador, nome, 0.0)
-	var contato := "" if d["contatoMs"] == null else "  contato %d ms" % d["contatoMs"]
-	info.text = "%d/%d  %s\n2D: %s  %d ms%s%s" % [idx_galeria + 1, nomes_galeria.size(), nome,
-		d["clipe2d"], d["duracaoMs"], contato, "  (loop)" if d["loop"] else ""]
+	var contato := "" if d["contatoMs"] == null else "  contato estimado %d ms" % d["contatoMs"]
+	info.text = "%d/%d  %s\n%s  %d ms%s%s" % [idx_galeria + 1, nomes_galeria.size(), nome,
+		d["fonte"], d["duracaoMs"], contato, "  (loop)" if d["loop"] else ""]
 
 
 func _passar_galeria(passo: int) -> void:
@@ -281,7 +274,9 @@ func _passar_galeria(passo: int) -> void:
 func _unhandled_input(ev: InputEvent) -> void:
 	if ev is InputEventKey and ev.pressed and not ev.echo:
 		var k: int = ev.keycode
-		if k == KEY_TAB:
+		if k == KEY_F2:
+			get_tree().change_scene_to_file("res://bench.tscn")
+		elif k == KEY_TAB:
 			_alternar_galeria()
 		elif k == KEY_F:  # camera lenta para ver os golpes quadro a quadro
 			Engine.time_scale = 0.15 if Engine.time_scale > 0.5 else 1.0
@@ -301,6 +296,8 @@ func _montar_interface() -> void:
 	add_child(cl)
 	var tema := Theme.new()
 	tema.default_font_size = 9
+	tema.set_color("font_outline_color", "Label", Color(0.02, 0.03, 0.03))
+	tema.set_constant("outline_size", "Label", 2)
 	var raiz := Control.new()
 	raiz.theme = tema
 	raiz.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -363,4 +360,4 @@ func _atualizar_ajuda() -> void:
 	if galeria:
 		ajuda.text = "GALERIA\n< > troca   Enter repete\nF camera lenta   Tab volta"
 	else:
-		ajuda.text = "A/D anda  Shift corre  Espaco defende\nJ jab  K direto  L gancho  U uppercut\nH pesado  N jab corpo  Y cotovelada\nI circular  O alto  M baixo  P joelhada\nB combo   F camera lenta   Tab galeria"
+		ajuda.text = "A/D anda  Shift corre  Espaco defende\nJ jab  K direto  L gancho  H pesado\nI circular  O alto  P joelhada\nF lento   Tab galeria   F2 desempenho"

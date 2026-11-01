@@ -49,6 +49,12 @@ def ler_fbx(caminho):
     bpy.ops.import_scene.fbx(filepath=caminho)
     novos = [o for o in bpy.data.objects if o not in antes]
     arm = [o for o in novos if o.type == "ARMATURE"][0]
+    # A leitura só precisa dos ossos. Evita deformar a malha do FBX em cada
+    # quadro (e evita acumular cópias do corpo durante a importação do lote).
+    for o in list(novos):
+        if o.type == "MESH":
+            novos.remove(o)
+            bpy.data.objects.remove(o, do_unlink=True)
     acao = arm.animation_data.action
     f0, f1 = (int(round(x)) for x in acao.frame_range)
     cena = bpy.context.scene
@@ -182,15 +188,21 @@ def carregar_tudo(pasta, so=None, humano="miguel_humano.py"):
         if so and nome not in so:
             continue
         lidos.append(ler_fbx(arq))
+        print("FBX_LIDO", nome, len(lidos[-1][1]), flush=True)
     bpy.ops.wm.read_factory_settings(use_empty=True)
     # 2) monta o Miguel e transfere
     h = runpy.run_path(os.path.join(AQUI, humano), run_name="humano")
     ob, rig = h["construir_tudo"]()
     bpy.context.scene.render.fps = 60
     acoes = {}
+    modificadores = [(m, m.show_viewport) for m in ob.modifiers]
+    for m, _ in modificadores:
+        m.show_viewport = False
     for nome, quadros, fps in lidos:
         acoes[nome] = transferir(rig, nome, quadros, fps)
-        print("mixamo %-26s %3d quadros" % (nome, len(quadros)))
+        print("mixamo %-26s %3d quadros" % (nome, len(quadros)), flush=True)
+    for m, visivel in modificadores:
+        m.show_viewport = visivel
     return ob, rig, acoes
 
 
@@ -245,9 +257,11 @@ def main():
         for o in bpy.data.objects:
             if o.type in ("MESH", "ARMATURE"):
                 o.select_set(True)
+        kw = ({"export_animation_mode": "NLA_TRACKS"} if bpy.app.version >= (4, 0, 0)
+              else {"export_nla_strips": True})
         bpy.ops.export_scene.gltf(filepath=os.path.abspath(args[args.index("--glb") + 1]),
                                   export_format="GLB", use_selection=True, export_apply=True,
-                                  export_yup=True, export_animation_mode="NLA_TRACKS")
+                                  export_yup=True, **kw)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,9 @@
+{
+  "personagem": "Miguel",
+  "foto": "rosto_frente4.jpg",
+  "landmarks": 478,
+  "controles_na_malha": 477,
+  "desvio_projetado_medio_mm": 1.050278939691195,
+  "desvio_projetado_p95_mm": 3.3808448887527,
+  "nota": "Desvio na proje\u00e7\u00e3o alinhada do modelo; n\u00e3o mede precis\u00e3o 3D da pessoa."
+}

@@ -1,0 +1,260 @@
+{
+  "Armada": {
+    "fim": 98,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.4901161193847656e-08
+  },
+  "Blocking": {
+    "fim": 72,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.1175870895385742e-08
+  },
+  "Body_Block": {
+    "fim": 206,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 2.2351741790771484e-08
+  },
+  "Brutal_Assassination": {
+    "fim": 296,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 2.2817403078079224e-08
+  },
+  "Brutal_Assassination_1": {
+    "fim": 296,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.4901161193847656e-08
+  },
+  "Dodging": {
+    "fim": 134,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 2.2351741790771484e-08
+  },
+  "Dying": {
+    "fim": 346,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 2.2351741790771484e-08
+  },
+  "Esquiva_2": {
+    "fim": 134,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 2.0954757928848267e-08
+  },
+  "Fist_Fight_A": {
+    "fim": 254,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.4901161193847656e-08
+  },
+  "Flying_Kick": {
+    "fim": 90,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.862645149230957e-08
+  },
+  "Getting_Up": {
+    "fim": 500,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 2.9802322387695312e-08
+  },
+  "Hell_Slammer_A": {
+    "fim": 454,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 2.7939677238464355e-08
+  },
+  "Hook_Punch": {
+    "fim": 130,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 5.587935447692871e-09
+  },
+  "Hook_Punch_1": {
+    "fim": 130,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.4901161193847656e-08
+  },
+  "Kicking": {
+    "fim": 130,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.862645149230957e-08
+  },
+  "Knee_Jab": {
+    "fim": 360,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.1175870895385742e-08
+  },
+  "Knee_Jabs_To_Uppercut": {
+    "fim": 340,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.4901161193847656e-08
+  },
+  "Look_Over_Shoulder": {
+    "fim": 226,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 3.632158041000366e-08
+  },
+  "Pivot": {
+    "fim": 270,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.30385160446167e-08
+  },
+  "Punching_1": {
+    "fim": 62,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.30385160446167e-08
+  },
+  "Ready_Idle": {
+    "fim": 150,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.862645149230957e-08
+  },
+  "Running": {
+    "fim": 98,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.7695128917694092e-08
+  },
+  "Running_To_Turn": {
+    "fim": 136,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 3.073364496231079e-08
+  },
+  "Start_Walking": {
+    "fim": 176,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 2.561137080192566e-08
+  },
+  "Sweep_Fall": {
+    "fim": 150,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 2.0489096641540527e-08
+  },
+  "guarda": {
+    "fim": 150,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.6763806343078613e-08
+  },
+  "andaFrente": {
+    "fim": 97,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.1175870895385742e-08
+  },
+  "andaTras": {
+    "fim": 97,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 2.561137080192566e-08
+  },
+  "correr": {
+    "fim": 98,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.210719347000122e-08
+  },
+  "jab": {
+    "fim": 43,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 3.166496753692627e-08
+  },
+  "direto": {
+    "fim": 58,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 7.450580596923828e-09
+  },
+  "gancho": {
+    "fim": 98,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 2.7939677238464355e-08
+  },
+  "pesado": {
+    "fim": 182,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.862645149230957e-08
+  },
+  "chuteCircular": {
+    "fim": 84,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 1.4901161193847656e-08
+  },
+  "chuteAlto": {
+    "fim": 93,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 3.725290298461914e-08
+  },
+  "joelhada": {
+    "fim": 108,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 3.3527612686157227e-08
+  },
+  "bloqueio": {
+    "fim": 18,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 3.166496753692627e-08
+  },
+  "reacaoBloqueio": {
+    "fim": 52,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 3.725290298461914e-08
+  },
+  "esquivaTras": {
+    "fim": 74,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 2.2351741790771484e-08
+  },
+  "queda": {
+    "fim": 105,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 7.450580596923828e-09
+  },
+  "deitado": {
+    "fim": 1,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 0.0
+  },
+  "levantar": {
+    "fim": 325,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 5.960464477539063e-08
+  },
+  "comboCorpoUpper": {
+    "fim": 272,
+    "canais": 220,
+    "valores_finitos": true,
+    "deslocamento_horizontal_max_m": 2.514570951461792e-08
+  }
+}
