@@ -59,3 +59,22 @@ A escola atual fica como referência até o mapa novo substituí-la.
 
 A `main` tem só a primeira versão do capítulo (PR #16). O PR #17 com a versão
 mais recente aguardava merge quando esta estratégia foi registrada.
+
+## Execução (02/11/2026, Claude) — bloqueio cinza pronto, AGUARDANDO APROVAÇÃO
+
+Os cinco passos do plano foram feitos. Detalhes em
+`godot-3d/capitulo1/mapa/LEIA-ME.md`.
+
+- Kit: `capitulo1/mapa/kit.gd` (34 peças: parede, parede com porta, janela
+  gradeada, vão, portão, canto/T/cruz/ponta, coluna, pisos de azulejo, cimento
+  e quadra, meia-parede, telhado, degrau, bloco baixo, palco, árvore), módulo de
+  2 m com meias de 1 m. Salvo como `kit_blockout.meshlib` (`tools/gerar_kit.gd`).
+- Grades: `capitulo1/mapa/terreo.txt` (101×82 m) e `superior.txt`.
+- Montagem: `capitulo1/mapa/escola_grade.gd` substitui a escola por coordenadas
+  no jogo. A antiga ficou em `capitulo1/referencia/` (não é mais carregada).
+- Verificação: planta de cima e capturas em `docs/verificacao-20261102/mapa-grade/`.
+- O jogo continua inteiro (combate de terror, toque, retrô, checkpoints).
+  O cenário agora é cinza, de propósito.
+
+Próximo passo: Felipe lê o ASCII e a planta e corrige. Só depois: decorar
+seguindo as fotos.

@@ -6,7 +6,9 @@ Depois leia `docs/CONTINUAR-NOUTRO-CHAT.md`, `docs/DECISOES-RODADA-3.md`, o mapa
 `docs/referencias/mapa-escola-felipe.png` e `godot-3d/capitulo1/README.md`.
 
 Branch: `feat/prototipo-terror-terceira-pessoa`. Cena atual:
-`godot-3d/capitulo1/main.tscn`. Godot **4.5.1 Compatibility**, sem atualizar engine.
+`godot-3d/capitulo1/main.tscn`. O mapa vem de `godot-3d/capitulo1/mapa/*.txt`
+(grade ASCII, 1 m por caractere; ver `LEIA-ME.md` ali). Bloqueio cinza aguardando
+aprovação de Felipe: não decorar antes. Godot **4.5.1 Compatibility**, sem atualizar engine.
 No Mac: `bash JOGAR-PROTOTIPO.command`. No Linux, instalar o executável Godot
 4.5.1 Linux e definir `GODOT` para os scripts de teste; não usar o `.app` do Mac.
 

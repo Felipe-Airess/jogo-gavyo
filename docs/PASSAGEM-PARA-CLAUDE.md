@@ -131,12 +131,57 @@ Pendências reais:
 3. Salas fora do caminho ainda simples; interior dos labs pode ganhar mais itens.
 4. Clipes FK de empurrão/agarrão são provisórios; trocar por captura quando houver.
 
+## Rodada Claude — 02/11/2026, parte 3 (mapa em grade ASCII + kit modular)
+
+Felipe avaliou o mapa por coordenadas como ruim e pediu nova estratégia
+(`docs/ESTRATEGIA-MAPA.md`). Feito:
+
+- **Mapa como texto**: `godot-3d/capitulo1/mapa/terreo.txt` e `superior.txt`,
+  1 caractere = 1 m, legenda no topo. Felipe edita o texto; o jogo monta.
+- **Kit modular** cinza em `capitulo1/mapa/kit.gd` (peças de 2 m, pivô na base),
+  MeshLibrary salva em `kit_blockout.meshlib`. GridMaps separados para piso,
+  estrutura e telhado (uma peça por célula).
+- **Montador** `capitulo1/mapa/escola_grade.gd`: GridMap + colisão mesclada +
+  portas + escada + armários + pontos da história vindos das marcas do texto
+  (@ $ * + 1–4 G &). Mantém a interface que `game.gd` usava.
+- `capitulo1/nivel.gd` agora em células: rotas, gargalos, pontos de roteiro,
+  itens, ferramentas. Postos vêm do texto.
+- Escola antiga movida para `capitulo1/referencia/` (não carregada).
+- Checkpoint salvo sobe para versão 4 (posições antigas não valem no mapa novo).
+- Exportação web inclui `capitulo1/mapa/*.txt` (conferido com `--export-pack`).
+- Ferramentas: `tools/exportar_planta.gd` + `scripts/desenhar-planta.py` (planta
+  de cima com colisão real por cima), `tools/capturar_vistas.gd` (revisão clara
+  ou `jogo`), `tools/capturar_kit.gd`, `tools/gerar_kit.gd`.
+
+Decisões aplicadas no texto: escala real; labs de frente ao pátio aberto;
+corredorzinho até 2 e 1 Contabilidade; palco no refeitório com a porta da
+biblioteca logo atrás; escada fechada no pátio de química (entrada por vão);
+ritual no pátio de química; passagem estreita do refeitório até o portão 1;
+quadra coberta sem acesso à escada.
+
+Pontos para Felipe confirmar (estão no texto, fácil de trocar):
+1. Sala de cima sobre o 3 Contabilidade está como **3 Enfermagem** (como no
+   desenho). O código antigo a chamava de "3 Contabilidade · superior".
+2. Faixa coberta diante de 3 Contabilidade / 2 Informática liga a quadra ao
+   corredor aberto. A escada só se alcança pelo pátio de química.
+3. Há um terceiro caminho do pátio aberto até o pátio de química: refeitório →
+   passagem do portão → corredor sul.
+4. Área de saída (vegetação) a oeste da passagem, acessível por uma abertura.
+
+Testes (Linux, Godot 4.5.1): capítulo 47, mapa 18 (novo), nível 10, protótipo
+39, toque 10, validação 15; percurso rota 7/7 (166 s), pátio 8/8 (suspeita
+máxima 0,69), furtivo 7/7. No furtivo o robô anda em pé pela rota norte e o ritual o
+nota (o modo é só observação). Testes não substituem Felipe jogando.
+
+**Bloqueio cinza aguardando aprovação de Felipe. Não decorar antes.**
+
 ## Arquivos importantes
 
 | Arquivo | Papel |
 |---|---|
 | `capitulo1/game.gd` | Fluxo, combate, alerta, checkpoints e interações |
-| `capitulo1/escola.gd` | Planta, escala, salas, geometria, objetos e agrupamento visual |
+| `capitulo1/mapa/` | Mapa em grade ASCII, kit modular, montador (ver LEIA-ME.md) |
+| `capitulo1/referencia/escola_coordenadas.gd` | Escola anterior por coordenadas (só referência) |
 | `capitulo1/ator.gd` | Variações humanoides, poses e movimentos |
 | `capitulo1/acoes.gd` | Geração das chaves FK da pegada/derrubada |
 | `capitulo1/camera.gd` | Cenas, lente de gravação e enquadramento contextual |

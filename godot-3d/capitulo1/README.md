@@ -14,6 +14,10 @@ Enter começa. O lançador principal e `project.godot` agora abrem
 
 ## O que está integrado
 
+- **02/11 (parte 3): o mapa agora vem de texto** — `capitulo1/mapa/terreo.txt` e
+  `superior.txt` (1 caractere = 1 m), montado com um kit modular cinza num GridMap.
+  É um bloqueio cinza aguardando aprovação de Felipe; ver `capitulo1/mapa/LEIA-ME.md`.
+  A escola anterior por coordenadas está em `capitulo1/referencia/`.
 - Planta baseada em `docs/referencias/mapa-escola-felipe.png`: blocos norte/sul,
   quadra, refeitório/pátio aberto, laboratórios, biblioteca, administração,
   banheiros, sala de esportes, escada e andar superior. Portas físicas nas salas.

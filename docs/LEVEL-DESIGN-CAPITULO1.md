@@ -3,14 +3,20 @@
 Processo das skills `level-design`, `godot-genre-horror` e `godot-genre-stealth`:
 métricas → rotas e ritmo → encontros → estrutura → testes → decoração.
 O desenho de Felipe (`docs/referencias/mapa-escola-felipe.png`) define o que liga
-com o quê. As fotos (`docs/referencias/escola-fotos/`) definem a aparência. Dado do
-nível: `godot-3d/capitulo1/nivel.gd`. Testes: `godot-3d/tests/capitulo1_nivel_test.gd`.
+com o quê. As fotos (`docs/referencias/escola-fotos/`) definem a aparência.
+
+**Desde 02/11 (parte 3) a estrutura está em texto**: `godot-3d/capitulo1/mapa/terreo.txt`
+e `superior.txt` (1 caractere = 1 m), com paredes, portas, coberturas (`%`),
+esconderijos (`&`), postos (`1–4`) e pontos da história. Rotas, gargalos e pontos de
+roteiro ficam em `godot-3d/capitulo1/nivel.gd`, em células (coluna, linha).
+Testes: `tests/capitulo1_nivel_test.gd` e `tests/capitulo1_mapa_test.gd`.
+Planta de cima: `docs/verificacao-20261102/mapa-grade/planta.png`.
 
 ## Métricas (do próprio controlador e da IA)
 
 | Medida | Valor |
 |---|---|
-| Escala | 0,12 m por pixel do desenho (sala de aula ~8×6 m) |
+| Escala | 1 m por caractere da grade (sala de aula ~8×7 m, eixo a eixo) |
 | Andar / correr / agachado | 1,45 / 3,8 / 1,05 m/s |
 | Cápsula de Miguel | raio 0,27 m, altura 1,64 m |
 | Câmera de ombro | 2,1 m atrás |
@@ -18,7 +24,7 @@ nível: `godot-3d/capitulo1/nivel.gd`. Testes: `godot-3d/tests/capitulo1_nivel_t
 | Visão do perseguidor | 19 m |
 | Ruído de corrida | 7 m |
 | Visão do ritual (em transe) | 7,5 m, lenta; agachado ×0,3; sombra da escada ×0,35 |
-| Vão de porta | 1,56 m |
+| Vão de porta | 1,56 m (peça de porta de 2 m, `DD`) |
 
 Regras derivadas:
 - corredor com pelo menos 2,4 m;
@@ -40,8 +46,9 @@ Regras derivadas:
 
 | Rota | Caminho | Guarda | Cobertura |
 |---|---|---|---|
-| Norte (furtiva) | varanda norte do pátio aberto → passagem entre o lab de química e o Informática 1 → estacionamento → corredor aberto | estacionamento e lab de química | fileiras de bicicletas, colunas, armário |
-| Sul (longa) | corredorzinho → frente de 2/1 Contabilidade → rampa → corredor aberto | primeiro cultista e corredor aberto | colunas da varanda, bebedouro, lixeiras, bancos |
+| Norte (furtiva) | varanda norte do pátio aberto → passagem entre o lab de química e o Informática 1 → estacionamento → corredor aberto | postos 3 (lab de química) e 4 (estacionamento) | bicicletários (`%`), colunas, armário |
+| Sul (longa) | varanda oeste → corredorzinho → frente de 2/1 Contabilidade → rampa → corredor aberto | postos 1 (rampa, primeiro cultista) e 2 (corredor aberto) | blocos baixos, armários |
+| Volta (nova) | refeitório → passagem do portão → corredor sul | — | mesas do refeitório |
 
 O teste prova que cada rota funciona com a outra bloqueada.
 
