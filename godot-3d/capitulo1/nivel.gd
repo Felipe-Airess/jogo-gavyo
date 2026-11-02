@@ -1,10 +1,13 @@
 extends RefCounted
 ## Level design do capítulo 1 como dado (skills level-design, godot-genre-horror,
-## godot-genre-stealth). Coordenadas no referencial do desenho de Felipe (px),
-## convertidas por escola.p(); escala real 0,12 m/px.
+## godot-genre-stealth). A ESTRUTURA está na grade em texto
+## (capitulo1/mapa/terreo.txt e superior.txt): paredes, portas, esconderijos (&),
+## coberturas (%), postos (1–4) e pontos da história (@ $ * + G).
+## Aqui ficam métricas, ritmo, rotas e pontos de roteiro, em células da grade
+## (coluna, linha); escola.cel(c, r) converte para o mundo.
 ##
 ## Processo: métricas do controlador -> rotas e ritmo -> encontros -> estrutura
-## (bloqueio) -> testes (tests/capitulo1_nivel_test.gd) -> decoração.
+## (bloqueio cinza) -> aprovação de Felipe -> decoração.
 
 ## Métricas: as mesmas constantes do controlador e da IA.
 const WALK:=1.45
@@ -33,78 +36,60 @@ const BEATS:=[
  {"zona":"fora da escola","tipo":"alívio: final","intensidade":.0},
 ]
 
-## Rotas do pátio aberto até a entrada do pátio de química. Duas escolhas para a
-## furtividade (stealth: nunca um único caminho vigiado).
-const ROUTE_NORTH:=[Vector2(520,120),Vector2(450,100),Vector2(414,80),Vector2(370,78),Vector2(324,80)]
-const ROUTE_SOUTH:=[Vector2(520,240),Vector2(450,280),Vector2(450,320),Vector2(380,320),Vector2(325,320),Vector2(325,200),Vector2(324,80)]
-## Gargalos de cada rota (para provar que uma não depende da outra).
-const CHOKE_NORTH:=Rect2(392,66,44,24)
-const CHOKE_SOUTH:=Rect2(436,268,30,26)
+## Rotas do pátio aberto até a entrada do pátio de química (células).
+## Norte: varanda norte -> passagem entre lab. de química e Informática 1 ->
+## estacionamento -> corredor aberto. Sul: corredorzinho -> frente de 2/1
+## Contabilidade -> rampa -> corredor aberto. (Há ainda a volta pelo refeitório
+## e pela passagem do portão, que cai no mesmo corredor sul.)
+const ROUTE_NORTH:=[Vector2(62,17),Vector2(54,13),Vector2(49,11),Vector2(43,10),Vector2(39,9)]
+const ROUTE_SOUTH:=[Vector2(62,27),Vector2(54,30),Vector2(54,35),Vector2(54,38),Vector2(45,38),Vector2(39,38),Vector2(39,24),Vector2(39,9)]
+## Gargalos (células) para provar que uma rota não depende da outra.
+const CHOKE_NORTH:=Rect2i(47,9,6,5)
+const CHOKE_SOUTH:=Rect2i(53,32,3,5)
 
-## Postos dos cultistas (game.gd usa estes pontos).
-const GUARD_POSTS:=[Vector2(322,320),Vector2(323,190),Vector2(378,52),Vector2(362,140)]
+## Pontos de roteiro e de teste (célula, andar).
+const PONTOS:={
+ "entrada_escada":[Vector2(32,7),0],     # pátio de química, diante do vão da caixa
+ "espiar":[Vector2(29,7),0],             # dentro da caixa, no vão: espia o ritual
+ "patamar":[Vector2(21,7),1],
+ "corredor_superior":[Vector2(21,9),1],
+ "frente_3_informatica":[Vector2(16.5,9),1],   # eixo da porta DD (16–17)
+ "dentro_3_informatica":[Vector2(16.5,6),1],
+ "mesa_da_bolsa":[Vector2(15,5),1],
+ "gravar":[Vector2(37,7),0],             # passagem sul do pátio de química
+ "vao_do_patio":[Vector2(38,8),0],       # vão para o corredor aberto
+ "patio_aberto":[Vector2(70,24),0],
+ "corredor_aberto":[Vector2(39,24),0],
+ "saida":[Vector2(60,62),0],
+ "passagem_portao":[Vector2(78,60),0],
+ "refeitorio":[Vector2(90,20),0],
+ "avistamento":[Vector2(53,38),0],       # vê o primeiro cultista entrar no corredor
+ "susto":[Vector2(38,25),0],             # silhueta (avança 1 célula por morte)
+ "silhueta":[Vector2(38,14),0],
+ "batida_metal":[Vector2(84,22),0],
+ "batida_luzes":[Vector2(65,22),0],
+ "batida_passos":[Vector2(57,38),0],
+}
 
-static func build(school: Node3D) -> void:
- _verandas(school)
- _parking_cover(school)
- _open_corridor_cover(school)
- _landmark(school)
- _guide_lights(school)
- # Esconderijo junto ao posto do laboratório de química (rota norte).
- school.locker(school.p(397,74),Vector3.RIGHT)
+## Itens sobre blocos (%) ou sobre a mesa da bolsa ($): [tipo, célula, andar].
+const ITENS:=[
+ ["empanado",Vector2(80,18),0],
+ ["empanado",Vector2(47,31),0],
+ ["empanado",Vector2(13,3),1],
+ ["faca",Vector2(91,34),0],
+]
 
-## Varandas cobertas com colunas na frente das salas (fotos 5 e 6): sombra,
-## cobertura e linhas que guiam o olhar.
-static func _verandas(s: Node3D) -> void:
- # Norte do pátio aberto: Informática 1, lab. de matemática, biblioteca.
- _veranda(s,Vector2(440,92),Vector2(630,92),3.0,Vector3.BACK)
- # Oeste do pátio aberto: labs de informática e hardware.
- _veranda(s,Vector2(435,110),Vector2(435,262),3.0,Vector3.RIGHT)
- # Frente de 2 e 1 Contabilidade (fim do corredorzinho).
- _veranda(s,Vector2(440,335),Vector2(572,335),2.6,Vector3.FORWARD)
- # Frente do bloco de enfermagem, voltada ao corredor aberto.
- _veranda(s,Vector2(305,100),Vector2(305,300),2.6,Vector3.RIGHT)
+## Ferramentas (sobre bloco) e usos: [nome, célula, andar].
+const FERRAMENTAS:=[["chave de fenda",Vector2(47,30),0],["alicate",Vector2(44,3),0],["régua",Vector2(65,8),0]]
+## [uso, ferramenta, célula, altura em m, deslocamento em m].
+const USOS:=[
+ ["luminária","chave de fenda",Vector2(37,24),1.2,Vector3(.27,0,0)],
+ ["caixa de materiais","alicate",Vector2(49,34),.175,Vector3.ZERO],
+ ["livros altos","régua",Vector2(88,6),1.95,Vector3.ZERO],
+]
+## Objetos arremessáveis no chão.
+const OBJETOS:=[Vector2(54,36),Vector2(38,27),Vector2(86,28)]
 
-static func _veranda(s: Node3D,a: Vector2,b: Vector2,depth: float,out: Vector3) -> void:
- var pa: Vector3=s.p(a.x,a.y); var pb: Vector3=s.p(b.x,b.y)
- var length:=pa.distance_to(pb)
- var along:=(pb-pa).normalized()
- var mid:=(pa+pb)*.5+out*depth*.5
- var roof=s.box(Vector3(depth if absf(along.z)>.5 else length,.12,length if absf(along.z)>.5 else depth),mid+Vector3.UP*3.0,"telha",false)
- var count:=maxi(2,int(length/3.6))
- for i in count+1:
-  var at:=pa+along*length*float(i)/count+out*(depth-.25)
-  s.box(Vector3(.32,2.95,.32),at+Vector3.UP*1.475,"wall")
-  s.box(Vector3(.34,1.1,.34),at+Vector3.UP*.55,"azulejo",false)
-
-## Estacionamento de bicicletas: fileiras baixas (cobertura agachado, ~1 m).
-static func _parking_cover(s: Node3D) -> void:
- for z in [118,160,202,244]:
-  var at: Vector3=s.p(366,z)
-  s.box(Vector3(.5,.95,2.6),at+Vector3.UP*.475,"metal")
-  for i in 5:
-   var wheel=s.box(Vector3(.06,.62,.62),at+Vector3(.32,.35,-1.0+i*.5),"dark",false)
-
-## Corredor aberto: bebedouro, lixeiras e banco a cada ~5 m (cobertura).
-static func _open_corridor_cover(s: Node3D) -> void:
- var props:=[["bebedouro",Vector2(338,120),Vector3(.6,1.05,.5)],["lixeira",Vector2(340,170),Vector3(.55,.9,.55)],
-  ["banco",Vector2(338,215),Vector3(.5,.5,1.8)],["lixeira",Vector2(340,262),Vector3(.55,.9,.55)],
-  ["banco",Vector2(338,300),Vector3(.5,.5,1.8)]]
- for prop in props:
-  var at: Vector3=s.p(prop[1].x,prop[1].y)
-  s.box(prop[2],at+Vector3.UP*prop[2].y*.5,"metal" if prop[0]!="banco" else "wood")
-
-## Marco visual no pátio aberto: mangueira grande no centro (orienta de longe).
-static func _landmark(s: Node3D) -> void:
- var at: Vector3=s.p(534,185)
- s.box(Vector3(.7,4.2,.7),at+Vector3.UP*2.1,"trunk")
- s.box(Vector3(6.5,2.6,6.5),at+Vector3.UP*5.2,"leaves",false)
- s.box(Vector3(4.2,1.8,4.2),at+Vector3.UP*6.7,"leaves",false)
- for i in 6:
-  var a:=float(i)*TAU/6
-  s.box(Vector3(1.6,.45,.4),at+Vector3(sin(a)*1.6,.22,cos(a)*1.6),"wood").rotation.y=a
-
-## Luz-guia: amarela nas duas rotas; o resto fica no escuro.
-static func _guide_lights(s: Node3D) -> void:
- for at in [Vector2(414,82),Vector2(370,82),Vector2(450,300),Vector2(380,322)]:
-  s._lamp(s.p(at.x,at.y,2.9),Color(.95,.78,.5),6,.65)
+static func ponto(escola: Node3D,nome: String,altura:=0.0) -> Vector3:
+ var dado: Array=PONTOS[nome]
+ return escola.cel(dado[0].x,dado[0].y,dado[1]*escola.LEVEL+altura)

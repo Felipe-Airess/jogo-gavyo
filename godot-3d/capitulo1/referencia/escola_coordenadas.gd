@@ -1,4 +1,6 @@
 extends "res://prototipo/school.gd"
+## REFERÊNCIA (02/11/2026): escola anterior, gerada por coordenadas soltas.
+## Não é mais carregada pelo jogo; o mapa atual vem de capitulo1/mapa/.
 ## Planta derivada do desenho de Felipe. Metros propostos; relações preservadas.
 ## Metros por pixel do desenho de Felipe. 0,12 = tamanho real (sala ~8×6 m);
 ## era 0,085 e o mapa ficava pequeno demais.
@@ -146,7 +148,7 @@ func build(owner_game: Node3D) -> void:
  _layout_terror()
  _classroom_desks()
  # Estrutura de level design (rotas, cobertura, marco, luz-guia): nivel.gd.
- load("res://capitulo1/nivel.gd").build(self)
+ load("res://capitulo1/referencia/nivel_coordenadas.gd").build(self)
  _environment()
  # Temperatura geral fria, luminárias amareladas localizadas; sem sombras dinâmicas.
  var env: Environment=find_children("*","WorldEnvironment",true,false)[0].environment

@@ -1,6 +1,7 @@
 extends "res://prototipo/game.gd"
 ## Capítulo 1 integrado. Mantém a revisão 2 como referência separada.
-const CAMPUS=preload("res://capitulo1/escola.gd")
+const CAMPUS=preload("res://capitulo1/mapa/escola_grade.gd")
+const NIVEL=preload("res://capitulo1/nivel.gd")
 const PERSON=preload("res://capitulo1/ator.gd")
 const CHAPTER_HUD=preload("res://capitulo1/hud.gd")
 const CHAPTER_CAMERA=preload("res://capitulo1/camera.gd")
@@ -54,9 +55,8 @@ func _ready() -> void:
  add_child(school)
  school.build(self)
  player=spawn_actor(school.spawn,false)
- # Postos definidos no level design (capitulo1/nivel.gd): um por rota + química.
- for post in load("res://capitulo1/nivel.gd").GUARD_POSTS:
-  var at: Vector3=school.p(post.x,post.y)
+ # Postos marcados na grade do mapa (1–4 em capitulo1/mapa/terreo.txt).
+ for at in school.postos:
   var e=spawn_actor(at,true)
   e.face(at+Vector3.FORWARD)
   enemies.append(e)
@@ -107,7 +107,7 @@ func _ready() -> void:
  for data in [[Vector3(.35,1.2,.23),Vector3(0,.6,0)],[Vector3(.22,.27,.22),Vector3(0,1.38,0)]]:
   var ghost=MeshInstance3D.new(); var shape=BoxMesh.new(); shape.size=data[0]
   ghost.mesh=shape; ghost.material_override=school.mats["dark"]; ghost.position=data[1]; silhouette.add_child(ghost)
- silhouette.position=school.p(323,118)
+ silhouette.position=NIVEL.ponto(school,"silhueta")
  silhouette.visible=false
  ending_set=load("res://capitulo1/encerramento.gd").new()
  add_child(ending_set)
@@ -193,20 +193,24 @@ func _sync_low_camera() -> void:
  low_camera.cull_mask=cam.cull_mask
 
 func _props() -> void:
- for data in [["chave de fenda",school.p(414,256.5,.91)],["alicate",school.p(371,36.5,.91)],["régua",school.p(547,65.5,.91)]]:
-  var prop=school.box(Vector3(.035,.035,.28),data[1],"metal",false)
-  tools.append({"name":data[0],"at":data[1],"node":prop,"taken":false})
- for at in [school.p(455,300,.12),school.p(320,228,.12),school.p(720,240,.12)]:
+ # Posições em células da grade (capitulo1/nivel.gd), sobre blocos do mapa.
+ for data in NIVEL.FERRAMENTAS:
+  var at: Vector3=school.topo(data[1],data[2])+Vector3.UP*.02
+  var prop=school.box(Vector3(.035,.035,.28),at,"metal",false)
+  tools.append({"name":data[0],"at":at,"node":prop,"taken":false})
+ for cell in NIVEL.OBJETOS:
+  var at: Vector3=school.cel(cell.x,cell.y,.12)
   var prop=school.box(Vector3(.20,.24,.20),at,"metal",false)
   world_objects.append({"node":prop,"origin":at,"taken":false})
  # Uso interrompível, sem som atraindo inimigos: reparar luz / abrir caixa de materiais.
- for data in [["luminária","chave de fenda",school.p(306,206,1.2)],["caixa de materiais","alicate",school.p(414,290,.175)],["livros altos","régua",school.p(690,42,1.95)]]:
-  var prop=school.box(Vector3(.35,.35,.22),data[2],"wood",false)
+ for data in NIVEL.USOS:
+  var at: Vector3=school.cel(data[2].x,data[2].y,data[3])+data[4]
+  var prop=school.box(Vector3(.35,.35,.22),at,"wood",false)
   prop.set_meta("use",data[0]); prop.set_meta("tool",data[1])
-  prop.set_meta("original_at",data[2])
+  prop.set_meta("original_at",at)
   school.reactive.append(prop)
   tool_progress[data[0]]=0.0
- school.box(Vector3(.65,.05,.35),school.p(690,42,1.75),"wood",false)
+  if data[0]=="livros altos": school.box(Vector3(.65,.05,.35),at-Vector3.UP*.2,"wood",false)
 
 func begin() -> void:
  started=true
@@ -416,7 +420,7 @@ func _story_tick(dt: float) -> void:
  if bag_found and not before_ritual and player.position.distance_to(school.ritual_approach)<3 and player.position.y<1 and checkpoint_safe():
   before_ritual=true; checkpoint_index=2; _snapshot()
   hud.say("Checkpoint · algo acontece no pátio de química.",3)
- if not sighting_seen and player.position.distance_to(school.p(442,316))<4 and phase=="investigate":
+ if not sighting_seen and player.position.distance_to(NIVEL.ponto(school,"avistamento"))<4 and phase=="investigate":
   phase="sighting"; story_clock=0
   var look: Vector3=enemies[0].position-player.position
   view.yaw=atan2(-look.x,-look.z)
@@ -433,7 +437,7 @@ func _story_tick(dt: float) -> void:
     if alert_spread: start_chase()
  if video_recorded and player.position.distance_to(school.gate_at)<2.4:
   _jump_gate()
- if bag_found and not scare_played and player.position.distance_to(school.p(323,205+posmod(death_count,3)*8))<3:
+ if bag_found and not scare_played and player.position.distance_to(NIVEL.ponto(school,"susto")+Vector3(0,0,posmod(death_count,3)))<3:
   scare_played=true; scare_time=0; silhouette.visible=true
   view.trauma=.25
   impact_audio.stream=sfx["susto"]; impact_audio.play()
@@ -639,11 +643,11 @@ func _unease_beats() -> void:
    beat_lights.clear()
  if bag_found or alert_spread: return
  var px:=player.position
- if not beats_done.has("metal") and px.distance_to(school.p(700,190))<3.5:
+ if not beats_done.has("metal") and px.distance_to(NIVEL.ponto(school,"batida_metal"))<3.5:
   beats_done["metal"]=true
   impact_audio.stream=sfx["metal"]; impact_audio.global_position=px+view.direction()*-6; impact_audio.play()
   view.trauma=maxf(view.trauma,.12)
- if not beats_done.has("luzes") and px.distance_to(school.p(545,185))<3.5:
+ if not beats_done.has("luzes") and px.distance_to(NIVEL.ponto(school,"batida_luzes"))<3.5:
   beats_done["luzes"]=true
   cult_audio.volume_db=-10
   get_tree().create_timer(4).timeout.connect(func(): cult_audio.volume_db=-18)
@@ -651,7 +655,7 @@ func _unease_beats() -> void:
    if light.global_position.distance_to(px+view.direction()*8)<7 and light!=school.flicker:
     light.set_meta("energy",light.light_energy); light.light_energy=0; beat_lights.append(light)
   beat_clock=2.2
- if not beats_done.has("passos") and px.distance_to(school.p(480,300))<3.5:
+ if not beats_done.has("passos") and px.distance_to(NIVEL.ponto(school,"batida_passos"))<3.5:
   beats_done["passos"]=true
   for i in 4:
    get_tree().create_timer(.45*i).timeout.connect(func():
@@ -679,7 +683,7 @@ func _ritual_watch(dt: float) -> void:
     if candle.position.distance_to(player.position)<1.6: rate*=1.4; break
    if player.velocity.length()>2.5: rate*=1.6
    # Sombra da caixa da escada: lugar de espiar (decisão de Felipe).
-   if player.position.x<school.p(school.STAIR_EAST_X+2,0).x and player.position.z>school.p(0,school.STAIR_NORTH_Z).z: rate*=.35
+   if school.na_sombra_da_escada(player.position): rate*=.35
    f.suspicion=minf(1,f.suspicion+dt*rate)
   else:
    f.suspicion=maxf(0,f.suspicion-dt*.08)
@@ -943,8 +947,8 @@ func _navigate(actor: CharacterBody3D,target: Vector3,speed: float,dt: float) ->
 func _build_paths() -> void:
  path_grid=AStarGrid2D.new()
  # Região da grade (células de 0,5 m) a partir do mapa, com margem da rua.
- var lo: Vector3=school.p(-10,-10); var hi: Vector3=school.p(960,760)
- path_grid.region=Rect2i(floori(lo.x*2),floori(lo.z*2),ceili((hi.x-lo.x)*2),ceili((hi.z-lo.z)*2))
+ var area: Rect2=school.limites().grow(2)
+ path_grid.region=Rect2i(floori(area.position.x*2),floori(area.position.y*2),ceili(area.size.x*2),ceili(area.size.y*2))
  path_grid.cell_size=Vector2(.5,.5)
  path_grid.diagonal_mode=AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
  path_grid.update()
@@ -966,7 +970,7 @@ func _build_paths() -> void:
 
 func _snapshot(persist:=true) -> void:
  super._snapshot(false)
- checkpoint["version"]=3
+ checkpoint["version"]=4 # 4: mapa em grade (02/11)
  checkpoint["bag"]=bag_found
  checkpoint["alert"]=alert_spread
  checkpoint["video"]=video_recorded
@@ -988,7 +992,7 @@ func _save_path() -> String:
 func load_checkpoint() -> bool:
  if not FileAccess.file_exists(_save_path()): return false
  var saved=JSON.parse_string(FileAccess.get_file_as_string(_save_path()))
- if not saved is Dictionary or saved.get("version")!=3 or saved.get("enemies",[]).size()!=enemies.size(): return false
+ if not saved is Dictionary or saved.get("version")!=4 or saved.get("enemies",[]).size()!=enemies.size(): return false
  checkpoint=saved; restore_checkpoint(); return true
 
 func restore_checkpoint() -> void:
@@ -1004,7 +1008,7 @@ func restore_checkpoint() -> void:
  before_ritual=bool(checkpoint.get("before_ritual",false))
  sighting_seen=bool(checkpoint.get("sighting",false))
  scare_played=bool(checkpoint.get("scare",false)); silhouette.visible=false
- silhouette.position=school.p(323,118+posmod(death_count,3)*8)
+ silhouette.position=NIVEL.ponto(school,"silhueta")+Vector3(0,0,posmod(death_count,3))
  school.bag.visible=not bag_found
  tool_inventory.assign(checkpoint.get("tools",[]))
  tool_progress=checkpoint.get("tool_progress",{}).duplicate()
@@ -1068,7 +1072,7 @@ func _impact(at: Vector3,gore: bool) -> void:
 
 func _capture() -> void:
  begin(); end_intro()
- player.position=school.p(620,250)
+ player.position=NIVEL.ponto(school,"patio_aberto")
  view.yaw=PI/2
  await get_tree().create_timer(5).timeout
  await RenderingServer.frame_post_draw
