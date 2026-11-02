@@ -1,5 +1,14 @@
 # GAVIÃO — visão do jogo (anotado em 30/10/2026, conversa com o Felipe)
 
+> Entrada atual para continuar: [CONTINUAR-NOUTRO-CHAT.md](CONTINUAR-NOUTRO-CHAT.md).
+> O mapa e as decisões posteriores estão em [DECISOES-RODADA-3.md](DECISOES-RODADA-3.md)
+> e prevalecem sobre a direção histórica deste arquivo.
+
+> Atualização de 01/11/2026: a direção atual de terror, capítulos por estudante e
+> combate por esquiva/contra-ataque está em [REFORMULACAO-TERROR-COMBATE.md](REFORMULACAO-TERROR-COMBATE.md).
+> Nas divergências de design, essas decisões mais recentes prevalecem; detalhes
+> ainda em discussão estão separados das decisões confirmadas.
+
 Documento vivo: guarda as decisões e ideias para as próximas rodadas.
 Leia junto com `AGENTS.md`, `arte/MIXAMO-ESTUDO.md` e `arte/ANIMACAO-MIGUEL.md`.
 
