@@ -26,7 +26,7 @@ func run() -> void:
  check(game.player.anim.has_animation("novo/Sprint"),"ciclo novo de corrida importado")
  game.player.velocity=Vector3(0,0,3.8); game.player.face(game.player.position+Vector3.BACK)
  game.player.play("correr"); game.player.animate(.1)
- check(game.player.motion.active_clip=="Walk" and game.player.motion.playback.get_current_node()=="Locomocao","corrida usa blend de locomoção")
+ check(game.player.motion.active_clip=="novo/Sprint" and game.player.motion.playback.get_current_node()=="Locomocao","corrida usa blend de locomoção")
  for i in 240:
   game.player.play("correr"); game.player.animate(1.0/60)
  check(game.player.motion.playback.get_current_node()=="Locomocao","corrida contínua não reinicia arrancada")
@@ -116,33 +116,6 @@ func run() -> void:
  check(e.state=="rising" and not game.alert_spread,"derrubado levanta antes de tentar chamar ajuda")
  game._enemy_ticks(3.8)
  check(e.state=="calling" and not game.alert_spread,"chamado tem preparação interrompível")
- # Terror: Miguel só empurra. Derruba sem ferir, e quem cai levanta e chama ajuda.
- game.player.state="idle"; game.player.clock=0; game.player.health=100
- game.player.position=NIVEL.ponto(game.school,"saida"); game.player.velocity=Vector3.ZERO
- game.fatigue=0; game.shove_cooldown=0
- e.down=false; e.dead=false; e.health=100; e.state="calling"; e.clock=.5; e.aware=true
- e.position=game.player.position+Vector3(0,0,-.9)
- e.collision_layer=2
- e.face(game.player.position); e.play("guarda"); e.animate(.2)
- game.player.face(e.position)
- await frames(2)
- var click=InputEventMouseButton.new(); click.button_index=MOUSE_BUTTON_LEFT; click.pressed=true
- game._unhandled_input(click)
- check(game.player.state=="attack" and game.attack_mode=="shove","clique esquerdo empurra")
- for i in 60:
-  game._player_tick(1.0/60); game._enemy_ticks(1.0/60)
-  await physics_frame
- check(e.down and e.health==100,"empurrão derruba sem ferir")
- check(not game.alert_spread,"empurrão interrompe chamado em preparação")
- game.fatigue=0; game.shove_cooldown=1
- game._unhandled_input(click)
- check(game.fatigue>0 and game.player.state!="attack","empurrar repetidamente só cansa")
- e.help_clock=0
- game._enemy_ticks(4.1)
- check(e.state=="rising","empurrado levanta sozinho")
- game._enemy_ticks(3.8); game._enemy_ticks(1.7)
- check(game.alert_spread,"quem foi empurrado chama ajuda se ninguém impedir")
- game.alert_spread=false
  var middle=InputEventMouseButton.new(); middle.button_index=MOUSE_BUTTON_MIDDLE; middle.pressed=true
  game._unhandled_input(middle)
  check(game.locked==null,"sem travar alvo de luta")

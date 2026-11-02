@@ -3,7 +3,7 @@ extends RefCounted
 const LIBRARY=preload("res://capitulo1/animacoes/biblioteca.res")
 const ALIASES={"prototype/sit":"novo/Sitting_Idle","prototype/relaxed":"novo/Idle",
  "queda":"novo/Sweep_Fall","levantar":"novo/LayToIdle","deitado":"novo/Deitado",
- "actions/empurrao":"novo/Empurrar","actions/agarrao":"novo/Agarrar",
+ "actions/agarrao":"novo/Agarrar",
  "Body_Block":"novo/Segurado"}
 var actor: CharacterBody3D
 var tree: AnimationTree
@@ -40,6 +40,8 @@ func setup(owner_actor: CharacterBody3D) -> void:
    var node=AnimationNodeAnimation.new()
    node.animation="novo/"+data[i+1]
    node.use_custom_timeline=true; node.timeline_length=1.0; node.stretch_time_scale=true
+   # A timeline própria sobrescreve o loop do recurso no Godot 4.5.1.
+   node.loop_mode=Animation.LOOP_LINEAR
    blend.add_blend_point(node,[0.0,data[4],data[5]][i])
   branch.add_node("Velocidade",blend)
   branch.add_node("Cadencia",AnimationNodeTimeScale.new())
@@ -148,7 +150,9 @@ func advance(dt: float) -> void:
   _parameter("parameters/"+locomotion+"/Velocidade/blend_position",blend)
   _parameter("parameters/"+locomotion+"/Cadencia/scale",cadence)
   if String(playback.get_current_node())!=locomotion: playback.travel(locomotion)
-  active_clip=clip if flat>.03 else ("Crouch_Idle" if actor.crouched else "Idle")
+  if locomotion in ["Locomocao","Subir"] and flat>=(1.45+3.8)/2:
+   clip="Sprint" if locomotion=="Locomocao" else "Running_Up_Stairs"
+  active_clip="novo/"+(clip if flat>.03 else ("Crouch_Idle" if actor.crouched else "Idle"))
  var before=String(playback.get_current_node())
  tree.advance(dt)
  var after=String(playback.get_current_node())

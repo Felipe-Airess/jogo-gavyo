@@ -47,14 +47,6 @@ func run() -> void:
  check(Input.is_physical_key_pressed(KEY_CTRL),"agachar é alternância")
  touch(t,2,crouch["at"],true); touch(t,2,crouch["at"],false)
  check(not Input.is_physical_key_pressed(KEY_CTRL),"segundo toque levanta")
- var e=game.enemies[1]
- e.position=game.player.position+Vector3(0,0,-.9); e.down=false; e.state="idle"; e.collision_layer=2
- game.player.face(e.position); game.player.state="idle"; game.shove_cooldown=0
- var shove=button(t,"empurrar")
- touch(t,3,shove["at"],true)
- await process_frame
- check(game.player.state=="attack" and game.attack_mode=="shove","botão empurrar empurra")
- touch(t,3,shove["at"],false)
  touch(t,0,left,true); drag(t,0,left+Vector2(60,0),Vector2(60,0))
  t.release_all(); Input.flush_buffered_events()
  check(not Input.is_physical_key_pressed(KEY_D),"perder foco solta comandos presos")

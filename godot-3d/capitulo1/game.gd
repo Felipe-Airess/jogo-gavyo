@@ -135,7 +135,6 @@ func spawn_actor(at: Vector3,is_enemy: bool,big:=false) -> CharacterBody3D:
  spawn_style+=1
  add_child(actor)
  actor.setup(self,at,is_enemy,big)
- # Clipes FK próprios: empurrão, agarrão (acoes.gd).
  # Biblioteca nova instalada pelo controlador compartilhado.
  return actor
 
@@ -277,56 +276,11 @@ func _unhandled_input(event: InputEvent) -> void:
   match event.button_index:
    MOUSE_BUTTON_LEFT:
     if carried!=null: throw_object()
-    else: shove()
    MOUSE_BUTTON_RIGHT:
     _drop_load(); dodge()
 
-## Empurrão: única resposta física de Miguel. Derruba por alguns segundos e não
-## fere; quem cai levanta e tenta chamar ajuda. Compra tempo, não resolve.
 const CONTACT=preload("res://capitulo1/animacoes/contato.gd")
-const SHOVE_DURATION:=.85
-const SHOVE_CONTACT:=.30
-const SHOVE_REACH:=1.5
-var shove_cooldown:=0.0
 var interaction: Dictionary={}
-
-func shove() -> void:
- if phase not in ["investigate","chase"] or player.hidden or is_instance_valid(peek_door): return
- if player.state not in ["idle","heal"]: return
- if shove_cooldown>0:
-  fatigue=minf(1,fatigue+.2); burst_clock=3; return
- _drop_load(); cancel_heal()
- action_target=nearest_enemy(SHOVE_REACH,false)
- attack_mode="shove"
- player.state="attack"; player.clock=0; player.hit_once=false; player.velocity=Vector3.ZERO
- var rate=1.0/(1+fatigue*.6)
- attack_duration=SHOVE_DURATION/rate
- player.start_action("actions/empurrao",rate)
- if is_instance_valid(action_target): player.face(action_target.position)
- shove_cooldown=attack_duration+.5
- fatigue=minf(1,fatigue+.12)
-
-func _shove_tick(dt: float) -> void:
- var e=action_target
- if is_instance_valid(e) and not e.down and player.motion.position()<SHOVE_CONTACT:
-  player.face(e.position,dt)
-  var toward: Vector3=(e.position-player.position)*Vector3(1,0,1)
-  if toward.length()>.73 and visible_between(player.bone_point("Chest"),e.bone_point("Chest")):
-   player.move_and_collide(toward.normalized()*minf(dt*1.1,toward.length()-.73))
- player.animate(dt)
- if player.motion.consume("contact") and not player.hit_once:
-  player.hit_once=true
-  if is_instance_valid(e) and not e.pursuer and CONTACT.hands_touch(player,e):
-   var away: Vector3=(e.position-player.position)*Vector3(1,0,1)
-   e.attack_target=null; e.strike_yaw_bias=0
-   if enemy_turn==e: enemy_turn=null
-   e.aware=true; e.last_seen=player.position
-   e.make_down(); e.help_clock=0; e.velocity=away.normalized()*1.8
-   view.trauma=.2
-   impact_audio.stream=sfx["carne"]; impact_audio.global_position=e.bone_point("Chest"); impact_audio.play()
-   combat_stats["shoves"]=int(combat_stats.get("shoves",0))+1
- if player.motion.consume("finished"):
-  player.state="idle"; player.play("guarda")
 
 func _process(dt: float) -> void:
  if player.dead: player.animate(dt)
@@ -413,7 +367,6 @@ func _physics_process(dt: float) -> void:
  if impact_pause>0:
   impact_pause=maxf(0,impact_pause-dt); return
  fatigue=maxf(0,fatigue-dt*(.18 if player.state!="attack" else .01))
- shove_cooldown=maxf(0,shove_cooldown-dt)
  turn_cooldown=maxf(0,turn_cooldown-dt)
  if not tool_active.is_empty():
   _tool_tick(dt)
@@ -620,7 +573,7 @@ func _enemy_ticks(dt: float) -> void:
    else:
     e.patrol_clock+=dt
     var target=e.home+Vector3(0,0,-1.7 if int(e.patrol_clock/5)%2==0 else 1.7)
-    _navigate(e,target,.65,dt)
+    _navigate(e,target,NIVEL.WALK,dt)
    e.animate(dt); continue
   if distance<9: engaged+=1
   if engaged>2:
@@ -630,7 +583,7 @@ func _enemy_ticks(dt: float) -> void:
    # Continua buscando perto da última visão, sem seguir a posição oculta.
    target=e.last_seen+Vector3(sin(elapsed*.2)*2,0,cos(elapsed*.2)*2)
   if distance>1.05 or not sees:
-   _navigate(e,target,1.35 if enemy_turn==null and protected_target==null else .35,dt)
+   _navigate(e,target,NIVEL.RUN if enemy_turn==null and protected_target==null else .35,dt)
   else:
    e.velocity=Vector3.ZERO; e.face(player.position,dt); e.play("guarda")
    if enemy_turn==null and protected_target==null and turn_cooldown<=0 and e.opening<=0 and not player.hidden:
@@ -730,10 +683,6 @@ func _spread_alert(e: CharacterBody3D) -> void:
  for other in enemies:
   if other!=e and not other.dead:
    other.last_seen=e.position; other.suspicion=maxf(other.suspicion,.4); other.memory=30
-
-## Único "ataque" de Miguel é o empurrão (ver shove()).
-func _attack_tick(dt: float) -> void:
- _shove_tick(dt)
 
 func hurt_player(damage: float) -> void:
  _cancel_interaction()
@@ -860,7 +809,7 @@ func context_text() -> String:
  if video_recorded and player.position.distance_to(school.gate_at)<3: return "[Espaço] Pular o portão 1"
  if carried!=null: return "[T / clique] Arremessar objeto · esquiva solta a carga"
  if player.hidden: return "ESCONDIDO · observe e escute · [Espaço] Sair"
- if show_help: return "WASD mover · Espaço interagir · clique empurrar · Ctrl agachar · V gravar · L lanterna"
+ if show_help: return "WASD mover · Espaço interagir · Ctrl agachar · V gravar · L lanterna"
  for door in school.doors:
   if _near_looking(door.center(),1.8): return "[Espaço] "+("Fechar " if door.opened else "Abrir ")+door.title+(" · [F] Fresta" if not door.opened else "")
  for item in tools:
@@ -875,7 +824,7 @@ func context_text() -> String:
   if not item["taken"] and _near_looking(item["at"],1.5): return "[Espaço] Pegar "+item["kind"]
  for spot in school.hides:
   if _near_looking(spot["entry"]+Vector3.UP*.9,1.5): return "[Espaço] Esconder-se · quebre a visão antes"
- if e!=null and is_behind(e): return "Passe agachado · [Clique] empurrar o derruba, mas alerta"
+ if e!=null and is_behind(e): return "Passe agachado sem chamar atenção"
  return ""
 
 func _tool_tick(dt: float) -> void:

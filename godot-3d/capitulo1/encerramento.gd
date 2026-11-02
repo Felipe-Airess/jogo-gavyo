@@ -55,7 +55,7 @@ func setup(game: Node3D) -> void:
  bola.collision_layer=0
  bola.model.scale=Vector3(.9,1.01,.9)
  bola.face(Vector3(-2.6,0,-3))
- bola.anim.play("prototype/sit",0)
+ bola.start_action("prototype/sit")
  bola.animate(.1)
  _box(Vector3(.8,.4,.8),Vector3(-2.6,.2,-.5),Color(.20,.15,.10))
  var gamepad=_box(Vector3(.24,.06,.12),Vector3(-2.6,.85,-.7),Color(.045,.045,.055))

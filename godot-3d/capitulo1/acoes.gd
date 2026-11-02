@@ -1,6 +1,6 @@
 extends RefCounted
 ## Clipes FK próprios montados sobre a pose de guarda (sem IK de mão, sem
-## captura nova): pegada/derrubada antiga, empurrão de Miguel e agarrão do
+## captura nova): pegada/derrubada antiga e agarrão do
 ## cultista. Cada chave: [tempo, peso, direção do braço, direção do antebraço,
 ## inclinação do tronco]. Direções no espaço do personagem (+z = frente);
 ## x é espelhado entre os lados.
@@ -8,10 +8,6 @@ extends RefCounted
 const TAKEDOWN:=[[0.0,0.0],[.45,1.0,Vector3(.08,.15,1),Vector3(-.32,.05,1),.10],
  [.9,1.0,Vector3(.08,-.25,1),Vector3(-.32,-.08,1),.10],[1.3,1.0,Vector3(.08,-.25,1),Vector3(-.32,-.08,1),.10],
  [1.65,.45,Vector3(.08,-.25,1),Vector3(-.32,-.08,1),.10],[2.05,0.0]]
-## Empurrão (0,75 s): recolhe os braços junto ao peito e estende os dois.
-const SHOVE:=[[0.0,0.0],[.14,1.0,Vector3(.35,-.6,.25),Vector3(-.25,.55,1),-.06],
- [.30,1.0,Vector3(.12,.08,1),Vector3(.04,.06,1),.24],[.48,.9,Vector3(.12,.04,1),Vector3(.04,.02,1),.20],
- [.75,0.0]]
 ## Agarrão do cultista (laço de 1,8 s): braços à altura do ombro, apertando.
 const GRAB:=[[0.0,1.0,Vector3(.10,.12,1),Vector3(-.30,.10,1),.16],
  [.9,1.0,Vector3(.16,.02,1),Vector3(-.22,.0,1),.22],[1.8,1.0,Vector3(.10,.12,1),Vector3(-.30,.10,1),.16]]
@@ -19,11 +15,10 @@ const GRAB:=[[0.0,1.0,Vector3(.10,.12,1),Vector3(-.30,.10,1),.16],
 static func build(actor: CharacterBody3D) -> AnimationLibrary:
  var library=AnimationLibrary.new()
  library.add_animation("takedown",clip(actor,TAKEDOWN))
- library.add_animation("empurrao",clip(actor,SHOVE))
  var grab:=clip(actor,GRAB)
  grab.loop_mode=Animation.LOOP_LINEAR
  library.add_animation("agarrao",grab)
- actor.anim.stop(); actor.play("guarda"); actor.animate(0)
+ actor.play("guarda"); actor.animate(0)
  return library
 
 static func clip(actor: CharacterBody3D,keys: Array) -> Animation:
@@ -34,7 +29,14 @@ static func clip(actor: CharacterBody3D,keys: Array) -> Animation:
   var id=anim.add_track(source.track_get_type(i))
   anim.track_set_path(id,source.track_get_path(i))
  for key in keys:
-  actor.anim.play("guarda",0); actor.anim.seek(0,true)
+  # Amostra estática da guarda para gerar chaves, sem reproduzir outro player.
+  for track in source.get_track_count():
+   var bone=actor.rig.find_bone(String(source.track_get_path(track)).get_slice(":",1))
+   var value=source.track_get_key_value(track,0)
+   match source.track_get_type(track):
+    Animation.TYPE_POSITION_3D: actor.rig.set_bone_pose_position(bone,value)
+    Animation.TYPE_ROTATION_3D: actor.rig.set_bone_pose_rotation(bone,value)
+    Animation.TYPE_SCALE_3D: actor.rig.set_bone_pose_scale(bone,value)
   actor.rig.force_update_all_bone_transforms()
   var w: float=key[1]
   if w>0:
