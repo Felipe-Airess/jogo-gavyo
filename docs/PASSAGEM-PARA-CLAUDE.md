@@ -51,6 +51,49 @@ não inventar falas aprovadas. O capítulo 2 continua para depois.
     provisórios e montagem final da casa/quarto, sem desenvolver gameplay do ato 2.
 12. Mudamos o lançador principal e `project.godot` para o capítulo integrado.
 
+## Rodada Claude — 02/11/2026 (reformulação para terror)
+
+Felipe jogou e avaliou: animações quebradas, escola sem sentido, visual claro e
+chapado, combate ruim. **Decisão dele:** o jogo é uma história de terror, não um jogo
+de luta. Miguel empurra, foge e se esconde. Isto substitui as decisões de combate
+anteriores (combos, pesado, derrubada, finalização, arrastar corpo).
+
+Feito nesta rodada (testes: capítulo 43, base 39, validação 15, percurso 7/7):
+
+- Corrida: `Running` é uma arrancada, não um ciclo; em loop, Miguel "recomeçava a
+  correr" a cada 1,6 s. Agora a arrancada toca uma vez e emenda em `prototype/run`.
+- Clique esquerdo = empurrão: derruba sem ferir; o cultista levanta e chama ajuda
+  (espalha alerta). Repetir só cansa. Cultista agarra em vez de socar; soltar-se
+  exige apertar Q/clique direito 4 vezes; a faca solta na hora.
+- Código do combate antigo removido do capítulo (base `prototipo/` intacta).
+- Filtro retrô (pixelização, paleta com pontilhado, vinheta) em
+  `capitulo1/gravacao.gdshader`; F3 alterna. Ambiente escuro com névoa.
+- Luzes: o cenário era fundido em uma malha por material no mapa inteiro; no
+  Compatibility cada malha recebe poucas luzes, então lâmpadas e lanterna eram
+  ignoradas. Agora lotes por região de 12 m. Lanterna sai da mão de Miguel.
+- REC validava pelo ombro e gravava pela cabeça: cancelava sozinho no vão da porta.
+- Portas do capítulo abrem para dentro (a folha trancava corredores).
+- Postos de cultistas: um ficava a 0,5 m do checkpoint 2 e outro via a entrada do
+  pátio. Checkpoint só salva sem cultista alerta/vendo por perto.
+- Cultista calmo não faz parkour (ficava preso tentando pular mesas).
+- `scripts/testar-percurso.sh`: percurso contínuo com física real do acordar ao
+  portão (`--real` liga a percepção dos inimigos, só registra).
+- `godot-3d/tools/capturar_vistas.gd`: capturas no Linux com `xvfb-run`.
+  Antes/depois em `docs/verificacao-20261102/reformulacao/`.
+
+Ainda ruim / próximo:
+
+1. **Level design.** O mapa é o desenho copiado em escala literal: corredores longos e
+   vazios (~50 s andando só até a escada). Refazer usando o desenho como mapa de
+   ligações, com espaços menores, esconderijos e linhas de visão quebradas.
+2. Empurrão e agarrão usam clipes de soco existentes (`direto`, gancho). Precisam de
+   animações próprias.
+3. Camisa de Miguel fica estourada no escuro; revisar material.
+4. HUD ainda mostra EMPANADOS/FACA de forma "jogo de luta"; simplificar.
+5. Felipe ainda não avaliou esta rodada.
+
+No Linux: Godot 4.5.1 em `/tmp/claude-0/godot/` (baixar de novo numa sessão nova).
+
 ## Arquivos importantes
 
 | Arquivo | Papel |
