@@ -235,3 +235,24 @@ Não usar o executável `.app` do Mac no Linux. Importar os recursos primeiro co
 O código e recursos necessários estão no Git. `work/` continua local: ferramentas
 para Mac, arquivos de trabalho Blender, backups e QA; não é dependência oculta do
 capítulo se GODOT apontar para um executável instalado no novo ambiente.
+
+## Rodada Claude — 02/11/2026, modelo do Miguel v2 (branch `feat/modelo-miguel`)
+
+Proposta de modelo novo **numa cópia**, aguardando o aval de Felipe; o jogo
+continua com o aprovado (SHA-256 acima, conferido). Ver
+`arte/revisoes/miguel-v2-20261102/README.md` (diagnóstico, antes/depois,
+poses extremas, QA e limites).
+
+- Gerador `arte/miguel_v2.py` sobre a cadeia aprovada. Orelhas, olhos, perfil,
+  pescoço, cabelo (franja, têmporas, nuca em "V"), mãos semiabertas, branco do
+  uniforme igual à foto, pesos da roupa suavizados e correções de QA.
+- 25.592 triângulos (era 61.688), atlas 512×1024 em `arte/texturas/v2/`,
+  `arte/miguel_v2_animado.glb` com 4,97 MB. Mesmos 22 ossos, malha e ordem de
+  materiais.
+- Felipe avisou que **trocou as animações** e pediu para não testar cada uma. O
+  pacote v2 usa os 25 FBX de `arte/mixamo/` que estavam na branch. Se as
+  animações novas estiverem em outro lugar, refazer com
+  `arte/miguel_v2_publicar.py` apontando para elas.
+- Na nuvem, o tarball do Blender é bloqueado (403). Usar `pip install bpy`
+  (5.2.3) e `apt-get install libegl1 libgl1-mesa-dri`.
+- Não testado no Godot nem no celular.

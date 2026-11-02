@@ -1,0 +1,146 @@
+{
+ "glb": "/tmp/claude-0/work/v2.glb",
+ "tamanho_bytes": 1637268,
+ "objetos_extras": [
+  "Icosphere"
+ ],
+ "tris": 25591,
+ "verts_blender": 21491,
+ "tris_por_material": {
+  "Miguel": 22407,
+  "Miguel_Uniforme_Polo": 3184
+ },
+ "texturas": {
+  "miguel_v2_uniforme": [
+   512,
+   1024
+  ]
+ },
+ "ossos": [
+  "Hips",
+  "LeftUpperLeg",
+  "LeftLowerLeg",
+  "LeftFoot",
+  "LeftToes",
+  "RightUpperLeg",
+  "RightLowerLeg",
+  "RightFoot",
+  "RightToes",
+  "Spine",
+  "Chest",
+  "UpperChest",
+  "LeftShoulder",
+  "LeftUpperArm",
+  "LeftLowerArm",
+  "LeftHand",
+  "Neck",
+  "Head",
+  "RightShoulder",
+  "RightUpperArm",
+  "RightLowerArm",
+  "RightHand"
+ ],
+ "acoes": 0,
+ "altura_m": 1.8123,
+ "influencias_por_vertice": {
+  "1": 15634,
+  "2": 2895,
+  "3": 1287,
+  "4": 1675
+ },
+ "vertices_sem_peso": 0,
+ "ilhas_maiores": [
+  {
+   "tris": 1716,
+   "z_min": 0.905,
+   "z_max": 1.493,
+   "x_med": -0.0
+  },
+  {
+   "tris": 1541,
+   "z_min": 1.531,
+   "z_max": 1.733,
+   "x_med": 0.004
+  },
+  {
+   "tris": 1468,
+   "z_min": 0.913,
+   "z_max": 1.495,
+   "x_med": 0.0
+  },
+  {
+   "tris": 828,
+   "z_min": 0.984,
+   "z_max": 1.736,
+   "x_med": -0.107
+  },
+  {
+   "tris": 672,
+   "z_min": 1.481,
+   "z_max": 1.739,
+   "x_med": -0.063
+  },
+  {
+   "tris": 605,
+   "z_min": 1.493,
+   "z_max": 1.739,
+   "x_med": 0.065
+  },
+  {
+   "tris": 537,
+   "z_min": 0.107,
+   "z_max": 0.961,
+   "x_med": -0.007
+  },
+  {
+   "tris": 528,
+   "z_min": 0.128,
+   "z_max": 0.956,
+   "x_med": 0.007
+  },
+  {
+   "tris": 488,
+   "z_min": 1.096,
+   "z_max": 1.52,
+   "x_med": -0.031
+  },
+  {
+   "tris": 408,
+   "z_min": 0.985,
+   "z_max": 1.434,
+   "x_med": 0.502
+  },
+  {
+   "tris": 373,
+   "z_min": 0.985,
+   "z_max": 1.434,
+   "x_med": -0.504
+  },
+  {
+   "tris": 304,
+   "z_min": 1.771,
+   "z_max": 1.812,
+   "x_med": 0.003
+  },
+  {
+   "tris": 298,
+   "z_min": 0.993,
+   "z_max": 1.302,
+   "x_med": 0.467
+  },
+  {
+   "tris": 284,
+   "z_min": 0.105,
+   "z_max": 0.957,
+   "x_med": -0.207
+  }
+ ],
+ "qa_pass": true,
+ "qa_errors": [],
+ "qa_warnings": [
+  "Miguel: ~6.79% UV overlap (ok only if mirrored/stacked on purpose; bakes break)",
+  "Miguel: duplicate verts=7105 loose verts=0",
+  "hidden back-to-back faces: Miguel (34 pairs) - delete to save tris"
+ ],
+ "zfight_locais": []
+}

@@ -1,0 +1,263 @@
+{
+ "pior_angulo_graus": 2.93,
+ "acoes": {
+  "Armada": {
+   "quadros_aprovado": 39,
+   "quadros_v2": 39,
+   "angulo_max_graus": 1.33,
+   "quadril_dif_m": 0.0035
+  },
+  "Blocking": {
+   "quadros_aprovado": 29,
+   "quadros_v2": 29,
+   "angulo_max_graus": 0.38,
+   "quadril_dif_m": 0.0039
+  },
+  "Body_Block": {
+   "quadros_aprovado": 82,
+   "quadros_v2": 82,
+   "angulo_max_graus": 0.46,
+   "quadril_dif_m": 0.0036
+  },
+  "Brutal_Assassination": {
+   "quadros_aprovado": 118,
+   "quadros_v2": 118,
+   "angulo_max_graus": 0.55,
+   "quadril_dif_m": 0.0038
+  },
+  "Brutal_Assassination_1": {
+   "quadros_aprovado": 118,
+   "quadros_v2": 118,
+   "angulo_max_graus": 1.97,
+   "quadril_dif_m": 0.0039
+  },
+  "Dodging": {
+   "quadros_aprovado": 54,
+   "quadros_v2": 54,
+   "angulo_max_graus": 0.33,
+   "quadril_dif_m": 0.0036
+  },
+  "Dying": {
+   "quadros_aprovado": 138,
+   "quadros_v2": 138,
+   "angulo_max_graus": 0.55,
+   "quadril_dif_m": 0.004
+  },
+  "Esquiva_2": {
+   "quadros_aprovado": 54,
+   "quadros_v2": 54,
+   "angulo_max_graus": 0.69,
+   "quadril_dif_m": 0.0106
+  },
+  "Fist_Fight_A": {
+   "quadros_aprovado": 102,
+   "quadros_v2": 102,
+   "angulo_max_graus": 1.14,
+   "quadril_dif_m": 0.0037
+  },
+  "Flying_Kick": {
+   "quadros_aprovado": 36,
+   "quadros_v2": 36,
+   "angulo_max_graus": 1.5,
+   "quadril_dif_m": 0.0061
+  },
+  "Getting_Up": {
+   "quadros_aprovado": 200,
+   "quadros_v2": 200,
+   "angulo_max_graus": 0.1,
+   "quadril_dif_m": 0.0035
+  },
+  "Hell_Slammer_A": {
+   "quadros_aprovado": 182,
+   "quadros_v2": 182,
+   "angulo_max_graus": 0.83,
+   "quadril_dif_m": 0.0038
+  },
+  "Hook_Punch": {
+   "quadros_aprovado": 52,
+   "quadros_v2": 52,
+   "angulo_max_graus": 0.51,
+   "quadril_dif_m": 0.0039
+  },
+  "Hook_Punch_1": {
+   "quadros_aprovado": 52,
+   "quadros_v2": 52,
+   "angulo_max_graus": 0.51,
+   "quadril_dif_m": 0.0039
+  },
+  "Kicking": {
+   "quadros_aprovado": 52,
+   "quadros_v2": 52,
+   "angulo_max_graus": 0.6,
+   "quadril_dif_m": 0.0039
+  },
+  "Knee_Jab": {
+   "quadros_aprovado": 144,
+   "quadros_v2": 144,
+   "angulo_max_graus": 2.27,
+   "quadril_dif_m": 0.0037
+  },
+  "Knee_Jabs_To_Uppercut": {
+   "quadros_aprovado": 136,
+   "quadros_v2": 136,
+   "angulo_max_graus": 1.5,
+   "quadril_dif_m": 0.0038
+  },
+  "Look_Over_Shoulder": {
+   "quadros_aprovado": 90,
+   "quadros_v2": 90,
+   "angulo_max_graus": 0.04,
+   "quadril_dif_m": 0.0039
+  },
+  "Pivot": {
+   "quadros_aprovado": 108,
+   "quadros_v2": 108,
+   "angulo_max_graus": 0.38,
+   "quadril_dif_m": 0.0037
+  },
+  "Punching_1": {
+   "quadros_aprovado": 25,
+   "quadros_v2": 25,
+   "angulo_max_graus": 1.36,
+   "quadril_dif_m": 0.0035
+  },
+  "Ready_Idle": {
+   "quadros_aprovado": 60,
+   "quadros_v2": 60,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0038
+  },
+  "Running": {
+   "quadros_aprovado": 39,
+   "quadros_v2": 39,
+   "angulo_max_graus": 1.95,
+   "quadril_dif_m": 0.0046
+  },
+  "Running_To_Turn": {
+   "quadros_aprovado": 54,
+   "quadros_v2": 54,
+   "angulo_max_graus": 0.94,
+   "quadril_dif_m": 0.0045
+  },
+  "Start_Walking": {
+   "quadros_aprovado": 70,
+   "quadros_v2": 70,
+   "angulo_max_graus": 0.3,
+   "quadril_dif_m": 0.0042
+  },
+  "Sweep_Fall": {
+   "quadros_aprovado": 60,
+   "quadros_v2": 60,
+   "angulo_max_graus": 2.93,
+   "quadril_dif_m": 0.0036
+  },
+  "andaFrente": {
+   "quadros_aprovado": 39,
+   "quadros_v2": 39,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.004
+  },
+  "andaTras": {
+   "quadros_aprovado": 39,
+   "quadros_v2": 39,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0039
+  },
+  "bloqueio": {
+   "quadros_aprovado": 7,
+   "quadros_v2": 7,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0039
+  },
+  "chuteAlto": {
+   "quadros_aprovado": 37,
+   "quadros_v2": 37,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0036
+  },
+  "chuteCircular": {
+   "quadros_aprovado": 34,
+   "quadros_v2": 34,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0039
+  },
+  "comboCorpoUpper": {
+   "quadros_aprovado": 109,
+   "quadros_v2": 109,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.004
+  },
+  "correr": {
+   "quadros_aprovado": 39,
+   "quadros_v2": 39,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0037
+  },
+  "deitado": {
+   "quadros_aprovado": 0,
+   "quadros_v2": 0,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0007
+  },
+  "direto": {
+   "quadros_aprovado": 23,
+   "quadros_v2": 23,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0035
+  },
+  "esquivaTras": {
+   "quadros_aprovado": 30,
+   "quadros_v2": 30,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0035
+  },
+  "gancho": {
+   "quadros_aprovado": 39,
+   "quadros_v2": 39,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0037
+  },
+  "guarda": {
+   "quadros_aprovado": 60,
+   "quadros_v2": 60,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0038
+  },
+  "jab": {
+   "quadros_aprovado": 17,
+   "quadros_v2": 17,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0037
+  },
+  "joelhada": {
+   "quadros_aprovado": 43,
+   "quadros_v2": 43,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.004
+  },
+  "levantar": {
+   "quadros_aprovado": 130,
+   "quadros_v2": 130,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0035
+  },
+  "pesado": {
+   "quadros_aprovado": 73,
+   "quadros_v2": 73,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0037
+  },
+  "queda": {
+   "quadros_aprovado": 42,
+   "quadros_v2": 42,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0037
+  },
+  "reacaoBloqueio": {
+   "quadros_aprovado": 21,
+   "quadros_v2": 21,
+   "angulo_max_graus": 0.03,
+   "quadril_dif_m": 0.0035
+  }
+ }
+}
