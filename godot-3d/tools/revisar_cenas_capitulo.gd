@@ -9,7 +9,7 @@ func run() -> void:
  root.add_child(game)
  game.begin(); game.end_intro(); game.set_physics_process(false)
  game.bag_found=true
- game.player.position=game.school.p(324,61)
+ game.player.position=game.school.cel(37,7)
  var d: Vector3=game.school.ritual_center+Vector3.UP*.5-(game.player.position+Vector3.UP*1.5)
  game.view.yaw=atan2(-d.x,-d.z); game.view.pitch=asin(d.normalized().y)
  game.player.face(game.player.position+game.view.direction())
@@ -20,7 +20,7 @@ func run() -> void:
  game.phase="ending"; game.ending_clock=8.1; game.ending_set.update(8.1,.1)
  await shot("quarto")
  game.phase="investigate"; game.recording=false
- game.player.position=game.school.p(500,480); game.player.state="idle"; game.player.clock=0
+ game.player.position=game.school.cel(60,62); game.player.state="idle"; game.player.clock=0
  var e=game.enemies[1]
  e.position=game.player.position+Vector3(0,0,-.8)
  e.health=80; e.style=0; e.state="idle"; e.aware=true
