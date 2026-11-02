@@ -98,6 +98,36 @@ cenário seguem essas fotos.
 
 No Linux: Godot 4.5.1 em `/tmp/claude-0/godot/` (baixar de novo numa sessão nova).
 
+## Rodada Claude — 02/11/2026, parte 2 (escala real, celular, ritual atento)
+
+Decisões de Felipe nesta parte (não regredir):
+- **Escala real**: 0,12 m por pixel do desenho (sala ~8×6 m). O mapa estava pequeno.
+- **Labs de Informática 1, 2 e hardware** abrem para o **pátio aberto**, ao lado do
+  Informática 1. **Corredorzinho** entre hardware e coordenação leva a **2 e 1
+  Contabilidade**. Biblioteca, lab de matemática e Informática 1 de frente ao pátio.
+- **Auditório é um palco elevado no refeitório** (avisos); porta da biblioteca logo
+  atrás. Não é sala.
+- Ritual **já acontece** na subida; Miguel passa escondido. Cultistas do ritual
+  percebem devagar (em transe); agachado/sombra da escada protege; velas, lanterna e
+  correr expõem. Notado → alerta espalhado.
+- Combate de terror: empurrão (FK com as duas mãos) e agarrão do cultista (FK);
+  clipes gerados em `capitulo1/acoes.gd`, não captura nova.
+
+Feito (testes: capítulo 46, base 39, toque 10, percurso rota 7/7, percurso pátio 8/8):
+- Controles de toque (`capitulo1/toque.gd`), build web (`scripts/exportar-web.sh`),
+  publicação via PR Felipe-Airess/jogo-gavyo#16 em `/capitulo1/` do Pages.
+- Retrô por SubViewport de baixa resolução (funciona na web; o shader de tela sumia).
+- Web: sons/fontes carregados como recurso importado (antes falhavam na exportação).
+- HUD de terror; ritmo inicial com três sinais de inquietação; dica de agachar.
+- Fotos 1–8 aplicadas (auditório, quadra com rede/tabelas/cobogó, colunas do pátio,
+  entrada com caminho verde, portão de grade, faixa laranja e placa).
+
+Pendências reais:
+1. Felipe testar no celular e no PC; desempenho real só em aparelho (nuvem desenha na CPU).
+2. Percurso a pé ficou ~3 min (escala real). Avaliar jogando se precisa de atalhos.
+3. Salas fora do caminho ainda simples; interior dos labs pode ganhar mais itens.
+4. Clipes FK de empurrão/agarrão são provisórios; trocar por captura quando houver.
+
 ## Arquivos importantes
 
 | Arquivo | Papel |
