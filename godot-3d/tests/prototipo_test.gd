@@ -81,15 +81,17 @@ func run() -> void:
  game.player.velocity=Vector3(0,0,3.8)
  game.player.play("correr",1.2)
  game.player.play("correr",1.2)
- check(absf(game.player.anim.get_playing_speed()-3.8/2.4)<.01,"velocidade da corrida não é multiplicada duas vezes")
- game.player.anim.play("prototype/sit",0)
- game.player.animate(0)
+ game.player.face(game.player.position+Vector3.BACK); game.player.animate(.1)
+ var stride=float(game.player.motion.strides["Sprint"]["stride"])
+ check(absf(float(game.player.motion.tree.get("parameters/Locomocao/Cadencia/scale"))-3.8/stride)<.01,"cadência usa velocidade e passada medida, sem multiplicar duas vezes")
+ game.player.start_action("prototype/sit")
+ game.player.animate(.25)
  check(maxf(game.player.bone_point("LeftFoot").y,game.player.bone_point("RightFoot").y)<.3,"pose sentada mantém pés abaixo do banco")
  var high=-100.0
  var low=100.0
- game.player.anim.play("prototype/run",0)
+ game.player.start_action("prototype/run")
  for i in 24:
-  game.player.anim.seek(.7*float(i)/24,true)
+  game.player.motion.seek(.7*float(i)/24)
   game.player.rig.force_update_all_bone_transforms()
   var y=game.player.bone_point("Head").y
   high=maxf(high,y)

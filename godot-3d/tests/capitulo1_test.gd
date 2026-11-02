@@ -23,19 +23,13 @@ func run() -> void:
  check(game.school.bag_at.y>3,"bolsa fica no andar superior")
  check(game.school.spawn.distance_to(game.school.ritual_center)>30,"ritual separado do pátio onde acorda")
  check(game.enemies.all(func(e):return e.home.x<0),"cultistas começam a partir do corredor interno")
- check(game.player.anim.has_animation("Running"),"corrida capturada existente disponível")
- game.player.velocity=Vector3(0,0,3.4)
- game.player.play("correr")
- check(game.player.anim.current_animation=="correr","corrida começa pela arrancada capturada")
- # A arrancada não pode se repetir enquanto ele continua correndo.
- var restarts:=0
- var previous:=0.0
+ check(game.player.anim.has_animation("novo/Sprint"),"ciclo novo de corrida importado")
+ game.player.velocity=Vector3(0,0,3.8); game.player.face(game.player.position+Vector3.BACK)
+ game.player.play("correr"); game.player.animate(.1)
+ check(game.player.motion.active_clip=="Walk" and game.player.motion.playback.get_current_node()=="Locomocao","corrida usa blend de locomoção")
  for i in 240:
-  game.player.play("correr"); game.player.anim.advance(1.0/60)
-  var now: float=game.player.anim.current_animation_position
-  if game.player.anim.current_animation=="correr" and now<previous: restarts+=1
-  previous=now
- check(game.player.anim.current_animation=="prototype/run" and restarts==0,"corrida contínua não volta ao quadro da arrancada")
+  game.player.play("correr"); game.player.animate(1.0/60)
+ check(game.player.motion.playback.get_current_node()=="Locomocao","corrida contínua não reinicia arrancada")
  # Corredor superior inteiro, em pé e agachado, não vê o ritual.
  var seen_from: Array=[]
  var superior=game.school.andares[1]
@@ -59,8 +53,10 @@ func run() -> void:
  game.begin()
  check(game.phase=="intro","abertura integrada sem pular para sala de testes")
  game.end_intro()
- game.player.position=game.school.bag_at-Vector3.UP*1.01+Vector3(.95,0,0)
+ game.player.position=game.school.bag_at-Vector3.UP*1.01+Vector3(0,0,-.95)
  game.interact()
+ for i in 180:
+  game._player_tick(1.0/60); await physics_frame
  check(game.bag_found and game.checkpoint_index==1 and not game.school.bag.visible,"recuperar bolsa salva primeiro checkpoint")
  check(not game.checkpoint["alert"],"checkpoint da bolsa guarda ausência de alerta")
  game.alert_spread=true
@@ -98,8 +94,13 @@ func run() -> void:
  check(game.view.mode=="first_person","controle da perseguição em primeira pessoa")
  game.player.position=game.school.gate_at-Vector3(0,0,1.5)
  game._story_tick(.1)
+ for i in 120:
+  if game.phase=="gate_jump": break
+  game._player_tick(1.0/60); await physics_frame
  check(game.phase=="gate_jump" and game.school.gate.collision_layer==1,"saída pula o portão, sem abri-lo")
- game.story_clock=2.3; game.paused=false; game._physics_process(.016)
+ game.paused=false
+ for i in 150:
+  game._physics_process(1.0/60); await physics_frame
  check(game.phase=="ending" and game.player.position.z>game.school.gate_at.z,"transposição termina fora da escola")
  game.ending_clock=8; game._physics_process(.016); game.view.update(1)
  check(game.ending_set.visible,"encerramento mostra o quarto e os amigos")

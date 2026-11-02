@@ -85,29 +85,6 @@ func _ellipsoid(parent: Node3D,at: Vector3,size: Vector3,color: Color) -> void:
  node.position=at
  parent.add_child(node)
 
-const RUN_START_END:=.45
-func play(clip: String,speed:=1.0) -> void:
- if clip=="correr":
-  # "Running" capturado é uma arrancada (quadril sai da altura de pé e volta),
-  # não um ciclo: em loop, Miguel "recomeçava a correr" a cada 1,6 s.
-  # Toca só a arrancada uma vez e emenda no ciclo contínuo.
-  var flat=Vector2(velocity.x,velocity.z).length()
-  var current=String(anim.current_animation)
-  if current=="prototype/run":
-   anim.speed_scale=clampf(flat/2.4,.7,1.8); return
-  if current!="correr":
-   anim.play("correr",.12)
-  anim.speed_scale=clampf(flat/3.4,.5,1.5)
-  if anim.current_animation_position>RUN_START_END:
-   anim.play("prototype/run",.25)
-   anim.speed_scale=clampf(flat/2.4,.7,1.8)
-  return
- if clip=="andaFrente" or clip=="andaTras":
-  anim.speed_scale=clampf(Vector2(velocity.x,velocity.z).length()/1.3,.3,1.8)
-  if String(anim.current_animation)!="andaFrente": anim.play("andaFrente",.12)
-  return
- super.play(clip,speed)
-
 func make_down() -> void:
  super.make_down()
  for area in hurt_areas: area.collision_layer=4
@@ -144,18 +121,6 @@ func animate(dt: float) -> void:
  if tool_pose and not down:
   _bend("RightUpperArm",Vector3.ZERO,Vector3(-.55,0,-.15))
   _bend("RightLowerArm",Vector3.ZERO,Vector3(-.7,0,0))
-  rig.force_update_all_bone_transforms()
- if state=="gate_jump":
-  var t=clampf(clock/2.2,0,1)
-  var grip=sin(t*PI)
-  _bend("LeftUpperArm",Vector3.ZERO,Vector3(-2.2*grip,0,-.18))
-  _bend("RightUpperArm",Vector3.ZERO,Vector3(-2.2*grip,0,.18))
-  _bend("LeftLowerArm",Vector3.ZERO,Vector3(-.5*grip,0,0))
-  _bend("RightLowerArm",Vector3.ZERO,Vector3(-.5*grip,0,0))
-  _bend("LeftUpperLeg",Vector3.ZERO,Vector3(-1.1*grip,0,0))
-  _bend("LeftLowerLeg",Vector3.ZERO,Vector3(1.3*grip,0,0))
-  _bend("RightUpperLeg",Vector3.ZERO,Vector3(-.6*grip,0,0))
-  _bend("RightLowerLeg",Vector3.ZERO,Vector3(.9*grip,0,0))
   rig.force_update_all_bone_transforms()
 
 

@@ -85,3 +85,6 @@ func peek_anchor(player_position: Vector3) -> Dictionary:
  var side=1.0 if (player_position-global_position).dot(normal)>0 else -1.0
  var right=global_basis.x
  return {"position":global_position+right*(width*.5-.02)+normal*side*.15+Vector3.UP*1.48,"direction":-normal*side}
+
+func handle_point(side:=1.0) -> Vector3:
+ return body.to_global(Vector3(width*.36,-.05,.065*side))

@@ -1,0 +1,92 @@
+{
+  "Ascending_Stairs": {
+    "duration": 1.36666667461395,
+    "hips_metres": 0.0,
+    "rotation_degrees": 2.39359219675019,
+    "tracks": 23
+  },
+  "Crouch_Fwd": {
+    "duration": 2.0,
+    "hips_metres": 0.0,
+    "rotation_degrees": 0.0685280483348916,
+    "tracks": 22
+  },
+  "Crouch_Idle": {
+    "duration": 2.93333339691162,
+    "hips_metres": 0.0,
+    "rotation_degrees": 0.0791293690406109,
+    "tracks": 22
+  },
+  "Idle": {
+    "duration": 2.5,
+    "hips_metres": 0.0000548647309202011,
+    "rotation_degrees": 0.397620929955747,
+    "tracks": 22
+  },
+  "Idle_Lantern": {
+    "duration": 2.5,
+    "hips_metres": 0.0,
+    "rotation_degrees": 0.250229236287427,
+    "tracks": 22
+  },
+  "Idle_TalkingPhone": {
+    "duration": 2.93333339691162,
+    "hips_metres": 0.0,
+    "rotation_degrees": 0.088469332565486,
+    "tracks": 22
+  },
+  "Jog_Fwd": {
+    "duration": 0.933333337306976,
+    "hips_metres": 0.0,
+    "rotation_degrees": 0.650117575604206,
+    "tracks": 22
+  },
+  "Running_Up_Stairs": {
+    "duration": 0.600000023841858,
+    "hips_metres": 0.0,
+    "rotation_degrees": 1.39829788466958,
+    "tracks": 23
+  },
+  "Sitting_Idle": {
+    "duration": 1.66666662693024,
+    "hips_metres": 0.0,
+    "rotation_degrees": 0.0791293690406109,
+    "tracks": 22
+  },
+  "Sprint": {
+    "duration": 0.666666686534882,
+    "hips_metres": 0.0,
+    "rotation_degrees": 0.652521001779257,
+    "tracks": 22
+  },
+  "Walk": {
+    "duration": 1.33333337306976,
+    "hips_metres": 0.0,
+    "rotation_degrees": 0.111905846041915,
+    "tracks": 22
+  },
+  "Walk_Formal": {
+    "duration": 1.33333337306976,
+    "hips_metres": 0.0,
+    "rotation_degrees": 1.20398529936336,
+    "tracks": 22
+  },
+  "Walking_Backwards": {
+    "duration": 0.966666638851166,
+    "hips_metres": 0.0,
+    "rotation_degrees": 0.0969132939991531,
+    "tracks": 23
+  },
+  "Zombie_Idle": {
+    "duration": 1.33333337306976,
+    "hips_metres": 0.0,
+    "rotation_degrees": 1.268566125348,
+    "tracks": 22
+  },
+  "Zombie_Walk_Fwd": {
+    "duration": 1.33333337306976,
+    "hips_metres": 0.0,
+    "rotation_degrees": 0.0791293690406109,
+    "tracks": 22
+  }
+}

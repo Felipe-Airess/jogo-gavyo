@@ -1,10 +1,11 @@
 extends CharacterBody3D
 ## Corpo físico, rig compartilhado e cultistas de geometria provisória.
 const MODEL = preload("res://miguel_animado.glb")
-const MOTIONS = preload("res://prototipo/motions.tres")
+const MOTIONS = preload("res://capitulo1/animacoes/prototipo_compativel.res")
 var model: Node3D
 var rig: Skeleton3D
 var anim: AnimationPlayer
+var motion: RefCounted
 var world: Node3D
 var enemy = false
 var pursuer = false
@@ -102,6 +103,8 @@ func setup(game: Node3D, at: Vector3, is_enemy: bool, big := false) -> void:
   bone_attach.add_child(area)
   hurt_areas.append(area)
  anim.add_animation_library("prototype",MOTIONS)
+ motion=load("res://capitulo1/animacoes/controlador.gd").new()
+ motion.setup(self)
  play("guarda")
  animate(0.0)
 
@@ -189,21 +192,13 @@ func _knife() -> Node3D:
  return root
 
 func play(clip: String, speed := 1.0) -> void:
- var wanted=clip
- if clip=="guarda" and not aware and not (not enemy and world.locked!=null):
-  wanted="prototype/relaxed"
- elif clip=="andaFrente" or clip=="andaTras":
-  wanted="prototype/walk"
-  speed=clampf(Vector2(velocity.x,velocity.z).length()/.86,.15,2.5)
- elif clip=="correr":
-  wanted="prototype/run"
-  speed=clampf(Vector2(velocity.x,velocity.z).length()/2.4,.7,1.8)
- elif clip=="esquivaTras":
-  wanted="prototype/slip"
-  speed=1.0
- anim.speed_scale=speed
- if String(anim.current_animation)!=wanted:
-  anim.play(wanted,.12,1.0)
+ motion.request(clip,speed)
+
+func start_action(clip: String, speed := 1.0) -> void:
+ motion.request(clip,speed,true)
+
+func _animation_event(event: String) -> void:
+ motion.event(event)
 
 func bone_point(bone: String) -> Vector3:
  return rig.to_global(rig.get_bone_global_pose(rig.find_bone(bone)).origin)
@@ -234,13 +229,7 @@ func _slide(dt: float) -> void:
  move_and_slide()
 
 func animate(dt: float) -> void:
- anim.advance(dt)
- if crouched and not down:
-  _bend("Hips", Vector3(0,-.42,0), Vector3(.20,0,0))
-  _bend("LeftUpperLeg", Vector3.ZERO, Vector3(-.55,0,0))
-  _bend("RightUpperLeg", Vector3.ZERO, Vector3(-.55,0,0))
-  _bend("LeftLowerLeg", Vector3.ZERO, Vector3(.95,0,0))
-  _bend("RightLowerLeg", Vector3.ZERO, Vector3(.95,0,0))
+ motion.advance(dt)
  if state == "hang":
   _bend("LeftUpperArm",Vector3.ZERO,Vector3(-.9,0,-.4))
   _bend("LeftLowerArm",Vector3.ZERO,Vector3(-.4,0,0))
@@ -299,7 +288,7 @@ func kill() -> void:
  collision_layer = 0
  for area in hurt_areas:
   area.collision_layer = 0
- anim.play("deitado",0.0)
+ start_action("deitado")
  animate(0.0)
 
 func fist_point() -> Vector3:

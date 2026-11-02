@@ -109,9 +109,7 @@ func _unhandled_input(event: InputEvent) -> void:
   view.look_mouse(event.screen_relative)
 
 func _preview() -> void:
- player.anim.speed_scale=1
- player.anim.play(clips[clip_index],0)
- player.anim.seek(0,true)
+ player.start_action(clips[clip_index])
 
 func _physics_process(dt: float) -> void:
  elapsed+=dt
@@ -122,7 +120,7 @@ func _physics_process(dt: float) -> void:
   return
  if audition:
   player.velocity=Vector3.ZERO
-  if not player.anim.is_playing(): _preview()
+  if player.motion.consume("finished"): _preview()
  else:
   var raw=Vector2(float(Input.is_physical_key_pressed(KEY_D))-float(Input.is_physical_key_pressed(KEY_A)),float(Input.is_physical_key_pressed(KEY_S))-float(Input.is_physical_key_pressed(KEY_W)))
   var direction: Vector3=view.movement(raw.limit_length())

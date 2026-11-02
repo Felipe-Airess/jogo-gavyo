@@ -1,0 +1,44 @@
+{
+  "Ascending_Stairs": {
+    "duration": 1.36666667461395,
+    "native_speed": 0.334608843648673,
+    "samples": 98,
+    "stride": 0.457298755645752
+  },
+  "Crouch_Fwd": {
+    "duration": 2.0,
+    "native_speed": 0.718859732151031,
+    "samples": 90,
+    "stride": 1.43771946430206
+  },
+  "Descer_Ciclo": {
+    "duration": 1.33333337306976,
+    "native_speed": 0.957634420465397,
+    "samples": 103,
+    "stride": 1.27684593200684
+  },
+  "Running_Up_Stairs": {
+    "duration": 0.600000023841858,
+    "native_speed": 0.670286986419082,
+    "samples": 119,
+    "stride": 0.402172207832336
+  },
+  "Sprint": {
+    "duration": 0.666666686534882,
+    "native_speed": 2.3146175648386,
+    "samples": 93,
+    "stride": 1.54307842254639
+  },
+  "Walk": {
+    "duration": 1.33333337306976,
+    "native_speed": 0.957634420465397,
+    "samples": 103,
+    "stride": 1.27684593200684
+  },
+  "Walking_Backwards": {
+    "duration": 0.966666638851166,
+    "native_speed": 1.23321314775735,
+    "samples": 119,
+    "stride": 1.19210600852966
+  }
+}

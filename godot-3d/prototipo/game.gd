@@ -233,9 +233,8 @@ func _physics_process(dt: float) -> void:
   intro_clock+=dt
   if intro_clock>=6.3:
    player.position=SPAWN+Vector3(0,0,-.55*smoothstep(6.3,7.5,intro_clock))
-  if intro_clock>=6.3 and String(player.anim.current_animation)=="prototype/sit":
-   player.anim.speed_scale=1
-   player.anim.play("prototype/relaxed",1.1)
+  if intro_clock>=6.3 and player.motion.active_clip=="novo/Sitting_Idle":
+   player.start_action("novo/Sitting_Exit")
   player.animate(dt)
   if intro_clock>=8.0:
    end_intro()

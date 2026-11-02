@@ -136,8 +136,7 @@ func spawn_actor(at: Vector3,is_enemy: bool,big:=false) -> CharacterBody3D:
  add_child(actor)
  actor.setup(self,at,is_enemy,big)
  # Clipes FK próprios: empurrão, agarrão (acoes.gd).
- if not actor.anim.has_animation_library("actions"):
-  actor.anim.add_animation_library("actions",ACTIONS.build(actor))
+ # Biblioteca nova instalada pelo controlador compartilhado.
  return actor
 
 ## Retrô robusto: o 3D é desenhado direto em baixa resolução numa SubViewport
@@ -284,10 +283,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 ## Empurrão: única resposta física de Miguel. Derruba por alguns segundos e não
 ## fere; quem cai levanta e tenta chamar ajuda. Compra tempo, não resolve.
-const SHOVE_DURATION:=.75
-const SHOVE_CONTACT:=.28
+const CONTACT=preload("res://capitulo1/animacoes/contato.gd")
+const SHOVE_DURATION:=.85
+const SHOVE_CONTACT:=.30
 const SHOVE_REACH:=1.5
 var shove_cooldown:=0.0
+var interaction: Dictionary={}
 
 func shove() -> void:
  if phase not in ["investigate","chase"] or player.hidden or is_instance_valid(peek_door): return
@@ -295,34 +296,36 @@ func shove() -> void:
  if shove_cooldown>0:
   fatigue=minf(1,fatigue+.2); burst_clock=3; return
  _drop_load(); cancel_heal()
- var e: CharacterBody3D=nearest_enemy(SHOVE_REACH,false)
- action_target=e
+ action_target=nearest_enemy(SHOVE_REACH,false)
  attack_mode="shove"
- player.state="attack"; player.clock=0; player.hit_once=false
- attack_duration=SHOVE_DURATION*(1+fatigue*.6)
- player.anim.speed_scale=1.0/(1+fatigue*.6)
- player.anim.play("actions/empurrao",.06)
- if e!=null: player.face(e.position)
+ player.state="attack"; player.clock=0; player.hit_once=false; player.velocity=Vector3.ZERO
+ var rate=1.0/(1+fatigue*.6)
+ attack_duration=SHOVE_DURATION/rate
+ player.start_action("actions/empurrao",rate)
+ if is_instance_valid(action_target): player.face(action_target.position)
  shove_cooldown=attack_duration+.5
  fatigue=minf(1,fatigue+.12)
 
 func _shove_tick(dt: float) -> void:
  var e=action_target
- if is_instance_valid(e) and not e.down and player.clock<SHOVE_CONTACT: player.face(e.position,dt)
+ if is_instance_valid(e) and not e.down and player.motion.position()<SHOVE_CONTACT:
+  player.face(e.position,dt)
+  var toward: Vector3=(e.position-player.position)*Vector3(1,0,1)
+  if toward.length()>.73 and visible_between(player.bone_point("Chest"),e.bone_point("Chest")):
+   player.move_and_collide(toward.normalized()*minf(dt*1.1,toward.length()-.73))
  player.animate(dt)
- if not player.hit_once and player.clock>=SHOVE_CONTACT*(1+fatigue*.6):
+ if player.motion.consume("contact") and not player.hit_once:
   player.hit_once=true
-  if is_instance_valid(e) and not e.down and not e.dead and player.position.distance_to(e.position)<SHOVE_REACH+.15:
+  if is_instance_valid(e) and not e.pursuer and CONTACT.hands_touch(player,e):
    var away: Vector3=(e.position-player.position)*Vector3(1,0,1)
    e.attack_target=null; e.strike_yaw_bias=0
    if enemy_turn==e: enemy_turn=null
    e.aware=true; e.last_seen=player.position
-   e.make_down(); e.help_clock=0
-   e.move_and_collide(away.normalized()*.6)
+   e.make_down(); e.help_clock=0; e.velocity=away.normalized()*1.8
    view.trauma=.2
-   impact_audio.stream=sfx["parede"]; impact_audio.play()
+   impact_audio.stream=sfx["carne"]; impact_audio.global_position=e.bone_point("Chest"); impact_audio.play()
    combat_stats["shoves"]=int(combat_stats.get("shoves",0))+1
- if player.clock>=attack_duration:
+ if player.motion.consume("finished"):
   player.state="idle"; player.play("guarda")
 
 func _process(dt: float) -> void:
@@ -380,8 +383,19 @@ func _physics_process(dt: float) -> void:
   story_clock+=dt
   player.clock=story_clock
   var t=clampf(story_clock/2.2,0,1)
-  player.position=gate_from.lerp(gate_to,smoothstep(0,1,t))+Vector3.UP*sin(t*PI)*2.55
+  var desired=gate_from
+  if t<.42:
+   desired.y+=smoothstep(0,.42,t)*2.55
+  elif t<.76:
+   desired=gate_from.lerp(gate_to,smoothstep(.42,.76,t))+Vector3.UP*2.55
+  else:
+   desired=gate_to+Vector3.UP*2.55*(1-smoothstep(.76,1,t))
+  player.position=desired
   player.animate(dt)
+  if t>.10 and t<.34:
+   for side in ["Left","Right"]:
+    var offset=.19 if side=="Left" else -.19
+    CONTACT.hand_fit(player,side,school.gate_at+Vector3(offset,2.35,0),sin((t-.10)/.24*PI))
   if t>=1:
    phase="ending"; ending_clock=0
    player.state="idle"
@@ -471,6 +485,10 @@ func toggle_recording() -> void:
  else: hud.say("Aproxime-se e enquadre o ritual no pátio de química.",3)
 
 func _jump_gate() -> void:
+ if player.state=="interaction": return
+ _begin_interaction("gate",school.gate,school.gate_at+Vector3.UP*1.1,Vector3.BACK,"novo/Interact")
+
+func _jump_gate_now() -> void:
  phase="gate_jump"
  story_clock=0
  gate_from=player.position
@@ -478,7 +496,7 @@ func _jump_gate() -> void:
  player.state="gate_jump"
  player.clock=0
  player.face(gate_to)
- player.play("guarda")
+ player.start_action("novo/ClimbUp_1m",.6666667/2.2)
  player.collision_layer=0
  locked=null
 
@@ -514,6 +532,9 @@ func _enemy_ticks(dt: float) -> void:
   if e==enemies[0] and not sighting_seen and phase!="sighting":
    e.play("guarda"); e.animate(dt); continue
   if e.down:
+   e.velocity.y=0
+   e.move_and_collide(e.velocity*dt)
+   e.velocity=e.velocity.move_toward(Vector3.ZERO,dt*5)
    e.animate(dt)
    e.help_clock+=dt
    if e.health<=0 and e.help_clock>1.2:
@@ -524,8 +545,8 @@ func _enemy_ticks(dt: float) -> void:
    continue
   if e.state=="rising":
    e.animate(dt)
-   if e.clock>3.7:
-    e.state="calling"; e.clock=0; e.alert_attempt=true
+   if e.motion.consume("finished") or e.clock>=e.anim.get_animation("novo/LayToIdle").length/1.5:
+    e.state="calling"; e.clock=0; e.alert_attempt=true; e.play("guarda")
     hud.say("O cultista está tentando pedir ajuda.",2)
    continue
   if e.state=="calling":
@@ -581,13 +602,14 @@ func _enemy_ticks(dt: float) -> void:
    if e.clock<.35: e.face(player.position,dt)
    e.state="windup" if e.clock<ACTIVE_FROM else ("strike" if e.clock<ACTIVE_TO else "recover")
    e.animate(dt)
-   if e.clock>=ACTIVE_FROM and e.clock<=ACTIVE_TO and not e.hit_once and protected_target==null:
+   if e.motion.consume("contact") and not e.hit_once and protected_target==null:
     _enemy_contact(e)
+    if e.state=="grab_hold": continue
    e.hand_previous=e.fist_point()
    if e.clock>ACTIVE_TO and not e.attack_landed:
     e.attack_landed=true; e.opening=1.1
     if not e.hit_once: combat_stats["misses"]+=1
-   if e.clock>=HOOK_DURATION:
+   if e.motion.consume("finished"):
     e.attack_target=null; e.state="idle"; e.clock=0; e.strike_yaw_bias=0
     enemy_turn=null; turn_cooldown=.5 if e.style==0 else (.9 if e.style==1 else 1.2)
    continue
@@ -714,12 +736,15 @@ func _attack_tick(dt: float) -> void:
  _shove_tick(dt)
 
 func hurt_player(damage: float) -> void:
+ _cancel_interaction()
  tool_active.clear()
  mouse_held=false
  _drop_load()
  super.hurt_player(damage)
 
 func _player_tick(dt: float) -> void:
+ if player.state=="interaction":
+  _interaction_tick(dt); return
  if player.state=="grabbed":
   player.clock+=dt; player.animate(dt); return
  super._player_tick(dt)
@@ -732,15 +757,20 @@ func dodge() -> void:
    knife=false; grab_struggle=GRAB_PRESSES
    hud.say("A faca o fez soltar. Corra.",2)
   if grab_struggle<GRAB_PRESSES: return
-  player.state="idle"
+  player.state="idle"; player.play("guarda")
   if is_instance_valid(action_target):
    action_target.state="hurt"; action_target.clock=0; action_target.opening=1.2
-   action_target.move_and_collide((action_target.position-player.position).normalized()*.4)
+   action_target.start_action("novo/Hit_Knockback")
+   action_target.velocity=Vector3.ZERO
   return
  super.dodge()
 
 func _start_enemy_attack(e: CharacterBody3D) -> void:
- super._start_enemy_attack(e)
+ enemy_turn=e; e.state="windup"; e.clock=0; e.hit_once=false; e.attack_landed=false
+ e.attack_target=player; e.strike_yaw_bias=0; e.velocity=Vector3.ZERO
+ e.face(player.position)
+ e.start_action("novo/AgarrarEntrada")
+ combat_stats["enemy_attacks"]+=1
  step_audio.position=e.position
  step_audio.pitch_scale=.72; step_audio.volume_db=-18; step_audio.play()
 
@@ -752,23 +782,27 @@ const GRAB_PRESSES:=4
 var grab_struggle:=0
 
 func _enemy_contact(e: CharacterBody3D) -> void:
- if player.hidden or not _hand_hits(e,player): return
+ if player.hidden or player.state=="grabbed" or not CONTACT.hands_touch(e,player): return
+ if not _grab_player(e): return
  e.hit_once=true
  combat_stats["enemy_hits"]+=1
- _grab_player(e)
 
-func _grab_player(e: CharacterBody3D) -> void:
- cancel_heal(); _drop_load()
- e.attack_target=null; e.strike_yaw_bias=0
+func _grab_player(e: CharacterBody3D) -> bool:
+ var delta: Vector3=(player.position-e.position)*Vector3(1,0,1)
+ if delta.length()<.54 or delta.length()>1.12 or absf(player.position.y-e.position.y)>.2: return false
+ if not visible_between(e.bone_point("Chest"),player.bone_point("Chest")): return false
+ cancel_heal(); _drop_load(); _cancel_interaction()
+ e.attack_target=null; e.strike_yaw_bias=0; e.velocity=Vector3.ZERO
  enemy_turn=null; turn_cooldown=1.0
- e.state="grab_hold"; e.clock=0
- e.anim.speed_scale=1.0; e.anim.play("actions/agarrao",.12)
+ e.state="grab_hold"; e.clock=0; e.face(player.position)
+ e.start_action("actions/agarrao")
  player.state="grabbed"; player.clock=0; player.velocity=Vector3.ZERO
- player.anim.speed_scale=1.4; player.anim.play("Body_Block",.12)
+ player.start_action("Body_Block")
  player.face(e.position)
  action_target=e; grab_struggle=0
  impact_audio.stream=sfx["carne"]; impact_audio.play()
  hud.say("AGARRADO · aperte "+("ESQUIVA" if touch!=null else "[Q]")+" várias vezes para se soltar",GRAB_TIME)
+ return true
 
 func interact() -> void:
  if player.hidden: _leave_hide(); return
@@ -776,8 +810,7 @@ func interact() -> void:
   vault["climb"]=true; player.clock=float(vault["hang_clock"]); player.state="vault"; return
  if player.state not in ["idle","heal","hang"] and not player.hidden: return
  if not bag_found and player.position.distance_to(school.bag_at)<1.7 and player.position.y>2.5:
-  bag_found=true; school.bag.visible=false; checkpoint_index=1
-  _snapshot(); hud.say("Bolsa e celular recuperados. Desça e procure a origem das vozes.",5); return
+  _begin_interaction("bag",school.bag,school.bag_at,Vector3.ZERO,"novo/PickUp_Table"); return
  if video_recorded and player.position.distance_to(school.gate_at)<3:
   _jump_gate(); return
  for item in tools:
@@ -796,11 +829,10 @@ func interact() -> void:
    item["taken"]=true; carried=item["node"]; return
  for door in school.doors:
   if _near_looking(door.center(),1.8):
-   peek_door=null
-   # Abre para longe de quem abre: de dentro não bate em Miguel; do corredor
-   # abre para dentro e não tranca a passagem.
-   if not door.opened: door.swing=1.65 if (player.position-door.global_position).dot(door.normal)>0 else -1.65
-   door.toggle(); return
+   if door.moving: return
+   var side=1.0 if (player.position-door.global_position).dot(door.normal)>0 else -1.0
+   var handle: Vector3=door.handle_point(side)
+   _begin_interaction("door",door,handle,-door.normal*side,"novo/Interact"); return
  for item in school.pickups:
   if not item["taken"] and _near_looking(item["at"],1.5):
    item["taken"]=true; item["node"].visible=false
@@ -809,7 +841,9 @@ func interact() -> void:
    hud.say("Empanado guardado." if item["kind"]=="empanado" else "Faca guardada para escapar de um agarrão.",2)
    return
  for i in school.hides.size():
-  if _near_looking(school.hides[i]["entry"]+Vector3.UP*.9,1.5): _enter_hide(i); return
+  if _near_looking(school.hides[i]["entry"]+Vector3.UP*.9,1.5):
+   var hide=school.hides[i]
+   _begin_interaction("hide",null,hide["inside"]+hide["normal"]*.38+Vector3.UP*1.05,-hide["normal"],"novo/Chest_Open",i); return
  var direction: Vector3=view.movement(raw_movement())
  try_vault(player,player.facing if direction.length()<.1 else direction,false)
 
@@ -996,6 +1030,7 @@ func load_checkpoint() -> bool:
  checkpoint=saved; restore_checkpoint(); return true
 
 func restore_checkpoint() -> void:
+ _cancel_interaction()
  if player.dead: death_count+=1
  super.restore_checkpoint()
  bag_found=bool(checkpoint.get("bag",false))
@@ -1084,3 +1119,66 @@ func _capture() -> void:
 func try_vault(actor: CharacterBody3D,direction: Vector3,automatic: bool) -> bool:
  if actor.enemy and not actor.aware and not actor.pursuer: return false
  return super.try_vault(actor,direction,automatic)
+
+## Aproximação varrida, contato no clipe e concessão apenas após tocar o objeto.
+func _begin_interaction(kind: String,object: Node3D,contact: Vector3,direction: Vector3,clip: String,index:=-1) -> void:
+ var forward=direction
+ if forward.length()<.1: forward=((contact-player.position)*Vector3(1,0,1)).normalized()
+ var right=Vector3(forward.z,0,-forward.x)
+ if kind=="bag": contact-=forward*.16
+ var anchor=contact-forward*.52-right*.12
+ anchor.y=player.position.y
+ if not CONTACT.room_for(player,anchor):
+  hud.say("Aproxime-se pelo lado livre.",1.5); return
+ interaction={"kind":kind,"object":object,"contact":contact,"anchor":anchor,"forward":forward,"clip":clip,"index":index,"started":false,"committed":false,"elapsed":0.0}
+ player.state="interaction"; player.velocity=Vector3.ZERO
+ player.play("guarda")
+
+func _cancel_interaction() -> void:
+ if interaction.is_empty(): return
+ interaction.clear()
+ if player.state=="interaction": player.state="idle"; player.play("guarda")
+
+func _interaction_tick(dt: float) -> void:
+ if interaction.is_empty(): player.state="idle"; return
+ if raw_movement().length()>.1: _cancel_interaction(); return
+ interaction["elapsed"]+=dt
+ if interaction["elapsed"]>4.0: _cancel_interaction(); return
+ if interaction["kind"] in ["door","bag"] and not is_instance_valid(interaction["object"]): _cancel_interaction(); return
+ var anchor: Vector3=interaction["anchor"]
+ player.face(player.position+interaction["forward"],dt)
+ if not interaction["started"]:
+  var delta=anchor-player.position
+  if delta.length()>.025:
+   player.velocity=delta.normalized()*minf(1.4,delta.length()/maxf(dt,.001))
+   player.move_and_collide(player.velocity*dt)
+   player.play("andaFrente"); player.animate(dt); return
+  player.velocity=Vector3.ZERO
+  player.start_action(interaction["clip"]); interaction["started"]=true
+ player.animate(dt)
+ var clip=String(interaction["clip"])
+ var time=player.motion.position()
+ var contact_time=.72 if clip.ends_with("Interact") else (.30 if clip.ends_with("PickUp_Table") else .60)
+ var weight=smoothstep(0,contact_time,time)*(1-smoothstep(contact_time+.12,contact_time+.45,time))
+ var fitted=CONTACT.hand_fit(player,"Left",interaction["contact"],weight)
+ if player.motion.consume("contact") and not interaction["committed"]:
+  var target: Vector3=interaction["contact"]
+  if not fitted or player.bone_point("LeftHand").distance_to(target)>.09:
+   _cancel_interaction(); return
+  interaction["committed"]=true
+  match interaction["kind"]:
+   "bag":
+    bag_found=true; school.bag.visible=false; checkpoint_index=1
+    _snapshot(); hud.say("Bolsa e celular recuperados. Desça e procure a origem das vozes.",5)
+   "door":
+    var door=interaction["object"]
+    peek_door=null
+    if not door.opened: door.swing=1.65 if (player.position-door.global_position).dot(door.normal)>0 else -1.65
+    door.toggle()
+   "gate":
+    interaction.clear(); _jump_gate_now(); return
+   "hide":
+    var index=int(interaction["index"])
+    interaction.clear(); _enter_hide(index); return
+ if player.motion.consume("finished"):
+  interaction.clear(); player.state="idle"; player.play("guarda")
