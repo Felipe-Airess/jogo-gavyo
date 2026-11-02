@@ -4,7 +4,7 @@ extends CanvasLayer
 ## - metade esquerda: analógico (aparece onde o dedo toca); empurrar até a
 ##   borda corre;
 ## - metade direita: arrastar gira a câmera;
-## - botões à direita: ação, soltar, agachar, gravar, luz,
+## - botões à direita: ação, agachar, gravar, luz,
 ##   fresta, comer; pausa no topo.
 ## Ativa sozinho em tela de toque; no PC, `-- --toque` força (mouse vira toque).
 
@@ -20,6 +20,8 @@ var look_finger:=-1
 var held_keys: Dictionary={}
 var button_fingers: Dictionary={}
 var buttons: Array[Dictionary]=[]
+var escape_buttons: Array[Dictionary]=[]
+var escape_controls:=false
 var crouch_on:=false
 var font: Font
 
@@ -47,7 +49,6 @@ func _layout() -> void:
  var bottom:=size.y-r*1.5
  buttons=[
   {"id":"acao","text":"AÇÃO","at":Vector2(right,bottom-r*2.3),"r":r*1.15,"key":KEY_SPACE},
-  {"id":"esquiva","text":"SOLTAR","at":Vector2(right,bottom),"r":r,"mouse":MOUSE_BUTTON_RIGHT},
   {"id":"agachar","text":"AGACHAR","at":Vector2(right-r*2.4,bottom-r*2.3),"r":r,"toggle":KEY_CTRL},
   {"id":"gravar","text":"GRAVAR","at":Vector2(right-r*4.6,bottom-r*.2),"r":r*.8,"key":KEY_V},
   {"id":"luz","text":"LUZ","at":Vector2(right,bottom-r*4.4),"r":r*.8,"key":KEY_L},
@@ -55,6 +56,11 @@ func _layout() -> void:
   {"id":"comer","text":"COMER","at":Vector2(right-r*4.4,bottom-r*4.4),"r":r*.8,"key":KEY_E},
   {"id":"pausa","text":"II","at":Vector2(size.x*.5,r*.9),"r":r*.6,"key":KEY_ESCAPE},
  ]
+ var arrow_radius=clampf(size.y*.075,32,48)
+ var center=Vector2(size.x*.5,size.y*.70)
+ escape_buttons.clear()
+ for data in [[KEY_UP,Vector2.UP],[KEY_RIGHT,Vector2.RIGHT],[KEY_DOWN,Vector2.DOWN],[KEY_LEFT,Vector2.LEFT]]:
+  escape_buttons.append({"direction":data[0],"at":center+data[1]*arrow_radius*2.2,"r":arrow_radius})
  root.queue_redraw()
 
 func _input(event: InputEvent) -> void:
@@ -66,6 +72,13 @@ func _input(event: InputEvent) -> void:
   get_viewport().set_input_as_handled()
 
 func _touch(event: InputEventScreenTouch) -> void:
+ if game.escape_blackout>0: return
+ if game.escape.active and not game.paused:
+  if event.pressed:
+   for b in escape_buttons:
+    if event.position.distance_to(b["at"])<=b["r"]:
+     game.escape_direction(b["direction"]); break
+  root.queue_redraw(); return
  if event.pressed:
   # Tela inicial / fim: qualquer toque equivale a Enter.
   if not game.started or game.phase=="escaped":
@@ -93,6 +106,7 @@ func _touch(event: InputEventScreenTouch) -> void:
  root.queue_redraw()
 
 func _drag(event: InputEventScreenDrag) -> void:
+ if game.escape.active or game.escape_blackout>0: return
  if event.index==stick_finger:
   stick_now=event.position
   var v: Vector2=(stick_now-stick_origin)/STICK_RADIUS
@@ -148,12 +162,21 @@ func _notification(what: int) -> void:
  if what==NOTIFICATION_APPLICATION_FOCUS_OUT or what==NOTIFICATION_APPLICATION_PAUSED: release_all()
 
 func _process(_dt: float) -> void:
+ if escape_controls!=game.escape.active:
+  escape_controls=game.escape.active; root.queue_redraw()
  var playing: bool=game.started and not game.paused and not game.player.dead and game.phase in ["investigate","chase","sighting"]
  if root.visible!=playing:
   root.visible=playing
   if not playing: release_all()
 
 func _draw_controls() -> void:
+ if game.escape_blackout>0: return
+ if game.escape.active:
+  for b in escape_buttons:
+   root.draw_circle(b["at"],b["r"],Color(.04,.04,.05,.88))
+   root.draw_arc(b["at"],b["r"],0,TAU,40,Color(.95,.92,.8),2)
+   game.hud.draw_escape_arrow(root,b["at"],b["direction"],b["r"]*.48,Color(1,.95,.8))
+  return
  var ink:=Color(.92,.9,.8,.55)
  var fill:=Color(0,0,0,.28)
  if stick_finger>=0:

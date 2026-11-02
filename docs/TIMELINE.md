@@ -52,7 +52,9 @@ começa. Ao pegar o trabalho, leia também `docs/TESTE-FELIPE-20261102.md` e
 ### Etapa 1 — Medo
 - [ ] Remover o empurrão.
 - [ ] Cultista vê → corre → cerca → agarra.
-- [ ] Minigame de escape em sequência; falhar é morte.
+- [x] Minigame de escape em sequência; falhar é morte. Implementado em 02/11/2026:
+  WASD/setas e quatro botões de toque; morte temporária com tela preta de 1,5 s
+  e retorno automático ao checkpoint. Cena de morte abaixo continua pendente.
 - [ ] Cena de morte cruel e pesada, depois checkpoint.
 - [ ] Perseguição com pressão: passos, respiração, tremor e trilha de tensão.
 - [ ] Esconderijos funcionando contra quem caça.

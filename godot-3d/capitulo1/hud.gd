@@ -1,11 +1,24 @@
 extends "res://prototipo/hud.gd"
 var suspicion: Label
 var rec: Label
+var escape_prompt: Label
+var escape_row: Control
+var escape_black: ColorRect
 
 func setup(owner_game: Node3D) -> void:
  super.setup(owner_game)
  suspicion=label(root,18)
  rec=label(root,20)
+ escape_prompt=label(root,24)
+ escape_prompt.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+ escape_prompt.visible=false
+ escape_row=Control.new(); escape_row.mouse_filter=Control.MOUSE_FILTER_IGNORE
+ root.add_child(escape_row); escape_row.draw.connect(_draw_escape_sequence)
+ var death_layer=CanvasLayer.new(); death_layer.layer=100; add_child(death_layer)
+ var death_root=Control.new(); death_root.mouse_filter=Control.MOUSE_FILTER_IGNORE
+ death_layer.add_child(death_root)
+ escape_black=rectangle(death_root,Color.BLACK)
+ escape_black.visible=false
 
 func update(dt: float) -> void:
  super.update(dt)
@@ -47,8 +60,8 @@ func update(dt: float) -> void:
  elif not game.started and game.touch!=null:
   menu.text="GAVIÃO\nDEPOIS DO ALMOÇO\n\nUma escola vazia. Vozes que não deveriam estar ali.\n\nToque para começar\n\nCelular deitado · fones recomendados"
  elif game.paused and game.started:
-  menu.text="PAUSADO\n\n[Esc] Voltar · [R] Checkpoint\n\nWASD mover · mouse olhar\nShift correr · Ctrl agachar\nEspaço interagir / porta / parkour\nQ / clique direito: soltar-se de um agarrão\nE empanado · V vídeo · L lanterna após bolsa\nT arremessar objeto · F fresta · F3 filtro ligado/desligado"
-  if game.touch!=null: menu.text="PAUSADO\n\nToque para voltar\n\nEsquerda: mover (até a borda corre)\nDireita: arrastar para olhar\nBotões: ação, soltar,\nagachar, gravar, luz, fresta, comer"
+  menu.text="PAUSADO\n\n[Esc] Voltar · [R] Checkpoint\n\nWASD mover · mouse olhar\nShift correr · Ctrl agachar\nEspaço interagir / porta / parkour\nAgarrão: repita a sequência com WASD ou setas\nE empanado · V vídeo · L lanterna após bolsa\nT arremessar objeto · F fresta · F3 filtro ligado/desligado"
+  if game.touch!=null: menu.text="PAUSADO\n\nToque para voltar\n\nEsquerda: mover (até a borda corre)\nDireita: arrastar para olhar\nBotões: ação,\nagachar, gravar, luz, fresta, comer"
  # Terror: sem barra de jogo de luta. Vida só aparece ferido; itens só quando há.
  var parts: Array[String]=[]
  if game.player.health<99: parts.append("FERIDO" if game.player.health>35 else "MUITO FERIDO")
@@ -61,7 +74,44 @@ func update(dt: float) -> void:
   for item in [message,prompt]: item.text=touch_text(item.text)
   message.position.y=minf(message.position.y,size.y*.55)
 
-const TOUCH_NAMES:={"[Espaço]":"[AÇÃO]","[V]":"[GRAVAR]","[F]":"[FRESTA]","[L]":"[LUZ]","[E]":"[COMER]","[Q]":"[SOLTAR]","[T]":"","[Esquiva / Q]":"[SOLTAR]"}
+ escape_prompt.visible=game.escape.active and not game.paused
+ escape_row.visible=escape_prompt.visible
+ escape_prompt.position=Vector2(size.x*.1,size.y*.16)
+ escape_prompt.size=Vector2(size.x*.8,70)
+ escape_prompt.text="AGARRADO · %.1f s\n%s"%[game.escape.remaining,"Toque nas setas, da esquerda para a direita" if game.touch!=null else "WASD ou setas · da esquerda para a direita"]
+ escape_row.queue_redraw()
+ if game.escape.active:
+  message.text=""; prompt.text=""; vitals.visible=false; objective.visible=false
+ show_escape_blackout(game.escape_blackout>0)
+
+func show_escape_blackout(on: bool) -> void:
+ escape_black.size=get_viewport().get_visible_rect().size
+ escape_black.visible=on
+
+func _draw_escape_sequence() -> void:
+ if not game.escape.active or game.paused: return
+ var screen=get_viewport().get_visible_rect().size
+ var width=clampf(screen.x/(game.escape.sequence.size()+2),36,64)
+ var left=(screen.x-width*game.escape.sequence.size())*.5
+ for i in game.escape.sequence.size():
+  var at=Vector2(left+width*(i+.5),screen.y*.33)
+  var color=Color(.45,.95,.65) if i<game.escape.cursor else Color(1,.95,.8)
+  if i==game.escape.cursor:
+   escape_row.draw_rect(Rect2(at-Vector2.ONE*width*.46,Vector2.ONE*width*.92),Color(.5,.15,.08,.9))
+  draw_escape_arrow(escape_row,at,game.escape.sequence[i],width*.30,color)
+
+func draw_escape_arrow(canvas: Control,at: Vector2,code: int,radius: float,color: Color) -> void:
+ var direction=Vector2.UP
+ match code:
+  KEY_RIGHT: direction=Vector2.RIGHT
+  KEY_DOWN: direction=Vector2.DOWN
+  KEY_LEFT: direction=Vector2.LEFT
+ var side=direction.orthogonal()
+ canvas.draw_line(at-direction*radius,at+direction*radius,color,4,true)
+ canvas.draw_line(at+direction*radius,at+side*radius*.65,color,4,true)
+ canvas.draw_line(at+direction*radius,at-side*radius*.65,color,4,true)
+
+const TOUCH_NAMES:={"[Espaço]":"[AÇÃO]","[V]":"[GRAVAR]","[F]":"[FRESTA]","[L]":"[LUZ]","[E]":"[COMER]","[T]":""}
 func touch_text(text: String) -> String:
  for key in TOUCH_NAMES: text=text.replace(key,TOUCH_NAMES[key])
  return text

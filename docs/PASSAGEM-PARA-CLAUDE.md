@@ -308,3 +308,23 @@ Não usar o executável `.app` do Mac no Linux. Importar os recursos primeiro co
 O código e recursos necessários estão no Git. `work/` continua local: ferramentas
 para Mac, arquivos de trabalho Blender, backups e QA; não é dependência oculta do
 capítulo se GODOT apontar para um executável instalado no novo ambiente.
+
+
+## Etapa 1 — minigame direcional (02/11/2026)
+
+Agarrão comum/perseguidor agora abre sequência aleatória, com WASD/setas ou
+quatro setas grandes no toque. Primeiro: 3 setas/3 s; cresce até 7 setas/1,5 s.
+Acerto recua Miguel, atordoa agressor por 2 s e protege de agarrões por 1,5 s.
+Erro/prazo: tela preta de 1,5 s e checkpoint automático.
+[PROVISÓRIO: trocar pela cena de morte quando chegarem as animações].
+A cena de morte e os demais itens da timeline continuam pendentes.
+
+Estado isolado em `capitulo1/escape.gd`; integração em game/HUD/toque.
+O gancho `finisher_item_available` evita só o agarrão comum, com uso único;
+não há pickup nem finalização implementada. Perseguidor nunca é finalizado.
+Q/clique direito/faca não pulam mais o escape. Nenhuma correção de ossos.
+Detalhes e teste manual na última seção de `docs/TESTE-FELIPE-20261102.md`.
+
+Validação: `scripts/testar-capitulo1.sh` passou (escape 37, movimento 33,
+animação 70, capítulo 36, mapa 18, nível 10); toque 9/9 em eventos simulados;
+`scripts/testar-percurso.sh` passou 7/7. Ainda falta avaliação de Felipe jogando.

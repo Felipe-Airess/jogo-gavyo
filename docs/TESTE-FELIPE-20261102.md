@@ -353,3 +353,79 @@ Na medição aproximada de apoio, a deriva máxima ficou entre 0,105 e 0,171 m
 no plano. Esse detector inclui uma faixa de altura em torno do chão; não
 comprova pé plantado exato. A amplitude máxima quadro a quadro medida nas
 trocas foi 0,163 m. Ambos são publicados como avisos, sem truncar movimentos.
+
+
+## Etapa 1 — escape em sequência (02/11/2026)
+
+Substitui o escape por Q/clique direito/quatro apertos das seções anteriores.
+Encostar em um cultista comum ou no perseguidor abre uma sequência aleatória.
+Leia da esquerda para a direita: WASD ou setas no PC; no celular aparecem quatro
+botões grandes de seta, somente durante o minigame. A próxima seta fica em
+vermelho e as concluídas em verde. Repetição automática de tecla não conta.
+
+O primeiro agarrão tem 3 setas e 3,0 s no total. Cada agarrão seguinte soma
+uma seta (máximo 7) e tira 0,3 s (mínimo 1,5 s). Essa progressão dura a partida
+e não é apagada ao retornar ao checkpoint; reabrir o jogo começa em 3/3,0 s.
+Errar qualquer direção ou esgotar o prazo falha imediatamente.
+
+Acerto: Miguel recua até 30 cm, limitado pela colisão do cenário; o agressor
+fica parado/atordoado por 2 s. Durante 1,5 s nenhum inimigo pode agarrar Miguel.
+O perseguidor retoma a caça e nunca é finalizado. Os corpos ficam de frente,
+com distância de aproximadamente 0,6 m (0,58 m comuns; 0,66 m perseguidor,
+cuja cápsula é maior), sem desativar colisões. A aproximação da IA também foi
+ajustada: ela não para mais antes de alcançar o contato.
+
+Falha: tela preta por 1,5 s, seguida do checkpoint automaticamente.
+**[PROVISÓRIO: trocar pela cena de morte quando chegarem as animações]**
+Nenhum osso ou clipe foi alterado para implementar/testar essa mecânica.
+O atordoamento usa o parado existente; não usa Stunned em loop.
+
+Há somente o gancho `finisher_item_available`, sem objeto colocado no mapa nem
+cena de finalização. Quando ativado pelo futuro inventário, consome um uso e
+evita o agarrão comum. Nunca evita o do perseguidor, nem consome o item nele.
+A faca antiga não substitui esse item e não pula a sequência.
+
+### Como Felipe testa
+
+1. Execute `bash JOGAR-PROTOTIPO.command` e comece com Enter.
+2. Encoste em um cultista. Repita as setas com WASD ou direcionais: Miguel se
+   solta, recua e ganha tempo para fugir. No próximo agarrão a sequência cresce.
+3. Encoste novamente e erre uma seta. Confira a tela preta e o retorno automático.
+4. Em outro agarrão, não aperte nada: o prazo deve produzir o mesmo retorno.
+5. Durante a perseguição, deixe o perseguidor encostar: ele também abre a
+   sequência. Acertar só o atordoa; ele continua vivo e retoma a caça.
+6. Para conferir o toque no PC, use o comando abaixo. No celular os quatro
+   botões substituem o analógico enquanto o minigame está aberto.
+
+```bash
+work/ferramentas/godot/Godot.app/Contents/MacOS/Godot --path godot-3d -- --toque
+```
+
+`tests/capitulo1_escape_test.gd` cobre contato e aproximação reais, alinhamento,
+acerto, erro, prazo esgotado, progressão/limites, pausa, item, perseguidor e toque.
+Capturas renderizadas do PC, toque e tela preta foram inspecionadas localmente;
+isso não substitui teste em celular físico.
+
+APIs conferidas na versão exata e executadas no Godot 4.5.1 Compatibility:
+[RandomNumberGenerator](https://raw.githubusercontent.com/godotengine/godot/4.5.1-stable/doc/classes/RandomNumberGenerator.xml),
+[InputEventKey](https://raw.githubusercontent.com/godotengine/godot/4.5.1-stable/doc/classes/InputEventKey.xml),
+[PhysicsBody3D.move_and_collide](https://raw.githubusercontent.com/godotengine/godot/4.5.1-stable/doc/classes/PhysicsBody3D.xml),
+[desenho de CanvasItem](https://raw.githubusercontent.com/godotengine/godot/4.5.1-stable/doc/classes/CanvasItem.xml).
+
+
+### Saídas — Godot 4.5.1 Compatibility
+
+```text
+CAPITULO1_ESCAPE: 37 passed, 0 failed
+CAPITULO1_MOVIMENTO: 33 passed, 0 failed
+CAPITULO1_ANIMACAO: 70 passed, 0 failed
+CAPITULO1_TEST: 36 passed, 0 failed
+CAPITULO1_MAPA: 18 passed, 0 failed
+CAPITULO1_NIVEL: 10 passed, 0 failed
+CAPITULO1_TOQUE: 9 passed, 0 failed
+CAPITULO1_PERCURSO[rota]: 7 passed, 0 failed
+```
+
+As cinco expectativas do agarrão antigo saíram de `capitulo1_test.gd` e foram
+substituídas pela suíte de 37 verificações do escape. O script do capítulo
+executa essa suíte automaticamente. O percurso de rota terminou com zero mortes.

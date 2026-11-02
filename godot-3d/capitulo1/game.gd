@@ -7,6 +7,12 @@ const CHAPTER_HUD=preload("res://capitulo1/hud.gd")
 const CHAPTER_CAMERA=preload("res://capitulo1/camera.gd")
 const TOUCH=preload("res://capitulo1/toque.gd")
 const ACTIONS=preload("res://capitulo1/acoes.gd")
+const ESCAPE=preload("res://capitulo1/escape.gd")
+var escape=ESCAPE.new()
+var escape_blackout:=0.0
+var escape_advantage_until:=0.0
+## Gancho do futuro item único; não há pickup nem finalização nesta etapa.
+var finisher_item_available:=false
 var touch: CanvasLayer
 var bag_found:=false
 var alert_spread:=false
@@ -236,6 +242,15 @@ func end_intro() -> void:
  hud.say("A bolsa ficou no terceiro de Informática. [Espaço] abre a porta.",5)
 
 func _unhandled_input(event: InputEvent) -> void:
+ if escape_blackout>0: return
+ if escape.active:
+  if event is InputEventKey and event.pressed and not event.echo:
+   if event.keycode==KEY_ESCAPE:
+    paused=not paused; mouse_held=false
+    Input.mouse_mode=Input.MOUSE_MODE_VISIBLE if paused or touch!=null else Input.MOUSE_MODE_CAPTURED
+   elif not paused:
+    escape_direction(event.physical_keycode if event.physical_keycode!=0 else event.keycode)
+  return
  if event is InputEventKey and event.pressed and not event.echo:
   if event.keycode==KEY_ESCAPE:
    paused=not paused
@@ -305,8 +320,12 @@ func _process(dt: float) -> void:
   if scare_time>.2: silhouette.visible=false
 
 func _physics_process(dt: float) -> void:
+ if escape_blackout>0:
+  _escape_tick(dt); return
  if paused or player.dead or phase=="escaped": return
  elapsed+=dt
+ if escape.active:
+  _escape_tick(dt); return
  simulation_ticks+=1
  school.update(dt,elapsed)
  for e in school.ritual_figures: e.animate(dt)
@@ -373,7 +392,9 @@ func _physics_process(dt: float) -> void:
  else: _player_tick(dt)
  if protected_target!=null and player.state not in ["attack","pair"]: protected_target=null
  _enemy_ticks(dt)
+ if escape.active: return
  _pursuer_tick(dt)
+ if escape.active: return
  if player.dead: return
  if is_instance_valid(locked) and (locked.dead or locked.down or phase=="chase" or player.position.distance_to(locked.position)>13): locked=null
  _loads_tick(dt)
@@ -477,11 +498,18 @@ func end_discovery() -> void:
  hud.say("CORRA. Quebre a visão antes de se esconder. Portas compram tempo.",5)
 
 func _enemy_ticks(dt: float) -> void:
+ if escape.active or escape_blackout>0: return
  var engaged=0
  for e in enemies:
   e.clock+=dt
   e.opening=maxf(0,e.opening-dt)
   if e.dead: e.animate(dt); continue
+  if e.state=="escape_stunned":
+   e.animate(dt)
+   if e.clock>=2.0: e.state="idle"; e.play("guarda")
+   continue
+  if not e.down and phase in ["investigate","chase"] and _grab_player(e): return
+  if e.state=="escape_stunned": continue
   if e==enemies[0] and not sighting_seen and phase!="sighting":
    e.play("guarda"); e.animate(dt); continue
   if e.down:
@@ -512,15 +540,7 @@ func _enemy_ticks(dt: float) -> void:
    if e.clock>(.55 if e.state!="hurt" else .65): e.state="idle"; e.play("guarda")
    continue
   if e.state=="grab_hold":
-   e.face(player.position,dt)
-   e.animate(dt)
-   view.trauma=maxf(view.trauma,.12)
-   if e.clock>GRAB_TIME:
-    e.state="idle"; e.clock=0; e.opening=.8
-    player.state="idle"
-    hurt_player(GRAB_DAMAGE)
-    hud.say("Ele o machucou. Fuja antes que agarre de novo.",2)
-   continue
+   e.animate(dt); continue
   if e.state=="inspect":
    e.play("guarda"); e.animate(dt)
    if not e.motion.locomotion_visible():
@@ -583,12 +603,12 @@ func _enemy_ticks(dt: float) -> void:
   if not sees and e.memory<=0:
    # Continua buscando perto da última visão, sem seguir a posição oculta.
    target=e.last_seen+Vector3(sin(elapsed*.2)*2,0,cos(elapsed*.2)*2)
-  if distance>1.05 or not sees:
+  if distance>.62 or not sees:
    _navigate(e,target,NIVEL.RUN if enemy_turn==null and protected_target==null else .35,dt)
   else:
    e.velocity=Vector3.ZERO; e.face(player.position,dt); e.play("guarda")
    if enemy_turn==null and protected_target==null and turn_cooldown<=0 and e.opening<=0 and not player.hidden:
-    _start_enemy_attack(e)
+    if _grab_player(e): return
   e.animate(dt)
  # Vestígios aumentam a busca, sem ativar o estado de alerta espalhado.
  if simulation_ticks%60==0:
@@ -702,21 +722,7 @@ func _player_tick(dt: float) -> void:
  super._player_tick(dt)
 
 func dodge() -> void:
- if player.state=="grabbed":
-  grab_struggle+=1
-  view.trauma=minf(.5,view.trauma+.15)
-  if knife:
-   knife=false; grab_struggle=GRAB_PRESSES
-   hud.say("A faca o fez soltar. Corra.",2)
-  if grab_struggle<GRAB_PRESSES: return
-  player.state="idle"; player.play("guarda")
-  if is_instance_valid(action_target):
-   action_target.state="hurt"; action_target.clock=0; action_target.opening=1.2
-   action_target.start_action("novo/Hit_Knockback")
-   action_target.velocity=Vector3.ZERO
-  return
- # Roll foi avaliado com a curva dos apoios: pico de 9,13 m/s na entrada.
- # A esquiva fica desativada; esta entrada continua soltando agarrões acima.
+ # Roll permanece desativado. O escape agora aceita somente a sequência de setas.
  return
 
 func _start_enemy_attack(e: CharacterBody3D) -> void:
@@ -728,35 +734,85 @@ func _start_enemy_attack(e: CharacterBody3D) -> void:
  step_audio.position=e.position
  step_audio.pitch_scale=.72; step_audio.volume_db=-18; step_audio.play()
 
-## Terror: o cultista agarra em vez de trocar socos. Soltar-se exige insistir
-## (Q ou clique direito); a faca solta na hora. Falhar custa muita vida.
-const GRAB_TIME:=1.8
-const GRAB_DAMAGE:=34.0
-const GRAB_PRESSES:=4
-var grab_struggle:=0
-
+## Contato abre uma sequência; apenas o AnimationTree avalia os clipes originais.
 func _enemy_contact(e: CharacterBody3D) -> void:
- if player.hidden or player.state=="grabbed" or not CONTACT.hands_touch(e,player): return
- if not _grab_player(e): return
- e.hit_once=true
- combat_stats["enemy_hits"]+=1
+ if _grab_player(e):
+  e.hit_once=true
+  combat_stats["enemy_hits"]+=1
 
 func _grab_player(e: CharacterBody3D) -> bool:
+ if escape.active or escape_blackout>0 or player.dead or player.hidden or paused: return false
+ if elapsed<escape_advantage_until or e.dead or e.down or e.state=="escape_stunned": return false
+ if phase not in ["investigate","chase"]: return false
  var delta: Vector3=(player.position-e.position)*Vector3(1,0,1)
- if delta.length()<.54 or delta.length()>1.12 or absf(player.position.y-e.position.y)>.2: return false
- if not visible_between(e.bone_point("Chest"),player.bone_point("Chest")): return false
+ var radius=.35 if e.pursuer else .27
+ if delta.length()>.27+radius+.10 or absf(player.position.y-e.position.y)>.2: return false
+ if delta.length()<.01 or not visible_between(e.bone_point("Chest"),player.bone_point("Chest")): return false
+ # Move só o corpo pela física. Nunca teletransporta os quadris nem modifica ossos.
+ e.move_and_collide(delta.normalized()*(delta.length()-(.27+radius+.04)))
+ if player.position.distance_to(e.position)<.27+radius+.005: return false
+ if finisher_item_available and not e.pursuer:
+  finisher_item_available=false
+  _escape_release(e)
+  hud.say("O item evitou o agarrão.",2)
+  return false
  cancel_heal(); _drop_load(); _cancel_interaction()
+ recording=false; peek_door=null; tool_active.clear(); mouse_held=false
+ if touch!=null: touch.release_all()
+ _crouch(false)
  e.attack_target=null; e.strike_yaw_bias=0; e.velocity=Vector3.ZERO
  enemy_turn=null; turn_cooldown=1.0
  e.state="grab_hold"; e.clock=0; e.face(player.position)
  e.start_action("actions/agarrao")
  player.state="grabbed"; player.clock=0; player.velocity=Vector3.ZERO
- player.start_action("Body_Block")
- player.face(e.position)
- action_target=e; grab_struggle=0
+ player.start_action("Body_Block"); player.face(e.position)
+ action_target=e; escape.start()
  impact_audio.stream=sfx["carne"]; impact_audio.play()
- hud.say("AGARRADO · aperte "+("SOLTAR" if touch!=null else "[Q]")+" várias vezes para se soltar",GRAB_TIME)
+ hud.say("AGARRADO · repita as setas da esquerda para a direita",escape.limit)
  return true
+
+func escape_direction(code: int) -> void:
+ if paused or escape_blackout>0: return
+ var result=escape.press(code)
+ if result<0: _escape_failure()
+ elif result>0:
+  _escape_release(action_target)
+  hud.say("Livre. Corra!",1.5)
+
+func _escape_release(e: CharacterBody3D) -> void:
+ player.state="idle"; player.velocity=Vector3.ZERO; player.play("guarda")
+ if is_instance_valid(e):
+  var back=(player.position-e.position)*Vector3(1,0,1)
+  # Recuo de 30 cm com colisão; parede pode limitar a distância.
+  if back.length()>.001: player.move_and_collide(back.normalized()*.30)
+  e.state="escape_stunned"; e.clock=0; e.opening=2.0; e.velocity=Vector3.ZERO
+  e.attack_target=null; e.play("guarda")
+ escape_advantage_until=elapsed+1.5
+ action_target=null; enemy_turn=null; turn_cooldown=1.5
+ if touch!=null: touch.release_all()
+
+func _escape_failure() -> void:
+ escape.active=false; escape_blackout=1.5
+ player.dead=true; player.velocity=Vector3.ZERO
+ # [PROVISÓRIO: trocar pela cena de morte quando chegarem as animações]
+ hud.show_escape_blackout(true)
+ if touch!=null: touch.release_all()
+
+func _escape_tick(dt: float) -> void:
+ if escape_blackout>0:
+  escape_blackout=maxf(0,escape_blackout-dt)
+  if escape_blackout<=0: restore_checkpoint()
+  return
+ player.clock+=dt; player.animate(dt)
+ for e in enemies: e.animate(dt)
+ if is_instance_valid(pursuer): pursuer.animate(dt)
+ if escape.tick(dt): _escape_failure()
+
+## Sobrescreve a morte/faca instantânea da base: perseguidor também abre sequência.
+func _grab() -> void:
+ if not is_instance_valid(pursuer): return
+ if player.hidden: _leave_hide()
+ _grab_player(pursuer)
 
 func interact() -> void:
  if player.hidden: _leave_hide(); return
@@ -792,7 +848,7 @@ func interact() -> void:
    item["taken"]=true; item["node"].visible=false
    if item["kind"]=="empanado": food+=1
    else: knife=true
-   hud.say("Empanado guardado." if item["kind"]=="empanado" else "Faca guardada para escapar de um agarrão.",2)
+   hud.say("Empanado guardado." if item["kind"]=="empanado" else "Faca guardada.",2)
    return
  for i in school.hides.size():
   if _near_looking(school.hides[i]["entry"]+Vector3.UP*.9,1.5):
@@ -806,6 +862,7 @@ func _near_looking(at: Vector3,distance: float) -> bool:
  return delta.length()<distance and view.direction().dot(delta.normalized())>.25
 
 func context_text() -> String:
+ if escape.active or escape_blackout>0: return ""
  if phase in ["intro","sighting","discovery","gate_jump","ending"]: return ""
  if not tool_active.is_empty(): return "USANDO FERRAMENTA · mover ou sofrer dano interrompe"
  if recording: return "● REC  %02d s · mantenha o ritual enquadrado"%int(record_time)
@@ -889,6 +946,11 @@ func throw_object() -> void:
  )
 
 func _pursuer_tick(dt: float) -> void:
+ if escape.active or escape_blackout>0: return
+ if is_instance_valid(pursuer) and pursuer.state=="escape_stunned":
+  pursuer.clock+=dt; pursuer.animate(dt)
+  if pursuer.clock>=2.0: pursuer.state="idle"; pursuer.play("guarda")
+  return
  if is_instance_valid(pursuer) and phase=="chase" and pursuit_memory<=0 and pursuer.state=="idle" and not enemy_sees(pursuer,true):
   var nearby: Array[int]=[]
   for i in school.hides.size():
@@ -901,6 +963,11 @@ func _pursuer_tick(dt: float) -> void:
    pursuer.animate(dt)
    if pursuer.position.distance_to(entry)<1.1 and player.hidden and hidden_spot==index: _grab()
    return
+ # A base para a 0,83 m: aqui aproxima até o contato real das cápsulas.
+ if is_instance_valid(pursuer) and phase=="chase" and not player.hidden and pursuer.position.distance_to(player.position)<.83:
+  if not _grab_player(pursuer):
+   _navigate(pursuer,player.position,3.55,dt); pursuer.animate(dt)
+  return
  super._pursuer_tick(dt)
 
 func _navigate(actor: CharacterBody3D,target: Vector3,speed: float,dt: float) -> void:
@@ -984,6 +1051,9 @@ func load_checkpoint() -> bool:
  checkpoint=saved; restore_checkpoint(); return true
 
 func restore_checkpoint() -> void:
+ escape.clear(); escape_blackout=0; escape_advantage_until=0
+ hud.show_escape_blackout(false)
+ if touch!=null: touch.release_all()
  _cancel_interaction()
  if player.dead: death_count+=1
  super.restore_checkpoint()
