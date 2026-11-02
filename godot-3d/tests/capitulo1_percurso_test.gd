@@ -198,6 +198,10 @@ func run() -> void:
  if ok: ok=await walk(NIVEL.ponto(s,"mesa_da_bolsa"),"mesa da bolsa",.3)
  if ok:
   aim(s.bag_at); await step(); game.interact()
+  # Pegar agora é animado (aproxima, mão na bolsa): espera a ação terminar.
+  for w in 240:
+   if game.bag_found and game.player.state=="idle": break
+   await step()
  check(game.bag_found,"pega a bolsa após percurso contínuo")
  note("alerta=%s fase=%s" % [game.alert_spread,game.phase])
  if ok: ok=await walk(NIVEL.ponto(s,"dentro_3_informatica"),"voltar à porta")
@@ -229,7 +233,9 @@ func run() -> void:
  check(game.video_recorded,"grava o ritual em sequência contínua")
  note("alerta=%s fase=%s perseguidor=%s" % [game.alert_spread,game.phase,is_instance_valid(game.pursuer)])
  if ok: ok=await walk(s.gate_at-Vector3(0,0,1.4),"portão 1",1.0,60*150)
- for w in 60*3:
+ key(KEY_W,false)
+ # Pular o portão agora é animado (aproximar, mãos na grade, pular).
+ for w in 60*12:
   if game.phase=="ending": break
   await step()
  check(game.phase in ["ending","escaped"] and game.player.position.z>s.gate_at.z,"pula o portão e chega ao encerramento")

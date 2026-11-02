@@ -88,7 +88,7 @@ func request(clip: String,rate:=1.0,restart:=false) -> void:
   if not travelling:
    var current=String(playback.get_current_node())
    if machine.has_transition(current,"Locomocao"):
-    var index=machine.find_transition(current,"Locomocao")
+    var index=_find_transition(current,"Locomocao")
     var exit_link=machine.get_transition(index)
     exit_link.switch_mode=AnimationNodeStateMachineTransition.SWITCH_MODE_IMMEDIATE
     exit_link.advance_mode=AnimationNodeStateMachineTransition.ADVANCE_MODE_ENABLED
@@ -103,7 +103,7 @@ func request(clip: String,rate:=1.0,restart:=false) -> void:
  _add_clip(mapped)
  var key=_key(mapped)
  if machine.has_transition(key,"Locomocao") and actor.anim.get_animation(mapped).loop_mode==Animation.LOOP_NONE:
-  var link=machine.get_transition(machine.find_transition(key,"Locomocao"))
+  var link=machine.get_transition(_find_transition(key,"Locomocao"))
   link.switch_mode=AnimationNodeStateMachineTransition.SWITCH_MODE_AT_END
   link.advance_mode=AnimationNodeStateMachineTransition.ADVANCE_MODE_AUTO
  _parameter("parameters/"+key+"/Ritmo/scale",rate)
@@ -165,3 +165,9 @@ func position() -> float: return playback.get_current_play_position()
 func seek(time: float) -> void:
  # Bancada/testes: avança o próprio grafo, nunca o AnimationPlayer concorrente.
  playback.start(_key(active_clip),true); tree.advance(0); tree.advance(time)
+
+## Godot 4.5.1 não tem find_transition: busca manual pelo par origem/destino.
+func _find_transition(from: StringName,to: StringName) -> int:
+ for i in machine.get_transition_count():
+  if machine.get_transition_from(i)==from and machine.get_transition_to(i)==to: return i
+ return -1
