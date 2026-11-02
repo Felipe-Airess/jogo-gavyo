@@ -47,7 +47,8 @@ var fleeing_return:=false
 var ending_set: Node3D
 var phone_prop: Node3D
 var breathing: AudioStreamPlayer
-var sfx: Dictionary={}
+var sound: Node
+var gate_sound_played:=false
 var scare_played:=false
 var scare_time:=0.0
 var silhouette: Node3D
@@ -77,21 +78,6 @@ func _ready() -> void:
  if TOUCH.wanted():
   touch=TOUCH.new(); add_child(touch); touch.setup(self)
  _audio()
- for name in ["metal","parede","bloqueio","carne","respiracao","susto"]:
-  sfx[name]=load("res://capitulo1/assets/"+name+".wav").duplicate()
- breathing=AudioStreamPlayer.new(); breathing.stream=sfx["respiracao"]
- breathing.stream.loop_mode=AudioStreamWAV.LOOP_FORWARD; breathing.stream.loop_end=int(breathing.stream.get_length()*breathing.stream.mix_rate)
- breathing.volume_db=-80; add_child(breathing); breathing.play()
- cult_audio.position=school.ritual_center
- cult_audio.unit_size=4
- cult_audio.max_distance=26
- var chant=load("res://capitulo1/assets/culto.wav").duplicate()
- chant.loop_mode=AudioStreamWAV.LOOP_FORWARD
- chant.loop_end=int(chant.get_length()*chant.mix_rate)
- cult_audio.stream=chant
- cult_audio.pitch_scale=.76
- cult_audio.volume_db=-18
- cult_audio.play()
  flashlight=SpotLight3D.new()
  flashlight.light_color=Color(.88,.90,.78)
  flashlight.light_energy=2.6
@@ -134,6 +120,31 @@ func _ready() -> void:
   e.face(school.ritual_center)
   school.ritual_figures.append(e)
  if "--capturar-capitulo" in OS.get_cmdline_user_args(): call_deferred("_capture")
+
+## Ambiente/respiração sem equivalente permanecem. Efeitos usam o pacote importado.
+func _audio() -> void:
+ sound=load("res://capitulo1/sons.gd").new(); add_child(sound); sound.setup(self)
+ ambience=AudioStreamPlayer.new(); ambience.bus="CapituloAmbiente"
+ ambience.stream=load("res://prototipo/audio/grilos.wav").duplicate()
+ ambience.stream.loop_mode=AudioStreamWAV.LOOP_FORWARD
+ ambience.stream.loop_end=int(ambience.stream.get_length()*ambience.stream.mix_rate)
+ ambience.volume_db=-17; add_child(ambience); ambience.play()
+ cult_audio=AudioStreamPlayer3D.new(); cult_audio.bus="CapituloAmbiente"
+ cult_audio.position=school.ritual_center; cult_audio.unit_size=4; cult_audio.max_distance=26
+ cult_audio.stream=load("res://capitulo1/assets/culto.wav").duplicate()
+ cult_audio.stream.loop_mode=AudioStreamWAV.LOOP_FORWARD
+ cult_audio.stream.loop_end=int(cult_audio.stream.get_length()*cult_audio.stream.mix_rate)
+ cult_audio.pitch_scale=.76; cult_audio.volume_db=-18; add_child(cult_audio); cult_audio.play()
+ step_audio=AudioStreamPlayer3D.new(); add_child(step_audio); sound.configure(step_audio,10,3)
+ sound.prepare(step_audio,"cimento",-6)
+ impact_audio=AudioStreamPlayer3D.new(); add_child(impact_audio); sound.configure(impact_audio,10,3)
+ sound.prepare(impact_audio,"impacto_parede",-3)
+ # O pacote recebido informa que não inclui respiração humana. Preserva o provisório.
+ breathing=AudioStreamPlayer.new(); breathing.bus="CapituloVoz"
+ breathing.stream=load("res://capitulo1/assets/respiracao.wav").duplicate()
+ breathing.stream.loop_mode=AudioStreamWAV.LOOP_FORWARD
+ breathing.stream.loop_end=int(breathing.stream.get_length()*breathing.stream.mix_rate)
+ breathing.volume_db=-38; add_child(breathing)
 
 func spawn_actor(at: Vector3,is_enemy: bool,big:=false) -> CharacterBody3D:
  var actor=PERSON.new()
@@ -314,7 +325,7 @@ func _process(dt: float) -> void:
  phone_prop.visible=bag_found and (recording or phone_light)
  player.tool_pose=recording or not tool_active.is_empty()
  burst_clock=maxf(0,burst_clock-dt)
- breathing.volume_db=-26+fatigue*8 if burst_clock>0 else -80
+ sound.tick(dt)
  if silhouette.visible:
   scare_time+=dt
   if scare_time>.2: silhouette.visible=false
@@ -365,6 +376,8 @@ func _physics_process(dt: float) -> void:
    desired=gate_to+Vector3.UP*2.55*(1-smoothstep(.76,1,t))
   player.position=desired
   player.animate(dt)
+  if not gate_sound_played and player.motion.position()>=.25:
+   sound.emit_at("portao",school.gate_at); gate_sound_played=true
   if t>.10 and t<.34 and not player.motion.locomotion_visible():
    for side in ["Left","Right"]:
     var offset=.19 if side=="Left" else -.19
@@ -428,7 +441,7 @@ func _story_tick(dt: float) -> void:
  if bag_found and not scare_played and player.position.distance_to(NIVEL.ponto(school,"susto")+Vector3(0,0,posmod(death_count,3)))<3:
   scare_played=true; scare_time=0; silhouette.visible=true
   view.trauma=.25
-  impact_audio.stream=sfx["susto"]; impact_audio.play()
+  sound.emit_at("grito",silhouette.global_position,-9)
 
 ## Não salva com um cultista em cima: voltar do checkpoint seria morrer de novo.
 func checkpoint_safe() -> bool:
@@ -463,6 +476,7 @@ func _jump_gate() -> void:
  _begin_interaction("gate",school.gate,school.gate_at+Vector3.UP*1.1,Vector3.BACK,"novo/Interact")
 
 func _jump_gate_now() -> void:
+ gate_sound_played=false
  phase="gate_jump"
  story_clock=0
  gate_from=player.position
@@ -587,7 +601,7 @@ func _unease_beats() -> void:
  var px:=player.position
  if not beats_done.has("metal") and px.distance_to(NIVEL.ponto(school,"batida_metal"))<3.5:
   beats_done["metal"]=true
-  impact_audio.stream=sfx["metal"]; impact_audio.global_position=px+view.direction()*-6; impact_audio.play()
+  sound.emit_at("impacto_metal",px+view.direction()*-6)
   view.trauma=maxf(view.trauma,.12)
  if not beats_done.has("luzes") and px.distance_to(NIVEL.ponto(school,"batida_luzes"))<3.5:
   beats_done["luzes"]=true
@@ -601,8 +615,7 @@ func _unease_beats() -> void:
   beats_done["passos"]=true
   for i in 4:
    get_tree().create_timer(.45*i).timeout.connect(func():
-    step_audio.global_position=player.position+Vector3(-4+i*1.5,0,-3)
-    step_audio.pitch_scale=.8; step_audio.volume_db=-12; step_audio.play())
+    sound.emit_at("cimento",player.position+Vector3(-4+i*1.5,0,-3),-4))
 
 ## Cultistas do ritual percebem Miguel (decisão: ritual já acontece na
 ## subida; ele passa escondido). Em transe: percebem devagar. Agachado no
@@ -661,6 +674,8 @@ func hurt_player(damage: float) -> void:
 const DODGE_AVAILABLE:=false
 
 func _player_tick(dt: float) -> void:
+ # Desliga só o temporizador legado; sons.tick mede deslocamento real e piso.
+ footstep_time=1000.0
  if player.state=="interaction":
   _interaction_tick(dt); return
  if player.state=="grabbed":
@@ -677,8 +692,7 @@ func _start_enemy_attack(e: CharacterBody3D) -> void:
  e.face(player.position)
  e.start_action("novo/AgarrarEntrada")
  combat_stats["enemy_attacks"]+=1
- step_audio.position=e.position
- step_audio.pitch_scale=.72; step_audio.volume_db=-18; step_audio.play()
+ sound.footstep(e)
 
 ## Contato abre uma sequência; apenas o AnimationTree avalia os clipes originais.
 func _enemy_contact(e: CharacterBody3D) -> void:
@@ -713,15 +727,20 @@ func _grab_player(e: CharacterBody3D) -> bool:
  player.state="grabbed"; player.clock=0; player.velocity=Vector3.ZERO
  player.start_action("Body_Block"); player.face(e.position)
  action_target=e; escape.start()
- impact_audio.stream=sfx["carne"]; impact_audio.play()
+ sound.emit_at("agarrao",player.position)
+ sound.emit_at("roupa",player.position,-8)
  hud.say("AGARRADO · repita as setas da esquerda para a direita",escape.limit)
  return true
 
 func escape_direction(code: int) -> void:
  if paused or escape_blackout>0: return
+ var previous=escape.cursor
  var result=escape.press(code)
+ if escape.cursor>previous: sound.ui("seta")
+ if result<0: sound.ui("erro")
  if result<0: _escape_failure()
  elif result>0:
+  sound.ui("sucesso")
   _escape_release(action_target)
   hud.say("Livre. Corra!",1.5)
 
@@ -738,6 +757,7 @@ func _escape_release(e: CharacterBody3D) -> void:
  if touch!=null: touch.release_all()
 
 func _escape_failure() -> void:
+ sound.ui("falha")
  escape.active=false; escape_blackout=1.5
  player.dead=true; player.velocity=Vector3.ZERO
  # [PROVISÓRIO: trocar pela cena de morte quando chegarem as animações]
@@ -842,13 +862,9 @@ func _leave_hide() -> void:
  for e in enemies: e.hunt.witnessed_hide=-1
  hide_witnesses.clear()
 
-## [PROVISÓRIO] Grito usa o efeito existente até a Parte 3 fornecer voz nova.
+## Vocalizações monstruosas fornecidas por Felipe, carregadas como recursos.
 func _cultist_shout(e: CharacterBody3D) -> void:
- if not is_instance_valid(e.hunt_voice):
-  e.hunt_voice=AudioStreamPlayer3D.new(); e.add_child(e.hunt_voice)
-  e.hunt_voice.position.y=1.6; e.hunt_voice.max_distance=18
-  e.hunt_voice.stream=sfx["susto"]; e.hunt_voice.volume_db=-12; e.hunt_voice.pitch_scale=.85
- e.hunt_voice.play()
+ sound.shout(e)
  _spread_alert(e)
  hud.say("Um cultista gritou. Corra!",2)
 
@@ -1042,6 +1058,7 @@ func load_checkpoint() -> bool:
  checkpoint=saved; restore_checkpoint(); return true
 
 func restore_checkpoint() -> void:
+ sound.reset()
  escape.clear(); escape_blackout=0; escape_advantage_until=0
  hud.show_escape_blackout(false)
  if touch!=null: touch.release_all()
@@ -1103,10 +1120,13 @@ func _stain(at: Vector3) -> void:
  add_child(node); blood.append(node)
 
 func _impact(at: Vector3,gore: bool) -> void:
- impact_audio.stream=sfx["carne"] if gore else sfx["parede"]
+ var event="impacto_corpo" if gore else "impacto_parede"
  for prop in school.reactive:
   if prop.position.distance_to(at)<1.2 and not gore:
-   impact_audio.stream=sfx["metal"]; break
+   var material=String(prop.get_meta("kind",""))
+   event="impacto_metal" if material=="metal" else "impacto_madeira" if material=="wood" else "impacto_parede"
+   break
+ sound.prepare(impact_audio,event,-3)
  super._impact(at,false)
  if gore:
   var floor_y=school.LEVEL if player.position.y>2.7 else 0.0
@@ -1192,12 +1212,14 @@ func _interaction_tick(dt: float) -> void:
   match interaction["kind"]:
    "bag":
     bag_found=true; school.bag.visible=false; checkpoint_index=1
+    sound.emit_at("bolsa",school.bag_at,-5)
     _snapshot(); hud.say("Bolsa e celular recuperados. Desça e procure a origem das vozes.",5)
    "door":
     var door=interaction["object"]
     peek_door=null
     if not door.opened: door.swing=1.65 if (player.position-door.global_position).dot(door.normal)>0 else -1.65
     door.toggle()
+   "hide": school.set_hide_open(int(interaction["index"]),true)
    # Portão e armário aguardam o fim do gesto após o contato.
  if player.motion.consume("finished"):
   var completed=interaction

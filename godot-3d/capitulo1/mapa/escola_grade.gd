@@ -479,7 +479,7 @@ func _porta(n: int,seq: Dictionary) -> void:
   if nome!="" and rooms.has(nome) and rooms[nome]["sala"]:
    titulo=nome; normal=lado[1]; break
  var at:=Vector3(meio.x+ORIGEM.x,n*LEVEL,meio.z+ORIGEM.z)
- var door=DOOR.new()
+ var door=load("res://capitulo1/porta_som.gd").new()
  add_child(door)
  door.width=KIT.VAO_PORTA-.06
  door.setup(game,at,normal,titulo)
@@ -548,6 +548,7 @@ func set_hide_open(index: int,on: bool,instant:=false) -> void:
  var spot: Dictionary=hides[index]
  if spot.get("opened",false)==on and not instant: return
  spot["opened"]=on
+ if not instant and game.sound!=null: game.sound.emit_at("armario_abrir" if on else "armario_fechar",spot["entry"])
  if not spot.has("hinge"): return
  var hinge: Node3D=spot["hinge"]
  for body in hinge.find_children("*","StaticBody3D",true,false): body.collision_layer=0 if on else 1

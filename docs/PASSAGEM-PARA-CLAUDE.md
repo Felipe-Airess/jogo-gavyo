@@ -352,3 +352,24 @@ Validação da Parte 2: capítulo passou com caça 32, escape 37, movimento 33,
 animação 70, capítulo 36, mapa 18 e nível 10. Percurso rota: 7/7, código 0.
 Foi medida perseguição física de 3,000 m/s; Miguel ganha 0,800 m/s correndo e
 perde 1,550 m/s andando. Cerco com três comuns: distância mínima 0,7624 m.
+
+
+## Parte 3 — áudio de Felipe (02/11/2026)
+
+376 arquivos copiados sem mudar bytes/subpastas para `capitulo1/assets/sons/`.
+77 selecionados em 20 bancos; tabela completa em `docs/SONS-FELIPE-PARTE3.md`.
+`capitulo1/sons.gd` controla variação, pisos, eventos, emissores 3D e buses;
+`sons_niveis.gd` contém medições de ganho; `tools/medir_sons.gd` refaz a medição.
+Passos inimigos e gritos alcançam 10 m; Miguel 7 m. Porta tem subclasse de áudio.
+Bolsa, armário, portão, agarrão e minigame possuem eventos ligados ao fluxo real.
+Nenhuma pose ou regra de IA foi alterada.
+
+Pacote não tem respiração humana, canto ou ambiência longa: os três anteriores
+continuam. Respiração provisória tem perfis normal/correndo/agarrado; não vender
+isso como gravação humana nova. Cinco efeitos provisórios sem uso foram removidos.
+Créditos por arquivo em `assets/sons/CREDITOS.md`, conforme manifesto recebido;
+licença dos três sons antigos fica a confirmar por Felipe.
+
+Suíte passou: áudio 30, caça 32, escape 37, movimento 33, animação 70, capítulo 36,
+mapa 18 e nível 10. Web PCK em diretório vazio carregou 376/376 e incluiu créditos.
+Falta Felipe ouvir em PC/celular; não houve alegação de avaliação humana do timbre.

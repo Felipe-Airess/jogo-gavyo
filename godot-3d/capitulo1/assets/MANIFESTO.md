@@ -23,3 +23,10 @@
 
 Skills pesquisadas com `find-skills`: Godot/ambiente/animação. Mantidas as skills
 locais já presentes; não se instalou pacote só pela posição em busca ou popularidade.
+
+
+02/11/2026 — Parte 3 de áudio: `metal`, `parede`, `carne`, `susto` e `bloqueio`
+foram substituídos pelo pacote de Felipe e removidos por não terem mais uso.
+`respiracao.wav` e `culto.wav` permanecem: o pacote informa não ter equivalentes.
+Os créditos dos 376 arquivos novos estão em `sons/CREDITOS.md`; seleção e usos
+em `docs/SONS-FELIPE-PARTE3.md` na raiz do repositório.

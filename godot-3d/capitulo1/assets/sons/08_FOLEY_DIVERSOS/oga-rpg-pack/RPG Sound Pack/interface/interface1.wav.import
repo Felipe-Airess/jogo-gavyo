@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c7jhwhmacyl1t"
+path="res://.godot/imported/interface1.wav-8fffdbc16166d9c6ab6833d62fef3c3f.sample"
+
+[deps]
+
+source_file="res://capitulo1/assets/sons/08_FOLEY_DIVERSOS/oga-rpg-pack/RPG Sound Pack/interface/interface1.wav"
+dest_files=["res://.godot/imported/interface1.wav-8fffdbc16166d9c6ab6833d62fef3c3f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b6stdx8pxa1uq"
+path="res://.godot/imported/coin2.wav-07220740a4856b75236fd84f52d66bd8.sample"
+
+[deps]
+
+source_file="res://capitulo1/assets/sons/08_FOLEY_DIVERSOS/oga-rpg-pack/RPG Sound Pack/inventory/coin2.wav"
+dest_files=["res://.godot/imported/coin2.wav-07220740a4856b75236fd84f52d66bd8.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b7a75p1wm5rk5"
+path="res://.godot/imported/metal-ringing.wav-c337532cd8963acbf73d5b46b2d9c877.sample"
+
+[deps]
+
+source_file="res://capitulo1/assets/sons/04_OBJETOS_IMPACTOS/oga-rpg-pack/RPG Sound Pack/inventory/metal-ringing.wav"
+dest_files=["res://.godot/imported/metal-ringing.wav-c337532cd8963acbf73d5b46b2d9c877.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

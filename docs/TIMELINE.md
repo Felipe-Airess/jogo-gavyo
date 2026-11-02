@@ -95,6 +95,9 @@ começa. Ao pegar o trabalho, leia também `docs/TESTE-FELIPE-20261102.md` e
 - **Teste de Felipe:** parecem filme?
 
 ### Etapa 7 — Trilha e som
+
+SFX da Parte 3 integrados em 02/11/2026; tabela em `SONS-FELIPE-PARTE3.md`.
+Trilha, respiração humana e canto definitivo não vieram nesse pacote.
 - [ ] Integrar a trilha de Felipe.
 - [ ] Mixagem de ambiente, sustos e tensão.
 

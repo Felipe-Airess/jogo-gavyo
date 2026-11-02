@@ -523,3 +523,88 @@ CAPITULO1_PERCURSO[rota]: 7 passed, 0 failed
 `scripts/testar-capitulo1.sh` e `scripts/testar-percurso.sh` terminaram com código
 0. O percurso registrou 187,3 s de jogo e zero mortes no modo isolado de rota.
 Avaliação de tensão, dificuldade e áudio continua dependendo de Felipe jogar.
+
+
+## Etapa 1 — Parte 3: sons recebidos de Felipe (02/11/2026)
+
+[Inventário completo e tabela final de usos](SONS-FELIPE-PARTE3.md).
+Foram copiados os 376 áudios de `Downloads/GAVYO_SFX_EXPANDIDO/sons` para
+`godot-3d/capitulo1/assets/sons`, mantendo nomes/subpastas e bytes originais.
+77 arquivos entram em 20 bancos de eventos; 299 ficam importados como reserva.
+Arquivos `.DS_Store` não foram copiados. Créditos por arquivo e documentos de
+procedência recebidos estão em `capitulo1/assets/sons/CREDITOS.md` e `procedencia/`.
+
+Passos agora seguem o deslocamento real e o piso da grade: azulejo usa os passos
+secos genéricos do RPG Audio; cimento usa concreto; escada usa pedra/concreto
+com reverberação curta. São aproximações dos materiais, não gravações dedicadas
+de azulejo e escada. Há variação de arquivo sem repetição imediata e pequenas
+variações de pitch/volume. Parado ou no ar não continua tocando passos.
+Cultistas têm timbre mais grave; o perseguidor mais grave ainda. Os emissores
+são 3D e ficam presos ao corpo: Miguel alcança 7 m, passos/gritos inimigos 10 m.
+A alteração de som não muda percepção, velocidade ou animação da Parte 2.
+
+Substituído o `susto.wav` usado como grito por vocalizações monstruosas recebidas.
+Portas têm abertura/fechamento, armários rangido/fecho, bolsa manuseio de couro,
+portão contato metálico, agarrão impacto abafado + roupa. Setas corretas,
+conclusão, seta errada e falha por prazo têm sinais próprios.
+O portão toca no avanço do clipe; bolsa só toca ao confirmar o contato.
+
+O pacote informa não conter respiração humana convincente, canto ritual ou
+ambiência longa. Portanto `respiracao.wav`, `culto.wav` e o grilo anterior ficam
+preservados. A respiração sintética existente ganhou perfis normal, corrida e
+agarrado, com volume e ritmo diferentes; isso não equivale a três gravações novas.
+As licenças desses recursos antigos continuam a confirmar por Felipe.
+Removidos apenas os provisórios sem uso do capítulo: `metal`, `parede`, `carne`,
+`susto` e `bloqueio`, com seus `.import`. Sons usados pelo protótipo permanecem.
+
+### Níveis, importação e web
+
+Som é carregado por `load()` como AudioStream importado, nunca por leitura de
+bytes. Ganhos individuais vêm de medição da decodificação em Godot 4.5.1:
+RMS alvo -21 dBFS e pico individual até -9 dBFS antes dos buses, com teto de ganho.
+Há buses para efeitos, escada, voz, UI e ambiente e limitador no Master a -1 dBFS.
+Na suíte final, a decodificação independente mediu pico individual de -9,00 dBFS
+e a sobreposição de efeitos/UI mediu pico de -18,03 dBFS no Master. São medidas
+desses cenários, não certificação LUFS nem aprovação auditiva de Felipe.
+
+O pacote Web foi exportado para PCK e validado em diretório vazio: 376/376 sons
+carregaram por recurso, e CREDITOS.md estava presente. Isso verifica o
+empacotamento/carregamento; não substitui ouvir num navegador/celular real.
+APIs executadas em 4.5.1: AudioStreamPlayback.mix_audio, AudioStreamPlayer3D,
+AudioServer, AudioEffectReverb e AudioEffectHardLimiter. Nenhuma pose foi alterada.
+`tools/medir_sons.gd` permite refazer os ganhos após importar outros áudios.
+
+### O que Felipe deve ouvir
+
+1. Execute `bash JOGAR-PROTOTIPO.command`, de preferência com fones.
+2. Ande do piso interno para o cimento do pátio e depois pela escada. Compare
+   timbre, variações e ressonância; solte o movimento e confira que os passos param.
+3. Deixe um comum vê-lo: após a pausa de 0,4 s, ouça o grito e os passos seguindo
+   o corpo. Afaste-se até cerca de 7–10 m e gire a câmera para conferir direção.
+4. Na perseguição, compare os passos mais graves do perseguidor.
+5. Abra/feche porta; entre/saia de um armário; pegue a bolsa e pule o portão.
+6. Deixe agarrar: ouça impacto, roupa e mudança de respiração. Acerte a sequência,
+   erre uma direção e deixe o prazo acabar em tentativas diferentes.
+7. Compare a respiração normal/correndo/agarrado. Ela ainda é sintética provisória
+   porque não veio gravação humana no pacote.
+
+### Saídas da Parte 3
+
+```text
+AUDIO_RECURSOS carregados=376/376
+AUDIO_NIVEL pico_decodificado_com_ganho=-9.00 dBFS
+AUDIO_MIX pico_master=-18.03 dBFS
+CAPITULO1_AUDIO: 30 passed, 0 failed
+CAPITULO1_CACA: 32 passed, 0 failed
+CAPITULO1_ESCAPE: 37 passed, 0 failed
+CAPITULO1_MOVIMENTO: 33 passed, 0 failed
+CAPITULO1_ANIMACAO: 70 passed, 0 failed
+CAPITULO1_TEST: 36 passed, 0 failed
+CAPITULO1_MAPA: 18 passed, 0 failed
+CAPITULO1_NIVEL: 10 passed, 0 failed
+AUDIO_WEB_PCK: 376/376 recursos carregados
+AUDIO_WEB_CREDITOS: true
+```
+
+`scripts/testar-capitulo1.sh`, exportação do PCK Web e teste dos recursos
+empacotados terminaram com código 0.
