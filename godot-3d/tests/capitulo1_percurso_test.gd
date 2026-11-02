@@ -43,14 +43,15 @@ func step() -> void:
  if mode=="furtivo" and game.sighting_seen and game.player.position.y<1:
   if not Input.is_physical_key_pressed(KEY_CTRL): key(KEY_CTRL,true)
  if mode=="patio":
-  var px: float=game.player.position.x/game.school.SCALE+440
-  var pz: float=game.player.position.z/game.school.SCALE+300
-  var inside: bool=game.player.position.y<1 and px>160 and px<345 and pz>5 and pz<95
+  # Pátio de química, caixa da escada e a chegada pelo corredor (térreo): agachado.
+  var cel: Vector2i=game.school.celula_de(game.player.position)
+  var px: int=cel.x; var pz: int=cel.y
+  var inside: bool=game.player.position.y<1 and px>=19 and px<=41 and pz<=11
   if inside!=Input.is_physical_key_pressed(KEY_CTRL): key(KEY_CTRL,inside)
   for f in game.school.ritual_figures: max_ritual_susp=maxf(max_ritual_susp,f.suspicion)
   if game.ritual_noticed and not noticed_logged:
    noticed_logged=true
-   note("ritual notou Miguel em p(%.0f,%.0f) agachado=%s bolsa=%s gravando=%s" % [px,pz,game.player.crouched,game.bag_found,game.recording])
+   note("ritual notou Miguel na célula (%d,%d) agachado=%s bolsa=%s gravando=%s" % [px,pz,game.player.crouched,game.bag_found,game.recording])
  await physics_frame
  frame_count+=1
  if mode in ["real","furtivo"] and game.player.health<last_health:
@@ -177,27 +178,31 @@ func run() -> void:
  check(game.phase=="investigate","abertura termina sozinha pelo tempo do jogo")
  game.path_grid=nav_grid
  var s=game.school
- var entrance: Vector3=s.p(s.STAIR_EAST_X+8,51)
- var landing: Vector3=s.p(172,75,s.LEVEL)
+ var NIVEL=load("res://capitulo1/nivel.gd")
+ var entrance: Vector3=NIVEL.ponto(s,"entrada_escada")
+ var landing: Vector3=NIVEL.ponto(s,"patamar")
  var ok:=true
  if mode=="furtivo":
   # Rota norte do level design, agachado depois de ver o primeiro cultista.
-  for wp in load("res://capitulo1/nivel.gd").ROUTE_NORTH:
-   if ok: ok=await walk(s.p(wp.x,wp.y),"rota norte",1.0)
+  for wp in NIVEL.ROUTE_NORTH:
+   if ok: ok=await walk(s.cel(wp.x,wp.y),"rota norte",1.0)
  if ok: ok=await walk(entrance,"entrada da escada no pátio de química")
  if ok: ok=await walk(s.stairs_bottom,"pé da escada",.4)
  game.path_grid=enemy_grid
  if ok: ok=await walk(s.stairs_top,"subir escada",.5)
  if ok: ok=await walk(landing,"patamar",.5)
  check(ok and game.player.position.y>3,"chega ao andar superior andando")
- if ok: ok=await walk(s.p(130.5,78,s.LEVEL),"corredor superior")
- if ok: ok=await walk(s.p(130.5,58,s.LEVEL),"porta do 3 Informática")
- if ok: ok=await walk(s.p(130.5,42.5,s.LEVEL),"mesa da bolsa",.3)
+ if ok: ok=await walk(NIVEL.ponto(s,"corredor_superior"),"corredor superior")
+ if ok: ok=await walk(NIVEL.ponto(s,"frente_3_informatica"),"porta do 3 Informática")
+ if ok: ok=await walk(NIVEL.ponto(s,"dentro_3_informatica"),"dentro do 3 Informática")
+ if ok: ok=await walk(NIVEL.ponto(s,"mesa_da_bolsa"),"mesa da bolsa",.3)
  if ok:
   aim(s.bag_at); await step(); game.interact()
  check(game.bag_found,"pega a bolsa após percurso contínuo")
  note("alerta=%s fase=%s" % [game.alert_spread,game.phase])
- if ok: ok=await walk(s.p(130.5,78,s.LEVEL),"sair da sala")
+ if ok: ok=await walk(NIVEL.ponto(s,"dentro_3_informatica"),"voltar à porta")
+ if ok: ok=await walk(NIVEL.ponto(s,"frente_3_informatica"),"sair da sala")
+ if ok: ok=await walk(NIVEL.ponto(s,"corredor_superior"),"corredor na volta")
  if ok: ok=await walk(landing,"patamar na volta",.5)
  if ok: ok=await walk(s.stairs_top,"topo da escada",.5)
  if ok: ok=await walk(s.stairs_bottom,"descer escada",.6)
@@ -206,7 +211,7 @@ func run() -> void:
  if ok: ok=await walk(s.ritual_approach,"abrigo no pé da escada",1.0)
  check(game.before_ritual,"checkpoint antes do ritual alcançado andando")
  if ok: ok=await walk(entrance,"entrada da escada",.5)
- if ok: ok=await walk(s.p(s.STAIR_EAST_X+1,51),"espiar da entrada da escada",.35)
+ if ok: ok=await walk(NIVEL.ponto(s,"espiar"),"espiar da entrada da escada",.35)
  if ok:
   var target: Vector3=s.ritual_center+Vector3.UP*.7
   for w in 20:
