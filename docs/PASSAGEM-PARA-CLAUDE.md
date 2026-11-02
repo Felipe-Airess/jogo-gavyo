@@ -92,6 +92,10 @@ Ainda ruim / próximo:
 4. HUD ainda mostra EMPANADOS/FACA de forma "jogo de luta"; simplificar.
 5. Felipe ainda não avaliou esta rodada.
 
+Fotos da escola: `docs/referencias/escola-fotos/` (quadra coberta, lab de
+hardware, pátio de química, pátio principal, auditório). Paleta e mobiliário do
+cenário seguem essas fotos.
+
 No Linux: Godot 4.5.1 em `/tmp/claude-0/godot/` (baixar de novo numa sessão nova).
 
 ## Arquivos importantes
@@ -114,7 +118,13 @@ Os caminhos da tabela são relativos a `godot-3d/`.
 ## Decisões que não podem regredir
 
 - Miguel acorda sem celular. Bolsa no terceiro de Informática, no andar superior,
-  acima do “2 infor”. Escada junto da quadra.
+  acima do “2 infor”. **Escada no pátio de química** (foto de Felipe), fechada em
+  caixa de parede; a quadra não dá acesso à escada. Porta do 2 Informática abre
+  para o pátio de química.
+- O ritual **já está acontecendo** quando Miguel precisa subir: ele atravessa o
+  pátio escondido pela passagem junto à parede sul. Da entrada da escada dá para
+  espiar (e gravar); do patamar e do corredor de cima, não.
+- Checkpoint 2 fica no pé da escada, dentro da caixa (abrigo antes do ritual).
 - Ritual no pátio de química; não no refeitório. Não se vê o ritual do andar superior.
 - Ave real no pentagrama; destino não definido. Não inventar sacrifício/morte da ave.
 - Vídeo manual. Contato com amigos só depois de sair; não inventar falta de sinal.

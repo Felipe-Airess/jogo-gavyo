@@ -30,8 +30,9 @@ func key(code: Key,pressed: bool) -> void:
 
 func step() -> void:
  if mode=="rota":
+  # Rota testa mapa e fluxo: cultistas não percebem nem bloqueiam o corpo.
   for e in game.enemies:
-   e.suspicion=0; e.aware=false; e.attack_target=null
+   e.suspicion=0; e.aware=false; e.attack_target=null; e.collision_layer=0
  await physics_frame
  frame_count+=1
  if mode=="real" and game.player.health<last_health:
@@ -139,9 +140,13 @@ func run() -> void:
  check(game.phase=="investigate","abertura termina sozinha pelo tempo do jogo")
  game.path_grid=nav_grid
  var s=game.school
- var ok:=await walk(s.stairs_bottom+Vector3(0,0,1.2),"até a escada")
+ var entrance: Vector3=s.p(s.STAIR_EAST_X+8,51)
+ var landing: Vector3=s.p(172,75,s.LEVEL)
+ var ok:=await walk(entrance,"entrada da escada no pátio de química")
+ if ok: ok=await walk(s.stairs_bottom,"pé da escada",.4)
  game.path_grid=enemy_grid
- if ok: ok=await walk(s.stairs_top+Vector3(0,0,-1.0),"subir escada")
+ if ok: ok=await walk(s.stairs_top,"subir escada",.5)
+ if ok: ok=await walk(landing,"patamar",.5)
  check(ok and game.player.position.y>3,"chega ao andar superior andando")
  if ok: ok=await walk(s.p(130.5,78,s.LEVEL),"corredor superior")
  if ok: ok=await walk(s.p(130.5,58,s.LEVEL),"porta do 3 Informática")
@@ -151,13 +156,15 @@ func run() -> void:
  check(game.bag_found,"pega a bolsa após percurso contínuo")
  note("alerta=%s fase=%s" % [game.alert_spread,game.phase])
  if ok: ok=await walk(s.p(130.5,78,s.LEVEL),"sair da sala")
- if ok: ok=await walk(s.stairs_top+Vector3(0,0,-.6),"topo da escada")
- if ok: ok=await walk(s.stairs_bottom+Vector3(0,0,1.0),"descer escada")
+ if ok: ok=await walk(landing,"patamar na volta",.5)
+ if ok: ok=await walk(s.stairs_top,"topo da escada",.5)
+ if ok: ok=await walk(s.stairs_bottom,"descer escada",.6)
  check(ok and game.player.position.y<.6,"desce ao térreo andando")
  game.path_grid=nav_grid
- if ok: ok=await walk(s.ritual_approach,"aproximação do ritual",1.5)
+ if ok: ok=await walk(s.ritual_approach,"abrigo no pé da escada",1.0)
  check(game.before_ritual,"checkpoint antes do ritual alcançado andando")
- if ok: ok=await walk(s.p(323,58),"posição de filmagem",.35)
+ if ok: ok=await walk(entrance,"entrada da escada",.5)
+ if ok: ok=await walk(s.p(262,50),"posição de filmagem",.35)
  if ok:
   var target: Vector3=s.ritual_center+Vector3.UP*.7
   for w in 20:

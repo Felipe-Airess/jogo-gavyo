@@ -118,7 +118,7 @@ func _ready() -> void:
  # Participantes do ritual são pessoas visíveis, sem acrescentar atacantes à área inicial.
  for i in 3:
   var a=float(i)*TAU/3
-  var e=spawn_actor(school.ritual_center+Vector3(sin(a)*2.5,0,cos(a)*1.7),true)
+  var e=spawn_actor(school.ritual_center+Vector3(sin(a)*1.75,0,cos(a)*1.15),true)
   e.activity="ritual"
   e.face(school.ritual_center)
   school.ritual_figures.append(e)

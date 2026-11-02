@@ -35,8 +35,15 @@ func run() -> void:
   if game.player.anim.current_animation=="correr" and now<previous: restarts+=1
   previous=now
  check(game.player.anim.current_animation=="prototype/run" and restarts==0,"corrida contínua não volta ao quadro da arrancada")
- var origin: Vector3=game.school.p(130,78,game.school.LEVEL+1.5)
- check(not game.visible_between(origin,game.school.ritual_center+Vector3.UP*.7),"andar superior não permite observar o ritual")
+ # Corredor superior inteiro, em pé e agachado, não vê o ritual.
+ var seen_from: Array=[]
+ for x in range(35,245,6):
+  for z in [68,78,88]:
+   for eye in [1.0,1.5]:
+    var origin: Vector3=game.school.p(x,z,game.school.LEVEL+eye)
+    if game.visible_between(origin,game.school.ritual_center+Vector3.UP*.7): seen_from.append([x,z,eye])
+ print("RITUAL_VISTO_DE_CIMA ",seen_from)
+ check(seen_from.is_empty(),"andar superior não permite observar o ritual")
  # Portas de todos os blocos liberam passagem ao abrir; não só a sala de teste.
  var blocked: Array[String]=[]
  for door in game.school.doors:
@@ -157,17 +164,29 @@ func run() -> void:
  game.heal(); game.hurt_player(1)
  check(game.food==1,"dano cancela cura sem consumir item")
  # Escada atravessável com a cápsula real, sem teletransporte para o andar superior.
- game.player.position=game.school.stairs_bottom+Vector3(0,.1,.8)
+ # A escada fica no pátio de química (fechada), não na quadra.
+ var climb: Vector3=(game.school.stairs_top-game.school.stairs_bottom)*Vector3(1,0,1)
+ climb=climb.normalized()
+ check(game.school.rooms["Pátio de química"]["rect"].has_point(Vector2((game.school.stairs_bottom.x/game.school.SCALE)+440,(game.school.stairs_bottom.z/game.school.SCALE)+300)),"escada sai do pátio de química")
+ game.player.position=game.school.stairs_bottom-climb*.8+Vector3.UP*.1
  game.player.velocity=Vector3.ZERO
  for i in 450:
-  game.player.velocity.x=0; game.player.velocity.z=-2.0
+  var to_target: Vector3=climb if game.player.position.y<game.school.LEVEL-.05 else (game.school.p(172,75,game.school.LEVEL)-game.player.position)*Vector3(1,0,1)
+  if to_target.length()<.3: break
+  var v: Vector3=to_target.normalized()*2.0
+  game.player.velocity.x=v.x; game.player.velocity.z=v.z
   game.player._slide(1.0/60)
   await physics_frame
  print("STAIR_RESULT ",game.player.position)
  for i in game.player.get_slide_collision_count():
   var contact=game.player.get_slide_collision(i)
   print("STAIR_CONTACT ",contact.get_collider().name," ",contact.get_normal()," ",contact.get_collider().global_position)
- check(game.player.position.y>3.2 and game.player.position.z<game.school.stairs_top.z-.2,"subir a escada alcança corredor superior com colisão real")
+ check(game.player.position.y>3.2 and game.player.position.distance_to(game.school.p(172,75,game.school.LEVEL))<.6,"subir a escada alcança corredor superior com colisão real")
+ # Fechada: do patamar e do corredor não se vê o ritual.
+ check(not game.visible_between(game.school.stairs_top+Vector3.UP*1.5,game.school.ritual_center+Vector3.UP*.7),"caixa da escada não deixa ver o ritual")
+ # Mas da entrada, agachado, dá para espiar.
+ var peek: Vector3=game.school.p(game.school.STAIR_EAST_X-1,51,1.0)
+ check(game.visible_between(peek,game.school.ritual_center+Vector3.UP*.7),"entrada da escada permite espiar o ritual")
  print("CAPITULO1_TEST: %d passed, %d failed"%[passed,failed])
  game.queue_free(); await process_frame
  quit(1 if failed else 0)

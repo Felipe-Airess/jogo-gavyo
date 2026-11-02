@@ -40,7 +40,10 @@ func build(owner_game: Node3D) -> void:
   ["court_red",Color(.55,.24,.22)],["line",Color(.85,.86,.82)],
   ["grade",Color(.16,.42,.30)],["stool",Color(.50,.08,.07)],
   ["cabinet",Color(.80,.80,.76)],["chair",Color(.12,.30,.55)],
-  ["cardboard",Color(.55,.40,.24)],["concrete",Color(.62,.62,.60)]]:
+  ["cardboard",Color(.55,.40,.24)],["concrete",Color(.62,.62,.60)],
+  ["patio_green",Color(.04,.40,.31)],["telha",Color(.50,.24,.15)],
+  ["column_green",Color(.30,.62,.22)],["sofa",Color(.045,.05,.05)],
+  ["plastic",Color(.86,.86,.83)],["extintor",Color(.62,.06,.05)]]:
   mats[data[0]]=material(data[1])
  mats["azulejo"]=_tile_material(Color(.84,.85,.82),Color(.48,.50,.48),.22)
  # Colisão única; visual em placas para cada uma receber as luzes próximas
@@ -67,19 +70,24 @@ func build(owner_game: Node3D) -> void:
  sign_at("PORTÃO 2 · CARROS",p(935,520,2.8),-90)
  # Bloco norte, química e salas superiores.
  _room("3 Contabilidade",Rect2(31,8,67,57),"S")
- _room("2 Informática",Rect2(98,8,65,57),"S")
- _room("Pátio de química",Rect2(163,8,179,57),"S",0,false,324)
+ # Foto de Felipe (docs/referencias/escola-fotos/patio-quimica.jpg): porta do
+ # 2 Informática e a escada ficam no pátio de química; a quadra não dá acesso.
+ _room("2 Informática",Rect2(98,8,65,57),"E",0,true,22)
+ _room("Pátio de química",Rect2(163,8,179,57),"S",0,false,324,"W")
  _room("Laboratório de química",Rect2(342,8,50,57),"S")
  _room("3 Contabilidade · superior",Rect2(31,8,67,57),"S",LEVEL)
  _room("3 Informática",Rect2(98,8,65,57),"S",LEVEL)
- # Corredor superior e parede que impede observar o ritual de cima.
+ # Corredor superior; parede alta impede observar o ritual de cima, exceto o
+ # vão por onde a escada chega (fechado pela caixa da escada).
  box(Vector3(214*SCALE,.20,27*SCALE),p(138,78,LEVEL-.1),"floor",false)
- _line(163,65,342,65,LEVEL,3.3)
- _line(31,91,172,91,LEVEL,.95)
- _line(219,91,245,91,LEVEL,.95)
- stairs_bottom=p(195,180)
- stairs_top=p(195,91,LEVEL)
+ _line(182,65,342,65,LEVEL,3.3)
+ _line(31,91,245,91,LEVEL,.95)
+ # Escada fechada no canto sudoeste do pátio: sobe de leste para oeste e chega
+ # ao corredor superior. Entrada aberta para o pátio, de onde dá para espiar.
+ stairs_bottom=p(236,51)
+ stairs_top=p(180,51,LEVEL)
  _stairs()
+ _stairwell()
  # Ala da quadra e enfermagem, corredor central aberto e estacionamento de bicicletas.
  _room("2 Contabilidade · oeste",Rect2(245,90,60,84),"E")
  _room("2 Enfermagem",Rect2(245,174,60,72),"E")
@@ -107,8 +115,11 @@ func build(owner_game: Node3D) -> void:
  _room("Secretaria",Rect2(672,356,163,60),"W")
  spawn=p(817,123)
  first_cultist=p(322,320)
- ritual_center=p(251,36)
- ritual_approach=p(323,79)
+ # Leste e norte do pátio: oeste é a caixa da escada; ao sul fica uma
+ # passagem de ~1,5 m junto à parede, por onde Miguel passa escondido.
+ ritual_center=p(305,30)
+ # Checkpoint 2 no pé da escada, dentro da caixa fechada: abrigo antes do ritual.
+ ritual_approach=p(240,51)
  bag_at=p(130.5,36.5,LEVEL+1.01)
  bag=box(Vector3(.42,.32,.30),bag_at,"dark",false)
  var handle=box(Vector3(.15,.05,.12),bag_at+Vector3(0,.19,0),"metal",false)
@@ -163,7 +174,8 @@ func _tile_material(color: Color,grout: Color,size: float) -> StandardMaterial3D
  mat.roughness=.35
  return mat
 
-func _room(title: String,r: Rect2,side: String,y:=0.0,roof:=true,custom:=-1.0) -> void:
+## skip: lados que não ganham parede (já existem, compartilhados com outra sala).
+func _room(title: String,r: Rect2,side: String,y:=0.0,roof:=true,custom:=-1.0,skip:="") -> void:
  rooms[title]={"rect":r,"floor":y,"center":p(r.get_center().x,r.get_center().y,y)}
  var cx=r.get_center().x
  var cz=r.get_center().y
@@ -176,6 +188,7 @@ func _room(title: String,r: Rect2,side: String,y:=0.0,roof:=true,custom:=-1.0) -
   var low=r.position.x if horizontal else r.position.y
   var high=r.end.x if horizontal else r.end.y
   var fixed=r.position.y if edge=="N" else (r.end.y if edge=="S" else (r.position.x if edge=="W" else r.end.x))
+  if edge in skip: continue
   if edge!=side:
    if horizontal: _line(low,fixed,high,fixed,y)
    else: _line(fixed,low,fixed,high,y)
@@ -228,23 +241,38 @@ func _desk(at: Vector3,computer: bool) -> void:
  else:
   box(Vector3(.28,.018,.20),at+Vector3(.2,.87,0),"paper",false)
 
+const STAIR_WIDTH:=2.2
+const STAIR_WEST_X:=163.0 # borda oeste do patamar (parede do 2 Informática)
+const STAIR_EAST_X:=245.0 # parede leste da caixa da escada (entrada)
+const STAIR_NORTH_Z:=36.0
+
+## Rampa física contínua sob degraus visuais (não prende a cápsula nas quinas),
+## em qualquer direção de stairs_bottom para stairs_top; patamar no alto e
+## corredor superior na mesma colisão.
 func _stairs() -> void:
- var width=2.7
- var landing_z=p(195,91.5).z
- var length=stairs_bottom.distance_to(Vector3(stairs_top.x,0,landing_z))
- # Uma rampa física contínua sob degraus visuais evita prender a cápsula nas quinas.
+ var run: Vector3=Vector3(stairs_top.x-stairs_bottom.x,0,stairs_top.z-stairs_bottom.z)
+ var forward: Vector3=run.normalized()
+ var side: Vector3=forward.cross(Vector3.UP)*STAIR_WIDTH*.5
  var body=StaticBody3D.new()
  body.collision_layer=1
  body.collision_mask=2
- body.name="EscadaQuadra"
+ body.name="EscadaPatioQuimica"
  add_child(body)
  var collision=CollisionShape3D.new()
  var ramp=ConcavePolygonShape3D.new()
- var a=Vector3(stairs_bottom.x-width*.5,0,stairs_bottom.z)
- var b=Vector3(stairs_bottom.x+width*.5,0,stairs_bottom.z)
- var c=Vector3(stairs_top.x+width*.5,LEVEL,landing_z)
- var d=Vector3(stairs_top.x-width*.5,LEVEL,landing_z)
+ var top_ground: Vector3=Vector3(stairs_top.x,LEVEL,stairs_top.z)
+ var a=stairs_bottom-side
+ var b=stairs_bottom+side
+ var c=top_ground+side
+ var d=top_ground-side
  var faces=PackedVector3Array([a,c,d,a,b,c])
+ # Patamar entre o fim da rampa e o corredor superior.
+ # Borda exatamente igual ao fim da rampa: sobrepor criava um degrau de 3 cm
+ # onde a cápsula parava.
+ var top_px: float=stairs_top.x/SCALE+440
+ a=p(STAIR_WEST_X,STAIR_NORTH_Z+2,LEVEL); b=p(top_px,STAIR_NORTH_Z+2,LEVEL)
+ c=p(top_px,64.5,LEVEL); d=p(STAIR_WEST_X,64.5,LEVEL)
+ faces.append_array(PackedVector3Array([a,c,b,a,d,c]))
  a=p(31,64.5,LEVEL); b=p(245,64.5,LEVEL)
  c=p(245,91.5,LEVEL); d=p(31,91.5,LEVEL)
  faces.append_array(PackedVector3Array([a,c,b,a,d,c]))
@@ -252,14 +280,31 @@ func _stairs() -> void:
  ramp.backface_collision=true
  collision.shape=ramp
  body.add_child(collision)
- for i in 24:
-  var t=float(i+1)/24
-  box(Vector3(width,.15,length/24+.03),Vector3(stairs_bottom.x,LEVEL*t-.075,lerpf(stairs_bottom.z,landing_z,t)),"floor",false)
- for side in [-1,1]:
-  var rail_a=stairs_bottom+Vector3(side*1.45,.9,0)
-  var rail_b=stairs_top+Vector3(side*1.45,.9,0)
-  var rail=box(Vector3(.055,.055,rail_a.distance_to(rail_b)),(rail_a+rail_b)*.5,"metal",false)
-  rail.look_at(rail_b)
+ var length: float=run.length()
+ var yaw: float=atan2(forward.x,forward.z)
+ for i in 20:
+  var t=float(i+1)/20
+  var step=box(Vector3(STAIR_WIDTH,.15,length/20+.03),stairs_bottom.lerp(top_ground,t)-Vector3.UP*.075,"azulejo",false)
+  step.rotation.y=yaw
+ box(Vector3(abs(p(STAIR_WEST_X,0).x-stairs_top.x),.12,STAIR_WIDTH),Vector3((p(STAIR_WEST_X,0).x+stairs_top.x)*.5,LEVEL-.06,stairs_top.z),"azulejo",false)
+ var rail_a=stairs_bottom+side.normalized()*-(STAIR_WIDTH*.5-.08)+Vector3.UP*.9
+ var rail_b=top_ground+side.normalized()*-(STAIR_WIDTH*.5-.08)+Vector3.UP*.9
+ var rail=box(Vector3(.055,.055,rail_a.distance_to(rail_b)),(rail_a+rail_b)*.5,"metal",false)
+ rail.look_at(rail_b)
+
+## Caixa fechada da escada (decisão de Felipe): de dentro não se vê o pátio,
+## exceto pela entrada embaixo, de onde dá para espiar agachado.
+func _stairwell() -> void:
+ var tall:=LEVEL+3.2
+ _line(STAIR_WEST_X,STAIR_NORTH_Z,STAIR_EAST_X,STAIR_NORTH_Z,0,tall)
+ var gap:=.78/SCALE
+ var mid:=51.0
+ _line(STAIR_EAST_X,STAIR_NORTH_Z,STAIR_EAST_X,mid-gap,0,tall)
+ _line(STAIR_EAST_X,mid+gap,STAIR_EAST_X,65,0,tall)
+ # Verga acima da entrada até o alto da caixa.
+ # Verga a 2,0 m (altura de porta): impede ver o pátio do alto da escada reta.
+ box(Vector3(.20,tall-2.0,gap*2*SCALE),p(STAIR_EAST_X,mid,2.0+(tall-2.0)*.5),"wall")
+ sign_at("ESCADA",p(STAIR_EAST_X+1.5,mid,2.5),90)
 
 func _court() -> void:
  # Quadra coberta (foto 2): piso verde, faixa vermelha, linhas brancas,
@@ -306,8 +351,11 @@ func _courtyard() -> void:
    bench(p(x,z-13),3.4)
  sign_at("REFEITÓRIO",p(730,255,2.8))
  sign_at("AUDITÓRIO",p(715,104,2.7))
+ # Colunas (foto do auditório): azulejo branco embaixo, pintura verde no topo.
  for x in [450,550,650,750]:
-  box(Vector3(.23,3.4,.23),p(x,100,1.7),"tile")
+  box(Vector3(.42,2.4,.42),p(x,100,1.2),"azulejo")
+  box(Vector3(.42,1.0,.42),p(x,100,2.9),"column_green")
+ _auditorium_props()
  box(Vector3(350*SCALE,.14,2.1),p(615,104,3.45),"wall")
  # Bicicletas, sem entidades físicas caras.
  for z in [130,160,190]:
@@ -337,13 +385,14 @@ func _lamp(at: Vector3,color: Color,reach: float,energy: float) -> void:
  fixtures.append(bulb)
 
 func _ritual() -> void:
+ _chemistry_patio()
  for i in 5:
-  var a=ritual_center+Vector3(sin(i*TAU/5)*2,.018,cos(i*TAU/5)*2)
-  var b=ritual_center+Vector3(sin((i+2)*TAU/5)*2,.018,cos((i+2)*TAU/5)*2)
+  var a=ritual_center+Vector3(sin(i*TAU/5)*1.3,.018,cos(i*TAU/5)*1.3)
+  var b=ritual_center+Vector3(sin((i+2)*TAU/5)*1.3,.018,cos((i+2)*TAU/5)*1.3)
   var line=box(Vector3(.055,.012,a.distance_to(b)),(a+b)*.5,"red",false)
   line.look_at(b)
  for i in 10:
-  var a=ritual_center+Vector3(sin(i*TAU/10)*2.8,0,cos(i*TAU/10)*2.15)
+  var a=ritual_center+Vector3(sin(i*TAU/10)*2.0,0,cos(i*TAU/10)*1.45)
   candle(a,i%3==0)
  # Ave viva, pousada; nenhum destino/sacrifício presumido.
  var bird=Node3D.new()
@@ -428,6 +477,47 @@ func _layout_terror() -> void:
  for at in [p(470,500),p(540,580),p(450,610)]:
   for i in 3:
    box(Vector3(.8,1.4,.8),at+Vector3(i*.6,.7,sin(i*1.7)*.4),"green",false)
+
+## Pátio de química (foto com 1/2): coberto por telhado de telha sobre vigas de
+## madeira, parede verde em cima, azulejo branco embaixo e no chão.
+func _chemistry_patio() -> void:
+ var west:=p(STAIR_EAST_X,0).x
+ var east:=p(342,0).x
+ var north:=p(0,8).z
+ var south:=p(0,65).z
+ var cx:=(p(163,0).x+east)*.5
+ var cz:=(north+south)*.5
+ box(Vector3(east-p(163,0).x-.2,.02,south-north-.2),Vector3(cx,.012,cz),"azulejo",false)
+ # Pintura verde acima da meia-parede (faces internas do pátio).
+ box(Vector3(east-west,1.9,.03),Vector3((west+east)*.5,2.15,north+.11),"patio_green",false)
+ box(Vector3(.03,1.9,south-north),Vector3(east-.11,2.15,cz),"patio_green",false)
+ box(Vector3(.03,1.9,south-north),Vector3(west+.11,2.15,cz),"patio_green",false)
+ # Telhado: telha por cima, vigas de madeira à vista por baixo.
+ box(Vector3(east-p(163,0).x+.6,.06,south-north+.6),Vector3(cx,4.75,cz),"telha",false)
+ for i in 7:
+  var x=lerpf(p(163,0).x,east,(float(i)+.5)/7)
+  box(Vector3(.16,.22,south-north),Vector3(x,4.55,cz),"wood",false)
+ box(Vector3(east-p(163,0).x,.26,.2),Vector3(cx,4.4,cz),"wood",false)
+
+## Auditório e pátio principal (fotos): sofá preto rasgado, cadeiras de
+## plástico brancas empilhadas, extintor e porta gradeada verde.
+func _auditorium_props() -> void:
+ var sofa_at: Vector3=p(705,112)
+ box(Vector3(1.9,.45,.8),sofa_at+Vector3(0,.25,0),"sofa")
+ box(Vector3(1.9,.55,.22),sofa_at+Vector3(0,.75,-.32),"sofa",false)
+ for dx in [-.98,.98]: box(Vector3(.22,.62,.8),sofa_at+Vector3(dx,.42,0),"sofa",false)
+ for at in [p(655,108),p(770,120),p(520,108)]:
+  for i in 6:
+   box(Vector3(.45,.05,.45),at+Vector3(0,.42+i*.07,0),"plastic",false)
+  for dx in [-.2,.2]:
+   for dz in [-.2,.2]:
+    box(Vector3(.03,.45,.03),at+Vector3(dx,.22,dz),"plastic",false)
+  box(Vector3(.45,.42,.04),at+Vector3(0,.95,-.2),"plastic",false)
+  # Pilha de assentos é o próprio colisor (lote estático ignora visibilidade).
+  box(Vector3(.47,.44,.47),at+Vector3(0,.62,0),"plastic")
+ # Extintor e porta gradeada no pátio principal.
+ box(Vector3(.16,.45,.16),p(630.5,140,1.1),"extintor",false)
+ box(Vector3(.04,1.1,1.4),p(631.5,230,1.7),"grade",false)
 
 ## Laboratório de hardware (fotos 3): bancada branca com armários, monitores
 ## velhos, bancos de madeira vermelhos, cadeira azul, caixas e cabos no chão.
