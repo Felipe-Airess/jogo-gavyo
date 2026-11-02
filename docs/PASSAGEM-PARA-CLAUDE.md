@@ -122,6 +122,9 @@ Feito (testes: capítulo 46, base 39, toque 10, percurso rota 7/7, percurso pát
 - Fotos 1–8 aplicadas (auditório, quadra com rede/tabelas/cobogó, colunas do pátio,
   entrada com caminho verde, portão de grade, faixa laranja e placa).
 
+Level design refeito pelas skills: ver `docs/LEVEL-DESIGN-CAPITULO1.md` (métricas,
+duas rotas, ritmo, postos, testes em `tests/capitulo1_nivel_test.gd`).
+
 Pendências reais:
 1. Felipe testar no celular e no PC; desempenho real só em aparelho (nuvem desenha na CPU).
 2. Percurso a pé ficou ~3 min (escala real). Avaliar jogando se precisa de atalhos.
