@@ -27,4 +27,7 @@ func run() -> void:
  game.view.yaw=atan2(-d.x,-d.z); game.view.pitch=asin(d.normalized().y)
  await shot(prefix+"-ritual")
  look(game,s.p(600,500),0); await shot(prefix+"-lanterna")
+ look(game,s.p(641,430),180); await shot(prefix+"-passagem")
+ game.phone_light=false
+ look(game,s.p(780,180),90); await shot(prefix+"-refeitorio")
  quit()

@@ -17,6 +17,7 @@ var ritual_figures: Array[Node3D]=[]
 var paper: StandardMaterial3D
 var fixtures: Array[Node3D]=[]
 var hawk: Node3D
+var flicker: OmniLight3D
 
 func p(x: float,z: float,y:=0.0) -> Vector3:
  return Vector3((x-440)*SCALE,y,(z-300)*SCALE)
@@ -108,6 +109,7 @@ func build(owner_game: Node3D) -> void:
  _courtyard()
  _ritual()
  _details_school()
+ _layout_terror()
  _environment()
  # Temperatura geral fria, luminárias amareladas localizadas; sem sombras dinâmicas.
  var env: Environment=find_children("*","WorldEnvironment",true,false)[0].environment
@@ -349,6 +351,42 @@ func _details_school() -> void:
   box(Vector3(1.2,2.2,.1),p(x,728,1.1),"metal",false)
  _lamp(p(670,665,3.8),Color(1,.68,.32),10,1.6)
 
+## Revisão de level design (skills level-design / godot-genre-horror / stealth),
+## seguindo as ligações do desenho de Felipe:
+## - refeitório e auditório com paredes, separados do pátio a céu aberto;
+## - embaixo, área de saída, passagem estreita até o portão 1 e estacionamento
+##   do portão 2 separados (antes era um pátio vazio de ~50 m);
+## - vazios fora do caminho fechados; esconderijos ao longo do caminho;
+## - luz guiando o caminho principal, sem iluminar tudo por igual.
+func _layout_terror() -> void:
+ # Refeitório: parede entre ele e o pátio a céu aberto, com passagem de ~3 m.
+ _line(633,93,633,150)
+ _line(633,190,633,267)
+ # Passagem pro portão: corredor estreito entre secretaria/sala dos profs.
+ _line(610,416,610,515)
+ _line(610,540,610,640)
+ _line(672,416,672,640)
+ # Área de saída (vegetação, sem saída): fechada a oeste e ao sul da rampa.
+ _line(414,415,414,640)
+ _line(0,445,414,445)
+ # Estacionamento do portão 2: fora do caminho, cercado.
+ _line(835,416,950,416)
+ sign_at("SAÍDA · PORTÃO 1",p(641,425,2.7))
+ # Luz guia: refeitório e passagem; uma lâmpada falhando antes do portão.
+ _lamp(p(700,180,2.9),Color(.95,.78,.5),6,.8)
+ _lamp(p(641,330,2.9),Color(.95,.78,.5),5,.7)
+ _lamp(p(641,560,2.9),Color(.70,.85,.75),6,.9)
+ flicker=find_children("*","OmniLight3D",true,false).back()
+ # Esconderijos no caminho principal.
+ for data in [[p(705,255),Vector3.FORWARD],[p(560,262),Vector3.FORWARD],[p(340,300),Vector3.LEFT],
+  [p(226,215),Vector3.RIGHT],[p(300,100),Vector3.RIGHT],[p(614,470),Vector3.RIGHT],
+  [p(668,600),Vector3.LEFT],[p(235,85,LEVEL),Vector3.FORWARD]]:
+  locker(data[0],data[1])
+ # Vegetação na área de saída: dá onde se esconder da vista sem ser armário.
+ for at in [p(470,500),p(540,580),p(450,610)]:
+  for i in 3:
+   box(Vector3(.8,1.4,.8),at+Vector3(i*.6,.7,sin(i*1.7)*.4),"green",false)
+
 func sign_at(text: String,at: Vector3,yaw:=0.0) -> void:
  var label=Label3D.new()
  label.text=text
@@ -414,3 +452,7 @@ func reset_exit() -> void:
 func update(dt: float,time: float) -> void:
  super.update(dt,time)
  if hawk: hawk.rotation.y=.12*sin(time*.7)
+ if flicker:
+  # Falha irregular: quase sempre acesa, apagões curtos.
+  var n=sin(time*13.1)+sin(time*7.3+1.7)+sin(time*2.9)
+  flicker.light_energy=0.0 if n>2.1 else .9

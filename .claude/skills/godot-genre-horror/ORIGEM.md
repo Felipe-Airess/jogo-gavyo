@@ -1,0 +1,1 @@
+Origem: https://github.com/thedivergentai/Game-Dev-Agentic-Skills (skills/godot-genre-horror), commit db004d7, LGPL-3.0. Escrita para Godot 4.x recente; conferir APIs contra 4.5.1 Compatibility (sem fog volumétrico).
