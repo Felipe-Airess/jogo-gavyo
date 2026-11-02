@@ -28,9 +28,9 @@ func run() -> void:
  game.player.face(e.position); game.player.play("guarda"); game.player.animate(.2)
  game.view.yaw=-.65; game.view.pitch=-.15
  await physics_frame
- game.takedown_or_finish()
- for i in 125:
+ game.shove()
+ for i in 60:
   game._player_tick(1.0/60); game._enemy_ticks(1.0/60)
   await process_frame
-  if i in [29,65,100]: await shot("pegada-"+str(i))
+  if i in [10,20,45]: await shot("empurrao-"+str(i))
  quit()

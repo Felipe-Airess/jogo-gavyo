@@ -14,15 +14,7 @@ var flashlight: SpotLight3D
 var before_ritual:=false
 var fatigue:=0.0
 var mouse_held:=false
-var hold_clock:=0.0
-var hold_consumed:=false
-var heavy_attack:=false
-var hit_profile: Dictionary={}
-var profiles: Dictionary={}
-var chain_step:=0
-var ground_hits:=0
 var carried: Node3D
-var carried_body: CharacterBody3D
 var tool_active: Dictionary={}
 var tool_progress: Dictionary={}
 var tool_inventory: Array[String]=[]
@@ -44,15 +36,12 @@ var burst_clock:=0.0
 var fleeing_return:=false
 var ending_set: Node3D
 var phone_prop: Node3D
-var precise_buffer:=false
-var precise_attack:=false
 var breathing: AudioStreamPlayer
 var sfx: Dictionary={}
 var scare_played:=false
 var scare_time:=0.0
 var silhouette: Node3D
 var death_count:=0
-var pair_context: Dictionary={}
 var spawn_style:=0
 
 func _ready() -> void:
@@ -115,8 +104,6 @@ func _ready() -> void:
   ghost.mesh=shape; ghost.material_override=school.mats["dark"]; ghost.position=data[1]; silhouette.add_child(ghost)
  silhouette.position=school.p(323,118)
  silhouette.visible=false
- _measure_moves()
- player.anim.add_animation_library("actions",load("res://capitulo1/acoes.gd").build(player))
  ending_set=load("res://capitulo1/encerramento.gd").new()
  add_child(ending_set)
  ending_set.setup(self)
@@ -172,33 +159,6 @@ func _props() -> void:
   school.reactive.append(prop)
   tool_progress[data[0]]=0.0
  school.box(Vector3(.65,.05,.35),school.p(690,42,1.75),"wood",false)
-
-func _measure_moves() -> void:
- # Mede o membro e o instante de extensão no próprio clipe, sem IK de mãos.
- for clip in ["jab","direto","gancho","pesado","Brutal_Assassination","Fist_Fight_A","chuteCircular"]:
-  var animation=player.anim.get_animation(clip)
-  var best=-1.0
-  var data={"clip":clip,"duration":animation.length,"contact":.3,"bone":"RightHand","bias":0.0}
-  player.anim.play(clip,0)
-  for i in 61:
-   var t=animation.length*float(i)/60
-   player.anim.seek(t,true)
-   player.rig.force_update_all_bone_transforms()
-   for bone in (["LeftFoot","RightFoot"] if clip=="chuteCircular" else ["LeftHand","RightHand"]):
-    var v: Vector3=player.model.to_local(player.bone_point(bone))
-    var center: Vector3=player.model.to_local(player.bone_point("Hips"))
-    var reach=Vector2(v.x-center.x,v.z-center.z).length()
-    if clip=="Brutal_Assassination": reach=2.0-v.y if t>1.0 and t<4.2 else -2
-    if reach>best:
-     best=reach
-     data["contact"]=t
-     data["point"]=v
-     data["bone"]=bone
-     data["bias"]=-atan2(v.x-center.x,v.z-center.z)
-  profiles[clip]=data
- player.anim.stop()
- player.play("guarda")
- player.animate(0)
 
 func begin() -> void:
  started=true
@@ -384,10 +344,6 @@ func _physics_process(dt: float) -> void:
   impact_pause=maxf(0,impact_pause-dt); return
  fatigue=maxf(0,fatigue-dt*(.18 if player.state!="attack" else .01))
  shove_cooldown=maxf(0,shove_cooldown-dt)
- if mouse_held and not hold_consumed:
-  hold_clock+=dt
-  if hold_clock>.42:
-   hold_consumed=true; attack(true)
  turn_cooldown=maxf(0,turn_cooldown-dt)
  if not tool_active.is_empty():
   _tool_tick(dt)
@@ -498,13 +454,10 @@ func _enemy_ticks(dt: float) -> void:
   e.clock+=dt
   e.opening=maxf(0,e.opening-dt)
   if e.dead: e.animate(dt); continue
-  if e.traversal.get("environment",false):
-   _environment_finish_tick(e,dt); continue
   if e==enemies[0] and not sighting_seen and phase!="sighting":
    e.play("guarda"); e.animate(dt); continue
   if e.down:
    e.animate(dt)
-   if e==protected_target and player.state=="attack" and attack_mode=="ground": continue
    e.help_clock+=dt
    if e.health<=0 and e.help_clock>1.2:
     e.kill(); continue
@@ -528,9 +481,14 @@ func _enemy_ticks(dt: float) -> void:
    if e.clock>(.55 if e.state!="hurt" else .65): e.state="idle"; e.play("guarda")
    continue
   if e.state=="grab_hold":
+   e.face(player.position,dt)
    e.animate(dt)
-   if e.clock>1.3:
-    hurt_player(15); e.state="idle"; e.clock=0
+   view.trauma=maxf(view.trauma,.12)
+   if e.clock>GRAB_TIME:
+    e.state="idle"; e.clock=0; e.opening=.8
+    player.state="idle"
+    hurt_player(GRAB_DAMAGE)
+    hud.say("Ele o machucou. Fuja antes que agarre de novo.",2)
    continue
   if e.state=="inspect":
    e.play("guarda"); e.animate(dt)
@@ -540,15 +498,6 @@ func _enemy_ticks(dt: float) -> void:
     e.state="idle"; e.suspicion=maxf(e.suspicion,.55)
     e.home=e.last_seen+Vector3(0,0,1.5)
    continue
-  if e==protected_target:
-   if attack_mode=="stealth" and player.state=="attack" and enemy_sees(e):
-    e.suspicion=minf(1,e.suspicion+dt)
-    if e.suspicion>=1:
-     e.state="grab_hold"; e.clock=0; e.aware=true
-     player.state="grabbed"; player.clock=0
-     protected_target=null
-     hud.say("Ele percebeu. [Esquiva / Q] Escape do agarrão.",2)
-   e.animate(dt); continue
   var distance=e.position.distance_to(player.position)
   if phase not in ["investigate","sighting"]:
    e.animate(dt); continue
@@ -633,210 +582,13 @@ func _spread_alert(e: CharacterBody3D) -> void:
   if other!=e and not other.dead:
    other.last_seen=e.position; other.suspicion=maxf(other.suspicion,.4); other.memory=30
 
-func attack(heavy:=false) -> void:
- if phase!="investigate" or player.hidden or is_instance_valid(peek_door): return
- if player.state=="attack":
-  if buffered_attack: fatigue=minf(1,fatigue+.17)
-  else: buffered_attack=true
-  return
- if player.state not in ["idle","heal"]: return
- _drop_load()
- cancel_heal()
- var e: CharacterBody3D=locked if is_instance_valid(locked) and not locked.dead and player.position.distance_to(locked.position)<1.6 else nearest_enemy(1.6,true)
- action_target=e
- heavy_attack=heavy
- attack_mode="normal"
- if e!=null and e.down: attack_mode="ground"
- elif e!=null and is_behind(e): attack_mode="stealth"
- elif e!=null and e.opening>0: attack_mode="counter"
- var clip="pesado" if heavy else ["jab","direto","gancho"][chain_step%3]
- if attack_mode=="ground": clip="Brutal_Assassination"
- if attack_mode=="stealth": clip="Fist_Fight_A"
- hit_profile=profiles[clip]
- player.state="attack"; player.clock=0; player.hit_once=false
- player.strike_bone=hit_profile["bone"]
- player.strike_yaw_bias=hit_profile["bias"]
- attack_duration=float(hit_profile["duration"])*(1+fatigue*.6)
- player.anim.speed_scale=1/(1+fatigue*.6)
- player.anim.play(clip,.07)
- attack_origin=player.position
- if e!=null:
-  player.face(e.bone_point("Head") if e.down else e.position)
-  if attack_mode in ["counter","stealth","ground"]: protected_target=e
-  if e.aware and e.style==1 and e.opening<=0 and not e.down and e.state=="idle":
-   e.state="block"; e.clock=0; e.play("bloqueio")
- player.hand_previous=player.fist_point()
- if attack_mode=="counter": combat_stats["counters"]+=1
-
+## Único "ataque" de Miguel é o empurrão (ver shove()).
 func _attack_tick(dt: float) -> void:
- if attack_mode=="shove":
-  _shove_tick(dt); return
- if attack_mode=="takedown":
-  _takedown_tick(dt); return
- var e=action_target
- if is_instance_valid(e) and not e.dead and player.clock<float(hit_profile["contact"])*.6:
-  player.face(e.bone_point("Head") if e.down else e.position,dt)
-  if attack_mode=="ground":
-   var local_point: Vector3=hit_profile["point"]
-   var desired: Vector3=e.bone_point("Head")-player.model.global_basis*Vector3(local_point.x,0,local_point.z)
-   var motion=Vector3(desired.x-player.position.x,0,desired.z-player.position.z).limit_length(.8*dt)
-   player.move_and_collide(motion)
- player.animate(dt)
- var t=player.clock/(1+fatigue*.6)
- var at=float(hit_profile["contact"])
- if t>=at-.12 and t<=at+.14 and not player.hit_once and is_instance_valid(e) and not e.dead:
-  if e.state=="block" and _guard_contact(e):
-   player.hit_once=true
-   _impact(player.fist_point(),false)
-   impact_audio.stream=sfx["bloqueio"]; impact_audio.play()
-  elif _hand_hits(player,e):
-   player.hit_once=true; _land_hit(e,player.fist_point())
- player.hand_previous=player.fist_point()
- if player.clock>=attack_duration:
-  player.state="idle"; player.strike_yaw_bias=0
-  protected_target=null
-  if buffered_attack and player.hit_once:
-   precise_attack=precise_buffer
-   precise_buffer=false
-   buffered_attack=false; chain_step+=1; attack()
-  else:
-   buffered_attack=false; chain_step=0; precise_attack=false; player.play("guarda")
-   if not player.hit_once:
-    player.opening=.5
-    hud.say("Golpe fora do alcance.",1)
-
-func _land_hit(e: CharacterBody3D,at: Vector3) -> void:
- var damage=(40.0 if heavy_attack else 23.0)*(1-fatigue*.45)
- if precise_attack: damage*=1.25
- if attack_mode=="counter": damage*=1.35
- if attack_mode=="stealth": damage=100
- e.health=maxf(0,e.health-damage)
- e.attack_target=null; e.strike_yaw_bias=0
- e.alert_attempt=false; e.help_clock=0
- enemy_turn=null; turn_cooldown=.7
- if attack_mode=="counter": combat_stats["counter_hits"]+=1
- if e.health<=0:
-  e.make_down()
- elif e.health<=35 or heavy_attack or attack_mode=="takedown":
-  e.make_down()
- else:
-  e.state="hurt"; e.clock=0; e.play("guarda")
-  e.aware=true
- protected_target=e
- impact_pause=.045 if not heavy_attack else .075
- e.bleed=1
- burst_clock=5
- _impact(at,true)
-
-func _guard_contact(e: CharacterBody3D) -> bool:
- var fist: Vector3=player.fist_point()
- for side in ["Left","Right"]:
-  var a: Vector3=e.bone_point(side+"LowerArm")
-  var b: Vector3=e.bone_point(side+"Hand")
-  var closest=Geometry3D.get_closest_point_to_segment(fist,a,b)
-  if fist.distance_to(closest)<.20 and visible_between(player.bone_point("Chest"),fist): return true
- return false
-
-func takedown_or_finish() -> void:
- if player.state=="grabbed": dodge(); return
- if player.state!="idle" or phase!="investigate": return
- var e=nearest_enemy(1.45,true)
- if e==null: return
- if e.down:
-  # Finalização depende de vulnerabilidade e contato; não mata de longe.
-  attack(true)
-  return
- pair_context=_finish_context(e) if e.health<=45 else {}
- e.set_meta("environment_kind","")
- if e.opening<=0 and e.style==2:
-  e.state="block"; e.clock=0; e.play("bloqueio")
-  player.opening=.7
-  hud.say("Ele resistiu à tentativa de derrubada.",1.5)
-  return
- player.anim.play("actions/takedown",.10)
- player.state="attack"; player.clock=0; player.hit_once=false
- action_target=e; protected_target=e
- attack_mode="takedown"
- hit_profile={"duration":2.05,"contact":.65}
- attack_duration=2.05*(1+fatigue*.6)
- player.anim.speed_scale=1/(1+fatigue*.6)
- heavy_attack=false
- player.strike_bone="RightHand"; player.strike_yaw_bias=0
- player.face(e.position)
- player.hand_previous=player.fist_point()
-
-func _takedown_tick(dt: float) -> void:
- var e=action_target
- var time=player.clock/(1+fatigue*.6)
- if not is_instance_valid(e) or e.dead:
-  player.state="idle"; protected_target=null; return
- player.face(e.position,dt)
- if time<.8:
-  var to: Vector3=e.position-player.position; to.y=0
-  if to.length()>.62: player.move_and_collide(to.normalized()*.9*dt)
- player.animate(dt)
- if not player.hit_once and time>=.30 and time<=.95:
-  for bone in ["RightHand","LeftHand"]:
-   player.strike_bone=bone
-   if _hand_hits(player,e):
-    player.hit_once=true; e.state="paired"; e.clock=0; e.attack_target=null
-    e.aware=true; e.health=maxf(1,e.health-12)
-    enemy_turn=null
-    _impact(e.bone_point("Chest"),false)
-    break
- if player.hit_once and time>=1.05 and not e.down:
-  if not pair_context.is_empty() and not e.traversal.get("environment",false):
-   var away: Vector3=(e.position-player.position).normalized()
-   var desired: Vector3=e.position+away*.9
-   if pair_context["kind"]=="mesa":
-    desired=pair_context["node"].global_position+Vector3.UP*.055
-   e.traversal={"environment":true,"clock":0.0,"from":e.position,"to":desired,"kind":pair_context["kind"],"at":pair_context["at"]}
-   e.set_meta("environment_kind",pair_context["kind"])
-  elif pair_context.is_empty():
-   e.make_down(); e.bleed=1
-   _impact(e.position+Vector3.UP*.2,true)
- if player.clock>=attack_duration:
-  player.state="idle"; player.strike_yaw_bias=0; player.play("guarda")
-  protected_target=null; turn_cooldown=.8
-  pair_context={}
-  if not player.hit_once: hud.say("Não conseguiu firmar a pegada.",1.5)
-
-func _finish_context(e: CharacterBody3D) -> Dictionary:
- var away: Vector3=(e.position-player.position).normalized()
- for from in [e.bone_point("Chest"),e.bone_point("Hips"),e.position+Vector3.UP*.8]:
-  var hit=get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(from,from+away*1.1,1))
-  if hit.is_empty(): continue
-  var body=hit["collider"]
-  if body.has_meta("reactive"): return {"kind":"mesa","at":hit["position"],"node":body}
-  var kind=body.get_meta("kind","")
-  if kind in ["wall","tile","metal"]:
-   return {"kind":"armário" if kind=="metal" else "parede","at":hit["position"],"node":body}
- return {}
-
-func _environment_finish_tick(e: CharacterBody3D,dt: float) -> void:
- var data=e.traversal
- data["clock"]=float(data["clock"])+dt
- var t=clampf(float(data["clock"])/.65,0,1)
- var desired: Vector3=data["from"].lerp(data["to"],smoothstep(0,1,t))
- if data["kind"]=="mesa":
-  desired.y=maxf(desired.y,float(data["from"].y)+sin(t*PI)*1.25)
-  if not e.down and t>.35: e.make_down()
- e.move_and_collide(Vector3(0,maxf(0,desired.y-e.position.y),0))
- e.move_and_collide(Vector3(desired.x-e.position.x,0,desired.z-e.position.z))
- e.move_and_collide(Vector3(0,minf(0,desired.y-e.position.y),0))
- e.animate(dt)
- if t>=1:
-  _impact(data["at"],true)
-  if data["kind"]=="armário": impact_audio.stream=sfx["metal"]; impact_audio.play()
-  e.health=0
-  if not e.down: e.make_down()
-  e.help_clock=0
-  e.traversal={}
+ _shove_tick(dt)
 
 func hurt_player(damage: float) -> void:
  tool_active.clear()
- buffered_attack=false; mouse_held=false
- chain_step=0; precise_attack=false; precise_buffer=false
+ mouse_held=false
  _drop_load()
  super.hurt_player(damage)
 
@@ -847,9 +599,17 @@ func _player_tick(dt: float) -> void:
 
 func dodge() -> void:
  if player.state=="grabbed":
+  grab_struggle+=1
+  view.trauma=minf(.5,view.trauma+.15)
+  if knife:
+   knife=false; grab_struggle=GRAB_PRESSES
+   hud.say("A faca o fez soltar. Corra.",2)
+  if grab_struggle<GRAB_PRESSES: return
   player.state="idle"
   if is_instance_valid(action_target):
-   action_target.state="hurt"; action_target.clock=0; action_target.opening=1
+   action_target.state="hurt"; action_target.clock=0; action_target.opening=1.2
+   action_target.move_and_collide((action_target.position-player.position).normalized()*.4)
+  return
  super.dodge()
 
 func _start_enemy_attack(e: CharacterBody3D) -> void:
@@ -857,11 +617,29 @@ func _start_enemy_attack(e: CharacterBody3D) -> void:
  step_audio.position=e.position
  step_audio.pitch_scale=.72; step_audio.volume_db=-18; step_audio.play()
 
+## Terror: o cultista agarra em vez de trocar socos. Soltar-se exige insistir
+## (Q ou clique direito); a faca solta na hora. Falhar custa muita vida.
+const GRAB_TIME:=1.8
+const GRAB_DAMAGE:=34.0
+const GRAB_PRESSES:=4
+var grab_struggle:=0
+
 func _enemy_contact(e: CharacterBody3D) -> void:
  if player.hidden or not _hand_hits(e,player): return
  e.hit_once=true
  combat_stats["enemy_hits"]+=1
- hurt_player(38)
+ _grab_player(e)
+
+func _grab_player(e: CharacterBody3D) -> void:
+ cancel_heal(); _drop_load()
+ e.attack_target=null; e.strike_yaw_bias=0
+ enemy_turn=null; turn_cooldown=1.0
+ e.state="grab_hold"; e.clock=0
+ player.state="grabbed"; player.clock=0; player.velocity=Vector3.ZERO
+ player.face(e.position)
+ action_target=e; grab_struggle=0
+ impact_audio.stream=sfx["carne"]; impact_audio.play()
+ hud.say("AGARRADO · aperte [Q] várias vezes para se soltar",GRAB_TIME)
 
 func interact() -> void:
  if player.hidden: _leave_hide(); return
@@ -914,7 +692,6 @@ func context_text() -> String:
  if bag_found and not video_recorded and can_frame_ritual(): return "[V] Gravar vídeo do ritual"
  if video_recorded and player.position.distance_to(school.gate_at)<3: return "[Espaço] Pular o portão 1"
  if carried!=null: return "[T / clique] Arremessar objeto · esquiva solta a carga"
- if carried_body!=null: return "[G] Soltar corpo · esquiva solta a carga"
  if player.hidden: return "ESCONDIDO · observe e escute · [Espaço] Sair"
  if show_help: return "WASD mover · Espaço interagir · clique empurrar · Ctrl agachar · V gravar · L lanterna"
  for door in school.doors:
@@ -961,28 +738,14 @@ func _apply_tool_state(prop: Node3D,complete: bool) -> void:
    prop.set_meta("light",light)
   if is_instance_valid(light): light.visible=complete
 
-func drag_body() -> void:
- if carried_body!=null: carried_body=null; return
- if player.state!="idle": return
- for e in enemies:
-  if e.down and player.position.distance_to(e.position)<1.6:
-   carried_body=e; return
-
 func _drop_load() -> void:
  if carried!=null:
   for item in world_objects:
    if item["node"]==carried: item["taken"]=false
  carried=null
- carried_body=null
 
 func _loads_tick(dt: float) -> void:
  if carried!=null: carried.global_position=player.bone_point("RightHand")
- if carried_body!=null:
-  if not carried_body.down:
-   carried_body=null; return
-  var goal=player.position-player.facing*.7
-  carried_body.move_and_collide((goal-carried_body.position).limit_length(dt*1.8))
-  if simulation_ticks%60==0 and carried_body.bleed>0: _stain(carried_body.position)
 
 func throw_object() -> void:
  if carried==null: return

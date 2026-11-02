@@ -138,6 +138,21 @@ func run() -> void:
  game._unhandled_input(middle)
  check(game.locked==null,"sem travar alvo de luta")
  check(not game.context_text().contains("finalizar"),"sem finalizações na interface")
+ # Ataque do cultista é agarrão: soltar-se exige insistência.
+ e.down=false; e.state="idle"; e.collision_layer=2
+ e.position=game.player.position+Vector3(0,0,-.8)
+ game.player.state="idle"; game.player.health=100; game.knife=false
+ game._grab_player(e)
+ check(game.player.state=="grabbed" and e.state=="grab_hold","cultista agarra em vez de socar")
+ for i in game.GRAB_PRESSES-1: game.dodge()
+ check(game.player.state=="grabbed","um toque só não solta")
+ game.dodge()
+ check(game.player.state=="idle" and e.state=="hurt","insistir solta Miguel")
+ e.state="idle"; game.player.state="idle"; game._grab_player(e)
+ game._enemy_ticks(game.GRAB_TIME+.1)
+ check(game.player.health<=100-game.GRAB_DAMAGE and game.player.state!="grabbed","não se soltar a tempo custa vida")
+ game.knife=true; e.state="idle"; game.player.state="idle"; game._grab_player(e); game.dodge()
+ check(game.player.state=="idle" and not game.knife,"faca solta na hora e é gasta")
  game.player.state="idle"; game.food=1; game.player.health=40
  game.heal(); game.hurt_player(1)
  check(game.food==1,"dano cancela cura sem consumir item")

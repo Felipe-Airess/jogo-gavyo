@@ -1,16 +1,6 @@
 extends "res://prototipo/camera.gd"
 ## Enquadramentos próprios do capítulo; ombro/fuga/frestas continuam compartilhados.
 func update(dt: float) -> void:
- if game.player.state=="attack" and game.attack_mode=="takedown" and game.player.hit_once and not game.pair_context.is_empty():
-  mode="finish"
-  var focus: Vector3=(game.player.position+game.action_target.position)*.5+Vector3.UP*1.0
-  var ideal=focus+Basis(Vector3.UP,yaw)*Vector3(1.8,.65,2.2)
-  camera.global_position=_collision_camera(focus,ideal)
-  camera.look_at(focus)
-  camera.fov=58
-  game.player.model.visible=true
-  previous_mode=mode
-  return
  if game.recording and game.phase=="investigate":
   mode="recording"
   camera.global_position=game.recording_eye()
