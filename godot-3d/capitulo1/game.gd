@@ -499,7 +499,6 @@ func end_discovery() -> void:
 
 func _enemy_ticks(dt: float) -> void:
  if escape.active or escape_blackout>0: return
- var engaged=0
  for e in enemies:
   e.clock+=dt
   e.opening=maxf(0,e.opening-dt)
@@ -548,68 +547,15 @@ func _enemy_ticks(dt: float) -> void:
    e.rig.force_update_all_bone_transforms()
    if e.clock>1.6:
     e.state="idle"; e.suspicion=maxf(e.suspicion,.55)
-    e.home=e.last_seen+Vector3(0,0,1.5)
    continue
-  var distance=e.position.distance_to(player.position)
-  if phase not in ["investigate","sighting"]:
+  if phase not in ["investigate","chase","sighting"]:
    e.animate(dt); continue
-  var sees=enemy_sees(e)
-  if phone_light and distance<14 and visible_between(e.bone_point("Head"),player.bone_point("Chest")): sees=true
-  var loud=not player.crouched and player.velocity.length()>2.5 and distance<7
-  if player.state=="attack" and distance<8: loud=true
-  if elapsed<disturbance_until and e.position.distance_to(disturbance)<10:
-   e.last_seen=disturbance; e.suspicion=maxf(e.suspicion,.35)
-  if sees:
-   var exposure=.65 if player.crouched and not phone_light else 1.0
-   for candle in school.candles:
-    if candle.position.distance_to(player.position)<3.2: exposure=1.45; break
-   e.suspicion=minf(1,e.suspicion+dt*exposure)
-   e.last_seen=player.position; e.memory=25
-   if e.suspicion>=1 and phase!="sighting": e.aware=true
-  elif loud:
-   e.suspicion=minf(.85,e.suspicion+dt*.6)
-   e.last_seen=player.position; e.memory=20
-  else:
-   e.suspicion=maxf(.0,e.suspicion-dt*.07)
-   e.memory=maxf(0,e.memory-dt)
-  if e.attack_target!=null:
-   if e.clock<.35: e.face(player.position,dt)
-   e.state="windup" if e.clock<ACTIVE_FROM else ("strike" if e.clock<ACTIVE_TO else "recover")
-   e.animate(dt)
-   if e.motion.consume("contact") and not e.hit_once and protected_target==null:
-    _enemy_contact(e)
-    if e.state=="grab_hold": continue
-   e.hand_previous=e.fist_point()
-   if e.clock>ACTIVE_TO and not e.attack_landed:
-    e.attack_landed=true; e.opening=1.1
-    if not e.hit_once: combat_stats["misses"]+=1
-   if e.motion.consume("finished"):
-    e.attack_target=null; e.state="idle"; e.clock=0; e.strike_yaw_bias=0
-    enemy_turn=null; turn_cooldown=.5 if e.style==0 else (.9 if e.style==1 else 1.2)
-   continue
-  if not e.aware:
-   if e.suspicion>.12:
-    e.face(e.last_seen,dt*.20)
-    if e.suspicion>.4: _navigate(e,e.last_seen,.65,dt)
-   else:
-    e.patrol_clock+=dt
-    var target=e.home+Vector3(0,0,-1.7 if int(e.patrol_clock/5)%2==0 else 1.7)
-    _navigate(e,target,NIVEL.WALK,dt)
-   e.animate(dt); continue
-  if distance<9: engaged+=1
-  if engaged>2:
-   e.play("guarda"); e.animate(dt); continue
-  var target: Vector3=player.position if sees else e.last_seen
-  if not sees and e.memory<=0:
-   # Continua buscando perto da última visão, sem seguir a posição oculta.
-   target=e.last_seen+Vector3(sin(elapsed*.2)*2,0,cos(elapsed*.2)*2)
-  if distance>.62 or not sees:
-   _navigate(e,target,NIVEL.RUN if enemy_turn==null and protected_target==null else .35,dt)
-  else:
-   e.velocity=Vector3.ZERO; e.face(player.position,dt); e.play("guarda")
-   if enemy_turn==null and protected_target==null and turn_cooldown<=0 and e.opening<=0 and not player.hidden:
-    if _grab_player(e): return
+  if phase=="sighting": e.play("guarda"); e.animate(dt); continue
+  if not e.aware and elapsed<disturbance_until and e.position.distance_to(disturbance)<10:
+   e.last_seen=disturbance; e.suspicion=maxf(e.suspicion,.4); e.memory=maxf(e.memory,8)
+  e.hunt.tick(self,e,dt)
   e.animate(dt)
+  if escape.active: return
  # Vestígios aumentam a busca, sem ativar o estado de alerta espalhado.
  if simulation_ticks%60==0:
   for e in enemies:
@@ -861,6 +807,51 @@ func _near_looking(at: Vector3,distance: float) -> bool:
  var delta=at-(player.position+Vector3.UP*.9)
  return delta.length()<distance and view.direction().dot(delta.normalized())>.25
 
+## Oculto não é visível. Saber onde entrou é memória individual, não visão.
+func enemy_sees(actor: CharacterBody3D,ignore_facing:=false) -> bool:
+ if player.hidden: return false
+ return super.enemy_sees(actor,ignore_facing)
+
+var hide_witnesses: Dictionary={}
+func _record_hide_witnesses() -> void:
+ for e in enemies:
+  if not e.dead and not e.down and enemy_sees(e): hide_witnesses[e.get_instance_id()]=true
+ if is_instance_valid(pursuer) and enemy_sees(pursuer): hide_witnesses[pursuer.get_instance_id()]=true
+
+func _enter_hide(index: int) -> void:
+ _record_hide_witnesses()
+ var witnessed=false
+ for e in enemies:
+  e.hunt.witnessed_hide=index if hide_witnesses.has(e.get_instance_id()) else -1
+  if e.hunt.witnessed_hide==index:
+   witnessed=true; e.last_seen=school.hides[index]["entry"]; e.aware=true
+   if e.hunt.mode=="patrol": e.hunt.mode="last_seen"
+ var pursuer_saw=is_instance_valid(pursuer) and hide_witnesses.has(pursuer.get_instance_id())
+ super._enter_hide(index)
+ # A flag da base serve apenas ao perseguidor; nunca herda a visão de outro NPC.
+ seen_hiding=pursuer_saw
+ if pursuer_saw:
+  pursuer.last_seen=school.hides[index]["entry"]; pursuit_memory=9
+ school.set_hide_open(index,false)
+ hide_witnesses.clear()
+ hud.say("Ele viu onde você entrou!" if witnessed or pursuer_saw else "Fique quieto. Escute os passos.",2)
+
+func _leave_hide() -> void:
+ if hidden_spot>=0: school.set_hide_open(hidden_spot,true)
+ super._leave_hide()
+ for e in enemies: e.hunt.witnessed_hide=-1
+ hide_witnesses.clear()
+
+## [PROVISÓRIO] Grito usa o efeito existente até a Parte 3 fornecer voz nova.
+func _cultist_shout(e: CharacterBody3D) -> void:
+ if not is_instance_valid(e.hunt_voice):
+  e.hunt_voice=AudioStreamPlayer3D.new(); e.add_child(e.hunt_voice)
+  e.hunt_voice.position.y=1.6; e.hunt_voice.max_distance=18
+  e.hunt_voice.stream=sfx["susto"]; e.hunt_voice.volume_db=-12; e.hunt_voice.pitch_scale=.85
+ e.hunt_voice.play()
+ _spread_alert(e)
+ hud.say("Um cultista gritou. Corra!",2)
+
 func context_text() -> String:
  if escape.active or escape_blackout>0: return ""
  if phase in ["intro","sighting","discovery","gate_jump","ending"]: return ""
@@ -961,7 +952,7 @@ func _pursuer_tick(dt: float) -> void:
    var entry: Vector3=school.hides[index]["entry"]
    _navigate(pursuer,entry,1.25,dt)
    pursuer.animate(dt)
-   if pursuer.position.distance_to(entry)<1.1 and player.hidden and hidden_spot==index: _grab()
+   if pursuer.position.distance_to(entry)<1.1 and player.hidden and seen_hiding and hidden_spot==index: _grab()
    return
  # A base para a 0,83 m: aqui aproxima até o contato real das cápsulas.
  if is_instance_valid(pursuer) and phase=="chase" and not player.hidden and pursuer.position.distance_to(player.position)<.83:
@@ -975,15 +966,15 @@ func _navigate(actor: CharacterBody3D,target: Vector3,speed: float,dt: float) ->
   if actor.position.distance_to(school.stairs_bottom)<1.4: actor.set_meta("subindo",true)
   if actor.get_meta("subindo",false):
    actor.move_toward(school.stairs_top,speed,dt)
-   actor.play("andaFrente"); return
+   actor.play("correr" if speed>2.5 else "andaFrente"); return
   super._navigate(actor,school.stairs_bottom,speed,dt); return
  if actor.position.y>2.5 and target.y<1:
   if Vector2(actor.position.x-school.stairs_top.x,actor.position.z-school.stairs_top.z).length()<1.2:
    actor.set_meta("descendo",true)
   if actor.get_meta("descendo",false):
    actor.move_toward(school.stairs_bottom,speed,dt)
-   actor.play("andaFrente"); return
-  actor.move_toward(school.stairs_top,speed,dt); actor.play("andaFrente"); return
+   actor.play("correr" if speed>2.5 else "andaFrente"); return
+  actor.move_toward(school.stairs_top,speed,dt); actor.play("correr" if speed>2.5 else "andaFrente"); return
  if actor.position.y<.5: actor.set_meta("descendo",false)
  if actor.position.y>3.2: actor.set_meta("subindo",false)
  # Portas comuns também compram tempo de fuga; não são atravessadas pelo pathfinding.
@@ -1082,6 +1073,8 @@ func restore_checkpoint() -> void:
   item["node"].visible=not item["taken"]
  for e in enemies:
   e.help_clock=0; e.knocked_before=false; e.alert_attempt=false; e.bleed=1 if e.health<100 else 0
+  e.hunt.reset()
+  if is_instance_valid(e.hunt_voice): e.hunt_voice.stop()
   e.evidence.clear(); e.traversal={}; e.set_meta("environment_kind","")
  for i in school.reactive.size():
   var props: Array=checkpoint.get("props",[])
@@ -1095,6 +1088,8 @@ func restore_checkpoint() -> void:
  mouse_held=false; recording=false; record_time=0; fatigue=0
  player.tool_pose=false; tool_active.clear(); _drop_load()
  player.collision_layer=2
+ for i in school.hides.size(): school.set_hide_open(i,false,true)
+ hide_witnesses.clear()
  phone_light=false
  view.yaw=PI/2
  _build_paths()
@@ -1154,18 +1149,21 @@ func _begin_interaction(kind: String,object: Node3D,contact: Vector3,direction: 
  anchor.y=player.position.y
  if not CONTACT.room_for(player,anchor):
   hud.say("Aproxime-se pelo lado livre.",1.5); return
+ if kind=="hide": hide_witnesses.clear(); _record_hide_witnesses()
  interaction={"kind":kind,"object":object,"contact":contact,"anchor":anchor,"forward":forward,"clip":clip,"index":index,"started":false,"committed":false,"elapsed":0.0}
  player.state="interaction"; player.velocity=Vector3.ZERO
  player.play("guarda")
 
 func _cancel_interaction() -> void:
  if interaction.is_empty(): return
+ if interaction.get("kind")=="hide": hide_witnesses.clear()
  interaction.clear()
  if player.state=="interaction": player.state="idle"; player.play("guarda")
 
 func _interaction_tick(dt: float) -> void:
  if interaction.is_empty(): player.state="idle"; return
  if raw_movement().length()>.1: _cancel_interaction(); return
+ if interaction["kind"]=="hide": _record_hide_witnesses()
  interaction["elapsed"]+=dt
  if interaction["elapsed"]>4.0: _cancel_interaction(); return
  if interaction["kind"] in ["door","bag"] and not is_instance_valid(interaction["object"]): _cancel_interaction(); return

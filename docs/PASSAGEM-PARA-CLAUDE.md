@@ -328,3 +328,27 @@ Detalhes e teste manual na última seção de `docs/TESTE-FELIPE-20261102.md`.
 Validação: `scripts/testar-capitulo1.sh` passou (escape 37, movimento 33,
 animação 70, capítulo 36, mapa 18, nível 10); toque 9/9 em eventos simulados;
 `scripts/testar-percurso.sh` passou 7/7. Ainda falta avaliação de Felipe jogando.
+
+
+## Etapa 1 — Parte 2: caça dos comuns (02/11/2026)
+
+Estado individual em `capitulo1/caca.gd` (`ator.hunt`): vê Miguel, para 0,4 s,
+grita com áudio provisório existente e corre a 3,0 m/s/Sprint. Perde visão:
+último ponto visto, busca local de 60 s após chegada, retorno ao posto a 0,8 m/s.
+Busca alterna andar e olhar girando o corpo, sem escrita de ossos.
+
+Armários do capítulo agora têm folha móvel. Testemunha da entrada é registrada
+por NPC durante a interação; apenas essa testemunha abre e puxa para o minigame.
+Sem testemunha, não abre. Informação de um comum não vira visão do perseguidor.
+O cerco distribui destinos por lados e afasta vizinhos, mantendo colisões.
+A Parte 1 do escape permanece intacta. Gravações de voz novas ficam para a Parte 3.
+
+O teste de percurso padrão continua isolando a percepção/agarrão dos comuns,
+agora numa subclasse exclusivamente de teste; produção não tem flags de QA para
+isso. A nova suíte de caça usa o jogo real. Leia a última seção de
+`docs/TESTE-FELIPE-20261102.md` para reprodução e testes manuais.
+
+Validação da Parte 2: capítulo passou com caça 32, escape 37, movimento 33,
+animação 70, capítulo 36, mapa 18 e nível 10. Percurso rota: 7/7, código 0.
+Foi medida perseguição física de 3,000 m/s; Miguel ganha 0,800 m/s correndo e
+perde 1,550 m/s andando. Cerco com três comuns: distância mínima 0,7624 m.

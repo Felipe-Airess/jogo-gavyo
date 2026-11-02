@@ -51,13 +51,15 @@ começa. Ao pegar o trabalho, leia também `docs/TESTE-FELIPE-20261102.md` e
 
 ### Etapa 1 — Medo
 - [ ] Remover o empurrão.
-- [ ] Cultista vê → corre → cerca → agarra.
+- [x] Cultista vê → pausa 0,4 s → grita → corre a 3,0 m/s → cerca → agarra.
+  Sem visão: último ponto visto, busca por 60 s, retorno lento ao posto.
 - [x] Minigame de escape em sequência; falhar é morte. Implementado em 02/11/2026:
   WASD/setas e quatro botões de toque; morte temporária com tela preta de 1,5 s
   e retorno automático ao checkpoint. Cena de morte abaixo continua pendente.
 - [ ] Cena de morte cruel e pesada, depois checkpoint.
 - [ ] Perseguição com pressão: passos, respiração, tremor e trilha de tensão.
-- [ ] Esconderijos funcionando contra quem caça.
+- [x] Armários contra quem caça: só abre e retira Miguel quem viu a entrada.
+  Memória individual por cultista; sem testemunha, ronda sem abrir.
 - [ ] 6 a 8 cultistas posicionados.
 - **Teste de Felipe:** fugir dá desespero?
 

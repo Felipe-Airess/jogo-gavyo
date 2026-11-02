@@ -527,6 +527,36 @@ func _marcas() -> void:
   if d<melhor: melhor=d; flicker=luz
 
 ## Armário encostado na parede vizinha, aberto para o lado livre.
+## Armário do capítulo com folha móvel; mantém as medidas do modelo anterior.
+func locker(at: Vector3,normal: Vector3) -> void:
+ var cabinet=Node3D.new(); cabinet.position=at
+ cabinet.rotation.y=atan2(normal.x,normal.z); add_child(cabinet)
+ for part in [[Vector3(1,2.15,.1),Vector3(0,1.075,-.45)],
+  [Vector3(.08,2.15,1),Vector3(-.5,1.075,0)],
+  [Vector3(.08,2.15,1),Vector3(.5,1.075,0)],
+  [Vector3(1,.08,1),Vector3(0,2.15,0)]]:
+  var node=box(part[0],Vector3.ZERO,"metal")
+  remove_child(node); cabinet.add_child(node); node.position=part[1]
+ var hinge=Node3D.new(); cabinet.add_child(hinge); hinge.position=Vector3(-.5,0,.48)
+ for part in [[Vector3(1,.65,.08),Vector3(.5,1.8,0)],
+  [Vector3(1,1,.08),Vector3(.5,.5,0)]]:
+  var node=box(part[0],Vector3.ZERO,"metal")
+  remove_child(node); hinge.add_child(node); node.position=part[1]
+ hides.append({"inside":at,"entry":at+normal*.95,"normal":normal,"hinge":hinge,"opened":false})
+
+func set_hide_open(index: int,on: bool,instant:=false) -> void:
+ var spot: Dictionary=hides[index]
+ if spot.get("opened",false)==on and not instant: return
+ spot["opened"]=on
+ if not spot.has("hinge"): return
+ var hinge: Node3D=spot["hinge"]
+ for body in hinge.find_children("*","StaticBody3D",true,false): body.collision_layer=0 if on else 1
+ if spot.has("tween") and is_instance_valid(spot["tween"]): spot["tween"].kill()
+ if instant: hinge.rotation.y=-1.8 if on else 0.0
+ else:
+  var tween=hinge.create_tween(); spot["tween"]=tween
+  tween.tween_property(hinge,"rotation:y",-1.8 if on else 0.0,.22)
+
 func _armario(g,v: Vector2i,y: float) -> void:
  var parede:=Vector2i.ZERO
  for d in DIRECOES:

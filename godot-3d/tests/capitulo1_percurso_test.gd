@@ -160,7 +160,8 @@ func run() -> void:
  if "--patio" in OS.get_cmdline_user_args(): mode="patio"
  if "--furtivo" in OS.get_cmdline_user_args(): mode="furtivo"
  note("modo "+mode)
- game=load("res://capitulo1/main.tscn").instantiate()
+ game=load("res://tests/capitulo1_rota_game.gd").new()
+ game.isolate_common_ai=mode in ["rota","patio"]
  root.add_child(game)
  game.qa_mode=true
  for i in 5: await step()

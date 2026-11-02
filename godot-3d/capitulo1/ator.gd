@@ -1,5 +1,7 @@
 extends "res://prototipo/actor.gd"
 ## Variações derivadas em memória: preserva arquivo e malhas aprovados de Miguel.
+var hunt=preload("res://capitulo1/caca.gd").new()
+var hunt_voice: AudioStreamPlayer3D
 var style := 0
 var bleed := 0.0
 var help_clock := 0.0

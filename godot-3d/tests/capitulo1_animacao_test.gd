@@ -93,7 +93,7 @@ func run() -> void:
  enemy.aware=true; enemy.memory=25; game.player.hidden=false
  game.player.position=enemy.position+Vector3(0,0,-20); enemy.last_seen=game.player.position
  game.enemy_turn=null; game.protected_target=null
- await sample("cultista perseguindo Miguel",enemy,"novo/Sprint",3.8,true)
+ await sample("cultista perseguindo Miguel",enemy,"novo/Sprint",3.0,true)
  await actions_and_stairs()
  print("CAPITULO1_ANIMACAO: %d passed, %d failed"%[passed,failed])
  game.queue_free(); await process_frame

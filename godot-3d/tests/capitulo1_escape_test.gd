@@ -124,7 +124,7 @@ func run() -> void:
  game.finisher_item_available=false; game.pursuer.position=Vector3(250,0,200)
  fixture(enemy); enemy.position=Vector3(200,0,200.95); enemy.aware=true
  enemy.last_seen=game.player.position; game.turn_cooldown=0
- for i in 30:
+ for i in 60:
   game._enemy_ticks(DT)
   if game.escape.active: break
   await physics_frame

@@ -429,3 +429,97 @@ CAPITULO1_PERCURSO[rota]: 7 passed, 0 failed
 As cinco expectativas do agarrão antigo saíram de `capitulo1_test.gd` e foram
 substituídas pela suíte de 37 verificações do escape. O script do capítulo
 executa essa suíte automaticamente. O percurso de rota terminou com zero mortes.
+
+
+## Etapa 1 — Parte 2: percepção, caça e armários (02/11/2026)
+
+Um cultista comum que enxerga Miguel para por 0,4 s, emite um grito e inicia
+perseguição a 3,0 m/s no plano, com Sprint original. Miguel mantém 1,45 m/s
+andando e 3,8 m/s correndo. Assim, andar perde distância e correr ganha distância.
+O grito não repete a cada quadro; também espalha o alerta pelo mecanismo existente.
+**[PROVISÓRIO]** O áudio do grito reutiliza o efeito `susto` até a Parte 3 trazer
+os sons novos. Não é uma voz nova gravada.
+
+Ao perder a visão, o cultista vai ao último ponto realmente visto. Só ao chegar
+começa a busca de 60 s: caminha por pontos próximos e intercala pausas para olhar
+com o corpo inteiro. Não acompanha a posição escondida de Miguel. Se o vir de
+novo, retoma a perseguição. Sem reencontro, volta ao posto original a 0,8 m/s.
+Nas escadas permanecem os limites de ritmo dos clipes da revisão anterior;
+a navegação agora pede corrida quando a intenção é correr.
+
+Cada cultista guarda a própria memória da entrada no armário. Quem presenciou
+aproxima, abre a folha móvel e tira Miguel para o minigame da Parte 1. Quem não
+presenciou pode rondar a região, mas não descobre o armário por conhecer a posição
+interna do jogador. A informação de um cultista não concede visão ao perseguidor.
+
+Vários caçadores escolhem lados distintos ao redor do último ponto visível de
+Miguel e ajustam a direção para se afastar dos vizinhos próximos. As cápsulas
+continuam colidindo. Não há teletransporte nem escrita de ossos para separá-los.
+Nenhum clipe, trilha ou pose foi alterado nesta parte.
+
+### Como Felipe testa
+
+1. Execute `bash JOGAR-PROTOTIPO.command`. Entre no campo de visão de um comum:
+   ele deve parar brevemente, gritar e correr. Andando ele alcança; correndo você
+   ganha distância em trecho livre.
+2. Quebre a visão numa esquina ou porta. Observe de longe: ele deve ir ao último
+   ponto, rondar/olhar a região por cerca de um minuto e voltar devagar ao posto.
+3. Entre num armário diante dele: espere a abertura e o minigame de setas.
+4. Repita após quebrar a visão, entrando sem testemunha. Ele pode passar perto;
+   não deve abrir o armário por adivinhar onde Miguel está.
+5. Atraia vários comuns para área aberta: eles devem buscar lados diferentes,
+   respeitando a separação dos corpos.
+
+### Validação e limite dos testes
+
+`tests/capitulo1_caca_test.gd` usa o jogo real, linhas de visão bloqueadas por
+parede, corpos físicos e armário com folha móvel. Mede a pausa, o disparo do
+grito, deslocamento/velocidade/clipe, memória, duração da busca, retorno, entrada
+vista e não vista, vantagem de corrida e cerco com três cultistas. Só lê animações.
+
+O percurso automático padrão sempre foi um teste de mapa e fluxo com comuns
+isolados. A antiga técnica de apagar a suspeita a cada quadro não funciona com
+reconhecimento imediato. Agora essa simulação usa `tests/capitulo1_rota_game.gd`,
+subclasse de teste que desativa visão/agarrão dos comuns somente nos modos rota
+ou pátio. Os modos real/furtivo mantêm a percepção. A IA de produção não recebe
+nenhum desvio de comportamento para teste; a suíte de caça não usa essa subclasse.
+
+APIs conferidas e executadas em Godot 4.5.1 Compatibility:
+[AudioStreamPlayer3D](https://raw.githubusercontent.com/godotengine/godot/4.5.1-stable/doc/classes/AudioStreamPlayer3D.xml),
+[AStarGrid2D](https://raw.githubusercontent.com/godotengine/godot/4.5.1-stable/doc/classes/AStarGrid2D.xml),
+[PhysicsBody3D](https://raw.githubusercontent.com/godotengine/godot/4.5.1-stable/doc/classes/PhysicsBody3D.xml) e
+[Tween](https://raw.githubusercontent.com/godotengine/godot/4.5.1-stable/doc/classes/Tween.xml).
+O tween move apenas a folha do armário, nunca ossos.
+
+
+Medições da suíte de caça: Sprint percorreu 1,000 m em 0,333 s (3,000 m/s).
+Em um segundo de deslocamento dos dois corpos, Miguel andando perdeu 1,550 m
+para o cultista; correndo ganhou 0,800 m. No cerco com três comuns, a menor
+separação foi 0,7624 m. Desvio de cerco bloqueado por parede recai na aproximação
+pelo ponto visto. Vizinhos em outro pavimento não aplicam repulsão horizontal.
+A folha do armário foi conferida renderizada aberta e fechada, sem modificar
+a iluminação do jogo.
+
+A expectativa antiga de perseguição a 3,8 m/s em `capitulo1_animacao_test.gd`
+foi atualizada para os 3,0 m/s pedidos. Patrulha continua a 1,45 m/s. O orçamento
+do teste de aproximação do escape passou a incluir a pausa inicial de 0,4 s.
+As verificações de clipe, avanço, cadência e movimento dos membros continuam
+ativas. O índice vazio de esconderijo nunca é tratado como armário conhecido.
+
+
+### Saídas da Parte 2 — Godot 4.5.1 Compatibility
+
+```text
+CAPITULO1_CACA: 32 passed, 0 failed
+CAPITULO1_ESCAPE: 37 passed, 0 failed
+CAPITULO1_MOVIMENTO: 33 passed, 0 failed
+CAPITULO1_ANIMACAO: 70 passed, 0 failed
+CAPITULO1_TEST: 36 passed, 0 failed
+CAPITULO1_MAPA: 18 passed, 0 failed
+CAPITULO1_NIVEL: 10 passed, 0 failed
+CAPITULO1_PERCURSO[rota]: 7 passed, 0 failed
+```
+
+`scripts/testar-capitulo1.sh` e `scripts/testar-percurso.sh` terminaram com código
+0. O percurso registrou 187,3 s de jogo e zero mortes no modo isolado de rota.
+Avaliação de tensão, dificuldade e áudio continua dependendo de Felipe jogar.
