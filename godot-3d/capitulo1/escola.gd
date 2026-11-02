@@ -29,12 +29,20 @@ func box(size: Vector3,at: Vector3,kind: String,solid:=true) -> Node3D:
 
 func build(owner_game: Node3D) -> void:
  game=owner_game
- for data in [["floor",Color(.33,.35,.34)],["wall",Color(.63,.63,.53)],
+ # Paleta das fotos de Felipe (docs/referencias/escola-fotos): parede
+ # amarelo-esverdeada clara, azulejo branco, quadra verde com faixa vermelha,
+ # grades verdes, banco de madeira vermelho, armários brancos.
+ for data in [["floor",Color(.33,.35,.34)],["wall",Color(.72,.74,.54)],
   ["tile",Color(.20,.35,.30)],["wood",Color(.28,.19,.12)],
   ["metal",Color(.21,.26,.26)],["dark",Color(.035,.044,.055)],
   ["paper",Color(.66,.64,.50)],["red",Color(.28,.015,.025)],
-  ["green",Color(.10,.22,.13)]]:
+  ["green",Color(.10,.22,.13)],["court",Color(.12,.36,.27)],
+  ["court_red",Color(.55,.24,.22)],["line",Color(.85,.86,.82)],
+  ["grade",Color(.16,.42,.30)],["stool",Color(.50,.08,.07)],
+  ["cabinet",Color(.80,.80,.76)],["chair",Color(.12,.30,.55)],
+  ["cardboard",Color(.55,.40,.24)],["concrete",Color(.62,.62,.60)]]:
   mats[data[0]]=material(data[1])
+ mats["azulejo"]=_tile_material(Color(.84,.85,.82),Color(.48,.50,.48),.22)
  # Colisão única; visual em placas para cada uma receber as luzes próximas
  # (no Compatibility cada malha aceita poucas luzes).
  var ground=box(Vector3(84,.3,60),p(475,325,-.15),"floor")
@@ -135,8 +143,25 @@ func _line(x1: float,z1: float,x2: float,z2: float,y:=0.0,height:=3.2) -> void:
  if length<.01: return
  var body=box(Vector3(.18,height,length+.12),(a+b)*.5+Vector3.UP*height*.5,"wall")
  body.rotation.y=atan2((b-a).x,(b-a).z)
- var strip=box(Vector3(.195,1,length+.12),(a+b)*.5+Vector3.UP*.5,"tile",false)
+ # Meia-parede de azulejo branco, como no laboratório de hardware.
+ var strip=box(Vector3(.195,1.2,length+.12),(a+b)*.5+Vector3.UP*.6,"azulejo",false)
  strip.rotation.y=body.rotation.y
+
+## Azulejo quadrado com rejunte (textura gerada; sem arquivo externo).
+func _tile_material(color: Color,grout: Color,size: float) -> StandardMaterial3D:
+ var img=Image.create(32,32,false,Image.FORMAT_RGB8)
+ for y in 32:
+  for x in 32:
+   var edge=x<2 or y<2
+   var n=.97+float(posmod(x*13+y*7,11))/300.0
+   img.set_pixel(x,y,grout if edge else Color(color.r*n,color.g*n,color.b*n))
+ var mat=StandardMaterial3D.new()
+ mat.albedo_texture=ImageTexture.create_from_image(img)
+ mat.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS
+ mat.uv1_triplanar=true
+ mat.uv1_scale=Vector3.ONE/size
+ mat.roughness=.35
+ return mat
 
 func _room(title: String,r: Rect2,side: String,y:=0.0,roof:=true,custom:=-1.0) -> void:
  rooms[title]={"rect":r,"floor":y,"center":p(r.get_center().x,r.get_center().y,y)}
@@ -176,10 +201,11 @@ func _room(title: String,r: Rect2,side: String,y:=0.0,roof:=true,custom:=-1.0) -
    var normal={"S":Vector3.BACK,"N":Vector3.FORWARD,"E":Vector3.RIGHT,"W":Vector3.LEFT}[side]
    sign_at(title,at+Vector3.UP*2.55+normal*.14,rad_to_deg(atan2(normal.x,normal.z)))
  if roof:
+  box(Vector3(r.size.x*SCALE-.2,.02,r.size.y*SCALE-.2),p(r.get_center().x,r.get_center().y,y+.012),"azulejo",false)
   box(Vector3(r.size.x*SCALE,.15,r.size.y*SCALE),p(r.get_center().x,r.get_center().y,y+3.27),"wall")
   # Janelas gradeadas opacas no blockout: não permitem filmar através do andar superior.
   var center=p(r.end.x-.8,r.get_center().y,y+1.9)
-  box(Vector3(.025,.85,minf(1.8,r.size.y*SCALE*.5)),center,"dark",false)
+  box(Vector3(.025,.85,minf(1.8,r.size.y*SCALE*.5)),center,"grade",false)
  if title.contains("Banheiro"):
   box(Vector3(.65,.75,.45),p(r.position.x+8,r.get_center().y,y+.375),"wall")
  elif title!="Pátio de química":
@@ -236,7 +262,22 @@ func _stairs() -> void:
   rail.look_at(rail_b)
 
 func _court() -> void:
- box(Vector3(17,.015,26),p(130,277,.01),"tile",false)
+ # Quadra coberta (foto 2): piso verde, faixa vermelha, linhas brancas,
+ # cobertura metálica em colunas.
+ var court_at: Vector3=p(125.5,273.5,.01)
+ box(Vector3(15.8,.012,26.4),court_at+Vector3(0,-.002,0),"court_red",false)
+ box(Vector3(13,.015,22),court_at,"court",false)
+ for line in [[Vector3(13,.02,.08),Vector3.ZERO],[Vector3(13,.02,.08),Vector3(0,0,-11)],
+  [Vector3(13,.02,.08),Vector3(0,0,11)],[Vector3(.08,.02,22),Vector3(-6.5,0,0)],
+  [Vector3(.08,.02,22),Vector3(6.5,0,0)]]:
+  box(line[0],court_at+line[1]+Vector3.UP*.004,"line",false)
+ # Colunas sobre as muretas: não bloqueiam corredor nem escada.
+ for x in [-7.9,7.9]:
+  for z in [-12.9,-4.3,4.3,12.9]:
+   box(Vector3(.35,6.2,.35),court_at+Vector3(x,3.1,z),"concrete")
+ box(Vector3(16.4,.08,26.8),court_at+Vector3(0,6.25,0),"metal",false)
+ for z in range(-13,14,2):
+  box(Vector3(16.4,.12,.06),court_at+Vector3(0,6.15,z),"dark",false)
  _line(31,117,31,430,0,1.3)
  _line(220,117,220,282,0,1.3)
  _line(220,324,220,430,0,1.3)
@@ -382,10 +423,35 @@ func _layout_terror() -> void:
   [p(226,215),Vector3.RIGHT],[p(300,100),Vector3.RIGHT],[p(614,470),Vector3.RIGHT],
   [p(668,600),Vector3.LEFT],[p(235,85,LEVEL),Vector3.FORWARD]]:
   locker(data[0],data[1])
+ _hardware_lab()
  # Vegetação na área de saída: dá onde se esconder da vista sem ser armário.
  for at in [p(470,500),p(540,580),p(450,610)]:
   for i in 3:
    box(Vector3(.8,1.4,.8),at+Vector3(i*.6,.7,sin(i*1.7)*.4),"green",false)
+
+## Laboratório de hardware (fotos 3): bancada branca com armários, monitores
+## velhos, bancos de madeira vermelhos, cadeira azul, caixas e cabos no chão.
+func _hardware_lab() -> void:
+ var east: float=p(430.5,0).x
+ box(Vector3(.75,.92,6.6),Vector3(east,.46,p(0,256).z),"cabinet")
+ box(Vector3(.8,.05,6.7),Vector3(east,.945,p(0,256).z),"cabinet",false)
+ for i in 6:
+  var z=p(0,226+i*12).z
+  box(Vector3(.42,.34,.08),Vector3(east-.05,1.15,z),"dark",false)
+  box(Vector3(.02,.5,.5),Vector3(east-.38,.45,z),"metal",false)
+ for at in [p(420,236),p(418,268),p(410,248)]:
+  box(Vector3(.36,.04,.36),at+Vector3.UP*.68,"stool",false)
+  for dx in [-.13,.13]:
+   for dz in [-.13,.13]:
+    box(Vector3(.04,.66,.04),at+Vector3(dx,.33,dz),"stool",false)
+ box(Vector3(.5,.08,.5),p(400,222)+Vector3.UP*.5,"chair",false)
+ box(Vector3(.5,.5,.07),p(400,222)+Vector3(0,.8,.22),"chair",false)
+ for i in 3:
+  box(Vector3(.6,.45,.45),p(396+i*8,300)+Vector3(0,.225+float(i%2)*.0,0),"cardboard")
+ for i in 5:
+  box(Vector3(.06,.36,.48),p(392,240)+Vector3(i*.09,.18,0),"dark",false)
+ for i in 4:
+  box(Vector3(2.8,.012,.025),p(405,280+i*.6,.006),"dark",false)
 
 func sign_at(text: String,at: Vector3,yaw:=0.0) -> void:
  var label=Label3D.new()

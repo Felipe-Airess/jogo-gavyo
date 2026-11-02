@@ -30,4 +30,7 @@ func run() -> void:
  look(game,s.p(641,430),180); await shot(prefix+"-passagem")
  game.phone_light=false
  look(game,s.p(780,180),90); await shot(prefix+"-refeitorio")
+ game.phone_light=true
+ look(game,s.p(125,420),0,-.15); await shot(prefix+"-quadra")
+ look(game,s.p(392,280),-35,-.25); await shot(prefix+"-hardware")
  quit()
