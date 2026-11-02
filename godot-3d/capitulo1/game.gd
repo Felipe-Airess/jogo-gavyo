@@ -62,7 +62,9 @@ func _ready() -> void:
  add_child(school)
  school.build(self)
  player=spawn_actor(school.spawn,false)
- for at in [school.first_cultist,school.p(323,160),school.p(366,98),school.p(318,83)]:
+ # Postos revistos: um ficava a 0,5 m do checkpoint do ritual e outro via a entrada do
+ # pátio a 4 m. Agora um fica no laboratório de química e outro no estacionamento.
+ for at in [school.first_cultist,school.p(323,160),school.p(378,52),school.p(352,150)]:
   var e=spawn_actor(at,true)
   e.face(at+Vector3.FORWARD)
   enemies.append(e)
@@ -402,7 +404,7 @@ func _story_tick(dt: float) -> void:
  if phase!="investigate" and phase!="chase": return
  if not bag_found and player.position.distance_to(school.bag_at)<1.7 and player.position.y>2.5:
   hud.say("A bolsa está sobre a mesa. [Espaço] Pegar",1)
- if bag_found and not before_ritual and player.position.distance_to(school.ritual_approach)<3 and player.position.y<1:
+ if bag_found and not before_ritual and player.position.distance_to(school.ritual_approach)<3 and player.position.y<1 and checkpoint_safe():
   before_ritual=true; checkpoint_index=2; _snapshot()
   hud.say("Checkpoint · algo acontece no pátio de química.",3)
  if not sighting_seen and player.position.distance_to(school.p(442,316))<4 and phase=="investigate":
@@ -426,6 +428,13 @@ func _story_tick(dt: float) -> void:
   scare_played=true; scare_time=0; silhouette.visible=true
   view.trauma=.25
   impact_audio.stream=sfx["susto"]; impact_audio.play()
+
+## Não salva com um cultista em cima: voltar do checkpoint seria morrer de novo.
+func checkpoint_safe() -> bool:
+ for e in enemies:
+  if e.dead or e.down: continue
+  if e.position.distance_to(player.position)<6 and (e.aware or e.suspicion>.4 or enemy_sees(e)): return false
+ return true
 
 func recording_eye() -> Vector3:
  return player.position+Vector3.UP*(1.0 if player.crouched else 1.55)
@@ -1167,3 +1176,9 @@ func _capture() -> void:
  await RenderingServer.frame_post_draw
  get_viewport().get_texture().get_image().save_png(ProjectSettings.globalize_path("res://../work/capitulo1.png"))
  get_tree().quit()
+
+## Cultista calmo não faz parkour: a patrulha esbarrava em mesas e repetia o
+## salto para sempre. Só quem está caçando Miguel pula obstáculos.
+func try_vault(actor: CharacterBody3D,direction: Vector3,automatic: bool) -> bool:
+ if actor.enemy and not actor.aware and not actor.pursuer: return false
+ return super.try_vault(actor,direction,automatic)

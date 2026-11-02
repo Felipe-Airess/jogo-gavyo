@@ -179,6 +179,8 @@ func run() -> void:
   if game.phase=="ending": break
   await step()
  check(game.phase in ["ending","escaped"] and game.player.position.z>s.gate_at.z,"pula o portão e chega ao encerramento")
+ for e in game.enemies:
+  if e.state=="vault" and not e.aware: note("inimigo preso tentando pular em %s" % [e.position])
  note("tempo de jogo total %.1f s, mortes %d" % [frame_count/60.0,game.death_count])
  var nearest:=INF
  for e in game.enemies: nearest=minf(nearest,e.home.distance_to(s.ritual_approach))

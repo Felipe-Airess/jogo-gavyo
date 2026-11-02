@@ -7,6 +7,8 @@ var pivot: Node3D
 var body: StaticBody3D
 var normal := Vector3.FORWARD
 var title := "Porta"
+## Ângulo aberto. Negativo abre para o lado da normal; o capítulo 1 abre para dentro da sala.
+var swing := -1.65
 var game: Node3D
 var motion: Tween
 
@@ -71,12 +73,12 @@ func set_open(value: bool, instant := false) -> void:
  if motion and motion.is_valid():
   motion.kill()
  if instant:
-  pivot.rotation.y=-1.65 if opened else 0.0
+  pivot.rotation.y=swing if opened else 0.0
   moving=false
   return
  moving=true
  motion=create_tween()
- motion.tween_property(pivot,"rotation:y",-1.65 if opened else 0.0,.65).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+ motion.tween_property(pivot,"rotation:y",swing if opened else 0.0,.65).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
  motion.tween_callback(func(): moving=false; game._build_paths())
 
 func peek_anchor(player_position: Vector3) -> Dictionary:

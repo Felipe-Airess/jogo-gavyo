@@ -168,6 +168,8 @@ func _room(title: String,r: Rect2,side: String,y:=0.0,roof:=true,custom:=-1.0) -
     add_child(door)
     var normal={"S":Vector3.BACK,"N":Vector3.FORWARD,"E":Vector3.RIGHT,"W":Vector3.LEFT}[side]
     door.setup(game,at,normal,title)
+    # Abre para dentro: a folha aberta não invade nem tranca o corredor.
+    door.swing=1.65
     doors.append(door)
    var normal={"S":Vector3.BACK,"N":Vector3.FORWARD,"E":Vector3.RIGHT,"W":Vector3.LEFT}[side]
    sign_at(title,at+Vector3.UP*2.55+normal*.14,rad_to_deg(atan2(normal.x,normal.z)))
