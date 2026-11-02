@@ -4,6 +4,8 @@ const CAMPUS=preload("res://capitulo1/escola.gd")
 const PERSON=preload("res://capitulo1/ator.gd")
 const CHAPTER_HUD=preload("res://capitulo1/hud.gd")
 const CHAPTER_CAMERA=preload("res://capitulo1/camera.gd")
+const TOUCH=preload("res://capitulo1/toque.gd")
+var touch: CanvasLayer
 var bag_found:=false
 var alert_spread:=false
 var video_recorded:=false
@@ -27,7 +29,7 @@ var sighting_seen:=false
 var story_clock:=0.0
 var ending_clock:=0.0
 var ambient_filter: CanvasLayer
-var filter_rect: ColorRect
+var filter_rect: TextureRect
 var film_enabled:=true
 var tool_prop: Node3D
 var gate_from:=Vector3.ZERO
@@ -65,18 +67,20 @@ func _ready() -> void:
  hud=CHAPTER_HUD.new()
  add_child(hud)
  hud.setup(self)
+ if TOUCH.wanted():
+  touch=TOUCH.new(); add_child(touch); touch.setup(self)
  _audio()
  for name in ["metal","parede","bloqueio","carne","respiracao","susto"]:
-  sfx[name]=AudioStreamWAV.load_from_file("res://capitulo1/assets/"+name+".wav")
+  sfx[name]=load("res://capitulo1/assets/"+name+".wav").duplicate()
  breathing=AudioStreamPlayer.new(); breathing.stream=sfx["respiracao"]
- breathing.stream.loop_mode=AudioStreamWAV.LOOP_FORWARD; breathing.stream.loop_end=breathing.stream.data.size()/2
+ breathing.stream.loop_mode=AudioStreamWAV.LOOP_FORWARD; breathing.stream.loop_end=int(breathing.stream.get_length()*breathing.stream.mix_rate)
  breathing.volume_db=-80; add_child(breathing); breathing.play()
  cult_audio.position=school.ritual_center
  cult_audio.unit_size=4
  cult_audio.max_distance=26
- var chant=AudioStreamWAV.load_from_file("res://capitulo1/assets/culto.wav")
+ var chant=load("res://capitulo1/assets/culto.wav").duplicate()
  chant.loop_mode=AudioStreamWAV.LOOP_FORWARD
- chant.loop_end=chant.data.size()/2
+ chant.loop_end=int(chant.get_length()*chant.mix_rate)
  cult_audio.stream=chant
  cult_audio.pitch_scale=.76
  cult_audio.volume_db=-18
@@ -132,17 +136,57 @@ func spawn_actor(at: Vector3,is_enemy: bool,big:=false) -> CharacterBody3D:
  actor.setup(self,at,is_enemy,big)
  return actor
 
+## Retrô robusto: o 3D é desenhado direto em baixa resolução numa SubViewport
+## (mesmo mundo, câmera espelhada) e ampliado com pixels duros + pontilhado.
+## Não lê a tela, então vale igual no PC, web e celular, e custa menos.
+const LOW_HEIGHT:=200
+var low_view: SubViewport
+var low_camera: Camera3D
+
 func _postprocess() -> void:
  ambient_filter=CanvasLayer.new()
  ambient_filter.layer=-1
  add_child(ambient_filter)
- filter_rect=ColorRect.new()
+ low_view=SubViewport.new()
+ low_view.render_target_update_mode=SubViewport.UPDATE_ALWAYS
+ low_view.audio_listener_enable_3d=true
+ low_view.msaa_3d=Viewport.MSAA_DISABLED
+ add_child(low_view)
+ low_camera=Camera3D.new()
+ low_view.add_child(low_camera)
+ low_camera.current=true
+ get_viewport().disable_3d=true
+ filter_rect=TextureRect.new()
  filter_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
  filter_rect.mouse_filter=Control.MOUSE_FILTER_IGNORE
+ filter_rect.texture=low_view.get_texture()
+ filter_rect.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
+ filter_rect.stretch_mode=TextureRect.STRETCH_SCALE
+ filter_rect.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST
  var mat=ShaderMaterial.new()
- mat.shader=load("res://capitulo1/gravacao.gdshader")
+ mat.shader=load("res://capitulo1/retro.gdshader")
  filter_rect.material=mat
  ambient_filter.add_child(filter_rect)
+ _resize_low()
+
+func _resize_low() -> void:
+ var screen: Vector2=get_viewport().get_visible_rect().size
+ var height:=float(LOW_HEIGHT) if film_enabled else screen.y
+ var size:=Vector2i(maxi(1,roundi(height*screen.x/maxf(1,screen.y))),int(height))
+ if low_view.size!=size: low_view.size=size
+ filter_rect.material.set_shader_parameter("low_size",Vector2(size))
+ filter_rect.material.set_shader_parameter("intensity",1.0 if film_enabled else 0.0)
+
+func _sync_low_camera() -> void:
+ var cam: Camera3D=view.camera
+ low_camera.global_transform=cam.global_transform
+ low_camera.fov=cam.fov
+ low_camera.near=cam.near
+ low_camera.far=cam.far
+ low_camera.h_offset=cam.h_offset
+ low_camera.v_offset=cam.v_offset
+ low_camera.environment=cam.environment
+ low_camera.cull_mask=cam.cull_mask
 
 func _props() -> void:
  for data in [["chave de fenda",school.p(414,256.5,.91)],["alicate",school.p(371,36.5,.91)],["régua",school.p(547,65.5,.91)]]:
@@ -163,7 +207,7 @@ func _props() -> void:
 func begin() -> void:
  started=true
  paused=false
- Input.mouse_mode=Input.MOUSE_MODE_VISIBLE if qa_mode else Input.MOUSE_MODE_CAPTURED
+ Input.mouse_mode=Input.MOUSE_MODE_VISIBLE if qa_mode or touch!=null else Input.MOUSE_MODE_CAPTURED
  if not intro_seen:
   phase="intro"
   intro_clock=0
@@ -190,7 +234,7 @@ func _unhandled_input(event: InputEvent) -> void:
   if event.keycode==KEY_ESCAPE:
    paused=not paused
    mouse_held=false
-   Input.mouse_mode=Input.MOUSE_MODE_VISIBLE if paused else Input.MOUSE_MODE_CAPTURED
+   Input.mouse_mode=Input.MOUSE_MODE_VISIBLE if paused or touch!=null else Input.MOUSE_MODE_CAPTURED
    return
   if event.keycode==KEY_ENTER and (not started or phase=="escaped"):
    if phase=="escaped": get_tree().reload_current_scene()
@@ -221,7 +265,7 @@ func _unhandled_input(event: InputEvent) -> void:
    KEY_F1: show_help=not show_help
    KEY_F3:
     film_enabled=not film_enabled
-    filter_rect.visible=film_enabled
+    _resize_low()
  if event is InputEventMouseButton and event.pressed:
   match event.button_index:
    MOUSE_BUTTON_LEFT:
@@ -276,8 +320,9 @@ func _shove_tick(dt: float) -> void:
 func _process(dt: float) -> void:
  if player.dead: player.animate(dt)
  view.update(dt)
+ _sync_low_camera()
  hud.update(dt)
- filter_rect.size=get_viewport().get_visible_rect().size
+ _resize_low()
  flashlight.visible=bag_found and phone_light and not paused
  if flashlight.visible:
   # Sai do celular na mão, não da câmera: em terceira pessoa a luz da câmera
@@ -639,7 +684,7 @@ func _grab_player(e: CharacterBody3D) -> void:
  player.face(e.position)
  action_target=e; grab_struggle=0
  impact_audio.stream=sfx["carne"]; impact_audio.play()
- hud.say("AGARRADO · aperte [Q] várias vezes para se soltar",GRAB_TIME)
+ hud.say("AGARRADO · aperte "+("ESQUIVA" if touch!=null else "[Q]")+" várias vezes para se soltar",GRAB_TIME)
 
 func interact() -> void:
  if player.hidden: _leave_hide(); return

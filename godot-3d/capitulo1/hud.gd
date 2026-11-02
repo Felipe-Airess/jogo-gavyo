@@ -41,5 +41,19 @@ func update(dt: float) -> void:
   prompt.text="RESPIRAÇÃO PESADA"
  if game.phase=="escaped":
   menu.text="CAPÍTULO 1 CONCLUÍDO\n\nMiguel escapou com a gravação.\nOs amigos agora sabem do culto.\n\n[Enter] Jogar novamente"
+  if game.touch!=null: menu.text=menu.text.replace("[Enter]","Toque:")
+ elif not game.started and game.touch!=null:
+  menu.text="GAVIÃO\nDEPOIS DO ALMOÇO\n\nUma escola vazia. Vozes que não deveriam estar ali.\n\nToque para começar\n\nCelular deitado · fones recomendados"
  elif game.paused and game.started:
   menu.text="PAUSADO\n\n[Esc] Voltar · [R] Checkpoint\n\nWASD mover · mouse olhar\nShift correr · Ctrl agachar\nEspaço interagir / porta / parkour\nClique esquerdo empurrar · direito esquivar\nQ soltar-se de um agarrão\nE empanado · V vídeo · L lanterna após bolsa\nT arremessar objeto · F fresta · F3 filtro ligado/desligado"
+  if game.touch!=null: menu.text="PAUSADO\n\nToque para voltar\n\nEsquerda: mover (até a borda corre)\nDireita: arrastar para olhar\nBotões: ação, empurrar, esquiva/soltar,\nagachar, gravar, luz, fresta, comer"
+ if game.touch!=null:
+  # No celular, dicas citam os botões; mensagem acima dos botões.
+  for item in [message,prompt]: item.text=touch_text(item.text)
+  message.position.y=minf(message.position.y,size.y*.55)
+
+const TOUCH_NAMES:={"[Espaço]":"[AÇÃO]","[V]":"[GRAVAR]","[F]":"[FRESTA]","[L]":"[LUZ]","[E]":"[COMER]","[Q]":"[ESQUIVA]","[T / clique]":"[EMPURRAR]","[T]":"","[Clique]":"[EMPURRAR]","[Esquiva / Q]":"[ESQUIVA]"}
+func touch_text(text: String) -> String:
+ for key in TOUCH_NAMES: text=text.replace(key,TOUCH_NAMES[key])
+ return text
+

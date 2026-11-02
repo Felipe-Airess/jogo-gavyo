@@ -112,16 +112,16 @@ func spawn_actor(at: Vector3, is_enemy: bool, big := false) -> CharacterBody3D:
 
 func _audio() -> void:
  ambience = AudioStreamPlayer.new()
- ambience.stream = AudioStreamWAV.load_from_file("res://prototipo/audio/grilos.wav")
- ambience.stream.loop_end = ambience.stream.data.size()/2
+ ambience.stream = load("res://prototipo/audio/grilos.wav").duplicate()
+ ambience.stream.loop_end = int(ambience.stream.get_length()*ambience.stream.mix_rate)
  ambience.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
  ambience.volume_db = -17
  add_child(ambience)
  ambience.play()
  cult_audio = AudioStreamPlayer3D.new()
  cult_audio.position = Vector3(0,1,-29)
- cult_audio.stream = AudioStreamWAV.load_from_file("res://prototipo/audio/culto.wav")
- cult_audio.stream.loop_end = cult_audio.stream.data.size()/2
+ cult_audio.stream = load("res://prototipo/audio/culto.wav").duplicate()
+ cult_audio.stream.loop_end = int(cult_audio.stream.get_length()*cult_audio.stream.mix_rate)
  cult_audio.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
  cult_audio.unit_size = 7
  cult_audio.max_distance = 42
@@ -129,11 +129,11 @@ func _audio() -> void:
  add_child(cult_audio)
  cult_audio.play()
  step_audio = AudioStreamPlayer3D.new()
- step_audio.stream = AudioStreamWAV.load_from_file("res://prototipo/audio/passo.wav")
+ step_audio.stream = load("res://prototipo/audio/passo.wav").duplicate()
  step_audio.volume_db = -15
  add_child(step_audio)
  impact_audio = AudioStreamPlayer3D.new()
- impact_audio.stream = AudioStreamWAV.load_from_file("res://prototipo/audio/impacto.wav")
+ impact_audio.stream = load("res://prototipo/audio/impacto.wav").duplicate()
  impact_audio.volume_db = -6
  add_child(impact_audio)
 

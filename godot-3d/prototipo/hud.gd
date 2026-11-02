@@ -20,8 +20,8 @@ func setup(owner_game: Node3D) -> void:
  root.mouse_filter=Control.MOUSE_FILTER_IGNORE
  add_child(root)
  var theme=Theme.new()
- var font=FontFile.new()
- font.data=FileAccess.get_file_as_bytes("res://prototipo/interface.ttf")
+ # load(): na exportação o .ttf vira recurso importado; ler bytes crus falha.
+ var font: Font=load("res://prototipo/interface.ttf")
  theme.default_font=font
  theme.default_font_size=18
  theme.set_constant("outline_size","Label",3)

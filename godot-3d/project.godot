@@ -17,6 +17,8 @@ window/stretch/aspect="expand"
 window/handheld/orientation=6
 
 [rendering]
+
+textures/vram_compression/import_etc2_astc=true
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/canvas_textures/default_texture_filter=1
@@ -25,3 +27,8 @@ environment/defaults/default_clear_color=Color(0.02, 0.025, 0.03, 1)
 
 [input_devices]
 pointing/emulate_mouse_from_touch=false
+
+[gui]
+
+# Fonte própria em todo o HUD: na web não há fonte do sistema (texto virava quadrados).
+theme/custom_font="res://prototipo/interface.ttf"

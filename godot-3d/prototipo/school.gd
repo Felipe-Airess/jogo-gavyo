@@ -209,8 +209,7 @@ func sign_at(text: String, at: Vector3, yaw := 0.0) -> void:
  label.text = text
  label.position = at
  label.rotation_degrees.y = yaw
- var font = FontFile.new()
- font.data = FileAccess.get_file_as_bytes("res://prototipo/interface.ttf")
+ var font: Font=load("res://prototipo/interface.ttf")
  label.font = font
  label.font_size = 40
  label.pixel_size = .006
@@ -329,8 +328,7 @@ func _details() -> void:
  phone.add_child(screen)
  var clock=Label3D.new()
  clock.text="21:43\nSEM SINAL"
- var font=FontFile.new()
- font.data=FileAccess.get_file_as_bytes("res://prototipo/interface.ttf")
+ var font: Font=load("res://prototipo/interface.ttf")
  clock.font=font
  clock.font_size=32
  clock.pixel_size=.00075
