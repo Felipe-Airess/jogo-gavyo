@@ -249,38 +249,67 @@ func _unhandled_input(event: InputEvent) -> void:
   match event.keycode:
    KEY_SPACE: interact()
    KEY_E: heal()
-   KEY_Q: takedown_or_finish()
+   KEY_Q:
+    if player.state=="grabbed": dodge()
    KEY_F: toggle_peek()
    KEY_L:
     if bag_found: phone_light=not phone_light
    KEY_V: toggle_recording()
-   KEY_G: drag_body()
    KEY_T: throw_object()
    KEY_F1: show_help=not show_help
    KEY_F3:
     film_enabled=not film_enabled
     filter_rect.visible=film_enabled
- if event is InputEventMouseButton:
-  if event.button_index==MOUSE_BUTTON_LEFT:
-   if event.pressed:
-    if carried!=null: throw_object(); return
-    if player.state=="attack":
-     if buffered_attack: fatigue=minf(1,fatigue+.17)
-     else:
-      buffered_attack=true
-      precise_buffer=absf(player.clock-float(hit_profile.get("contact",.3)))<.15
-     return
-    mouse_held=true; hold_clock=0; hold_consumed=false
-   else:
-    if mouse_held and not hold_consumed: attack()
-    mouse_held=false
-  elif event.pressed:
-   match event.button_index:
-    MOUSE_BUTTON_RIGHT:
-     _drop_load(); dodge()
-    MOUSE_BUTTON_MIDDLE: toggle_lock()
-    MOUSE_BUTTON_WHEEL_UP: cycle_target(1)
-    MOUSE_BUTTON_WHEEL_DOWN: cycle_target(-1)
+ if event is InputEventMouseButton and event.pressed:
+  match event.button_index:
+   MOUSE_BUTTON_LEFT:
+    if carried!=null: throw_object()
+    else: shove()
+   MOUSE_BUTTON_RIGHT:
+    _drop_load(); dodge()
+
+## Empurrão: única resposta física de Miguel. Derruba por alguns segundos e não
+## fere; quem cai levanta e tenta chamar ajuda. Compra tempo, não resolve.
+const SHOVE_DURATION:=.75
+const SHOVE_CONTACT:=.28
+const SHOVE_REACH:=1.5
+var shove_cooldown:=0.0
+
+func shove() -> void:
+ if phase not in ["investigate","chase"] or player.hidden or is_instance_valid(peek_door): return
+ if player.state not in ["idle","heal"]: return
+ if shove_cooldown>0:
+  fatigue=minf(1,fatigue+.2); burst_clock=3; return
+ _drop_load(); cancel_heal()
+ var e: CharacterBody3D=nearest_enemy(SHOVE_REACH,false)
+ action_target=e
+ attack_mode="shove"
+ player.state="attack"; player.clock=0; player.hit_once=false
+ attack_duration=SHOVE_DURATION*(1+fatigue*.6)
+ player.anim.speed_scale=1.3/(1+fatigue*.6)
+ player.anim.play("direto",.07)
+ if e!=null: player.face(e.position)
+ shove_cooldown=attack_duration+.5
+ fatigue=minf(1,fatigue+.12)
+
+func _shove_tick(dt: float) -> void:
+ var e=action_target
+ if is_instance_valid(e) and not e.down and player.clock<SHOVE_CONTACT: player.face(e.position,dt)
+ player.animate(dt)
+ if not player.hit_once and player.clock>=SHOVE_CONTACT*(1+fatigue*.6):
+  player.hit_once=true
+  if is_instance_valid(e) and not e.down and not e.dead and player.position.distance_to(e.position)<SHOVE_REACH+.15:
+   var away: Vector3=(e.position-player.position)*Vector3(1,0,1)
+   e.attack_target=null; e.strike_yaw_bias=0
+   if enemy_turn==e: enemy_turn=null
+   e.aware=true; e.last_seen=player.position
+   e.make_down(); e.help_clock=0
+   e.move_and_collide(away.normalized()*.6)
+   view.trauma=.2
+   impact_audio.stream=sfx["parede"]; impact_audio.play()
+   combat_stats["shoves"]=int(combat_stats.get("shoves",0))+1
+ if player.clock>=attack_duration:
+  player.state="idle"; player.play("guarda")
 
 func _process(dt: float) -> void:
  if player.dead: player.animate(dt)
@@ -345,6 +374,7 @@ func _physics_process(dt: float) -> void:
  if impact_pause>0:
   impact_pause=maxf(0,impact_pause-dt); return
  fatigue=maxf(0,fatigue-dt*(.18 if player.state!="attack" else .01))
+ shove_cooldown=maxf(0,shove_cooldown-dt)
  if mouse_held and not hold_consumed:
   hold_clock+=dt
   if hold_clock>.42:
@@ -623,6 +653,8 @@ func attack(heavy:=false) -> void:
  if attack_mode=="counter": combat_stats["counters"]+=1
 
 func _attack_tick(dt: float) -> void:
+ if attack_mode=="shove":
+  _shove_tick(dt); return
  if attack_mode=="takedown":
   _takedown_tick(dt); return
  var e=action_target
@@ -868,7 +900,7 @@ func context_text() -> String:
  if carried!=null: return "[T / clique] Arremessar objeto · esquiva solta a carga"
  if carried_body!=null: return "[G] Soltar corpo · esquiva solta a carga"
  if player.hidden: return "ESCONDIDO · observe e escute · [Espaço] Sair"
- if show_help: return "WASD mover · Espaço interagir · ataque continuar · Q derrubar · V gravar · L lanterna"
+ if show_help: return "WASD mover · Espaço interagir · clique empurrar · Ctrl agachar · V gravar · L lanterna"
  for door in school.doors:
   if _near_looking(door.center(),1.8): return "[Espaço] "+("Fechar " if door.opened else "Abrir ")+door.title+(" · [F] Fresta" if not door.opened else "")
  for item in tools:
@@ -878,13 +910,13 @@ func context_text() -> String:
  for item in world_objects:
   if not item["taken"] and _near_looking(item["node"].position,1.5): return "[Espaço] Pegar objeto · [T] Arremessar"
  var e=nearest_enemy(1.6,true)
- if e!=null and e.down: return "[G] Arrastar corpo · [Q] Tentar finalizar"
+ if e!=null and e.down: return "Ele vai levantar e chamar ajuda. Saia daqui."
  for item in school.pickups:
   if not item["taken"] and _near_looking(item["at"],1.5): return "[Espaço] Pegar "+item["kind"]
  for spot in school.hides:
   if _near_looking(spot["entry"]+Vector3.UP*.9,1.5): return "[Espaço] Esconder-se · quebre a visão antes"
- if e!=null and is_behind(e): return "[Ataque] Ação furtiva · ou passe escondido"
- return "ALVO TRAVADO · meio solta · rodinha troca" if is_instance_valid(locked) else ""
+ if e!=null and is_behind(e): return "Passe agachado · [Clique] empurrar o derruba, mas alerta"
+ return ""
 
 func _tool_tick(dt: float) -> void:
  if raw_movement().length()>.1:

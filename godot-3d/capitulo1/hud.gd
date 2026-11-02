@@ -38,8 +38,8 @@ func update(dt: float) -> void:
  rec.text="● REC %02d s"%int(game.record_time) if game.recording and game.phase in ["investigate","discovery"] else ""
  rec.modulate=Color(.9,.22,.19)
  if game.player.state=="attack" and game.fatigue>.35:
-  prompt.text="RESPIRAÇÃO PESADA · reduza os cliques extras"
+  prompt.text="RESPIRAÇÃO PESADA"
  if game.phase=="escaped":
   menu.text="CAPÍTULO 1 CONCLUÍDO\n\nMiguel escapou com a gravação.\nOs amigos agora sabem do culto.\n\n[Enter] Jogar novamente"
  elif game.paused and game.started:
-  menu.text="PAUSADO\n\n[Esc] Voltar · [R] Checkpoint\n\nWASD mover · mouse olhar\nShift correr · Ctrl agachar\nEspaço interagir / porta / parkour\nClique esquerdo atacar · segurar: pesado\nClique direito esquivar (+ direção: deslocar)\nQ tentar derrubar / finalizar caído\nMeio travar alvo · rodinha trocar\nE empanado · V vídeo · L lanterna após bolsa\nG arrastar corpo · T arremessar\nF fresta · F3 filtro ligado/desligado"
+  menu.text="PAUSADO\n\n[Esc] Voltar · [R] Checkpoint\n\nWASD mover · mouse olhar\nShift correr · Ctrl agachar\nEspaço interagir / porta / parkour\nClique esquerdo empurrar · direito esquivar\nQ soltar-se de um agarrão\nE empanado · V vídeo · L lanterna após bolsa\nT arremessar objeto · F fresta · F3 filtro ligado/desligado"

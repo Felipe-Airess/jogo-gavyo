@@ -25,7 +25,16 @@ func run() -> void:
  check(game.player.anim.has_animation("Running"),"corrida capturada existente disponível")
  game.player.velocity=Vector3(0,0,3.4)
  game.player.play("correr")
- check(game.player.anim.current_animation=="correr","corrida não usa o ciclo procedural")
+ check(game.player.anim.current_animation=="correr","corrida começa pela arrancada capturada")
+ # A arrancada não pode se repetir enquanto ele continua correndo.
+ var restarts:=0
+ var previous:=0.0
+ for i in 240:
+  game.player.play("correr"); game.player.anim.advance(1.0/60)
+  var now: float=game.player.anim.current_animation_position
+  if game.player.anim.current_animation=="correr" and now<previous: restarts+=1
+  previous=now
+ check(game.player.anim.current_animation=="prototype/run" and restarts==0,"corrida contínua não volta ao quadro da arrancada")
  var origin: Vector3=game.school.p(130,78,game.school.LEVEL+1.5)
  check(not game.visible_between(origin,game.school.ritual_center+Vector3.UP*.7),"andar superior não permite observar o ritual")
  # Portas de todos os blocos liberam passagem ao abrir; não só a sala de teste.
@@ -98,83 +107,40 @@ func run() -> void:
  check(e.state=="rising" and not game.alert_spread,"derrubado levanta antes de tentar chamar ajuda")
  game._enemy_ticks(3.8)
  check(e.state=="calling" and not game.alert_spread,"chamado tem preparação interrompível")
- e.style=0; game.action_target=e; game.attack_mode="normal"; game.heavy_attack=false
- game._land_hit(e,e.position+Vector3.UP)
- check(e.state!="calling" and not game.alert_spread,"golpe interrompe chamado comum")
- game.player.state="idle"; game.player.position=game.school.p(500,320)
- game.attack()
- check(game.player.state=="attack","ataque funciona sem esperar esquiva perfeita")
+ # Terror: Miguel só empurra. Derruba sem ferir, e quem cai levanta e chama ajuda.
+ game.player.state="idle"; game.player.clock=0; game.player.health=100
+ game.player.position=game.school.p(500,480); game.player.velocity=Vector3.ZERO
+ game.fatigue=0; game.shove_cooldown=0
+ e.down=false; e.dead=false; e.health=100; e.state="calling"; e.clock=.5; e.aware=true
+ e.position=game.player.position+Vector3(0,0,-.9)
+ e.collision_layer=2
+ e.face(game.player.position); e.play("guarda"); e.animate(.2)
+ game.player.face(e.position)
+ await frames(2)
  var click=InputEventMouseButton.new(); click.button_index=MOUSE_BUTTON_LEFT; click.pressed=true
  game._unhandled_input(click)
- check(game.buffered_attack and game.fatigue==0,"um próximo comando guardado não cansa")
+ check(game.player.state=="attack" and game.attack_mode=="shove","clique esquerdo empurra")
+ for i in 60:
+  game._player_tick(1.0/60); game._enemy_ticks(1.0/60)
+  await physics_frame
+ check(e.down and e.health==100,"empurrão derruba sem ferir")
+ check(not game.alert_spread,"empurrão interrompe chamado em preparação")
+ game.fatigue=0; game.shove_cooldown=1
  game._unhandled_input(click)
- check(game.fatigue>0,"cliques extras com comando guardado acumulam fadiga")
- game.hurt_player(1)
- check(game.player.state=="hurt" and not game.buffered_attack,"tomar golpe interrompe ação e sequência")
+ check(game.fatigue>0 and game.player.state!="attack","empurrar repetidamente só cansa")
+ e.help_clock=0
+ game._enemy_ticks(4.1)
+ check(e.state=="rising","empurrado levanta sozinho")
+ game._enemy_ticks(3.8); game._enemy_ticks(1.7)
+ check(game.alert_spread,"quem foi empurrado chama ajuda se ninguém impedir")
+ game.alert_spread=false
+ var middle=InputEventMouseButton.new(); middle.button_index=MOUSE_BUTTON_MIDDLE; middle.pressed=true
+ game._unhandled_input(middle)
+ check(game.locked==null,"sem travar alvo de luta")
+ check(not game.context_text().contains("finalizar"),"sem finalizações na interface")
  game.player.state="idle"; game.food=1; game.player.health=40
  game.heal(); game.hurt_player(1)
  check(game.food==1,"dano cancela cura sem consumir item")
- # Contato do clipe real: a checagem não chama _land_hit diretamente.
- game.player.state="idle"; game.player.clock=0; game.player.health=100
- game.player.position=game.school.p(500,480)
- game.player.velocity=Vector3.ZERO
- game.fatigue=0; game.chain_step=0; game.protected_target=null
- e.position=game.player.position+Vector3(0,0,-.9)
- e.health=100; e.down=false; e.dead=false; e.style=0; e.state="idle"; e.aware=true
- e.collision_layer=2
- for area in e.hurt_areas: area.collision_layer=4
- e.face(game.player.position); e.play("guarda"); e.animate(.2)
- game.player.face(e.position); game.player.play("guarda"); game.player.animate(.2)
- await frames(2)
- game.attack()
- for i in 85:
-  game._player_tick(1.0/60); game._enemy_ticks(1.0/60)
-  await physics_frame
- print("PUNCH_RESULT ",e.health," ",game.profiles["jab"])
- check(e.health<100,"soco causa dano pela trajetória física do clipe")
- game.player.state="idle"; game.player.clock=0; game.chain_step=0
- e.health=25; e.make_down(); e.animate(2)
- game.player.position=e.bone_point("Head")+Vector3(0,0,.8)
- game.player.position.y=0
- await frames(2)
- game.attack()
- for i in 320:
-  game._player_tick(1.0/60); game._enemy_ticks(1.0/60)
-  await physics_frame
- print("GROUND_RESULT ",e.health," ",game.profiles["Brutal_Assassination"])
- check(e.health<25,"ação no chão usa clipe ajoelhado e contato real")
- game.player.state="idle"; game.player.clock=0; game.player.position=e.position+Vector3(0,0,.9)
- game.player.position.y=0
- e.health=100; e.dead=false; e.down=false; e.state="idle"; e.clock=0; e.style=0; e.opening=1
- e.collision_layer=2
- for area in e.hurt_areas: area.collision_layer=4
- e.play("guarda"); e.animate(.2); e.face(game.player.position)
- await frames(2)
- game.takedown_or_finish()
- for i in 100:
-  game._player_tick(1.0/60); game._enemy_ticks(1.0/60)
-  await physics_frame
- print("TAKEDOWN_RESULT ",e.health," ",e.down)
- check(e.down,"sequência de derrubada exige contato real da pegada")
- for kind in ["parede","armário","mesa"]:
-  var start: Vector3=game.school.p(500+(["parede","armário","mesa"].find(kind))*65,540)
-  game.player.position=start; game.player.state="idle"; game.player.clock=0; game.fatigue=0
-  e.position=start+Vector3(0,0,-.7)
-  e.dead=false; e.down=false; e.health=30; e.style=0; e.state="idle"; e.opening=.5; e.clock=0; e.traversal={}
-  e.collision_layer=2
-  for area in e.hurt_areas: area.collision_layer=4
-  e.play("guarda"); e.animate(.3); e.face(game.player.position)
-  if kind=="mesa": game.school.table(e.position+Vector3(0,0,-.9),1.7,1.0)
-  else: game.school.box(Vector3(2,2.5,.3),e.position+Vector3(0,1.25,-.9),"metal" if kind=="armário" else "wall")
-  game.player.play("guarda"); game.player.animate(.3)
-  await frames(2)
-  game.takedown_or_finish()
-  check(game.pair_context.get("kind","")==kind,"finalização detecta contexto de "+kind)
-  for i in 145:
-   game._player_tick(1.0/60); game._enemy_ticks(1.0/60)
-   await physics_frame
-  print("ENVIRONMENT_FINISH ",kind," health=",e.health," at=",e.position)
-  check(e.health==0 and e.down,"finalização em "+kind+" conclui após contato da pegada")
  # Escada atravessável com a cápsula real, sem teletransporte para o andar superior.
  game.player.position=game.school.stairs_bottom+Vector3(0,.1,.8)
  game.player.velocity=Vector3.ZERO

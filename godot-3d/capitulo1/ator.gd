@@ -85,10 +85,22 @@ func _ellipsoid(parent: Node3D,at: Vector3,size: Vector3,color: Color) -> void:
  node.position=at
  parent.add_child(node)
 
+const RUN_START_END:=.45
 func play(clip: String,speed:=1.0) -> void:
  if clip=="correr":
-  anim.speed_scale=clampf(Vector2(velocity.x,velocity.z).length()/3.4,.5,1.5)
-  if String(anim.current_animation)!="correr": anim.play("correr",.12)
+  # "Running" capturado é uma arrancada (quadril sai da altura de pé e volta),
+  # não um ciclo: em loop, Miguel "recomeçava a correr" a cada 1,6 s.
+  # Toca só a arrancada uma vez e emenda no ciclo contínuo.
+  var flat=Vector2(velocity.x,velocity.z).length()
+  var current=String(anim.current_animation)
+  if current=="prototype/run":
+   anim.speed_scale=clampf(flat/2.4,.7,1.8); return
+  if current!="correr":
+   anim.play("correr",.12)
+  anim.speed_scale=clampf(flat/3.4,.5,1.5)
+  if anim.current_animation_position>RUN_START_END:
+   anim.play("prototype/run",.25)
+   anim.speed_scale=clampf(flat/2.4,.7,1.8)
   return
  if clip=="andaFrente" or clip=="andaTras":
   anim.speed_scale=clampf(Vector2(velocity.x,velocity.z).length()/1.3,.3,1.8)
