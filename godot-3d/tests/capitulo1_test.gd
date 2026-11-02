@@ -26,10 +26,10 @@ func run() -> void:
  check(game.player.anim.has_animation("novo/Sprint"),"ciclo novo de corrida importado")
  game.player.velocity=Vector3(0,0,3.8); game.player.face(game.player.position+Vector3.BACK)
  game.player.play("correr"); game.player.animate(.1)
- check(game.player.motion.active_clip=="novo/Sprint" and game.player.motion.playback.get_current_node()=="Locomocao","corrida usa blend de locomoção")
+ check(game.player.motion.active_clip=="novo/Sprint" and game.player.motion.playback.get_current_node()=="Correr","corrida seleciona estado próprio com crossfade")
  for i in 240:
   game.player.play("correr"); game.player.animate(1.0/60)
- check(game.player.motion.playback.get_current_node()=="Locomocao","corrida contínua não reinicia arrancada")
+ check(game.player.motion.playback.get_current_node()=="Correr","corrida contínua não reinicia arrancada")
  # Corredor superior inteiro, em pé e agachado, não vê o ritual.
  var seen_from: Array=[]
  var superior=game.school.andares[1]
@@ -149,8 +149,11 @@ func run() -> void:
  check(game.school.ambiente_de(saida_escada)!="Quadra coberta","escada não sai da quadra")
  game.player.position=game.school.stairs_bottom-climb*.8+Vector3.UP*.1
  game.player.velocity=Vector3.ZERO
- # A caminhada respeita o teto de 1,8x do clipe; dá tempo ao lance completo.
- for i in 720:
+ # O passo é o da captura original; a espera depende da velocidade permitida.
+ var flight: Vector3=game.school.stairs_top-game.school.stairs_bottom
+ var speed_limit: float=game.player.motion.strides["Ascending_Stairs"]["native_speed"]*1.8
+ var stair_frames=ceili((Vector2(flight.x,flight.z).length()+3)/speed_limit*60)+120
+ for i in stair_frames:
   var to_target: Vector3=climb if game.player.position.y<game.school.LEVEL-.05 else (NIVEL.ponto(game.school,"corredor_superior")-game.player.position)*Vector3(1,0,1)
   if to_target.length()<.3: break
   var v: Vector3=to_target.normalized()*2.0

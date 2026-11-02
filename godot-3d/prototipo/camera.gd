@@ -1,5 +1,7 @@
 extends Node3D
 ## Enquadramento em terceira pessoa, cenas dirigidas e olhos de Miguel na fuga/frestas.
+const WORLD_MASK:=1
+var hidden_near_camera: Dictionary={}
 var yaw := 0.0
 var pitch := -.12
 var arm: SpringArm3D
@@ -16,7 +18,7 @@ var previous_mode := ""
 func setup(owner_game: Node3D) -> void:
  game=owner_game
  arm=SpringArm3D.new()
- arm.collision_mask=1
+ arm.collision_mask=WORLD_MASK
  arm.spring_length=2.8
  var sphere=SphereShape3D.new()
  sphere.radius=.18
@@ -128,6 +130,7 @@ func update(dt: float) -> void:
  camera.fov=lerpf(camera.fov,fov,1-exp(-9*dt))
  trauma=maxf(0,trauma-dt*3)
  camera.h_offset=sin(game.elapsed*37)*trauma*trauma*.025
+ _update_occluders()
  previous_mode=mode
 
 func _collision_camera(start: Vector3, desired: Vector3) -> Vector3:
@@ -135,7 +138,7 @@ func _collision_camera(start: Vector3, desired: Vector3) -> Vector3:
  query.shape=arm.shape
  query.transform.origin=start
  query.motion=desired-start
- query.collision_mask=1
+ query.collision_mask=WORLD_MASK
  var result=get_world_3d().direct_space_state.cast_motion(query)
  var safe=result[0] if not result.is_empty() else 1.0
  var travel=desired-start
@@ -146,3 +149,18 @@ func _collision_camera(start: Vector3, desired: Vector3) -> Vector3:
 
 func movement(raw: Vector2) -> Vector3:
  return Basis(Vector3.UP,yaw)*Vector3(raw.x,0,raw.y)
+
+## Só altera a visibilidade. Corpos continuam na física e não colidem com a câmera.
+func _update_occluders() -> void:
+ for entry in hidden_near_camera.values():
+  if is_instance_valid(entry["model"]): entry["model"].visible=entry["visible"]
+ hidden_near_camera.clear()
+ # Os closes dirigidos precisam mostrar o rosto escolhido pelo enquadramento.
+ if mode in ["intro","sighting","discovery","gate_jump","ending"]: return
+ for actor in game.find_children("*","CharacterBody3D",true,false):
+  if actor==game.player or not "model" in actor or actor.model==null: continue
+  var height=2.15 if actor.pursuer else 1.85
+  var point=Vector3(actor.global_position.x,clampf(camera.global_position.y,actor.global_position.y+.1,actor.global_position.y+height),actor.global_position.z)
+  if camera.global_position.distance_to(point)<.85:
+   hidden_near_camera[actor.get_instance_id()]={"model":actor.model,"visible":actor.model.visible}
+   actor.model.visible=false

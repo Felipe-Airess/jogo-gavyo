@@ -7,6 +7,7 @@ func update(dt: float) -> void:
   camera.look_at(camera.global_position+direction()*5)
   camera.fov=55
   game.player.model.visible=false
+  _update_occluders()
   previous_mode=mode
   return
  if game.phase not in ["intro","sighting","discovery","gate_jump","ending"]:
@@ -65,4 +66,5 @@ func update(dt: float) -> void:
  camera.global_position=at
  if at.distance_squared_to(target)>.0001: camera.look_at(target)
  camera.fov=lerpf(camera.fov,fov,1-exp(-9*dt))
+ _update_occluders()
  previous_mode=mode

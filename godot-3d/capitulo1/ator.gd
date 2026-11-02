@@ -9,8 +9,6 @@ var alert_attempt := false
 var cinematic_friend:=false
 var activity:=""
 var evidence: Dictionary={}
-var support_blend:=0.0
-var support_rotations: Dictionary={}
 
 func _generic_body() -> void:
  # Reaproveita a pele/rig humanoide, substituindo a cabeça e os materiais.
@@ -101,8 +99,7 @@ func animate(dt: float) -> void:
  super.animate(dt)
  if warning:
   warning.visible=not dead and not down and (state=="windup" or opening>0 or (suspicion>.1 and not aware))
- if not enemy and state=="idle" and velocity.length()>.3 and world.locked==null:
-  _support_pose(dt)
+ if motion.locomotion_visible(): return
  if enemy and health<60 and not down:
   _bend("Chest",Vector3.ZERO,Vector3(.16,0,.04))
   _bend("Head",Vector3.ZERO,Vector3(.08,0,0))
@@ -122,35 +119,3 @@ func animate(dt: float) -> void:
   _bend("RightUpperArm",Vector3.ZERO,Vector3(-.55,0,-.15))
   _bend("RightLowerArm",Vector3.ZERO,Vector3(-.7,0,0))
   rig.force_update_all_bone_transforms()
-
-
-func _support_pose(dt: float) -> void:
- var found=false
- var space=get_world_3d().direct_space_state
- for side in ["Left","Right"]:
-  var sign_side=1.0 if side=="Left" else -1.0
-  var outward: Vector3=model.global_basis.x*sign_side
-  var origin=position+Vector3.UP*1.2
-  var wall=space.intersect_ray(PhysicsRayQueryParameters3D.create(origin,origin+outward*.5,1))
-  var table_from=position+facing*.4+Vector3.UP*1.1
-  var table=space.intersect_ray(PhysicsRayQueryParameters3D.create(table_from,table_from-Vector3.UP*.45,1))
-  if wall.is_empty() and table.is_empty(): continue
-  var saved={}
-  for name in [side+"UpperArm",side+"LowerArm"]: saved[name]=rig.get_bone_pose_rotation(rig.find_bone(name))
-  var action=load("res://capitulo1/acoes.gd")
-  action._orient(self,side+"UpperArm",side+"LowerArm",Vector3(0,-.5,.8).normalized() if not wall.is_empty() else Vector3(0,-.9,.35).normalized(),1)
-  action._orient(self,side+"LowerArm",side+"Hand",Vector3(sign_side*.25,.6,.7).normalized() if not wall.is_empty() else Vector3(0,-.75,.65).normalized(),1)
-  var wrist=bone_point(side+"Hand")
-  var normal: Vector3=wall["normal"] if not wall.is_empty() else Vector3.UP
-  var contact=space.intersect_ray(PhysicsRayQueryParameters3D.create(wrist+normal*.12,wrist-normal*.12,1))
-  if not contact.is_empty() and wrist.distance_to(contact["position"])<.10:
-   support_rotations.clear()
-   for name in saved: support_rotations[name]=rig.get_bone_pose_rotation(rig.find_bone(name))
-   found=true
-  for name in saved: rig.set_bone_pose_rotation(rig.find_bone(name),saved[name])
-  if found: break
- support_blend=lerpf(support_blend,1.0 if found else 0.0,1-exp(-12*dt))
- for name in support_rotations:
-  var id=rig.find_bone(name)
-  rig.set_bone_pose_rotation(id,rig.get_bone_pose_rotation(id).slerp(support_rotations[name],support_blend))
- rig.force_update_all_bone_transforms()

@@ -231,26 +231,28 @@ func _slide(dt: float) -> void:
 
 func animate(dt: float) -> void:
  motion.advance(dt)
- if state == "hang":
-  _bend("LeftUpperArm",Vector3.ZERO,Vector3(-.9,0,-.4))
-  _bend("LeftLowerArm",Vector3.ZERO,Vector3(-.4,0,0))
-  _bend("LeftUpperLeg",Vector3.ZERO,Vector3(-.25,0,0))
-  _bend("RightUpperLeg",Vector3.ZERO,Vector3(-.3,0,0))
- if state == "vault":
-  # Pose procedural própria do blockout: recolhe as pernas e apoia os braços.
-  # Não apresenta o idle de guarda como animação de parkour acabada.
-  var tuck = sin(clampf(clock/.8,0,1)*PI)
-  _bend("Chest",Vector3.ZERO,Vector3(.40*tuck,0,0))
-  _bend("LeftUpperLeg",Vector3.ZERO,Vector3(-1.05*tuck,0,-.12*tuck))
-  _bend("RightUpperLeg",Vector3.ZERO,Vector3(-.75*tuck,0,.12*tuck))
-  _bend("LeftLowerLeg",Vector3.ZERO,Vector3(1.1*tuck,0,0))
-  _bend("RightLowerLeg",Vector3.ZERO,Vector3(1.0*tuck,0,0))
- if state == "hurt":
-  var weight = sin(minf(clock / .40, 1.0) * PI)
-  _bend("Chest", Vector3.ZERO, Vector3(-.20 * weight,.20 * weight,0))
-  _bend("Head", Vector3.ZERO, Vector3(-.22 * weight,0,.16 * weight))
- if enemy and not aware and not down:
-  _bend("Head", Vector3.ZERO, Vector3(.06, .13 * sin(world.elapsed * .21), .05))
+ # Locomoção e suas transições pertencem integralmente aos clipes.
+ if not motion.locomotion_visible():
+  if state == "hang":
+   _bend("LeftUpperArm",Vector3.ZERO,Vector3(-.9,0,-.4))
+   _bend("LeftLowerArm",Vector3.ZERO,Vector3(-.4,0,0))
+   _bend("LeftUpperLeg",Vector3.ZERO,Vector3(-.25,0,0))
+   _bend("RightUpperLeg",Vector3.ZERO,Vector3(-.3,0,0))
+  if state == "vault":
+   # Pose procedural própria do blockout: recolhe as pernas e apoia os braços.
+   # Não apresenta o idle de guarda como animação de parkour acabada.
+   var tuck = sin(clampf(clock/.8,0,1)*PI)
+   _bend("Chest",Vector3.ZERO,Vector3(.40*tuck,0,0))
+   _bend("LeftUpperLeg",Vector3.ZERO,Vector3(-1.05*tuck,0,-.12*tuck))
+   _bend("RightUpperLeg",Vector3.ZERO,Vector3(-.75*tuck,0,.12*tuck))
+   _bend("LeftLowerLeg",Vector3.ZERO,Vector3(1.1*tuck,0,0))
+   _bend("RightLowerLeg",Vector3.ZERO,Vector3(1.0*tuck,0,0))
+  if state == "hurt":
+   var weight = sin(minf(clock / .40, 1.0) * PI)
+   _bend("Chest", Vector3.ZERO, Vector3(-.20 * weight,.20 * weight,0))
+   _bend("Head", Vector3.ZERO, Vector3(-.22 * weight,0,.16 * weight))
+  if enemy and not aware and not down:
+   _bend("Head", Vector3.ZERO, Vector3(.06, .13 * sin(world.elapsed * .21), .05))
  rig.force_update_all_bone_transforms()
  for item in procedural_parts:
   var a: Vector3 = rig.get_bone_global_pose(rig.find_bone(item[1])).origin

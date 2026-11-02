@@ -346,7 +346,7 @@ func _physics_process(dt: float) -> void:
    desired=gate_to+Vector3.UP*2.55*(1-smoothstep(.76,1,t))
   player.position=desired
   player.animate(dt)
-  if t>.10 and t<.34:
+  if t>.10 and t<.34 and not player.motion.locomotion_visible():
    for side in ["Left","Right"]:
     var offset=.19 if side=="Left" else -.19
     CONTACT.hand_fit(player,side,school.gate_at+Vector3(offset,2.35,0),smoothstep(0,.12,player.motion.position())*(1-smoothstep(.15,.25,player.motion.position())))
@@ -523,7 +523,8 @@ func _enemy_ticks(dt: float) -> void:
    continue
   if e.state=="inspect":
    e.play("guarda"); e.animate(dt)
-   e._bend("Chest",Vector3.ZERO,Vector3(.3,0,0)); e._bend("Head",Vector3.ZERO,Vector3(.2,0,0))
+   if not e.motion.locomotion_visible():
+    e._bend("Chest",Vector3.ZERO,Vector3(.3,0,0)); e._bend("Head",Vector3.ZERO,Vector3(.2,0,0))
    e.rig.force_update_all_bone_transforms()
    if e.clock>1.6:
     e.state="idle"; e.suspicion=maxf(e.suspicion,.55)
@@ -1113,7 +1114,8 @@ func _interaction_tick(dt: float) -> void:
  var time=player.motion.position()
  var contact_time=.72 if clip.ends_with("Interact") else (.30 if clip.ends_with("PickUp_Table") else .60)
  var weight=smoothstep(0,contact_time,time)*(1-smoothstep(contact_time+.12,contact_time+.45,time))
- var fitted=CONTACT.hand_fit(player,"Left",interaction["contact"],weight)
+ var fitted=false
+ if not player.motion.locomotion_visible(): fitted=CONTACT.hand_fit(player,"Left",interaction["contact"],weight)
  if player.motion.consume("contact") and not interaction["committed"]:
   var target: Vector3=interaction["contact"]
   if not fitted or player.bone_point("LeftHand").distance_to(target)>.09:

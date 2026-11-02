@@ -292,3 +292,64 @@ As medidas de apoio usam a deriva acumulada desde o primeiro quadro de cada
 contato; a pior foi 0,0258 m, dentro dos 3 cm. O percurso contínuo terminou
 com zero mortes no modo de validação de rota. Isso verifica geometria e fluxo;
 a avaliação de naturalidade continua sendo feita jogando.
+
+
+## Parte D — clipes originais, sem correção de ossos (02/11/2026)
+
+Esta revisão substitui a abordagem da Parte C. Os resultados antigos de apoio
+até 3 cm e saltos até 8 cm foram obtidos com correção procedural de poses e
+**não comprovam a naturalidade dos clipes**. Essa correção causou as pernas em
+tesoura e pés torcidos vistos na gravação; foi removida.
+
+Removidos `_feet`, `_smooth_pose`, `_limit_transition_pose`, retarget de passada,
+reescrita da descida e correções externas durante locomoção e suas misturas.
+Agora só o AnimationTree combina os clipes originais: crossfade de 0,15 s no
+plano e 0,22 s em ações/escada, com TimeScale calculado do passo original.
+A corrida de subida usa Running_Up_Stairs. A descida inteira repete por crossfade
+entre dois estados, sem alterar suas chaves. O corpo desacelera na escada para
+respeitar os limites de ritmo; não há promessa de pé preso ao piso.
+
+Os testes agora medem: clipe correto, avanço, ausência de congelamento, mistura
+e fidelidade de todos os ossos ao clipe. Deriva de apoio e amplitude acima de
+8 cm geram aviso. Não existe correção de pose para satisfazer essas medidas.
+A colisão da câmera considera só o mundo; cultistas junto da lente ficam
+ocultos e reaparecem ao se afastar.
+
+[Prova visual, quadros a cada 0,1 s e limitações](verificacao-animacoes/README.md).
+Foram examinadas as sequências laterais: sem as torções e tesouras procedurais;
+ainda existe deslizamento e desencontro entre os pés originais e alguns degraus.
+
+### Como Felipe testa
+
+Na raiz, execute `bash JOGAR-PROTOTIPO.command`. Enter inicia.
+
+1. WASD para andar; Shift para correr. Solte para parar e retome várias vezes.
+2. Ctrl parado e andando. Veja os joelhos e a direção dos pés.
+3. Suba e desça a escada com e sem Shift. Subindo com Shift, observe a corrida
+   de escada; descendo, espere uma passada mais lenta e flexionada.
+4. Aproxime-se dos cultistas e gire a câmera: um corpo encostado na lente deve
+   desaparecer e voltar ao sair de perto. A câmera continua bloqueada por paredes.
+5. A esquiva continua desativada. Q/clique direito/SOLTAR ainda permitem escapar
+   de um agarrão.
+
+
+### Saídas desta revisão
+
+```text
+CAPITULO1_MOVIMENTO: 33 passed, 0 failed
+CAPITULO1_ANIMACAO: 70 passed, 0 failed
+CAPITULO1_TEST: 41 passed, 0 failed
+CAPITULO1_MAPA: 18 passed, 0 failed
+CAPITULO1_NIVEL: 10 passed, 0 failed
+CAPITULO1_PERCURSO[rota]: 7 passed, 0 failed
+```
+
+Saídas completas: [capítulo](verificacao-animacoes/testar-capitulo1.txt) e
+[percurso](verificacao-animacoes/testar-percurso.txt). A contagem de animação
+mudou porque apoio fixo/encaixe artificial viraram avisos e a expectativa de
+loop gerado foi substituída pelo recurso original intacto.
+
+Na medição aproximada de apoio, a deriva máxima ficou entre 0,105 e 0,171 m
+no plano. Esse detector inclui uma faixa de altura em torno do chão; não
+comprova pé plantado exato. A amplitude máxima quadro a quadro medida nas
+trocas foi 0,163 m. Ambos são publicados como avisos, sem truncar movimentos.

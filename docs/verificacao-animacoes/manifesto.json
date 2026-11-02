@@ -1,0 +1,2459 @@
+[
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.800000011920929,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "andando",
+    "state": "Locomocao",
+    "time": 0.0
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.101580195128918,
+    "position": [
+      200.0,
+      0.000259467808064073,
+      200.145004272461
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 0.1
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.253950476646423,
+    "position": [
+      200.0,
+      0.000699853640981019,
+      200.290008544922
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 0.2
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.406320780515671,
+    "position": [
+      200.0,
+      0.000832134392112494,
+      200.435028076172
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 0.3
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.558691084384918,
+    "position": [
+      200.0,
+      0.000833257043268532,
+      200.580017089844
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 0.4
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.711061358451843,
+    "position": [
+      200.0,
+      0.000219289737287909,
+      200.725021362305
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 0.5
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.863431632518768,
+    "position": [
+      200.0,
+      0.000809320132248104,
+      200.869995117188
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 0.6
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 1.01580190658569,
+    "position": [
+      200.0,
+      0.000828806543722749,
+      201.014999389648
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 0.7
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 1.16817224025726,
+    "position": [
+      200.0,
+      0.000833903613965958,
+      201.159973144531
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 0.8
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 1.32054257392883,
+    "position": [
+      200.0,
+      -0.000828955206088722,
+      201.304977416992
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 0.9
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.139579430222511,
+    "position": [
+      200.0,
+      0.000839614891447127,
+      201.449951171875
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 1.0
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.291949719190598,
+    "position": [
+      200.0,
+      0.000834530568681657,
+      201.594924926758
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 1.1
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.444320023059845,
+    "position": [
+      200.0,
+      0.000838290667161345,
+      201.739944458008
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 1.2
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.59669029712677,
+    "position": [
+      200.0,
+      -0.00082897610263899,
+      201.884948730469
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 1.3
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.749060571193695,
+    "position": [
+      200.0,
+      0.000834779115393758,
+      202.029937744141
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 1.4
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.901430904865265,
+    "position": [
+      200.0,
+      0.000837891886476427,
+      202.17497253418
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 1.5
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 1.05380117893219,
+    "position": [
+      200.0,
+      0.000836024119053036,
+      202.319976806641
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 1.6
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 1.20617151260376,
+    "position": [
+      200.0,
+      0.0008353820303455,
+      202.464981079102
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 1.7
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.0252083893865347,
+    "position": [
+      200.0,
+      0.000839741842355579,
+      202.609954833984
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 1.8
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.177578687667847,
+    "position": [
+      200.0,
+      0.00083678204100579,
+      202.754928588867
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 1.9
+  },
+  {
+    "clip": "novo/Walk",
+    "clip_time": 0.329948961734772,
+    "position": [
+      200.0,
+      0.000836728606373072,
+      202.899932861328
+    ],
+    "rate": 1.52370290731246,
+    "sequence": "andando",
+    "state": "Andar",
+    "time": 2.0
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.766666650772095,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "correndo",
+    "state": "Locomocao",
+    "time": 0.0
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.0726375728845596,
+    "position": [
+      200.0,
+      0.000500475522130728,
+      200.379989624023
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 0.1
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.18159393966198,
+    "position": [
+      200.0,
+      0.000808619719464332,
+      200.759979248047
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 0.2
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.290550291538239,
+    "position": [
+      200.0,
+      -0.000829589669592679,
+      201.13996887207
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 0.3
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.399506658315659,
+    "position": [
+      200.0,
+      0.000834354606922716,
+      201.519958496094
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 0.4
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.508463025093079,
+    "position": [
+      200.0,
+      0.000835326267406344,
+      201.899948120117
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 0.5
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.617419362068176,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 0.6
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.0597090534865856,
+    "position": [
+      200.0,
+      0.000839840562548488,
+      202.659927368164
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 0.7
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.168665409088135,
+    "position": [
+      200.0,
+      0.000835419923532754,
+      203.039947509766
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 0.8
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.277621775865555,
+    "position": [
+      200.0,
+      0.000839799642562866,
+      203.419937133789
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 0.9
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.386578142642975,
+    "position": [
+      200.0,
+      0.000838567735627294,
+      203.799926757812
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 1.0
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.495534509420395,
+    "position": [
+      200.0,
+      0.000839157728478312,
+      204.179916381836
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 1.1
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.604490876197815,
+    "position": [
+      200.0,
+      0.000836037565022707,
+      204.55989074707
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 1.2
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.0467805340886116,
+    "position": [
+      200.0,
+      0.000839838932733983,
+      204.939895629883
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 1.3
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.155736893415451,
+    "position": [
+      200.0,
+      0.000836108752992004,
+      205.319869995117
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 1.4
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.264693260192871,
+    "position": [
+      200.0,
+      0.00083676225040108,
+      205.699859619141
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 1.5
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.373649626970291,
+    "position": [
+      200.0,
+      0.000839780725073069,
+      206.079833984375
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 1.6
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.482605993747711,
+    "position": [
+      200.0,
+      0.000837362313177437,
+      206.459823608398
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 1.7
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.591562330722809,
+    "position": [
+      200.0,
+      0.00083983811782673,
+      206.839828491211
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 1.8
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.0338520184159279,
+    "position": [
+      200.0,
+      0.0008372847805731,
+      207.219787597656
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 1.9
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.142808377742767,
+    "position": [
+      200.0,
+      0.000839751795865595,
+      207.599792480469
+    ],
+    "rate": 1.089563612304,
+    "sequence": "correndo",
+    "state": "Correr",
+    "time": 2.0
+  },
+  {
+    "clip": "novo/Sprint",
+    "clip_time": 0.617419362068176,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.089563612304,
+    "sequence": "parando",
+    "state": "Correr",
+    "time": 0.0
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.0666666701436043,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 0.1
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.16666667163372,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 0.2
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.266666680574417,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 0.3
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.366666674613953,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 0.4
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.466666668653488,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 0.5
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.566666662693024,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 0.6
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.666666686534882,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 0.7
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.766666650772095,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 0.8
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.866666674613953,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 0.9
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.966666638851166,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 1.0
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 1.06666672229767,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 1.1
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 1.16666662693024,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 1.2
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 1.26666665077209,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 1.3
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 1.36666667461395,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 1.4
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 1.46666669845581,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 1.5
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 1.56666672229767,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 1.6
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 1.66666662693024,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 1.7
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 1.76666665077209,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 1.8
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 1.86666667461395,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 1.9
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 1.96666669845581,
+    "position": [
+      200.0,
+      0.000835481856483966,
+      202.279968261719
+    ],
+    "rate": 1.0,
+    "sequence": "parando",
+    "state": "Locomocao",
+    "time": 2.0
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.266666680574417,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "Locomocao",
+    "time": 0.0
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 0.0666666701436043,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 0.1
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 0.16666667163372,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 0.2
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 0.266666680574417,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 0.3
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 0.366666674613953,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 0.4
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 0.466666668653488,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 0.5
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 0.566666662693024,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 0.6
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 0.666666686534882,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 0.7
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 0.766666650772095,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 0.8
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 0.866666674613953,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 0.9
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 0.966666638851166,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 1.0
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 1.06666672229767,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 1.1
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 1.16666662693024,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 1.2
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 1.26666665077209,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 1.3
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 1.36666667461395,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 1.4
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 1.46666669845581,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 1.5
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 1.56666672229767,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 1.6
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 1.66666662693024,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 1.7
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 1.76666665077209,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 1.8
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 1.86666667461395,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 1.9
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 1.96666669845581,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachando",
+    "state": "AgachadoParado",
+    "time": 2.0
+  },
+  {
+    "clip": "novo/Crouch_Idle",
+    "clip_time": 0.266666680574417,
+    "position": [
+      200.0,
+      0.00071614608168602,
+      200.0
+    ],
+    "rate": 1.0,
+    "sequence": "agachado-andando",
+    "state": "AgachadoParado",
+    "time": 0.0
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 0.109930068254471,
+    "position": [
+      200.0,
+      0.000219587003812194,
+      200.105010986328
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 0.1
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 0.274825185537338,
+    "position": [
+      200.0,
+      0.000699883908964694,
+      200.210006713867
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 0.2
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 0.439720273017883,
+    "position": [
+      200.0,
+      0.000615618540905416,
+      200.314971923828
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 0.3
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 0.604615390300751,
+    "position": [
+      200.0,
+      0.000123542209621519,
+      200.419967651367
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 0.4
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 0.769510507583618,
+    "position": [
+      200.0,
+      -0.000137770955916494,
+      200.524963378906
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 0.5
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 0.934405624866486,
+    "position": [
+      200.0,
+      -0.000049724243581295,
+      200.629974365234
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 0.6
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 1.09930074214935,
+    "position": [
+      200.0,
+      0.00035553693305701,
+      200.734970092773
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 0.7
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 1.26419579982758,
+    "position": [
+      200.0,
+      -0.000827807234600186,
+      200.839965820312
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 0.8
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 1.42909097671509,
+    "position": [
+      200.0,
+      0.000838543171994388,
+      200.944976806641
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 0.9
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 1.59398603439331,
+    "position": [
+      200.0,
+      0.000838502426631749,
+      201.049987792969
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 1.0
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 1.75888109207153,
+    "position": [
+      200.0,
+      0.000839692074805498,
+      201.155014038086
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 1.1
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 1.92377626895905,
+    "position": [
+      200.0,
+      0.000839791493490338,
+      201.259994506836
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 1.2
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 0.0886713489890099,
+    "position": [
+      200.0,
+      0.000839773914776742,
+      201.364990234375
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 1.3
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 0.253566443920135,
+    "position": [
+      200.0,
+      0.000838520703837276,
+      201.469985961914
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 1.4
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 0.418461561203003,
+    "position": [
+      200.0,
+      0.000839132640976459,
+      201.574996948242
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 1.5
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 0.58335667848587,
+    "position": [
+      200.0,
+      0.000839760759845376,
+      201.68000793457
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 1.6
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 0.748251795768738,
+    "position": [
+      200.0,
+      0.000839138985611498,
+      201.785018920898
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 1.7
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 0.913146913051605,
+    "position": [
+      200.0,
+      0.000839135085698217,
+      201.890075683594
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 1.8
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 1.07804203033447,
+    "position": [
+      200.0,
+      0.000839772983454168,
+      201.995101928711
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 1.9
+  },
+  {
+    "clip": "novo/Crouch_Fwd",
+    "clip_time": 1.2429370880127,
+    "position": [
+      200.0,
+      0.000839154294226319,
+      202.100143432617
+    ],
+    "rate": 1.64895106601281,
+    "sequence": "agachado-andando",
+    "state": "Agachado",
+    "time": 2.0
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.766666650772095,
+    "position": [
+      -24.6909618377686,
+      0.432614117860794,
+      -26.0
+    ],
+    "rate": 1.0,
+    "sequence": "escada-subindo",
+    "state": "Locomocao",
+    "time": 0.0
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.119999997317791,
+    "position": [
+      -24.7500133514404,
+      0.466077983379364,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 0.1
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.299999982118607,
+    "position": [
+      -24.8090648651123,
+      0.499540686607361,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 0.2
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.479999989271164,
+    "position": [
+      -24.8681163787842,
+      0.533003270626068,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 0.3
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.659999966621399,
+    "position": [
+      -24.9271678924561,
+      0.56646603345871,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 0.4
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.839999973773956,
+    "position": [
+      -24.9862194061279,
+      0.599928617477417,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 0.5
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 1.01999998092651,
+    "position": [
+      -25.0452709197998,
+      0.633391141891479,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 0.6
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 1.19999992847443,
+    "position": [
+      -25.1043224334717,
+      0.666853904724121,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 0.7
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.0133333019912243,
+    "position": [
+      -25.1633739471436,
+      0.700316190719604,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 0.8
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.193333297967911,
+    "position": [
+      -25.2224254608154,
+      0.733778595924377,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 0.9
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.373333305120468,
+    "position": [
+      -25.2814769744873,
+      0.767241299152374,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 1.0
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.553333282470703,
+    "position": [
+      -25.3405284881592,
+      0.800703644752502,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 1.1
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.73333328962326,
+    "position": [
+      -25.3995800018311,
+      0.83416610956192,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 1.2
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.913333296775818,
+    "position": [
+      -25.4586315155029,
+      0.867628753185272,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 1.3
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 1.09333324432373,
+    "position": [
+      -25.5176830291748,
+      0.901091575622559,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 1.4
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 1.27333331108093,
+    "position": [
+      -25.5767345428467,
+      0.934553802013397,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 1.5
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.0866666063666344,
+    "position": [
+      -25.6357860565186,
+      0.96801632642746,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 1.6
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.26666659116745,
+    "position": [
+      -25.6948375701904,
+      1.0014785528183,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 1.7
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.446666598320007,
+    "position": [
+      -25.7538890838623,
+      1.03494131565094,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 1.8
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.626666605472565,
+    "position": [
+      -25.8129405975342,
+      1.06840395927429,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 1.9
+  },
+  {
+    "clip": "novo/Ascending_Stairs",
+    "clip_time": 0.806666612625122,
+    "position": [
+      -25.8719921112061,
+      1.10186636447906,
+      -26.0
+    ],
+    "rate": 1.79999996975398,
+    "sequence": "escada-subindo",
+    "state": "Subir",
+    "time": 2.0
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.766666650772095,
+    "position": [
+      -24.6909618377686,
+      0.432614117860794,
+      -26.0
+    ],
+    "rate": 1.0,
+    "sequence": "escada-subindo-correndo",
+    "state": "Locomocao",
+    "time": 0.0
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.120000004768372,
+    "position": [
+      -24.7994117736816,
+      0.494068264961243,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 0.1
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.300000011920929,
+    "position": [
+      -24.9078559875488,
+      0.555519640445709,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 0.2
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.480000019073486,
+    "position": [
+      -25.016300201416,
+      0.616971671581268,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 0.3
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.0599999912083149,
+    "position": [
+      -25.1247444152832,
+      0.678423345088959,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 0.4
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.239999994635582,
+    "position": [
+      -25.2331886291504,
+      0.739875137805939,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 0.5
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.419999986886978,
+    "position": [
+      -25.3416328430176,
+      0.801326751708984,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 0.6
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.600000023841858,
+    "position": [
+      -25.4500770568848,
+      0.862778604030609,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 0.7
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.179999992251396,
+    "position": [
+      -25.5585231781006,
+      0.924231171607971,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 0.8
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.359999984502792,
+    "position": [
+      -25.6669673919678,
+      0.985683083534241,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 0.9
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.540000021457672,
+    "position": [
+      -25.775411605835,
+      1.04713475704193,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 1.0
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.119999974966049,
+    "position": [
+      -25.8838558197021,
+      1.10858595371246,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 1.1
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.299999982118607,
+    "position": [
+      -25.9922981262207,
+      1.17003667354584,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 1.2
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.479999989271164,
+    "position": [
+      -26.1007442474365,
+      1.23148953914642,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 1.3
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.0599999651312828,
+    "position": [
+      -26.2091884613037,
+      1.2929413318634,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 1.4
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.23999996483326,
+    "position": [
+      -26.3176326751709,
+      1.35439300537109,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 1.5
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.419999986886978,
+    "position": [
+      -26.4260787963867,
+      1.41584599018097,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 1.6
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.599999964237213,
+    "position": [
+      -26.5345230102539,
+      1.47729754447937,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 1.7
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.179999962449074,
+    "position": [
+      -26.6429672241211,
+      1.53874933719635,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 1.8
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.35999995470047,
+    "position": [
+      -26.7514133453369,
+      1.60020184516907,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 1.9
+  },
+  {
+    "clip": "novo/Running_Up_Stairs",
+    "clip_time": 0.539999961853027,
+    "position": [
+      -26.8598575592041,
+      1.6616542339325,
+      -26.0
+    ],
+    "rate": 1.8000000449474,
+    "sequence": "escada-subindo-correndo",
+    "state": "SubirCorrendo",
+    "time": 2.0
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.766666650772095,
+    "position": [
+      -29.2909622192383,
+      3.03928065299988,
+      -26.0
+    ],
+    "rate": 1.0,
+    "sequence": "escada-descendo",
+    "state": "Locomocao",
+    "time": 0.0
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.106666661798954,
+    "position": [
+      -29.2459392547607,
+      3.01376867294312,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "Descer",
+    "time": 0.1
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.266666650772095,
+    "position": [
+      -29.2009181976318,
+      2.98825669288635,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "Descer",
+    "time": 0.2
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.426666647195816,
+    "position": [
+      -29.1558933258057,
+      2.96274256706238,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "Descer",
+    "time": 0.3
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.586666643619537,
+    "position": [
+      -29.1108684539795,
+      2.93722867965698,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "Descer",
+    "time": 0.4
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.0,
+    "position": [
+      -29.065845489502,
+      2.91171550750732,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "DescerB",
+    "time": 0.5
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.159999996423721,
+    "position": [
+      -29.0208225250244,
+      2.88620281219482,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "DescerB",
+    "time": 0.6
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.319999992847443,
+    "position": [
+      -28.9757995605469,
+      2.86068940162659,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "DescerB",
+    "time": 0.7
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.479999989271164,
+    "position": [
+      -28.930778503418,
+      2.8351776599884,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "DescerB",
+    "time": 0.8
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.639999985694885,
+    "position": [
+      -28.8857574462891,
+      2.80966591835022,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "DescerB",
+    "time": 0.9
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.053333330899477,
+    "position": [
+      -28.8407363891602,
+      2.78415369987488,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "Descer",
+    "time": 1.0
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.213333323597908,
+    "position": [
+      -28.7957134246826,
+      2.75864052772522,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "Descer",
+    "time": 1.1
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.373333334922791,
+    "position": [
+      -28.7506866455078,
+      2.73312544822693,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "Descer",
+    "time": 1.2
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.533333301544189,
+    "position": [
+      -28.7056617736816,
+      2.70761132240295,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "Descer",
+    "time": 1.3
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.693333327770233,
+    "position": [
+      -28.6606369018555,
+      2.68209767341614,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "Descer",
+    "time": 1.4
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.106666661798954,
+    "position": [
+      -28.6156139373779,
+      2.65658450126648,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "DescerB",
+    "time": 1.5
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.266666650772095,
+    "position": [
+      -28.570592880249,
+      2.63107252120972,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "DescerB",
+    "time": 1.6
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.426666647195816,
+    "position": [
+      -28.5255718231201,
+      2.60556054115295,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "DescerB",
+    "time": 1.7
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.586666643619537,
+    "position": [
+      -28.4805507659912,
+      2.58004808425903,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "DescerB",
+    "time": 1.8
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.0,
+    "position": [
+      -28.4355278015137,
+      2.55453538894653,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "Descer",
+    "time": 1.9
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.159999996423721,
+    "position": [
+      -28.3905010223389,
+      2.52902054786682,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo",
+    "state": "Descer",
+    "time": 2.0
+  },
+  {
+    "clip": "novo/Idle",
+    "clip_time": 0.666666686534882,
+    "position": [
+      -29.2909622192383,
+      3.03928065299988,
+      -26.0
+    ],
+    "rate": 1.0,
+    "sequence": "escada-descendo-correndo",
+    "state": "Locomocao",
+    "time": 0.0
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.106666661798954,
+    "position": [
+      -29.2459392547607,
+      3.01376867294312,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "Descer",
+    "time": 0.1
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.266666650772095,
+    "position": [
+      -29.2009181976318,
+      2.98825669288635,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "Descer",
+    "time": 0.2
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.426666647195816,
+    "position": [
+      -29.1558933258057,
+      2.96274256706238,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "Descer",
+    "time": 0.3
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.586666643619537,
+    "position": [
+      -29.1108684539795,
+      2.93722867965698,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "Descer",
+    "time": 0.4
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.0,
+    "position": [
+      -29.065845489502,
+      2.91171550750732,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "DescerB",
+    "time": 0.5
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.159999996423721,
+    "position": [
+      -29.0208225250244,
+      2.88620281219482,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "DescerB",
+    "time": 0.6
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.319999992847443,
+    "position": [
+      -28.9757995605469,
+      2.86068940162659,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "DescerB",
+    "time": 0.7
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.479999989271164,
+    "position": [
+      -28.930778503418,
+      2.8351776599884,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "DescerB",
+    "time": 0.8
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.639999985694885,
+    "position": [
+      -28.8857574462891,
+      2.80966591835022,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "DescerB",
+    "time": 0.9
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.053333330899477,
+    "position": [
+      -28.8407363891602,
+      2.78415369987488,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "Descer",
+    "time": 1.0
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.213333323597908,
+    "position": [
+      -28.7957134246826,
+      2.75864052772522,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "Descer",
+    "time": 1.1
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.373333334922791,
+    "position": [
+      -28.7506866455078,
+      2.73312544822693,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "Descer",
+    "time": 1.2
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.533333301544189,
+    "position": [
+      -28.7056617736816,
+      2.70761132240295,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "Descer",
+    "time": 1.3
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.693333327770233,
+    "position": [
+      -28.6606369018555,
+      2.68209767341614,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "Descer",
+    "time": 1.4
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.106666661798954,
+    "position": [
+      -28.6156139373779,
+      2.65658450126648,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "DescerB",
+    "time": 1.5
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.266666650772095,
+    "position": [
+      -28.570592880249,
+      2.63107252120972,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "DescerB",
+    "time": 1.6
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.426666647195816,
+    "position": [
+      -28.5255718231201,
+      2.60556054115295,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "DescerB",
+    "time": 1.7
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.586666643619537,
+    "position": [
+      -28.4805507659912,
+      2.58004808425903,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "DescerB",
+    "time": 1.8
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.0,
+    "position": [
+      -28.4355278015137,
+      2.55453538894653,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "Descer",
+    "time": 1.9
+  },
+  {
+    "clip": "novo/Descending_Stairs",
+    "clip_time": 0.159999996423721,
+    "position": [
+      -28.3905010223389,
+      2.52902054786682,
+      -26.0
+    ],
+    "rate": 1.59999997655213,
+    "sequence": "escada-descendo-correndo",
+    "state": "Descer",
+    "time": 2.0
+  }
+]
