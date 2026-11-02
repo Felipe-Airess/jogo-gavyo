@@ -154,3 +154,141 @@ Os contatos medidos na bolsa, maçaneta, armário e grade arredondaram para
 porta aberta, entrada no armário e escalada terminada do outro lado do portão.
 O teste antigo do portão agora aguarda aproximação e os 2 s completos de
 `Interact`, em vez de exigir a escalada antes de terminar esse gesto.
+
+## Correção Parte C — transições, apoio e rolamento (02/11/2026)
+
+Esta seção substitui as decisões da Parte B sobre crossfade e ritmo dos passos.
+A Parte B evitava cortar ações zerando o crossfade de saída; isso produzia cortes
+visíveis. O teste inicial desta rodada também encontrou saltos de pose de até
+0,8657 m, 863 arestas com duração inadequada e descida chegando a 5,700x.
+
+### Transições e reprodução
+
+- Arestas entre estados de locomoção usam `xfade_time=0.15`. Entradas e saídas
+  de ações e escada usam `0.22`. Parado/andar/correr dentro do BlendSpace também
+  interpolam durante 0,15 s; alterar o parâmetro instantaneamente cortava a pose.
+- Ações finitas têm uma cauda de timeline de 0,22 s. Assim, o clipe termina
+  antes do crossfade, e `finished` chega quando a mistura termina. Não é preciso
+  zerar a transição para tocar o gesto inteiro.
+- Reiniciar uma ação percorre uma segunda instância do estado com crossfade.
+  `playback.start` fica restrito à inicialização e à bancada de amostragem do
+  próprio controlador. Pedidos do jogo só usam `travel`; não avaliam nem trocam
+  a pose no meio de um evento de input.
+- A inércia de pose e o ajuste dos apoios também respeitam a continuidade. O
+  teste mede mãos e pés no mundo: limite de 8 cm entre quadros nas transições.
+  A interpolação conserva comprimentos dos ossos.
+
+### Medição dos passos e contato com o chão
+
+`animacoes/metricas_passo.gd` avalia a cinemática das trilhas a 120 amostras por
+ciclo, sem reproduzir outro AnimationPlayer. Mede o recuo do pé de apoio,
+exclui os intervalos de voo e calcula a velocidade média durante o apoio.
+O passo de um ciclo é essa velocidade multiplicada pela duração. A taxa usada é:
+
+```text
+taxa do clipe = velocidade horizontal real / (passo aplicado / duração)
+```
+
+Medições da captura, antes do ajuste espacial aos degraus:
+
+| Clipe | Ciclo (s) | Passo (m) | Velocidade nativa (m/s) |
+|---|---:|---:|---:|
+| Walk | 1,333 | 1,269 | 0,952 |
+| Sprint | 0,667 | 2,325 | 3,488 |
+| Crouch_Fwd | 2,000 | 1,274 | 0,637 |
+| Walking_Backwards | 0,967 | 1,210 | 1,252 |
+| Ascending_Stairs | 1,367 | 0,448 | 0,328 |
+| Running_Up_Stairs | 0,600 | 0,361 | 0,602 |
+| Descending_Stairs (derivado fechado) | 0,900 | 0,248 | 0,275 |
+
+No plano, mantêm-se andar **1,45 m/s**, correr **3,8 m/s** e agachado **1,05 m/s**.
+As taxas correspondentes ficam aproximadamente em 1,52x, 1,09x e 1,65x.
+O teto de 1,8x da caminhada vale para cada fonte do BlendSpace, inclusive
+quando ela ainda contribui durante a mistura com corrida.
+
+Os apoios ficam presos no mundo; o pé livre avança e levanta entre contatos.
+A corrida admite intervalos de voo. A medição desconta a altura real do pivô
+do tornozelo sobre a sola, **0,072821 m**, obtida da pose de repouso do modelo.
+O teste mede a deriva acumulada durante cada apoio, com limite de **3 cm**,
+para Miguel e cultista andando, correndo e agachados. Não basta comparar o
+avanço de um relógio com uma constante nem medir apenas um quadro isolado.
+
+### Escada e esquiva
+
+- Shift na subida seleciona `Running_Up_Stairs` pelo pedido de corrida, mesmo
+  quando a projeção da física na rampa reduz a velocidade horizontal. Antes,
+  decidir só pela velocidade projetada podia selecionar a caminhada.
+- Os passos são ajustados espacialmente a dois degraus por ciclo: neste mapa,
+  **0,8 m por ciclo**. A cápsula acompanha a rampa existente; as solas acompanham
+  os pisos visuais. A taxa usa esse passo aplicado e a velocidade real.
+- Subida andando fica até **1,8x**; subida correndo usa a captura de corrida,
+  também até **1,8x**. Descida andando ou correndo usa `Descending_Stairs`,
+  até **1,6x**. O corpo reduz a velocidade na escada para acompanhar o clipe:
+  neste mapa, limites horizontais de aproximadamente 1,05 m/s na caminhada
+  de subida, 2,4 m/s correndo na subida e 1,42 m/s na descida.
+- `Descending_Stairs` mantém o fechamento documentado na Parte B. `Stunned`
+  permanece sem loop.
+- **Esquiva desativada nesta rodada.** O Roll do Quaternius UAL1 foi avaliado
+  com OpenGL Compatibility real. Integrar o recuo dos apoios deu 3,242 m em
+  1,467 s, mas exigiu um pico de 9,13 m/s na entrada: a combinação da captura
+  com essa trajetória não ficou convincente. A alternativa autorizada por
+  Felipe foi aplicada. O botão de toque passa a dizer **SOLTAR**; Q e clique
+  direito continuam permitindo escapar do agarrão. O teste confirma que o
+  comando desativado não desloca Miguel nem inicia uma animação invisível.
+
+### Como Felipe testa esta rodada
+
+```bash
+cd /Users/felipe/Projetos/jogo-gavyo
+bash JOGAR-PROTOTIPO.command
+```
+
+1. Enter começa. Ande com WASD, pressione Shift para correr e solte para andar.
+   Pare e retome várias vezes: mãos e pés devem misturar as poses sem cortes.
+2. Alterne Ctrl parado e andando. Observe a transição de altura e o apoio das
+   solas; Miguel não deve deslizar com o pé plantado. Observe também os cultistas.
+3. Suba a escada andando e depois com Shift. Correndo, deve haver uma passada de
+   corrida de escada, não a caminhada acelerada. Desça com e sem Shift: há limite
+   de ritmo e de velocidade do corpo na descida.
+4. A esquiva está desativada. Clique direito, sem agarrão, não deve mover
+   Miguel nem fazê-lo rolar. Quando um cultista agarrar, use Q, clique direito
+   ou SOLTAR no toque repetidamente para escapar.
+5. Abra uma porta, pegue a bolsa e use um armário. As ações devem continuar
+   completas, agora com entrada e saída suaves. Após gravar, teste o portão.
+
+Validação: `scripts/testar-capitulo1.sh` inclui agora
+`tests/capitulo1_movimento_test.gd`, além dos testes da Parte A/B. O percurso
+contínuo permanece em `scripts/testar-percurso.sh`. As APIs novas foram
+executadas no Godot 4.5.1; os limites internos de TimeScale também são
+verificados durante os blends, não apenas pelo nome informado do clipe.
+
+O teste físico antigo da subida aguarda até 12 s para completar o lance: a
+caminhada agora respeita o teto de 1,8x, em vez de manter 2 m/s acelerando a
+captura. Continua exigindo chegada ao corredor superior por colisão real.
+
+### Resultado final da Parte C — Godot 4.5.1 Compatibility
+
+```text
+CROSSFADE transicoes_invalidas=0
+CHAO Miguel velocidade=1.45 apoios=271 desvio=0.0237 m
+CHAO Miguel velocidade=3.80 apoios=147 desvio=0.0252 m
+CHAO Miguel velocidade=1.05 apoios=271 desvio=0.0244 m
+CHAO cultista velocidade=1.45 apoios=271 desvio=0.0237 m
+CHAO cultista velocidade=3.80 apoios=148 desvio=0.0258 m
+CHAO cultista velocidade=1.05 apoios=270 desvio=0.0227 m
+ESCADA_RITMO sobe=true corre=true clipe=novo/Running_Up_Stairs correto=49/49 escala=1.800x salto=0.0713 m
+ESCADA_RITMO sobe=false corre=true clipe=novo/Descending_Stairs correto=49/49 escala=1.600x salto=0.0664 m
+ESQUIVA desativada deslocamento=0.000 m estado=idle
+CAPITULO1_MOVIMENTO: 33 passed, 0 failed
+CAPITULO1_ANIMACAO: 74 passed, 0 failed
+CAPITULO1_TEST: 41 passed, 0 failed
+CAPITULO1_MAPA: 18 passed, 0 failed
+CAPITULO1_NIVEL: 10 passed, 0 failed
+CAPITULO1_PERCURSO[rota]: 7 passed, 0 failed
+```
+
+O maior salto medido nas transições ficou em 0,0770 m, dentro dos 8 cm.
+As medidas de apoio usam a deriva acumulada desde o primeiro quadro de cada
+contato; a pior foi 0,0258 m, dentro dos 3 cm. O percurso contínuo terminou
+com zero mortes no modo de validação de rota. Isso verifica geometria e fluxo;
+a avaliação de naturalidade continua sendo feita jogando.

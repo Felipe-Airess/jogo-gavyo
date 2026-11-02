@@ -226,6 +226,7 @@ func _slide(dt: float) -> void:
   velocity.y -= 18.0 * dt
  else:
   velocity.y = -0.1
+ if motion!=null: motion.prepare_velocity()
  move_and_slide()
 
 func animate(dt: float) -> void:

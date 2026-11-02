@@ -17,17 +17,52 @@ var travelling:=false
 var last_position:=Vector3.ZERO
 var last_state:=""
 var strides: Dictionary={}
-var stair_support: Dictionary={}
-var stair_direction:=false
+var blend_values: Dictionary={}
+var blend_origins: Dictionary={}
+var blend_targets: Dictionary={}
+var blend_elapsed: Dictionary={}
+var blend_tail:=0.0
+var finishing:=false
+var gait_phase:=0.0
+var foot_targets: Dictionary={}
+var swing_from: Dictionary={}
+var swing_to: Dictionary={}
+var walking_weight:=0.0
+var contact_duty:=.55
+var current_stride:=1.2
+var physical_rate:=1.0
+var pose_history: Array[Transform3D]=[]
+var foot_history: Dictionary={}
+var world_history: Dictionary={}
+var foot_clearance:=0.0
+var blending:=false
+const MEASURE=preload("res://capitulo1/animacoes/metricas_passo.gd")
 const CONTACT=preload("res://capitulo1/animacoes/contato.gd")
 
 func setup(owner_actor: CharacterBody3D) -> void:
  actor=owner_actor
- strides=JSON.parse_string(FileAccess.get_file_as_string("res://capitulo1/animacoes/metricas.json"))
+ # Altura real do pivô do tornozelo sobre a sola na malha de repouso.
+ foot_clearance=actor.rig.get_bone_global_rest(actor.rig.find_bone("LeftFoot")).origin.y
+
  var library=LIBRARY.duplicate()
  library.remove_animation("Descending_Stairs")
  library.add_animation("Descending_Stairs",_descent_cycle())
  actor.anim.add_animation_library("novo",library)
+ strides=MEASURE.measure(actor.rig,library)
+ # O ajuste espacial de agachar mantém a taxa abaixo de 1,8x.
+ for data in [["Walk",1.45],["Crouch_Fwd",1.05]]:
+  strides[data[0]]["captured_stride"]=strides[data[0]]["stride"]
+  strides[data[0]]["stride"]=maxf(strides[data[0]]["stride"],data[1]*strides[data[0]]["duration"]/1.8)
+ for name in strides:
+  strides[name]["captured_native_speed"]=strides[name]["native_speed"]
+  strides[name]["native_speed"]=strides[name]["stride"]/strides[name]["duration"]
+ if "stairs_top" in actor.world.school:
+  var flight: Vector3=actor.world.school.stairs_top-actor.world.school.stairs_bottom
+  var stair_stride=2*Vector2(flight.x,flight.z).length()/roundf(flight.y/.17)
+  for name in ["Ascending_Stairs","Running_Up_Stairs","Descending_Stairs"]:
+   strides[name]["captured_stride"]=strides[name]["stride"]
+   strides[name]["stride"]=stair_stride
+   strides[name]["native_speed"]=stair_stride/strides[name]["duration"]
  tree=AnimationTree.new(); tree.name="Movimento"
  actor.add_child(tree)
  tree.anim_player=tree.get_path_to(actor.anim)
@@ -48,7 +83,10 @@ func setup(owner_actor: CharacterBody3D) -> void:
    node.use_custom_timeline=true; node.timeline_length=1.0; node.stretch_time_scale=true
    # A timeline própria sobrescreve o loop do recurso no Godot 4.5.1.
    node.loop_mode=Animation.LOOP_LINEAR
-   blend.add_blend_point(node,[0.0,data[4],data[5]][i])
+   var point=AnimationNodeBlendTree.new()
+   point.add_node("Clipe",node); point.add_node("Ritmo",AnimationNodeTimeScale.new())
+   point.connect_node("Ritmo",0,"Clipe"); point.connect_node("output",0,"Ritmo")
+   blend.add_blend_point(point,[0.0,data[4],data[5]][i])
   branch.add_node("Velocidade",blend)
   branch.add_node("Cadencia",AnimationNodeTimeScale.new())
   branch.connect_node("Cadencia",0,"Velocidade")
@@ -56,7 +94,7 @@ func setup(owner_actor: CharacterBody3D) -> void:
   machine.add_node(data[0],branch)
  for a in ["Locomocao","Agachado","Recuar","Subir","Descer"]:
   for b in ["Locomocao","Agachado","Recuar","Subir","Descer"]:
-   if a!=b: _transition(a,b,.12)
+   if a!=b: _transition(a,b,.15 if a in ["Locomocao","Agachado","Recuar"] and b in ["Locomocao","Agachado","Recuar"] else .22)
  for name in actor.anim.get_animation_list():
   if name=="RESET": continue
   _add_clip(name)
@@ -67,30 +105,34 @@ func setup(owner_actor: CharacterBody3D) -> void:
 
 func _transition(from: String,to: String,blend: float,automatic:=false) -> void:
  var link=AnimationNodeStateMachineTransition.new()
- # O fim da ação deve ser avaliado antes de emitir finished.
- link.xfade_time=0.0 if automatic else blend
+ # A ação recebe uma cauda para completar o clipe antes do crossfade.
+ link.xfade_time=blend
  if automatic:
   link.switch_mode=AnimationNodeStateMachineTransition.SWITCH_MODE_AT_END
   link.advance_mode=AnimationNodeStateMachineTransition.ADVANCE_MODE_AUTO
  machine.add_transition(from,to,link)
 
 func _key(clip: String) -> String: return clip.replace("/","__")
-func _add_clip(clip: String) -> void:
- var key=_key(clip)
+func _add_clip(clip: String,key: String="") -> void:
+ if key.is_empty(): key=_key(clip)
  if machine.has_node(key): return
  var branch=AnimationNodeBlendTree.new()
  var node=AnimationNodeAnimation.new(); node.animation=clip
+ if actor.anim.get_animation(clip).loop_mode==Animation.LOOP_NONE:
+  node.use_custom_timeline=true; node.stretch_time_scale=false
+  node.timeline_length=actor.anim.get_animation(clip).length+.22
+  node.loop_mode=Animation.LOOP_NONE
  branch.add_node("Clipe",node)
  branch.add_node("Ritmo",AnimationNodeTimeScale.new())
  branch.connect_node("Ritmo",0,"Clipe"); branch.connect_node("output",0,"Ritmo")
  machine.add_node(key,branch)
  for locomotion in ["Locomocao","Agachado","Recuar","Subir","Descer"]:
-  _transition(locomotion,key,.08)
-  _transition(key,locomotion,.20)
+  _transition(locomotion,key,.22)
+  _transition(key,locomotion,.22)
  if actor.anim.get_animation(clip).loop_mode==Animation.LOOP_NONE and clip not in ["novo/Sweep_Fall","novo/Death01","queda","Dying"]:
   # Uma única saída automática; loops e quedas sustentam sua pose.
   machine.remove_transition(key,"Locomocao")
-  _transition(key,"Locomocao",.20,true)
+  _transition(key,"Locomocao",.22,true)
 
 func request(clip: String,rate:=1.0,restart:=false) -> void:
  if clip in ["guarda","andaFrente","andaTras","correr"]:
@@ -103,7 +145,7 @@ func request(clip: String,rate:=1.0,restart:=false) -> void:
     exit_link.advance_mode=AnimationNodeStateMachineTransition.ADVANCE_MODE_ENABLED
   travelling=true; requested=clip
   return
- travelling=false
+ travelling=false; finishing=false
  var mapped=String(ALIASES.get(clip,clip))
  if not actor.anim.has_animation(mapped):
   push_error("Clipe ausente: "+mapped); return
@@ -111,24 +153,31 @@ func request(clip: String,rate:=1.0,restart:=false) -> void:
  requested=mapped; active_clip=mapped; speed=rate; events.clear()
  _add_clip(mapped)
  var key=_key(mapped)
+ if String(playback.get_current_node())==key and restart:
+  key+="__Repetir"
+  _add_clip(mapped,key)
+ var node=machine.get_node(key).get_node("Clipe") as AnimationNodeAnimation
+ if node.use_custom_timeline: node.timeline_length=actor.anim.get_animation(mapped).length+.22
  if machine.has_transition(key,"Locomocao") and actor.anim.get_animation(mapped).loop_mode==Animation.LOOP_NONE:
   var link=machine.get_transition(_find_transition(key,"Locomocao"))
-  link.xfade_time=0
+  link.xfade_time=.22
   link.switch_mode=AnimationNodeStateMachineTransition.SWITCH_MODE_AT_END
   link.advance_mode=AnimationNodeStateMachineTransition.ADVANCE_MODE_AUTO
  _parameter("parameters/"+key+"/Ritmo/scale",rate)
  # Troca direta entre ações precisa interromper o caminho anterior.
  var previous=String(playback.get_current_node())
- if previous!=key and not machine.has_transition(previous,key): _transition(previous,key,.08)
- if restart and previous==key: playback.start(key,true)
- else: playback.travel(key)
- tree.advance(0)
+ if previous!=key and not machine.has_transition(previous,key): _transition(previous,key,.22)
+ playback.travel(key)
 
 func _parameter(path: String,value) -> void:
  if tree.get(path)!=value: tree.set(path,value)
 
 func advance(dt: float) -> void:
+ blending=false
+ if actor.global_position.distance_to(last_position)>1:
+  foot_targets.clear(); swing_from.clear(); swing_to.clear(); walking_weight=0; world_history.clear()
  if travelling:
+  if walking_weight<=0 and Vector2(actor.velocity.x,actor.velocity.z).length()>.03: gait_phase=0
   # Velocidade após move_and_slide: pressionar contra parede não corre no lugar.
   var flat=Vector2(actor.velocity.x,actor.velocity.z).length()
   var locomotion="Agachado" if actor.crouched else "Locomocao"
@@ -146,35 +195,67 @@ func advance(dt: float) -> void:
      clip="Ascending_Stairs" if up else "Descending_Stairs"
    if locomotion=="Locomocao" and actor.velocity.dot(actor.facing)<-.1:
     locomotion="Recuar"; clip="Walking_Backwards"
+  if locomotion=="Subir" and requested=="correr": clip="Running_Up_Stairs"
+  if locomotion=="Locomocao" and requested=="correr" and flat>.03: clip="Sprint"
   var blend=clampf(flat,0,3.8)
   var stride=float(strides.get(clip,{}).get("stride",1.2))
-  if locomotion in ["Locomocao","Subir"]:
-   var running="Sprint" if locomotion=="Locomocao" else "Running_Up_Stairs"
-   var weight=clampf((flat-1.45)/(3.8-1.45),0,1)
-   stride=lerpf(stride,float(strides.get(running,{}).get("stride",2.4)),weight)
-  if locomotion in ["Subir","Descer"]:
-   # Um ciclo dá dois passos, cada apoio corresponde a um degrau do mapa.
-   var flight=actor.world.school.stairs_top-actor.world.school.stairs_bottom
-   var count=roundf(flight.y/.17)
-   stride=2*Vector2(flight.x,flight.z).length()/count
+  if walking_weight<=0:
+   current_stride=stride
+   contact_duty=.28 if clip=="Sprint" else .5 if locomotion in ["Subir","Descer"] else .55
+  current_stride=move_toward(current_stride,stride,dt*12)
+  stride=current_stride
   # O idle desaparece cedo; o ciclo de passos mantém amplitude até baixa velocidade.
   if flat>.03: blend=maxf(blend,1.05 if actor.crouched else 1.45)
+  if locomotion=="Subir" and requested=="correr": blend=3.8
+  elif locomotion=="Locomocao" and requested=="correr": blend=3.8
+  # O BlendSpace também precisa interpolar: mudar o parâmetro é uma troca de pose.
+  var previous_blend=float(blend_values.get(locomotion,0.0))
+  if absf(float(blend_targets.get(locomotion,-100))-blend)>.001:
+   blend_origins[locomotion]=previous_blend; blend_targets[locomotion]=blend; blend_elapsed[locomotion]=0.0
+  blend_elapsed[locomotion]=minf(.15,float(blend_elapsed[locomotion])+dt)
+  blend=lerpf(blend_origins[locomotion],blend_targets[locomotion],smoothstep(0,.15,blend_elapsed[locomotion]))
+  blending=float(blend_elapsed[locomotion])<.15
+  blend_values[locomotion]=blend
   var cadence=flat/maxf(.1,stride) if flat>.03 else .4
+  physical_rate=cadence*float(strides.get(clip,{}).get("duration",1.0))
+  gait_phase+=dt*flat/maxf(.1,stride)
   _parameter("parameters/"+locomotion+"/Velocidade/blend_position",blend)
   _parameter("parameters/"+locomotion+"/Cadencia/scale",cadence)
+  # Cada fonte conserva seu teto também enquanto contribui para um blend.
+  var space=machine.get_node(locomotion).get_node("Velocidade") as AnimationNodeBlendSpace1D
+  for i in space.get_blend_point_count():
+   var source=space.get_blend_point_node(i).get_node("Clipe") as AnimationNodeAnimation
+   var name=String(source.animation).trim_prefix("novo/")
+   var duration=actor.anim.get_animation(source.animation).length
+   var cap=1.6 if name=="Descending_Stairs" else 1.8 if name in ["Walk","Walking_Backwards","Crouch_Fwd","Ascending_Stairs","Running_Up_Stairs"] else 100.0
+   var ratio=minf(1,cap/maxf(.001,cadence*duration))
+   _parameter("parameters/"+locomotion+"/Velocidade/"+str(i)+"/Ritmo/scale",ratio)
   if String(playback.get_current_node())!=locomotion: playback.travel(locomotion)
-  if locomotion in ["Locomocao","Subir"] and flat>=(1.45+3.8)/2:
-   clip="Sprint" if locomotion=="Locomocao" else "Running_Up_Stairs"
   active_clip="novo/"+(clip if flat>.03 else ("Crouch_Idle" if actor.crouched else "Idle"))
  var before=String(playback.get_current_node())
  tree.advance(dt)
  var after=String(playback.get_current_node())
- if travelling and after in ["Subir","Descer"]: _stair_feet(after=="Subir")
+ # Suaviza a pose antes dos apoios, que permanecem presos ao chão.
+ blending=blending or not String(playback.get_fading_from_node()).is_empty()
+ blend_tail=.15 if blending else maxf(0,blend_tail-dt)
+ blending=blending or blend_tail>0
+ _smooth_pose(dt)
+ if travelling:
+  _feet(dt,after)
  else:
-  stair_support.clear()
+  foot_targets.clear(); swing_from.clear(); swing_to.clear(); walking_weight=0
  if before!=after and after=="Locomocao" and not travelling:
-  events.append("finished")
+  finishing=true
   travelling=true; requested="guarda"
+ if finishing and String(playback.get_fading_from_node()).is_empty():
+  finishing=false; events.append("finished")
+ _limit_transition_pose()
+ world_history.clear()
+ for bone in ["LeftHand","RightHand","LeftFoot","RightFoot"]: world_history[bone]=actor.bone_point(bone)
+ foot_history.clear()
+ for side in ["Left","Right"]: foot_history[side]=actor.rig.get_bone_global_pose(actor.rig.find_bone(side+"Foot")).origin
+ pose_history.clear()
+ for i in actor.rig.get_bone_count(): pose_history.append(actor.rig.get_bone_pose(i))
  last_state=after; last_position=actor.global_position
 
 func consume(event: String) -> bool:
@@ -218,51 +299,145 @@ func _descent_cycle() -> Animation:
 
 ## A cápsula segue a rampa física. Só a pose das pernas se ajusta aos pisos
 ## visuais; o pé de apoio fica preso no mundo até a próxima passada.
-func _stair_feet(up: bool) -> void:
- if stair_direction!=up:
-  stair_support.clear(); stair_direction=up
- var bottom: Vector3=actor.world.school.stairs_bottom
- var flight: Vector3=actor.world.school.stairs_top-bottom
- var along=(flight*Vector3(1,0,1)).normalized()
- var length=Vector2(flight.x,flight.z).length()
- var count=roundf(flight.y/.17)
- var tread=length/count; var height=flight.y/count
- var direction=along if up else -along
- var phase=fposmod(playback.get_current_play_position(),1)
+func _feet(dt: float,state: String) -> void:
+ var flat=Vector2(actor.velocity.x,actor.velocity.z).length()
+ walking_weight=move_toward(walking_weight,1.0 if flat>.03 else 0.0,dt/.15)
+ if walking_weight<=0:
+  foot_targets.clear(); swing_from.clear(); swing_to.clear(); return
+ if flat<=.03:
+  foot_targets.clear(); swing_from.clear(); swing_to.clear(); return
+ var stair=state in ["Subir","Descer"]
+ contact_duty=move_toward(contact_duty,.28 if active_clip=="novo/Sprint" else .5 if stair else .55,dt*2)
+ var direction=Vector3(actor.velocity.x,0,actor.velocity.z).normalized() if flat>.03 else actor.facing
+ var bottom:=Vector3.ZERO; var along:=Vector3.FORWARD; var tread:=1.0; var height:=.17; var count:=1.0
+ if stair:
+  bottom=actor.world.school.stairs_bottom
+  var flight: Vector3=actor.world.school.stairs_top-bottom
+  along=(flight*Vector3(1,0,1)).normalized(); count=roundf(flight.y/.17)
+  tread=Vector2(flight.x,flight.z).length()/count; height=flight.y/count
  var rig: Skeleton3D=actor.rig
  var hips=rig.find_bone("Hips")
- rig.set_bone_pose_position(hips,rig.get_bone_pose_position(hips)-Vector3.UP*.10)
- rig.force_update_all_bone_transforms()
+ var goals: Dictionary={}
  for side in ["Left","Right"]:
-  var local_phase=fposmod(phase+(0.0 if side=="Left" else .5),1)
-  var stance=local_phase<.5
+  var phase=fposmod(gait_phase+(0.0 if side=="Left" else .5),1)
+  var stance=phase<contact_duty
+  var foot: Vector3=actor.bone_point(side+"Foot")
   if stance:
-   if not stair_support.has(side):
-    var target: Vector3=actor.position+direction*tread*.5+actor.model.global_basis.x*(.10 if side=="Left" else -.10)
-    var distance=(target-bottom).dot(along)
-    var step=clampf(floorf(distance/tread),0,count-1)
-    target+=along*((step+.5)*tread-distance)
-    target.y=bottom.y+(step+1)*height+.025
-    stair_support[side]=target
-   var target: Vector3=stair_support[side]
-   # Abaixa o quadril se o pé fixo ultrapassar o alcance real da perna.
-   var upper=rig.get_bone_global_pose(rig.find_bone(side+"UpperLeg")).origin
-   var knee=rig.get_bone_global_pose(rig.find_bone(side+"LowerLeg")).origin
-   var foot=rig.get_bone_global_pose(rig.find_bone(side+"Foot")).origin
-   var local_target=rig.to_local(target)
-   var reach=upper.distance_to(knee)+knee.distance_to(foot)-.02
-   var horizontal=Vector2(upper.x-local_target.x,upper.z-local_target.z).length()
-   var vertical=sqrt(maxf(0,reach*reach-horizontal*horizontal))
-   var lower=maxf(0,upper.y-local_target.y-vertical)
-   if lower>0:
-    rig.set_bone_pose_position(hips,rig.get_bone_pose_position(hips)-Vector3.UP*lower)
-    rig.force_update_all_bone_transforms()
-   CONTACT.limb_fit(actor,side+"UpperLeg",side+"LowerLeg",side+"Foot",target,1)
+   if not foot_targets.has(side):
+    var target: Vector3=swing_to.get(side,foot)
+    if stair:
+     var distance=(target-bottom).dot(along)
+     var step=clampf(floorf(distance/tread),0,count-1)
+     target+=along*((step+.5)*tread-distance); target.y=bottom.y+(step+1)*height+foot_clearance
+    else: target.y=actor.position.y+foot_clearance
+    foot_targets[side]=target
+   goals[side]=foot_targets[side]
+   swing_from[side]=foot_targets[side]; swing_to.erase(side)
   else:
-   stair_support.erase(side)
-   # A captura conserva o balanço; levanta o pé livre sobre a quina.
-   var target: Vector3=actor.bone_point(side+"Foot")
-   var distance=(target-bottom).dot(along)
-   var floor_height=bottom.y+clampf(floorf(distance/tread)+1,0,count)*height
-   target.y=maxf(target.y,floor_height+.025+.10*sin((local_phase-.5)*TAU))
-   CONTACT.limb_fit(actor,side+"UpperLeg",side+"LowerLeg",side+"Foot",target,1)
+   if not swing_to.has(side):
+    var start: Vector3=swing_from.get(side,foot)
+    var end=actor.position+direction*current_stride*(1-contact_duty*.5)+actor.model.global_basis.x*(.10 if side=="Left" else -.10)
+    if stair:
+     var distance=(end-bottom).dot(along)
+     var step=clampf(floorf(distance/tread),0,count-1)
+     end+=along*((step+.5)*tread-distance); end.y=bottom.y+(step+1)*height+foot_clearance
+    else: end.y=actor.position.y+foot_clearance
+    swing_from[side]=start; swing_to[side]=end
+   foot_targets.erase(side)
+   var t=(phase-contact_duty)/(1-contact_duty)
+   var target: Vector3=swing_from[side].lerp(swing_to[side],smoothstep(0,1,t))
+   target.y+=.20*sin(t*PI)
+   goals[side]=target
+ if blending:
+  for side in goals:
+   if not foot_history.has(side): continue
+   var local=rig.to_local(goals[side])
+   var before: Vector3=foot_history[side]
+   if local.distance_to(before)>.074: goals[side]=rig.to_global(before+before.direction_to(local)*.074)
+ # Resolve o quadril antes das duas pernas; ajustar depois soltaria o apoio.
+ var lower:=0.0
+ for side in goals:
+  var upper=rig.get_bone_global_pose(rig.find_bone(side+"UpperLeg")).origin
+  var knee=rig.get_bone_global_pose(rig.find_bone(side+"LowerLeg")).origin
+  var foot=rig.get_bone_global_pose(rig.find_bone(side+"Foot")).origin
+  var target=rig.to_local(goals[side])
+  var reach=upper.distance_to(knee)+knee.distance_to(foot)-.025
+  var horizontal=Vector2(upper.x-target.x,upper.z-target.z).length()
+  lower=maxf(lower,upper.y-target.y-sqrt(maxf(0,reach*reach-horizontal*horizontal)))
+ rig.set_bone_pose_position(hips,rig.get_bone_pose_position(hips)-Vector3.UP*lower*walking_weight)
+ rig.force_update_all_bone_transforms()
+ for side in goals:
+  CONTACT.limb_fit(actor,side+"UpperLeg",side+"LowerLeg",side+"Foot",goals[side],walking_weight)
+  if foot_targets.has(side):
+   var foot=rig.find_bone(side+"Foot")
+   var parent=rig.get_bone_parent(foot)
+   var desired=rig.get_bone_global_pose(parent).basis.inverse()*rig.get_bone_global_rest(foot).basis
+   var phase=fposmod(gait_phase+(0.0 if side=="Left" else .5),1)
+   rig.set_bone_pose_rotation(foot,rig.get_bone_pose_rotation(foot).slerp(desired.get_rotation_quaternion().normalized(),walking_weight*smoothstep(0,.10,phase)))
+   rig.force_update_all_bone_transforms()
+
+## A rampa não exige acelerar uma caminhada além do limite. Limita o corpo,
+## mantendo o ritmo medido do clipe e a velocidade tangente ao piso.
+func prepare_velocity() -> void:
+ if not travelling or not "stairs_top" in actor.world.school: return
+ var a: Vector3=actor.world.school.stairs_bottom; var b: Vector3=actor.world.school.stairs_top
+ var flight=(b-a)*Vector3(1,0,1); var length=flight.length(); var along=flight/length
+ var projection=(actor.position-a).dot(along)
+ if projection<-.15 or projection>length+.15 or ((actor.position-a)*Vector3(1,0,1)-along*projection).length()>1.05: return
+ var up=actor.velocity.dot(along)>0
+ var name="Running_Up_Stairs" if up and requested=="correr" else "Ascending_Stairs" if up else "Descending_Stairs"
+ var rate=1.8 if up else 1.6
+ var maximum=rate*float(strides[name]["stride"])/float(strides[name]["duration"])
+ var flat=Vector2(actor.velocity.x,actor.velocity.z).length()
+ if flat>maximum:
+  actor.velocity.x*=maximum/flat; actor.velocity.z*=maximum/flat
+ if actor.is_on_floor(): actor.velocity.y=actor.velocity.dot(along)*(b.y-a.y)/length
+
+func _smooth_pose(dt: float) -> void:
+ var rig: Skeleton3D=actor.rig
+ if pose_history.size()==rig.get_bone_count():
+  # Inércia curta cobre interrupções e o ajuste de altura entre posturas.
+  var weight=1-exp(-dt/.16)
+  for i in rig.get_bone_count():
+   var wanted=rig.get_bone_pose(i)
+   rig.set_bone_pose_position(i,pose_history[i].origin.lerp(wanted.origin,weight))
+   rig.set_bone_pose_rotation(i,pose_history[i].basis.get_rotation_quaternion().slerp(wanted.basis.get_rotation_quaternion(),weight))
+ rig.force_update_all_bone_transforms()
+
+## Inércia com limite espacial, além do crossfade do grafo. A interpolação é
+## de rotações locais: preserva o comprimento dos membros em interrupções.
+func _limit_transition_pose() -> void:
+ var rig: Skeleton3D=actor.rig
+ if not blending or pose_history.size()!=rig.get_bone_count(): return
+ var bones=["LeftHand","RightHand","LeftFoot","RightFoot"]
+ var end: Array[Transform3D]=[]
+ var wanted: Array[Transform3D]=[]
+ for i in rig.get_bone_count():
+  end.append(rig.get_bone_global_pose(i)); wanted.append(rig.get_bone_pose(i))
+ # Avalia a pose anterior no mesmo referencial do esqueleto.
+ for i in rig.get_bone_count():
+  rig.set_bone_pose_position(i,pose_history[i].origin)
+  rig.set_bone_pose_rotation(i,pose_history[i].basis.get_rotation_quaternion())
+ rig.force_update_all_bone_transforms()
+ var previous: Array[Vector3]=[]
+ var maximum:=0.0
+ for bone in bones:
+  var id=rig.find_bone(bone)
+  previous.append(world_history.get(bone,rig.to_global(rig.get_bone_global_pose(id).origin)))
+  maximum=maxf(maximum,previous[-1].distance_to(rig.to_global(end[id].origin)))
+ var low:=0.0; var high:=1.0
+ for attempt in (8 if maximum>.077 else 1):
+  var weight=(low+high)*.5 if maximum>.077 else 1.0
+  for i in rig.get_bone_count():
+   rig.set_bone_pose_position(i,pose_history[i].origin.lerp(wanted[i].origin,weight))
+   rig.set_bone_pose_rotation(i,pose_history[i].basis.get_rotation_quaternion().slerp(wanted[i].basis.get_rotation_quaternion(),weight))
+  rig.force_update_all_bone_transforms()
+  var error:=0.0
+  for j in bones.size(): error=maxf(error,previous[j].distance_to(rig.to_global(rig.get_bone_global_pose(rig.find_bone(bones[j])).origin)))
+  if error>.077: high=weight
+  else: low=weight
+ if maximum>.077:
+  for i in rig.get_bone_count():
+   rig.set_bone_pose_position(i,pose_history[i].origin.lerp(wanted[i].origin,low))
+   rig.set_bone_pose_rotation(i,pose_history[i].basis.get_rotation_quaternion().slerp(wanted[i].basis.get_rotation_quaternion(),low))
+  rig.force_update_all_bone_transforms()

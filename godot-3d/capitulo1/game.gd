@@ -691,6 +691,8 @@ func hurt_player(damage: float) -> void:
  _drop_load()
  super.hurt_player(damage)
 
+const DODGE_AVAILABLE:=false
+
 func _player_tick(dt: float) -> void:
  if player.state=="interaction":
   _interaction_tick(dt); return
@@ -712,7 +714,9 @@ func dodge() -> void:
    action_target.start_action("novo/Hit_Knockback")
    action_target.velocity=Vector3.ZERO
   return
- super.dodge()
+ # Roll foi avaliado com a curva dos apoios: pico de 9,13 m/s na entrada.
+ # A esquiva fica desativada; esta entrada continua soltando agarrões acima.
+ return
 
 func _start_enemy_attack(e: CharacterBody3D) -> void:
  enemy_turn=e; e.state="windup"; e.clock=0; e.hit_once=false; e.attack_landed=false
@@ -750,7 +754,7 @@ func _grab_player(e: CharacterBody3D) -> bool:
  player.face(e.position)
  action_target=e; grab_struggle=0
  impact_audio.stream=sfx["carne"]; impact_audio.play()
- hud.say("AGARRADO · aperte "+("ESQUIVA" if touch!=null else "[Q]")+" várias vezes para se soltar",GRAB_TIME)
+ hud.say("AGARRADO · aperte "+("SOLTAR" if touch!=null else "[Q]")+" várias vezes para se soltar",GRAB_TIME)
  return true
 
 func interact() -> void:
@@ -807,7 +811,7 @@ func context_text() -> String:
  if not bag_found and _near_looking(school.bag_at,1.7): return "[Espaço] Pegar bolsa e celular"
  if bag_found and not video_recorded and can_frame_ritual(): return "[V] Gravar vídeo do ritual"
  if video_recorded and player.position.distance_to(school.gate_at)<3: return "[Espaço] Pular o portão 1"
- if carried!=null: return "[T / clique] Arremessar objeto · esquiva solta a carga"
+ if carried!=null: return "[T / clique] Arremessar objeto · clique direito solta a carga"
  if player.hidden: return "ESCONDIDO · observe e escute · [Espaço] Sair"
  if show_help: return "WASD mover · Espaço interagir · Ctrl agachar · V gravar · L lanterna"
  for door in school.doors:

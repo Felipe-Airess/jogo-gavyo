@@ -47,8 +47,8 @@ func update(dt: float) -> void:
  elif not game.started and game.touch!=null:
   menu.text="GAVIÃO\nDEPOIS DO ALMOÇO\n\nUma escola vazia. Vozes que não deveriam estar ali.\n\nToque para começar\n\nCelular deitado · fones recomendados"
  elif game.paused and game.started:
-  menu.text="PAUSADO\n\n[Esc] Voltar · [R] Checkpoint\n\nWASD mover · mouse olhar\nShift correr · Ctrl agachar\nEspaço interagir / porta / parkour\nClique direito esquivar\nQ soltar-se de um agarrão\nE empanado · V vídeo · L lanterna após bolsa\nT arremessar objeto · F fresta · F3 filtro ligado/desligado"
-  if game.touch!=null: menu.text="PAUSADO\n\nToque para voltar\n\nEsquerda: mover (até a borda corre)\nDireita: arrastar para olhar\nBotões: ação, esquiva/soltar,\nagachar, gravar, luz, fresta, comer"
+  menu.text="PAUSADO\n\n[Esc] Voltar · [R] Checkpoint\n\nWASD mover · mouse olhar\nShift correr · Ctrl agachar\nEspaço interagir / porta / parkour\nQ / clique direito: soltar-se de um agarrão\nE empanado · V vídeo · L lanterna após bolsa\nT arremessar objeto · F fresta · F3 filtro ligado/desligado"
+  if game.touch!=null: menu.text="PAUSADO\n\nToque para voltar\n\nEsquerda: mover (até a borda corre)\nDireita: arrastar para olhar\nBotões: ação, soltar,\nagachar, gravar, luz, fresta, comer"
  # Terror: sem barra de jogo de luta. Vida só aparece ferido; itens só quando há.
  var parts: Array[String]=[]
  if game.player.health<99: parts.append("FERIDO" if game.player.health>35 else "MUITO FERIDO")
@@ -61,7 +61,7 @@ func update(dt: float) -> void:
   for item in [message,prompt]: item.text=touch_text(item.text)
   message.position.y=minf(message.position.y,size.y*.55)
 
-const TOUCH_NAMES:={"[Espaço]":"[AÇÃO]","[V]":"[GRAVAR]","[F]":"[FRESTA]","[L]":"[LUZ]","[E]":"[COMER]","[Q]":"[ESQUIVA]","[T]":"","[Esquiva / Q]":"[ESQUIVA]"}
+const TOUCH_NAMES:={"[Espaço]":"[AÇÃO]","[V]":"[GRAVAR]","[F]":"[FRESTA]","[L]":"[LUZ]","[E]":"[COMER]","[Q]":"[SOLTAR]","[T]":"","[Esquiva / Q]":"[SOLTAR]"}
 func touch_text(text: String) -> String:
  for key in TOUCH_NAMES: text=text.replace(key,TOUCH_NAMES[key])
  return text

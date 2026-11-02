@@ -149,7 +149,8 @@ func run() -> void:
  check(game.school.ambiente_de(saida_escada)!="Quadra coberta","escada não sai da quadra")
  game.player.position=game.school.stairs_bottom-climb*.8+Vector3.UP*.1
  game.player.velocity=Vector3.ZERO
- for i in 450:
+ # A caminhada respeita o teto de 1,8x do clipe; dá tempo ao lance completo.
+ for i in 720:
   var to_target: Vector3=climb if game.player.position.y<game.school.LEVEL-.05 else (NIVEL.ponto(game.school,"corredor_superior")-game.player.position)*Vector3(1,0,1)
   if to_target.length()<.3: break
   var v: Vector3=to_target.normalized()*2.0

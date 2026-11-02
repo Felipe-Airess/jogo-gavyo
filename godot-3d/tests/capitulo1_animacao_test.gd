@@ -29,7 +29,8 @@ func graph_clip(actor) -> String:
  var nearest:=0
  for i in blend.get_blend_point_count():
   if absf(blend.get_blend_point_position(i)-value)<absf(blend.get_blend_point_position(nearest)-value): nearest=i
- return String(blend.get_blend_point_node(nearest).animation)
+ var point=blend.get_blend_point_node(nearest)
+ return String(point.get_node("Clipe").animation) if point is AnimationNodeBlendTree else String(point.animation)
 func tick(enemy: bool) -> void:
  if enemy: game._enemy_ticks(DT)
  else: game._player_tick(DT)
@@ -128,7 +129,7 @@ func single_action(clip: String) -> void:
  check(maximum>=length-DT*1.1,clip+": toca até o fim")
  check(actor.motion.playback.get_current_node()=="Locomocao" and actor.motion.travelling and graph_clip(actor)=="novo/Idle",clip+": volta sozinho para parado")
  actor.velocity=Vector3.BACK*1.45; actor.face(actor.position+Vector3.BACK)
- actor.animate(DT)
+ for i in 12: actor.animate(DT)
  check(graph_clip(actor)=="novo/Walk",clip+": andar retoma sem novo play")
 
 func interaction_case(kind: String,object: Node3D,contact: Vector3,forward: Vector3,clip: String,index:=-1) -> void:
@@ -143,6 +144,7 @@ func interaction_case(kind: String,object: Node3D,contact: Vector3,forward: Vect
  game._begin_interaction(kind,object,contact,forward,clip,index)
  check(not game.interaction.is_empty(),kind+": aproximação livre aceita")
  var touched:=false
+ var contact_seen:=false
  var error:=100.0
  var maximum:=0.0
  var seen_clip:=false
@@ -166,7 +168,8 @@ func interaction_case(kind: String,object: Node3D,contact: Vector3,forward: Vect
     print("CONTATO grade: erro=%.4f m"%hand.distance_to(grade))
   if graph_clip(actor)==clip:
    seen_clip=true; maximum=maxf(maximum,actor.motion.position())
-  if was_started and previous<contact_time and (actor.motion.position()>=contact_time or graph_clip(actor)!=clip):
+  if not contact_seen and was_started and previous<contact_time and (actor.motion.position()>=contact_time or graph_clip(actor)!=clip):
+   contact_seen=true
    error=(actor.bone_point("LeftHand")-actor.position+before).distance_to(target)
    touched=error<.09
    print("CONTATO %s: erro=%.4f m estado=%s"%[kind,error,actor.state])
@@ -215,8 +218,10 @@ func stair_case(up: bool) -> void:
    if absf(actor.motion.position()-last)>.000001: advanced+=1
    var phase=fposmod(actor.motion.position(),1)
    for side in ["Left","Right"]:
-    var stance=fposmod(phase+(0.0 if side=="Left" else .5),1)<.5
     var foot_now: Vector3=actor.bone_point(side+"Foot")
+    var tread:=length/roundf(game.school.LEVEL/.17)
+    var floor_height=clampf((floorf((foot_now-bottom).dot(along)/tread)+1)*.17,0,game.school.LEVEL)
+    var stance=absf(foot_now.y-actor.motion.foot_clearance-floor_height)<.015
     if stance and previous_stance.get(side,false):
      var slip=foot_now.distance_to(previous_feet[side])
      stance_frames+=1; max_slip=maxf(max_slip,slip)
@@ -227,7 +232,7 @@ func stair_case(up: bool) -> void:
     var foot_distance: float=(foot-bottom).dot(along)
     var tread:=length/roundf(game.school.LEVEL/.17)
     var height:=clampf((floorf(foot_distance/tread)+1)*.17,0,game.school.LEVEL)
-    if absf(foot.y-height)<.09: grounded+=1; break
+    if absf(foot.y-actor.motion.foot_clearance-height)<.09: grounded+=1; break
   last=actor.motion.position()
   await physics_frame
  key(KEY_W,false)

@@ -4,7 +4,7 @@ extends CanvasLayer
 ## - metade esquerda: analógico (aparece onde o dedo toca); empurrar até a
 ##   borda corre;
 ## - metade direita: arrastar gira a câmera;
-## - botões à direita: ação, esquiva/soltar, agachar, gravar, luz,
+## - botões à direita: ação, soltar, agachar, gravar, luz,
 ##   fresta, comer; pausa no topo.
 ## Ativa sozinho em tela de toque; no PC, `-- --toque` força (mouse vira toque).
 
@@ -47,7 +47,7 @@ func _layout() -> void:
  var bottom:=size.y-r*1.5
  buttons=[
   {"id":"acao","text":"AÇÃO","at":Vector2(right,bottom-r*2.3),"r":r*1.15,"key":KEY_SPACE},
-  {"id":"esquiva","text":"ESQUIVA","at":Vector2(right,bottom),"r":r,"mouse":MOUSE_BUTTON_RIGHT},
+  {"id":"esquiva","text":"SOLTAR","at":Vector2(right,bottom),"r":r,"mouse":MOUSE_BUTTON_RIGHT},
   {"id":"agachar","text":"AGACHAR","at":Vector2(right-r*2.4,bottom-r*2.3),"r":r,"toggle":KEY_CTRL},
   {"id":"gravar","text":"GRAVAR","at":Vector2(right-r*4.6,bottom-r*.2),"r":r*.8,"key":KEY_V},
   {"id":"luz","text":"LUZ","at":Vector2(right,bottom-r*4.4),"r":r*.8,"key":KEY_L},
