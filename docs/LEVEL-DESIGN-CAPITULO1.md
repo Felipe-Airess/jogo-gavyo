@@ -41,6 +41,10 @@ Regras derivadas:
 - A escada fica no pátio de química, em caixa fechada, e não sai da quadra. O
   pátio de química é coberto e é onde acontece o ritual.
 - Do refeitório parte a passagem estreita até o portão 1.
+- Pátio aberto e refeitório são uma área só, separados por um relevo baixo no chão
+  (sem parede). Pátio de concreto, com calçada coberta junto às salas.
+- Palco do auditório elevado (0,8 m), porta da biblioteca logo ao lado.
+- Paredes verdes ou amarelas (inclusive no pátio de química) na fase de decoração.
 
 ## Rotas até o pátio de química
 

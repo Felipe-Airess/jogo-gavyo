@@ -175,6 +175,26 @@ nota (o modo é só observação). Testes não substituem Felipe jogando.
 
 **Bloqueio cinza aguardando aprovação de Felipe. Não decorar antes.**
 
+### Correções de Felipe sobre o bloqueio (02/11, mesma parte 3)
+
+Felipe olhou a planta e mandou um esboço em perspectiva do pátio/refeitório. Aplicado:
+- Pátio de química 3 m mais fundo para o norte (as salas vizinhas não mudaram).
+  A grade ganhou 3 linhas no topo; todos os pontos em células subiram 3 linhas.
+- Pátio aberto é **concreto** (sem azulejo); a calçada coberta junto às salas fica.
+  No bloqueio o concreto agora é liso (só azulejo e paredes mostram a grade de 1 m).
+- Pátio e refeitório **sem parede**: separados por um relevo baixo (`=`, 8 cm,
+  passa-se por cima). Colunas da cobertura do refeitório junto ao relevo.
+- Palco do auditório: mais alto (0,8 m) e menor (6×3 m).
+- Do esboço: lab de contabilidade logo depois da sala de esportes; trocado com a
+  sala de música (confirmar).
+- **Cores para a decoração (depois da aprovação)**: a maior parte das paredes é
+  verde ou amarela, inclusive no pátio de química. O bloqueio continua cinza.
+
+Testes depois das correções: capítulo 47, mapa 18, nível 10; percurso rota 7/7
+(163 s), pátio 8/8 (suspeita máx. 0,69). Furtivo (só observação): o ritual nota o
+robô (anda em pé) e o perseguidor o pega na fuga; sem a parede, o pátio e o
+refeitório viraram uma área aberta só, com mais visão.
+
 ## Arquivos importantes
 
 | Arquivo | Papel |

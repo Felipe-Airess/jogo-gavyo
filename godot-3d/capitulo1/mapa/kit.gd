@@ -16,7 +16,8 @@ const PEITORIL:=1.0
 const VAO_PORTA:=1.56      # vão livre da porta de 2 m (métrica do level design)
 const GRADE:=2.35
 const BLOCO:=.9
-const PALCO:=.35
+const PALCO:=.8           # palco do auditório (Felipe: mais alto)
+const RELEVO:=.08         # relevo baixo no chão entre pátio e refeitório
 const DEGRAU_ALTURA:=.17
 const DEGRAU_PISO:=.3
 
@@ -26,7 +27,7 @@ const CORES:={
  "janela":Color(.30,.31,.33),"grade":Color(.26,.27,.28),"coluna":Color(.60,.60,.58),
  "azulejo":Color(.52,.52,.52),"cimento":Color(.36,.36,.35),"quadra":Color(.44,.46,.45),
  "telhado":Color(.28,.28,.29),"degrau":Color(.58,.58,.56),"palco":Color(.47,.47,.47),
- "bloco":Color(.46,.44,.41),"tronco":Color(.30,.29,.28),"copa":Color(.38,.41,.38),
+ "bloco":Color(.46,.44,.41),"relevo":Color(.48,.48,.46),"tronco":Color(.30,.29,.28),"copa":Color(.38,.41,.38),
 }
 
 static var _materiais: Dictionary={}
@@ -38,9 +39,12 @@ static func material(nome: String) -> StandardMaterial3D:
  var img:=Image.create(32,32,false,Image.FORMAT_RGB8)
  for y in 32:
   for x in 32:
-   var linha:=x==0 or y==0
+   # Concreto sem linhas (Felipe: o pátio não tem azulejo); só azulejo e
+   # paredes mostram a grade de 1 m.
+   var linha:=(x==0 or y==0) and not nome in ["cimento","relevo"]
    var meio:=(x==16 or y==16) and nome in ["azulejo","quadra"]
    var k:=.72 if linha else (.86 if meio else 1.0)
+   if nome in ["cimento","relevo"]: k*=.94+float(posmod(x*7+y*13+x*y,9))/75.0
    img.set_pixel(x,y,Color(cor.r*k,cor.g*k,cor.b*k))
  var mat:=StandardMaterial3D.new()
  mat.resource_name="blockout_"+nome
@@ -108,6 +112,7 @@ static func pecas() -> Dictionary:
  p["degrau"]=[["degrau",Vector3(-1,0,0),Vector3(1,DEGRAU_ALTURA,DEGRAU_PISO)]]
  # Volumes de jogo no bloqueio.
  p["bloco_baixo"]=[["bloco",Vector3(-.5,0,-.5),Vector3(.5,BLOCO,.5)]]
+ p["relevo"]=[["relevo",Vector3(-.5,0,-.5),Vector3(.5,RELEVO,.5)]]
  p["palco"]=[["palco",Vector3(-.5,0,-.5),Vector3(.5,PALCO,.5)]]
  p["arvore"]=[["tronco",Vector3(-.35,0,-.35),Vector3(.35,4.2,.35)],["copa",Vector3(-3.2,3.9,-3.2),Vector3(3.2,6.5,3.2)],["copa",Vector3(-2.1,6.5,-2.1),Vector3(2.1,7.6,2.1)]]
  return p

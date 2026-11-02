@@ -19,7 +19,7 @@ A legenda completa está no topo de cada `.txt`. Resumo:
 ```
 #  parede        -  mureta       D  porta (sempre DD)   W  janela gradeada
 O  vão com verga G  portão       C  coluna              T  árvore
-%  bloco baixo   L  lâmpada      < > ^ v  escada (seta = sobe)
+%  bloco baixo   L  lâmpada      =  relevo no chão (8 cm)   < > ^ v  escada (seta = sobe)
 .  azulejo coberto  ;  cimento coberto  ,  céu aberto  :  quadra  _  palco
 @  acorda   $  bolsa   *  ritual   +  checkpoint 2   &  armário   1–4  postos
 ```

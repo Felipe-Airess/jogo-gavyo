@@ -46,7 +46,7 @@ func step() -> void:
   # Pátio de química, caixa da escada e a chegada pelo corredor (térreo): agachado.
   var cel: Vector2i=game.school.celula_de(game.player.position)
   var px: int=cel.x; var pz: int=cel.y
-  var inside: bool=game.player.position.y<1 and px>=19 and px<=41 and pz<=11
+  var inside: bool=game.player.position.y<1 and px>=19 and px<=41 and pz<=14
   if inside!=Input.is_physical_key_pressed(KEY_CTRL): key(KEY_CTRL,inside)
   for f in game.school.ritual_figures: max_ritual_susp=maxf(max_ritual_susp,f.suspicion)
   if game.ritual_noticed and not noticed_logged:

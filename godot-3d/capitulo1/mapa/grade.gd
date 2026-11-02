@@ -12,7 +12,7 @@ const ESCADA:="<>^v"
 ## Direção para onde a escada sobe.
 const SOBE:={"<":Vector2i(-1,0),">":Vector2i(1,0),"^":Vector2i(0,-1),"v":Vector2i(0,1)}
 ## Símbolos com significado próprio: não podem nomear ambientes.
-const RESERVADOS:="#-DWOG.,;:_<>^vCLT%@$*+&0123456789"
+const RESERVADOS:="#-DWOG.,;:_=<>^vCLT%@$*+&0123456789"
 const VIZINHOS:=[Vector2i(1,0),Vector2i(0,1),Vector2i(-1,0),Vector2i(0,-1)]
 
 var linhas: PackedStringArray=[]

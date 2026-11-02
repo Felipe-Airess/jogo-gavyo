@@ -12,7 +12,7 @@ func run() -> void:
  game.begin(); game.end_intro()
  var report: Array=[]
  var shots="--fotos" in OS.get_cmdline_user_args()
- for data in [["patio",game.school.cel(70,24),0.0],["corredor",game.school.cel(39,24),0.0],["quimica",game.school.cel(39,9),0.0],["superior",game.school.cel(12,9,3.4),PI/2]]:
+ for data in [["patio",game.school.cel(70,27),0.0],["corredor",game.school.cel(39,27),0.0],["quimica",game.school.cel(39,12),0.0],["superior",game.school.cel(12,12,3.4),PI/2]]:
   game.player.position=data[1]; game.player.velocity=Vector3.ZERO
   game.view.yaw=data[2]; game.view.pitch=-.12
   game.player.face(game.player.position+game.view.direction())

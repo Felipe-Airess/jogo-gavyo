@@ -136,6 +136,8 @@ def desenhar_andar(img, draw, g, ox, oy, S, fundo=None, titulo=""):
             cx, cy = x0 + S / 2, y0 + S / 2
             if s == "%":
                 draw.rectangle([x0 + 1, y0 + 1, x0 + S - 2, y0 + S - 2], fill=(176, 136, 96), outline=(120, 90, 60))
+            elif s == "=":
+                draw.rectangle([x0 + S * .1, y0 + S * .1, x0 + S * .9, y0 + S * .9], fill=(185, 185, 178))
             elif s == "C":
                 draw.rectangle([cx - S * .22, cy - S * .22, cx + S * .22, cy + S * .22], fill=(60, 60, 60))
             elif s == "T":
@@ -278,6 +280,7 @@ def legenda(draw, x, y):
         ("bloco baixo (cobertura)", lambda d, a, b: d.rectangle([a[0], a[1] - 5, a[0] + 10, a[1] + 5], fill=(176, 136, 96))),
         ("armário (esconderijo)", lambda d, a, b: d.rectangle([a[0], a[1] - 5, a[0] + 10, a[1] + 5], fill=(130, 40, 170))),
         ("posto de cultista + visão 10,5 m", lambda d, a, b: d.ellipse([a[0], a[1] - 6, a[0] + 12, a[1] + 6], fill=(210, 20, 20))),
+        ("relevo no chão (8 cm)", lambda d, a, b: d.rectangle([a[0], a[1] - 4, a[0] + 22, a[1] + 4], fill=(185, 185, 178))),
         ("lâmpada", lambda d, a, b: d.ellipse([a[0], a[1] - 3, a[0] + 6, a[1] + 3], fill=(240, 190, 40))),
         ("escada (seta = sobe)", lambda d, a, b: d.polygon([(a[0], a[1]), (a[0] + 10, a[1] - 5), (a[0] + 10, a[1] + 5)], fill=(80, 60, 160))),
         ("colisão montada no jogo", lambda d, a, b: d.rectangle([a[0], a[1] - 5, a[0] + 22, a[1] + 5], outline=(220, 0, 200))),

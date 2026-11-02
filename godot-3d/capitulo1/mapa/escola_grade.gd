@@ -237,6 +237,7 @@ func _volumes(n: int) -> void:
  for v in g.celulas("C"): _por(n,v.x,v.y,"coluna")
  for v in g.celulas("%"): _por(n,v.x,v.y,"bloco_baixo")
  for v in g.celulas("_"): _por(n,v.x,v.y,"palco")
+ for v in g.celulas("="): _por(n,v.x,v.y,"relevo")
  for v in g.celulas("T"): _por(n,v.x,v.y,"arvore")
 
 ## Coberturas: salas e varandas a 3,4 m (onde não há andar de cima); quadra,
@@ -338,6 +339,9 @@ func _colisoes() -> void:
    _solido(_canto(rect.position,y0),_canto(rect.end,y0+KIT.BLOCO),"Bloco")
   for rect in g.retangulos(func(c,r): return g.ch(c,r)=="_"):
    _solido(_canto(rect.position,y0),_canto(rect.end,y0+KIT.PALCO),"Palco")
+  # Relevo: 8 cm, a cápsula passa por cima (a grade de rotas o ignora).
+  for rect in g.retangulos(func(c,r): return g.ch(c,r)=="="):
+   _solido(_canto(rect.position,y0),_canto(rect.end,y0+KIT.RELEVO),"Relevo")
   for v in g.celulas("C"):
    _solido(cel(v.x,v.y,y0)-Vector3(.2,0,.2),cel(v.x,v.y,y0+LEVEL)+Vector3(.2,0,.2),"Coluna")
   for v in g.celulas("T"):

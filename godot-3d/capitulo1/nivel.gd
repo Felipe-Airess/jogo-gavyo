@@ -41,54 +41,54 @@ const BEATS:=[
 ## estacionamento -> corredor aberto. Sul: corredorzinho -> frente de 2/1
 ## Contabilidade -> rampa -> corredor aberto. (Há ainda a volta pelo refeitório
 ## e pela passagem do portão, que cai no mesmo corredor sul.)
-const ROUTE_NORTH:=[Vector2(62,17),Vector2(54,13),Vector2(49,11),Vector2(43,10),Vector2(39,9)]
-const ROUTE_SOUTH:=[Vector2(62,27),Vector2(54,30),Vector2(54,35),Vector2(54,38),Vector2(45,38),Vector2(39,38),Vector2(39,24),Vector2(39,9)]
+const ROUTE_NORTH:=[Vector2(62,20),Vector2(54,16),Vector2(49,14),Vector2(43,13),Vector2(39,12)]
+const ROUTE_SOUTH:=[Vector2(62,30),Vector2(54,33),Vector2(54,38),Vector2(54,41),Vector2(45,41),Vector2(39,41),Vector2(39,27),Vector2(39,12)]
 ## Gargalos (células) para provar que uma rota não depende da outra.
-const CHOKE_NORTH:=Rect2i(47,9,6,5)
-const CHOKE_SOUTH:=Rect2i(53,32,3,5)
+const CHOKE_NORTH:=Rect2i(47,12,6,5)
+const CHOKE_SOUTH:=Rect2i(53,35,3,5)
 
 ## Pontos de roteiro e de teste (célula, andar).
 const PONTOS:={
- "entrada_escada":[Vector2(32,7),0],     # pátio de química, diante do vão da caixa
- "espiar":[Vector2(29,7),0],             # dentro da caixa, no vão: espia o ritual
- "patamar":[Vector2(21,7),1],
- "corredor_superior":[Vector2(21,9),1],
- "frente_3_informatica":[Vector2(16.5,9),1],   # eixo da porta DD (16–17)
- "dentro_3_informatica":[Vector2(16.5,6),1],
- "mesa_da_bolsa":[Vector2(15,5),1],
- "gravar":[Vector2(37,7),0],             # passagem sul do pátio de química
- "vao_do_patio":[Vector2(38,8),0],       # vão para o corredor aberto
- "patio_aberto":[Vector2(70,24),0],
- "corredor_aberto":[Vector2(39,24),0],
- "saida":[Vector2(60,62),0],
- "passagem_portao":[Vector2(78,60),0],
- "refeitorio":[Vector2(90,20),0],
- "avistamento":[Vector2(53,38),0],       # vê o primeiro cultista entrar no corredor
- "susto":[Vector2(38,25),0],             # silhueta (avança 1 célula por morte)
- "silhueta":[Vector2(38,14),0],
- "batida_metal":[Vector2(84,22),0],
- "batida_luzes":[Vector2(65,22),0],
- "batida_passos":[Vector2(57,38),0],
+ "entrada_escada":[Vector2(32,10),0],     # pátio de química, diante do vão da caixa
+ "espiar":[Vector2(29,10),0],             # dentro da caixa, no vão: espia o ritual
+ "patamar":[Vector2(21,10),1],
+ "corredor_superior":[Vector2(21,12),1],
+ "frente_3_informatica":[Vector2(16.5,12),1],   # eixo da porta DD (16–17)
+ "dentro_3_informatica":[Vector2(16.5,9),1],
+ "mesa_da_bolsa":[Vector2(15,8),1],
+ "gravar":[Vector2(37,10),0],             # passagem sul do pátio de química
+ "vao_do_patio":[Vector2(38,11),0],       # vão para o corredor aberto
+ "patio_aberto":[Vector2(70,27),0],
+ "corredor_aberto":[Vector2(39,27),0],
+ "saida":[Vector2(60,65),0],
+ "passagem_portao":[Vector2(78,63),0],
+ "refeitorio":[Vector2(90,23),0],
+ "avistamento":[Vector2(53,41),0],       # vê o primeiro cultista entrar no corredor
+ "susto":[Vector2(38,28),0],             # silhueta (avança 1 célula por morte)
+ "silhueta":[Vector2(38,17),0],
+ "batida_metal":[Vector2(84,25),0],
+ "batida_luzes":[Vector2(65,25),0],
+ "batida_passos":[Vector2(57,41),0],
 }
 
 ## Itens sobre blocos (%) ou sobre a mesa da bolsa ($): [tipo, célula, andar].
 const ITENS:=[
- ["empanado",Vector2(80,18),0],
- ["empanado",Vector2(47,31),0],
- ["empanado",Vector2(13,3),1],
- ["faca",Vector2(91,34),0],
+ ["empanado",Vector2(80,21),0],
+ ["empanado",Vector2(47,34),0],
+ ["empanado",Vector2(13,6),1],
+ ["faca",Vector2(91,37),0],
 ]
 
 ## Ferramentas (sobre bloco) e usos: [nome, célula, andar].
-const FERRAMENTAS:=[["chave de fenda",Vector2(47,30),0],["alicate",Vector2(44,3),0],["régua",Vector2(65,8),0]]
+const FERRAMENTAS:=[["chave de fenda",Vector2(47,33),0],["alicate",Vector2(44,6),0],["régua",Vector2(65,11),0]]
 ## [uso, ferramenta, célula, altura em m, deslocamento em m].
 const USOS:=[
- ["luminária","chave de fenda",Vector2(37,24),1.2,Vector3(.27,0,0)],
- ["caixa de materiais","alicate",Vector2(49,34),.175,Vector3.ZERO],
- ["livros altos","régua",Vector2(88,6),1.95,Vector3.ZERO],
+ ["luminária","chave de fenda",Vector2(37,27),1.2,Vector3(.27,0,0)],
+ ["caixa de materiais","alicate",Vector2(49,37),.175,Vector3.ZERO],
+ ["livros altos","régua",Vector2(88,9),1.95,Vector3.ZERO],
 ]
 ## Objetos arremessáveis no chão.
-const OBJETOS:=[Vector2(54,36),Vector2(38,27),Vector2(86,28)]
+const OBJETOS:=[Vector2(54,39),Vector2(38,30),Vector2(86,31)]
 
 static func ponto(escola: Node3D,nome: String,altura:=0.0) -> Vector3:
  var dado: Array=PONTOS[nome]

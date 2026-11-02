@@ -30,6 +30,9 @@ sala b 3 Informática
 area U Corredor superior
 ---
 
+
+
+
     #################
     #.......#.......#
     #.......#%......#
