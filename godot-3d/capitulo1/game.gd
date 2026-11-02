@@ -345,6 +345,7 @@ func _physics_process(dt: float) -> void:
  simulation_ticks+=1
  school.update(dt,elapsed)
  for e in school.ritual_figures: e.animate(dt)
+ if phase in ["investigate","sighting"]: _ritual_watch(dt)
  if phase=="intro":
   intro_clock+=dt
   player.animate(dt)
@@ -615,6 +616,42 @@ func _enemy_ticks(dt: float) -> void:
     if not e.evidence.has(stain.get_instance_id()) and e.position.distance_to(stain.position)<4 and visible_between(e.bone_point("Head"),stain.position+Vector3.UP*.02):
      e.evidence[stain.get_instance_id()]=true
      e.suspicion=maxf(e.suspicion,.4); e.last_seen=stain.position; e.memory=25
+
+## Cultistas do ritual percebem Miguel (decisão: ritual já acontece na
+## subida; ele passa escondido). Em transe: percebem devagar. Agachado no
+## escuro demora; velas por perto ou lanterna aceleram. Se completar, o
+## cultista interrompe o ritual e o alerta se espalha.
+const RITUAL_SIGHT:=6.5
+const RITUAL_RATE:=.42
+var ritual_noticed:=false
+
+func _ritual_watch(dt: float) -> void:
+ if ritual_noticed or player.hidden: return
+ for f in school.ritual_figures:
+  var seen:=false
+  if f.position.distance_to(player.position)<RITUAL_SIGHT and enemy_sees(f):
+   seen=true
+  if seen:
+   var rate:=RITUAL_RATE*(.3 if player.crouched else 1.0)
+   if phone_light: rate*=2.5
+   for candle in school.candles:
+    if candle.position.distance_to(player.position)<1.6: rate*=1.4; break
+   if player.velocity.length()>2.5: rate*=1.6
+   # Sombra da caixa da escada: lugar de espiar (decisão de Felipe).
+   if player.position.x<school.p(school.STAIR_EAST_X+2,0).x and player.position.z>school.p(0,school.STAIR_NORTH_Z).z: rate*=.35
+   f.suspicion=minf(1,f.suspicion+dt*rate)
+  else:
+   f.suspicion=maxf(0,f.suspicion-dt*.08)
+  if f.suspicion>=1:
+   ritual_noticed=true
+   f.aware=true; f.activity=""
+   f.face(player.position)
+   hud.say("Um dos encapuzados interrompe o canto e aponta para você.",4)
+   view.trauma=.35
+   _spread_alert(f)
+   for e in enemies:
+    if not e.dead: e.last_seen=player.position; e.memory=30
+   return
 
 func _spread_alert(e: CharacterBody3D) -> void:
  if not e.aware: return
@@ -910,6 +947,10 @@ func restore_checkpoint() -> void:
  super.restore_checkpoint()
  bag_found=bool(checkpoint.get("bag",false))
  alert_spread=bool(checkpoint.get("alert",false))
+ # Ritual volta ao transe se o alerta salvo não existia.
+ ritual_noticed=alert_spread
+ for f in school.ritual_figures:
+  f.suspicion=0; f.aware=false; f.activity="ritual"; f.face(school.ritual_center)
  video_recorded=bool(checkpoint.get("video",false))
  before_ritual=bool(checkpoint.get("before_ritual",false))
  sighting_seen=bool(checkpoint.get("sighting",false))

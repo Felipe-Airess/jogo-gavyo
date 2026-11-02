@@ -32,6 +32,8 @@ func update(dt: float) -> void:
  var level=0.0
  for e in game.enemies:
   if not e.dead and not e.aware: level=maxf(level,e.suspicion)
+ if not game.ritual_noticed:
+  for e in game.school.ritual_figures: level=maxf(level,e.suspicion)
  suspicion.text="◌" if level>.10 else ""
  suspicion.modulate=Color(1,.8,.35,clampf(level+.2,0,1))
  rec.position=Vector2(size.x-180,25)
@@ -47,6 +49,13 @@ func update(dt: float) -> void:
  elif game.paused and game.started:
   menu.text="PAUSADO\n\n[Esc] Voltar · [R] Checkpoint\n\nWASD mover · mouse olhar\nShift correr · Ctrl agachar\nEspaço interagir / porta / parkour\nClique esquerdo empurrar · direito esquivar\nQ soltar-se de um agarrão\nE empanado · V vídeo · L lanterna após bolsa\nT arremessar objeto · F fresta · F3 filtro ligado/desligado"
   if game.touch!=null: menu.text="PAUSADO\n\nToque para voltar\n\nEsquerda: mover (até a borda corre)\nDireita: arrastar para olhar\nBotões: ação, empurrar, esquiva/soltar,\nagachar, gravar, luz, fresta, comer"
+ # Terror: sem barra de jogo de luta. Vida só aparece ferido; itens só quando há.
+ var parts: Array[String]=[]
+ if game.player.health<99: parts.append("FERIDO" if game.player.health>35 else "MUITO FERIDO")
+ if game.food>0: parts.append("EMPANADO ×%d"%game.food)
+ if game.knife: parts.append("FACA")
+ vitals.text="   ".join(parts)
+ vitals.modulate=Color(1,.55,.5) if game.player.health<=35 else Color(1,1,1,.85)
  if game.touch!=null:
   # No celular, dicas citam os botões; mensagem acima dos botões.
   for item in [message,prompt]: item.text=touch_text(item.text)

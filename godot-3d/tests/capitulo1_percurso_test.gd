@@ -11,7 +11,11 @@ var frame_count:=0
 var last_health:=100.0
 ## "rota": inimigos patrulham e bloqueiam fisicamente, mas não percebem Miguel;
 ## valida geometria e fluxo até o fim. "real": percepção ativa, só observacional.
+## "patio": corredores passivos, cultistas do ritual atentos e Miguel agachado
+## dentro do pátio de química — testa a passagem escondida.
 var mode:="rota"
+var max_ritual_susp:=0.0
+var noticed_logged:=false
 
 func _initialize() -> void: call_deferred("run")
 
@@ -29,10 +33,21 @@ func key(code: Key,pressed: bool) -> void:
  Input.flush_buffered_events()
 
 func step() -> void:
- if mode=="rota":
+ if mode in ["rota","patio"]:
   # Rota testa mapa e fluxo: cultistas não percebem nem bloqueiam o corpo.
   for e in game.enemies:
    e.suspicion=0; e.aware=false; e.attack_target=null; e.collision_layer=0
+ if mode=="rota":
+  for f in game.school.ritual_figures: f.suspicion=0
+ if mode=="patio":
+  var px: float=game.player.position.x/game.school.SCALE+440
+  var pz: float=game.player.position.z/game.school.SCALE+300
+  var inside: bool=game.player.position.y<1 and px>160 and px<345 and pz>5 and pz<70
+  if inside!=Input.is_physical_key_pressed(KEY_CTRL): key(KEY_CTRL,inside)
+  for f in game.school.ritual_figures: max_ritual_susp=maxf(max_ritual_susp,f.suspicion)
+  if game.ritual_noticed and not noticed_logged:
+   noticed_logged=true
+   note("ritual notou Miguel em p(%.0f,%.0f) agachado=%s bolsa=%s gravando=%s" % [px,pz,game.player.crouched,game.bag_found,game.recording])
  await physics_frame
  frame_count+=1
  if mode=="real" and game.player.health<last_health:
@@ -121,6 +136,7 @@ func walk(to: Vector3,label: String,tolerance:=.6,limit:=60*90) -> bool:
 
 func run() -> void:
  if "--real" in OS.get_cmdline_user_args(): mode="real"
+ if "--patio" in OS.get_cmdline_user_args(): mode="patio"
  note("modo "+mode)
  game=load("res://capitulo1/main.tscn").instantiate()
  root.add_child(game)
@@ -164,7 +180,7 @@ func run() -> void:
  if ok: ok=await walk(s.ritual_approach,"abrigo no pé da escada",1.0)
  check(game.before_ritual,"checkpoint antes do ritual alcançado andando")
  if ok: ok=await walk(entrance,"entrada da escada",.5)
- if ok: ok=await walk(s.p(262,50),"posição de filmagem",.35)
+ if ok: ok=await walk(s.p(s.STAIR_EAST_X+1,51),"espiar da entrada da escada",.35)
  if ok:
   var target: Vector3=s.ritual_center+Vector3.UP*.7
   for w in 20:
@@ -192,6 +208,9 @@ func run() -> void:
  var nearest:=INF
  for e in game.enemies: nearest=minf(nearest,e.home.distance_to(s.ritual_approach))
  note("distância do checkpoint 2 ao cultista mais próximo (posição inicial): %.2f m" % nearest)
+ if mode=="patio":
+  note("suspeita máxima do ritual %.2f; notado=%s" % [max_ritual_susp,game.ritual_noticed])
+  check(not game.ritual_noticed,"agachado, passa pelo pátio sem o ritual notar")
  print("CAPITULO1_PERCURSO[%s]: %d passed, %d failed" % [mode,passed,failed])
  # Modo real é observacional: falhas viram registro, não reprovação.
  quit(1 if failed and mode=="rota" else 0)
