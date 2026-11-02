@@ -61,6 +61,7 @@ func run() -> void:
  look(game,ponto(game,"refeitorio"),0); await shot(prefix+"-02-refeitorio-palco")
  look(game,ponto(game,"refeitorio")+Vector3(-6,0,4),90); await shot(prefix+"-03-refeitorio-patio")
  look(game,ponto(game,"patio_aberto"),90); await shot(prefix+"-04-patio-aberto")
+ look(game,s.cel(66,26),-45,-.02); await shot(prefix+"-04b-refeitorio-como-foto")
  look(game,s.cel(56,23),150); await shot(prefix+"-05-labs-varanda")
  look(game,s.cel(54,34),180,-.05); await shot(prefix+"-06-corredorzinho")
  look(game,ponto(game,"avistamento"),90); await shot(prefix+"-07-corredor-sul")

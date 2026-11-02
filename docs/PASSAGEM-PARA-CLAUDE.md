@@ -190,6 +190,14 @@ Felipe olhou a planta e mandou um esboço em perspectiva do pátio/refeitório. 
 - **Cores para a decoração (depois da aprovação)**: a maior parte das paredes é
   verde ou amarela, inclusive no pátio de química. O bloqueio continua cinza.
 
+Fotos novas de Felipe (`docs/referencias/escola-fotos/refeitorio-colunas.jpg`,
+`patio-varanda.jpg`). Aplicado: colunas do refeitório na própria linha do
+relevo, a cada 3 m; calçadas cobertas do pátio (norte, oeste, sul) com relevo
+na beira entre as colunas. Para a decoração: paredes amarelas em cima, azulejo
+branco embaixo (inclusive nas colunas), portas e janelas verdes, telhado de
+telha com beiral, cadeiras de plástico brancas empilhadas no refeitório.
+Testes: capítulo 47, mapa 18, nível 10; rota 7/7 (162 s); pátio 8/8.
+
 Testes depois das correções: capítulo 47, mapa 18, nível 10; percurso rota 7/7
 (163 s), pátio 8/8 (suspeita máx. 0,69). Furtivo (só observação): o ritual nota o
 robô (anda em pé) e o perseguidor o pega na fuga; sem a parede, o pátio e o
