@@ -145,6 +145,8 @@ func build(owner_game: Node3D) -> void:
  _details_school()
  _layout_terror()
  _classroom_desks()
+ # Estrutura de level design (rotas, cobertura, marco, luz-guia): nivel.gd.
+ load("res://capitulo1/nivel.gd").build(self)
  _environment()
  # Temperatura geral fria, luminárias amareladas localizadas; sem sombras dinâmicas.
  var env: Environment=find_children("*","WorldEnvironment",true,false)[0].environment
@@ -384,7 +386,8 @@ func _courtyard() -> void:
   shape.top_radius=1.1; shape.bottom_radius=1.1; shape.height=.003; shape.radial_segments=18
   puddle.mesh=shape; puddle.material_override=wet; puddle.position=at
   puddle.scale=Vector3(1,.5,.65); add_child(puddle)
- for x in [510,600,690]:
+ # Mesas só no refeitório; o pátio aberto é aberto (fotos 5/6).
+ for x in [680,745]:
   for z in [160,220]:
    table(p(x,z),3.4,.85)
    bench(p(x,z+13),3.4)
@@ -392,11 +395,7 @@ func _courtyard() -> void:
  sign_at("REFEITÓRIO",p(730,255,2.8))
  sign_at("AUDITÓRIO",p(715,104,2.7))
  # Colunas (foto do auditório): azulejo branco embaixo, pintura verde no topo.
- for x in [450,550]:
-  box(Vector3(.42,2.4,.42),p(x,100,1.2),"azulejo")
-  box(Vector3(.42,1.0,.42),p(x,100,2.9),"column_green")
  _auditorium_props()
- box(Vector3(350*SCALE,.14,2.1),p(615,104,3.45),"wall")
  # Bicicletas, sem entidades físicas caras.
  for z in [130,160,190]:
   for dx in [-.5,.5]:
@@ -587,7 +586,6 @@ func _chemistry_patio() -> void:
 
 ## Auditório e pátio principal (fotos): sofá preto rasgado, cadeiras de
 ## plástico brancas empilhadas, extintor e porta gradeada verde.
-## Palco com rampa frontal (a cápsula não sobe degrau vertical).
 ## Carteiras em fileiras nas salas de aula (escala real deixava salas vazias).
 ## Também servem de cobertura. Evitam porta, mesa central, armários e itens.
 func _classroom_desks() -> void:
@@ -619,18 +617,15 @@ func _desk_light(at: Vector3) -> void:
  box(Vector3(.42,.05,.42),at+Vector3(0,.44,.62),"wood",false)
  box(Vector3(.42,.42,.05),at+Vector3(0,.66,.82),"metal",false)
 
+## Palco do auditório: bloco sólido (não faz parte de rota); degraus só
+## visuais. Rampa física prendia a cápsula na quina lateral.
 func _stage(x1: float,x2: float,z1: float,z2: float,height: float) -> void:
- var a:=p(x1,z1,height); var b:=p(x2,z1,height); var c:=p(x2,z2,height); var d:=p(x1,z2,height)
- var e:=p(x2,z2+8,0); var f:=p(x1,z2+8,0)
- var body=StaticBody3D.new(); body.collision_layer=1; body.collision_mask=2; body.name="PalcoAuditorio"
- add_child(body)
- var shape=ConcavePolygonShape3D.new(); shape.backface_collision=true
- shape.set_faces(PackedVector3Array([a,c,b,a,d,c, d,e,c,d,f,e]))
- var cs=CollisionShape3D.new(); cs.shape=shape; body.add_child(cs)
- # Laterais/frente sólidas abaixo do topo, para não entrar por baixo.
  box(Vector3(p(x2,0).x-p(x1,0).x,height,p(0,z2).z-p(0,z1).z),(p(x1,z1)+p(x2,z2))*.5+Vector3.UP*height*.5,"azulejo")
- var ramp=box(Vector3(p(x2,0).x-p(x1,0).x,.06,(p(0,z2+8)-p(0,z2)).length()+.05),(c+d+e+f)*.25,"concrete",false)
- ramp.rotation.x=atan2(height,(p(0,z2+8)-p(0,z2)).length())
+ for k in 2:
+  var depth:=.3
+  var w: float=(p(x2,0).x-p(x1,0).x)*.4
+  var h: float=height*float(2-k)/3.0
+  box(Vector3(w,h,depth),Vector3((p(x1,0).x+p(x2,0).x)*.5,h*.5,p(0,z2).z+depth*(k+.5)),"concrete",false)
 
 func _auditorium_props() -> void:
  var sofa_at: Vector3=p(655,112)

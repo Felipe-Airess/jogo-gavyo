@@ -54,9 +54,9 @@ func _ready() -> void:
  add_child(school)
  school.build(self)
  player=spawn_actor(school.spawn,false)
- # Postos revistos: um ficava a 0,5 m do checkpoint do ritual e outro via a entrada do
- # pátio a 4 m. Agora um fica no laboratório de química e outro no estacionamento.
- for at in [school.first_cultist,school.p(323,160),school.p(378,52),school.p(352,150)]:
+ # Postos definidos no level design (capitulo1/nivel.gd): um por rota + química.
+ for post in load("res://capitulo1/nivel.gd").GUARD_POSTS:
+  var at: Vector3=school.p(post.x,post.y)
   var e=spawn_actor(at,true)
   e.face(at+Vector3.FORWARD)
   enemies.append(e)

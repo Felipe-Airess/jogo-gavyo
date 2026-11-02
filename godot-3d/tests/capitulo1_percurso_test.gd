@@ -40,6 +40,8 @@ func step() -> void:
    e.suspicion=0; e.aware=false; e.attack_target=null; e.collision_layer=0
  if mode=="rota":
   for f in game.school.ritual_figures: f.suspicion=0
+ if mode=="furtivo" and game.sighting_seen and game.player.position.y<1:
+  if not Input.is_physical_key_pressed(KEY_CTRL): key(KEY_CTRL,true)
  if mode=="patio":
   var px: float=game.player.position.x/game.school.SCALE+440
   var pz: float=game.player.position.z/game.school.SCALE+300
@@ -51,7 +53,7 @@ func step() -> void:
    note("ritual notou Miguel em p(%.0f,%.0f) agachado=%s bolsa=%s gravando=%s" % [px,pz,game.player.crouched,game.bag_found,game.recording])
  await physics_frame
  frame_count+=1
- if mode=="real" and game.player.health<last_health:
+ if mode in ["real","furtivo"] and game.player.health<last_health:
   note("dano %.0f em %s; inimigos: %s" % [last_health-game.player.health,game.player.position,enemy_summary()])
  last_health=game.player.health
 
@@ -141,6 +143,10 @@ func walk(to: Vector3,label: String,tolerance:=.6,limit:=60*90) -> bool:
    var sp=game.get_world_3d().direct_space_state
    var hit=sp.intersect_ray(PhysicsRayQueryParameters3D.create(game.player.position+Vector3.UP*.5,target+Vector3.UP*.5,1,[game.player.get_rid()]))
    if hit: note("obstáculo: %s %s em %s" % [hit.collider.name,hit.collider.get_parent().name,hit.position])
+   for ci in game.player.get_slide_collision_count():
+    var col=game.player.get_slide_collision(ci)
+    note("contato %s pai=%s normal=%s em %s" % [col.get_collider().name,col.get_collider().get_parent().name,col.get_normal(),col.get_position()])
+   note("estado=%s escondido=%s agachado=%s fase=%s" % [game.player.state,game.player.hidden,game.player.crouched,game.phase])
    note("%s: TRAVOU em %s (alvo %s, faltam %.1f m)" % [label,game.player.position,target,flat])
    key(KEY_W,false); return false
   await step()
@@ -151,6 +157,7 @@ func walk(to: Vector3,label: String,tolerance:=.6,limit:=60*90) -> bool:
 func run() -> void:
  if "--real" in OS.get_cmdline_user_args(): mode="real"
  if "--patio" in OS.get_cmdline_user_args(): mode="patio"
+ if "--furtivo" in OS.get_cmdline_user_args(): mode="furtivo"
  note("modo "+mode)
  game=load("res://capitulo1/main.tscn").instantiate()
  root.add_child(game)
@@ -172,7 +179,12 @@ func run() -> void:
  var s=game.school
  var entrance: Vector3=s.p(s.STAIR_EAST_X+8,51)
  var landing: Vector3=s.p(172,75,s.LEVEL)
- var ok:=await walk(entrance,"entrada da escada no pátio de química")
+ var ok:=true
+ if mode=="furtivo":
+  # Rota norte do level design, agachado depois de ver o primeiro cultista.
+  for wp in load("res://capitulo1/nivel.gd").ROUTE_NORTH:
+   if ok: ok=await walk(s.p(wp.x,wp.y),"rota norte",1.0)
+ if ok: ok=await walk(entrance,"entrada da escada no pátio de química")
  if ok: ok=await walk(s.stairs_bottom,"pé da escada",.4)
  game.path_grid=enemy_grid
  if ok: ok=await walk(s.stairs_top,"subir escada",.5)
@@ -227,4 +239,5 @@ func run() -> void:
   check(not game.ritual_noticed,"agachado, passa pelo pátio sem o ritual notar")
  print("CAPITULO1_PERCURSO[%s]: %d passed, %d failed" % [mode,passed,failed])
  # Modo real é observacional: falhas viram registro, não reprovação.
+ note("alerta=%s ritual_notou=%s sighting=%s" % [game.alert_spread,game.ritual_noticed,game.sighting_seen])
  quit(1 if failed and mode=="rota" else 0)
