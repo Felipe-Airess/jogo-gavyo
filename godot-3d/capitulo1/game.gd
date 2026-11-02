@@ -92,12 +92,12 @@ func _ready() -> void:
  cult_audio.play()
  flashlight=SpotLight3D.new()
  flashlight.light_color=Color(.88,.90,.78)
- flashlight.light_energy=1.4
- flashlight.spot_range=13
+ flashlight.light_energy=2.6
+ flashlight.spot_range=16
  flashlight.spot_angle=27
  flashlight.shadow_enabled=false
  flashlight.visible=false
- view.camera.add_child(flashlight)
+ add_child(flashlight)
  var hand=BoneAttachment3D.new()
  hand.bone_name="RightHand"
  player.rig.add_child(hand)
@@ -317,6 +317,13 @@ func _process(dt: float) -> void:
  hud.update(dt)
  filter_rect.size=get_viewport().get_visible_rect().size
  flashlight.visible=bag_found and phone_light and not paused
+ if flashlight.visible:
+  # Sai do celular na mão, não da câmera: em terceira pessoa a luz da câmera
+  # iluminava as costas de Miguel em vez do caminho.
+  var from: Vector3=player.bone_point("RightHand")+Vector3.UP*.05 if view.mode not in ["first_person","recording","peek"] else view.camera.global_position
+  var aim: Vector3=view.camera.global_position+view.direction()*12
+  flashlight.global_position=from
+  if from.distance_squared_to(aim)>.01: flashlight.look_at(aim)
  phone_prop.visible=bag_found and (recording or phone_light)
  player.tool_pose=recording or not tool_active.is_empty()
  burst_clock=maxf(0,burst_clock-dt)

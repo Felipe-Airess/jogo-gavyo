@@ -2,6 +2,7 @@ extends "res://prototipo/school.gd"
 ## Planta derivada do desenho de Felipe. Metros propostos; relações preservadas.
 const SCALE := .085
 const LEVEL := 3.4
+const MERGE_CELL := 12.0
 var rooms: Dictionary={}
 var bag: Node3D
 var ritual_center: Vector3
@@ -33,7 +34,15 @@ func build(owner_game: Node3D) -> void:
   ["paper",Color(.66,.64,.50)],["red",Color(.28,.015,.025)],
   ["green",Color(.10,.22,.13)]]:
   mats[data[0]]=material(data[1])
- box(Vector3(84,.3,60),p(475,325,-.15),"floor")
+ # Colisão única; visual em placas para cada uma receber as luzes próximas
+ # (no Compatibility cada malha aceita poucas luzes).
+ var ground=box(Vector3(84,.3,60),p(475,325,-.15),"floor")
+ for child in ground.get_children():
+  if child is MeshInstance3D: child.queue_free()
+ var origin: Vector3=p(475,325,-.15)
+ for ix in 14:
+  for iz in 10:
+   box(Vector3(6,.3,6),origin+Vector3(-42+3+ix*6,0,-30+3+iz*6),"floor",false)
  # Paredes externas com vão no portão 1, sem abertura obrigatória de portão.
  _line(0,0,950,0)
  _line(0,0,0,640)
@@ -102,8 +111,19 @@ func build(owner_game: Node3D) -> void:
  _environment()
  # Temperatura geral fria, luminárias amareladas localizadas; sem sombras dinâmicas.
  var env: Environment=find_children("*","WorldEnvironment",true,false)[0].environment
- env.ambient_light_color=Color(.52,.60,.73)
- env.ambient_light_energy=.72
+ # Terror: escuridão de verdade, névoa que engole o fundo; luz vem de
+ # lâmpadas isoladas, velas e da lanterna do celular.
+ env.ambient_light_color=Color(.34,.40,.52)
+ env.ambient_light_energy=.30
+ env.fog_enabled=true
+ env.fog_light_color=Color(.018,.022,.032)
+ env.fog_light_energy=1.0
+ env.fog_density=.075
+ env.fog_sky_affect=.85
+ env.tonemap_mode=Environment.TONE_MAPPER_FILMIC
+ env.tonemap_exposure=1.0
+ for light in find_children("*","DirectionalLight3D",true,false):
+  light.light_energy=.16
  _merge_static_visuals()
 
 func _line(x1: float,z1: float,x2: float,z2: float,y:=0.0,height:=3.2) -> void:
@@ -360,7 +380,10 @@ func _merge_static_visuals() -> void:
   for d in doors:
    if d.is_ancestor_of(visual): dynamic=true; break
   if dynamic: continue
-  var key=visual.material_override.get_instance_id()
+  # Lotes por material e por região: um lote do mapa inteiro só recebia
+  # as poucas luzes permitidas por malha e ignorava lâmpadas e lanterna.
+  var center: Vector3=visual.global_transform*visual.mesh.get_aabb().get_center()
+  var key=str(visual.material_override.get_instance_id(),":",floori(center.x/MERGE_CELL),":",floori(center.z/MERGE_CELL),":",floori(center.y/2.5))
   if not groups.has(key): groups[key]={"tool":SurfaceTool.new(),"material":visual.material_override}
   var tool: SurfaceTool=groups[key]["tool"]
   if not groups[key].has("started"):

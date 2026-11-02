@@ -1,0 +1,30 @@
+extends SceneTree
+## Capturas de referência do capítulo 1 (uso: xvfb-run godot --path . --script res://tools/capturar_vistas.gd -- <pasta> <prefixo>)
+var out:=""
+func _initialize() -> void: call_deferred("run")
+func shot(name: String) -> void:
+ for i in 20: await process_frame
+ await RenderingServer.frame_post_draw
+ root.get_texture().get_image().save_png(out+"/"+name+".png")
+func look(game,at: Vector3,yaw_deg: float,pitch:=-.08) -> void:
+ game.player.position=at; game.player.velocity=Vector3.ZERO
+ game.view.yaw=deg_to_rad(yaw_deg); game.view.pitch=pitch
+ game.player.face(at+game.view.direction()*Vector3(1,0,1))
+func run() -> void:
+ var args=OS.get_cmdline_user_args()
+ out=args[0]; var prefix=args[1] if args.size()>1 else "v"
+ var game=load("res://capitulo1/main.tscn").instantiate()
+ root.add_child(game)
+ game.begin(); game.end_intro(); game.set_physics_process(false)
+ var s=game.school
+ await shot(prefix+"-acorda")
+ look(game,s.p(620,250),90); await shot(prefix+"-patio")
+ look(game,s.p(323,250),0); await shot(prefix+"-corredor")
+ look(game,s.p(130,78,s.LEVEL),180); await shot(prefix+"-superior")
+ game.bag_found=true; game.phone_light=true
+ look(game,s.p(324,61),0)
+ var d: Vector3=s.ritual_center+Vector3.UP*.5-(game.player.position+Vector3.UP*1.5)
+ game.view.yaw=atan2(-d.x,-d.z); game.view.pitch=asin(d.normalized().y)
+ await shot(prefix+"-ritual")
+ look(game,s.p(600,500),0); await shot(prefix+"-lanterna")
+ quit()
