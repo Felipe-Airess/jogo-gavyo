@@ -390,18 +390,25 @@ func _story_tick(dt: float) -> void:
   view.trauma=.25
   impact_audio.stream=sfx["susto"]; impact_audio.play()
 
-func can_frame_ritual() -> bool:
+func recording_eye() -> Vector3:
+ return player.position+Vector3.UP*(1.0 if player.crouched else 1.55)
+
+## Ao iniciar, valida pelo olho da gravação (câmera de lente), não pelo ombro:
+## no vão da porta o ombro vê o ritual e a cabeça não, o que cancelava o REC.
+func can_frame_ritual(from_eye:=false) -> bool:
  if not bag_found or player.position.y>1 or player.hidden: return false
  var at: Vector3=school.ritual_center+Vector3.UP*.7
- var from: Vector3=view.camera.global_position
+ var from: Vector3=recording_eye() if from_eye else view.camera.global_position
  return from.distance_to(at)<14 and view.direction().dot((at-from).normalized())>.88 and visible_between(from,at)
 
 func toggle_recording() -> void:
  if not bag_found:
   hud.say("O celular está na bolsa.",2); return
  if video_recorded: return
- if can_frame_ritual():
-  recording=not recording; record_time=0
+ if recording:
+  recording=false; record_time=0
+ elif can_frame_ritual(true):
+  recording=true; record_time=0
  else: hud.say("Aproxime-se e enquadre o ritual no pátio de química.",3)
 
 func _jump_gate() -> void:

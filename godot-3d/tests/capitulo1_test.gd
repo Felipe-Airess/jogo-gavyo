@@ -60,6 +60,16 @@ func run() -> void:
  game.view.pitch=asin(delta.normalized().y)
  print("FRAME_RITUAL ",game.can_frame_ritual()," ",game.player.position," ",delta.length())
  check(game.can_frame_ritual(),"ritual pode ser enquadrado manualmente no térreo")
+ # No vão da porta o ombro pode ver o ritual sem que o olho da lente veja.
+ var keep: Vector3=game.player.position
+ game.player.position=Vector3(-10.077,0,-19.76)
+ var eye: Vector3=game.recording_eye()
+ var to_ritual: Vector3=target-eye
+ game.view.yaw=atan2(-to_ritual.x,-to_ritual.z); game.view.pitch=asin(to_ritual.normalized().y)
+ game.toggle_recording()
+ check(not game.recording or game.can_frame_ritual(true),"REC só começa se a visão da lente enquadra o ritual")
+ game.recording=false; game.record_time=0
+ game.player.position=keep
  game.toggle_recording()
  game._story_tick(4.1)
  check(game.video_recorded and game.phase=="investigate" and game.pursuer==null,"rota discreta grava e continua sem perseguidor")

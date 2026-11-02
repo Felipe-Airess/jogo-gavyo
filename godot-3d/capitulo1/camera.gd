@@ -13,7 +13,7 @@ func update(dt: float) -> void:
   return
  if game.recording and game.phase=="investigate":
   mode="recording"
-  camera.global_position=game.player.position+Vector3.UP*(1.0 if game.player.crouched else 1.55)
+  camera.global_position=game.recording_eye()
   camera.look_at(camera.global_position+direction()*5)
   camera.fov=55
   game.player.model.visible=false
