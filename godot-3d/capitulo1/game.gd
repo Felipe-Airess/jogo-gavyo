@@ -5,6 +5,7 @@ const PERSON=preload("res://capitulo1/ator.gd")
 const CHAPTER_HUD=preload("res://capitulo1/hud.gd")
 const CHAPTER_CAMERA=preload("res://capitulo1/camera.gd")
 const TOUCH=preload("res://capitulo1/toque.gd")
+const ACTIONS=preload("res://capitulo1/acoes.gd")
 var touch: CanvasLayer
 var bag_found:=false
 var alert_spread:=false
@@ -134,6 +135,9 @@ func spawn_actor(at: Vector3,is_enemy: bool,big:=false) -> CharacterBody3D:
  spawn_style+=1
  add_child(actor)
  actor.setup(self,at,is_enemy,big)
+ # Clipes FK próprios: empurrão, agarrão (acoes.gd).
+ if not actor.anim.has_animation_library("actions"):
+  actor.anim.add_animation_library("actions",ACTIONS.build(actor))
  return actor
 
 ## Retrô robusto: o 3D é desenhado direto em baixa resolução numa SubViewport
@@ -292,8 +296,8 @@ func shove() -> void:
  attack_mode="shove"
  player.state="attack"; player.clock=0; player.hit_once=false
  attack_duration=SHOVE_DURATION*(1+fatigue*.6)
- player.anim.speed_scale=1.3/(1+fatigue*.6)
- player.anim.play("direto",.07)
+ player.anim.speed_scale=1.0/(1+fatigue*.6)
+ player.anim.play("actions/empurrao",.06)
  if e!=null: player.face(e.position)
  shove_cooldown=attack_duration+.5
  fatigue=minf(1,fatigue+.12)
@@ -717,7 +721,9 @@ func _grab_player(e: CharacterBody3D) -> void:
  e.attack_target=null; e.strike_yaw_bias=0
  enemy_turn=null; turn_cooldown=1.0
  e.state="grab_hold"; e.clock=0
+ e.anim.speed_scale=1.0; e.anim.play("actions/agarrao",.12)
  player.state="grabbed"; player.clock=0; player.velocity=Vector3.ZERO
+ player.anim.speed_scale=1.4; player.anim.play("Body_Block",.12)
  player.face(e.position)
  action_target=e; grab_struggle=0
  impact_audio.stream=sfx["carne"]; impact_audio.play()
