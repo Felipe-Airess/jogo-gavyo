@@ -361,6 +361,8 @@ func _physics_process(dt: float) -> void:
   if story_clock>3.2:
    phase="investigate"
    sighting_seen=true
+   # Ensina antes de testar: o corredor seguinte tem guardas.
+   hud.say("Agachado ("+("AGACHAR" if touch!=null else "Ctrl")+"), Miguel faz menos barulho e é mais difícil de ver.",5)
   return
  if phase=="discovery":
   discovery_clock+=dt
@@ -408,6 +410,7 @@ func _physics_process(dt: float) -> void:
 
 func _story_tick(dt: float) -> void:
  if phase!="investigate" and phase!="chase": return
+ _unease_beats()
  if not bag_found and player.position.distance_to(school.bag_at)<1.7 and player.position.y>2.5:
   hud.say("A bolsa está sobre a mesa. [Espaço] Pegar",1)
  if bag_found and not before_ritual and player.position.distance_to(school.ritual_approach)<3 and player.position.y<1 and checkpoint_safe():
@@ -621,11 +624,45 @@ func _enemy_ticks(dt: float) -> void:
      e.evidence[stain.get_instance_id()]=true
      e.suspicion=maxf(e.suspicion,.4); e.last_seen=stain.position; e.memory=25
 
+## Ritmo (skills level-design/godot-genre-horror): trecho inicial antes do
+## primeiro cultista ganhava só caminhada. Três sinais de inquietação, só
+## ambiente (som/luz), sem susto barato nem fato novo de história.
+var beats_done: Dictionary={}
+var beat_lights: Array=[]
+var beat_clock:=0.0
+
+func _unease_beats() -> void:
+ if beat_clock>0:
+  beat_clock-=get_physics_process_delta_time()
+  if beat_clock<=0:
+   for light in beat_lights: light.light_energy=light.get_meta("energy",1.0)
+   beat_lights.clear()
+ if bag_found or alert_spread: return
+ var px:=player.position
+ if not beats_done.has("metal") and px.distance_to(school.p(700,190))<3.5:
+  beats_done["metal"]=true
+  impact_audio.stream=sfx["metal"]; impact_audio.global_position=px+view.direction()*-6; impact_audio.play()
+  view.trauma=maxf(view.trauma,.12)
+ if not beats_done.has("luzes") and px.distance_to(school.p(545,185))<3.5:
+  beats_done["luzes"]=true
+  cult_audio.volume_db=-10
+  get_tree().create_timer(4).timeout.connect(func(): cult_audio.volume_db=-18)
+  for light in school.find_children("*","OmniLight3D",true,false):
+   if light.global_position.distance_to(px+view.direction()*8)<7 and light!=school.flicker:
+    light.set_meta("energy",light.light_energy); light.light_energy=0; beat_lights.append(light)
+  beat_clock=2.2
+ if not beats_done.has("passos") and px.distance_to(school.p(480,300))<3.5:
+  beats_done["passos"]=true
+  for i in 4:
+   get_tree().create_timer(.45*i).timeout.connect(func():
+    step_audio.global_position=player.position+Vector3(-4+i*1.5,0,-3)
+    step_audio.pitch_scale=.8; step_audio.volume_db=-12; step_audio.play())
+
 ## Cultistas do ritual percebem Miguel (decisão: ritual já acontece na
 ## subida; ele passa escondido). Em transe: percebem devagar. Agachado no
 ## escuro demora; velas por perto ou lanterna aceleram. Se completar, o
 ## cultista interrompe o ritual e o alerta se espalha.
-const RITUAL_SIGHT:=6.5
+const RITUAL_SIGHT:=7.5
 const RITUAL_RATE:=.42
 var ritual_noticed:=false
 
@@ -755,7 +792,11 @@ func interact() -> void:
    item["taken"]=true; carried=item["node"]; return
  for door in school.doors:
   if _near_looking(door.center(),1.8):
-   peek_door=null; door.toggle(); return
+   peek_door=null
+   # Abre para longe de quem abre: de dentro não bate em Miguel; do corredor
+   # abre para dentro e não tranca a passagem.
+   if not door.opened: door.swing=1.65 if (player.position-door.global_position).dot(door.normal)>0 else -1.65
+   door.toggle(); return
  for item in school.pickups:
   if not item["taken"] and _near_looking(item["at"],1.5):
    item["taken"]=true; item["node"].visible=false
@@ -901,7 +942,9 @@ func _navigate(actor: CharacterBody3D,target: Vector3,speed: float,dt: float) ->
 
 func _build_paths() -> void:
  path_grid=AStarGrid2D.new()
- path_grid.region=Rect2i(-78,-58,168,130)
+ # Região da grade (células de 0,5 m) a partir do mapa, com margem da rua.
+ var lo: Vector3=school.p(-10,-10); var hi: Vector3=school.p(960,760)
+ path_grid.region=Rect2i(floori(lo.x*2),floori(lo.z*2),ceili((hi.x-lo.x)*2),ceili((hi.z-lo.z)*2))
  path_grid.cell_size=Vector2(.5,.5)
  path_grid.diagonal_mode=AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
  path_grid.update()

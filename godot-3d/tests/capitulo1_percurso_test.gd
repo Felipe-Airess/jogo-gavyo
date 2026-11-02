@@ -16,6 +16,7 @@ var last_health:=100.0
 var mode:="rota"
 var max_ritual_susp:=0.0
 var noticed_logged:=false
+var nav_grid: AStarGrid2D
 
 func _initialize() -> void: call_deferred("run")
 
@@ -42,7 +43,7 @@ func step() -> void:
  if mode=="patio":
   var px: float=game.player.position.x/game.school.SCALE+440
   var pz: float=game.player.position.z/game.school.SCALE+300
-  var inside: bool=game.player.position.y<1 and px>160 and px<345 and pz>5 and pz<70
+  var inside: bool=game.player.position.y<1 and px>160 and px<345 and pz>5 and pz<95
   if inside!=Input.is_physical_key_pressed(KEY_CTRL): key(KEY_CTRL,inside)
   for f in game.school.ritual_figures: max_ritual_susp=maxf(max_ritual_susp,f.suspicion)
   if game.ritual_noticed and not noticed_logged:
@@ -69,12 +70,25 @@ func aim(at: Vector3) -> void:
 func route(to: Vector3) -> Array[Vector3]:
  var out: Array[Vector3]=[]
  var from: Vector3=game.player.position
- if from.y<1 and to.y<1 and game.path_grid!=null:
+ var grid: AStarGrid2D=nav_grid if nav_grid!=null else game.path_grid
+ if from.y<1 and to.y<1 and grid!=null:
   var a:=Vector2i(roundi(from.x*2),roundi(from.z*2))
   var b:=Vector2i(roundi(to.x*2),roundi(to.z*2))
-  if game.path_grid.is_point_solid(b):
+  if grid.is_point_solid(b):
    note("destino em célula sólida %s" % [to])
-  for pt in game.path_grid.get_id_path(a,b,true):
+  # Começo dentro da margem de uma parede: usa a célula livre mais próxima.
+  if grid.is_point_solid(a):
+   for r in range(1,5):
+    var found:=false
+    for dx in range(-r,r+1):
+     for dz in range(-r,r+1):
+      var c:=a+Vector2i(dx,dz)
+      if grid.is_in_boundsv(c) and not grid.is_point_solid(c): a=c; found=true; break
+     if found: break
+    if found: break
+  var id_path=grid.get_id_path(a,b,false)
+  if id_path.is_empty(): note("rota vazia de %s (sólido=%s) até %s (sólido=%s)" % [a,grid.is_point_solid(a),b,grid.is_point_solid(b)])
+  for pt in id_path:
    out.append(Vector3(pt.x*.5,0,pt.y*.5))
  out.append(to)
  return out
@@ -146,7 +160,7 @@ func run() -> void:
  for door in game.school.doors: door.set_open(true,true)
  await step()
  game._build_paths()
- var nav_grid=game.path_grid
+ nav_grid=game.path_grid
  for door in game.school.doors: door.set_open(false,true)
  await step()
  game._build_paths()
@@ -166,7 +180,7 @@ func run() -> void:
  check(ok and game.player.position.y>3,"chega ao andar superior andando")
  if ok: ok=await walk(s.p(130.5,78,s.LEVEL),"corredor superior")
  if ok: ok=await walk(s.p(130.5,58,s.LEVEL),"porta do 3 Informática")
- if ok: ok=await walk(s.p(130.5,47,s.LEVEL),"mesa da bolsa",.35)
+ if ok: ok=await walk(s.p(130.5,42.5,s.LEVEL),"mesa da bolsa",.3)
  if ok:
   aim(s.bag_at); await step(); game.interact()
  check(game.bag_found,"pega a bolsa após percurso contínuo")

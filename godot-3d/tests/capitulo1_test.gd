@@ -78,7 +78,7 @@ func run() -> void:
  check(game.can_frame_ritual(),"ritual pode ser enquadrado manualmente no térreo")
  # No vão da porta o ombro pode ver o ritual sem que o olho da lente veja.
  var keep: Vector3=game.player.position
- game.player.position=Vector3(-10.077,0,-19.76)
+ game.player.position=game.school.p(321.4,67.5)
  var eye: Vector3=game.recording_eye()
  var to_ritual: Vector3=target-eye
  game.view.yaw=atan2(-to_ritual.x,-to_ritual.z); game.view.pitch=asin(to_ritual.normalized().y)

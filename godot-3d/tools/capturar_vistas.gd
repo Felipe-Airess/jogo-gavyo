@@ -37,7 +37,9 @@ func run() -> void:
  look(game,s.p(330,60),75,.05); await shot(prefix+"-patio-quimica")
  look(game,s.p(262,52),90,0); await shot(prefix+"-escada-entrada")
  look(game,s.p(250,51),-90,0); await shot(prefix+"-espiar-ritual")
- look(game,s.p(700,160),0,0); await shot(prefix+"-auditorio")
+ look(game,s.p(733,175),0,.05); await shot(prefix+"-auditorio")
+ look(game,s.p(520,180),-90,0); await shot(prefix+"-labs-patio")
+ look(game,s.p(450,250),180,0); await shot(prefix+"-corredorzinho")
  game.phone_light=true
  look(game,s.p(130,350),0,.1); await shot(prefix+"-quadra-rede")
  look(game,s.p(540,230),180,0); await shot(prefix+"-patio-colunas")

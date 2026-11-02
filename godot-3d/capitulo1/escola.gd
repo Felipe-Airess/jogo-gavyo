@@ -1,6 +1,8 @@
 extends "res://prototipo/school.gd"
 ## Planta derivada do desenho de Felipe. Metros propostos; relações preservadas.
-const SCALE := .085
+## Metros por pixel do desenho de Felipe. 0,12 = tamanho real (sala ~8×6 m);
+## era 0,085 e o mapa ficava pequeno demais.
+const SCALE := .12
 const LEVEL := 3.4
 const MERGE_CELL := 12.0
 var rooms: Dictionary={}
@@ -55,13 +57,15 @@ func build(owner_game: Node3D) -> void:
  mats["azulejo"]=_tile_material(Color(.84,.85,.82),Color(.48,.50,.48),.22)
  # Colisão única; visual em placas para cada uma receber as luzes próximas
  # (no Compatibility cada malha aceita poucas luzes).
- var ground=box(Vector3(84,.3,60),p(475,325,-.15),"floor")
+ var map_size: Vector3=p(950,640)-p(0,0)
+ var ground=box(Vector3(map_size.x+4,.3,map_size.z+4),(p(0,0)+p(950,640))*.5+Vector3.DOWN*.15,"floor")
  for child in ground.get_children():
   if child is MeshInstance3D: child.queue_free()
- var origin: Vector3=p(475,325,-.15)
- for ix in 14:
-  for iz in 10:
-   box(Vector3(6,.3,6),origin+Vector3(-42+3+ix*6,0,-30+3+iz*6),"floor",false)
+ var tiles_x:=ceili((map_size.x+4)/6.0)
+ var tiles_z:=ceili((map_size.z+4)/6.0)
+ for ix in tiles_x:
+  for iz in tiles_z:
+   box(Vector3(6,.3,6),p(0,0)+Vector3(-2+3+ix*6,-.15,-2+3+iz*6),"floor",false)
  # Paredes externas com vão no portão 1, sem abertura obrigatória de portão.
  _line(0,0,950,0)
  _line(0,0,0,640)
@@ -102,9 +106,12 @@ func build(owner_game: Node3D) -> void:
  _room("Laboratório de enfermagem",Rect2(245,246,60,59),"E")
  _room("Banheiro masculino",Rect2(245,339,30,91),"W")
  _room("Banheiro feminino",Rect2(275,339,30,91),"E")
- _room("Laboratório Informática 1",Rect2(385,92,50,42),"W")
- _room("Laboratório Informática 2",Rect2(385,134,50,72),"W")
- _room("Laboratório de hardware",Rect2(385,206,50,101),"W")
+ # Labs e hardware de frente para o pátio aberto (Felipe), não para o estacionamento.
+ _room("Laboratório Informática 1",Rect2(385,92,50,42),"E")
+ _room("Laboratório Informática 2",Rect2(385,134,50,72),"E")
+ _room("Laboratório de hardware",Rect2(385,206,50,101),"E")
+ # Corredorzinho entre hardware e coordenação leva a 2 e 1 Contabilidade.
+ sign_at("2 · 1 CONTABILIDADE",p(450.5,300,2.6))
  _room("Informática 1",Rect2(436,39,70,53),"S")
  _room("Laboratório de matemática",Rect2(506,39,74,53),"S")
  _room("Biblioteca",Rect2(580,39,210,53),"S")
@@ -137,6 +144,7 @@ func build(owner_game: Node3D) -> void:
  _ritual()
  _details_school()
  _layout_terror()
+ _classroom_desks()
  _environment()
  # Temperatura geral fria, luminárias amareladas localizadas; sem sombras dinâmicas.
  var env: Environment=find_children("*","WorldEnvironment",true,false)[0].environment
@@ -339,19 +347,22 @@ func _court() -> void:
  # Quadra coberta (foto 2): piso verde, faixa vermelha, linhas brancas,
  # cobertura metálica em colunas.
  var court_at: Vector3=p(125.5,273.5,.01)
- box(Vector3(15.8,.012,26.4),court_at+Vector3(0,-.002,0),"court_red",false)
- box(Vector3(13,.015,22),court_at,"court",false)
- for line in [[Vector3(13,.02,.08),Vector3.ZERO],[Vector3(13,.02,.08),Vector3(0,0,-11)],
-  [Vector3(13,.02,.08),Vector3(0,0,11)],[Vector3(.08,.02,22),Vector3(-6.5,0,0)],
-  [Vector3(.08,.02,22),Vector3(6.5,0,0)]]:
+ var cw: float=189*SCALE; var cd: float=313*SCALE
+ var gw: float=cw*.81; var gd: float=cd*.83
+ box(Vector3(cw-.3,.012,cd-.3),court_at+Vector3(0,-.002,0),"court_red",false)
+ box(Vector3(gw,.015,gd),court_at,"court",false)
+ for line in [[Vector3(gw,.02,.08),Vector3.ZERO],[Vector3(gw,.02,.08),Vector3(0,0,-gd*.5)],
+  [Vector3(gw,.02,.08),Vector3(0,0,gd*.5)],[Vector3(.08,.02,gd),Vector3(-gw*.5,0,0)],
+  [Vector3(.08,.02,gd),Vector3(gw*.5,0,0)]]:
   box(line[0],court_at+line[1]+Vector3.UP*.004,"line",false)
  # Colunas sobre as muretas: não bloqueiam corredor nem escada.
- for x in [-7.9,7.9]:
-  for z in [-12.9,-4.3,4.3,12.9]:
-   box(Vector3(.35,6.2,.35),court_at+Vector3(x,3.1,z),"concrete")
- box(Vector3(16.4,.08,26.8),court_at+Vector3(0,6.25,0),"metal",false)
- for z in range(-13,14,2):
-  box(Vector3(16.4,.12,.06),court_at+Vector3(0,6.15,z),"dark",false)
+ var roof_h:=7.0
+ for x in [-cw*.5+.15,cw*.5-.15]:
+  for z in [-cd*.5+.4,-cd/6.0,cd/6.0,cd*.5-.4]:
+   box(Vector3(.4,roof_h,.4),court_at+Vector3(x,roof_h*.5,z),"concrete")
+ box(Vector3(cw+.4,.08,cd+.4),court_at+Vector3(0,roof_h+.05,0),"metal",false)
+ for z in range(-int(cd*.5),int(cd*.5)+1,2):
+  box(Vector3(cw+.4,.12,.06),court_at+Vector3(0,roof_h-.05,z),"dark",false)
  _line(31,117,31,430,0,1.3)
  _line(220,117,220,282,0,1.3)
  _line(220,324,220,430,0,1.3)
@@ -381,7 +392,7 @@ func _courtyard() -> void:
  sign_at("REFEITÓRIO",p(730,255,2.8))
  sign_at("AUDITÓRIO",p(715,104,2.7))
  # Colunas (foto do auditório): azulejo branco embaixo, pintura verde no topo.
- for x in [450,550,650,750]:
+ for x in [450,550]:
   box(Vector3(.42,2.4,.42),p(x,100,1.2),"azulejo")
   box(Vector3(.42,1.0,.42),p(x,100,2.9),"column_green")
  _auditorium_props()
@@ -464,7 +475,7 @@ func _details_school() -> void:
  obstacle("ledge",p(363,230),Vector3(1.4,1.3,1),Vector3.FORWARD,1.2,1.3)
  box(Vector3(1.1,.3,1.8),p(414,280,1.25),"wood")
  # Rua e fachadas além do portão; a escola termina num espaço concreto.
- box(Vector3(75,.12,7),p(500,680,-.06),"dark")
+ box(Vector3((p(950,0)-p(0,0)).x,.12,7),Vector3((p(0,0).x+p(950,0).x)*.5,-.06,p(0,640).z+4),"dark")
  for x in [200,430,700]:
   box(Vector3(9,4,.3),p(x,730,2),"wall")
   box(Vector3(1.2,2.2,.1),p(x,728,1.1),"metal",false)
@@ -510,27 +521,29 @@ func _layout_terror() -> void:
 
 ## Detalhes das fotos 1–8 de Felipe (docs/referencias/escola-fotos).
 func _photo_details() -> void:
- # Auditório (1, 4): parede verde-limão, banco de alvenaria com azulejo,
- # mesas verde-água, no alto da área do refeitório.
+ # Auditório (1, 4): é um palco elevado no refeitório onde se dão os avisos;
+ # parede verde-limão atrás; porta da biblioteca logo atrás/ao lado.
  var north:=p(0,93).z+.12
  for span in [[640,674],[696,790]]:
   box(Vector3(p(span[1],0).x-p(span[0],0).x,2.0,.03),Vector3((p(span[0],0).x+p(span[1],0).x)*.5,2.2,north),"lime",false)
- box(Vector3(p(785,0).x-p(735,0).x,.5,.55),Vector3((p(735,0).x+p(785,0).x)*.5,.25,north+.3),"azulejo")
- for at in [p(690,118),p(745,122)]:
+ # Entre a porta da biblioteca (x 676–694) e a da sala de esportes (x 790).
+ _stage(700,766,93,117,.35)
+ for at in [p(700,160),p(760,165)]:
   box(Vector3(1.2,.06,.7),at+Vector3.UP*.75,"teal",false)
   box(Vector3(1.1,.7,.6),at+Vector3.UP*.35,"teal")
  # Quadra (2, 3): tabelas de basquete, rede em volta, cobogó e muro verde.
  var court: Vector3=p(125.5,273.5)
+ var cw: float=189*SCALE; var cd: float=313*SCALE
  for side in [-1,1]:
-  var at: Vector3=court+Vector3(0,0,side*12.6)
+  var at: Vector3=court+Vector3(0,0,side*(cd*.5-.7))
   box(Vector3(.12,3.0,.12),at+Vector3(0,1.5,side*.6),"metal")
   box(Vector3(1.8,1.05,.05),at+Vector3(0,3.4,0),"plastic",false)
   box(Vector3(.45,.03,.45),at+Vector3(0,3.05,-side*.25),"orange",false)
- for data in [[Vector3(.03,4.6,26.4),Vector3(-7.95,3.6,0)],[Vector3(.03,4.6,26.4),Vector3(7.95,3.6,0)],
-  [Vector3(15.8,4.6,.03),Vector3(0,3.6,-13.25)],[Vector3(15.8,4.6,.03),Vector3(0,3.6,13.25)]]:
+ for data in [[Vector3(.03,5.4,cd),Vector3(-cw*.5+.05,4.0,0)],[Vector3(.03,5.4,cd),Vector3(cw*.5-.05,4.0,0)],
+  [Vector3(cw,5.4,.03),Vector3(0,4.0,-cd*.5+.05)],[Vector3(cw,5.4,.03),Vector3(0,4.0,cd*.5-.05)]]:
   box(data[0],court+data[1],"rede",false)
- box(Vector3(.04,1.6,26),Vector3(p(0,0).x+.12,2.6,court.z),"cobogo",false)
- box(Vector3(.03,1.8,26),Vector3(p(0,0).x+.12,.9,court.z),"patio_green",false)
+ box(Vector3(.04,1.6,cd),Vector3(p(0,0).x+.12,2.6,court.z),"cobogo",false)
+ box(Vector3(.03,1.8,cd),Vector3(p(0,0).x+.12,.9,court.z),"patio_green",false)
  # Pátio (5, 6): corredor coberto com colunas ao sul do pátio a céu aberto.
  for x in range(470,620,30):
   box(Vector3(.4,3.0,.4),p(x,255,1.5),"wall")
@@ -574,12 +587,57 @@ func _chemistry_patio() -> void:
 
 ## Auditório e pátio principal (fotos): sofá preto rasgado, cadeiras de
 ## plástico brancas empilhadas, extintor e porta gradeada verde.
+## Palco com rampa frontal (a cápsula não sobe degrau vertical).
+## Carteiras em fileiras nas salas de aula (escala real deixava salas vazias).
+## Também servem de cobertura. Evitam porta, mesa central, armários e itens.
+func _classroom_desks() -> void:
+ for title in rooms:
+  if title.contains("Laboratório") or title.contains("Banheiro") or title.contains("Pátio") or title in ["Biblioteca","Cozinha","Secretaria","Coordenação","Sala dos professores","Estoque da cozinha","Materiais de esportes","Sala de música","Planejamento dos professores","Banheiro dos professores"]:
+   continue
+  var r: Rect2=rooms[title]["rect"]; var y: float=rooms[title]["floor"]
+  var lo:=p(r.position.x,r.position.y,y); var hi:=p(r.end.x,r.end.y,y)
+  var center:=(lo+hi)*.5
+  var avoid: Array[Vector3]=[center]
+  for d in doors: avoid.append(d.global_position)
+  for h in hides: avoid.append(h["inside"])
+  for item in pickups: avoid.append(item["at"])
+  var x:=lo.x+1.3
+  while x<hi.x-1.1:
+   var z:=lo.z+1.5
+   while z<hi.z-1.2:
+    var at:=Vector3(x,y,z)
+    var free:=true
+    for a in avoid:
+     if absf(a.y-y)<2 and Vector2(a.x-at.x,a.z-at.z).length()<1.7: free=false; break
+    if free: _desk_light(at)
+    z+=1.55
+   x+=1.5
+
+func _desk_light(at: Vector3) -> void:
+ box(Vector3(1.0,.06,.55),at+Vector3.UP*.76,"wood")
+ for dx in [-.44,.44]: box(Vector3(.05,.73,.45),at+Vector3(dx,.37,0),"metal",false)
+ box(Vector3(.42,.05,.42),at+Vector3(0,.44,.62),"wood",false)
+ box(Vector3(.42,.42,.05),at+Vector3(0,.66,.82),"metal",false)
+
+func _stage(x1: float,x2: float,z1: float,z2: float,height: float) -> void:
+ var a:=p(x1,z1,height); var b:=p(x2,z1,height); var c:=p(x2,z2,height); var d:=p(x1,z2,height)
+ var e:=p(x2,z2+8,0); var f:=p(x1,z2+8,0)
+ var body=StaticBody3D.new(); body.collision_layer=1; body.collision_mask=2; body.name="PalcoAuditorio"
+ add_child(body)
+ var shape=ConcavePolygonShape3D.new(); shape.backface_collision=true
+ shape.set_faces(PackedVector3Array([a,c,b,a,d,c, d,e,c,d,f,e]))
+ var cs=CollisionShape3D.new(); cs.shape=shape; body.add_child(cs)
+ # Laterais/frente sólidas abaixo do topo, para não entrar por baixo.
+ box(Vector3(p(x2,0).x-p(x1,0).x,height,p(0,z2).z-p(0,z1).z),(p(x1,z1)+p(x2,z2))*.5+Vector3.UP*height*.5,"azulejo")
+ var ramp=box(Vector3(p(x2,0).x-p(x1,0).x,.06,(p(0,z2+8)-p(0,z2)).length()+.05),(c+d+e+f)*.25,"concrete",false)
+ ramp.rotation.x=atan2(height,(p(0,z2+8)-p(0,z2)).length())
+
 func _auditorium_props() -> void:
- var sofa_at: Vector3=p(705,112)
+ var sofa_at: Vector3=p(655,112)
  box(Vector3(1.9,.45,.8),sofa_at+Vector3(0,.25,0),"sofa")
  box(Vector3(1.9,.55,.22),sofa_at+Vector3(0,.75,-.32),"sofa",false)
  for dx in [-.98,.98]: box(Vector3(.22,.62,.8),sofa_at+Vector3(dx,.42,0),"sofa",false)
- for at in [p(655,108),p(770,120),p(520,108)]:
+ for at in [p(645,135),p(780,140),p(520,108)]:
   for i in 6:
    box(Vector3(.45,.05,.45),at+Vector3(0,.42+i*.07,0),"plastic",false)
   for dx in [-.2,.2]:
@@ -595,13 +653,14 @@ func _auditorium_props() -> void:
 ## Laboratório de hardware (fotos 3): bancada branca com armários, monitores
 ## velhos, bancos de madeira vermelhos, cadeira azul, caixas e cabos no chão.
 func _hardware_lab() -> void:
- var east: float=p(430.5,0).x
- box(Vector3(.75,.92,6.6),Vector3(east,.46,p(0,256).z),"cabinet")
- box(Vector3(.8,.05,6.7),Vector3(east,.945,p(0,256).z),"cabinet",false)
- for i in 6:
-  var z=p(0,226+i*12).z
-  box(Vector3(.42,.34,.08),Vector3(east-.05,1.15,z),"dark",false)
-  box(Vector3(.02,.5,.5),Vector3(east-.38,.45,z),"metal",false)
+ # Porta a leste (pátio); bancada na parede oeste.
+ var west: float=p(389.5,0).x
+ box(Vector3(.75,.92,8.6),Vector3(west,.46,p(0,256).z),"cabinet")
+ box(Vector3(.8,.05,8.7),Vector3(west,.945,p(0,256).z),"cabinet",false)
+ for i in 7:
+  var z=p(0,222+i*11).z
+  box(Vector3(.42,.34,.08),Vector3(west+.05,1.15,z),"dark",false)
+  box(Vector3(.02,.5,.5),Vector3(west+.38,.45,z),"metal",false)
  for at in [p(420,236),p(418,268),p(410,248)]:
   box(Vector3(.36,.04,.36),at+Vector3.UP*.68,"stool",false)
   for dx in [-.13,.13]:
@@ -612,7 +671,7 @@ func _hardware_lab() -> void:
  for i in 3:
   box(Vector3(.6,.45,.45),p(396+i*8,300)+Vector3(0,.225+float(i%2)*.0,0),"cardboard")
  for i in 5:
-  box(Vector3(.06,.36,.48),p(392,240)+Vector3(i*.09,.18,0),"dark",false)
+  box(Vector3(.06,.36,.48),p(418,298)+Vector3(i*.09,.18,0),"dark",false)
  for i in 4:
   box(Vector3(2.8,.012,.025),p(405,280+i*.6,.006),"dark",false)
 
