@@ -43,8 +43,15 @@ func build(owner_game: Node3D) -> void:
   ["cardboard",Color(.55,.40,.24)],["concrete",Color(.62,.62,.60)],
   ["patio_green",Color(.04,.40,.31)],["telha",Color(.50,.24,.15)],
   ["column_green",Color(.30,.62,.22)],["sofa",Color(.045,.05,.05)],
-  ["plastic",Color(.86,.86,.83)],["extintor",Color(.62,.06,.05)]]:
+  ["plastic",Color(.86,.86,.83)],["extintor",Color(.62,.06,.05)],
+  ["lime",Color(.42,.72,.20)],["teal",Color(.30,.75,.68)],
+  ["orange",Color(.85,.40,.08)],["sign_green",Color(.10,.48,.22)],
+  ["walk_green",Color(.20,.42,.30)],["trunk",Color(.22,.17,.13)],
+  ["leaves",Color(.18,.38,.14)],["car",Color(.62,.64,.66)]]:
   mats[data[0]]=material(data[1])
+ mats["grade_bars"]=_pattern_material(Color(.16,.45,.30),8,1,2,0)
+ mats["rede"]=_pattern_material(Color(.75,.75,.72),12,12,1,1)
+ mats["cobogo"]=_pattern_material(Color(.86,.85,.78),8,8,5,5,true)
  mats["azulejo"]=_tile_material(Color(.84,.85,.82),Color(.48,.50,.48),.22)
  # Colisão única; visual em placas para cada uma receber as luzes próximas
  # (no Compatibility cada malha aceita poucas luzes).
@@ -62,10 +69,11 @@ func build(owner_game: Node3D) -> void:
  _line(0,640,610,640)
  _line(655,640,950,640)
  gate_at=p(632.5,640)
- gate=box(Vector3(3.7,2.35,.14),gate_at+Vector3(0,1.175,0),"metal")
+ # Portão de grade verde (fotos 7/8): colisão inteira, visual vazado.
+ gate=box(Vector3(3.7,2.35,.14),gate_at+Vector3(0,1.175,0),"grade_bars")
  gate.name="Portao1"
- for x in range(15):
-  box(Vector3(.035,2.35,.08),gate_at+Vector3(-1.8+x*.25,1.175,-.12),"dark",false)
+ for y in [.12,1.2,2.28]:
+  box(Vector3(3.7,.08,.1),gate_at+Vector3(0,y,0),"grade",false)
  sign_at("PORTÃO 1",gate_at+Vector3(0,2.7,-.13))
  sign_at("PORTÃO 2 · CARROS",p(935,520,2.8),-90)
  # Bloco norte, química e salas superiores.
@@ -157,6 +165,27 @@ func _line(x1: float,z1: float,x2: float,z2: float,y:=0.0,height:=3.2) -> void:
  # Meia-parede de azulejo branco, como no laboratório de hardware.
  var strip=box(Vector3(.195,1.2,length+.12),(a+b)*.5+Vector3.UP*.6,"azulejo",false)
  strip.rotation.y=body.rotation.y
+
+## Grades/redes/cobogó com transparência por textura (sem geometria extra).
+## cells: repetições; thick_x/thick_y: espessura em pixels das barras (0 = sem);
+## inverted: furos são as barras (cobogó = bloco com aberturas).
+func _pattern_material(color: Color,cells_x: int,cells_y: int,thick_x: int,thick_y: int,inverted:=false) -> StandardMaterial3D:
+ var img=Image.create(16,16,false,Image.FORMAT_RGBA8)
+ for y in 16:
+  for x in 16:
+   var bar=(thick_x>0 and x<thick_x) or (thick_y>0 and y<thick_y)
+   if inverted: bar=not (x>=thick_x and x<16-2 and y>=thick_y and y<16-2) or bar and false
+   img.set_pixel(x,y,color if bar else Color(0,0,0,0))
+ var mat=StandardMaterial3D.new()
+ mat.albedo_texture=ImageTexture.create_from_image(img)
+ mat.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
+ mat.alpha_scissor_threshold=.5
+ mat.cull_mode=BaseMaterial3D.CULL_DISABLED
+ mat.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST
+ mat.uv1_triplanar=true
+ mat.uv1_scale=Vector3(cells_x,cells_y,cells_x)*.25
+ mat.roughness=.9
+ return mat
 
 ## Azulejo quadrado com rejunte (textura gerada; sem arquivo externo).
 func _tile_material(color: Color,grout: Color,size: float) -> StandardMaterial3D:
@@ -473,10 +502,54 @@ func _layout_terror() -> void:
   [p(668,600),Vector3.LEFT],[p(235,85,LEVEL),Vector3.FORWARD]]:
   locker(data[0],data[1])
  _hardware_lab()
+ _photo_details()
  # Vegetação na área de saída: dá onde se esconder da vista sem ser armário.
  for at in [p(470,500),p(540,580),p(450,610)]:
   for i in 3:
    box(Vector3(.8,1.4,.8),at+Vector3(i*.6,.7,sin(i*1.7)*.4),"green",false)
+
+## Detalhes das fotos 1–8 de Felipe (docs/referencias/escola-fotos).
+func _photo_details() -> void:
+ # Auditório (1, 4): parede verde-limão, banco de alvenaria com azulejo,
+ # mesas verde-água, no alto da área do refeitório.
+ var north:=p(0,93).z+.12
+ for span in [[640,674],[696,790]]:
+  box(Vector3(p(span[1],0).x-p(span[0],0).x,2.0,.03),Vector3((p(span[0],0).x+p(span[1],0).x)*.5,2.2,north),"lime",false)
+ box(Vector3(p(785,0).x-p(735,0).x,.5,.55),Vector3((p(735,0).x+p(785,0).x)*.5,.25,north+.3),"azulejo")
+ for at in [p(690,118),p(745,122)]:
+  box(Vector3(1.2,.06,.7),at+Vector3.UP*.75,"teal",false)
+  box(Vector3(1.1,.7,.6),at+Vector3.UP*.35,"teal")
+ # Quadra (2, 3): tabelas de basquete, rede em volta, cobogó e muro verde.
+ var court: Vector3=p(125.5,273.5)
+ for side in [-1,1]:
+  var at: Vector3=court+Vector3(0,0,side*12.6)
+  box(Vector3(.12,3.0,.12),at+Vector3(0,1.5,side*.6),"metal")
+  box(Vector3(1.8,1.05,.05),at+Vector3(0,3.4,0),"plastic",false)
+  box(Vector3(.45,.03,.45),at+Vector3(0,3.05,-side*.25),"orange",false)
+ for data in [[Vector3(.03,4.6,26.4),Vector3(-7.95,3.6,0)],[Vector3(.03,4.6,26.4),Vector3(7.95,3.6,0)],
+  [Vector3(15.8,4.6,.03),Vector3(0,3.6,-13.25)],[Vector3(15.8,4.6,.03),Vector3(0,3.6,13.25)]]:
+  box(data[0],court+data[1],"rede",false)
+ box(Vector3(.04,1.6,26),Vector3(p(0,0).x+.12,2.6,court.z),"cobogo",false)
+ box(Vector3(.03,1.8,26),Vector3(p(0,0).x+.12,.9,court.z),"patio_green",false)
+ # Pátio (5, 6): corredor coberto com colunas ao sul do pátio a céu aberto.
+ for x in range(470,620,30):
+  box(Vector3(.4,3.0,.4),p(x,255,1.5),"wall")
+  box(Vector3(.42,1.1,.42),p(x,255,.55),"azulejo",false)
+ box(Vector3(p(625,0).x-p(455,0).x,.12,1.4),Vector3((p(455,0).x+p(625,0).x)*.5,3.05,p(0,260).z),"telha",false)
+ # Entrada (7, 8): caminho verde até o portão, faixa laranja e placa verde.
+ box(Vector3(p(672,0).x-p(610,0).x-.25,.015,p(0,640).z-p(0,416).z),Vector3(p(641,0).x,.009,(p(0,416).z+p(0,640).z)*.5),"walk_green",false)
+ var facade_x:=p(672,0).x-.11
+ box(Vector3(.03,.35,9),Vector3(facade_x,2.35,p(0,470).z),"orange",false)
+ box(Vector3(.04,.9,9),Vector3(facade_x,2.95,p(0,470).z),"sign_green",false)
+ box(Vector3(.03,.6,9),Vector3(facade_x,.3,p(0,470).z),"sign_green",false)
+ sign_at("EEEP JOAQUIM ANTÔNIO ALBANO",Vector3(facade_x-.03,2.95,p(0,470).z),-90)
+ # Lado de fora: árvores e carros junto ao portão.
+ for at in [p(600,665),p(690,668)]:
+  box(Vector3(.3,3.2,.3),at+Vector3.UP*1.6,"trunk",false)
+  box(Vector3(2.6,1.6,2.6),at+Vector3.UP*3.8,"leaves",false)
+ for at in [p(720,600),p(790,600)]:
+  box(Vector3(1.8,.75,4.0),at+Vector3.UP*.55,"car")
+  box(Vector3(1.6,.6,2.0),at+Vector3(0,1.2,.2),"car",false)
 
 ## Pátio de química (foto com 1/2): coberto por telhado de telha sobre vigas de
 ## madeira, parede verde em cima, azulejo branco embaixo e no chão.

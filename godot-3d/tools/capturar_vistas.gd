@@ -38,4 +38,8 @@ func run() -> void:
  look(game,s.p(262,52),90,0); await shot(prefix+"-escada-entrada")
  look(game,s.p(250,51),-90,0); await shot(prefix+"-espiar-ritual")
  look(game,s.p(700,160),0,0); await shot(prefix+"-auditorio")
+ game.phone_light=true
+ look(game,s.p(130,350),0,.1); await shot(prefix+"-quadra-rede")
+ look(game,s.p(540,230),180,0); await shot(prefix+"-patio-colunas")
+ look(game,s.p(641,600),0,.05); await shot(prefix+"-entrada")
  quit()
