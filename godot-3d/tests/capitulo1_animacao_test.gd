@@ -1,5 +1,5 @@
 extends SceneTree
-## Regressão de locomoção: física, grafo e ossos reais, durante três segundos.
+## Regressão de locomoção, ações e escada: física, grafo e ossos reais.
 const DT:=1.0/60.0
 const BONES:=["LeftFoot","RightFoot","LeftHand","RightHand"]
 var passed:=0
@@ -21,7 +21,9 @@ func pose(actor) -> Array[Vector3]:
 func graph_clip(actor) -> String:
  var motion=actor.motion
  var state=String(motion.playback.get_current_node())
- if state not in ["Locomocao","Agachado"]: return state
+ if state not in ["Locomocao","Agachado","Subir","Descer"]:
+  var branch=motion.machine.get_node(state)
+  return String(branch.get_node("Clipe").animation) if branch!=null else state
  var blend=motion.machine.get_node(state).get_node("Velocidade") as AnimationNodeBlendSpace1D
  var value=float(motion.tree.get("parameters/"+state+"/Velocidade/blend_position"))
  var nearest:=0
@@ -65,7 +67,7 @@ func sample(label: String,actor,clip: String,speed: float,enemy:=false) -> void:
  check(changing.all(func(n):return n==180),label+": pés e mãos mudam em todos os quadros")
  check(absf(measured/3.0-speed)<.03,label+": velocidade real %.2f m/s"%speed)
 func run() -> void:
- var deadline=create_timer(60,true,false,true)
+ var deadline=create_timer(120,true,false,true)
  deadline.timeout.connect(func(): print("FAIL CAPITULO1_ANIMACAO TIMEOUT"); quit(2))
  var version=Engine.get_version_info()
  check(version.major==4 and version.minor==5 and version.patch==1,"APIs executadas no Godot 4.5.1")
@@ -98,6 +100,164 @@ func run() -> void:
  game.player.position=enemy.position+Vector3(0,0,-20); enemy.last_seen=game.player.position
  game.enemy_turn=null; game.protected_target=null
  await sample("cultista perseguindo Miguel",enemy,"novo/Sprint",3.8,true)
+ await actions_and_stairs()
  print("CAPITULO1_ANIMACAO: %d passed, %d failed"%[passed,failed])
  game.queue_free(); await process_frame
  quit(1 if failed else 0)
+
+func single_action(clip: String) -> void:
+ var actor=game.player
+ actor.velocity=Vector3.ZERO; actor.crouched=false; actor.hidden=false; actor.state="idle"
+ actor.play("guarda"); actor.animate(.3)
+ actor.start_action(clip)
+ var length: float=actor.anim.get_animation(clip).length
+ var last:=0.0
+ var maximum:=0.0
+ var stalls:=0
+ var active:=0
+ var first:=100.0
+ for i in ceili((length+.6)/DT):
+  actor.animate(DT)
+  if graph_clip(actor)==clip:
+   var time: float=actor.motion.position()
+   if active>1 and time<=last: stalls+=1
+   first=minf(first,time); maximum=maxf(maximum,time); last=time; active+=1
+  await physics_frame
+ print("ACAO %s: duracao=%.3f ultimo=%.3f quadros=%d congelados=%d retorno=%s locomocao=%s"%[clip,length,maximum,active,stalls,actor.motion.playback.get_current_node(),actor.motion.travelling])
+ check(active>0 and first<=DT and stalls==0 and not actor.anim.is_playing(),clip+": clipe certo e tempo avança")
+ check(maximum>=length-DT*1.1,clip+": toca até o fim")
+ check(actor.motion.playback.get_current_node()=="Locomocao" and actor.motion.travelling and graph_clip(actor)=="novo/Idle",clip+": volta sozinho para parado")
+ actor.velocity=Vector3.BACK*1.45; actor.face(actor.position+Vector3.BACK)
+ actor.animate(DT)
+ check(graph_clip(actor)=="novo/Walk",clip+": andar retoma sem novo play")
+
+func interaction_case(kind: String,object: Node3D,contact: Vector3,forward: Vector3,clip: String,index:=-1) -> void:
+ var actor=game.player
+ actor.state="idle"; actor.hidden=false; actor.crouched=false; actor.model.visible=true
+ actor.velocity=Vector3.ZERO; actor.collision_layer=2
+ game.phase="investigate"; game.interaction.clear()
+ actor.position=contact-forward*.85-Vector3.UP*1.05
+ if kind=="bag": actor.position.y=game.school.LEVEL
+ else: actor.position.y=0
+ actor.face(actor.position+forward)
+ game._begin_interaction(kind,object,contact,forward,clip,index)
+ check(not game.interaction.is_empty(),kind+": aproximação livre aceita")
+ var touched:=false
+ var error:=100.0
+ var maximum:=0.0
+ var seen_clip:=false
+ var climb_max:=0.0
+ var climb_contact:=false
+ var climb_seen:=false
+ var contact_time: float=.72 if clip.ends_with("Interact") else (.30 if clip.ends_with("PickUp_Table") else .60)
+ for i in 360:
+  var before: Vector3=actor.position
+  var target: Vector3=game.interaction.get("contact",contact)
+  var was_started: bool=game.interaction.get("started",false)
+  var previous: float=actor.motion.position()
+  if game.phase=="gate_jump": game._physics_process(DT)
+  else: game._player_tick(DT)
+  if graph_clip(actor)=="novo/ClimbUp_1m":
+   climb_seen=true; climb_max=maxf(climb_max,actor.motion.position())
+   if actor.motion.consume("contact"):
+    var hand: Vector3=actor.bone_point("LeftHand")
+    var grade: Vector3=game.school.gate_at+Vector3(.19,2.35,0)
+    climb_contact=hand.distance_to(grade)<.09
+    print("CONTATO grade: erro=%.4f m"%hand.distance_to(grade))
+  if graph_clip(actor)==clip:
+   seen_clip=true; maximum=maxf(maximum,actor.motion.position())
+  if was_started and previous<contact_time and (actor.motion.position()>=contact_time or graph_clip(actor)!=clip):
+   error=(actor.bone_point("LeftHand")-actor.position+before).distance_to(target)
+   touched=error<.09
+   print("CONTATO %s: erro=%.4f m estado=%s"%[kind,error,actor.state])
+  if game.interaction.is_empty() and actor.state=="idle": break
+  await physics_frame
+ print("INTERACAO %s: clipe=%s ultimo=%.3f estado=%s pendente=%s"%[kind,seen_clip,maximum,actor.state,not game.interaction.is_empty()])
+ check(touched,kind+": mão toca alvo no quadro do evento (9 cm)")
+ check(seen_clip and maximum>=actor.anim.get_animation(clip).length-DT*1.1,kind+": ação completa antes de sair")
+ check(game.interaction.is_empty() and actor.state=="idle",kind+": ação termina sem congelar")
+ match kind:
+  "bag": check(game.bag_found and not game.school.bag.visible,"bolsa: efeito confirmado no contato")
+  "door": check(object.opened,"porta: abriu no contato")
+  "hide": check(actor.hidden,"armário: entrou após terminar o gesto")
+  "gate": check(game.phase=="ending" and actor.position.z>game.school.gate_at.z,"portão: alcançou o outro lado")
+ if kind=="gate":
+  check(climb_seen and climb_max>=actor.anim.get_animation("novo/ClimbUp_1m").length-DT*1.1,"portão: escalada completa")
+  check(climb_contact,"portão: mão toca grade no evento da escalada")
+ if actor.hidden: game._leave_hide()
+ game.phase="investigate"
+
+func stair_case(up: bool) -> void:
+ var actor=game.player
+ var bottom: Vector3=game.school.stairs_bottom
+ var top: Vector3=game.school.stairs_top
+ var along: Vector3=(top-bottom)*Vector3(1,0,1)
+ var length:=along.length(); along/=length
+ var direction:=along if up else -along
+ actor.position=(bottom if up else top)+direction*.5+Vector3.UP*.04
+ actor.position.y=game.school.LEVEL*.5/length if up else game.school.LEVEL*(1-.5/length)
+ actor.state="idle"; actor.crouched=false; actor.hidden=false; actor.velocity=Vector3.ZERO
+ actor.face(actor.position+direction)
+ game.view.yaw=atan2(-direction.x,-direction.z)
+ var correct:=0; var advanced:=0; var samples:=0; var grounded:=0
+ var pinned:=0; var stance_frames:=0; var max_slip:=0.0
+ var previous_feet: Dictionary={}; var previous_stance: Dictionary={}
+ var last: float=-1
+ var clip:="novo/Ascending_Stairs" if up else "novo/Descending_Stairs"
+ key(KEY_W,true)
+ for i in 600:
+  game._player_tick(DT)
+  var distance: float=(actor.position-bottom).dot(along)
+  if distance>length-.3 or distance<.3: break
+  if i>15:
+   samples+=1
+   if graph_clip(actor)==clip: correct+=1
+   if absf(actor.motion.position()-last)>.000001: advanced+=1
+   var phase=fposmod(actor.motion.position(),1)
+   for side in ["Left","Right"]:
+    var stance=fposmod(phase+(0.0 if side=="Left" else .5),1)<.5
+    var foot_now: Vector3=actor.bone_point(side+"Foot")
+    if stance and previous_stance.get(side,false):
+     var slip=foot_now.distance_to(previous_feet[side])
+     stance_frames+=1; max_slip=maxf(max_slip,slip)
+     if slip<.02: pinned+=1
+    previous_feet[side]=foot_now; previous_stance[side]=stance
+   for side in ["Left","Right"]:
+    var foot: Vector3=actor.bone_point(side+"Foot")
+    var foot_distance: float=(foot-bottom).dot(along)
+    var tread:=length/roundf(game.school.LEVEL/.17)
+    var height:=clampf((floorf(foot_distance/tread)+1)*.17,0,game.school.LEVEL)
+    if absf(foot.y-height)<.09: grounded+=1; break
+  last=actor.motion.position()
+  await physics_frame
+ key(KEY_W,false)
+ var label:="subir" if up else "descer"
+ print("ESCADA %s: clipe=%s certo=%d/%d tempo=%d/%d apoio=%d/%d"%[label,graph_clip(actor),correct,samples,advanced,samples,grounded,samples])
+ check(samples>30 and correct==samples,label+": clipe correto na escada")
+ check(samples>30 and advanced==samples,label+": tempo avança")
+ print("APOIO %s: fixo=%d/%d maior_desvio=%.4f m"%[label,pinned,stance_frames,max_slip])
+ check(stance_frames>30 and pinned==stance_frames,label+": apoio não desliza (2 cm/quadro, todos os apoios)")
+ check(samples>30 and grounded==samples,label+": pé apoia no degrau visual (9 cm)")
+
+func actions_and_stairs() -> void:
+ game.player.position=Vector3(200,0,200)
+ for clip in ["novo/PickUp_Table","novo/Interact","novo/Chest_Open","novo/ClimbUp_1m"]:
+  await single_action(clip)
+ await interaction_case("bag",game.school.bag,game.school.bag_at,Vector3.BACK,"novo/PickUp_Table")
+ var door=game.school.doors[0]
+ door.set_open(false,true)
+ await interaction_case("door",door,door.handle_point(1),-door.normal,"novo/Interact")
+ var hide=game.school.hides[0]
+ await interaction_case("hide",null,hide["inside"]+hide["normal"]*.38+Vector3.UP*1.05,-hide["normal"],"novo/Chest_Open",0)
+ await interaction_case("gate",game.school.gate,game.school.gate_at+Vector3.UP*1.1,Vector3.BACK,"novo/Interact")
+ await stair_case(true)
+ await stair_case(false)
+ var descent: Animation=game.player.anim.get_animation("novo/Descending_Stairs")
+ var seam:=0.0
+ for t in descent.get_track_count():
+  var first=descent.track_get_key_value(t,0)
+  var last=descent.track_get_key_value(t,descent.track_get_key_count(t)-1)
+  if first is Quaternion: seam=maxf(seam,Vector4(first.x,first.y,first.z,first.w).distance_to(Vector4(last.x,last.y,last.z,last.w)))
+  elif first is Vector3: seam=maxf(seam,first.distance_to(last))
+ check(descent.loop_mode==Animation.LOOP_LINEAR and seam<.001,"Descending_Stairs fecha pose na emenda sem salto")
+ check(game.player.anim.get_animation("novo/Stunned").loop_mode==Animation.LOOP_NONE,"Stunned não é usado em loop")

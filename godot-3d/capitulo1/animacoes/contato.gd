@@ -22,8 +22,11 @@ static func room_for(actor: CharacterBody3D,at: Vector3) -> bool:
 ## IK analítica de dois ossos: só rotações, sem esticar/transladar membros.
 ## Mantém dobra mínima e retorna falso se o alvo não cabe no comprimento real.
 static func hand_fit(actor: CharacterBody3D,side: String,at: Vector3,weight: float) -> bool:
+ return limb_fit(actor,side+"UpperArm",side+"LowerArm",side+"Hand",at,weight)
+
+static func limb_fit(actor: CharacterBody3D,upper_name: String,lower_name: String,end_name: String,at: Vector3,weight: float) -> bool:
  var rig: Skeleton3D=actor.rig
- var upper=rig.find_bone(side+"UpperArm"); var lower=rig.find_bone(side+"LowerArm"); var hand=rig.find_bone(side+"Hand")
+ var upper=rig.find_bone(upper_name); var lower=rig.find_bone(lower_name); var hand=rig.find_bone(end_name)
  rig.force_update_all_bone_transforms()
  var a=rig.get_bone_global_pose(upper).origin
  var b=rig.get_bone_global_pose(lower).origin

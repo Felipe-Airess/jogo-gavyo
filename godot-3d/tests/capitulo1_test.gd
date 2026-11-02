@@ -94,7 +94,8 @@ func run() -> void:
  check(game.view.mode=="first_person","controle da perseguição em primeira pessoa")
  game.player.position=game.school.gate_at-Vector3(0,0,1.5)
  game._story_tick(.1)
- for i in 120:
+ # Aproximação e Interact completo (2 s) precedem a escalada.
+ for i in 240:
   if game.phase=="gate_jump": break
   game._player_tick(1.0/60); await physics_frame
  check(game.phase=="gate_jump" and game.school.gate.collision_layer==1,"saída pula o portão, sem abri-lo")

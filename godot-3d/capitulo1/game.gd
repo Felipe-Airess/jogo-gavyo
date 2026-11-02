@@ -349,10 +349,10 @@ func _physics_process(dt: float) -> void:
   if t>.10 and t<.34:
    for side in ["Left","Right"]:
     var offset=.19 if side=="Left" else -.19
-    CONTACT.hand_fit(player,side,school.gate_at+Vector3(offset,2.35,0),sin((t-.10)/.24*PI))
-  if t>=1:
+    CONTACT.hand_fit(player,side,school.gate_at+Vector3(offset,2.35,0),smoothstep(0,.12,player.motion.position())*(1-smoothstep(.15,.25,player.motion.position())))
+  if t>=1 and player.motion.consume("finished"):
    phase="ending"; ending_clock=0
-   player.state="idle"
+   player.state="idle"; player.play("guarda"); player.animate(0)
   return
  if phase=="ending":
   ending_clock+=dt
@@ -1124,10 +1124,11 @@ func _interaction_tick(dt: float) -> void:
     peek_door=null
     if not door.opened: door.swing=1.65 if (player.position-door.global_position).dot(door.normal)>0 else -1.65
     door.toggle()
-   "gate":
-    interaction.clear(); _jump_gate_now(); return
-   "hide":
-    var index=int(interaction["index"])
-    interaction.clear(); _enter_hide(index); return
+   # Portão e armário aguardam o fim do gesto após o contato.
  if player.motion.consume("finished"):
-  interaction.clear(); player.state="idle"; player.play("guarda")
+  var completed=interaction
+  interaction={}
+  player.state="idle"; player.play("guarda")
+  if completed["committed"]:
+   if completed["kind"]=="gate": _jump_gate_now()
+   elif completed["kind"]=="hide": _enter_hide(int(completed["index"]))
