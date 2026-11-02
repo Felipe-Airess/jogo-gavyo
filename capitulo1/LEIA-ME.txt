@@ -1,5 +1,5 @@
 Gavião — capítulo 1 (terror), build web para celular e PC.
-Gerado de feat/prototipo-terror-terceira-pessoa, commit ef023c3.
+Gerado de feat/prototipo-terror-terceira-pessoa, commit 0d4ba7f.
 Celular: abrir deitado; esquerda move (borda corre), direita olha, botões à direita.
 PC: WASD, mouse, Shift corre, Ctrl agacha, Espaço ação, clique empurra.
 Recriar: bash scripts/exportar-web.sh (na branch de trabalho).
