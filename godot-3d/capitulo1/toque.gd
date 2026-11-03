@@ -56,6 +56,8 @@ func _layout() -> void:
   {"id":"comer","text":"COMER","at":Vector2(right-r*4.4,bottom-r*4.4),"r":r*.8,"key":KEY_E},
   {"id":"pausa","text":"II","at":Vector2(size.x*.5,r*.9),"r":r*.6,"key":KEY_ESCAPE},
  ]
+ if game.objectives!=null:
+  buttons.append({"id":"celular","text":game.objectives.text("celular_toque"),"at":Vector2(size.x*.5,size.y-r*1.2),"r":r*.9,"key":KEY_N})
  var arrow_radius=clampf(size.y*.075,32,48)
  var center=Vector2(size.x*.5,size.y*.70)
  escape_buttons.clear()
@@ -72,6 +74,8 @@ func _input(event: InputEvent) -> void:
   get_viewport().set_input_as_handled()
 
 func _touch(event: InputEventScreenTouch) -> void:
+ if game.objectives!=null and game.objectives.modal:
+  game.objectives.handle_touch(event); return
  if game.escape_blackout>0: return
  if game.escape.active and not game.paused:
   if event.pressed:
@@ -106,6 +110,8 @@ func _touch(event: InputEventScreenTouch) -> void:
  root.queue_redraw()
 
 func _drag(event: InputEventScreenDrag) -> void:
+ if game.objectives!=null and game.objectives.modal:
+  game.objectives.handle_drag(event); return
  if game.escape.active or game.escape_blackout>0: return
  if event.index==stick_finger:
   stick_now=event.position
@@ -193,4 +199,5 @@ func _draw_controls() -> void:
   root.draw_circle(b["at"],b["r"],Color(.85,.2,.15,.45) if active else fill)
   root.draw_arc(b["at"],b["r"],0,TAU,40,ink,2)
   var fs:=int(clampf(b["r"]*.32,10,16))
-  root.draw_string(font,b["at"]+Vector2(-b["r"],fs*.35),b["text"],HORIZONTAL_ALIGNMENT_CENTER,b["r"]*2,fs,ink)
+  if b["id"]=="celular": root.draw_multiline_string(font,b["at"]+Vector2(-80,-2),b["text"],HORIZONTAL_ALIGNMENT_CENTER,160,12)
+  else: root.draw_string(font,b["at"]+Vector2(-b["r"],fs*.35),b["text"],HORIZONTAL_ALIGNMENT_CENTER,b["r"]*2,fs,ink)

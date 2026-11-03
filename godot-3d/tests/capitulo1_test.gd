@@ -41,6 +41,8 @@ func run() -> void:
  check(seen_from.is_empty(),"andar superior não permite observar o ritual")
  # Portas de todos os blocos liberam passagem ao abrir; não só a sala de teste.
  var blocked: Array[String]=[]
+ # Isola geometria dos vãos; a tranca é coberta pelo teste de objetivos.
+ game.objectives.bag_door.locked=false
  for door in game.school.doors:
   door.set_open(true,true)
  await frames(2)
@@ -53,6 +55,11 @@ func run() -> void:
  game.begin()
  check(game.phase=="intro","abertura integrada sem pular para sala de testes")
  game.end_intro()
+ # A chave passa pelo mesmo alcance e interação do jogador.
+ game.player.position=game.objectives.position_of("chave")+Vector3(0,-.035,-.7)
+ var key_delta=game.objectives.position_of("chave")-(game.player.position+Vector3.UP*.9)
+ game.view.yaw=atan2(-key_delta.x,-key_delta.z); game.view.pitch=asin(key_delta.normalized().y)
+ game.interact()
  game.player.position=game.school.bag_at-Vector3.UP*1.01+Vector3(0,0,-.95)
  game.interact()
  for i in 180:

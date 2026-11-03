@@ -92,6 +92,10 @@ func run() -> void:
  school.set_hide_open(hide,true); school.set_hide_open(hide,false)
  check(count("armario_abrir")==opens+1 and count("armario_fechar")==closes+1,"armário toca rangido e fecho")
  for e in game.enemies: e.position=Vector3(230,0,230)
+ game.player.position=game.objectives.position_of("chave")+Vector3(0,-.035,.7)
+ var key_delta=game.objectives.position_of("chave")-(game.player.position+Vector3.UP*.9)
+ game.view.yaw=atan2(-key_delta.x,-key_delta.z); game.view.pitch=asin(key_delta.normalized().y)
+ game.interact()
  game.player.position=school.bag_at-Vector3.UP*1.01+Vector3(0,0,-.95)
  game.player.state="idle"; game.player.hidden=false; game.phase="investigate"
  var bag=count("bolsa"); game.interact()

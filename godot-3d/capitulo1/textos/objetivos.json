@@ -1,0 +1,132 @@
+[
+  {
+    "id": "fome",
+    "titulo": "[PROVISÓRIO] Objetivo: cozinha",
+    "texto": "[PROVISÓRIO] Precisa buscar o celular e as coisas na sala, mas está com muita fome. Primeiro objetivo: cozinha; depois celular/bolsa."
+  },
+  {
+    "id": "porta_trancada",
+    "titulo": "[PROVISÓRIO] Acesso à bolsa",
+    "texto": "[PROVISÓRIO] A sala foi trancada pelo culto. Procure a chave no estoque da cozinha; a entrada é vigiada."
+  },
+  {
+    "id": "chave",
+    "titulo": "[PROVISÓRIO] Chave da sala",
+    "texto": "[PROVISÓRIO] Chave guardada. Ela abre apenas o acesso ao terceiro de Informática."
+  },
+  {
+    "id": "finalizador",
+    "titulo": "[PROVISÓRIO] Item de uso único",
+    "texto": "[PROVISÓRIO] Item opcional guardado. No próximo agarrão de um cultista comum, finaliza esse inimigo e se perde. Não funciona no perseguidor."
+  },
+  {
+    "id": "finalizado",
+    "titulo": "[PROVISÓRIO] Item consumido",
+    "texto": "[PROVISÓRIO] Cultista comum finalizado. Item consumido."
+  },
+  {
+    "id": "pegar",
+    "titulo": "[PROVISÓRIO] Interagir",
+    "texto": "[PROVISÓRIO] [Espaço] Pegar: "
+  },
+  {
+    "id": "ler",
+    "titulo": "[PROVISÓRIO] Ler",
+    "texto": "[PROVISÓRIO] [Espaço] Ler: "
+  },
+  {
+    "id": "destrancar",
+    "titulo": "[PROVISÓRIO] Destrancar",
+    "texto": "[PROVISÓRIO] [Espaço] Usar chave e abrir a sala"
+  },
+  {
+    "id": "fechar",
+    "titulo": "[PROVISÓRIO] Fechar",
+    "texto": "[PROVISÓRIO] Fechar leitura / celular"
+  },
+  {
+    "id": "celular",
+    "titulo": "[PROVISÓRIO] Celular",
+    "texto": "[PROVISÓRIO] [N] Celular"
+  },
+  {
+    "id": "sem_celular",
+    "titulo": "[PROVISÓRIO] Celular indisponível",
+    "texto": "[PROVISÓRIO] Recupere a bolsa para consultar os registros no celular."
+  },
+  {
+    "id": "notas",
+    "titulo": "[PROVISÓRIO] Notas",
+    "texto": "[PROVISÓRIO] Notas"
+  },
+  {
+    "id": "pistas",
+    "titulo": "[PROVISÓRIO] Pistas",
+    "texto": "[PROVISÓRIO] Pistas"
+  },
+  {
+    "id": "vazio",
+    "titulo": "[PROVISÓRIO] Sem registros",
+    "texto": "[PROVISÓRIO] Nenhum registro encontrado."
+  },
+  {
+    "id": "vigilancia",
+    "titulo": "[PROVISÓRIO] Vigilância",
+    "texto": "[PROVISÓRIO] Vigilância"
+  },
+  {
+    "id": "chave_inventario",
+    "titulo": "[PROVISÓRIO] Inventário",
+    "texto": "[PROVISÓRIO] Chave guardada"
+  },
+  {
+    "id": "finalizador_inventario",
+    "titulo": "[PROVISÓRIO] Inventário",
+    "texto": "[PROVISÓRIO] Item único guardado"
+  },
+  {
+    "id": "objetivo_chave",
+    "titulo": "[PROVISÓRIO] Objetivo",
+    "texto": "[PROVISÓRIO] Busque a chave no estoque da cozinha para abrir a sala da bolsa."
+  },
+  {
+    "id": "objetivo_bolsa",
+    "titulo": "[PROVISÓRIO] Objetivo",
+    "texto": "[PROVISÓRIO] Use a chave no terceiro de Informática e recupere a bolsa."
+  },
+  {
+    "id": "nota_1",
+    "titulo": "[PROVISÓRIO] Nota do culto 1",
+    "texto": "[PROVISÓRIO] Espaço reservado para a nota do culto 1. Felipe escreverá o conteúdo final."
+  },
+  {
+    "id": "nota_2",
+    "titulo": "[PROVISÓRIO] Nota do culto 2",
+    "texto": "[PROVISÓRIO] Espaço reservado para a nota do culto 2. Felipe escreverá o conteúdo final."
+  },
+  {
+    "id": "nota_3",
+    "titulo": "[PROVISÓRIO] Nota do culto 3",
+    "texto": "[PROVISÓRIO] Espaço reservado para a nota do culto 3. Felipe escreverá o conteúdo final."
+  },
+  {
+    "id": "nota_4",
+    "titulo": "[PROVISÓRIO] Nota do culto 4",
+    "texto": "[PROVISÓRIO] Espaço reservado para a nota do culto 4. Felipe escreverá o conteúdo final."
+  },
+  {
+    "id": "pista_1",
+    "titulo": "[PROVISÓRIO] Pista da ave 1",
+    "texto": "[PROVISÓRIO] Espaço reservado para a pista da ave 1. Felipe escreverá seu conteúdo e significado finais."
+  },
+  {
+    "id": "pista_2",
+    "titulo": "[PROVISÓRIO] Pista da ave 2",
+    "texto": "[PROVISÓRIO] Espaço reservado para a pista da ave 2. Felipe escreverá seu conteúdo e significado finais."
+  },
+  {
+    "id": "celular_toque",
+    "titulo": "[PROVISÓRIO] Celular",
+    "texto": "[PROVISÓRIO]\nCELULAR"
+  }
+]

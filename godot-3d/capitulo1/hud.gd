@@ -1,4 +1,5 @@
 extends "res://prototipo/hud.gd"
+var suspicion_bar: ProgressBar
 var suspicion: Label
 var rec: Label
 var escape_prompt: Label
@@ -8,6 +9,7 @@ var escape_black: ColorRect
 func setup(owner_game: Node3D) -> void:
  super.setup(owner_game)
  suspicion=label(root,18)
+ suspicion_bar=ProgressBar.new(); suspicion_bar.show_percentage=false; root.add_child(suspicion_bar)
  rec=label(root,20)
  escape_prompt=label(root,24)
  escape_prompt.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
@@ -41,14 +43,16 @@ func update(dt: float) -> void:
   if game.ending_clock<4: message.text="Fora da escola, Miguel envia o vídeo aos amigos."
   elif game.ending_clock<8: message.text="CAPÍTULO 1 CONCLUÍDO"
   else: message.text="Bola e Felipe recebem a prova.\nO que parecia brincadeira agora precisa ser investigado."
- suspicion.position=Vector2(size.x*.44,95)
- var level=0.0
- for e in game.enemies:
-  if not e.dead and not e.aware: level=maxf(level,e.suspicion)
- if not game.ritual_noticed:
-  for e in game.school.ritual_figures: level=maxf(level,e.suspicion)
- suspicion.text="◌" if level>.10 else ""
- suspicion.modulate=Color(1,.8,.35,clampf(level+.2,0,1))
+ suspicion.position=Vector2(18,70)
+ var level=game.vigilance_level()
+ suspicion.visible=level>.10
+ if game.objectives!=null:
+  suspicion.text=game.objectives.text("vigilancia")+" %d%%"%roundi(level*100)
+ suspicion.modulate=Color(1,.8,.35)
+ suspicion_bar.position=Vector2(18,102); suspicion_bar.size=Vector2(minf(260,size.x*.65),10)
+ suspicion_bar.visible=suspicion.visible; suspicion_bar.value=level*100
+ if game.objectives!=null and not cinematic and not game.bag_found:
+  objective.text=game.objectives.text("objetivo_bolsa" if game.objectives.has_key() else "objetivo_chave")
  rec.position=Vector2(size.x-180,25)
  rec.text="● REC %02d s"%int(game.record_time) if game.recording and game.phase in ["investigate","discovery"] else ""
  rec.modulate=Color(.9,.22,.19)
@@ -70,6 +74,10 @@ func update(dt: float) -> void:
  if game.player.health<99: parts.append("FERIDO" if game.player.health>35 else "MUITO FERIDO")
  if game.food>0: parts.append("EMPANADO ×%d"%game.food)
  if game.knife: parts.append("FACA")
+ if game.objectives!=null:
+  if game.objectives.has_key(): parts.append(game.objectives.text("chave_inventario"))
+  if game.finisher_item_available: parts.append(game.objectives.text("finalizador_inventario"))
+  if game.bag_found: parts.append(game.objectives.text("celular"))
  vitals.text="   ".join(parts)
  vitals.modulate=Color(1,.55,.5) if game.player.health<=35 else Color(1,1,1,.85)
  if game.touch!=null:

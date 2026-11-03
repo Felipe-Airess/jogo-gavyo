@@ -166,11 +166,14 @@ func run() -> void:
  game.qa_mode=true
  for i in 5: await step()
  # A grade de rotas considera portas abertas (o robô as abre ao chegar).
+ # Abre só para construir a grade de planejamento; a porta física volta trancada.
+ game.objectives.bag_door.locked=false
  for door in game.school.doors: door.set_open(true,true)
  await step()
  game._build_paths()
  nav_grid=game.path_grid
  for door in game.school.doors: door.set_open(false,true)
+ game.objectives.bag_door.locked=true
  await step()
  game._build_paths()
  var enemy_grid=game.path_grid
@@ -183,6 +186,15 @@ func run() -> void:
  var entrance: Vector3=NIVEL.ponto(s,"entrada_escada")
  var landing: Vector3=NIVEL.ponto(s,"patamar")
  var ok:=true
+ # O trecho cinematográfico/cozinha do Prompt C ainda não existe nesta base.
+ # Este percurso mede o fluxo implementado, incluindo a chave obrigatória.
+ var key_at: Vector3=game.objectives.position_of("chave")
+ ok=await walk(key_at*Vector3(1,0,1)+Vector3(0,0,-.65),"estoque da cozinha: chave",.2)
+ if ok:
+  var key_delta=key_at-(game.player.position+Vector3.UP*.9)
+  game.view.yaw=atan2(-key_delta.x,-key_delta.z); game.view.pitch=asin(key_delta.normalized().y)
+  game.interact(); await step(); game.view.pitch=-.12
+ check(game.objectives.has_key(),"pega chave por percurso contínuo sem item e sem notas")
  if mode=="furtivo":
   # Rota norte do level design, agachado depois de ver o primeiro cultista.
   for wp in NIVEL.ROUTE_NORTH:
@@ -242,6 +254,7 @@ func run() -> void:
  check(game.phase in ["ending","escaped"] and game.player.position.z>s.gate_at.z,"pula o portão e chega ao encerramento")
  for e in game.enemies:
   if e.state=="vault" and not e.aware: note("inimigo preso tentando pular em %s" % [e.position])
+ check(not game.finisher_item_available and not game.objectives.spent and game.objectives.count("nota")==0 and game.objectives.count("pista")==0,"capítulo vencido sem item opcional, notas ou pistas")
  note("tempo de jogo total %.1f s, mortes %d" % [frame_count/60.0,game.death_count])
  var nearest:=INF
  for e in game.enemies: nearest=minf(nearest,e.home.distance_to(s.ritual_approach))

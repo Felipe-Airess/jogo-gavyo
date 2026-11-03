@@ -107,7 +107,7 @@ func run() -> void:
  check(variants.size()>1,"sorteio produz sequências diferentes")
  fixture(enemy); game.finisher_item_available=true; var before=game.escape.attempts
  game._enemy_ticks(DT)
- check(not game.escape.active and not game.finisher_item_available and game.escape.attempts==before and enemy.state=="escape_stunned","gancho do futuro item evita agarrão comum e consome uso")
+ check(not game.escape.active and not game.finisher_item_available and game.escape.attempts==before and enemy.dead,"item finaliza comum, evita agarrão e consome uso")
  # A faca antiga não é o futuro item e não pula a sequência.
  fixture(enemy); game.knife=true; game._enemy_ticks(DT)
  check(game.escape.active and game.knife,"faca antiga não substitui o item futuro nem pula minigame")

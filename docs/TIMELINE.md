@@ -20,6 +20,20 @@ começa. Ao pegar o trabalho, leia também `docs/TESTE-FELIPE-20261102.md` e
 - **Quantidade:** 6 a 8 cultistas comuns e 1 perseguidor.
 - **Morte:** cena **cruel e pesada** e depois o checkpoint.
 - **Salvar:** checkpoints fixos e automáticos.
+- **Nova abertura — decisão de Felipe, 02/11/2026:** substitui o início em que
+  Miguel já acordava na salinha. De manhã, Miguel e Felipe saem de 3º Informática,
+  descem a escada e se separam; Miguel atravessa o refeitório, deita na salinha
+  e acorda à noite após um corte brusco no mesmo enquadramento. A luz diurna
+  existe apenas nessa abertura, que deve ser pulável e não se repetir ao morrer.
+- **Primeiro objetivo após acordar:** cozinha por fome; depois celular/bolsa,
+  gravação do ritual e fuga. Primeiro cultista na cozinha com sequência
+  cinematográfica e passagem jogável por timing entre coberturas. Vigilância
+  cheia na cozinha mata e retoma o checkpoint anterior à cozinha; fora dela,
+  dispara a caça. Checkpoints ao acordar e antes da cozinha.
+- **Falas aprovadas na escada, sem alterações:**
+  - Miguel: "Vou pra sala descansar."
+  - Felipe: "Eu vou contigo."
+  - Miguel: "Não, vai não, que tu é o porcão, gosta de ficar com o porcão não."
 - **Objetivos:**
   - pegar a bolsa, gravar o ritual e fugir;
   - **notas do culto**;
@@ -36,7 +50,8 @@ começa. Ao pegar o trabalho, leia também `docs/TESTE-FELIPE-20261102.md` e
 - **Cutscenes:** cinematográficas, com cortes de câmera e clima de filme. Falas
   de Miguel vêm de Felipe.
 - **Trilha:** Felipe está criando e manda os arquivos.
-- **Amigos (Bola, Felipe):** só no final.
+- **Amigos:** Felipe também participa da nova abertura com seu modelo existente;
+  Bola permanece no final. A decisão da abertura substitui a restrição anterior.
 - **Proibido:** combate de luta (socos/combos), armas de fogo, gameplay do
   capítulo 2.
 - **Trabalho:** Claude e Codex se revezam. Quem pega lê este arquivo e a
@@ -86,9 +101,13 @@ pendências abaixo; os substitutos provisórios foram autorizados nas Partes 1/4
 - Revisão preparada em [REVISAO-MAPA.md](REVISAO-MAPA.md): plantas renderizadas,
   rota proposta e F9 de passeio em debug. Aguardando resposta de Felipe no próprio arquivo.
 - [ ] Felipe aprova ou corrige a grade (`godot-3d/capitulo1/mapa/terreo.txt`).
-- [ ] Colocar notas, chave/acesso, item de finalizar e pistas da ave (texto
-  de Felipe; até lá `[PROVISÓRIO]`).
-- [ ] Ajustar a duração para 20 a 30 minutos.
+- [x] Colocar quatro notas, chave/acesso, item opcional de finalizar e duas pistas
+  da ave. Textos em `capitulo1/textos/objetivos.json`, todos `[PROVISÓRIO]`.
+  Leitor PC/toque e registros no celular; checkpoints na chave e na bolsa.
+  Entrega técnica de 03/11/2026 em [OBJETIVOS-ETAPA4.md](OBJETIVOS-ETAPA4.md).
+  Abertura/cozinha do Prompt C continuam pendentes; isto não aprova o mapa.
+- [ ] Ajustar a duração para 20 a 30 minutos. Medido em 03/11: percurso atual
+  3 min 27 s; exploração estimada 9–13 min. Curto; sem conteúdo extra inventado.
 - [ ] Decorar com as fotos (`docs/referencias/escola-fotos/`).
 - **Teste de Felipe:** o caminho e os objetivos fazem sentido?
 
@@ -98,6 +117,11 @@ pendências abaixo; os substitutos provisórios foram autorizados nas Partes 1/4
 - **Teste de Felipe:** dão medo?
 
 ### Etapa 6 — Cutscenes cinematográficas
+- Nova direção registrada em 02/11/2026; implementação ainda pendente:
+  - [ ] Abertura diurna pulável com Miguel e o modelo existente do Felipe.
+  - [ ] Cochilo, corte manhã/noite e entrega do controle com objetivo da cozinha.
+  - [ ] Primeiro cultista conforme storyboard, timing por coberturas no PC/toque.
+  - [ ] Vigilância no HUD e checkpoints ao acordar/antes da cozinha.
 - [ ] Abertura, primeiro cultista, perseguidor descobrindo o Miguel, final.
 - [ ] Falas de Miguel enviadas por Felipe.
 - **Teste de Felipe:** parecem filme?

@@ -1,5 +1,52 @@
 # Passagem para o Claude — 02/11/2026
 
+## Objetivos entregues — 03/11/2026
+
+Chave no estoque da cozinha e única tranca no 3 Informática; item opcional de
+uso único no 3 Contabilidade, consumido ao finalizar comum no contato e ineficaz
+contra perseguidor; quatro notas e duas pistas opcionais, leitor PC/toque e listas
+no celular. Só a leitura pausa a ameaça; a lista não pausa. Checkpoints automáticos
+na chave e bolsa incluem inventário, registros, tranca e consumo/finalização.
+Save versão 5 com compatibilidade para a versão 4. Textos novos e pensamento da
+fome centralizados em `capitulo1/textos/objetivos.json`, todos `[PROVISÓRIO]`.
+Não criar falas, significado da ave ou conteúdo final. Guia, locais, imagens e
+saídas completas em [OBJETIVOS-ETAPA4.md](OBJETIVOS-ETAPA4.md).
+
+A grade foi preservada, sem decoração ou alterações de pose de osso nesta frente.
+Barra no canto superior lê a suspeita da IA existente e some fora do alcance.
+**Abertura diurna, encontro de timing e morte por vigilância na cozinha continuam
+não implementados.** Não confundir os testes dos objetivos com aprovação dessas
+cenas. Percurso atual: 207,3 s; estimativa explorando 9–13 min. Meta 20–30 min
+continua aberta, com sugestões apenas; não foi criado conteúdo para preencher tempo.
+
+## Direção mais recente — abertura diurna e cozinha (02/11/2026)
+
+**Decisão de Felipe, ainda não implementada:** a abertura não começa mais com
+Miguel acordando. Miguel e Felipe saem de 3º Informática de manhã, descem a
+escada e se separam. Miguel passa pelo refeitório e deita na salinha. Close com
+sol no rosto, corte brusco para noite no mesmo enquadramento, Miguel acorda.
+Primeiro objetivo: cozinha por fome; depois celular/bolsa, ritual e fuga.
+As três falas aprovadas estão transcritas em `TIMELINE.md`; não reescrever.
+Felipe aparece também na abertura, substituindo a restrição antiga de só aparecer
+no final. Reutilizar `godot-3d/capitulo1/assets/felipe.glb`, encontrado no repositório.
+
+A cozinha deve seguir os cinco quadros do storyboard de Felipe: quatro planos
+puláveis e entrega do controle no quinto, com timing por 3–4 coberturas no PC e
+toque. Barra geral de vigilância no canto superior: na cozinha, encher mata e
+retoma o checkpoint anterior; fora dela, dispara a caça existente. A abertura
+não repete ao morrer; outro checkpoint fica ao acordar. Sem decoração, atualização
+de engine ou escrita de pose de osso por código/testes.
+
+**Conferência local desta solicitação:** `REVISAO-MAPA.md` ainda está com a seção
+“Resposta de Felipe” vazia. Não há correções preenchidas para aplicar primeiro à
+grade. Felipe forneceu o storyboard em `/Users/felipe/Pictures/sla.kra`; sua
+projeção `mergedimage.png` foi extraída sem redesenho para
+`docs/referencias/storyboard-cozinha.png` e aberta para conferência dos cinco
+quadros. O arquivo original do Krita foi preservado. Não inventar aprovação do
+mapa ou alterações da grade. A decisão de história e a referência foram
+registradas; abertura, cozinha e vigilância ainda não foram implementadas.
+Os testes anteriores não validam esta nova implementação.
+
 ## Repositório e entrada
 
 - Repositório: `Felipe-Airess/jogo-gavyo`.

@@ -11,8 +11,9 @@ const ESCAPE=preload("res://capitulo1/escape.gd")
 var escape=ESCAPE.new()
 var escape_blackout:=0.0
 var escape_advantage_until:=0.0
-## Gancho do futuro item único; não há pickup nem finalização nesta etapa.
+## O item opcional consome um único uso contra cultista comum.
 var finisher_item_available:=false
+var objectives: Node
 var touch: CanvasLayer
 var bag_found:=false
 var alert_spread:=false
@@ -108,6 +109,9 @@ func _ready() -> void:
  ending_set=load("res://capitulo1/encerramento.gd").new()
  add_child(ending_set)
  ending_set.setup(self)
+ objectives=preload("res://capitulo1/objetivos.gd").new()
+ add_child(objectives); objectives.setup(self)
+ if touch!=null: touch._layout()
  if qa_mode:
   var qa=load("res://capitulo1/qa.gd").new()
   add_child(qa); qa.setup(self)
@@ -289,9 +293,10 @@ func end_intro() -> void:
    view.yaw=atan2(-to_door.x,-to_door.z)
    break
  player.face(player.position+view.direction())
- hud.say("A bolsa ficou no terceiro de Informática. [Espaço] abre a porta.",5)
+ hud.say(objectives.text("fome"),7)
 
 func _unhandled_input(event: InputEvent) -> void:
+ if objectives!=null and not walk_mode and objectives.handle_key(event): return
  if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_F9 and OS.is_debug_build():
   set_walk_mode(not walk_mode); return
  if walk_mode:
@@ -361,7 +366,9 @@ var interaction: Dictionary={}
 func _process(dt: float) -> void:
  if walk_mode: pressure.reset(self)
  else: pressure.tick(self,dt)
- if player.dead: player.animate(dt)
+ if player.dead:
+  if objectives!=null: objectives.close_screen()
+  player.animate(dt)
  view.update(dt)
  _sync_low_camera()
  hud.update(dt)
@@ -580,6 +587,7 @@ func _enemy_ticks(dt: float) -> void:
    if e.clock>=2.0: e.state="idle"; e.play("guarda")
    continue
   if not e.down and phase in ["investigate","chase"] and _grab_player(e): return
+  if e.dead: e.animate(dt); continue
   if e.state=="escape_stunned": continue
   if e==enemies[0] and not sighting_seen and phase!="sighting":
    e.play("guarda"); e.animate(dt); continue
@@ -733,6 +741,8 @@ func hurt_player(damage: float) -> void:
 const DODGE_AVAILABLE:=false
 
 func _player_tick(dt: float) -> void:
+ if objectives!=null and objectives.modal:
+  player.velocity=Vector3.ZERO; player.animate(dt); return
  # Desliga só o temporizador legado; sons.tick mede deslocamento real e piso.
  footstep_time=1000.0
  if player.state=="interaction":
@@ -772,10 +782,9 @@ func _grab_player(e: CharacterBody3D) -> bool:
  e.move_and_collide(delta.normalized()*(delta.length()-(.27+radius+.04)))
  if player.position.distance_to(e.position)<.27+radius+.005: return false
  if finisher_item_available and not e.pursuer:
-  finisher_item_available=false
-  _escape_release(e)
-  hud.say("O item evitou o agarrão.",2)
+  objectives.finish(e)
   return false
+ objectives.close_screen()
  cancel_heal(); _drop_load(); _cancel_interaction()
  recording=false; peek_door=null; tool_active.clear(); mouse_held=false
  if touch!=null: touch.release_all()
@@ -817,6 +826,7 @@ func _escape_release(e: CharacterBody3D) -> void:
  if touch!=null: touch.release_all()
 
 func _escape_failure() -> void:
+ objectives.close_screen()
  sound.ui("falha")
  escape.active=false; escape_blackout=1.5
  player.dead=true; player.velocity=Vector3.ZERO
@@ -845,11 +855,14 @@ func interact() -> void:
   for door in school.doors:
    if _near_looking(door.center(),1.8): door.toggle(); return
   return
+ if objectives.modal: return
  if player.hidden: _leave_hide(); return
  if player.state=="hang":
   vault["climb"]=true; player.clock=float(vault["hang_clock"]); player.state="vault"; return
  if player.state not in ["idle","heal","hang"] and not player.hidden: return
+ if objectives.interact(): return
  if not bag_found and player.position.distance_to(school.bag_at)<1.7 and player.position.y>2.5:
+  if not objectives.has_key(): hud.say(objectives.text("porta_trancada"),4); return
   _begin_interaction("bag",school.bag,school.bag_at,Vector3.ZERO,"novo/PickUp_Table"); return
  if video_recorded and player.position.distance_to(school.gate_at)<3:
   _jump_gate(); return
@@ -870,6 +883,7 @@ func interact() -> void:
  for door in school.doors:
   if _near_looking(door.center(),1.8):
    if door.moving: return
+   if not objectives.unlock(door): return
    var side=1.0 if (player.position-door.global_position).dot(door.normal)>0 else -1.0
    var handle: Vector3=door.handle_point(side)
    _begin_interaction("door",door,handle,-door.normal*side,"novo/Interact"); return
@@ -935,6 +949,11 @@ func _cultist_shout(e: CharacterBody3D) -> void:
 func context_text() -> String:
  if escape.active or escape_blackout>0: return ""
  if phase in ["intro","sighting","discovery","gate_jump","ending"]: return ""
+ if objectives!=null:
+  var nearby=objectives.prompt()
+  if not nearby.is_empty(): return nearby
+  if objectives.bag_door.locked and _near_looking(objectives.bag_door.center(),1.8):
+   return objectives.text("destrancar" if objectives.has_key() else "porta_trancada")
  if not tool_active.is_empty(): return "USANDO FERRAMENTA · mover ou sofrer dano interrompe"
  if recording: return "● REC  %02d s · mantenha o ritual enquadrado"%int(record_time)
  if not bag_found and _near_looking(school.bag_at,1.7): return "[Espaço] Pegar bolsa e celular"
@@ -1097,7 +1116,8 @@ func _build_paths() -> void:
 
 func _snapshot(persist:=true) -> void:
  super._snapshot(false)
- checkpoint["version"]=4 # 4: mapa em grade (02/11)
+ checkpoint["version"]=5 # 5: inventário e registros (03/11)
+ if objectives!=null: checkpoint["objectives"]=objectives.save_state()
  checkpoint["bag"]=bag_found
  checkpoint["alert"]=alert_spread
  checkpoint["video"]=video_recorded
@@ -1119,7 +1139,9 @@ func _save_path() -> String:
 func load_checkpoint() -> bool:
  if not FileAccess.file_exists(_save_path()): return false
  var saved=JSON.parse_string(FileAccess.get_file_as_string(_save_path()))
- if not saved is Dictionary or saved.get("version")!=4 or saved.get("enemies",[]).size()!=enemies.size(): return false
+ if not saved is Dictionary or saved.get("version") not in [4,5] or saved.get("enemies",[]).size()!=enemies.size(): return false
+ if not saved.has("objectives") and bool(saved.get("bag",false)):
+  saved["objectives"]={"collected":["chave"],"unlocked":true}
  checkpoint=saved; restore_checkpoint(); return true
 
 func restore_checkpoint() -> void:
@@ -1131,6 +1153,8 @@ func restore_checkpoint() -> void:
  if touch!=null: touch.release_all()
  _cancel_interaction()
  if player.dead: death_count+=1
+ objectives.close_screen()
+ objectives.bag_door.locked=not bool(checkpoint.get("objectives",{}).get("unlocked",false))
  super.restore_checkpoint()
  bag_found=bool(checkpoint.get("bag",false))
  alert_spread=bool(checkpoint.get("alert",false))
@@ -1175,6 +1199,7 @@ func restore_checkpoint() -> void:
  for i in school.hides.size(): school.set_hide_open(i,false,true)
  hide_witnesses.clear()
  phone_light=false
+ objectives.restore_state(checkpoint.get("objectives",{}))
  view.yaw=PI/2
  _build_paths()
 
@@ -1295,3 +1320,14 @@ func _interaction_tick(dt: float) -> void:
   if completed["committed"]:
    if completed["kind"]=="gate": _jump_gate_now()
    elif completed["kind"]=="hide": _enter_hide(int(completed["index"]))
+
+## Leitura do maior nível existente, com alcance; não move nem corrige a IA.
+func vigilance_level() -> float:
+ if walk_mode or paused or player.dead or phase not in ["investigate","chase","sighting"]: return 0.0
+ var result:=0.0
+ var actors: Array=[]; actors.append_array(enemies); actors.append_array(school.ritual_figures)
+ if is_instance_valid(pursuer): actors.append(pursuer)
+ for actor in actors:
+  if actor.dead or actor.down or actor.position.distance_to(player.position)>10.5: continue
+  result=maxf(result,clampf(actor.suspicion,0,1))
+ return result
