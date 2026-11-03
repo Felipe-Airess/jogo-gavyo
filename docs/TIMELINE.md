@@ -83,6 +83,8 @@ pendências abaixo; os substitutos provisórios foram autorizados nas Partes 1/4
 - **Teste de Felipe:** dá para jogar sem forçar a vista?
 
 ### Etapa 4 — Mapa e objetivos
+- Revisão preparada em [REVISAO-MAPA.md](REVISAO-MAPA.md): plantas renderizadas,
+  rota proposta e F9 de passeio em debug. Aguardando resposta de Felipe no próprio arquivo.
 - [ ] Felipe aprova ou corrige a grade (`godot-3d/capitulo1/mapa/terreo.txt`).
 - [ ] Colocar notas, chave/acesso, item de finalizar e pistas da ave (texto
   de Felipe; até lá `[PROVISÓRIO]`).

@@ -1,0 +1,869 @@
+{
+ "corner_test": [
+  {
+   "a": [
+    19,
+    10
+   ],
+   "b": [
+    22,
+    7
+   ],
+   "visible": false
+  },
+  {
+   "a": [
+    28,
+    16
+   ],
+   "b": [
+    31,
+    13
+   ],
+   "visible": false
+  },
+  {
+   "a": [
+    45,
+    19
+   ],
+   "b": [
+    48,
+    16
+   ],
+   "visible": false
+  },
+  {
+   "a": [
+    45,
+    23
+   ],
+   "b": [
+    48,
+    20
+   ],
+   "visible": false
+  }
+ ],
+ "new_story_implemented": false,
+ "rooms": [
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [],
+   "hides": [],
+   "id": 0,
+   "items": [],
+   "name": "Pátio de química",
+   "rect": [
+    21.0,
+    2.0,
+    20.0,
+    9.0
+   ],
+   "sala": false
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "3 Contabilidade"
+    }
+   ],
+   "hides": [],
+   "id": 1,
+   "items": [],
+   "name": "3 Contabilidade",
+   "rect": [
+    5.0,
+    5.0,
+    7.0,
+    6.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "2 Informática"
+    }
+   ],
+   "hides": [],
+   "id": 2,
+   "items": [],
+   "name": "2 Informática",
+   "rect": [
+    13.0,
+    5.0,
+    7.0,
+    6.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [
+    [
+     44,
+     6,
+     "%"
+    ]
+   ],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Laboratório de química"
+    }
+   ],
+   "hides": [],
+   "id": 3,
+   "items": [
+    "alicate"
+   ],
+   "name": "Laboratório de química",
+   "rect": [
+    42.0,
+    5.0,
+    5.0,
+    6.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Informática 1"
+    }
+   ],
+   "hides": [],
+   "id": 4,
+   "items": [],
+   "name": "Informática 1",
+   "rect": [
+    53.0,
+    9.0,
+    8.0,
+    5.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [
+    [
+     65,
+     11,
+     "%"
+    ]
+   ],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Laboratório de matemática"
+    }
+   ],
+   "hides": [],
+   "id": 5,
+   "items": [
+    "régua"
+   ],
+   "name": "Laboratório de matemática",
+   "rect": [
+    62.0,
+    9.0,
+    8.0,
+    5.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Biblioteca"
+    }
+   ],
+   "hides": [],
+   "id": 6,
+   "items": [],
+   "name": "Biblioteca",
+   "rect": [
+    71.0,
+    9.0,
+    24.0,
+    5.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [],
+   "hides": [],
+   "id": 0,
+   "items": [],
+   "name": "Quadra coberta",
+   "rect": [
+    5.0,
+    12.0,
+    90.0,
+    67.0
+   ],
+   "sala": false
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [],
+   "hides": [],
+   "id": 0,
+   "items": [],
+   "name": "Corredor aberto",
+   "rect": [
+    5.0,
+    12.0,
+    90.0,
+    67.0
+   ],
+   "sala": false
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [],
+   "hides": [],
+   "id": 0,
+   "items": [],
+   "name": "Área de saída",
+   "rect": [
+    5.0,
+    12.0,
+    90.0,
+    67.0
+   ],
+   "sala": false
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [],
+   "hides": [],
+   "id": 0,
+   "items": [],
+   "name": "Passagem para o portão 1",
+   "rect": [
+    5.0,
+    12.0,
+    90.0,
+    67.0
+   ],
+   "sala": false
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [],
+   "hides": [],
+   "id": 0,
+   "items": [],
+   "name": "Estacionamento de bicicletas",
+   "rect": [
+    5.0,
+    12.0,
+    90.0,
+    67.0
+   ],
+   "sala": false
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [],
+   "hides": [],
+   "id": 0,
+   "items": [],
+   "name": "Rampa",
+   "rect": [
+    5.0,
+    12.0,
+    90.0,
+    67.0
+   ],
+   "sala": false
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [],
+   "hides": [],
+   "id": 0,
+   "items": [],
+   "name": "Pátio a céu aberto",
+   "rect": [
+    5.0,
+    12.0,
+    90.0,
+    67.0
+   ],
+   "sala": false
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [],
+   "hides": [],
+   "id": 0,
+   "items": [],
+   "name": "Refeitório e auditório",
+   "rect": [
+    5.0,
+    12.0,
+    90.0,
+    67.0
+   ],
+   "sala": false
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "2 Contabilidade · oeste"
+    }
+   ],
+   "hides": [
+    [
+     36,
+     15,
+     "&"
+    ]
+   ],
+   "id": 7,
+   "items": [],
+   "name": "2 Contabilidade · oeste",
+   "rect": [
+    30.0,
+    15.0,
+    7.0,
+    9.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Materiais de esportes"
+    }
+   ],
+   "hides": [
+    [
+     99,
+     15,
+     "&"
+    ]
+   ],
+   "id": 8,
+   "items": [
+    [
+     97,
+     17,
+     "@"
+    ]
+   ],
+   "name": "Materiais de esportes",
+   "rect": [
+    96.0,
+    15.0,
+    4.0,
+    4.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Laboratório Informática 1"
+    }
+   ],
+   "hides": [],
+   "id": 9,
+   "items": [],
+   "name": "Laboratório Informática 1",
+   "rect": [
+    47.0,
+    18.0,
+    5.0,
+    3.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Laboratório de contabilidade"
+    }
+   ],
+   "hides": [],
+   "id": 10,
+   "items": [],
+   "name": "Laboratório de contabilidade",
+   "rect": [
+    96.0,
+    20.0,
+    4.0,
+    3.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Laboratório Informática 2"
+    }
+   ],
+   "hides": [],
+   "id": 11,
+   "items": [],
+   "name": "Laboratório Informática 2",
+   "rect": [
+    47.0,
+    22.0,
+    5.0,
+    7.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Sala de música"
+    }
+   ],
+   "hides": [],
+   "id": 12,
+   "items": [],
+   "name": "Sala de música",
+   "rect": [
+    96.0,
+    24.0,
+    4.0,
+    4.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "2 Enfermagem"
+    }
+   ],
+   "hides": [],
+   "id": 13,
+   "items": [],
+   "name": "2 Enfermagem",
+   "rect": [
+    30.0,
+    25.0,
+    7.0,
+    8.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Estoque da cozinha"
+    }
+   ],
+   "hides": [],
+   "id": 14,
+   "items": [],
+   "name": "Estoque da cozinha",
+   "rect": [
+    96.0,
+    29.0,
+    4.0,
+    6.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [
+    [
+     47,
+     33,
+     "%"
+    ],
+    [
+     47,
+     34,
+     "%"
+    ]
+   ],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Laboratório de hardware"
+    }
+   ],
+   "hides": [],
+   "id": 15,
+   "items": [
+    "empanado",
+    "chave de fenda"
+   ],
+   "name": "Laboratório de hardware",
+   "rect": [
+    47.0,
+    30.0,
+    5.0,
+    9.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Laboratório de enfermagem"
+    }
+   ],
+   "hides": [],
+   "id": 16,
+   "items": [],
+   "name": "Laboratório de enfermagem",
+   "rect": [
+    30.0,
+    34.0,
+    7.0,
+    6.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Coordenação"
+    }
+   ],
+   "hides": [],
+   "id": 17,
+   "items": [],
+   "name": "Coordenação",
+   "rect": [
+    57.0,
+    36.0,
+    19.0,
+    3.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [
+    [
+     91,
+     37,
+     "%"
+    ]
+   ],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Cozinha"
+    }
+   ],
+   "hides": [],
+   "id": 18,
+   "items": [
+    "faca"
+   ],
+   "name": "Cozinha",
+   "rect": [
+    82.0,
+    36.0,
+    18.0,
+    4.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Banheiro dos professores"
+    }
+   ],
+   "hides": [],
+   "id": 19,
+   "items": [],
+   "name": "Banheiro dos professores",
+   "rect": [
+    82.0,
+    41.0,
+    3.0,
+    2.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Planejamento dos professores"
+    }
+   ],
+   "hides": [],
+   "id": 20,
+   "items": [],
+   "name": "Planejamento dos professores",
+   "rect": [
+    82.0,
+    44.0,
+    3.0,
+    2.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Banheiro masculino"
+    }
+   ],
+   "hides": [],
+   "id": 21,
+   "items": [],
+   "name": "Banheiro masculino",
+   "rect": [
+    30.0,
+    45.0,
+    7.0,
+    4.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Sala dos professores"
+    }
+   ],
+   "hides": [],
+   "id": 22,
+   "items": [],
+   "name": "Sala dos professores",
+   "rect": [
+    53.0,
+    45.0,
+    23.0,
+    9.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "2 Contabilidade · sul"
+    }
+   ],
+   "hides": [],
+   "id": 23,
+   "items": [],
+   "name": "2 Contabilidade · sul",
+   "rect": [
+    53.0,
+    45.0,
+    8.0,
+    4.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "1 Contabilidade"
+    }
+   ],
+   "hides": [],
+   "id": 24,
+   "items": [],
+   "name": "1 Contabilidade",
+   "rect": [
+    62.0,
+    45.0,
+    8.0,
+    4.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Secretaria"
+    }
+   ],
+   "hides": [],
+   "id": 25,
+   "items": [],
+   "name": "Secretaria",
+   "rect": [
+    82.0,
+    47.0,
+    18.0,
+    7.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 0,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "Banheiro feminino"
+    }
+   ],
+   "hides": [],
+   "id": 26,
+   "items": [],
+   "name": "Banheiro feminino",
+   "rect": [
+    30.0,
+    50.0,
+    7.0,
+    5.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 1,
+   "blocks": [],
+   "doors": [
+    {
+     "locked": false,
+     "name": "3 Enfermagem"
+    }
+   ],
+   "hides": [],
+   "id": 27,
+   "items": [],
+   "name": "3 Enfermagem",
+   "rect": [
+    5.0,
+    5.0,
+    7.0,
+    6.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 1,
+   "blocks": [
+    [
+     13,
+     6,
+     "%"
+    ]
+   ],
+   "doors": [
+    {
+     "locked": false,
+     "name": "3 Informática"
+    }
+   ],
+   "hides": [],
+   "id": 28,
+   "items": [
+    [
+     15,
+     7,
+     "$"
+    ],
+    "empanado"
+   ],
+   "name": "3 Informática",
+   "rect": [
+    13.0,
+    5.0,
+    7.0,
+    6.0
+   ],
+   "sala": true
+  },
+  {
+   "andar": 1,
+   "blocks": [],
+   "doors": [],
+   "hides": [],
+   "id": 0,
+   "items": [],
+   "name": "Corredor superior",
+   "rect": [
+    5.0,
+    12.0,
+    18.0,
+    2.0
+   ],
+   "sala": false
+  }
+ ],
+ "route_pending": "F: sala com celular/bolsa não identificada; posição atual é 3 Informática, superior"
+}

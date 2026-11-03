@@ -48,6 +48,8 @@ var ending_set: Node3D
 var phone_prop: Node3D
 var breathing: AudioStreamPlayer
 var pressure=preload("res://capitulo1/pressao.gd").new()
+var walk_mode:=false
+var walk_actor_states: Array=[]
 var tension: AudioStreamPlayer
 var sound: Node
 var gate_sound_played:=false
@@ -235,6 +237,35 @@ func _props() -> void:
   tool_progress[data[0]]=0.0
   if data[0]=="livros altos": school.box(Vector3(.65,.05,.35),at-Vector3.UP*.2,"wood",false)
 
+## Passeio de revisão só em debug. Entrada/saída retomam o checkpoint;
+## não salva objetivos, não cria inimigos e não modifica a grade.
+func set_walk_mode(on: bool) -> void:
+ if not OS.is_debug_build() or on==walk_mode: return
+ if on:
+  restore_checkpoint(); begin(); walk_mode=true
+  for actor in find_children("*","CharacterBody3D",true,false):
+   if actor==player or not "hurt_areas" in actor: continue
+   var areas: Array=[]
+   for area in actor.hurt_areas:
+    areas.append([area,area.collision_layer,area.collision_mask]); area.collision_layer=0; area.collision_mask=0
+   walk_actor_states.append({"actor":actor,"visible":actor.visible,"layer":actor.collision_layer,"mask":actor.collision_mask,"areas":areas})
+   actor.visible=false; actor.collision_layer=0; actor.collision_mask=0
+   if "hunt_voice" in actor and is_instance_valid(actor.hunt_voice): actor.hunt_voice.stop()
+  pressure.reset(self); sound.reset(); recording=false; mouse_held=false
+  hud.say("PASSEIO DEBUG · sem inimigos · Espaço abre portas · F9 sai para o checkpoint",5)
+ else:
+  _restore_walk_actors(); walk_mode=false; restore_checkpoint(); begin()
+  hud.say("Passeio encerrado. Checkpoint retomado.",3)
+
+func _restore_walk_actors() -> void:
+ for saved in walk_actor_states:
+  var actor=saved["actor"]
+  if not is_instance_valid(actor): continue
+  actor.visible=saved["visible"]; actor.collision_layer=saved["layer"]; actor.collision_mask=saved["mask"]
+  for area in saved["areas"]:
+   if is_instance_valid(area[0]): area[0].collision_layer=area[1]; area[0].collision_mask=area[2]
+ walk_actor_states.clear()
+
 func begin() -> void:
  started=true
  paused=false
@@ -261,6 +292,17 @@ func end_intro() -> void:
  hud.say("A bolsa ficou no terceiro de Informática. [Espaço] abre a porta.",5)
 
 func _unhandled_input(event: InputEvent) -> void:
+ if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_F9 and OS.is_debug_build():
+  set_walk_mode(not walk_mode); return
+ if walk_mode:
+  if event is InputEventKey and event.pressed and not event.echo:
+   if event.keycode==KEY_ESCAPE:
+    paused=not paused
+    Input.mouse_mode=Input.MOUSE_MODE_VISIBLE if paused or touch!=null else Input.MOUSE_MODE_CAPTURED
+   elif not paused and event.keycode==KEY_SPACE: interact()
+   elif event.keycode==KEY_F3: film_enabled=not film_enabled; _resize_low()
+  elif event is InputEventMouseMotion and not paused and Input.mouse_mode==Input.MOUSE_MODE_CAPTURED: view.look_mouse(event.screen_relative)
+  return
  if escape_blackout>0: return
  if escape.active:
   if event is InputEventKey and event.pressed and not event.echo:
@@ -317,7 +359,8 @@ const CONTACT=preload("res://capitulo1/animacoes/contato.gd")
 var interaction: Dictionary={}
 
 func _process(dt: float) -> void:
- pressure.tick(self,dt)
+ if walk_mode: pressure.reset(self)
+ else: pressure.tick(self,dt)
  if player.dead: player.animate(dt)
  view.update(dt)
  _sync_low_camera()
@@ -340,6 +383,10 @@ func _process(dt: float) -> void:
   if scare_time>.2: silhouette.visible=false
 
 func _physics_process(dt: float) -> void:
+ if walk_mode:
+  if not paused:
+   elapsed+=dt; _player_tick(dt)
+  return
  if escape_blackout>0:
   _escape_tick(dt); return
  if paused or player.dead or phase=="escaped": return
@@ -423,6 +470,7 @@ func _physics_process(dt: float) -> void:
  _story_tick(dt)
 
 func _story_tick(dt: float) -> void:
+ if walk_mode: return
  if phase!="investigate" and phase!="chase": return
  _unease_beats()
  if not bag_found and player.position.distance_to(school.bag_at)<1.7 and player.position.y>2.5:
@@ -498,7 +546,7 @@ func _jump_gate_now() -> void:
  locked=null
 
 func start_chase() -> void:
- if not alert_spread or not video_recorded or phase!="investigate": return
+ if walk_mode or not alert_spread or not video_recorded or phase!="investigate": return
  phase="discovery"
  discovery_clock=0
  locked=null; protected_target=null; enemy_turn=null
@@ -521,6 +569,7 @@ func end_discovery() -> void:
  hud.say("CORRA. Quebre a visão antes de se esconder. Portas compram tempo.",5)
 
 func _enemy_ticks(dt: float) -> void:
+ if walk_mode: return
  if escape.active or escape_blackout>0: return
  for e in enemies:
   e.clock+=dt
@@ -635,6 +684,7 @@ const RITUAL_RATE:=.42
 var ritual_noticed:=false
 
 func _ritual_watch(dt: float) -> void:
+ if walk_mode: return
  if ritual_noticed or player.hidden: return
  for f in school.ritual_figures:
   var seen:=false
@@ -710,6 +760,7 @@ func _enemy_contact(e: CharacterBody3D) -> void:
   combat_stats["enemy_hits"]+=1
 
 func _grab_player(e: CharacterBody3D) -> bool:
+ if walk_mode: return false
  if escape.active or escape_blackout>0 or player.dead or player.hidden or paused: return false
  if elapsed<escape_advantage_until or e.dead or e.down or e.state=="escape_stunned": return false
  if phase not in ["investigate","chase"]: return false
@@ -790,6 +841,10 @@ func _grab() -> void:
  _grab_player(pursuer)
 
 func interact() -> void:
+ if walk_mode:
+  for door in school.doors:
+   if _near_looking(door.center(),1.8): door.toggle(); return
+  return
  if player.hidden: _leave_hide(); return
  if player.state=="hang":
   vault["climb"]=true; player.clock=float(vault["hang_clock"]); player.state="vault"; return
@@ -838,7 +893,7 @@ func _near_looking(at: Vector3,distance: float) -> bool:
 
 ## Oculto não é visível. Saber onde entrou é memória individual, não visão.
 func enemy_sees(actor: CharacterBody3D,ignore_facing:=false) -> bool:
- if player.hidden: return false
+ if walk_mode or player.hidden: return false
  return super.enemy_sees(actor,ignore_facing)
 
 var hide_witnesses: Dictionary={}
@@ -962,6 +1017,7 @@ func throw_object() -> void:
  )
 
 func _pursuer_tick(dt: float) -> void:
+ if walk_mode: return
  if escape.active or escape_blackout>0: return
  if is_instance_valid(pursuer) and pursuer.state=="escape_stunned":
   pursuer.clock+=dt; pursuer.animate(dt)
@@ -1067,6 +1123,7 @@ func load_checkpoint() -> bool:
  checkpoint=saved; restore_checkpoint(); return true
 
 func restore_checkpoint() -> void:
+ if walk_mode: _restore_walk_actors(); walk_mode=false
  pressure.reset(self)
  sound.reset()
  escape.clear(); escape_blackout=0; escape_advantage_until=0

@@ -62,6 +62,9 @@ func update(dt: float) -> void:
  elif game.paused and game.started:
   menu.text="PAUSADO\n\n[Esc] Voltar · [R] Checkpoint\n\nWASD mover · mouse olhar\nShift correr · Ctrl agachar\nEspaço interagir / porta / parkour\nAgarrão: repita a sequência com WASD ou setas\nE empanado · V vídeo · L lanterna após bolsa\nT arremessar objeto · F fresta · F3 filtro ligado/desligado"
   if game.touch!=null: menu.text="PAUSADO\n\nToque para voltar\n\nEsquerda: mover (até a borda corre)\nDireita: arrastar para olhar\nBotões: ação,\nagachar, gravar, luz, fresta, comer"
+ if game.walk_mode:
+  rec.text="PASSEIO DEBUG · F9 sair"; rec.position.x=size.x-300; rec.modulate=Color(.8,1,.85)
+  if game.paused: menu.text="PASSEIO DEBUG\n\nEsc: voltar\nF9: sair e retomar checkpoint\n\nWASD mover · Shift correr · Ctrl agachar\nEspaço: abrir/fechar porta · F3: filtro"
  # Terror: sem barra de jogo de luta. Vida só aparece ferido; itens só quando há.
  var parts: Array[String]=[]
  if game.player.health<99: parts.append("FERIDO" if game.player.health>35 else "MUITO FERIDO")
