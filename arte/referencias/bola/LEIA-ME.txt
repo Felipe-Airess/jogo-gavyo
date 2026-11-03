@@ -1,0 +1,19 @@
+BOLA — referências fornecidas por Felipe em 03/11/2026
+
+Fonte local: /Users/felipe/Downloads/WhatsApp Images.7z
+45 fotos originais preservadas em originais/, com os nomes do arquivo.
+A sequência do pacote não contém IMG-20261103-WA0017.jpg; não foi apagada na extração.
+
+Dados fornecidos:
+- Altura: interpretar 1,75 m (o pedido escreveu "1,75 cm", aparente erro de unidade).
+- Peso: aproximadamente 67 kg.
+- Físico: masculino, esguio.
+- Roupa no jogo: farda escolar das fotos.
+- Cabelo: castanho escuro.
+- Característica que não pode faltar: não especificada ("n sei"). Não inventar.
+
+Entrega: modelo isolado para aprovação; não integrar ao capítulo 1.
+Técnica: MakeHuman + encaixe por landmarks MediaPipe + contorno de perfil,
+cabelo por fatias, peças separadas para roupa, rig de 22 ossos e QA obrigatório.
+Fotos de perto servem para os pontos do rosto. Escala da cabeça/cabelo vem
+principalmente das fotos de corpo e retratos mais distantes.
