@@ -26,6 +26,15 @@ func reachable(g,s,a: Vector2,b: Vector2,block: Rect2i) -> bool:
  for c in saved: g.set_point_solid(c,false)
  return not path.is_empty()
 
+func path_length(g,a: Vector3,b: Vector3) -> float:
+ var start=cell(a); var end=cell(b)
+ if not g.is_in_boundsv(start) or not g.is_in_boundsv(end) or g.is_point_solid(start) or g.is_point_solid(end): return INF
+ var path=g.get_point_path(start,end,false)
+ if path.is_empty(): return INF
+ var length:=0.0
+ for i in range(1,path.size()): length+=path[i-1].distance_to(path[i])
+ return length
+
 func run() -> void:
  var game=load("res://capitulo1/main.tscn").instantiate()
  root.add_child(game)
@@ -53,7 +62,32 @@ func run() -> void:
    if absf(h["inside"].y-at.y)<2: best=minf(best,Vector2(h["inside"].x-at.x,h["inside"].z-at.z).length())
   if best>NIVEL.HIDE_NEAR_GUARD: far.append([s.celula_de(at),best])
  print("POSTOS_SEM_ESCONDERIJO ",far)
- check(s.postos.size()==4 and far.is_empty(),"quatro postos, todos com esconderijo a até 10 m")
+ check(s.postos.size()==7 and far.is_empty(),"sete postos, todos com esconderijo a até 10 m")
+ # O abrigo deve ser alcançável, não só próximo do outro lado de uma parede.
+ var all_posts: Array=s.postos.duplicate(); all_posts.append(s.pursuer_post)
+ var inaccessible: Array=[]
+ for i in all_posts.size():
+  var best=INF
+  for h in s.hides: best=minf(best,path_length(g,all_posts[i],h["entry"]))
+  print("POSTO %d celula=%s abrigo_por_caminho=%.2f m"%[i+1,s.celula_de(all_posts[i]),best])
+  if best>10: inaccessible.append(i+1)
+ check(inaccessible.is_empty(),"oito postos têm caminho de até 10 m até um esconderijo")
+ var marks=true
+ for number in range(1,9): marks=marks and s.andares[0].celulas(str(number)).size()==1
+ check(marks and game.enemies.size()==7 and game.pursuer==null,"grade tem sete comuns e um posto condicional, sem perseguidor inicial")
+ # Reserva um disco de 1 m em TODOS os postos: simula corpo e margem de desvio.
+ var occupied: Array=[]
+ for at in all_posts:
+  var middle=cell(at)
+  for dx in range(-2,3):
+   for dz in range(-2,3):
+    var v=middle+Vector2i(dx,dz)
+    if Vector2(dx,dz).length()>2 or not g.is_in_boundsv(v) or g.is_point_solid(v): continue
+    g.set_point_solid(v,true); occupied.append(v)
+ check(reachable(g,s,start,goal,NIVEL.CHOKE_SOUTH),"rota norte desvia dos oito postos ocupados")
+ check(reachable(g,s,start,goal,NIVEL.CHOKE_NORTH),"rota sul desvia dos oito postos ocupados")
+ check(reachable(g,s,Vector2(acorda),goal,Rect2i()) and reachable(g,s,goal,Vector2(portao),Rect2i()),"postos ocupados não bloqueiam caminho obrigatório nem fuga")
+ for v in occupied: g.set_point_solid(v,false)
  # Cobertura: nos trechos de rota vistos por um posto, há obstáculo baixo/médio
  # (0,8–3 m) a até ~5 m.
  var covers: Array[Vector3]=[]

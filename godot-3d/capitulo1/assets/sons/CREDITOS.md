@@ -399,3 +399,13 @@ Não pertencem aos 376 arquivos recebidos. Permanecem porque o pacote não tem e
 | `capitulo1/assets/respiracao.wav` | Síntese local, conforme manifesto do projeto | licença a confirmar por Felipe | [manifesto](../MANIFESTO.md) |
 | `capitulo1/assets/culto.wav` | Síntese local com voz Luciana, conforme manifesto do projeto | licença a confirmar por Felipe | [manifesto](../MANIFESTO.md) |
 | `prototipo/audio/grilos.wav` | Autor a confirmar por Felipe; recurso anterior do projeto | licença a confirmar por Felipe | [arquivo anterior](../../../prototipo/audio/grilos.wav) |
+
+
+## [PROVISÓRIO] Tensão da perseguição
+
+`../tensao_provisoria.wav`: pulso/drone sintetizado localmente para esta etapa,
+sem samples de terceiros. Autoria: projeto Gavião. Licença de publicação a confirmar
+por Felipe; não é um arquivo do pacote CC0 recebido. Gerador reproduzível:
+[`tools/gerar_tensao_provisoria.py`](../../../tools/gerar_tensao_provisoria.py).
+A trilha final será fornecida por Felipe. Os passos e gritos continuam usando
+os recursos novos documentados acima.

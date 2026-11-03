@@ -30,6 +30,7 @@ var lib: MeshLibrary
 var rooms: Dictionary={}
 var ambiente_celula: Array[Dictionary]=[{},{}]
 var postos: Array[Vector3]=[]
+var pursuer_post:=Vector3.ZERO
 var bag: Node3D
 var ritual_center: Vector3
 var bag_at: Vector3
@@ -497,7 +498,8 @@ func _marcas() -> void:
   for v in g.celulas("@"): spawn=cel(v.x,v.y,y)
   for v in g.celulas("*"): ritual_center=cel(v.x,v.y,y)
   for v in g.celulas("+"): ritual_approach=cel(v.x,v.y,y)
-  for v in g.celulas("123456789"): postos_por_numero[int(g.ch(v.x,v.y))]=cel(v.x,v.y,y)
+  for v in g.celulas("1234567"): postos_por_numero[int(g.ch(v.x,v.y))]=cel(v.x,v.y,y)
+  for v in g.celulas("8"): pursuer_post=cel(v.x,v.y,y)
   for v in g.celulas("$"):
    var mesa:=cel(v.x,v.y,y)
    box(Vector3(1.2,.85,.65),mesa+Vector3.UP*.425,"wood")

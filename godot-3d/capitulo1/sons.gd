@@ -126,6 +126,7 @@ func footstep(actor,forced_surface: String="") -> void:
  configure(player,10 if actor.enemy else 7,4.0 if actor.pursuer else 3.0 if actor.enemy else 1.5)
  if surface=="escada": player.bus="CapituloEscada"
  var offset=-1.0 if actor.pursuer else -3.0 if actor.enemy else -9.0 if actor.crouched else -6.0
+ if actor.enemy: offset+=game.pressure.foot_boost(game,actor)
  var pitch=.72 if actor.pursuer else .87 if actor.enemy else 1.0
  prepare(player,surface,offset,pitch,"passo%d_%s"%[id,surface])
  player.play(); note("passo_"+surface); note("passo_perseguidor" if actor.pursuer else "passo_cultista" if actor.enemy else "passo_miguel")
@@ -156,8 +157,10 @@ func tick(dt: float) -> void:
  if not moving:
   breath.stop(); return
  var volume={"normal":-38.0,"correndo":-23.0,"agarrado":-19.0}[profile]
+ var panic=game.pressure.value
+ volume+=panic*(15.0 if profile=="normal" else 4.0)
  breath.volume_db=lerpf(breath.volume_db,volume,1-exp(-5*dt))
- breath.pitch_scale={"normal":.85,"correndo":1.1,"agarrado":1.25}[profile]
+ breath.pitch_scale={"normal":.85,"correndo":1.1,"agarrado":1.25}[profile]+panic*(.35 if profile=="normal" else .15)
  if not breath.playing: breath.play()
 
 func reset() -> void:

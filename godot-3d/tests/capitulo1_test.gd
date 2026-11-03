@@ -22,7 +22,7 @@ func run() -> void:
  check(not game.bag_found and not game.phone_prop.visible,"Miguel começa sem celular")
  check(game.school.bag_at.y>3,"bolsa fica no andar superior")
  check(game.school.spawn.distance_to(game.school.ritual_center)>30,"ritual separado do pátio onde acorda")
- check(game.enemies.all(func(e):return e.home.x<0),"cultistas começam a partir do corredor interno")
+ check(game.enemies.size()==7 and game.enemies.all(func(e):return e.home in game.school.postos),"sete comuns ocupam os postos da grade")
  check(game.player.anim.has_animation("novo/Sprint"),"ciclo novo de corrida importado")
  game.player.velocity=Vector3(0,0,3.8); game.player.face(game.player.position+Vector3.BACK)
  game.player.play("correr"); game.player.animate(.1)

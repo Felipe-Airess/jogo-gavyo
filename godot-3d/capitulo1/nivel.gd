@@ -2,7 +2,7 @@ extends RefCounted
 ## Level design do capítulo 1 como dado (skills level-design, godot-genre-horror,
 ## godot-genre-stealth). A ESTRUTURA está na grade em texto
 ## (capitulo1/mapa/terreo.txt e superior.txt): paredes, portas, esconderijos (&),
-## coberturas (%), postos (1–4) e pontos da história (@ $ * + G).
+## coberturas (%), postos (1–7, 8 condicional) e pontos da história (@ $ * + G).
 ## Aqui ficam métricas, ritmo, rotas e pontos de roteiro, em células da grade
 ## (coluna, linha); escola.cel(c, r) converte para o mundo.
 ##

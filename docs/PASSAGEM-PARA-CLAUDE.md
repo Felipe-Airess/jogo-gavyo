@@ -373,3 +373,25 @@ licença dos três sons antigos fica a confirmar por Felipe.
 Suíte passou: áudio 30, caça 32, escape 37, movimento 33, animação 70, capítulo 36,
 mapa 18 e nível 10. Web PCK em diretório vazio carregou 376/376 e incluiu créditos.
 Falta Felipe ouvir em PC/celular; não houve alegação de avaliação humana do timbre.
+
+
+## Parte 4 — pressão e sete patrulheiros (02/11/2026)
+
+`pressao.gd` lê caça/busca ativa e distância: reforça passos novos até +5 dB,
+acelera respiração e adiciona pequeno desvio óptico à câmera. Sem caçadores,
+tudo retorna ao normal; pausa/checkpoint zeram. Alerta salvo sozinho não liga.
+`tensao_provisoria.wav` é pulso/drone sintetizado, marcado [PROVISÓRIO], sem
+samples externos; gerador reproduzível em tools. Felipe fornecerá trilha final.
+Nenhuma escrita de ossos ou mudança no comportamento da IA.
+
+Grade tem sete postos comuns (1–7) e um posto condicional (8), separado da lista
+de comuns. Perseguidor nasce no 8 somente com alerta e vídeo, nunca no início.
+Participantes visuais do ritual preservados. Todos os oito postos têm caminho
+menor que 10 m até armário; testes bloqueiam os postos com discos de 1 m e
+exigem que rotas norte/sul e caminho obrigatório/fuga continuem livres.
+Etapa 1 marcada como entregue jogável; morte/trilha definitivas e avaliação
+subjetiva de Felipe continuam explicitamente pendentes na timeline.
+
+Validação: pressão 19, áudio 30, caça 32, escape 37, movimento 33, animação 70,
+capítulo 36, mapa 18 e nível 15; percurso rota 7/7, código 0. Maior caminho
+posto/abrigo 7,33 m; rotas alternativas passam com discos ocupando todos os postos.

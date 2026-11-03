@@ -5,7 +5,7 @@ gavyo_godot="${GODOT:-$PWD/work/ferramentas/godot/Godot.app/Contents/MacOS/Godot
 # Capítulo integrado + mapa em grade (texto/kit/física) + level design.
 python3 - "$gavyo_godot" "$PWD/godot-3d" <<'PY'
 import subprocess,sys,re
-suites=[('capitulo1_audio_test','CAPITULO1_AUDIO'),('capitulo1_caca_test','CAPITULO1_CACA'),('capitulo1_escape_test','CAPITULO1_ESCAPE'),('capitulo1_movimento_test','CAPITULO1_MOVIMENTO'),('capitulo1_animacao_test','CAPITULO1_ANIMACAO'),('capitulo1_test','CAPITULO1_TEST'),('capitulo1_mapa_test','CAPITULO1_MAPA'),('capitulo1_nivel_test','CAPITULO1_NIVEL')]
+suites=[('capitulo1_pressao_test','CAPITULO1_PRESSAO'),('capitulo1_audio_test','CAPITULO1_AUDIO'),('capitulo1_caca_test','CAPITULO1_CACA'),('capitulo1_escape_test','CAPITULO1_ESCAPE'),('capitulo1_movimento_test','CAPITULO1_MOVIMENTO'),('capitulo1_animacao_test','CAPITULO1_ANIMACAO'),('capitulo1_test','CAPITULO1_TEST'),('capitulo1_mapa_test','CAPITULO1_MAPA'),('capitulo1_nivel_test','CAPITULO1_NIVEL')]
 falhou=0
 for teste,marca in suites:
     try:

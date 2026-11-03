@@ -1,6 +1,15 @@
 extends "res://prototipo/camera.gd"
 ## Enquadramentos próprios do capítulo; ombro/fuga/frestas continuam compartilhados.
 func update(dt: float) -> void:
+ camera.h_offset=0; camera.v_offset=0
+ _update_chapter(dt)
+ if game.pressure.value>0 and not game.paused and game.phase in ["investigate","chase"]:
+  # Desvio óptico de até 4,5 mm; nunca move corpo, ossos ou colisão da câmera.
+  var amplitude=game.pressure.value*.0045
+  camera.h_offset+=sin(game.elapsed*19.3)*amplitude
+  camera.v_offset=sin(game.elapsed*23.1+.7)*amplitude*.65
+
+func _update_chapter(dt: float) -> void:
  if game.recording and game.phase=="investigate":
   mode="recording"
   camera.global_position=game.recording_eye()

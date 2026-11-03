@@ -47,6 +47,8 @@ var fleeing_return:=false
 var ending_set: Node3D
 var phone_prop: Node3D
 var breathing: AudioStreamPlayer
+var pressure=preload("res://capitulo1/pressao.gd").new()
+var tension: AudioStreamPlayer
 var sound: Node
 var gate_sound_played:=false
 var scare_played:=false
@@ -62,7 +64,7 @@ func _ready() -> void:
  add_child(school)
  school.build(self)
  player=spawn_actor(school.spawn,false)
- # Postos marcados na grade do mapa (1–4 em capitulo1/mapa/terreo.txt).
+ # Postos marcados na grade do mapa (1–7 em capitulo1/mapa/terreo.txt).
  for at in school.postos:
   var e=spawn_actor(at,true)
   e.face(at+Vector3.FORWARD)
@@ -145,6 +147,12 @@ func _audio() -> void:
  breathing.stream.loop_mode=AudioStreamWAV.LOOP_FORWARD
  breathing.stream.loop_end=int(breathing.stream.get_length()*breathing.stream.mix_rate)
  breathing.volume_db=-38; add_child(breathing)
+ # [PROVISÓRIO] Pulso/drone sintetizado localmente; a trilha final virá de Felipe.
+ tension=AudioStreamPlayer.new(); tension.bus="CapituloAmbiente"
+ tension.stream=load("res://capitulo1/assets/tensao_provisoria.wav").duplicate()
+ tension.stream.loop_mode=AudioStreamWAV.LOOP_FORWARD
+ tension.stream.loop_end=int(tension.stream.get_length()*tension.stream.mix_rate)
+ tension.volume_db=-60; add_child(tension)
 
 func spawn_actor(at: Vector3,is_enemy: bool,big:=false) -> CharacterBody3D:
  var actor=PERSON.new()
@@ -309,6 +317,7 @@ const CONTACT=preload("res://capitulo1/animacoes/contato.gd")
 var interaction: Dictionary={}
 
 func _process(dt: float) -> void:
+ pressure.tick(self,dt)
  if player.dead: player.animate(dt)
  view.update(dt)
  _sync_low_camera()
@@ -495,7 +504,7 @@ func start_chase() -> void:
  locked=null; protected_target=null; enemy_turn=null
  player.state="idle"
  recording=true
- pursuer=spawn_actor(player.position+Vector3(0,0,5),true,true)
+ pursuer=spawn_actor(school.pursuer_post,true,true)
  pursuer.face(player.position)
  pursuer.aware=true
  pursuer.last_seen=player.position
@@ -1058,6 +1067,7 @@ func load_checkpoint() -> bool:
  checkpoint=saved; restore_checkpoint(); return true
 
 func restore_checkpoint() -> void:
+ pressure.reset(self)
  sound.reset()
  escape.clear(); escape_blackout=0; escape_advantage_until=0
  hud.show_escape_blackout(false)

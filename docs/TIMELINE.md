@@ -50,17 +50,23 @@ começa. Ao pegar o trabalho, leia também `docs/TESTE-FELIPE-20261102.md` e
 - **Teste de Felipe:** o Miguel aparece bem?
 
 ### Etapa 1 — Medo
-- [ ] Remover o empurrão.
+
+**Etapa jogável entregue para o teste de Felipe (02/11/2026).** Pressão e sete
+patrulheiros na grade implementados. Morte e trilha definitivas continuam nas
+pendências abaixo; os substitutos provisórios foram autorizados nas Partes 1/4.
+- [x] Remover o empurrão.
 - [x] Cultista vê → pausa 0,4 s → grita → corre a 3,0 m/s → cerca → agarra.
   Sem visão: último ponto visto, busca por 60 s, retorno lento ao posto.
 - [x] Minigame de escape em sequência; falhar é morte. Implementado em 02/11/2026:
   WASD/setas e quatro botões de toque; morte temporária com tela preta de 1,5 s
   e retorno automático ao checkpoint. Cena de morte abaixo continua pendente.
 - [ ] Cena de morte cruel e pesada, depois checkpoint.
-- [ ] Perseguição com pressão: passos, respiração, tremor e trilha de tensão.
+- [x] Perseguição com pressão: passos novos por proximidade, respiração acelerada,
+  tremor óptico leve e som de tensão [PROVISÓRIO]. Trilha final virá de Felipe.
 - [x] Armários contra quem caça: só abre e retira Miguel quem viu a entrada.
   Memória individual por cultista; sem testemunha, ronda sem abrir.
-- [ ] 6 a 8 cultistas posicionados.
+- [x] Sete patrulheiros comuns nos postos 1–7 e perseguidor condicional no posto 8.
+  Todos com caminho de até 10 m até armário; duas rotas continuam livres.
 - **Teste de Felipe:** fugir dá desespero?
 
 ### Etapa 2 — Movimento

@@ -608,3 +608,66 @@ AUDIO_WEB_CREDITOS: true
 
 `scripts/testar-capitulo1.sh`, exportação do PCK Web e teste dos recursos
 empacotados terminaram com código 0.
+
+
+## Etapa 1 — Parte 4: pressão da perseguição e postos (02/11/2026)
+
+Há sete patrulheiros comuns nos postos 1–7 de `mapa/terreo.txt`; o posto 8
+reserva o nascimento do único perseguidor. Ele continua ausente no início e
+só aparece após alerta espalhado e vídeo gravado, como no gatilho anterior.
+Os participantes visuais do ritual permanecem; não foram convertidos em atacantes
+adicionais. [Postos, coordenadas e abrigos](../godot-3d/capitulo1/mapa/LEIA-ME.md).
+
+A pressão lê o estado real dos caçadores, sem modificar a IA: há tensão baixa
+durante busca distante e crescente com a proximidade. Os passos novos recebem
+até +5 dB de reforço próximo, além da atenuação 3D. A respiração sintética ainda
+provisória acelera e fica mais audível. A câmera recebe desvio óptico horizontal
+de até 4,5 mm e vertical de até 2,925 mm, sem deslocar corpo, ossos ou colisão.
+Impactos anteriores conservam seu tremor independente.
+
+**[PROVISÓRIO]** O pacote não traz faixa de tensão: foi sintetizado um pulso/drone
+local de 8 s, sem samples externos, carregado por `load()` e repetido em loop.
+Gerador em `tools/gerar_tensao_provisoria.py`; crédito em `assets/sons/CREDITOS.md`.
+A trilha final virá de Felipe. Quando a última caça termina, o reforço, respiração,
+tremor e som de tensão voltam suavemente ao normal. Pausa/checkpoint limpam a
+pressão. Um alerta salvo, sem ninguém caçando, não liga o efeito sozinho.
+
+### Como Felipe testa
+
+1. Execute `bash JOGAR-PROTOTIPO.command`, de preferência com fones.
+2. Deixe um comum vê-lo e corra. Compare passos/respiração/tremor quando ele fica
+   perto e quando você ganha distância. O corpo e as animações devem permanecer
+   originais; só a câmera e o áudio recebem pressão.
+3. Quebre a visão e se esconda sem testemunha. Durante a busca ainda existe tensão
+   baixa; após os 60 s, com todos voltando aos postos, confira o retorno ao normal.
+4. Compare rota norte e sul até o pátio de química. Postos novos ficam no refeitório,
+   na borda do pátio e na sala opcional; nenhum ocupa sozinho um gargalo obrigatório.
+5. Grave sem espalhar alerta: o perseguidor deve continuar ausente. Numa tentativa
+   com alerta, grave e confira a aparição a partir do posto 8 e pressão na fuga.
+
+A Etapa 1 está entregue como jogável para avaliação de Felipe. Cena de morte
+cruel definitiva continua pendente das animações; tela preta/checkpoint da Parte 1
+permanece. "Fugir passa desespero" depende desse teste de Felipe; testes automáticos
+verificam efeitos, estados, níveis e rotas, sem declarar aprovação de diversão.
+
+
+### Saídas da Parte 4 — Godot 4.5.1 Compatibility
+
+```text
+PRESSAO longe=0.200 perto=0.962 reforco_passo=4.58 dB tremor=0.00421 m
+CAPITULO1_PRESSAO: 19 passed, 0 failed
+CAPITULO1_AUDIO: 30 passed, 0 failed
+CAPITULO1_CACA: 32 passed, 0 failed
+CAPITULO1_ESCAPE: 37 passed, 0 failed
+CAPITULO1_MOVIMENTO: 33 passed, 0 failed
+CAPITULO1_ANIMACAO: 70 passed, 0 failed
+CAPITULO1_TEST: 36 passed, 0 failed
+CAPITULO1_MAPA: 18 passed, 0 failed
+CAPITULO1_NIVEL: 15 passed, 0 failed
+CAPITULO1_PERCURSO[rota]: 7 passed, 0 failed
+```
+
+Teste de nível isolado, `scripts/testar-capitulo1.sh` e `scripts/testar-percurso.sh`
+terminaram com código 0. O percurso registrou 187,2 s de jogo, zero mortes no modo
+isolado de rota. Maior caminho de posto até abrigo: 7,33 m. A pressão foi testada
+com estados reais de caça/busca, emissores de passos, respiração e câmera.

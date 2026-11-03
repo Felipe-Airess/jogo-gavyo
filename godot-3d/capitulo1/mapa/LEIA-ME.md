@@ -21,7 +21,7 @@ A legenda completa está no topo de cada `.txt`. Resumo:
 O  vão com verga G  portão       C  coluna              T  árvore
 %  bloco baixo   L  lâmpada      =  relevo no chão (8 cm)   < > ^ v  escada (seta = sobe)
 .  azulejo coberto  ;  cimento coberto  ,  céu aberto  :  quadra  _  palco
-@  acorda   $  bolsa   *  ritual   +  checkpoint 2   &  armário   1–4  postos
+@  acorda   $  bolsa   *  ritual   +  checkpoint 2   &  armário   1–7  comuns   8  perseguidor condicional
 ```
 
 Letras listadas na legenda (`sala x Nome`, `area X Nome`) dão nome ao ambiente
@@ -64,3 +64,27 @@ células (coluna, linha).
   à mais alta, encostada nas paredes laterais.
 - **Portas**: folha articulada da revisão 2, abre para dentro da sala com
   nome; placa com o nome por fora.
+
+
+## Postos da Etapa 1 (02/11/2026)
+
+As marcas `1` a `7` criam sete patrulheiros comuns. A marca `8` apenas guarda
+onde o perseguidor aparecerá; não cria personagem no início. O gatilho existente
+continua exigindo alerta espalhado e vídeo gravado. Os participantes visuais do
+ritual foram preservados; não são novos patrulheiros.
+
+| Marca | Célula (coluna, linha) | Papel | Caminho ao armário mais próximo |
+| --- | --- | --- | --- |
+| 1 | (38, 41) | Primeiro cultista, corredor sul | 4,62 m |
+| 2 | (39, 25) | Corredor aberto | 3,50 m |
+| 3 | (45, 9) | Laboratório de química | 7,33 m |
+| 4 | (44, 22) | Corredor junto aos laboratórios | 5,50 m |
+| 5 | (72, 34) | Borda do pátio/refeitório | 5,21 m |
+| 6 | (88, 32) | Refeitório | 4,62 m |
+| 7 | (31, 17) | Sala opcional de Contabilidade oeste | 5,33 m |
+| 8 | (46, 14) | Aparição condicional do perseguidor | 2,62 m |
+
+Distâncias medidas pelo A* físico com portas abertas. O teste de nível também
+reserva um disco de 1 m em cada um dos oito postos e exige passagem pelas duas
+rotas independentes, da abertura até o pátio de química e na fuga ao portão.
+Nenhuma parede, porta, cobertura ou decoração foi acrescentada nesta rodada.

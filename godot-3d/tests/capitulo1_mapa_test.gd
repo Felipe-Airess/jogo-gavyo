@@ -42,7 +42,7 @@ func run() -> void:
  for m in unicas:
   if unicas[m].celulas(m).size()!=1: faltando.append(m)
  check(faltando.is_empty(),"acordar, ritual, checkpoint 2 e bolsa aparecem uma vez cada")
- check(t.celulas("1").size()==1 and t.celulas("4").size()==1 and t.celulas("G").size()>=2,"postos 1–4 e portão marcados")
+ check(t.celulas("1234567").size()==7 and t.celulas("8").size()==1 and t.celulas("G").size()>=2,"sete postos comuns, perseguidor condicional e portão marcados")
  # Toda letra da legenda está no mapa uma vez.
  var letras: Array=[]
  for g in [t,u]:
