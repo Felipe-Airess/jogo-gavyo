@@ -12,6 +12,10 @@ numa escola. O foco atual é o **capítulo 1**, jogável no PC e no celular.
 
 No Mac: `bash JOGAR-PROTOTIPO.command`.
 
+## Exportação automática Web
+
+[Workflow, publicação, execução manual e testes](docs/EXPORTACAO-WEB.md).
+
 ## Testar
 
 Defina `GODOT` com o executável do Godot 4.5.1 e rode:
