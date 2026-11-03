@@ -1,0 +1,149 @@
+{
+ "glb": "arte/miguel_animado.glb",
+ "tamanho_bytes": 12735604,
+ "objetos_extras": [
+  "Icosphere"
+ ],
+ "tris": 61688,
+ "verts_blender": 41146,
+ "tris_por_material": {
+  "Miguel": 47016,
+  "Miguel_Uniforme_Polo": 14672
+ },
+ "texturas": {
+  "miguel_uniforme": [
+   1024,
+   2048
+  ]
+ },
+ "ossos": [
+  "Hips",
+  "Spine",
+  "Chest",
+  "UpperChest",
+  "Neck",
+  "Head",
+  "LeftShoulder",
+  "LeftUpperArm",
+  "LeftLowerArm",
+  "LeftHand",
+  "RightShoulder",
+  "RightUpperArm",
+  "RightLowerArm",
+  "RightHand",
+  "LeftUpperLeg",
+  "LeftLowerLeg",
+  "LeftFoot",
+  "LeftToes",
+  "RightUpperLeg",
+  "RightLowerLeg",
+  "RightFoot",
+  "RightToes"
+ ],
+ "acoes": 43,
+ "altura_m": 1.7806,
+ "influencias_por_vertice": {
+  "1": 26028,
+  "2": 7073,
+  "3": 3536,
+  "4": 4509
+ },
+ "vertices_sem_peso": 0,
+ "ilhas_maiores": [
+  {
+   "tris": 8124,
+   "z_min": 0.9,
+   "z_max": 1.487,
+   "x_med": 0.0
+  },
+  {
+   "tris": 6540,
+   "z_min": 0.901,
+   "z_max": 1.489,
+   "x_med": -0.0
+  },
+  {
+   "tris": 1994,
+   "z_min": 1.53,
+   "z_max": 1.733,
+   "x_med": -0.002
+  },
+  {
+   "tris": 1512,
+   "z_min": 1.762,
+   "z_max": 1.814,
+   "x_med": 0.002
+  },
+  {
+   "tris": 1482,
+   "z_min": 0.001,
+   "z_max": 0.105,
+   "x_med": 0.244
+  },
+  {
+   "tris": 1482,
+   "z_min": 0.001,
+   "z_max": 0.105,
+   "x_med": -0.159
+  },
+  {
+   "tris": 1464,
+   "z_min": 0.001,
+   "z_max": 0.105,
+   "x_med": 0.159
+  },
+  {
+   "tris": 1464,
+   "z_min": 0.001,
+   "z_max": 0.105,
+   "x_med": -0.244
+  },
+  {
+   "tris": 1321,
+   "z_min": 1.614,
+   "z_max": 1.787,
+   "x_med": 0.005
+  },
+  {
+   "tris": 1136,
+   "z_min": 1.651,
+   "z_max": 1.798,
+   "x_med": -0.085
+  },
+  {
+   "tris": 1128,
+   "z_min": 0.055,
+   "z_max": 0.11,
+   "x_med": 0.202
+  },
+  {
+   "tris": 1128,
+   "z_min": 0.055,
+   "z_max": 0.11,
+   "x_med": -0.202
+  },
+  {
+   "tris": 948,
+   "z_min": 1.483,
+   "z_max": 1.739,
+   "x_med": 0.067
+  },
+  {
+   "tris": 942,
+   "z_min": 1.107,
+   "z_max": 1.736,
+   "x_med": 0.013
+  }
+ ],
+ "qa_pass": false,
+ "qa_errors": [
+  "z-fighting: Miguel (2 overlapping coplanar tri pairs)"
+ ],
+ "qa_warnings": [
+  "Miguel: ~5.47% UV overlap (ok only if mirrored/stacked on purpose; bakes break)",
+  "Miguel: duplicate verts=9024 loose verts=0",
+  "hidden back-to-back faces: Miguel (215 pairs) - delete to save tris",
+  "asset lowest point z=-0.0137 (not resting on ground plane z=0)"
+ ],
+ "zfight_locais": []
+}

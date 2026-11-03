@@ -1,0 +1,126 @@
+{
+  "personagem": "Miguel",
+  "primary_view": "front",
+  "source_files": [
+    {
+      "path": "arte/referencias/miguel/cabeca_costas.jpg",
+      "sha256": "6bb1b788dc036c0ac944916f77e5669f2be64f3837a3ed52b48bdec627d1fe2c",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/camisa_costas.jpg",
+      "sha256": "e61e27d8820e58a9833cee5a4062dc400eaadc8ebbe9bc2f1651629e64468c99",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/camisa_frente.jpg",
+      "sha256": "0fb3a8a6c23d7d0fe05d6c163568fab6ced8739450dec62f113d85534ea6ad91",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/corpo_frente.jpg",
+      "sha256": "79a6dd285a3a4ae35c52b5ed72dbef2ff909b1d4937dd96d6eada0accd5ea1f1",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/corpo_frente2.jpg",
+      "sha256": "8a4fb54a99aa83da034b5f03d415d7d20606fbc5d87500feef7aa072fac39aaf",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/guarda_lado.jpg",
+      "sha256": "af6763bc9919f3d53848a943c166becfbe501b619d89cbc4749346f0f444dd5c",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/guarda_lado2.jpg",
+      "sha256": "c4e82723cbe36dda597d3a3e9369566546ef7ab56c2332e061bfab792cf0b617",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/perfil_dir2.jpg",
+      "sha256": "a350b3665ba4b3a7348dfd68eacdafa4d748bd927050b962773202cdd5e211f5",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/perfil_direito.jpg",
+      "sha256": "860186b45c9a6a5a770827bd5725dd542ae3d508c3322384084bd1189475b465",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/perfil_esq2.jpg",
+      "sha256": "54dccae8bcdc8d4866b4f37385a6fec522f8d325347c83d4f4bb0583fb336604",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/perfil_esq3.jpg",
+      "sha256": "f1cd2e85992eb2cad21d5c9098e97e799abc455f4182881039f8a65934cc93b7",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/perfil_esquerdo.jpg",
+      "sha256": "dd7ddef90aafe093231a2dd24bb82a77b3c6392face69467f8deedbb3d0f323d",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/rosto_frente.jpg",
+      "sha256": "b3a7ce48cd75d43e258528d3a32988d2ff6d42d20104cf8aba94a0e607c317e2",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/rosto_frente2.jpg",
+      "sha256": "bb3891c5646129a2d7e1fa211fac7e3e1f9d88cec66266fadb643dc1bdf16fcf",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/rosto_frente3.jpg",
+      "sha256": "e8daffe9cd6a1bb2a46b146224b013c0c04eccfe85dd9c091db9dff72e0bde30",
+      "role": "visual_reference"
+    },
+    {
+      "path": "arte/referencias/miguel/rosto_frente4.jpg",
+      "sha256": "d64fbe999236c48dee82a0ee92879d91f76ba315bce9bfc3b23c3d86e6cb9b22",
+      "role": "front_face"
+    }
+  ],
+  "structural_parts": [
+    "corpo",
+    "olhos",
+    "cabelo",
+    "camisa",
+    "calca",
+    "tenis"
+  ],
+  "expected_primary_parts": {
+    "count": 1,
+    "labels": [
+      "personagem humano"
+    ]
+  },
+  "constraints": {
+    "altura_m": 1.76,
+    "rig": "22 ossos, nomes compatíveis com Mixamo",
+    "preservar_modelo_original": true
+  },
+  "validation_thresholds": {
+    "front_projected_mean_mm_max": 1.0,
+    "front_mask_iou_min": 0.9,
+    "bbox_center_tolerance_ratio": 0.015,
+    "part_count_exact": true
+  },
+  "limitations": [
+    "Fotos de perspectiva, não ortográficas; escala de rosto alinhada por Procrustes.",
+    "Fotos laterais em 3/4, fundo complexo e mão no queixo: não permitem ajuste automático por silhueta de perfil.",
+    "Cabelo e corpo precisam de revisão visual; erro frontal não mede fidelidade 3D."
+  ],
+  "tools": {
+    "runtime": "Blender 3.6.23 portátil, Mac Intel / macOS 11",
+    "execution": "background Python; nenhum servidor MCP Blender disponível",
+    "skills": [
+      "reference-to-3d",
+      "multiview-fit-loop",
+      "blender-asset-qa"
+    ],
+    "compatibility": "QA publicado para Blender 5.2; adaptar somente incompatibilidades de API registradas."
+  }
+}

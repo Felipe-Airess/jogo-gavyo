@@ -1,0 +1,217 @@
+{
+  "Armada": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.63333332538605
+  },
+  "Blocking": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.20000004768372
+  },
+  "Body_Block": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 3.43333339691162
+  },
+  "Brutal_Assassination": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 4.93333339691162
+  },
+  "Brutal_Assassination_1": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 4.93333339691162
+  },
+  "Dodging": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 2.23333334922791
+  },
+  "Dying": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 5.76666688919067
+  },
+  "Esquiva_2": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 2.23333334922791
+  },
+  "Fist_Fight_A": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 4.23333311080933
+  },
+  "Flying_Kick": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.5
+  },
+  "Getting_Up": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 8.33333301544189
+  },
+  "Hell_Slammer_A": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 7.56666660308838
+  },
+  "Hook_Punch": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 2.16666674613953
+  },
+  "Hook_Punch_1": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 2.16666674613953
+  },
+  "Kicking": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 2.16666674613953
+  },
+  "Knee_Jab": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 6.0
+  },
+  "Knee_Jabs_To_Uppercut": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 5.66666650772095
+  },
+  "Look_Over_Shoulder": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 3.76666665077209
+  },
+  "Pivot": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 4.5
+  },
+  "Punching_1": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.03333330154419
+  },
+  "Ready_Idle": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 2.5
+  },
+  "Running": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.63333332538605
+  },
+  "Running_To_Turn": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 2.26666665077209
+  },
+  "Start_Walking": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 2.93333339691162
+  },
+  "Sweep_Fall": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 2.5
+  },
+  "andaFrente": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.61666667461395
+  },
+  "andaTras": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.61666667461395
+  },
+  "bloqueio": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 0.300000011920929
+  },
+  "chuteAlto": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.54999995231628
+  },
+  "chuteCircular": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.39999997615814
+  },
+  "comboCorpoUpper": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 4.53333330154419
+  },
+  "correr": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.63333332538605
+  },
+  "deitado": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 0.0166666675359011
+  },
+  "direto": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 0.966666638851166
+  },
+  "esquivaTras": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.23333334922791
+  },
+  "gancho": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.63333332538605
+  },
+  "guarda": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 2.5
+  },
+  "jab": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 0.716666638851166
+  },
+  "joelhada": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.79999995231628
+  },
+  "levantar": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 5.41666650772095
+  },
+  "pesado": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 3.03333330154419
+  },
+  "queda": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 1.75
+  },
+  "reacaoBloqueio": {
+    "canais": 23,
+    "poses_finitas": 5,
+    "segundos": 0.866666674613953
+  }
+}

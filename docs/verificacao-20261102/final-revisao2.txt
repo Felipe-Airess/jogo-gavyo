@@ -1,0 +1,46 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+PASS modelo aprovado conserva rig de 22 ossos
+PASS combate sem solucionador que teletransporta mão
+PASS portas físicas na sala de materiais e salas de aula
+PASS resolução de base aumentada
+PASS começar apresenta Miguel antes da exploração
+PASS abertura tem câmera dirigida
+PASS abertura devolve o controle após apresentar horário e vozes
+PASS ciclo fecha sem salto: prototype/walk
+PASS ciclo fecha sem salto: prototype/run
+PASS velocidade da corrida não é multiplicada duas vezes
+PASS pose sentada mantém pés abaixo do banco
+PASS corrida não faz o corpo saltar verticalmente a cada passada
+PASS golpe completo não vira loop
+PASS porta fechada bloqueia visão/passagem
+PASS abrir libera o vão de verdade
+PASS fresta da porta usa primeira pessoa
+PASS sair da fresta restaura terceira pessoa
+PASS cultista inicia ataque por conta própria
+PASS soco real acerta uma vez; jogador parado toma dano
+PASS inimigo tem recuperação aproveitável depois do golpe
+DODGE_RESULT 100.0 {"counter_hits":0,"counters":0,"enemy_attacks":1,"enemy_hits":0,"misses":1} opening=1.05
+PASS esquiva tira hurtboxes do percurso do punho
+PASS esquiva termina a tempo da janela de contra-ataque
+PASS contra-ataque usa o braço do gancho medido
+COUNTER_RESULT {"counter_hits":1,"counters":1,"enemy_attacks":1,"enemy_hits":0,"misses":1} max_hand_step=0.20808343589306
+PASS contra-ataque conecta pela trajetória do clipe
+PASS contra-ataque derruba e encerra cultista comum
+PASS corpo morto termina deitado
+PASS punho não dá saltos artificiais para encontrar o alvo
+PASS não enxerga pelas costas a um metro
+PASS cultista patrulha em vez de esperar parado
+PASS dano cancela cura sem consumir empanado
+PASS empanado cura parte da vida após o tempo
+PASS checkpoint restaura estado da porta e inventário
+PASS descoberta recebe cena de revelação
+PASS perseguição passa a primeira pessoa
+PASS mouse continua livre para olhar para trás
+PASS faca fica no cultista e permite escapar
+PASS captura sem faca continua letal
+PASS morte retorna antes da revelação
+PASS chegar ao portão encerra o capítulo
+PROTOTIPO_TEST: 39 passed, 0 failed
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+     at: cleanup (core/object/object.cpp:2514)

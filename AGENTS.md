@@ -1,3 +1,20 @@
+> **02/11/2026 — CONTINUIDADE ATUAL:** mapa/ambientação e fluxo integrados em `godot-3d/capitulo1/`;
+> o lançador principal abre essa versão. Estado e limites em
+> [godot-3d/capitulo1/README.md](godot-3d/capitulo1/README.md).
+> Leia também
+> [docs/CONTINUAR-NOUTRO-CHAT.md](docs/CONTINUAR-NOUTRO-CHAT.md),
+> [docs/DECISOES-RODADA-3.md](docs/DECISOES-RODADA-3.md) e o mapa referenciado.
+> Essa direção posterior prevalece sobre trechos históricos abaixo. Felipe autorizou
+> a integração nesta conversa, com avaliação depois. Preservar originais e decisões;
+> não confundir as restrições da antiga rodada de planejamento com o pedido atual.
+
+> **31/10/2026 — PERSONAGENS 3D: siga a técnica padrão em
+> [docs/TECNICA-PERSONAGEM-3D.md](docs/TECNICA-PERSONAGEM-3D.md)** (rosto encaixado nas fotos por
+> pontos; referência: Felipe em `arte/felipe_*.py`).
+
+> **30/10/2026 — VISÃO NOVA: leia [docs/VISAO-DO-JOGO.md](docs/VISAO-DO-JOGO.md)** (2.5D com
+> pixel, personagens, fases, desbloqueios, prioridades). Branch de arte: `boneco-miguel`.
+
 # GAVIÃO — guia para o próximo agente
 
 > **28/10/2026 — leia primeiro [docs/RESUMO-27-28-OUT.md](docs/RESUMO-27-28-OUT.md).**

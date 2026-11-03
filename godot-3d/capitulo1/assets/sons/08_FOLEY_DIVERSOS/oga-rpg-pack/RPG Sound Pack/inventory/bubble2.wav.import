@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cl0j4m477mogi"
+path="res://.godot/imported/bubble2.wav-2e993a10353cbb5d46b54ab1980af49f.sample"
+
+[deps]
+
+source_file="res://capitulo1/assets/sons/08_FOLEY_DIVERSOS/oga-rpg-pack/RPG Sound Pack/inventory/bubble2.wav"
+dest_files=["res://.godot/imported/bubble2.wav-2e993a10353cbb5d46b54ab1980af49f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

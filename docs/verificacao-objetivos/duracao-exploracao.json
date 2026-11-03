@@ -1,0 +1,16 @@
+{
+  "busca_espera_estimada_s": [
+    120,
+    300
+  ],
+  "com_opcionais_m": 299.187335669994,
+  "desvio_extra_m": 219.953317523003,
+  "desvio_extra_s_1_45_m_s": 151.691943119312,
+  "direto_m": 79.2340181469917,
+  "leitura_estimada_s": [
+    60,
+    120
+  ],
+  "limite": "Não mede a abertura diurna/cozinha do Prompt C, ainda não implementadas. Não inclui duração futura dos textos de Felipe.",
+  "metodo": "A* real, portas abertas na instância; visita mínima dos sete opcionais entre chave e escada"
+}

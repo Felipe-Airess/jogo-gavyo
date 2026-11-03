@@ -1,0 +1,83 @@
+{
+  "frente": {
+    "antes": {
+      "scope": "Contorno facial frontal detectado; exclui cabelo e orelhas.",
+      "iou": 0.8667110936887495,
+      "reference_bbox": [
+        278.0,
+        254.0,
+        478.0,
+        579.0
+      ],
+      "render_bbox": [
+        254.0,
+        231.0,
+        499.0,
+        588.0
+      ],
+      "bbox_center_drift_px": [
+        -13.5,
+        -18.5
+      ],
+      "bbox_size_error_ratio": [
+        0.043933054393305436,
+        0.015544041450777202
+      ],
+      "pass_iou_90pct": false,
+      "pass_bbox_center_1p5pct": false,
+      "pass_bbox_size_3pct": false
+    },
+    "depois": {
+      "scope": "Contorno facial frontal detectado; exclui cabelo e orelhas.",
+      "iou": 0.9491080123490044,
+      "reference_bbox": [
+        279.0,
+        241.0,
+        477.0,
+        578.0
+      ],
+      "render_bbox": [
+        261.0,
+        244.0,
+        491.0,
+        576.0
+      ],
+      "bbox_center_drift_px": [
+        -11.0,
+        2.0
+      ],
+      "bbox_size_error_ratio": [
+        0.029350104821802937,
+        -0.0034602076124567475
+      ],
+      "pass_iou_90pct": true,
+      "pass_bbox_center_1p5pct": true,
+      "pass_bbox_size_3pct": true
+    }
+  },
+  "medidas": {
+    "antes": {
+      "personagem": "Miguel",
+      "foto": "rosto_frente4.jpg",
+      "landmarks": 478,
+      "controles_na_malha": 477,
+      "desvio_projetado_medio_mm": 5.78860382146183,
+      "desvio_projetado_p95_mm": 9.087712275967284,
+      "nota": "Desvio na projeção alinhada do modelo; não mede precisão 3D da pessoa."
+    },
+    "depois": {
+      "personagem": "Miguel",
+      "foto": "rosto_frente4.jpg",
+      "landmarks": 478,
+      "controles_na_malha": 477,
+      "desvio_projetado_medio_mm": 1.0609056722174983,
+      "desvio_projetado_p95_mm": 3.760258969634807,
+      "nota": "Desvio na projeção alinhada do modelo; não mede precisão 3D da pessoa."
+    }
+  },
+  "reducao_desvio_pct": 81.67251197457868,
+  "front_projected_mean_pass_1mm": false,
+  "multiview_fit_complete": false,
+  "status": "Prévia para revisão visual; perfil e cabelo ainda não têm validação quantitativa.",
+  "implementation": "Cálculos bbox/IoU do multiview-fit-loop adaptados a NumPy/Pillow."
+}

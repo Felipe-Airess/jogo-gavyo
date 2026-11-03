@@ -1,0 +1,55 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+PASS mapa contempla os blocos e todas as salas nomeadas
+PASS salas têm portas físicas e acessos
+PASS Miguel começa sem celular
+PASS bolsa fica no andar superior
+PASS ritual separado do pátio onde acorda
+PASS cultistas começam a partir do corredor interno
+PASS corrida capturada existente disponível
+PASS corrida não usa o ciclo procedural
+PASS andar superior não permite observar o ritual
+BLOCKED_DOORS []
+PASS todas as portas abertas têm vãos desobstruídos
+PASS abertura integrada sem pular para sala de testes
+PASS recuperar bolsa salva primeiro checkpoint
+PASS checkpoint da bolsa guarda ausência de alerta
+PASS restauração recupera alerta salvo, permitindo nova rota discreta
+PASS segundo checkpoint antes de se aproximar do ritual
+FRAME_RITUAL true (-9.945, 0.0, -20.23) 6.55579996109009
+PASS ritual pode ser enquadrado manualmente no térreo
+PASS rota discreta grava e continua sem perseguidor
+PASS alerta espalhado habilita apresentação do perseguidor
+PASS perseguição não cria checkpoint adicional
+PASS controle da perseguição em primeira pessoa
+PASS saída pula o portão, sem abri-lo
+PASS transposição termina fora da escola
+PASS encerramento mostra o quarto e os amigos
+PASS chamado concluído espalha alerta
+PASS derrubado levanta antes de tentar chamar ajuda
+PASS chamado tem preparação interrompível
+PASS golpe interrompe chamado comum
+PASS ataque funciona sem esperar esquiva perfeita
+PASS um próximo comando guardado não cansa
+PASS cliques extras com comando guardado acumulam fadiga
+PASS tomar golpe interrompe ação e sequência
+PASS dano cancela cura sem consumir item
+PUNCH_RESULT 77.0 { "clip": "jab", "duration": 0.71666663885117, "contact": 0.32249998748302, "bone": "LeftHand", "bias": -0.78467169131832, "point": (0.562759, 1.271264, 0.569436) }
+PASS soco causa dano pela trajetória física do clipe
+GROUND_RESULT 2.0 { "clip": "Brutal_Assassination", "duration": 4.93333339691162, "contact": 4.19333338737488, "bone": "RightHand", "bias": -1.06435465936191, "point": (0.710823, 0.186091, 0.400149) }
+PASS ação no chão usa clipe ajoelhado e contato real
+TAKEDOWN_RESULT 88.0 true
+PASS sequência de derrubada exige contato real da pegada
+PASS finalização detecta contexto de parede
+ENVIRONMENT_FINISH parede health=0 at=(5.1, 0.0, 19.22022)
+PASS finalização em parede conclui após contato da pegada
+PASS finalização detecta contexto de armário
+ENVIRONMENT_FINISH armário health=0 at=(10.625, 0.0, 19.22022)
+PASS finalização em armário conclui após contato da pegada
+PASS finalização detecta contexto de mesa
+ENVIRONMENT_FINISH mesa health=0 at=(16.15, 0.855, 18.8)
+PASS finalização em mesa conclui após contato da pegada
+STAIR_RESULT (-20.82497, 3.400145, -19.60651)
+STAIR_CONTACT @StaticBody3D@464 (0.0, 0.0, 1.0) (-15.9375, 5.05, -19.975)
+PASS subir a escada alcança corredor superior com colisão real
+CAPITULO1_TEST: 42 passed, 0 failed

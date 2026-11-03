@@ -1,0 +1,14 @@
+REFERENCIAS DO PERSONAGEM - BUNGAS
+
+Altura: 1,72 m
+Peso: 72 kg
+Luta descalco. Camiseta preta Death / Scream Bloody Gore e short preto conforme fotos.
+
+18 fotos originais distintas (uma repeticao identica removida).
+212 quadros do video, em resolucao original de 1080 x 1920, amostrados a cada 0,25 segundo entre aproximadamente 8 e 61 segundos.
+O inicio mostra a aproximacao/estampa e o final a aproximacao da camera; o trecho central contem os angulos de referencia.
+12 destaques em angulos_principais; nomes descrevem a direcao vista na imagem, sem inferir lado anatomico ou espelhamento.
+Indices visuais e CSV com tempos aproximados para consulta.
+Nenhum fundo removido ou detalhe do corpo/rosto alterado.
+
+Versao compacta: quadros recomprimidos em JPEG, com dimensoes preservadas. Fotos originais intactas.

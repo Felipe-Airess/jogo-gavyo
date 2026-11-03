@@ -1,0 +1,582 @@
+"""Sprites 2D do Miguel a partir das animacoes 3D (tecnica do Dead Cells).
+
+Cada clipe 2D de assets/miguel.json e refeito com a animacao 3D equivalente:
+mesmo id, mesmo numero de quadros, mesmas duracoes e mesmos quadros de
+contato, para o jogo trocar de atlas sem mudar a logica. Cada quadro e
+renderizado de lado, ja no tamanho final (sem anti-aliasing), com sombra em
+3 tons (cartoon), contorno escuro de 1 px e cor de 15 bits.
+
+Os marcadores (cabeca, punhos, pes, joelho, quadril) saem direto dos ossos e
+as caixas de colisao (cabeca, corpo, pernas, bracos) de uma passada com uma
+cor por regiao do corpo, no formato de assets/miguel-markers.json.
+
+Uso:
+  blender -b -P arte/miguel_sprites.py -- --saida assets/miguel3d [--so m3_jab,...]
+gera assets/miguel3d.png, assets/miguel3d.json e assets/miguel3d-markers.json.
+"""
+import json
+import math
+import os
+import runpy
+import sys
+
+import bpy
+import numpy as np
+from mathutils import Vector
+
+AQUI = os.path.dirname(os.path.abspath(__file__))
+RAIZ = os.path.dirname(AQUI)
+W, H = 128, 96             # celula do atlas (igual a assets/miguel.json)
+PIVO = (64, 88)            # pe no chao
+PX_M = 70 / 1.76           # Miguel em pe com ~70 px, como nos sprites atuais
+COLUNAS = 16  # atlas 2048 px de largura (o moveset do Mixamo tem muitos quadros)
+CONTORNO = (0.10, 0.075, 0.065)
+GIRO = 25  # graus: camera de lado, um pouco para a frente dele (3/4, como nos sprites 2D)
+
+# clipe 2D -> animacao 3D (os que nao tem nome proprio no 3D)
+EXTRA = {"guard": "guarda", "m_walkFwd": "andaFrente", "m_walkBack": "andaTras",
+         "m_block": "bloqueio", "m5_kickHigh": "chuteAlto", "m4_kickHigh2": "chuteAlto"}
+REGIOES = {"cabeca": ("Head", "Neck"), "bracos": ("UpperArm", "LowerArm", "Hand"),
+           "pernas": ("UpperLeg", "LowerLeg", "Foot", "Toes")}  # o resto e corpo
+COR_REGIAO = {"cabeca": (1, 0, 0), "corpo": (0, 1, 0), "pernas": (0, 0, 1), "bracos": (1, 1, 0)}
+
+
+def regiao_do_osso(nome):
+    for reg, partes in REGIOES.items():
+        if any(nome.endswith(p) for p in partes):
+            return reg
+    return "corpo"
+
+
+def tempo_3d(t2, d2, d3):
+    """Leva um instante do clipe 2D para o 3D, alinhando o contato."""
+    T2, T3 = d2["totalMs"], d3["total"]
+    c2 = sum(d2["durations"][:d2["contactFrames"][0]]) if d2.get("contactFrames") else None
+    c3 = d3["contato"]
+    if c2 is None or c3 is None:
+        return t2 * T3 / T2
+    if t2 <= c2:
+        return t2 * c3 / max(c2, 1)
+    return c3 + (t2 - c2) * (T3 - c3) / max(T2 - c2, 1)
+
+
+# ------------------------------------------------------------ renderizacao
+def preparar_cena():
+    cena = bpy.context.scene
+    cena.render.engine = "BLENDER_WORKBENCH"
+    cena.render.resolution_x, cena.render.resolution_y = W, H
+    cena.render.resolution_percentage = 100
+    cena.render.film_transparent = True
+    cena.display.render_aa = "OFF"  # pixel duro, sem serrilhado suavizado
+    cena.render.image_settings.file_format = "PNG"
+    cena.render.image_settings.color_mode = "RGBA"
+    cena.view_settings.view_transform = "Standard"
+    sh = cena.display.shading
+    sh.show_specular_highlight = False
+    sh.show_object_outline = False
+    sh.show_cavity = False
+    cam_d = bpy.data.cameras.new("CamSprite")
+    cam_d.type = "ORTHO"
+    cam_d.ortho_scale = W / PX_M
+    cam = bpy.data.objects.new("CamSprite", cam_d)
+    cena.collection.objects.link(cam)
+    cena.camera = cam
+    # de lado, pelo lado direito dele: a frente (-y) aparece para a direita
+    centro_z = (PIVO[1] - H / 2) / PX_M
+    a = math.radians(GIRO)
+    cam.location = (-6.0 * math.cos(a), -6.0 * math.sin(a), centro_z)
+    cam.rotation_euler = (math.radians(90), 0, math.radians(-90 + GIRO))
+    return cena
+
+
+def render(cena, modo):
+    sh = cena.display.shading
+    if modo == "cor":
+        sh.light = "FLAT"
+        vc = any(o.type == "MESH" and o.data.color_attributes for o in bpy.data.objects)
+        sh.color_type = "VERTEX" if vc else "TEXTURE"
+    elif modo == "luz":
+        sh.light, sh.color_type = "STUDIO", "SINGLE"
+        sh.single_color = (1, 1, 1)
+    else:  # regioes
+        sh.light, sh.color_type = "FLAT", "MATERIAL"
+    caminho = os.path.join(bpy.app.tempdir, "sprite_%s.png" % modo)
+    cena.render.filepath = caminho
+    bpy.ops.render.render(write_still=True)
+    img = bpy.data.images.load(caminho, check_existing=False)
+    px = np.array(img.pixels[:], dtype=np.float32).reshape(H, W, 4)[::-1]
+    bpy.data.images.remove(img)
+    return px
+
+
+def materiais_de_regiao(ob, rig):
+    """Indice de material por face: 0 = textura; 1..4 = regioes (so na passada de colisao)."""
+    me = ob.data
+    nomes = list(COR_REGIAO)
+    for reg in nomes:
+        m = bpy.data.materials.new("reg_" + reg)
+        m.diffuse_color = (*COR_REGIAO[reg], 1)
+        me.materials.append(m)
+    grupos = {g.index: g.name for g in ob.vertex_groups}
+    por_face = []
+    for p in me.polygons:
+        soma = {}
+        for vi in p.vertices:
+            for g in me.vertices[vi].groups:
+                reg = regiao_do_osso(grupos[g.group])
+                soma[reg] = soma.get(reg, 0) + g.weight
+        por_face.append(1 + nomes.index(max(soma, key=soma.get)) if soma else 2)
+    return por_face
+
+
+def usar_regioes(ob, por_face, ligar):
+    for p, idx in zip(ob.data.polygons, por_face):
+        p.material_index = idx if ligar else 0
+
+
+def compor(cor, luz):
+    """Cor * luz em 3 tons, contorno de 1 px e 15 bits de cor."""
+    alfa = cor[..., 3] > 0.5
+    lum = luz[..., :3].mean(-1)
+    if alfa.any():
+        ref = np.percentile(lum[alfa], 90)
+        lum = lum / max(ref, 1e-3)
+    tom = np.where(lum < 0.55, 0.62, np.where(lum < 0.85, 0.82, 1.0))
+    rgb = np.clip(cor[..., :3] * tom[..., None], 0, 1)
+    out = np.zeros((H, W, 4), np.float32)
+    out[alfa, :3] = rgb[alfa]
+    out[alfa, 3] = 1
+    viz = np.zeros_like(alfa)
+    for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+        viz |= np.roll(alfa, (dy, dx), (0, 1))
+    borda = viz & ~alfa
+    out[borda, :3] = CONTORNO
+    out[borda, 3] = 1
+    out[..., :3] = np.round(out[..., :3] * 31) / 31
+    return out
+
+
+def caixas(reg_px):
+    """Caixas de colisao em faixas de 4 px por regiao, relativas ao pivo."""
+    alfa = reg_px[..., 3] > 0.5
+    r, g, b = (reg_px[..., i] > 0.5 for i in range(3))
+    mapas = {"head": alfa & r & ~g, "body": alfa & g & ~r, "legs": alfa & b,
+             "arms": alfa & r & g}
+    saida = {}
+    for nome, m in mapas.items():
+        rets = []
+        for y0 in range(0, H, 4):
+            faixa = m[y0:y0 + 4].any(0)
+            x = 0
+            while x < W:
+                if faixa[x]:
+                    x1 = x
+                    while x1 + 1 < W and faixa[x1 + 1]:
+                        x1 += 1
+                    rets.append([x - PIVO[0], y0 - PIVO[1], x1 + 1 - PIVO[0],
+                                 min(y0 + 4, H) - PIVO[1]])
+                    x = x1 + 1
+                else:
+                    x += 1
+        saida[nome] = rets
+    return saida
+
+
+def marcadores(rig, alfa):
+    """Pontos do corpo no quadro, tirados dos ossos (px, relativo ao pivo, y para cima < 0)."""
+    from bpy_extras.object_utils import world_to_camera_view
+    cena = bpy.context.scene
+
+    def px(v):
+        u = world_to_camera_view(cena, cena.camera, rig.matrix_world @ v)
+        return round(u.x * W - PIVO[0], 2), round((1 - u.y) * H - PIVO[1], 2)
+
+    pb = rig.pose.bones
+    cab = (pb["Head"].head + pb["Head"].tail) / 2
+    hx, hy = px(cab)
+    punhos, pes, joelhos = [], [], []
+    for lado in ("Left", "Right"):
+        mao = pb[lado + "Hand"]
+        cx, cy = px((mao.head + mao.tail) / 2)
+        tx, ty = px(mao.tail)
+        punhos.append({"x": cx, "y": cy, "tipX": round(tx), "tipY": round(ty)})
+        pe = pb[lado + "Foot"]
+        fx, fy = px((pe.head + pb[lado + "Toes"].tail) / 2)
+        tx, ty = px(pb[lado + "Toes"].tail)
+        pes.append({"x": fx, "y": fy, "tipX": round(tx), "tipY": round(ty)})
+        kx, ky = px(pb[lado + "LowerLeg"].head)
+        joelhos.append({"x": round(kx), "y": round(ky)})
+    tx, ty = px((pb["Chest"].head + pb["UpperChest"].tail) / 2)
+    _, topo = px(pb["UpperChest"].tail)
+    _, base = px(pb["Hips"].tail)
+    qx, qy = px(pb["Hips"].head)
+    _, queixo = px(pb["Head"].head)
+    ys, xs = np.nonzero(alfa)
+    chao = min(pes, key=lambda p: -p["y"])
+    return {
+        "head": {"x": hx, "y": hy, "r": round(0.13 * PX_M, 1), "chin": round(queixo)},
+        "torso": {"x": tx, "y": ty, "top": round(topo), "bottom": round(base)},
+        "hip": {"x": qx, "y": qy},
+        "fists": punhos, "feet": pes,
+        "frontFist": max(punhos, key=lambda p: p["tipX"]),
+        "frontFoot": max(pes, key=lambda p: p["tipX"]),
+        "frontKnee": max(joelhos, key=lambda p: p["x"]),
+        "ground": {"x": round(chao["x"]), "y": round(chao["y"])},
+        "bounds": {"x0": int(xs.min()) - PIVO[0], "x1": int(xs.max()) - PIVO[0],
+                   "y0": int(ys.min()) - PIVO[1], "y1": int(ys.max()) - PIVO[1]} if len(xs) else None,
+        "limits": [],
+    }
+
+
+# -------------------------------------------------------------------- main
+# MOVESET MIXAMO, estudado animacao por animacao (arte/MIXAMO-ESTUDO.md).
+# clipe: (animacao, inicio, fim [fracao da animacao], tipo, membro, golpes)
+#  tipo "golpe": guarda -> pico do membro -> guarda; retemporizado para a
+#    duracao e o contato que o jogo ja usa (equilibrio e alcance mantidos);
+#    a pose de contato e segurada 2 quadros.
+#  tipo "loop": ciclo achado na animacao (quadro final ~ inicial).
+#  tipo "acao": trecho tocado na duracao que o jogo espera.
+#  inicio > fim toca ao contrario.
+MIXAMO = {
+    "idle": ("Ready_Idle", 0, 1, "loop", None, 0), "guard": ("Ready_Idle", 0, 1, "loop", None, 0),
+    "m3_idle": ("Ready_Idle", 0, 1, "loop", None, 0),
+    "m_enterGuard": ("Pivot", 0, 0.3, "acao", None, 0), "m_lowerGuard": ("Pivot", 0.3, 0, "acao", None, 0),
+    "m5_tired": ("Look_Over_Shoulder", 0, 1, "loop", None, 0),
+    "m4_dazed": ("Look_Over_Shoulder", 0, 1, "loop", None, 0),
+    "m5_walkStart": ("Start_Walking", 0.1, 0.45, "acao", None, 0),
+    "m5_walkStop": ("Start_Walking", 0.45, 0.1, "acao", None, 0),
+    "m_walkFwd": ("Start_Walking", 0.45, 1, "loop", None, 0), "m3_walk": ("Start_Walking", 0.45, 1, "loop", None, 0),
+    "m4_walkFwd": ("Start_Walking", 0.45, 1, "loop", None, 0),
+    "m_walkBack": ("Start_Walking", 0.45, 1, "loopInv", None, 0),
+    "m4_walkBack": ("Start_Walking", 0.45, 1, "loopInv", None, 0),
+    "m4_runStart": ("Running", 0, 0.25, "acao", None, 0), "m4_run": ("Running", 0.15, 1, "loop", None, 0),
+    "m4_runStop": ("Running_To_Turn", 0, 0.5, "acao", None, 0),
+    "m3_jab": ("Punching_1", 0.15, 0.85, "golpe", "maoE", 1), "m4_jabStep": ("Punching_1", 0.15, 0.85, "golpe", "maoE", 1),
+    "m3_cross": ("Fist_Fight_A", 0.33, 0.56, "golpe", "maoD", 1),
+    "m4_crossStep": ("Fist_Fight_A", 0.33, 0.56, "golpe", "maoD", 1),
+    "m3_crossBody": ("Fist_Fight_A", 0.68, 0.92, "golpe", "maoD", 1),
+    "m4_jabBody": ("Fist_Fight_A", 0.14, 0.42, "golpe", "maoE", 1),
+    "m3_overhand": ("Hell_Slammer_A", 0.05, 0.45, "golpe", "maoD", 1),
+    "m5_groundPunch": ("Hell_Slammer_A", 0.45, 0.85, "golpe", "mao", 1),
+    "m4_hook": ("Hook_Punch", 0.1, 0.85, "golpe", "maoD", 1),
+    "m4_elbow": ("Hook_Punch_1", 0.1, 0.85, "golpe", "maoE", 1),
+    "m4_parryCounter": ("Hook_Punch_1", 0.1, 0.85, "golpe", "maoE", 1),
+    "m4_uppercut": ("Knee_Jabs_To_Uppercut", 0.55, 0.88, "golpe", "mao", 1),
+    "m3_roundKick": ("Kicking", 0.25, 0.9, "golpe", "pe", 1), "m3_lowKick": ("Kicking", 0.25, 0.9, "golpe", "pe", 1),
+    "m5_stomp": ("Kicking", 0.25, 0.9, "golpe", "pe", 1),
+    "m3_stepKick": ("Armada", 0.05, 1, "golpe", "pe", 1), "m4_kickHigh": ("Armada", 0.05, 1, "golpe", "pe", 1),
+    "m5_kickHigh": ("Armada", 0.05, 1, "golpe", "pe", 1),
+    "m4_kickHigh2": ("Flying_Kick", 0, 0.6, "golpe", "pe", 1),
+    "m3_knee": ("Knee_Jab", 0.25, 0.55, "golpe", "joelho", 1),
+    "m5_clinchKnee": ("Knee_Jab", 0.25, 0.55, "golpe", "joelho", 1),
+    "m4_comboBodyUpper": ("Knee_Jabs_To_Uppercut", 0.1, 0.9, "golpe", "mao", 4),
+    "m4_comboJabElbowKnee": ("Knee_Jab", 0.05, 0.9, "golpe", "tudo", 3),
+    "m4_comboLowHigh": ("Flying_Kick", 0, 1, "golpe", "pe", 2),
+    "m4_slipCounter": ("Esquiva_2", 0, 1, "golpe", "mao", 1),
+    "m5_throw": ("Brutal_Assassination_1", 0, 0.85, "golpe", "mao", 1),
+    "m5_thrown": ("Brutal_Assassination", 0.2, 1, "acao", None, 0),
+    "m_block": ("Blocking", 0.15, 0.4, "acao", None, 0), "m4_block": ("Blocking", 0.15, 0.4, "acao", None, 0),
+    "m5_guardBreak": ("Dodging", 0.25, 0.5, "acao", None, 0),
+    "m4_hitHead": ("Body_Block", 0.3, 0.55, "acao", None, 0), "m4_hitBody": ("Body_Block", 0.3, 0.55, "acao", None, 0),
+    "m4_hitLeg": ("Body_Block", 0.3, 0.55, "acao", None, 0),
+    "m4_hitHeadHeavy": ("Dodging", 0.3, 0.75, "acao", None, 0),
+    "m4_leanBack": ("Dodging", 0.05, 0.6, "acao", None, 0),
+    "m4_fall": ("Sweep_Fall", 0.3, 0.75, "acao", None, 0), "m4_lying": ("Sweep_Fall", 0.8, 1, "loop", None, 0),
+    "m4_rise": ("Getting_Up", 0.35, 0.7, "acao", None, 0),
+    "m5_groundHit": ("Sweep_Fall", 0.55, 0.75, "acao", None, 0),
+    "m5_clinchGrab": ("Knee_Jab", 0, 0.25, "acao", None, 0), "m5_clinchHold": ("Knee_Jab", 0.28, 0.36, "loop", None, 0),
+    "m5_clinchRelease": ("Knee_Jab", 0.85, 1, "acao", None, 0),
+    "m5_held": ("Body_Block", 0.3, 0.45, "loop", None, 0), "m5_clinchEscape": ("Esquiva_2", 0, 0.3, "acao", None, 0),
+}
+FPS3D = 60
+
+
+def extensao(rig, membro):
+    """Alcance do membro: quanto a ponta esta a frente do quadril (+ altura do pe)."""
+    mw = rig.matrix_world
+    pb = rig.pose.bones
+    q = mw @ pb["Hips"].head
+
+    def frente(osso, cauda=True, alt=0.0):
+        p = mw @ (pb[osso].tail if cauda else pb[osso].head)
+        return -(p - q).y + alt * p.z
+
+    mao = {"maoE": ["LeftHand"], "maoD": ["RightHand"], "mao": ["LeftHand", "RightHand"]}
+    if membro in mao:
+        return max(frente(o) for o in mao[membro])
+    if membro == "pe":
+        return max(frente(o + "Toes", alt=0.6) for o in ("Left", "Right"))
+    if membro == "joelho":
+        return max(frente(o + "LowerLeg", cauda=False, alt=0.8) for o in ("Left", "Right"))
+    return max(frente("LeftHand"), frente("RightHand"),
+               max(frente(o + "LowerLeg", cauda=False, alt=0.8) for o in ("Left", "Right")))
+
+
+def pose_vetor(rig):
+    mw = rig.matrix_world
+    q = mw @ rig.pose.bones["Hips"].head
+    return [c for b in rig.pose.bones for c in (mw @ b.tail - q)]
+
+
+def picos(v, n, sep):
+    cand = [i for i in range(len(v))
+            if (i == 0 or v[i] >= v[i - 1]) and (i == len(v) - 1 or v[i] >= v[i + 1])]
+    cand.sort(key=lambda i: -v[i])
+    esc = []
+    for i in cand:
+        if all(abs(i - j) >= sep for j in esc):
+            esc.append(i)
+        if len(esc) == n:
+            break
+    return sorted(esc)
+
+
+def achar_ciclo(rig, cena, a, b):
+    """Trecho [s, e] dentro de [a, b] em que a pose final ~ inicial (loop sem pulo)."""
+    vet = {}
+    for f in range(a, b + 1):
+        cena.frame_set(f)
+        vet[f] = pose_vetor(rig)
+    melhor = (1e9, a, b)
+    for s0 in range(a, a + max(1, (b - a) // 3) + 1, 2):
+        for e0 in range(s0 + max(12, (b - a) // 4), b + 1, 2):
+            d = sum((x - y) ** 2 for x, y in zip(vet[s0], vet[e0])) - 0.002 * (e0 - s0)
+            if d < melhor[0]:
+                melhor = (d, s0, e0)
+    return melhor[1], melhor[2]
+
+
+def plano_quadros(rig, cena, fim, cid, plano, velho):
+    """Lista de (quadro 60fps, duracao ms) e contatos para o clipe."""
+    anim, ini, fi, tipo, membro, golpes = plano
+    a, b = int(round(min(ini, fi) * fim)), int(round(max(ini, fi) * fim))
+    T = velho.get("totalMs") or sum(velho.get("durations", [])) or 600
+    if tipo in ("loop", "loopInv"):
+        if b - a > 24:
+            a, b = achar_ciclo(rig, cena, a, b)
+        passo = 4  # 15 qps
+        fs = list(range(a, b, passo))
+        if tipo == "loopInv":
+            fs = fs[::-1]
+        return [(f, round(1000 * passo / FPS3D)) for f in fs], []
+    if tipo == "acao":
+        n = max(3, min(14, int(round(T / 60))))
+        fs = [a + (b - a) * k / (n - 1) for k in range(n)]
+        if ini > fi:
+            fs = fs[::-1]
+        return [(int(round(f)), round(T / n)) for f in fs], []
+    # golpe
+    ext = []
+    for f in range(a, b + 1):
+        cena.frame_set(f)
+        ext.append(extensao(rig, membro))
+    pk = [a + i for i in picos(ext, golpes, sep=max(6, (b - a) // (golpes * 3)))]
+    cont_velho = velho.get("contactFrames") or []
+    dur_velho = velho.get("durations") or []
+    tc = sum(dur_velho[:cont_velho[0]]) if cont_velho else T * 0.4
+    if golpes == 1:
+        p = pk[0]
+        n_prep = max(3, int(round(tc / 38)))
+        n_rec = max(3, int(round((T - tc) / 55)))
+        quadros = [(int(round(a + (p - a) * k / n_prep)), round(tc / n_prep)) for k in range(n_prep)]
+        cont = [len(quadros), len(quadros) + 1]
+        quadros += [(p, 40), (p, 40)]  # contato segurado
+        resto = max(1.0, T - tc - 80)
+        quadros += [(int(round(p + (b - p) * k / n_rec)), round(resto / n_rec)) for k in range(1, n_rec + 1)]
+        return quadros, cont
+    # combos: tempo natural x 0,75, varios contatos
+    marcos = [a] + pk + [b]
+    quadros, cont = [], []
+    for i in range(len(marcos) - 1):
+        s0, e0 = marcos[i], marcos[i + 1]
+        n = max(2, int(round((e0 - s0) / 5)))
+        for k in range(n):
+            quadros.append((int(round(s0 + (e0 - s0) * k / n)), round(1000 * (e0 - s0) / FPS3D / n * 0.75)))
+        if i < len(pk):
+            cont.append(len(quadros))
+            quadros.append((e0, 50))
+    quadros.append((b, 60))
+    return quadros, cont
+
+
+def main_mixamo(args):
+    saida = os.path.abspath(args[args.index("--saida") + 1]) if "--saida" in args \
+        else os.path.join(RAIZ, "assets", "miguel3d")
+    so = args[args.index("--so") + 1].split(",") if "--so" in args else None
+    atlas2d = json.load(open(os.path.join(RAIZ, "assets", "miguel.json")))
+    velhos = {}
+    for c in atlas2d["clips"]:
+        c.setdefault("durations", [f["duration"] for f in c["frames"]])
+        c.setdefault("totalMs", sum(c["durations"]))
+        velhos[c["id"]] = c
+    ids = [i for i in MIXAMO if not so or i in so]
+    mx = runpy.run_path(os.path.join(AQUI, "miguel_mixamo.py"), run_name="mixamo")
+    precisa = sorted({MIXAMO[i][0] for i in ids})
+    ob, rig, acoes = mx["carregar_tudo"](os.path.join(AQUI, "mixamo"), precisa)
+    cena = preparar_cena()
+    por_face = materiais_de_regiao(ob, rig)
+    quadros, saida_clipes, saida_marc, cache = [], [], {}, {}
+    for cid in ids:
+        plano = MIXAMO[cid]
+        acao, fim = acoes[plano[0]]
+        rig.animation_data_create()
+        rig.animation_data.action = acao
+        velho = velhos.get(cid, {})
+        lista, contatos = plano_quadros(rig, cena, fim, cid, plano, velho)
+        frames, marcs = [], []
+        for k, (f, dur) in enumerate(lista):
+            chave = (plano[0], f)
+            if chave not in cache:
+                cena.frame_set(f)
+                usar_regioes(ob, por_face, False)
+                cor = render(cena, "cor")
+                luz = render(cena, "luz")
+                usar_regioes(ob, por_face, True)
+                reg = render(cena, "reg")
+                usar_regioes(ob, por_face, False)
+                img = compor(cor, luz)
+                m = marcadores(rig, img[..., 3] > 0.5)
+                m["hurt"] = caixas(reg)
+                m["index"] = len(quadros)
+                cache[chave] = (len(quadros), m)
+                quadros.append(img)
+            idx, m = cache[chave]
+            fase = "" if not contatos else ("preparação" if k < contatos[0] else
+                                             "contato" if k in contatos else "recuperação")
+            frames.append({"index": idx, "duration": max(16, int(dur)), "sourceFacing": 1,
+                           "root": list(PIVO), "phase": fase, "mixamoFrame": f})
+            marcs.append(m)
+        durs = [f["duration"] for f in frames]
+        loop = plano[3] in ("loop", "loopInv")
+        clipe = {"id": cid, "loop": loop, "durations": durs, "totalMs": sum(durs),
+                 "contactFrames": contatos, "source": "mixamo:" + plano[0], "frames": frames}
+        if "stride" in velho:
+            clipe["stride"] = velho["stride"]
+        saida_clipes.append(clipe)
+        saida_marc[cid] = marcs
+        print("sprites %-22s <- %-24s %2d quadros %4d ms contatos %s (antes %s quadros %s ms)" % (
+            cid, plano[0], len(lista), sum(durs), contatos, len(velho.get("durations", [])), velho.get("totalMs")))
+        rig.animation_data.action = None
+    salvar(quadros, saida_clipes, saida_marc, saida, "moveset Mixamo estudado (arte/MIXAMO-ESTUDO.md)")
+
+
+def salvar(quadros, saida_clipes, saida_marc, saida, origem):
+    linhas = math.ceil(len(quadros) / COLUNAS)
+    atlas = np.zeros((linhas * H, COLUNAS * W, 4), np.float32)
+    for i, q in enumerate(quadros):
+        y, x = divmod(i, COLUNAS)
+        atlas[y * H:(y + 1) * H, x * W:(x + 1) * W] = q
+    img = bpy.data.images.new("atlas", COLUNAS * W, linhas * H, alpha=True)
+    img.pixels.foreach_set(atlas[::-1].ravel())
+    img.filepath_raw = saida + ".png"
+    img.file_format = "PNG"
+    img.save()
+    json.dump({"name": "Miguel 3D", "frame": [W, H], "columns": COLUNAS, "root": list(PIVO),
+               "reference": "Miguel em pe com ~70 px, igual aos sprites 2D.",
+               "preparation": "Renderizado do 3D (%s): sem anti-aliasing, 3 tons, "
+                              "contorno de 1 px, 15 bits." % origem,
+               "clips": saida_clipes},
+              open(saida + ".json", "w"), ensure_ascii=False, indent=1)
+    json.dump({"source": os.path.basename(saida) + ".png",
+               "method": "ossos do rig 3D (pontos) + passada por regiao do corpo (caixas)",
+               "pivot": list(PIVO), "facing": 1, "clips": saida_marc},
+              open(saida + "-markers.json", "w"), ensure_ascii=False)
+    print("atlas %dx%d, %d quadros" % (COLUNAS * W, linhas * H, len(quadros)))
+
+
+def main():
+    args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
+    if "--mixamo" in args:
+        return main_mixamo(args)
+    saida = os.path.abspath(args[args.index("--saida") + 1]) if "--saida" in args \
+        else os.path.join(RAIZ, "assets", "miguel3d")
+    so = args[args.index("--so") + 1].split(",") if "--so" in args else None
+    atlas2d = json.load(open(os.path.join(RAIZ, "assets", "miguel.json")))
+    for c in atlas2d["clips"]:  # clipes antigos guardam a duracao em cada quadro
+        c.setdefault("durations", [f["duration"] for f in c["frames"]])
+        c.setdefault("totalMs", sum(c["durations"]))
+    anim = runpy.run_path(os.path.join(AQUI, "miguel_animacoes.py"), run_name="sprites")
+    # no duelo so o combo tem avanco desenhado (advance); nos outros golpes com
+    # passo o corpo fica no lugar, senao o sprite "volta" ao fim do golpe
+    COM_AVANCO = {"comboJabCotoveloJoelho"}
+    for n, d in anim["A"].items():
+        if n not in COM_AVANCO:
+            d["chaves"] = [(t, {k: v for k, v in p.items() if k != "off"}) for t, p in d["chaves"]]
+    por_clipe = {d["clipe"]: n for n, d in anim["A"].items()}
+    por_clipe.update(EXTRA)
+    clipes = [c for c in atlas2d["clips"] if (not so or c["id"] in so) and c["id"] in por_clipe]
+    precisa = sorted({por_clipe[c["id"]] for c in clipes})
+    rig, ob, acoes = anim["preparar"](precisa)
+
+    cena = preparar_cena()
+    por_face = materiais_de_regiao(ob, rig)
+    quadros, saida_clipes, saida_marc = [], [], {}
+    for c in clipes:
+        nome3d = por_clipe[c["id"]]
+        acao, fim, d3 = acoes[nome3d]
+        rig.animation_data_create()
+        rig.animation_data.action = acao
+        durs = c["durations"]
+        contato = c.get("contactFrames") or []
+        frames, marcs = [], []
+        t2 = 0
+        for k, dur in enumerate(durs):
+            t3 = tempo_3d(t2, c, d3)
+            cena.frame_set(min(fim, round(t3 * anim["FPS"] / 1000)))
+            usar_regioes(ob, por_face, False)
+            cor = render(cena, "cor")
+            luz = render(cena, "luz")
+            usar_regioes(ob, por_face, True)
+            reg = render(cena, "reg")
+            usar_regioes(ob, por_face, False)
+            img = compor(cor, luz)
+            idx = len(quadros)
+            quadros.append(img)
+            fase = "" if not contato else ("preparação" if k < contato[0] else
+                                            "contato" if k <= contato[-1] else "recuperação")
+            frames.append({"index": idx, "duration": dur, "sourceFacing": 1, "root": list(PIVO),
+                           "phase": fase, "t3dMs": round(t3)})
+            m = marcadores(rig, img[..., 3] > 0.5)
+            m["hurt"] = caixas(reg)
+            m["index"] = idx
+            marcs.append(m)
+            t2 += dur
+        if nome3d in COM_AVANCO:  # avanco desenhado em px, medido no quadril
+            x0 = marcs[0]["hip"]["x"]
+            for f, m in zip(frames, marcs):
+                f["advance"] = round(m["hip"]["x"] - x0)
+        clipe = {"id": c["id"], "loop": c["loop"], "durations": durs,
+                 "totalMs": sum(durs), "contactFrames": contato,
+                 "source": "3d:" + nome3d, "frames": frames}
+        if "stride" in c:
+            clipe["stride"] = c["stride"]
+        saida_clipes.append(clipe)
+        saida_marc[c["id"]] = marcs
+        print("sprites %-22s <- %-22s %2d quadros" % (c["id"], nome3d, len(durs)))
+        rig.animation_data.action = None
+
+    linhas = math.ceil(len(quadros) / COLUNAS)
+    atlas = np.zeros((linhas * H, COLUNAS * W, 4), np.float32)
+    for i, q in enumerate(quadros):
+        y, x = divmod(i, COLUNAS)
+        atlas[y * H:(y + 1) * H, x * W:(x + 1) * W] = q
+    img = bpy.data.images.new("atlas", COLUNAS * W, linhas * H, alpha=True)
+    img.pixels.foreach_set(atlas[::-1].ravel())
+    img.filepath_raw = saida + ".png"
+    img.file_format = "PNG"
+    img.save()
+    json.dump({"name": "Miguel 3D", "frame": [W, H], "columns": COLUNAS, "root": list(PIVO),
+               "reference": "Miguel em pe com ~70 px, igual aos sprites 2D.",
+               "preparation": "Renderizado das animacoes 3D (arte/miguel_sprites.py): "
+                              "sem anti-aliasing, 3 tons, contorno de 1 px, 15 bits.",
+               "clips": saida_clipes},
+              open(saida + ".json", "w"), ensure_ascii=False, indent=1)
+    json.dump({"source": os.path.basename(saida) + ".png",
+               "method": "ossos do rig 3D (pontos) + passada por regiao do corpo (caixas)",
+               "pivot": list(PIVO), "facing": 1, "clips": saida_marc},
+              open(saida + "-markers.json", "w"), ensure_ascii=False)
+    print("atlas %dx%d, %d quadros" % (COLUNAS * W, linhas * H, len(quadros)))
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,37 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+PASSO_MEDIDO Walk ciclo=1.333 s passo=1.274 m nativo=0.956 m/s
+PASSO_MEDIDO Sprint ciclo=0.667 s passo=2.335 m nativo=3.503 m/s
+PASSO_MEDIDO Crouch_Fwd ciclo=2.000 s passo=1.279 m nativo=0.640 m/s
+PASSO_MEDIDO Walking_Backwards ciclo=0.967 s passo=1.215 m nativo=1.257 m/s
+PASSO_MEDIDO Ascending_Stairs ciclo=1.367 s passo=0.450 m nativo=0.329 m/s
+PASSO_MEDIDO Running_Up_Stairs ciclo=0.600 s passo=0.363 m nativo=0.605 m/s
+PASSO_MEDIDO Descending_Stairs ciclo=0.933 s passo=0.264 m nativo=0.283 m/s
+PASSO_MEDIDO Roll ciclo=1.467 s passo=3.256 m nativo=2.220 m/s
+PASS pátio aberto alcança o pátio de química
+PASS rota norte funciona sozinha (sul bloqueada)
+PASS rota sul funciona sozinha (norte bloqueada)
+PASS de onde Miguel acorda até o pátio de química
+PASS do pátio de química até o portão 1
+PASS vão das portas comporta Miguel
+POSTOS_SEM_ESCONDERIJO []
+PASS sete postos, todos com esconderijo a até 10 m
+POSTO 1 celula=(38, 41) abrigo_por_caminho=4.62 m
+POSTO 2 celula=(39, 25) abrigo_por_caminho=3.50 m
+POSTO 3 celula=(45, 9) abrigo_por_caminho=7.33 m
+POSTO 4 celula=(44, 22) abrigo_por_caminho=5.50 m
+POSTO 5 celula=(72, 34) abrigo_por_caminho=5.21 m
+POSTO 6 celula=(88, 32) abrigo_por_caminho=4.62 m
+POSTO 7 celula=(31, 17) abrigo_por_caminho=5.33 m
+POSTO 8 celula=(46, 14) abrigo_por_caminho=2.62 m
+PASS oito postos têm caminho de até 10 m até um esconderijo
+PASS grade tem sete comuns e um posto condicional, sem perseguidor inicial
+PASS rota norte desvia dos oito postos ocupados
+PASS rota sul desvia dos oito postos ocupados
+PASS postos ocupados não bloqueiam caminho obrigatório nem fuga
+TRECHOS_VIGIADOS_SEM_COBERTURA []
+PASS trechos vigiados das rotas têm cobertura a cada ~5 m
+PASS ritmo em dente de serra com clímax no fim
+PONTOS_EM_SOLIDO []
+PASS pontos de roteiro em chão livre
+CAPITULO1_NIVEL: 15 passed, 0 failed

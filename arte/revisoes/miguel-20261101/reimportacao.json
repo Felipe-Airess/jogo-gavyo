@@ -1,0 +1,11 @@
+{
+  "reimportacao_ok": true,
+  "vertices": 43660,
+  "faces": 65545,
+  "ossos": 22,
+  "cores": [
+    "Col"
+  ],
+  "pesos_normalizados": true,
+  "maximo_influencias": 4
+}

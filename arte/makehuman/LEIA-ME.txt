@@ -1,0 +1,3 @@
+Dados do MakeHuman / MPFB2 (CC0, ver LICENCA-CC0.md), copiados de
+https://github.com/makehumancommunity/mpfb2 (src/mpfb/data). So dados: malha base,
+alvos de forma (targets) e o rig "game_engine" com pesos. Nenhum codigo do add-on.

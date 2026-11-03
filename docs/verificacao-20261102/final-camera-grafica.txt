@@ -1,0 +1,19 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+OpenGL API 4.1 INTEL-16.5.14 - Compatibility - Using Device: Intel Inc. - Intel Iris OpenGL Engine
+
+PASS exploração livre usa ombro mesmo sem alvo
+PASS câmera livre mais próxima
+PASS lado do ombro pode ser comparado
+PASS parede lateral impede câmera de atravessar
+PASS compressão do ombro conserva modo terceira pessoa
+PASS suavização também respeita colisão em esquina
+PASS esquina permite passagem lateral da cápsula de Miguel
+PASS porta fechada bloqueia entrada da sala
+PASS porta aberta deixa passagem real na sala
+PASS porta conclui movimento na bancada sem erro de callback
+PASS fuga continua em primeira pessoa
+PASS retorno ao ombro restaura modelo
+PASS prévia reproduz clipe existente do modelo
+PASS prévia permite voltar à exploração
+PASS comparação de paleta disponível
+VALIDACAO_INICIAL_TEST: 15 passed, 0 failed

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ci50l8hrtutpf"
+path="res://.godot/imported/chainmail2.wav-d83a97b1263b8b0c46e69c2935ea8e9c.sample"
+
+[deps]
+
+source_file="res://capitulo1/assets/sons/08_FOLEY_DIVERSOS/oga-rpg-pack/RPG Sound Pack/inventory/chainmail2.wav"
+dest_files=["res://.godot/imported/chainmail2.wav-d83a97b1263b8b0c46e69c2935ea8e9c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

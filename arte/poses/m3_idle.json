@@ -1,0 +1,4 @@
+{"id": "m3_idle", "base": "guarda", "quadros": [
+ {}, {"quadril": {"desloc": [0, 0.02, -0.065]}}, {"quadril": {"desloc": [0, 0.02, -0.06]}, "ossos": {"UpperChest": [0, -0.07, 1]}},
+ {"quadril": {"desloc": [0, 0.02, -0.06]}, "ossos": {"UpperChest": [0, -0.07, 1]}}, {"quadril": {"desloc": [0, 0.02, -0.065]}}, {"quadril": {"desloc": [0, 0.02, -0.07]}, "ossos": {"UpperChest": [0, -0.04, 1]}}
+]}

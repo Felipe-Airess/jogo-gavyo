@@ -9,3 +9,5 @@ work/
 *.zip
 
 build/
+__pycache__/
+arte/felipe_cachos.png

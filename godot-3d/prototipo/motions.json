@@ -1,0 +1,84 @@
+{
+  "hook": {
+    "contact": {
+      "bone": "RightHand",
+      "height": 1.25757312774658,
+      "reach": 0.904787719249725,
+      "time": 0.58169014084507,
+      "yaw_bias": 0.648122642888957
+    },
+    "duration": 1.18,
+    "interval": [
+      0.0,
+      1.6333333
+    ],
+    "loop": false,
+    "procedural": "",
+    "source": "gancho"
+  },
+  "relaxed": {
+    "contact": {
+
+    },
+    "duration": 2.4,
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "loop": true,
+    "procedural": "breath",
+    "source": "Start_Walking"
+  },
+  "run": {
+    "contact": {
+
+    },
+    "duration": 0.7,
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "loop": true,
+    "procedural": "run",
+    "source": "Start_Walking"
+  },
+  "sit": {
+    "contact": {
+
+    },
+    "duration": 2.4,
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "loop": true,
+    "procedural": "sit",
+    "source": "Start_Walking"
+  },
+  "slip": {
+    "contact": {
+
+    },
+    "duration": 0.56,
+    "interval": [
+      0.0,
+      0.0
+    ],
+    "loop": false,
+    "procedural": "slip",
+    "source": "gancho"
+  },
+  "walk": {
+    "contact": {
+
+    },
+    "duration": 1.4,
+    "interval": [
+      1.5,
+      2.9
+    ],
+    "loop": true,
+    "procedural": "",
+    "source": "Start_Walking"
+  }
+}

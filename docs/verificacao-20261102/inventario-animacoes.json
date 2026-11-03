@@ -1,0 +1,295 @@
+{
+  "clips": [
+    {
+      "loop": 0,
+      "nome": "Armada",
+      "segundos": 1.63333332538605,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Blocking",
+      "segundos": 1.20000004768372,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Body_Block",
+      "segundos": 3.43333339691162,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Brutal_Assassination",
+      "segundos": 4.93333339691162,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Brutal_Assassination_1",
+      "segundos": 4.93333339691162,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Dodging",
+      "segundos": 2.23333334922791,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Dying",
+      "segundos": 5.76666688919067,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Esquiva_2",
+      "segundos": 2.23333334922791,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Fist_Fight_A",
+      "segundos": 4.23333311080933,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Flying_Kick",
+      "segundos": 1.5,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Getting_Up",
+      "segundos": 8.33333301544189,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Hell_Slammer_A",
+      "segundos": 7.56666660308838,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Hook_Punch",
+      "segundos": 2.16666674613953,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Hook_Punch_1",
+      "segundos": 2.16666674613953,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Kicking",
+      "segundos": 2.16666674613953,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Knee_Jab",
+      "segundos": 6.0,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Knee_Jabs_To_Uppercut",
+      "segundos": 5.66666650772095,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Look_Over_Shoulder",
+      "segundos": 3.76666665077209,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Pivot",
+      "segundos": 4.5,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Punching_1",
+      "segundos": 1.03333330154419,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Ready_Idle",
+      "segundos": 2.5,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Running",
+      "segundos": 1.63333332538605,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Running_To_Turn",
+      "segundos": 2.26666665077209,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Start_Walking",
+      "segundos": 2.93333339691162,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "Sweep_Fall",
+      "segundos": 2.5,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "andaFrente",
+      "segundos": 1.61666667461395,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "andaTras",
+      "segundos": 1.61666667461395,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "bloqueio",
+      "segundos": 0.300000011920929,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "chuteAlto",
+      "segundos": 1.54999995231628,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "chuteCircular",
+      "segundos": 1.39999997615814,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "comboCorpoUpper",
+      "segundos": 4.53333330154419,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "correr",
+      "segundos": 1.63333332538605,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "deitado",
+      "segundos": 0.0166666675359011,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "direto",
+      "segundos": 0.966666638851166,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "esquivaTras",
+      "segundos": 1.23333334922791,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "gancho",
+      "segundos": 1.63333332538605,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "guarda",
+      "segundos": 2.5,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "jab",
+      "segundos": 0.716666638851166,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "joelhada",
+      "segundos": 1.79999995231628,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "levantar",
+      "segundos": 5.41666650772095,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "pesado",
+      "segundos": 3.03333330154419,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "queda",
+      "segundos": 1.75,
+      "trilhas": 23
+    },
+    {
+      "loop": 0,
+      "nome": "reacaoBloqueio",
+      "segundos": 0.866666674613953,
+      "trilhas": 23
+    }
+  ],
+  "glb": "godot-3d/miguel_animado.glb",
+  "prototipo": [
+    {
+      "nome": "hook",
+      "segundos": 1.17999994754791,
+      "trilhas": 23
+    },
+    {
+      "nome": "relaxed",
+      "segundos": 2.40000009536743,
+      "trilhas": 23
+    },
+    {
+      "nome": "run",
+      "segundos": 0.699999988079071,
+      "trilhas": 23
+    },
+    {
+      "nome": "sit",
+      "segundos": 2.40000009536743,
+      "trilhas": 23
+    },
+    {
+      "nome": "slip",
+      "segundos": 0.560000002384186,
+      "trilhas": 23
+    },
+    {
+      "nome": "walk",
+      "segundos": 1.39999997615814,
+      "trilhas": 23
+    }
+  ]
+}

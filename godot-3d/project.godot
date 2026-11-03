@@ -1,0 +1,34 @@
+; Teste do Miguel 3D (estilo PS1). Projeto separado do duelo 2D em godot-poc/.
+config_version=5
+
+[application]
+config/name="GAVIÃO — Depois do almoço"
+run/main_scene="res://capitulo1/main.tscn"
+run/max_fps=60
+config/features=PackedStringArray("4.5", "GL Compatibility")
+
+[display]
+window/size/viewport_width=960
+window/size/viewport_height=540
+window/size/window_width_override=1278
+window/size/window_height_override=720
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+window/handheld/orientation=6
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/canvas_textures/default_texture_filter=1
+anti_aliasing/quality/msaa_3d=0
+environment/defaults/default_clear_color=Color(0.02, 0.025, 0.03, 1)
+
+[input_devices]
+pointing/emulate_mouse_from_touch=false
+
+[gui]
+
+# Fonte própria em todo o HUD: na web não há fonte do sistema (texto virava quadrados).
+theme/custom_font="res://prototipo/interface.ttf"

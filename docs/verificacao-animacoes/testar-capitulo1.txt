@@ -1,0 +1,300 @@
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+PASSO_MEDIDO Walk ciclo=1.333 s passo=1.269 m nativo=0.952 m/s
+PASSO_MEDIDO Sprint ciclo=0.667 s passo=2.325 m nativo=3.488 m/s
+PASSO_MEDIDO Crouch_Fwd ciclo=2.000 s passo=1.274 m nativo=0.637 m/s
+PASSO_MEDIDO Walking_Backwards ciclo=0.967 s passo=1.210 m nativo=1.252 m/s
+PASSO_MEDIDO Ascending_Stairs ciclo=1.367 s passo=0.448 m nativo=0.328 m/s
+PASSO_MEDIDO Running_Up_Stairs ciclo=0.600 s passo=0.361 m nativo=0.602 m/s
+PASSO_MEDIDO Descending_Stairs ciclo=0.933 s passo=0.263 m nativo=0.281 m/s
+PASSO_MEDIDO Roll ciclo=1.467 s passo=3.242 m nativo=2.210 m/s
+TRANSICAO velocidade=1.45 agachado=false salto_medido=0.0755 m
+PASS troca de locomoção usa crossfade real da máquina
+TRANSICAO velocidade=3.80 agachado=false salto_medido=0.1629 m
+PASS troca de locomoção usa crossfade real da máquina
+AVISO amplitude da pose original/transição supera 8 cm; não limitar ossos
+TRANSICAO velocidade=0.00 agachado=false salto_medido=0.0872 m
+PASS troca de locomoção usa crossfade real da máquina
+AVISO amplitude da pose original/transição supera 8 cm; não limitar ossos
+TRANSICAO velocidade=1.05 agachado=true salto_medido=0.0944 m
+PASS troca de locomoção usa crossfade real da máquina
+AVISO amplitude da pose original/transição supera 8 cm; não limitar ossos
+TRANSICAO velocidade=0.00 agachado=true salto_medido=0.0623 m
+PASS troca de locomoção usa crossfade real da máquina
+TRANSICAO velocidade=1.45 agachado=false salto_medido=0.0775 m
+PASS troca de locomoção usa crossfade real da máquina
+PASS arestas: 0,15 s no plano e 0,20–0,25 s em ações/escada
+ORIGINAL Miguel clipe=novo/Walk certo=180/180 avanca=180/180 erro_pos=0.0000001 erro_rot=0.0000001 apoio=173 deriva=0.1196 m
+PASS Miguel: clipe correto avança sem congelar
+PASS Miguel: todos os ossos coincidem com as trilhas originais
+AVISO Miguel: deriva/contato original registrado; nenhuma correção de pose
+ORIGINAL Miguel clipe=novo/Sprint certo=180/180 avanca=180/180 erro_pos=0.0000001 erro_rot=0.0000001 apoio=13 deriva=0.1053 m
+PASS Miguel: clipe correto avança sem congelar
+PASS Miguel: todos os ossos coincidem com as trilhas originais
+AVISO Miguel: deriva/contato original registrado; nenhuma correção de pose
+ORIGINAL Miguel clipe=novo/Crouch_Fwd certo=180/180 avanca=180/180 erro_pos=0.0000001 erro_rot=0.0000001 apoio=133 deriva=0.1700 m
+PASS Miguel: clipe correto avança sem congelar
+PASS Miguel: todos os ossos coincidem com as trilhas originais
+AVISO Miguel: deriva/contato original registrado; nenhuma correção de pose
+ORIGINAL cultista clipe=novo/Walk certo=180/180 avanca=180/180 erro_pos=0.0000001 erro_rot=0.0000001 apoio=178 deriva=0.1197 m
+PASS cultista: clipe correto avança sem congelar
+PASS cultista: todos os ossos coincidem com as trilhas originais
+AVISO cultista: deriva/contato original registrado; nenhuma correção de pose
+ORIGINAL cultista clipe=novo/Sprint certo=180/180 avanca=180/180 erro_pos=0.0000001 erro_rot=0.0000001 apoio=13 deriva=0.1053 m
+PASS cultista: clipe correto avança sem congelar
+PASS cultista: todos os ossos coincidem com as trilhas originais
+AVISO cultista: deriva/contato original registrado; nenhuma correção de pose
+ORIGINAL cultista clipe=novo/Crouch_Fwd certo=180/180 avanca=180/180 erro_pos=0.0000001 erro_rot=0.0000001 apoio=133 deriva=0.1701 m
+PASS cultista: clipe correto avança sem congelar
+PASS cultista: todos os ossos coincidem com as trilhas originais
+AVISO cultista: deriva/contato original registrado; nenhuma correção de pose
+ESCADA_ORIGINAL sobe=true corre=false clipe=novo/Ascending_Stairs correto=129/129 avanca=129/129 erro=(0.0, 0.0)
+PASS escada: captura correta, em movimento
+PASS escada: pose original fora do crossfade
+ESCADA_ORIGINAL sobe=true corre=true clipe=novo/Running_Up_Stairs correto=129/129 avanca=129/129 erro=(0.0, 0.0)
+PASS escada: captura correta, em movimento
+PASS escada: pose original fora do crossfade
+ESCADA_ORIGINAL sobe=false corre=false clipe=novo/Descending_Stairs correto=129/129 avanca=129/129 erro=(0.000001, 0.0)
+PASS escada: captura correta, em movimento
+PASS escada: pose original fora do crossfade
+ESCADA_ORIGINAL sobe=false corre=true clipe=novo/Descending_Stairs correto=129/129 avanca=129/129 erro=(0.000001, 0.0)
+PASS escada: captura correta, em movimento
+PASS escada: pose original fora do crossfade
+PASS câmera ignora corpo de cultista na camada 2
+PASS câmera colide com cenário da camada 1
+PASS cultista junto da lente fica oculto
+PASS cultista volta a aparecer ao se afastar da lente
+PASS oclusão não revela Miguel na câmera em primeira pessoa
+PASS esquiva continua desativada
+CAPITULO1_MOVIMENTO: 33 passed, 0 failed
+
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+PASS APIs executadas no Godot 4.5.1
+PASSO_MEDIDO Walk ciclo=1.333 s passo=1.269 m nativo=0.952 m/s
+PASSO_MEDIDO Sprint ciclo=0.667 s passo=2.325 m nativo=3.488 m/s
+PASSO_MEDIDO Crouch_Fwd ciclo=2.000 s passo=1.274 m nativo=0.637 m/s
+PASSO_MEDIDO Walking_Backwards ciclo=0.967 s passo=1.210 m nativo=1.252 m/s
+PASSO_MEDIDO Ascending_Stairs ciclo=1.367 s passo=0.448 m nativo=0.328 m/s
+PASSO_MEDIDO Running_Up_Stairs ciclo=0.600 s passo=0.361 m nativo=0.602 m/s
+PASSO_MEDIDO Descending_Stairs ciclo=0.933 s passo=0.263 m nativo=0.281 m/s
+PASSO_MEDIDO Roll ciclo=1.467 s passo=3.242 m nativo=2.210 m/s
+AMOSTRA Miguel andando: tempo=180/180 clipe=novo/Walk 180/180 pose=[180, 180, 180, 180] velocidade=1.450 m/s distancia=4.350 m
+PASS Miguel andando: tempo avança em todos os quadros por 3 s
+PASS Miguel andando: cadência casa velocidade real com passada medida
+PASS Miguel andando: clipe ativo novo/Walk
+PASS Miguel andando: pose do clipe varia sem congelar
+PASS Miguel andando: velocidade real 1.45 m/s
+AMOSTRA Miguel correndo: tempo=180/180 clipe=novo/Sprint 180/180 pose=[180, 180, 180, 180] velocidade=3.800 m/s distancia=11.400 m
+PASS Miguel correndo: tempo avança em todos os quadros por 3 s
+PASS Miguel correndo: cadência casa velocidade real com passada medida
+PASS Miguel correndo: clipe ativo novo/Sprint
+PASS Miguel correndo: pose do clipe varia sem congelar
+PASS Miguel correndo: velocidade real 3.80 m/s
+AMOSTRA Miguel agachado: tempo=180/180 clipe=novo/Crouch_Fwd 180/180 pose=[180, 180, 180, 180] velocidade=1.050 m/s distancia=3.151 m
+PASS Miguel agachado: tempo avança em todos os quadros por 3 s
+PASS Miguel agachado: cadência casa velocidade real com passada medida
+PASS Miguel agachado: clipe ativo novo/Crouch_Fwd
+PASS Miguel agachado: pose do clipe varia sem congelar
+PASS Miguel agachado: velocidade real 1.05 m/s
+AMOSTRA cultista patrulhando: tempo=180/180 clipe=novo/Walk 180/180 pose=[180, 180, 180, 180] velocidade=1.450 m/s distancia=4.350 m
+PASS cultista patrulhando: tempo avança em todos os quadros por 3 s
+PASS cultista patrulhando: cadência casa velocidade real com passada medida
+PASS cultista patrulhando: clipe ativo novo/Walk
+PASS cultista patrulhando: pose do clipe varia sem congelar
+PASS cultista patrulhando: velocidade real 1.45 m/s
+AMOSTRA cultista perseguindo Miguel: tempo=180/180 clipe=novo/Sprint 180/180 pose=[180, 180, 180, 180] velocidade=3.800 m/s distancia=11.400 m
+PASS cultista perseguindo Miguel: tempo avança em todos os quadros por 3 s
+PASS cultista perseguindo Miguel: cadência casa velocidade real com passada medida
+PASS cultista perseguindo Miguel: clipe ativo novo/Sprint
+PASS cultista perseguindo Miguel: pose do clipe varia sem congelar
+PASS cultista perseguindo Miguel: velocidade real 3.80 m/s
+ACAO novo/PickUp_Table: duracao=0.833 ultimo=0.817 quadros=51 congelados=0 retorno=Locomocao locomocao=true
+PASS novo/PickUp_Table: clipe certo e tempo avança
+PASS novo/PickUp_Table: toca até o fim
+PASS novo/PickUp_Table: volta sozinho para parado
+PASS novo/PickUp_Table: andar retoma sem novo play
+ACAO novo/Interact: duracao=2.000 ultimo=1.983 quadros=121 congelados=0 retorno=Locomocao locomocao=true
+PASS novo/Interact: clipe certo e tempo avança
+PASS novo/Interact: toca até o fim
+PASS novo/Interact: volta sozinho para parado
+PASS novo/Interact: andar retoma sem novo play
+ACAO novo/Chest_Open: duracao=1.367 ultimo=1.350 quadros=83 congelados=0 retorno=Locomocao locomocao=true
+PASS novo/Chest_Open: clipe certo e tempo avança
+PASS novo/Chest_Open: toca até o fim
+PASS novo/Chest_Open: volta sozinho para parado
+PASS novo/Chest_Open: andar retoma sem novo play
+ACAO novo/ClimbUp_1m: duracao=0.667 ultimo=0.650 quadros=41 congelados=0 retorno=Locomocao locomocao=true
+PASS novo/ClimbUp_1m: clipe certo e tempo avança
+PASS novo/ClimbUp_1m: toca até o fim
+PASS novo/ClimbUp_1m: volta sozinho para parado
+PASS novo/ClimbUp_1m: andar retoma sem novo play
+PASS bag: aproximação livre aceita
+CONTATO bag: erro=0.0000 m estado=interaction
+INTERACAO bag: clipe=true ultimo=0.817 estado=idle pendente=false
+PASS bag: mão toca alvo no quadro do evento (9 cm)
+PASS bag: ação completa antes de sair
+PASS bag: ação termina sem congelar
+PASS bolsa: efeito confirmado no contato
+PASS door: aproximação livre aceita
+CONTATO door: erro=0.0000 m estado=interaction
+INTERACAO door: clipe=true ultimo=1.983 estado=idle pendente=false
+PASS door: mão toca alvo no quadro do evento (9 cm)
+PASS door: ação completa antes de sair
+PASS door: ação termina sem congelar
+PASS porta: abriu no contato
+PASS hide: aproximação livre aceita
+CONTATO hide: erro=0.0000 m estado=interaction
+INTERACAO hide: clipe=true ultimo=1.350 estado=idle pendente=false
+PASS hide: mão toca alvo no quadro do evento (9 cm)
+PASS hide: ação completa antes de sair
+PASS hide: ação termina sem congelar
+PASS armário: entrou após terminar o gesto
+PASS gate: aproximação livre aceita
+CONTATO gate: erro=0.0000 m estado=interaction
+CONTATO grade: erro=0.0000 m
+INTERACAO gate: clipe=true ultimo=1.983 estado=idle pendente=false
+PASS gate: mão toca alvo no quadro do evento (9 cm)
+PASS gate: ação completa antes de sair
+PASS gate: ação termina sem congelar
+PASS portão: alcançou o outro lado
+PASS portão: escalada completa
+PASS portão: mão toca grade no evento da escalada
+ESCADA subir: clipe=novo/Ascending_Stairs certo=514/514 tempo=514/514 apoio=424/514
+PASS subir: clipe correto na escada
+PASS subir: tempo avança
+APOIO subir: fixo=90/91 maior_desvio=0.0242 m
+AVISO subir: apoio varia no clipe original; nenhuma correção de ossos aplicada
+AVISO subir: pés originais não encaixam em todos os pisos visuais
+ESCADA descer: clipe=novo/Descending_Stairs certo=674/674 tempo=674/674 apoio=44/674
+PASS descer: clipe correto na escada
+PASS descer: tempo avança
+APOIO descer: fixo=0/0 maior_desvio=0.0000 m
+AVISO descer: apoio varia no clipe original; nenhuma correção de ossos aplicada
+AVISO descer: pés originais não encaixam em todos os pisos visuais
+PASS Descending_Stairs original intacto; repetições usam crossfade
+PASS Stunned não é usado em loop
+CAPITULO1_ANIMACAO: 70 passed, 0 failed
+
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+PASSO_MEDIDO Walk ciclo=1.333 s passo=1.269 m nativo=0.952 m/s
+PASSO_MEDIDO Sprint ciclo=0.667 s passo=2.325 m nativo=3.488 m/s
+PASSO_MEDIDO Crouch_Fwd ciclo=2.000 s passo=1.274 m nativo=0.637 m/s
+PASSO_MEDIDO Walking_Backwards ciclo=0.967 s passo=1.210 m nativo=1.252 m/s
+PASSO_MEDIDO Ascending_Stairs ciclo=1.367 s passo=0.448 m nativo=0.328 m/s
+PASSO_MEDIDO Running_Up_Stairs ciclo=0.600 s passo=0.361 m nativo=0.602 m/s
+PASSO_MEDIDO Descending_Stairs ciclo=0.933 s passo=0.263 m nativo=0.281 m/s
+PASSO_MEDIDO Roll ciclo=1.467 s passo=3.242 m nativo=2.210 m/s
+PASS mapa contempla os blocos e todas as salas nomeadas
+PASS salas têm portas físicas e acessos
+PASS Miguel começa sem celular
+PASS bolsa fica no andar superior
+PASS ritual separado do pátio onde acorda
+PASS cultistas começam a partir do corredor interno
+PASS ciclo novo de corrida importado
+PASS corrida seleciona estado próprio com crossfade
+PASS corrida contínua não reinicia arrancada
+RITUAL_VISTO_DE_CIMA []
+PASS andar superior não permite observar o ritual
+BLOCKED_DOORS []
+PASS todas as portas abertas têm vãos desobstruídos
+PASS abertura integrada sem pular para sala de testes
+PASS recuperar bolsa salva primeiro checkpoint
+PASS checkpoint da bolsa guarda ausência de alerta
+PASS restauração recupera alerta salvo, permitindo nova rota discreta
+PASS segundo checkpoint antes de se aproximar do ritual
+FRAME_RITUAL true (-15.5, 0.0, -25.5) 4.19999980926514
+PASS ritual pode ser enquadrado manualmente no térreo
+PASS REC só começa se a visão da lente enquadra o ritual
+PASS rota discreta grava e continua sem perseguidor
+PASS alerta espalhado habilita apresentação do perseguidor
+PASS perseguição não cria checkpoint adicional
+PASS controle da perseguição em primeira pessoa
+PASS saída pula o portão, sem abri-lo
+PASS transposição termina fora da escola
+PASS encerramento mostra o quarto e os amigos
+PASS chamado concluído espalha alerta
+PASS derrubado levanta antes de tentar chamar ajuda
+PASS chamado tem preparação interrompível
+PASS sem travar alvo de luta
+PASS sem finalizações na interface
+PASS cultista agarra em vez de socar
+PASS um toque só não solta
+PASS insistir solta Miguel
+PASS não se soltar a tempo custa vida
+PASS faca solta na hora e é gasta
+PASS dano cancela cura sem consumir item
+ESCADA_DESEMBOCA Pátio de química
+PASS escada sai do pátio de química
+PASS escada não sai da quadra
+STAIR_RESULT (-31.3379, 3.400832, -23.74322)
+STAIR_CONTACT @StaticBody3D@607 (0.0, 1.0, 0.0) (-31.0, 3.35, -24.0)
+STAIR_CONTACT @StaticBody3D@607 (0.0, 1.0, 0.0) (-31.0, 3.35, -24.0)
+STAIR_CONTACT @StaticBody3D@607 (0.0, 1.0, 0.0) (-31.0, 3.35, -24.0)
+PASS subir a escada alcança corredor superior com colisão real
+PASS caixa da escada não deixa ver o ritual
+PASS entrada da escada permite espiar o ritual
+CAPITULO1_TEST: 41 passed, 0 failed
+
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+PASS as duas grades são lidas sem erro
+TAMANHO terreo=101x85 superior=31x15
+PASS acordar, ritual, checkpoint 2 e bolsa aparecem uma vez cada
+PASS postos 1–4 e portão marcados
+PASS cada nome da legenda marca exatamente um lugar
+PASS portas em pares DD
+VAZAMENTOS []
+PASS térreo fechado: não se sai para fora do mapa
+SEM_ACESSO []
+PASS todas as salas e áreas do térreo são alcançáveis
+PASS pé da escada e ritual no mesmo térreo andável
+PASS uma escada no térreo
+PASS topo da escada chega ao patamar (piso em cima, vão embaixo)
+PASS sobre a escada o andar de cima é vão (sem laje na cabeça)
+PASS kit tem parede, porta, janela gradeada, canto, coluna, pisos, meia-parede, telhado e degrau
+KIT_FORA_DO_MODULO []
+PASS peças de 2 m com pivô na base
+PASS MeshLibrary salva em dia (tools/gerar_kit.gd)
+PASSO_MEDIDO Walk ciclo=1.333 s passo=1.269 m nativo=0.952 m/s
+PASSO_MEDIDO Sprint ciclo=0.667 s passo=2.325 m nativo=3.488 m/s
+PASSO_MEDIDO Crouch_Fwd ciclo=2.000 s passo=1.274 m nativo=0.637 m/s
+PASSO_MEDIDO Walking_Backwards ciclo=0.967 s passo=1.210 m nativo=1.252 m/s
+PASSO_MEDIDO Ascending_Stairs ciclo=1.367 s passo=0.448 m nativo=0.328 m/s
+PASSO_MEDIDO Running_Up_Stairs ciclo=0.600 s passo=0.361 m nativo=0.602 m/s
+PASSO_MEDIDO Descending_Stairs ciclo=0.933 s passo=0.263 m nativo=0.281 m/s
+PASSO_MEDIDO Roll ciclo=1.467 s passo=3.242 m nativo=2.210 m/s
+PASS montagem sem avisos do mapa
+PAREDE_SEM_COLISAO [] PISO_COM_COLISAO []
+PASS toda célula # tem colisão
+PASS célula de piso . fica livre a 1,5 m
+GRIDMAP celulas=3830 colisores=374
+PASS geometria do kit no GridMap e colisão mesclada
+CAPITULO1_MAPA: 18 passed, 0 failed
+
+Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org
+
+PASSO_MEDIDO Walk ciclo=1.333 s passo=1.269 m nativo=0.952 m/s
+PASSO_MEDIDO Sprint ciclo=0.667 s passo=2.325 m nativo=3.488 m/s
+PASSO_MEDIDO Crouch_Fwd ciclo=2.000 s passo=1.274 m nativo=0.637 m/s
+PASSO_MEDIDO Walking_Backwards ciclo=0.967 s passo=1.210 m nativo=1.252 m/s
+PASSO_MEDIDO Ascending_Stairs ciclo=1.367 s passo=0.448 m nativo=0.328 m/s
+PASSO_MEDIDO Running_Up_Stairs ciclo=0.600 s passo=0.361 m nativo=0.602 m/s
+PASSO_MEDIDO Descending_Stairs ciclo=0.933 s passo=0.263 m nativo=0.281 m/s
+PASSO_MEDIDO Roll ciclo=1.467 s passo=3.242 m nativo=2.210 m/s
+PASS pátio aberto alcança o pátio de química
+PASS rota norte funciona sozinha (sul bloqueada)
+PASS rota sul funciona sozinha (norte bloqueada)
+PASS de onde Miguel acorda até o pátio de química
+PASS do pátio de química até o portão 1
+PASS vão das portas comporta Miguel
+POSTOS_SEM_ESCONDERIJO []
+PASS quatro postos, todos com esconderijo a até 10 m
+TRECHOS_VIGIADOS_SEM_COBERTURA []
+PASS trechos vigiados das rotas têm cobertura a cada ~5 m
+PASS ritmo em dente de serra com clímax no fim
+PONTOS_EM_SOLIDO []
+PASS pontos de roteiro em chão livre
+CAPITULO1_NIVEL: 10 passed, 0 failed
+

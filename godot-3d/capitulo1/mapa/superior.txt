@@ -1,0 +1,46 @@
+; ===========================================================================
+; GAVIÃO · capítulo 1 · ANDAR SUPERIOR (superior.txt) · mesma grade do térreo, 3,4 m acima
+; 1 caractere = 1 metro. Coluna = x (oeste -> leste), linha = z (norte -> sul).
+; A grade começa na linha logo abaixo de "---" (linha 0, coluna 0).
+; Este arquivo é a fonte do mapa: editar aqui muda o jogo (capitulo1/mapa/).
+;
+; ESTRUTURA                       PISO (a letra/símbolo herda o piso vizinho)
+;   #  parede (3,4 m)               .  azulejo, coberto (salas, pátio de química)
+;   -  meia-parede / mureta (1,1 m) ;  cimento, coberto (varanda, refeitório)
+;   D  porta (sempre em par: DD)    ,  cimento, céu aberto
+;   W  janela gradeada              :  quadra coberta (telhado alto)
+;   O  vão aberto com verga         _  palco elevado (auditório)
+;   G  portão de grade              (espaço) fora do mapa
+;   C  coluna
+;   T  árvore
+;   %  bloco baixo (mesa, bancada, caixote, bicicletário: dá para agachar atrás)
+;   L  lâmpada
+;   < > ^ v  escada: a seta aponta para onde ela SOBE
+;
+; HISTÓRIA E JOGO
+;   @  Miguel acorda           $  bolsa (andar de cima)     *  centro do ritual
+;   +  checkpoint 2 (pé da escada, dentro da caixa)          &  armário (esconderijo)
+;   1 2 3 4  postos dos cultistas (o 1 é o primeiro cultista visto)
+;
+; NOMES: cada letra listada abaixo marca um ambiente ("sala" = com porta, "area" = aberta).
+; A letra fica em qualquer célula do ambiente; não use C D G L O T W nem a seta v.
+; ===========================================================================
+sala a 3 Enfermagem
+sala b 3 Informática
+area U Corredor superior
+---
+
+
+
+
+    #################
+    #.......#.......#
+    #.......#%......#
+    #...a...#..$b...#
+    #.......#.......###########
+    #.......#.......#..       #
+    #.......#.......#..       #
+    ###DD#######DD###OO########
+    #.......L..........#
+    #&..............U..#
+    #------------------#

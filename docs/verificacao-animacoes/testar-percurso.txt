@@ -1,0 +1,59 @@
+PERCURSO modo rota
+PASSO_MEDIDO Walk ciclo=1.333 s passo=1.269 m nativo=0.952 m/s
+PASSO_MEDIDO Sprint ciclo=0.667 s passo=2.325 m nativo=3.488 m/s
+PASSO_MEDIDO Crouch_Fwd ciclo=2.000 s passo=1.274 m nativo=0.637 m/s
+PASSO_MEDIDO Walking_Backwards ciclo=0.967 s passo=1.210 m nativo=1.252 m/s
+PASSO_MEDIDO Ascending_Stairs ciclo=1.367 s passo=0.448 m nativo=0.328 m/s
+PASSO_MEDIDO Running_Up_Stairs ciclo=0.600 s passo=0.361 m nativo=0.602 m/s
+PASSO_MEDIDO Descending_Stairs ciclo=0.933 s passo=0.263 m nativo=0.281 m/s
+PASSO_MEDIDO Roll ciclo=1.467 s passo=3.242 m nativo=2.210 m/s
+PASS abertura termina sozinha pelo tempo do jogo
+PERCURSO entrada da escada no pátio de química: abriu porta Materiais de esportes
+PERCURSO entrada da escada no pátio de química: abriu porta Materiais de esportes
+PERCURSO entrada da escada no pátio de química: abriu porta Materiais de esportes
+PERCURSO entrada da escada no pátio de química: chegou em (-20.06296, 0.00084, -25.39881) após 47.5 s
+PERCURSO pé da escada: chegou em (-23.6195, 0.000839, -25.91174) após 2.5 s
+PERCURSO subir escada: chegou em (-29.50402, 3.160241, -25.99313) após 9.7 s
+PERCURSO patamar: chegou em (-31.02672, 3.399921, -25.61674) após 1.8 s
+PASS chega ao andar superior andando
+PERCURSO corredor superior: chegou em (-31.36949, 3.399938, -24.08374) após 1.1 s
+PERCURSO porta do 3 Informática: abriu porta 3 Informática
+PERCURSO porta do 3 Informática: abriu porta 3 Informática
+PERCURSO porta do 3 Informática: abriu porta 3 Informática
+PERCURSO porta do 3 Informática: chegou em (-35.50831, 3.400836, -23.80818) após 3.9 s
+PERCURSO dentro do 3 Informática: chegou em (-35.89479, 3.400836, -25.924) após 1.5 s
+PERCURSO mesa da bolsa: chegou em (-37.2916, 3.400836, -27.29538) após 1.4 s
+PASS pega a bolsa após percurso contínuo
+PERCURSO alerta=false fase=investigate
+PERCURSO voltar à porta: chegou em (-36.40059, 3.400836, -26.92102) após 0.9 s
+PERCURSO sair da sala: chegou em (-36.06892, 3.400835, -24.08871) após 2.0 s
+PERCURSO corredor na volta: chegou em (-32.08984, 3.400835, -23.57601) após 2.8 s
+PERCURSO patamar na volta: chegou em (-31.55457, 3.400837, -25.02493) após 1.3 s
+PERCURSO topo da escada: chegou em (-30.40813, 3.400357, -25.74401) após 0.9 s
+PERCURSO descer escada: chegou em (-24.59538, 0.378633, -25.97614) após 12.5 s
+PASS desce ao térreo andando
+PERCURSO abrigo no pé da escada: chegou em (-23.91884, 0.000841, -26.35182) após 1.8 s
+PASS checkpoint antes do ritual alcançado andando
+PERCURSO entrada da escada: chegou em (-20.92949, 0.000839, -25.61799) após 2.3 s
+PERCURSO espiar da entrada da escada: chegou em (-23.17115, 0.00084, -25.50322) após 1.6 s
+PERCURSO enquadra=true inimigos: idle d=32.2 aware=false susp=0.00, idle d=19.2 aware=false susp=0.00, idle d=15.7 aware=false susp=0.00, idle d=20.0 aware=false susp=0.00
+PERCURSO gravando=true t=0.0
+PERCURSO gravando=true t=1.0
+PERCURSO gravando=true t=2.0
+PERCURSO gravando=true t=3.0
+PERCURSO gravando=false t=4.0
+PASS grava o ritual em sequência contínua
+PERCURSO alerta=false fase=investigate perseguidor=false
+PERCURSO portão 1: abriu porta Sala dos professores
+PERCURSO portão 1: abriu porta Sala dos professores
+PERCURSO portão 1: abriu porta Sala dos professores
+PERCURSO contato Chao pai=@Node3D@2 normal=(0.0, 1.0, 0.0) em (25.74693, 0.0, 41.1071)
+PERCURSO contato Chao pai=@Node3D@2 normal=(0.0, 1.0, 0.0) em (25.75262, 0.0, 41.11593)
+PERCURSO contato Chao pai=@Node3D@2 normal=(0.0, 1.0, 0.0) em (25.75337, 0.0, 41.1171)
+PERCURSO estado=interaction escondido=false agachado=false fase=investigate
+PERCURSO portão 1: TRAVOU em (25.75337, 0.00084, 41.1171) (alvo (26.0, 0.0, 41.5), faltam 0.5 m)
+PASS pula o portão e chega ao encerramento
+PERCURSO tempo de jogo total 187.3 s, mortes 0
+PERCURSO distância do checkpoint 2 ao cultista mais próximo (posição inicial): 16.00 m
+CAPITULO1_PERCURSO[rota]: 7 passed, 0 failed
+PERCURSO alerta=false ritual_notou=false sighting=false

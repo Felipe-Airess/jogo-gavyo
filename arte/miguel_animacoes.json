@@ -1,0 +1,665 @@
+{
+  "Armada": {
+    "fonte": "Armada.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 1633,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 99,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Blocking": {
+    "fonte": "Blocking.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 1200,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 73,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Body_Block": {
+    "fonte": "Body_Block.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 3433,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 207,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Brutal_Assassination": {
+    "fonte": "Brutal_Assassination.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 4933,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 297,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Brutal_Assassination_1": {
+    "fonte": "Brutal_Assassination_1.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 4933,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 297,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Dodging": {
+    "fonte": "Dodging.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 2233,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 135,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Dying": {
+    "fonte": "Dying.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 5767,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 347,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Esquiva_2": {
+    "fonte": "Esquiva_2.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 2233,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 135,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Fist_Fight_A": {
+    "fonte": "Fist_Fight_A.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 4233,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 255,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Flying_Kick": {
+    "fonte": "Flying_Kick.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 1500,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 91,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Getting_Up": {
+    "fonte": "Getting_Up.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 8333,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 501,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Hell_Slammer_A": {
+    "fonte": "Hell_Slammer_A.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 7567,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 455,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Hook_Punch": {
+    "fonte": "Hook_Punch.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 2167,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 131,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Hook_Punch_1": {
+    "fonte": "Hook_Punch_1.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 2167,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 131,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Kicking": {
+    "fonte": "Kicking.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 2167,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 131,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Knee_Jab": {
+    "fonte": "Knee_Jab.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 6000,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 361,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Knee_Jabs_To_Uppercut": {
+    "fonte": "Knee_Jabs_To_Uppercut.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 5667,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 341,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Look_Over_Shoulder": {
+    "fonte": "Look_Over_Shoulder.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 3767,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 227,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Pivot": {
+    "fonte": "Pivot.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 4500,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 271,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Punching_1": {
+    "fonte": "Punching_1.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 1033,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 63,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Ready_Idle": {
+    "fonte": "Ready_Idle.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 2500,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 151,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Running": {
+    "fonte": "Running.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 1633,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 99,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Running_To_Turn": {
+    "fonte": "Running_To_Turn.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 2267,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 137,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Start_Walking": {
+    "fonte": "Start_Walking.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 2933,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 177,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "Sweep_Fall": {
+    "fonte": "Sweep_Fall.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 2500,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 151,
+    "fps": 60,
+    "tipo": "Mixamo completo"
+  },
+  "guarda": {
+    "fonte": "Ready_Idle.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": true,
+    "duracaoMs": 2500,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 151,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": null
+  },
+  "andaFrente": {
+    "fonte": "Start_Walking.fbx",
+    "intervalo": [
+      0.45,
+      1
+    ],
+    "loop": true,
+    "duracaoMs": 1617,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 98,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": null
+  },
+  "andaTras": {
+    "fonte": "Start_Walking.fbx",
+    "intervalo": [
+      1,
+      0.45
+    ],
+    "loop": true,
+    "duracaoMs": 1617,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 98,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": null
+  },
+  "correr": {
+    "fonte": "Running.fbx",
+    "intervalo": [
+      0,
+      1
+    ],
+    "loop": true,
+    "duracaoMs": 1633,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 99,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": null
+  },
+  "jab": {
+    "fonte": "Punching_1.fbx",
+    "intervalo": [
+      0.15,
+      0.85
+    ],
+    "loop": false,
+    "duracaoMs": 717,
+    "contatoMs": 323,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 44,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": false
+  },
+  "direto": {
+    "fonte": "Fist_Fight_A.fbx",
+    "intervalo": [
+      0.33,
+      0.56
+    ],
+    "loop": false,
+    "duracaoMs": 967,
+    "contatoMs": 435,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 59,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": false
+  },
+  "gancho": {
+    "fonte": "Hook_Punch.fbx",
+    "intervalo": [
+      0.1,
+      0.85
+    ],
+    "loop": false,
+    "duracaoMs": 1633,
+    "contatoMs": 816,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 99,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": false
+  },
+  "pesado": {
+    "fonte": "Hell_Slammer_A.fbx",
+    "intervalo": [
+      0.05,
+      0.45
+    ],
+    "loop": false,
+    "duracaoMs": 3033,
+    "contatoMs": 1516,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 183,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": false
+  },
+  "chuteCircular": {
+    "fonte": "Kicking.fbx",
+    "intervalo": [
+      0.25,
+      0.9
+    ],
+    "loop": false,
+    "duracaoMs": 1400,
+    "contatoMs": 700,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 85,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": false
+  },
+  "chuteAlto": {
+    "fonte": "Armada.fbx",
+    "intervalo": [
+      0.05,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 1550,
+    "contatoMs": 775,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 94,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": false
+  },
+  "joelhada": {
+    "fonte": "Knee_Jab.fbx",
+    "intervalo": [
+      0.25,
+      0.55
+    ],
+    "loop": false,
+    "duracaoMs": 1800,
+    "contatoMs": 900,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 109,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": false
+  },
+  "bloqueio": {
+    "fonte": "Blocking.fbx",
+    "intervalo": [
+      0.15,
+      0.4
+    ],
+    "loop": true,
+    "duracaoMs": 300,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 19,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": null
+  },
+  "reacaoBloqueio": {
+    "fonte": "Body_Block.fbx",
+    "intervalo": [
+      0.3,
+      0.55
+    ],
+    "loop": false,
+    "duracaoMs": 867,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 53,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": null
+  },
+  "esquivaTras": {
+    "fonte": "Dodging.fbx",
+    "intervalo": [
+      0.05,
+      0.6
+    ],
+    "loop": false,
+    "duracaoMs": 1233,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 75,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": null
+  },
+  "queda": {
+    "fonte": "Sweep_Fall.fbx",
+    "intervalo": [
+      0.3,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 1750,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 106,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": null
+  },
+  "deitado": {
+    "fonte": "Sweep_Fall.fbx",
+    "intervalo": [
+      1,
+      1
+    ],
+    "loop": true,
+    "duracaoMs": 17,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 2,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": null
+  },
+  "levantar": {
+    "fonte": "Getting_Up.fbx",
+    "intervalo": [
+      0.35,
+      1
+    ],
+    "loop": false,
+    "duracaoMs": 5417,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 326,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": null
+  },
+  "comboCorpoUpper": {
+    "fonte": "Knee_Jabs_To_Uppercut.fbx",
+    "intervalo": [
+      0.1,
+      0.9
+    ],
+    "loop": false,
+    "duracaoMs": 4533,
+    "contatoMs": null,
+    "contatosMs": null,
+    "avancoM": 0,
+    "quadros": 273,
+    "fps": 60,
+    "tipo": "Recorte de treino",
+    "contatoRevisado": null
+  }
+}
