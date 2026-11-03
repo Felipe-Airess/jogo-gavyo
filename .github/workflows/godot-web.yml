@@ -1,0 +1,94 @@
+name: Godot Web
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'capitulo1/**'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Serialize export + publication; a newer run must never interrupt a push/deploy.
+concurrency:
+  group: godot-web-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install Godot 4.5.1 and Web templates
+        shell: bash
+        run: |
+          set -euo pipefail
+          release=https://github.com/godotengine/godot-builds/releases/download/4.5.1-stable
+          curl --fail --location --retry 3 "$release/Godot_v4.5.1-stable_linux.x86_64.zip" -o "$RUNNER_TEMP/godot.zip"
+          curl --fail --location --retry 3 "$release/Godot_v4.5.1-stable_export_templates.tpz" -o "$RUNNER_TEMP/templates.tpz"
+          mkdir -p "$RUNNER_TEMP/godot" "$HOME/.local/share/godot/export_templates/4.5.1.stable"
+          unzip -q "$RUNNER_TEMP/godot.zip" -d "$RUNNER_TEMP/godot"
+          unzip -q "$RUNNER_TEMP/templates.tpz" 'templates/web_nothreads*' 'templates/version.txt' -d "$RUNNER_TEMP"
+          cp "$RUNNER_TEMP/templates/"* "$HOME/.local/share/godot/export_templates/4.5.1.stable/"
+          chmod +x "$RUNNER_TEMP/godot/Godot_v4.5.1-stable_linux.x86_64"
+          echo "GODOT=$RUNNER_TEMP/godot/Godot_v4.5.1-stable_linux.x86_64" >> "$GITHUB_ENV"
+          "$RUNNER_TEMP/godot/Godot_v4.5.1-stable_linux.x86_64" --version | grep '^4\.5\.1\.stable\.'
+      - name: Import and export using the checked-in Web preset
+        run: bash scripts/exportar-web.sh
+      - name: Validate Android Web configuration and exported files
+        run: python3 scripts/validar-web.py godot-3d/web
+      - name: Test existing touch controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$GODOT" --headless --text-driver Dummy --path godot-3d --script res://tests/capitulo1_toque_test.gd 2>&1 | tee "$RUNNER_TEMP/toque.log"
+          grep -Eq 'CAPITULO1_TOQUE: [1-9][0-9]* passed, 0 failed' "$RUNNER_TEMP/toque.log"
+          ! grep -q 'ERROR:' "$RUNNER_TEMP/toque.log"
+      - name: Record source revision
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          Path('godot-3d/web/build.json').write_text(json.dumps({
+              'commit': os.environ['SOURCE_SHA'], 'godot': '4.5.1',
+              'run': os.environ['GITHUB_RUN_ID'],
+          }) + '\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: capitulo1-web
+          path: godot-3d/web/
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    needs: export
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      pages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          name: capitulo1-web
+          path: ${{ runner.temp }}/capitulo1-web
+      - name: Publish only capitulo1 and rebuild the existing Pages site
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_SHA: ${{ github.sha }}
+          BUILD_DIR: ${{ runner.temp }}/capitulo1-web
+        run: bash scripts/publicar-capitulo1.sh

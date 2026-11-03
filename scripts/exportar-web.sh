@@ -5,7 +5,8 @@
 set -euo pipefail
 cd "$(dirname "$0")/../godot-3d"
 gavyo_godot="${GODOT:-$PWD/../work/ferramentas/godot/Godot.app/Contents/MacOS/Godot}"
-"$gavyo_godot" --headless --path . --import >/dev/null 2>&1 || true
+"$gavyo_godot" --version | grep -q '^4\.5\.1\.stable\.'
+"$gavyo_godot" --headless --path . --import
 rm -rf web && mkdir -p web
 "$gavyo_godot" --headless --path . --export-release Web web/index.html
 ls -la web
