@@ -1,0 +1,58 @@
+Processing ./work/ferramentas/wheels/opencv_contrib_python-4.5.5.64-cp36-abi3-macosx_10_15_x86_64.whl
+Requirement already satisfied: numpy<1.27 in /private/tmp/gavyo-blender-3.6/Blender.app/Contents/Resources/3.6/python/lib/python3.10/site-packages (1.23.5)
+Collecting scipy==1.10.1
+  Using cached scipy-1.10.1-cp310-cp310-macosx_10_9_x86_64.whl.metadata (53 kB)
+Collecting scikit-image==0.21.0
+  Using cached scikit_image-0.21.0-cp310-cp310-macosx_10_9_x86_64.whl.metadata (14 kB)
+Requirement already satisfied: mediapipe==0.10.9 in ./work/venv-modelo/lib/python3.10/site-packages (0.10.9)
+Collecting networkx>=2.8 (from scikit-image==0.21.0)
+  Using cached networkx-3.4.2-py3-none-any.whl.metadata (6.3 kB)
+Requirement already satisfied: pillow>=9.0.1 in ./work/venv-modelo/lib/python3.10/site-packages (from scikit-image==0.21.0) (10.4.0)
+Collecting imageio>=2.27 (from scikit-image==0.21.0)
+  Using cached imageio-2.38.0-py3-none-any.whl.metadata (9.7 kB)
+Collecting tifffile>=2022.8.12 (from scikit-image==0.21.0)
+  Using cached tifffile-2025.5.10-py3-none-any.whl.metadata (31 kB)
+Collecting PyWavelets>=1.1.1 (from scikit-image==0.21.0)
+  Using cached pywavelets-1.8.0-cp310-cp310-macosx_10_9_x86_64.whl.metadata (9.0 kB)
+Requirement already satisfied: packaging>=21 in ./work/venv-modelo/lib/python3.10/site-packages (from scikit-image==0.21.0) (24.1)
+Collecting lazy_loader>=0.2 (from scikit-image==0.21.0)
+  Using cached lazy_loader-0.6-py3-none-any.whl.metadata (6.0 kB)
+Requirement already satisfied: absl-py in ./work/venv-modelo/lib/python3.10/site-packages (from mediapipe==0.10.9) (2.1.0)
+Requirement already satisfied: attrs>=19.1.0 in ./work/venv-modelo/lib/python3.10/site-packages (from mediapipe==0.10.9) (24.2.0)
+Requirement already satisfied: flatbuffers>=2.0 in ./work/venv-modelo/lib/python3.10/site-packages (from mediapipe==0.10.9) (24.3.25)
+Requirement already satisfied: matplotlib in ./work/venv-modelo/lib/python3.10/site-packages (from mediapipe==0.10.9) (3.7.5)
+Collecting protobuf<4,>=3.11 (from mediapipe==0.10.9)
+  Using cached protobuf-3.20.3-py2.py3-none-any.whl.metadata (720 bytes)
+Requirement already satisfied: sounddevice>=0.4.4 in ./work/venv-modelo/lib/python3.10/site-packages (from mediapipe==0.10.9) (0.5.1)
+Requirement already satisfied: CFFI>=1.0 in ./work/venv-modelo/lib/python3.10/site-packages (from sounddevice>=0.4.4->mediapipe==0.10.9) (1.17.1)
+Requirement already satisfied: pycparser in ./work/venv-modelo/lib/python3.10/site-packages (from CFFI>=1.0->sounddevice>=0.4.4->mediapipe==0.10.9) (2.22)
+Requirement already satisfied: contourpy>=1.0.1 in ./work/venv-modelo/lib/python3.10/site-packages (from matplotlib->mediapipe==0.10.9) (1.2.1)
+Requirement already satisfied: cycler>=0.10 in ./work/venv-modelo/lib/python3.10/site-packages (from matplotlib->mediapipe==0.10.9) (0.12.1)
+Requirement already satisfied: fonttools>=4.22.0 in ./work/venv-modelo/lib/python3.10/site-packages (from matplotlib->mediapipe==0.10.9) (4.53.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in ./work/venv-modelo/lib/python3.10/site-packages (from matplotlib->mediapipe==0.10.9) (1.4.5)
+Requirement already satisfied: pyparsing>=2.3.1 in ./work/venv-modelo/lib/python3.10/site-packages (from matplotlib->mediapipe==0.10.9) (3.1.4)
+Requirement already satisfied: python-dateutil>=2.7 in ./work/venv-modelo/lib/python3.10/site-packages (from matplotlib->mediapipe==0.10.9) (2.9.0.post0)
+Requirement already satisfied: six>=1.5 in ./work/venv-modelo/lib/python3.10/site-packages (from python-dateutil>=2.7->matplotlib->mediapipe==0.10.9) (1.16.0)
+Using cached scipy-1.10.1-cp310-cp310-macosx_10_9_x86_64.whl (35.1 MB)
+Using cached scikit_image-0.21.0-cp310-cp310-macosx_10_9_x86_64.whl (13.0 MB)
+Downloading protobuf-3.20.3-py2.py3-none-any.whl (162 kB)
+WARNING: Connection timed out while downloading.
+WARNING: Attempting to resume incomplete download (0 bytes/162 kB, attempt 1)
+Downloading protobuf-3.20.3-py2.py3-none-any.whl (162 kB)
+Downloading imageio-2.38.0-py3-none-any.whl (328 kB)
+Downloading lazy_loader-0.6-py3-none-any.whl (8.8 kB)
+Downloading networkx-3.4.2-py3-none-any.whl (1.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 1.7 MB/s  0:00:01
+Downloading pywavelets-1.8.0-cp310-cp310-macosx_10_9_x86_64.whl (4.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 1.8 MB/s  0:00:02
+Downloading tifffile-2025.5.10-py3-none-any.whl (226 kB)
+Installing collected packages: tifffile, scipy, PyWavelets, protobuf, opencv-contrib-python, networkx, lazy_loader, imageio, scikit-image
+  Attempting uninstall: protobuf
+    Found existing installation: protobuf 4.25.3
+    Uninstalling protobuf-4.25.3:
+      Successfully uninstalled protobuf-4.25.3
+
+Successfully installed PyWavelets-1.8.0 imageio-2.38.0 lazy_loader-0.6 networkx-3.4.2 opencv-contrib-python-4.5.5.64 protobuf-3.20.3 scikit-image-0.21.0 scipy-1.10.1 tifffile-2025.5.10
+
+[notice] A new release of pip is available: 25.3 -> 26.2.2
+[notice] To update, run: /Users/felipe/Projetos/jogo-gavyo/work/venv-modelo/bin/python -m pip install --upgrade pip

@@ -1,0 +1,10 @@
+{
+  "personagem": "Bola",
+  "foto": "rosto_frente.jpg",
+  "landmarks": 478,
+  "controles_na_malha": 478,
+  "desvio_projetado_medio_mm": 1.1228271198732456,
+  "desvio_projetado_p95_mm": 2.8663050361930806,
+  "desvio_simetrizado_medio_mm": 0.8312465495518958,
+  "nota": "Desvio bruto dos 478 pontos, incluindo assimetria, na proje\u00e7\u00e3o alinhada; n\u00e3o mede precis\u00e3o 3D da pessoa."
+}

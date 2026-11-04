@@ -1,0 +1,219 @@
+{
+  "ok": true,
+  "pass": true,
+  "errors": [],
+  "warnings": [
+    "hidden back-to-back faces: Bola (19 pairs) - delete to save tris",
+    "hidden back-to-back faces: Bola<->Cabelo (14 pairs) - delete to save tris",
+    "2 parts fully enclosed, not touching (eyes/internals?): ['Tenis', 'Tenis']"
+  ],
+  "ground_z": -0.0,
+  "zfighting": [],
+  "floating": [],
+  "back_to_back": [
+    {
+      "where": "Bola",
+      "tri_pairs": 19
+    },
+    {
+      "where": "Bola<->Cabelo",
+      "tri_pairs": 14
+    }
+  ],
+  "enclosed": [
+    {
+      "object": "Tenis",
+      "island_verts": 4316,
+      "center": [
+        -0.207,
+        -0.082,
+        0.057
+      ]
+    },
+    {
+      "object": "Tenis",
+      "island_verts": 4318,
+      "center": [
+        0.207,
+        -0.082,
+        0.057
+      ]
+    }
+  ],
+  "objects": {
+    "Bola": {
+      "verts": 9061,
+      "faces": 9030,
+      "tris": 18060,
+      "ngons": 0,
+      "boundary_edges": 52,
+      "nonmanifold_edges": 0,
+      "wire_edges": 0,
+      "loose_verts": 0,
+      "degenerate_faces": 0,
+      "zero_length_edges": 0,
+      "inconsistent_normals_edges": 0,
+      "duplicate_verts": 0,
+      "islands": 3,
+      "inside_out_islands": 0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "materials": 1,
+      "unweighted_verts": 0,
+      "verts_over_4_influences": 0,
+      "uv_maps": 1,
+      "uv_oob_pct": 0.0,
+      "uv_zero_area_faces": 0,
+      "uv_overlap_pct": 0.0,
+      "uv_coverage_pct": 33.9
+    },
+    "FardaPolo": {
+      "verts": 29424,
+      "faces": 30240,
+      "tris": 58432,
+      "ngons": 0,
+      "boundary_edges": 416,
+      "nonmanifold_edges": 0,
+      "wire_edges": 0,
+      "loose_verts": 0,
+      "degenerate_faces": 0,
+      "zero_length_edges": 0,
+      "inconsistent_normals_edges": 0,
+      "duplicate_verts": 0,
+      "islands": 1,
+      "inside_out_islands": 0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "materials": 1,
+      "unweighted_verts": 0,
+      "verts_over_4_influences": 0,
+      "uv_maps": 1,
+      "uv_oob_pct": 0.0,
+      "uv_zero_area_faces": 0,
+      "uv_overlap_pct": 0.0,
+      "uv_coverage_pct": 47.5
+    },
+    "Calca": {
+      "verts": 1340,
+      "faces": 1303,
+      "tris": 2588,
+      "ngons": 0,
+      "boundary_edges": 94,
+      "nonmanifold_edges": 0,
+      "wire_edges": 0,
+      "loose_verts": 0,
+      "degenerate_faces": 0,
+      "zero_length_edges": 0,
+      "inconsistent_normals_edges": 0,
+      "duplicate_verts": 0,
+      "islands": 1,
+      "inside_out_islands": 0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "materials": 1,
+      "unweighted_verts": 0,
+      "verts_over_4_influences": 0,
+      "uv_maps": 1,
+      "uv_oob_pct": 0.0,
+      "uv_zero_area_faces": 0,
+      "uv_overlap_pct": 0.0,
+      "uv_coverage_pct": 29.4
+    },
+    "Tenis": {
+      "verts": 8634,
+      "faces": 8630,
+      "tris": 17260,
+      "ngons": 0,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "wire_edges": 0,
+      "loose_verts": 0,
+      "degenerate_faces": 0,
+      "zero_length_edges": 0,
+      "inconsistent_normals_edges": 0,
+      "duplicate_verts": 0,
+      "islands": 2,
+      "inside_out_islands": 0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "materials": 1,
+      "unweighted_verts": 0,
+      "verts_over_4_influences": 0,
+      "uv_maps": 1,
+      "uv_oob_pct": 0.0,
+      "uv_zero_area_faces": 0,
+      "uv_overlap_pct": 0.01,
+      "uv_coverage_pct": 46.4
+    },
+    "Cabelo": {
+      "verts": 3000,
+      "faces": 6000,
+      "tris": 6000,
+      "ngons": 0,
+      "boundary_edges": 0,
+      "nonmanifold_edges": 0,
+      "wire_edges": 0,
+      "loose_verts": 0,
+      "degenerate_faces": 0,
+      "zero_length_edges": 0,
+      "inconsistent_normals_edges": 0,
+      "duplicate_verts": 0,
+      "islands": 1,
+      "inside_out_islands": 0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "materials": 1,
+      "unweighted_verts": 0,
+      "verts_over_4_influences": 0,
+      "uv_maps": 1,
+      "uv_oob_pct": 0.0,
+      "uv_zero_area_faces": 0,
+      "uv_overlap_pct": 0.0,
+      "uv_coverage_pct": 44.1
+    },
+    "GolaPolo": {
+      "verts": 192,
+      "faces": 128,
+      "tris": 256,
+      "ngons": 0,
+      "boundary_edges": 128,
+      "nonmanifold_edges": 0,
+      "wire_edges": 0,
+      "loose_verts": 0,
+      "degenerate_faces": 0,
+      "zero_length_edges": 0,
+      "inconsistent_normals_edges": 0,
+      "duplicate_verts": 0,
+      "islands": 1,
+      "inside_out_islands": 0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "materials": 1,
+      "unweighted_verts": 0,
+      "verts_over_4_influences": 0,
+      "uv_maps": 1,
+      "uv_oob_pct": 0.0,
+      "uv_zero_area_faces": 0,
+      "uv_overlap_pct": 0.0,
+      "uv_coverage_pct": 41.6
+    }
+  }
+}

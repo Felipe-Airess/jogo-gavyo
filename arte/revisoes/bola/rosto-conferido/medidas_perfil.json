@@ -1,0 +1,7 @@
+{
+  "media_mm": 0.5252822970760539,
+  "p95_mm": 1.1858910306507142,
+  "max_mm": 1.77541337023109,
+  "linhas": 367,
+  "metodo": "erro 2D de contorno apos registro por raiz/ponta/labio; nao precisao fisica de escaneamento"
+}

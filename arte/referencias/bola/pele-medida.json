@@ -1,0 +1,56 @@
+{
+  "metodo": "Mediana de patches 13x13 nas bochechas MediaPipe 50,280,205,425,101,330; quatro fotos frontais",
+  "amostras": [
+    {
+      "arquivo": "IMG-20261103-WA0000.jpg",
+      "mediana_srgb": [
+        178.0,
+        121.0,
+        88.0
+      ]
+    },
+    {
+      "arquivo": "IMG-20261103-WA0001.jpg",
+      "mediana_srgb": [
+        178.0,
+        122.0,
+        94.0
+      ]
+    },
+    {
+      "arquivo": "IMG-20261103-WA0002.jpg",
+      "mediana_srgb": [
+        180.0,
+        124.0,
+        91.0
+      ]
+    },
+    {
+      "arquivo": "IMG-20261103-WA0003.jpg",
+      "mediana_srgb": [
+        173.0,
+        118.0,
+        90.0
+      ]
+    }
+  ],
+  "srgb_alvo": [
+    178.0,
+    121.5,
+    90.5
+  ],
+  "linear_potencia_2_2": [
+    0.4534564754857306,
+    0.1957399236131166,
+    0.10238550513668852
+  ],
+  "diferenca_no_render": {
+    "arquivo": "../../revisoes/bola/comparacoes/pele-render.json",
+    "diferenca_absoluta_srgb": [
+      7.5,
+      7.0,
+      5.0
+    ],
+    "passou": true
+  }
+}
