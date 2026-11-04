@@ -1,0 +1,33 @@
+{
+  "recebido_em": "2026-11-04",
+  "origem": "Arquivos fornecidos por Felipe em Downloads; nomes e conteúdo preservados.",
+  "arquivos": [
+    {
+      "arquivo": "extraido/tripo_convert_21bf6ab8-7e65-4a3a-b816-47d4676d2c82.fbm/miguel_modelo_basecolor.PNG",
+      "bytes": 4222909,
+      "sha256": "b749d692faf174f1d6d0b1d408a194b7809a5aec88d1e129b828a4858208ead1"
+    },
+    {
+      "arquivo": "extraido/tripo_convert_21bf6ab8-7e65-4a3a-b816-47d4676d2c82.fbx",
+      "bytes": 5326112,
+      "sha256": "3b54e6b965d8021647c9d637129d68084ca473222c09862156773ad5f5225f38"
+    },
+    {
+      "arquivo": "miguel modelo.zip",
+      "bytes": 9413511,
+      "sha256": "16f34b0a13882b194581b025c350674dfe1bc94b2d77c7198bfb46965ba29955"
+    },
+    {
+      "arquivo": "miguel_modelo.glb",
+      "bytes": 1399872,
+      "sha256": "7950476c4cfe5768a1cff60daac221f3a51c8eeab0af149ddc8867b1b6bd0c67"
+    }
+  ],
+  "glb": {
+    "versao": 2,
+    "malhas": 1,
+    "esqueletos": 0,
+    "animacoes": 0,
+    "imagens_embutidas": 1
+  }
+}
