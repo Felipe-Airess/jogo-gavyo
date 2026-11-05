@@ -22,11 +22,13 @@
   {
     "id": "cultista",
     "nome": "cultista",
-    "arquivo": "res://capitulo1/assets/definitivos/cultista/tripo_convert_e578d4bb-4c0e-4429-858f-e895b21f6714.fbx",
+    "arquivo": "res://capitulo1/assets/definitivos/cultista/cultista_jogo.fbx",
     "altura": 2.0,
     "altura_fonte": 0.9999998942394397,
     "mapa": "mixamo",
-    "ossos_fonte": 65
+    "ossos_fonte": 65,
+    "arquivo_original": "res://capitulo1/assets/definitivos/cultista/tripo_convert_e578d4bb-4c0e-4429-858f-e895b21f6714.fbx",
+    "reduzido": "Decimate ~12k triângulos para desempenho; original preservado"
   },
   {
     "id": "cultista_perseguidor",
