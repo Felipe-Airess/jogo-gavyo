@@ -174,3 +174,16 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
     sob a bancada ou no armário de jalecos e precisa ficar parado e agachado
     enquanto ele mexe nos frascos, cada vez mais perto (mover ou sair antes
     enche a vigilância). Ao sair, o cultista deixa a porta aberta.
+- **Mais decisões (05/11, questionário 2):**
+  - **Lanterna do celular:** sem bateria; **pisca e falha** em momentos de tensão.
+  - **Perseguidor:** primeira aparição só observando, numa cutscene **logo depois
+    da cozinha** (fim do corredor/pátio); depois volta como perseguidor.
+  - **Ventilações:** novo recurso. **Atalho rastejando**: entra por uma grade,
+    rasteja por um duto curto e sai em outra sala. São **totalmente seguras**.
+  - **Dificuldade:** uma só, sem opção no menu.
+  - **Final:** o mesmo roteiro, porém **mais cinematográfico** (Etapa 6).
+  - **Celular:** **mensagens dos amigos** (Bola/Felipe) durante o capítulo,
+    com textos de Felipe e `[PROVISÓRIO]` até lá.
+  - **Sustos:** **jumpscare raro**, poucos e fortes, em momentos-chave.
+  - **Vozes dos cultistas:** **murmúrios ininteligíveis** (cantos, sussurros).
+  - **Plataforma:** **PC primeiro**; celular só precisa funcionar.
