@@ -128,5 +128,20 @@
     "id": "celular_toque",
     "titulo": "[PROVISÓRIO] Celular",
     "texto": "[PROVISÓRIO]\nCELULAR"
+  },
+  {
+    "id": "cozinha_agora",
+    "titulo": "[PROVISÓRIO] Cozinha · janela aberta",
+    "texto": "[PROVISÓRIO] AGORA · [Espaço/toque] passar para a próxima parede"
+  },
+  {
+    "id": "cozinha_espera",
+    "titulo": "[PROVISÓRIO] Cozinha · espere",
+    "texto": "[PROVISÓRIO] Ele está olhando… espere ele virar o rosto."
+  },
+  {
+    "id": "cozinha_saida",
+    "titulo": "[PROVISÓRIO] Cozinha · depois",
+    "texto": "[PROVISÓRIO] Ele voltou para a mesa. Miguel sai da cozinha sem comer."
   }
 ]

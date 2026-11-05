@@ -19,7 +19,7 @@ func _update_chapter(dt: float) -> void:
   _update_occluders()
   previous_mode=mode
   return
- if game.phase not in ["intro","sighting","discovery","gate_jump","ending"]:
+ if game.phase not in ["intro","sighting","discovery","gate_jump","ending","cozinha"]:
   super.update(dt)
   return
  mode=game.phase
@@ -27,14 +27,10 @@ func _update_chapter(dt: float) -> void:
  var target: Vector3=game.player.position+Vector3.UP*1.2
  var fov=58.0
  game.player.model.visible=true
- if mode=="intro":
-  if game.intro_clock<3.3:
-   at=game.player.position+Vector3(-1.1,1.4,1.6)
-   target=game.player.position+Vector3.UP*.9
-  else:
-   var door: Node3D=game.school.doors.filter(func(d):return d.title=="Materiais de esportes")[0]
-   at=game.player.position+Vector3(-.3,1.55,.3)
-   target=door.center()
+ if mode=="intro" and game.abertura!=null:
+  var shot: Array=game.abertura.shot(); at=shot[0]; target=shot[1]; fov=shot[2]
+ elif mode=="cozinha" and game.cozinha!=null:
+  var shot: Array=game.cozinha.shot(); at=shot[0]; target=shot[1]; fov=shot[2]
  elif mode=="sighting":
   at=game.player.position+Vector3.UP*1.6
   target=at+direction()*4

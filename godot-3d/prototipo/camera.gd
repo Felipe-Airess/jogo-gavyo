@@ -156,7 +156,7 @@ func _update_occluders() -> void:
   if is_instance_valid(entry["model"]): entry["model"].visible=entry["visible"]
  hidden_near_camera.clear()
  # Os closes dirigidos precisam mostrar o rosto escolhido pelo enquadramento.
- if mode in ["intro","sighting","discovery","gate_jump","ending"]: return
+ if mode in ["intro","sighting","discovery","gate_jump","ending","cozinha"]: return
  for actor in game.find_children("*","CharacterBody3D",true,false):
   if actor==game.player or not "model" in actor or actor.model==null: continue
   var height=2.15 if actor.pursuer else 1.85

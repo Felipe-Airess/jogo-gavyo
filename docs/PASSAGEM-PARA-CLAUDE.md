@@ -462,3 +462,22 @@ subjetiva de Felipe continuam explicitamente pendentes na timeline.
 Validação: pressão 19, áudio 30, caça 32, escape 37, movimento 33, animação 70,
 capítulo 36, mapa 18 e nível 15; percurso rota 7/7, código 0. Maior caminho
 posto/abrigo 7,33 m; rotas alternativas passam com discos ocupando todos os postos.
+
+## 05/11/2026 (Claude): abertura nova e cozinha implementadas
+
+- **Abertura** (`godot-3d/capitulo1/abertura.gd`, cerca de 36 s, pulável com
+  Espaço/Enter/toque): de manhã, Miguel e Felipe saem do 3º Informática e descem
+  a escada com as falas exatas de Felipe. Felipe fica. Miguel passa pelo
+  refeitório e se deita na salinha (Materiais de esportes), com um feixe de sol
+  no rosto. Corte seco para a noite no mesmo enquadramento, e Miguel acorda.
+  Escola viva só com silhuetas escuras (sem sons de vozes no banco).
+- **Cozinha** (`godot-3d/capitulo1/cozinha.gd`): o storyboard Q1–Q4 vira
+  cutscene. No Q5 Miguel fica colado na parede da porta e o cultista vira o rosto
+  de um lado para o outro. Com a janela aberta, Espaço/toque leva Miguel à
+  próxima das 4 coberturas, sempre para longe da mesa. Fora da janela a
+  vigilância sobe e apita. Cheia = morte direta e volta ao checkpoint da porta.
+  Depois de vencer, ele volta para a mesa e a cozinha não repete.
+- Teste novo: `tests/capitulo1_abertura_test.gd` (21 verificações), incluído em
+  `scripts/testar-capitulo1.sh`.
+- Pendente: sons da escola viva, cena de morte cruel e decidir se a cozinha
+  passa a ser obrigatória (hoje é disparada ao entrar pela porta).

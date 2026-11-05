@@ -62,6 +62,11 @@ var death_count:=0
 var gallery: Node
 var spawn_style:=0
 
+const ABERTURA=preload("res://capitulo1/abertura.gd")
+const COZINHA=preload("res://capitulo1/cozinha.gd")
+var abertura: RefCounted
+var cozinha: RefCounted
+
 func _ready() -> void:
  qa_mode="--qa-inspect" in OS.get_cmdline_user_args()
  lightweight=true
@@ -129,6 +134,7 @@ func _ready() -> void:
   e.activity="ritual"
   e.face(school.ritual_center)
   school.ritual_figures.append(e)
+ cozinha=COZINHA.new(); cozinha.setup(self)
  if "--capturar-capitulo" in OS.get_cmdline_user_args(): call_deferred("_capture")
 
 ## Ambiente/respiração sem equivalente permanecem. Efeitos usam o pacote importado.
@@ -280,9 +286,10 @@ func begin() -> void:
   phase="intro"
   intro_clock=0
   player.state="intro"
-  player.play("prototype/sit")
+  abertura=ABERTURA.new(); abertura.start(self)
 
 func end_intro() -> void:
+ if abertura!=null: abertura.finish(); abertura=null
  intro_seen=true
  phase="investigate"
  player.state="idle"
@@ -296,6 +303,24 @@ func end_intro() -> void:
    break
  player.face(player.position+view.direction())
  hud.say(objectives.text("fome"),7)
+
+## Pular a abertura (Espaço/Enter/toque): mesmo estado do fim natural.
+func skip_intro() -> void:
+ if phase=="intro": end_intro()
+
+## Cozinha concluída: controle volta na porta, objetivo segue (chave/bolsa).
+func cozinha_concluida() -> void:
+ phase="investigate"; player.state="idle"
+ hud.say(objectives.text("cozinha_saida"),5)
+
+## Morte direta (cozinha): tela preta e volta ao checkpoint da porta.
+## [PROVISÓRIO: trocar pela cena de morte quando chegarem as animações]
+func morte_direta() -> void:
+ sound.ui("falha")
+ player.dead=true; player.velocity=Vector3.ZERO
+ escape_blackout=1.5
+ hud.show_escape_blackout(true)
+ if touch!=null: touch.release_all()
 
 func open_gallery() -> void:
  if not OS.is_debug_build() or is_instance_valid(gallery): return
@@ -346,6 +371,11 @@ func _unhandled_input(event: InputEvent) -> void:
   if event.keycode==KEY_R and (paused or player.dead):
    restore_checkpoint(); begin(); return
  if paused or player.dead: return
+ if phase=="intro" and event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_SPACE,KEY_ENTER]:
+  skip_intro(); return
+ if phase=="cozinha":
+  if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_SPACE: cozinha.apertar()
+  return
  if phase in ["intro","sighting","discovery","gate_jump","ending"]:
   # Cenas obrigatórias protegidas; olhar livre durante a observação inicial.
   if event is InputEventMouseMotion and phase=="sighting": view.look_mouse(event.screen_relative)
@@ -422,8 +452,10 @@ func _physics_process(dt: float) -> void:
  if phase in ["investigate","sighting"]: _ritual_watch(dt)
  if phase=="intro":
   intro_clock+=dt
-  player.animate(dt)
-  if intro_clock>6.5: end_intro()
+  if abertura==null or abertura.tick(dt): end_intro()
+  return
+ if phase=="cozinha":
+  cozinha.tick(dt)
   return
  if phase=="sighting":
   story_clock+=dt
@@ -494,6 +526,10 @@ func _story_tick(dt: float) -> void:
  if walk_mode: return
  if phase!="investigate" and phase!="chase": return
  _unease_beats()
+ if phase=="investigate" and cozinha!=null and cozinha.entrou() and checkpoint_safe():
+  checkpoint_index=maxi(checkpoint_index,1); _snapshot()
+  phase="cozinha"; cozinha.iniciar()
+  return
  if not bag_found and player.position.distance_to(school.bag_at)<1.7 and player.position.y>2.5:
   hud.say("A bolsa está sobre a mesa. [Espaço] Pegar",1)
  if bag_found and not before_ritual and player.position.distance_to(school.ritual_approach)<3 and player.position.y<1 and checkpoint_safe():
@@ -1145,6 +1181,7 @@ func _snapshot(persist:=true) -> void:
  checkpoint["objects"]=world_objects.map(func(item):return [item["node"].position.x,item["node"].position.y,item["node"].position.z])
  checkpoint["scare"]=scare_played
  checkpoint["sighting"]=sighting_seen
+ if cozinha!=null: checkpoint["cozinha"]=cozinha.save_state()
  if persist:
   var file=FileAccess.open(_save_path(),FileAccess.WRITE)
   if file: file.store_string(JSON.stringify(checkpoint))
@@ -1173,6 +1210,8 @@ func restore_checkpoint() -> void:
  objectives.bag_door.locked=not bool(checkpoint.get("objectives",{}).get("unlocked",false))
  super.restore_checkpoint()
  bag_found=bool(checkpoint.get("bag",false))
+ if cozinha!=null: cozinha.load_state(checkpoint.get("cozinha",{}))
+ if phase=="cozinha": phase="investigate"
  alert_spread=bool(checkpoint.get("alert",false))
  # Ritual volta ao transe se o alerta salvo não existia.
  ritual_noticed=alert_spread
@@ -1366,6 +1405,7 @@ func _interaction_tick(dt: float) -> void:
 
 ## Leitura do maior nível existente, com alcance; não move nem corrige a IA.
 func vigilance_level() -> float:
+ if phase=="cozinha" and cozinha!=null: return cozinha.vigilancia
  if walk_mode or paused or player.dead or phase not in ["investigate","chase","sighting"]: return 0.0
  var result:=0.0
  var actors: Array=[]; actors.append_array(enemies); actors.append_array(school.ritual_figures)

@@ -33,7 +33,8 @@ func update(dt: float) -> void:
  if gallery_button!=null:
   gallery_button.visible=not game.started or game.paused
   gallery_button.position=Vector2(maxf(8,size.x-320),size.y-70)
- var cinematic=game.phase in ["intro","sighting","discovery","gate_jump","ending"]
+ var cinematic=game.phase in ["intro","sighting","discovery","gate_jump","ending","cozinha"]
+ message.modulate=Color.WHITE
  vitals.visible=not cinematic
  objective.visible=not cinematic
  top_bar.visible=cinematic and not game.paused
@@ -43,7 +44,14 @@ func update(dt: float) -> void:
  if game.video_recorded: objective.text="Saia pulando o portão 1."
  if game.phase=="chase": objective.text="FUJA · quebre a visão antes de se esconder."
  if game.phase=="intro":
-  message.text="Miguel descansou no depósito depois do almoço.\nA bolsa e o celular ficaram na sala." if game.intro_clock<3.3 else "Anoiteceu. Um barulho vem de fora."
+  var ab=game.abertura
+  message.text="" if ab==null else ("%s: %s"%[ab.falante,ab.legenda] if ab.legenda!="" else "")
+ elif game.phase=="cozinha" and game.cozinha!=null:
+  var cz=game.cozinha
+  if cz.estado=="jogo":
+   message.text=game.objectives.text("cozinha_agora") if cz.janela_aberta() else game.objectives.text("cozinha_espera")
+   message.modulate=Color(1,.95,.55) if cz.janela_aberta() else Color(.7,.7,.72)
+  else: message.text=""
  elif game.phase=="sighting": message.text="Um desconhecido segue para o corredor."
  elif game.phase=="discovery": message.text="A gravação continua." if game.discovery_clock<5.7 else "Miguel paralisa por um instante."
  elif game.phase=="gate_jump": message.text=""
@@ -101,7 +109,7 @@ func update(dt: float) -> void:
  escape_row.queue_redraw()
  if game.escape.active:
   message.text=""; prompt.text=""; vitals.visible=false; objective.visible=false
- show_escape_blackout(game.escape_blackout>0)
+ show_escape_blackout(game.escape_blackout>0 or (game.phase=="intro" and game.abertura!=null and game.abertura.preto()))
 
 func show_escape_blackout(on: bool) -> void:
  escape_black.size=get_viewport().get_visible_rect().size

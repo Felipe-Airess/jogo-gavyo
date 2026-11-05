@@ -88,6 +88,9 @@ func _touch(event: InputEventScreenTouch) -> void:
     if event.position.distance_to(b["at"])<=b["r"]:
      game.escape_direction(b["direction"]); break
   root.queue_redraw(); return
+ if event.pressed and game.started and not game.paused and not game.player.dead:
+  if game.phase=="intro": game.skip_intro(); return
+  if game.phase=="cozinha": game.cozinha.apertar(); return
  if event.pressed:
   # Tela inicial / fim: qualquer toque equivale a Enter.
   if not game.started or game.phase=="escaped":

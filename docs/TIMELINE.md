@@ -121,10 +121,15 @@ pendências abaixo; os substitutos provisórios foram autorizados nas Partes 1/4
 
 ### Etapa 6 — Cutscenes cinematográficas
 - Nova direção registrada em 02/11/2026; implementação ainda pendente:
-  - [ ] Abertura diurna pulável com Miguel e o modelo existente do Felipe.
-  - [ ] Cochilo, corte manhã/noite e entrega do controle com objetivo da cozinha.
-  - [ ] Primeiro cultista conforme storyboard, timing por coberturas no PC/toque.
-  - [ ] Vigilância no HUD e checkpoints ao acordar/antes da cozinha.
+  - [x] Abertura diurna pulável com Miguel e o modelo existente do Felipe
+    (`capitulo1/abertura.gd`, 05/11/2026, Claude). Falas exatas de Felipe.
+  - [x] Cochilo, corte manhã/noite e entrega do controle com objetivo da cozinha.
+  - [x] Primeiro cultista conforme storyboard, timing por coberturas no PC/toque
+    (`capitulo1/cozinha.gd`). Erro de tempo enche a vigilância; cheia = morte direta.
+  - [x] Vigilância no HUD (canto) e checkpoint na porta da cozinha.
+  - [ ] Faltam sons da escola viva (vozes, sinal): Felipe manda. Hoje só silhuetas.
+  - [ ] Cena de morte cruel: hoje é tela preta (provisório, como no agarrão).
+  - **Aguardando teste de Felipe.**
 - [ ] Abertura, primeiro cultista, perseguidor descobrindo o Miguel, final.
 - [ ] Falas de Miguel enviadas por Felipe.
 - **Teste de Felipe:** parecem filme?
