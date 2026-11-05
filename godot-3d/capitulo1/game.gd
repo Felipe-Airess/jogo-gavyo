@@ -64,6 +64,8 @@ var spawn_style:=0
 
 const ABERTURA=preload("res://capitulo1/abertura.gd")
 const COZINHA=preload("res://capitulo1/cozinha.gd")
+const PERCEPCAO=preload("res://capitulo1/percepcao.gd")
+var percepcao: RefCounted
 var abertura: RefCounted
 var cozinha: RefCounted
 
@@ -135,6 +137,7 @@ func _ready() -> void:
   e.face(school.ritual_center)
   school.ritual_figures.append(e)
  cozinha=COZINHA.new(); cozinha.setup(self)
+ percepcao=PERCEPCAO.new(); percepcao.setup(self)
  if "--capturar-capitulo" in OS.get_cmdline_user_args(): call_deferred("_capture")
 
 ## Ambiente/respiração sem equivalente permanecem. Efeitos usam o pacote importado.
@@ -631,6 +634,7 @@ func end_discovery() -> void:
  hud.say("CORRA. Quebre a visão antes de se esconder. Portas compram tempo.",5)
 
 func _enemy_ticks(dt: float) -> void:
+ if percepcao!=null: percepcao.atualizar_luz(self,dt)
  if walk_mode: return
  if escape.active or escape_blackout>0: return
  for e in enemies:

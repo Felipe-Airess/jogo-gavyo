@@ -7,6 +7,7 @@ var escape_prompt: Label
 var escape_row: Control
 var escape_black: ColorRect
 
+var luz_label: Label
 func setup(owner_game: Node3D) -> void:
  super.setup(owner_game)
  if OS.is_debug_build():
@@ -14,6 +15,7 @@ func setup(owner_game: Node3D) -> void:
   gallery_button.custom_minimum_size=Vector2(300,52);root.add_child(gallery_button)
   gallery_button.pressed.connect(game.open_gallery)
  suspicion=label(root,18)
+ luz_label=label(root,15)
  suspicion_bar=ProgressBar.new(); suspicion_bar.show_percentage=false; root.add_child(suspicion_bar)
  rec=label(root,20)
  escape_prompt=label(root,24)
@@ -67,6 +69,14 @@ func update(dt: float) -> void:
  suspicion.modulate=Color(1,.8,.35)
  suspicion_bar.position=Vector2(18,102); suspicion_bar.size=Vector2(minf(260,size.x*.65),10)
  suspicion_bar.visible=suspicion.visible; suspicion_bar.value=level*100
+ # Luz sobre Miguel (percepção dos cultistas): sombra esconde, luz expõe.
+ var jogando: bool=game.phase in ["investigate","chase"] and not game.paused and not game.player.hidden
+ luz_label.visible=jogando and game.percepcao!=null
+ if luz_label.visible:
+  var l: float=game.percepcao.luz
+  luz_label.text="◐ na sombra" if l<.3 else ("◑ meia-luz" if l<.65 else "● na luz")
+  luz_label.modulate=Color(.55,.6,.7,.85) if l<.3 else (Color(.85,.8,.6,.9) if l<.65 else Color(1,.9,.5))
+  luz_label.position=Vector2(18,118 if suspicion.visible else 70)
  if game.objectives!=null and not cinematic and not game.bag_found:
   objective.text=game.objectives.text("objetivo_bolsa" if game.objectives.has_key() else "objetivo_chave")
  rec.position=Vector2(size.x-180,25)

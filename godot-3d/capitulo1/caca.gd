@@ -64,9 +64,9 @@ func _search_point(game,e) -> Vector3:
  return e.last_seen
 
 func tick(game,e,dt: float) -> void:
- var sees=game.enemy_sees(e)
- if not game.player.hidden and game.phone_light and e.position.distance_to(game.player.position)<14:
-  sees=sees or game.visible_between(e.bone_point("Head"),game.player.bone_point("Chest"))
+ # Quem já caça rastreia pelo cone; quem não sabe precisa encher a suspeita
+ # (percepcao.gd: luz, distância, postura, periferia, barulho).
+ var sees: bool=game.enemy_sees(e) if e.aware else game.percepcao.tick(game,e,dt)
  if sees:
   e.last_seen=game.player.position; e.memory=SEARCH; e.suspicion=1
   if mode in ["patrol","return"]:

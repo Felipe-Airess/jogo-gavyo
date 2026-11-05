@@ -43,9 +43,16 @@ func run() -> void:
  reset(); var e=game.enemies[0]; place(e,Vector3(200,0,206))
  await physics_frame
  check(game.enemy_sees(e),"visão real detecta Miguel em área aberta")
- var at: Vector3=e.position
+ # Percepção gradual: um quadro de visão não basta; a suspeita enche com o tempo.
  game._enemy_ticks(.01)
- check(e.hunt.mode=="notice" and e.velocity==Vector3.ZERO and e.position==at,"ser visto interrompe a caminhada e inicia aviso")
+ check(e.hunt.mode!="notice" and e.suspicion>0 and e.suspicion<.2,"um quadro de visão só levanta suspeita, sem alerta instantâneo")
+ var perceber:=0.0
+ while e.hunt.mode!="notice" and perceber<6.0:
+  game._enemy_ticks(.05); perceber+=.05
+ print("CACA_PERCEPCAO tempo_ate_perceber=%.2f s luz=%.2f"%[perceber,game.percepcao.luz])
+ check(e.hunt.mode=="notice" and perceber>.3,"de frente e perto, percebe Miguel depois de alguns instantes")
+ var at: Vector3=e.position
+ check(e.velocity==Vector3.ZERO,"ser visto interrompe a caminhada e inicia aviso")
  game._enemy_ticks(.39)
  check(e.hunt.mode=="notice" and e.hunt.shout_count==0 and e.position==at,"cultista permanece parado durante 0,4 s")
  game._enemy_ticks(.02)
