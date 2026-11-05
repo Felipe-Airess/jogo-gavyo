@@ -54,6 +54,7 @@ func setup(owner_game: Node3D, at: Vector3, facing: Vector3, label: String) -> v
  var knob=SphereMesh.new()
  knob.radius=.045
  knob.height=.09
+ knob.radial_segments=8; knob.rings=4 # padrão (64×32) custava ~4 mil triângulos por maçaneta
  handle.mesh=knob
  var metal=StandardMaterial3D.new()
  metal.albedo_color=Color(.65,.59,.42)

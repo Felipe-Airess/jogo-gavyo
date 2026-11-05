@@ -2,83 +2,97 @@
   {
     "id": "alessandro",
     "nome": "alessandro",
-    "arquivo": "res://capitulo1/assets/definitivos/alessandro/alessandro_mixamo.fbx",
+    "arquivo": "res://capitulo1/assets/definitivos/alessandro/alessandro_leve.fbx",
     "altura": 1.93,
     "altura_fonte": 0.9999997469619473,
     "mapa": "mixamo",
     "ossos_fonte": 52,
     "arquivo_tripo_original": "res://capitulo1/assets/definitivos/alessandro/tripo_convert_56cbc4b5-3398-4311-806a-41d009816d9c.fbx",
-    "rig_convertido": "tripo78->mixamo, pesos auxiliares somados no pai"
+    "rig_convertido": "tripo78->mixamo, pesos auxiliares somados no pai",
+    "arquivo_detalhado": "res://capitulo1/assets/definitivos/alessandro/alessandro_mixamo.fbx",
+    "leve": "Decimate ~7 mil triângulos para desempenho (3D desenhado em 300x200); detalhado em arquivo_detalhado"
   },
   {
     "id": "bola",
     "nome": "bola",
-    "arquivo": "res://capitulo1/assets/definitivos/bola/tripo_convert_4ff719d7-860b-4189-a122-0ca58c5ede70.fbx",
+    "arquivo": "res://capitulo1/assets/definitivos/bola/bola_leve.fbx",
     "altura": 1.75,
     "altura_fonte": 0.999999966902223,
     "mapa": "mixamo",
-    "ossos_fonte": 65
+    "ossos_fonte": 65,
+    "arquivo_detalhado": "res://capitulo1/assets/definitivos/bola/tripo_convert_4ff719d7-860b-4189-a122-0ca58c5ede70.fbx",
+    "leve": "Decimate ~7 mil triângulos para desempenho (3D desenhado em 300x200); detalhado em arquivo_detalhado"
   },
   {
     "id": "cultista",
     "nome": "cultista",
-    "arquivo": "res://capitulo1/assets/definitivos/cultista/cultista_jogo.fbx",
+    "arquivo": "res://capitulo1/assets/definitivos/cultista/cultista_leve.fbx",
     "altura": 2.0,
     "altura_fonte": 0.9999998942394397,
     "mapa": "mixamo",
     "ossos_fonte": 65,
-    "arquivo_original": "res://capitulo1/assets/definitivos/cultista/tripo_convert_e578d4bb-4c0e-4429-858f-e895b21f6714.fbx",
-    "reduzido": "Decimate ~12k triângulos para desempenho; original preservado"
+    "arquivo_detalhado": "res://capitulo1/assets/definitivos/cultista/tripo_convert_e578d4bb-4c0e-4429-858f-e895b21f6714.fbx",
+    "leve": "Decimate ~7 mil triângulos para desempenho (3D desenhado em 300x200); detalhado em arquivo_detalhado"
   },
   {
     "id": "cultista_perseguidor",
     "nome": "cultista perseguidor",
-    "arquivo": "res://capitulo1/assets/definitivos/cultista perseguidor/tripo_convert_16197d24-a5f7-493f-b8c1-667c63bafed5.fbx",
+    "arquivo": "res://capitulo1/assets/definitivos/cultista perseguidor/cultista_perseguidor_leve.fbx",
     "altura": 2.5,
     "altura_fonte": 0.9995116241826167,
     "mapa": "mixamo",
-    "ossos_fonte": 65
+    "ossos_fonte": 65,
+    "arquivo_detalhado": "res://capitulo1/assets/definitivos/cultista perseguidor/tripo_convert_16197d24-a5f7-493f-b8c1-667c63bafed5.fbx",
+    "leve": "Decimate ~7 mil triângulos para desempenho (3D desenhado em 300x200); detalhado em arquivo_detalhado"
   },
   {
     "id": "felipe",
     "nome": "felipe",
-    "arquivo": "res://capitulo1/assets/definitivos/felipe/felipe_mixamo.fbx",
+    "arquivo": "res://capitulo1/assets/definitivos/felipe/felipe_leve.fbx",
     "altura": 1.73,
     "altura_fonte": 0.9999998215045025,
     "mapa": "mixamo",
     "ossos_fonte": 52,
     "arquivo_tripo_original": "res://capitulo1/assets/definitivos/felipe/tripo_convert_8b8f3f28-0b6f-47c3-a102-3511d8e639b8.fbx",
-    "rig_convertido": "tripo78->mixamo, pesos auxiliares somados no pai"
+    "rig_convertido": "tripo78->mixamo, pesos auxiliares somados no pai",
+    "arquivo_detalhado": "res://capitulo1/assets/definitivos/felipe/felipe_mixamo.fbx",
+    "leve": "Decimate ~7 mil triângulos para desempenho (3D desenhado em 300x200); detalhado em arquivo_detalhado"
   },
   {
     "id": "miguel",
     "nome": "miguel",
-    "arquivo": "res://capitulo1/assets/definitivos/miguel/tripo_convert_7013f2e5-c3e7-474e-a164-50e686b7a383.fbx",
+    "arquivo": "res://capitulo1/assets/definitivos/miguel/miguel_leve.fbx",
     "altura": 1.76,
     "altura_fonte": 0.9999998009378572,
     "mapa": "mixamo",
-    "ossos_fonte": 65
+    "ossos_fonte": 65,
+    "arquivo_detalhado": "res://capitulo1/assets/definitivos/miguel/tripo_convert_7013f2e5-c3e7-474e-a164-50e686b7a383.fbx",
+    "leve": "Decimate ~7 mil triângulos para desempenho (3D desenhado em 300x200); detalhado em arquivo_detalhado"
   },
   {
     "id": "passa_marcha",
     "nome": "passa marcha",
-    "arquivo": "res://capitulo1/assets/definitivos/passa marcha/passa_marcha_mixamo.fbx",
+    "arquivo": "res://capitulo1/assets/definitivos/passa marcha/passa_marcha_leve.fbx",
     "altura": 1.71,
     "altura_fonte": 0.9999999418975455,
     "mapa": "mixamo",
     "ossos_fonte": 52,
     "arquivo_tripo_original": "res://capitulo1/assets/definitivos/passa marcha/tripo_convert_2b402abc-0561-40c5-9fd8-87b34da42cc5.fbx",
-    "rig_convertido": "tripo78->mixamo, pesos auxiliares somados no pai"
+    "rig_convertido": "tripo78->mixamo, pesos auxiliares somados no pai",
+    "arquivo_detalhado": "res://capitulo1/assets/definitivos/passa marcha/passa_marcha_mixamo.fbx",
+    "leve": "Decimate ~7 mil triângulos para desempenho (3D desenhado em 300x200); detalhado em arquivo_detalhado"
   },
   {
     "id": "sorriso",
     "nome": "sorriso",
-    "arquivo": "res://capitulo1/assets/definitivos/sorriso/sorriso_mixamo.fbx",
+    "arquivo": "res://capitulo1/assets/definitivos/sorriso/sorriso_leve.fbx",
     "altura": 1.7,
     "altura_fonte": 1.0000004804108755,
     "mapa": "mixamo",
     "ossos_fonte": 52,
     "arquivo_tripo_original": "res://capitulo1/assets/definitivos/sorriso/tripo_convert_0a20b434-6027-4c83-8f76-35523ba4516f.fbx",
-    "rig_convertido": "tripo78->mixamo, pesos auxiliares somados no pai"
+    "rig_convertido": "tripo78->mixamo, pesos auxiliares somados no pai",
+    "arquivo_detalhado": "res://capitulo1/assets/definitivos/sorriso/sorriso_mixamo.fbx",
+    "leve": "Decimate ~7 mil triângulos para desempenho (3D desenhado em 300x200); detalhado em arquivo_detalhado"
   }
 ]

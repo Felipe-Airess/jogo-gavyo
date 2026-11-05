@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dljy0nl4iv12g"
-path="res://.godot/imported/cultista_jogo.fbx-a56a8905a8ac6564d07eee8b66e9534e.scn"
+uid="uid://liv5ewuiksyo"
+path="res://.godot/imported/miguel_leve.fbx-486e9612ed9858ca2466f4df28c62642.scn"
 
 [deps]
 
-source_file="res://capitulo1/assets/definitivos/cultista/cultista_jogo.fbx"
-dest_files=["res://.godot/imported/cultista_jogo.fbx-a56a8905a8ac6564d07eee8b66e9534e.scn"]
+source_file="res://capitulo1/assets/definitivos/miguel/miguel_leve.fbx"
+dest_files=["res://.godot/imported/miguel_leve.fbx-486e9612ed9858ca2466f4df28c62642.scn"]
 
 [params]
 

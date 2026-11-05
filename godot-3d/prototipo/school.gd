@@ -225,6 +225,7 @@ func candle(at: Vector3, lit: bool) -> void:
  var mesh = SphereMesh.new()
  mesh.radius = .035
  mesh.height = .12
+ mesh.radial_segments = 6; mesh.rings = 3 # chama: padrão (64×32) custava ~4 mil triângulos
  flame.mesh = mesh
  var mat = StandardMaterial3D.new()
  mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED

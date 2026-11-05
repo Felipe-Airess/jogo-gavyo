@@ -2,19 +2,19 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://e2xg4gpnh2i8"
-path="res://.godot/imported/cultista_jogo_0.png-ce263ea751096298b8928d66de0dbf0f.ctex"
+uid="uid://doiw6i1i8mhnq"
+path="res://.godot/imported/miguel_leve_0.png-e86ddfa4b8f13eddd3112d049137aadd.ctex"
 metadata={
 "vram_texture": false
 }
 generator_parameters={
-"md5": "e752d0e4f4f3d1d645f7c8a2604fc935"
+"md5": "eda82871587a4f25d20ab27dda5d0e79"
 }
 
 [deps]
 
-source_file="res://capitulo1/assets/definitivos/cultista/cultista_jogo_0.png"
-dest_files=["res://.godot/imported/cultista_jogo_0.png-ce263ea751096298b8928d66de0dbf0f.ctex"]
+source_file="res://capitulo1/assets/definitivos/miguel/miguel_leve_0.png"
+dest_files=["res://.godot/imported/miguel_leve_0.png-e86ddfa4b8f13eddd3112d049137aadd.ctex"]
 
 [params]
 

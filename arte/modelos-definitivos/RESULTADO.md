@@ -154,3 +154,18 @@ Resultado medido em renderização por software na nuvem (os números absolutos
 não representam o celular, a proporção sim): olhando o ritual, 50,6 → 33,3 ms
 por quadro e 170 mil → 83 mil triângulos; olhando para o outro lado,
 44,2 → 36,8 ms. Testes: capítulo 413/413, percurso 9/9.
+
+## Desempenho, parte 2 (05/11/2026, Claude): a causa principal
+
+Medindo o que a câmera desenha olhando o pátio de química:
+- **10 chamas de vela do ritual** e **39 maçanetas** usavam `SphereMesh` com o
+  detalhe padrão do Godot (64×32, ~4 mil triângulos cada). Só elas somavam mais
+  de 100 mil triângulos, e as velas ficam todas no pátio. Agora usam 6×3
+  (chama) e 8×4 (maçaneta).
+- **Personagens:** todos ganharam versão leve `<id>_leve.fbx` com ~7 mil
+  triângulos (o 3D é desenhado em 300×200). Os detalhados ficam em
+  `arquivo_detalhado` no catálogo. A deformação de malha por quadro é cara no
+  WebGL do Mac.
+
+Olhando o pátio: **182 mil → 62 mil triângulos**. Draw calls iguais (376).
+Testes: capítulo 413/413, percurso 9/9. Folha: [folha-leves.jpg](../revisoes/definitivos/folha-leves.jpg).
