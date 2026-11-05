@@ -117,3 +117,23 @@ derivado do empurrão saía assimétrico.
 
 Folha: [folha-posturas.jpg](../revisoes/definitivos/folha-posturas.jpg).
 Testes: capítulo 413/413 (aviso intermitente de recurso ao sair), percurso 9/9.
+
+## Correção de 05/11/2026 (Claude): postura do corpo inteiro
+
+**Relato de Felipe:** não era só a perna; braços jogados para trás e tronco torto.
+
+**Causas e correções:**
+1. **Cabeça e tronco tortos no repouso:** o "fix silhouette" do importador só
+   endireita ossos que desviam mais de 15° do padrão. Coluna, pescoço e ombros
+   dos modelos do Tripo desviam menos que isso e ficavam tortos, e as animações
+   herdavam o desvio (cabeça caída, ombro para trás). Agora todos os modelos
+   definitivos importam com `fix_silhouette/threshold = 1.0`.
+2. **Postura da animação parada** (`tools/ajustar_posturas.gd`, em `Idle`,
+   `Idle_No` e `Yes`): coluna, pescoço e cabeça ficam com 35% do desvio
+   original; clavículas com 25%; braços soltos ao lado do corpo, levemente à
+   frente da coxa, com cotovelo pouco dobrado (25% do balanço original).
+   Pernas e agarrão como na correção anterior.
+
+Folha: [folha-posturas.jpg](../revisoes/definitivos/folha-posturas.jpg) (frente,
+lado, corrida, agarrão, morte). Testes: capítulo 413/413 (aviso intermitente de
+recurso ao sair), percurso 9/9.
