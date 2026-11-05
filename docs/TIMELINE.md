@@ -197,3 +197,11 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
   - **Tela de título cinematográfica:** logo GAVIÃO, a escola à noite ao fundo e a trilha.
   - **Créditos:** depois, na publicação.
   - **Sem gancho** para o capítulo 2: termina na casa do Felipe.
+- **Mais decisões (05/11, questionário 4):**
+  - **Jumpscares (2):** ao abrir a caixa de materiais na salinha; e um rosto na
+    grade ao sair da ventilação. Só susto: a ventilação continua segura.
+  - **Medo do Miguel:** respiração (ofegante perto de inimigos, presa quando
+    escondido), tremor leve de câmera quando a vigilância sobe, batimentos
+    audíveis acelerando e lentidão breve depois de um susto.
+  - **Parado ou escondido por muito tempo:** um cultista passa a rondar a área.
+  - **Cutscenes médias (20–45 s)**, como a abertura atual.
