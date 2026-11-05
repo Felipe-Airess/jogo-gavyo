@@ -94,3 +94,26 @@ intermitente "resources still in use at exit" no áudio e no capítulo aparece e
 some entre execuções iguais, sem relação com os modelos.
 Limite: os ossos de torção somados no pai deixam o antebraço girar como peça
 única. Em giro grande do pulso pode haver um leve amassado.
+
+## Correção de 05/11/2026 (Claude): posturas não anatômicas
+
+**Relato de Felipe:** o "parado" tinha as pernas abertas e tortas, e o agarrão
+tinha um braço cruzado no peito com o pulso dobrado.
+
+**Causa:** o esqueleto reproduz fielmente a animação. O `Idle` da Quaternius é
+um apoio largo (pés a 64% do comprimento da perna); em corpos reais, de quadril
+largo e jeans, os pés vão a 77–88% e as pernas parecem tortas. O `Agarrar`
+derivado do empurrão saía assimétrico.
+
+**Correção** (dados de animação, não código de jogo nem modelo):
+`godot-3d/tools/ajustar_posturas.gd`, rodado sobre `biblioteca.res` depois do
+`preparar_biblioteca.gd`:
+- nos clipes parados (Idle e variações, Yes, Agarrar, AgarrarEntrada, Empurrar),
+  as pernas ficam com 35% do desvio em relação às pernas retas, e o quadril sobe
+  o quanto a perna esticou, para o pé continuar no chão;
+- o braço esquerdo de `Agarrar`/`AgarrarEntrada` é refletido em espaço global
+  para o direito: os dois braços vão para a frente;
+- o `Interact` fica de fora, porque a mão dele precisa encostar num alvo medido.
+
+Folha: [folha-posturas.jpg](../revisoes/definitivos/folha-posturas.jpg).
+Testes: capítulo 413/413 (aviso intermitente de recurso ao sair), percurso 9/9.
