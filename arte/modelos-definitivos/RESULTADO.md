@@ -137,3 +137,20 @@ Testes: capítulo 413/413 (aviso intermitente de recurso ao sair), percurso 9/9.
 Folha: [folha-posturas.jpg](../revisoes/definitivos/folha-posturas.jpg) (frente,
 lado, corrida, agarrão, morte). Testes: capítulo 413/413 (aviso intermitente de
 recurso ao sair), percurso 9/9.
+
+## Desempenho (05/11/2026, Claude)
+
+**Relato de Felipe:** o jogo travava, principalmente olhando para o pátio de química.
+Medição (Compatibility, mesma câmera): olhando o ritual eram 170 mil triângulos
+por quadro; sem os personagens, 47 mil. O cultista tinha 40.726 triângulos, e o
+ritual mostra 3 de uma vez (10 no jogo). As 46 luzes quase não pesavam.
+
+**Correção:** `arte/reduzir_para_jogo.py` (Blender, Decimate antes da armadura,
+UV e pesos interpolados) gerou `cultista/cultista_jogo.fbx` com 12 mil
+triângulos. O catálogo usa esse arquivo e guarda o original em
+`arquivo_original`. Visual igual no filtro retrô.
+
+Resultado medido em renderização por software na nuvem (os números absolutos
+não representam o celular, a proporção sim): olhando o ritual, 50,6 → 33,3 ms
+por quadro e 170 mil → 83 mil triângulos; olhando para o outro lado,
+44,2 → 36,8 ms. Testes: capítulo 413/413, percurso 9/9.
