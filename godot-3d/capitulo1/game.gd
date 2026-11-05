@@ -6,7 +6,6 @@ const PERSON=preload("res://capitulo1/ator.gd")
 const CHAPTER_HUD=preload("res://capitulo1/hud.gd")
 const CHAPTER_CAMERA=preload("res://capitulo1/camera.gd")
 const TOUCH=preload("res://capitulo1/toque.gd")
-const ACTIONS=preload("res://capitulo1/acoes.gd")
 const ESCAPE=preload("res://capitulo1/escape.gd")
 var escape=ESCAPE.new()
 var escape_blackout:=0.0
@@ -43,6 +42,8 @@ var film_enabled:=true
 var tool_prop: Node3D
 var gate_from:=Vector3.ZERO
 var gate_to:=Vector3.ZERO
+var gate_grip:=Vector3.ZERO
+var gate_grip_phase:=.18
 var burst_clock:=0.0
 var fleeing_return:=false
 var ending_set: Node3D
@@ -58,6 +59,7 @@ var scare_played:=false
 var scare_time:=0.0
 var silhouette: Node3D
 var death_count:=0
+var gallery: Node
 var spawn_style:=0
 
 func _ready() -> void:
@@ -295,7 +297,19 @@ func end_intro() -> void:
  player.face(player.position+view.direction())
  hud.say(objectives.text("fome"),7)
 
+func open_gallery() -> void:
+ if not OS.is_debug_build() or is_instance_valid(gallery): return
+ if touch!=null: touch.release_all()
+ gallery=load("res://capitulo1/galeria.tscn").instantiate();gallery.embedded=true
+ gallery.closed.connect(close_gallery);add_child(gallery)
+func close_gallery() -> void:
+ var previous=gallery;gallery=null
+ if is_instance_valid(previous): previous.queue_free()
+
 func _unhandled_input(event: InputEvent) -> void:
+ if is_instance_valid(gallery): return
+ if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_F10 and OS.is_debug_build():
+  open_gallery();get_viewport().set_input_as_handled();return
  if objectives!=null and not walk_mode and objectives.handle_key(event): return
  if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_F9 and OS.is_debug_build():
   set_walk_mode(not walk_mode); return
@@ -364,6 +378,7 @@ const CONTACT=preload("res://capitulo1/animacoes/contato.gd")
 var interaction: Dictionary={}
 
 func _process(dt: float) -> void:
+ if is_instance_valid(gallery): return
  if walk_mode: pressure.reset(self)
  else: pressure.tick(self,dt)
  if player.dead:
@@ -390,6 +405,7 @@ func _process(dt: float) -> void:
   if scare_time>.2: silhouette.visible=false
 
 func _physics_process(dt: float) -> void:
+ if is_instance_valid(gallery): return
  if walk_mode:
   if not paused:
    elapsed+=dt; _player_tick(dt)
@@ -431,8 +447,10 @@ func _physics_process(dt: float) -> void:
   player.clock=story_clock
   var t=clampf(story_clock/2.2,0,1)
   var desired=gate_from
-  if t<.42:
-   desired.y+=smoothstep(0,.42,t)*2.55
+  if t<gate_grip_phase:
+   desired=gate_from.lerp(gate_grip,smoothstep(0,gate_grip_phase,t))
+  elif t<.42:
+   desired=gate_grip.lerp(gate_from+Vector3.UP*2.55,smoothstep(gate_grip_phase,.42,t))
   elif t<.76:
    desired=gate_from.lerp(gate_to,smoothstep(.42,.76,t))+Vector3.UP*2.55
   else:
@@ -441,10 +459,6 @@ func _physics_process(dt: float) -> void:
   player.animate(dt)
   if not gate_sound_played and player.motion.position()>=.25:
    sound.emit_at("portao",school.gate_at); gate_sound_played=true
-  if t>.10 and t<.34 and not player.motion.locomotion_visible():
-   for side in ["Left","Right"]:
-    var offset=.19 if side=="Left" else -.19
-    CONTACT.hand_fit(player,side,school.gate_at+Vector3(offset,2.35,0),smoothstep(0,.12,player.motion.position())*(1-smoothstep(.15,.25,player.motion.position())))
   if t>=1 and player.motion.consume("finished"):
    phase="ending"; ending_clock=0
    player.state="idle"; player.play("guarda"); player.animate(0)
@@ -548,7 +562,12 @@ func _jump_gate_now() -> void:
  player.state="gate_jump"
  player.clock=0
  player.face(gate_to)
- player.start_action("novo/ClimbUp_1m",.6666667/2.2)
+ var climb=player.anim.get_animation("novo/ClimbUp_1m")
+ var measured=preload("res://capitulo1/animacoes/metricas_passo.gd").feet(player.rig,climb,.12,true)
+ var hand: Vector3=player.rig.global_position+measured[2]
+ gate_grip=player.position+(school.gate_at+Vector3(.19,2.35,0)-hand)
+ gate_grip_phase=.12/climb.length
+ player.start_action("novo/ClimbUp_1m",climb.length/2.2)
  player.collision_layer=0
  locked=null
 
@@ -622,9 +641,6 @@ func _enemy_ticks(dt: float) -> void:
    e.animate(dt); continue
   if e.state=="inspect":
    e.play("guarda"); e.animate(dt)
-   if not e.motion.locomotion_visible():
-    e._bend("Chest",Vector3.ZERO,Vector3(.3,0,0)); e._bend("Head",Vector3.ZERO,Vector3(.2,0,0))
-   e.rig.force_update_all_bone_transforms()
    if e.clock>1.6:
     e.state="idle"; e.suspicion=maxf(e.suspicion,.55)
    continue
@@ -1253,16 +1269,42 @@ func try_vault(actor: CharacterBody3D,direction: Vector3,automatic: bool) -> boo
 
 ## Aproximação varrida, contato no clipe e concessão apenas após tocar o objeto.
 func _begin_interaction(kind: String,object: Node3D,contact: Vector3,direction: Vector3,clip: String,index:=-1) -> void:
+ if kind=="hide": clip="novo/Interact"
  var forward=direction
  if forward.length()<.1: forward=((contact-player.position)*Vector3(1,0,1)).normalized()
- var right=Vector3(forward.z,0,-forward.x)
- if kind=="bag": contact-=forward*.16
- var anchor=contact-forward*.52-right*.12
- anchor.y=player.position.y
- if not CONTACT.room_for(player,anchor):
+ # Mede o clipe intacto. Procura lugar e orientação livres para o corpo
+ # inteiro; não altera ossos, chaves de animação ou o objeto da interação.
+ player.face(player.position+forward)
+ var animation=player.anim.get_animation(clip)
+ var event_time=.72 if clip.ends_with("Interact") else .30 if clip.ends_with("PickUp_Table") else .60
+ var chosen=event_time
+ var best:=INF
+ var anchor=player.position
+ var chosen_forward=forward
+ var chosen_contact=contact
+ var measure=preload("res://capitulo1/animacoes/metricas_passo.gd")
+ var samples: Array=[]
+ for i in 121:
+  var time=lerpf(.25,maxf(.25,animation.length-.23),float(i)/120)
+  var sample: Vector3=player.rig.global_position+measure.feet(player.rig,animation,time,true)[2]-player.position
+  samples.append([time,sample])
+ for angle in [0,-15,15,-30,30,-45,45,-60,60,-90,90,-120,120,180]:
+  var turn=Basis(Vector3.UP,deg_to_rad(float(angle)))
+  var direction_candidate=turn*forward
+  var point=contact-direction_candidate*.16 if kind=="bag" else contact
+  for sample in samples:
+   var hand: Vector3=player.position+turn*sample[1]
+   var candidate=player.position+(point-hand)*Vector3(1,0,1)
+   var error=absf(hand.y-point.y)+absf(float(sample[0])-event_time)*.002+absf(float(angle))*.00001+candidate.distance_to(player.position)*.0001
+   if error>=best or not CONTACT.room_for(player,candidate): continue
+   if player.test_move(player.global_transform,candidate-player.position): continue
+   best=error;chosen=sample[0];anchor=candidate;chosen_forward=direction_candidate;chosen_contact=point
+ if best==INF:
   hud.say("Aproxime-se pelo lado livre.",1.5); return
+ forward=chosen_forward;contact=chosen_contact
+ player.face(player.position+forward)
  if kind=="hide": hide_witnesses.clear(); _record_hide_witnesses()
- interaction={"kind":kind,"object":object,"contact":contact,"anchor":anchor,"forward":forward,"clip":clip,"index":index,"started":false,"committed":false,"elapsed":0.0}
+ interaction={"kind":kind,"object":object,"contact":contact,"anchor":anchor,"forward":forward,"clip":clip,"index":index,"started":false,"committed":false,"elapsed":0.0,"contact_time":chosen,"hand":"LeftHand","previous_time":0.0}
  player.state="interaction"; player.velocity=Vector3.ZERO
  player.play("guarda")
 
@@ -1292,13 +1334,14 @@ func _interaction_tick(dt: float) -> void:
  player.animate(dt)
  var clip=String(interaction["clip"])
  var time=player.motion.position()
- var contact_time=.72 if clip.ends_with("Interact") else (.30 if clip.ends_with("PickUp_Table") else .60)
- var weight=smoothstep(0,contact_time,time)*(1-smoothstep(contact_time+.12,contact_time+.45,time))
- var fitted=false
- if not player.motion.locomotion_visible(): fitted=CONTACT.hand_fit(player,"Left",interaction["contact"],weight)
- if player.motion.consume("contact") and not interaction["committed"]:
+ var contact_time=float(interaction["contact_time"])
+ var fitted=player.bone_point(interaction.get("hand","LeftHand")).distance_to(interaction["contact"])<=.09
+ var contact_event=float(interaction["previous_time"])<contact_time and time>=contact_time
+ interaction["previous_time"]=time
+ player.motion.consume("contact")
+ if contact_event and not interaction["committed"]:
   var target: Vector3=interaction["contact"]
-  if not fitted or player.bone_point("LeftHand").distance_to(target)>.09:
+  if not fitted or player.bone_point(interaction.get("hand","LeftHand")).distance_to(target)>.09:
    _cancel_interaction(); return
   interaction["committed"]=true
   match interaction["kind"]:

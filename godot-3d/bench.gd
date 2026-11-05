@@ -5,7 +5,7 @@ extends Node3D
 ## Teclas/toque: + e - mudam o numero de lutadores; S liga/desliga sombra;
 ## R muda a resolucao interna (320x180 / 426x240 / 640x360).
 
-const MODELO := preload("res://miguel_animado.glb")
+const MODELO := preload("res://prototipo/arquivo/miguel_animado.glb")
 const ANIMS := ["guarda", "jab", "direto", "chuteCircular", "andaFrente", "gancho", "joelhada", "bloqueio"]
 const RES := [Vector2i(320, 180), Vector2i(426, 240), Vector2i(640, 360)]
 

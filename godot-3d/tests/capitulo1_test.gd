@@ -166,4 +166,7 @@ func run() -> void:
  check(game.visible_between(peek,game.school.ritual_center+Vector3.UP*.7),"entrada da escada permite espiar o ritual")
  print("CAPITULO1_TEST: %d passed, %d failed"%[passed,failed])
  game.queue_free(); await process_frame
+ # Libera também referências pendentes dos servidores de áudio/renderização.
+ await process_frame
+ await physics_frame
  quit(1 if failed else 0)

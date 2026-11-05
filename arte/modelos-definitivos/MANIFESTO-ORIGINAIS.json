@@ -1,0 +1,162 @@
+[
+  {
+    "arquivo": "cultista.zip",
+    "sha256": "7a3bc98c8e60c1793447fbb1040092a1d18ab1d2aa1628cc6bc5012bbfce08dd",
+    "bytes": 1830036
+  },
+  {
+    "arquivo": "cultista/tripo_convert_e578d4bb-4c0e-4429-858f-e895b21f6714.fbx",
+    "sha256": "55c758c3d7cedfbe5bd90f255c2478a71891041bcb213a1638bc068df4950930",
+    "bytes": 1563916
+  },
+  {
+    "arquivo": "cultista/tripo_convert_e578d4bb-4c0e-4429-858f-e895b21f6714.fbm/cultista_basecolor.JPEG",
+    "sha256": "963557037d36378761fac7db822025dd9280d9ba7f9e8cacdf881b027bec0641",
+    "bytes": 455722
+  },
+  {
+    "arquivo": "__MACOSX/._cultista.zip",
+    "sha256": "af9ff30694b7e7bfb4a860bb996b5e49bb05b576fbfe0a04546d24aacb5f819f",
+    "bytes": 1365
+  },
+  {
+    "arquivo": "cultista perseguidor.zip",
+    "sha256": "19f451d60233e06a89447489f672efef0d7b531e73f856eebbf098bef66e018a",
+    "bytes": 1233603
+  },
+  {
+    "arquivo": "cultista perseguidor/tripo_convert_16197d24-a5f7-493f-b8c1-667c63bafed5.fbx",
+    "sha256": "d243e009a27d6518c0768c365716d8ba7c4a468c6982b39005ae16d5c2dd777b",
+    "bytes": 854764
+  },
+  {
+    "arquivo": "cultista perseguidor/tripo_convert_16197d24-a5f7-493f-b8c1-667c63bafed5.fbm/tripo_image_16197d24-a5f7-493f-b8c1-667c63bafed5_0_0.jpg",
+    "sha256": "3cae53eebb4832602ceb12c01c5839be356c4c78ee1453a57550764930a2359e",
+    "bytes": 521133
+  },
+  {
+    "arquivo": "__MACOSX/._cultista perseguidor.zip",
+    "sha256": "32c0057a62a615defd95fd0c337d9672c11ae7a2076537650decda6f669400f7",
+    "bytes": 1407
+  },
+  {
+    "arquivo": "miguel.zip",
+    "sha256": "c50722c41f0b4d396842c65ce56173fa00f863fe367b9644927ec106d083ee67",
+    "bytes": 1473774
+  },
+  {
+    "arquivo": "miguel/tripo_convert_7013f2e5-c3e7-474e-a164-50e686b7a383.fbx",
+    "sha256": "5ed10b04e94915efac457646695cfeed77e222ac10ff98d42b897e3b593c3bd2",
+    "bytes": 936748
+  },
+  {
+    "arquivo": "miguel/tripo_convert_7013f2e5-c3e7-474e-a164-50e686b7a383.fbm/miguel_basecolor.JPEG",
+    "sha256": "7cef05279a2cbf8c362ae5b1ecea151bc8eb6dec7f2b86bab98afa0b8552090e",
+    "bytes": 687227
+  },
+  {
+    "arquivo": "__MACOSX/._miguel.zip",
+    "sha256": "7cae871ed80aa94c40660aa84d97a5f6e5e87ecc80cb8bb0afa04033ed67e03f",
+    "bytes": 1363
+  },
+  {
+    "arquivo": "alessandro.zip",
+    "sha256": "863022b1524fb98cd0bedb43e38040e5648bcaf018fc01a66ad796906222839e",
+    "bytes": 1385709
+  },
+  {
+    "arquivo": "alessandro/tripo_convert_56cbc4b5-3398-4311-806a-41d009816d9c.fbx",
+    "sha256": "90f25233dc8aa3025b39e85643c84870117712fc50ade64ffdd2fcaf69ea9dc2",
+    "bytes": 957532
+  },
+  {
+    "arquivo": "alessandro/tripo_convert_56cbc4b5-3398-4311-806a-41d009816d9c.fbm/alessandro_basecolor.JPEG",
+    "sha256": "0013f33526e5658124cfaad6dbc00ef3f8ce0ce6ebc0475a868f2d2bd3c842d4",
+    "bytes": 595923
+  },
+  {
+    "arquivo": "__MACOSX/._alessandro.zip",
+    "sha256": "07b3a0f70410dbcc5105ffc64aa70a522424adc3ef9b1cc2bbfddec91a4e5707",
+    "bytes": 1371
+  },
+  {
+    "arquivo": "felipe.zip",
+    "sha256": "93a9bb4b0719f956d14a2f6ba91c884bc6a26817121e62998da7fc30d4afda31",
+    "bytes": 1708976
+  },
+  {
+    "arquivo": "felipe/tripo_convert_8b8f3f28-0b6f-47c3-a102-3511d8e639b8.fbx",
+    "sha256": "3202ca25762c6394d0016b92415c0edcb7748bbd6a944fad611d2902763267b0",
+    "bytes": 956076
+  },
+  {
+    "arquivo": "felipe/tripo_convert_8b8f3f28-0b6f-47c3-a102-3511d8e639b8.fbm/felipe_basecolor.JPEG",
+    "sha256": "3ca62dfad4ef70c7d949cec413558bd99a425d5d3286c724d6b9a6a2b313df6c",
+    "bytes": 920177
+  },
+  {
+    "arquivo": "__MACOSX/._felipe.zip",
+    "sha256": "52b11038349cb53d3b67d65f2ca6d0451e8bb3504dd778fcdebca710c539a85f",
+    "bytes": 1363
+  },
+  {
+    "arquivo": "bola.zip",
+    "sha256": "ddf4ebc18ae7bfe2e58cb44bd3ad8385d4db47214fac8acaaece981128f7df13",
+    "bytes": 1386987
+  },
+  {
+    "arquivo": "bola/tripo_convert_4ff719d7-860b-4189-a122-0ca58c5ede70.fbx",
+    "sha256": "3e0f2798054ab2afb691e01a3dab80e6c353d41bcc39cd3a774c159e842ae700",
+    "bytes": 909148
+  },
+  {
+    "arquivo": "bola/tripo_convert_4ff719d7-860b-4189-a122-0ca58c5ede70.fbm/bola_basecolor.JPEG",
+    "sha256": "d0721db84c8594c9112142855d656b6bd4c3215d5aa2322d3377318f792aa8e3",
+    "bytes": 627288
+  },
+  {
+    "arquivo": "__MACOSX/._bola.zip",
+    "sha256": "a41e24874bc0ac06d6746ac1430acf60ed05f36a183fd0d06b8a13ff05110fe0",
+    "bytes": 1357
+  },
+  {
+    "arquivo": "passa marcha.zip",
+    "sha256": "bd7c2538bc5570b3001e64f31cfcb478d02a6ff16e1ba79e65697913f461fa78",
+    "bytes": 1364257
+  },
+  {
+    "arquivo": "passa marcha/tripo_convert_2b402abc-0561-40c5-9fd8-87b34da42cc5.fbx",
+    "sha256": "3f3bcfe9f90f1990cfef54d53cf735cc25806c280886f230e90cab069b2c0285",
+    "bytes": 944924
+  },
+  {
+    "arquivo": "passa marcha/tripo_convert_2b402abc-0561-40c5-9fd8-87b34da42cc5.fbm/passa_marcha_basecolor.JPEG",
+    "sha256": "b2a22b601377ed389c432a9cdb60a3b29feb85208ada458c004150f3f03d5a61",
+    "bytes": 585557
+  },
+  {
+    "arquivo": "__MACOSX/._passa marcha.zip",
+    "sha256": "cd728734a45a08102188fb0c1fc023e628bef8edb331e2df91fd4159bcae3eff",
+    "bytes": 1391
+  },
+  {
+    "arquivo": "sorriso.zip",
+    "sha256": "b063fb6ef3ce1f31842ddc981e7a7b7c2cb755f20a6e765d605686c295958b50",
+    "bytes": 1481843
+  },
+  {
+    "arquivo": "sorriso/tripo_convert_0a20b434-6027-4c83-8f76-35523ba4516f.fbx",
+    "sha256": "76c32f2ddabc6b6005d4195f30b7b34aa14d93ba717c025502c8f4b5df8163f9",
+    "bytes": 972476
+  },
+  {
+    "arquivo": "sorriso/tripo_convert_0a20b434-6027-4c83-8f76-35523ba4516f.fbm/human_figure_3d_model_basecolor.JPEG",
+    "sha256": "ab4acc76050e4bd2325a7fda3e346339cdad9aaf4d45347e37e15aa8ec23e6e9",
+    "bytes": 676989
+  },
+  {
+    "arquivo": "__MACOSX/._sorriso.zip",
+    "sha256": "29058b83e47dde5eb0f7d9c3cb1b0e993eada043bb584fea6b9839de92a35146",
+    "bytes": 1412
+  }
+]

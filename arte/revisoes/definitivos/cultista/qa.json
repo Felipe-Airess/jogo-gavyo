@@ -1,0 +1,52 @@
+{
+  "ok": true,
+  "pass": false,
+  "errors": [
+    "tripo_node_e578d4bb: 21 zero-area UV faces"
+  ],
+  "warnings": [
+    "tripo_node_e578d4bb: duplicate verts=17 loose verts=0",
+    "hidden back-to-back faces: tripo_node_e578d4bb (2 pairs) - delete to save tris"
+  ],
+  "ground_z": 0.0,
+  "zfighting": [],
+  "floating": [],
+  "back_to_back": [
+    {
+      "where": "tripo_node_e578d4bb",
+      "tri_pairs": 2
+    }
+  ],
+  "enclosed": [],
+  "objects": {
+    "tripo_node_e578d4bb": {
+      "verts": 20344,
+      "faces": 40726,
+      "tris": 40726,
+      "ngons": 0,
+      "boundary_edges": 12,
+      "nonmanifold_edges": 0,
+      "wire_edges": 0,
+      "loose_verts": 0,
+      "degenerate_faces": 0,
+      "zero_length_edges": 0,
+      "inconsistent_normals_edges": 0,
+      "duplicate_verts": 17,
+      "islands": 2,
+      "inside_out_islands": 0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "materials": 1,
+      "unweighted_verts": 0,
+      "verts_over_4_influences": 0,
+      "uv_maps": 1,
+      "uv_oob_pct": 0.0,
+      "uv_zero_area_faces": 21,
+      "uv_overlap_pct": 1.46,
+      "uv_coverage_pct": 58.8
+    }
+  }
+}

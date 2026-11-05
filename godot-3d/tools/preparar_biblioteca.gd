@@ -6,7 +6,7 @@ var library:=AnimationLibrary.new()
 var report: Dictionary={}
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
- var model=load("res://miguel_animado.glb").instantiate()
+ var model=load("res://prototipo/arquivo/miguel_animado.glb").instantiate()
  root.add_child(model)
  target=model.find_children("*","Skeleton3D",true,false)[0]
  for pack in ["UAL1","UAL2"]:
@@ -64,7 +64,7 @@ func run() -> void:
  # Reexpressa a biblioteca procedural histórica no novo referencial do rig.
  var document=GLTFDocument.new()
  var state=GLTFState.new()
- document.append_from_file("res://miguel_animado.glb",state)
+ document.append_from_file("res://prototipo/arquivo/miguel_animado.glb",state)
  var original=document.generate_scene(state)
  var old: Skeleton3D=original.find_children("*","Skeleton3D",true,false)[0]
  var legacy: AnimationLibrary=load("res://prototipo/motions.tres").duplicate(true)

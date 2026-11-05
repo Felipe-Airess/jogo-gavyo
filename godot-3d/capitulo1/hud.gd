@@ -1,4 +1,5 @@
 extends "res://prototipo/hud.gd"
+var gallery_button: Button
 var suspicion_bar: ProgressBar
 var suspicion: Label
 var rec: Label
@@ -8,6 +9,10 @@ var escape_black: ColorRect
 
 func setup(owner_game: Node3D) -> void:
  super.setup(owner_game)
+ if OS.is_debug_build():
+  gallery_button=Button.new();gallery_button.text="Galeria de personagens · F10"
+  gallery_button.custom_minimum_size=Vector2(300,52);root.add_child(gallery_button)
+  gallery_button.pressed.connect(game.open_gallery)
  suspicion=label(root,18)
  suspicion_bar=ProgressBar.new(); suspicion_bar.show_percentage=false; root.add_child(suspicion_bar)
  rec=label(root,20)
@@ -25,6 +30,9 @@ func setup(owner_game: Node3D) -> void:
 func update(dt: float) -> void:
  super.update(dt)
  var size=get_viewport().get_visible_rect().size
+ if gallery_button!=null:
+  gallery_button.visible=not game.started or game.paused
+  gallery_button.position=Vector2(maxf(8,size.x-320),size.y-70)
  var cinematic=game.phase in ["intro","sighting","discovery","gate_jump","ending"]
  vitals.visible=not cinematic
  objective.visible=not cinematic

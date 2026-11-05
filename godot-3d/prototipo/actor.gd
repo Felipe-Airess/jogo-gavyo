@@ -1,6 +1,6 @@
 extends CharacterBody3D
 ## Corpo físico, rig compartilhado e cultistas de geometria provisória.
-const MODEL = preload("res://miguel_animado.glb")
+const MODEL = preload("res://prototipo/arquivo/miguel_animado.glb")
 const MOTIONS = preload("res://capitulo1/animacoes/prototipo_compativel.res")
 var model: Node3D
 var rig: Skeleton3D
@@ -54,21 +54,21 @@ func setup(game: Node3D, at: Vector3, is_enemy: bool, big := false) -> void:
  var shape = CollisionShape3D.new()
  var capsule = CapsuleShape3D.new()
  capsule.radius = 0.27 if not big else 0.35
- capsule.height = 1.64 if not big else 1.95
+ capsule.height = _physical_height()
  shape.shape = capsule
  shape.position.y = capsule.height / 2.0
  add_child(shape)
- model = MODEL.instantiate()
+ model = _instantiate_model()
  add_child(model)
  rig = model.find_children("*", "Skeleton3D", true, false)[0] as Skeleton3D
  anim = model.find_child("AnimationPlayer", true, false) as AnimationPlayer
  anim.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
  for name in ["guarda", "andaFrente", "andaTras", "correr", "deitado"]:
   anim.get_animation(name).loop_mode = Animation.LOOP_LINEAR
- _materials(model)
+ if not model.has_meta("modelo_definitivo"): _materials(model)
  if enemy:
-  _generic_body()
-  if big:
+  if not model.has_meta("modelo_definitivo"): _generic_body()
+  if big and not model.has_meta("modelo_definitivo"):
    model.scale = Vector3.ONE * 1.18
   warning = Label3D.new()
   warning.position.y = 2.05 if not big else 2.35
@@ -107,6 +107,12 @@ func setup(game: Node3D, at: Vector3, is_enemy: bool, big := false) -> void:
  motion.setup(self)
  play("guarda")
  animate(0.0)
+
+func _instantiate_model() -> Node3D:
+ return MODEL.instantiate()
+
+func _physical_height() -> float:
+ return 1.95 if pursuer else 1.64
 
 func _materials(node: Node) -> void:
  if node is MeshInstance3D:
@@ -231,29 +237,7 @@ func _slide(dt: float) -> void:
 
 func animate(dt: float) -> void:
  motion.advance(dt)
- # Locomoção e suas transições pertencem integralmente aos clipes.
- if not motion.locomotion_visible():
-  if state == "hang":
-   _bend("LeftUpperArm",Vector3.ZERO,Vector3(-.9,0,-.4))
-   _bend("LeftLowerArm",Vector3.ZERO,Vector3(-.4,0,0))
-   _bend("LeftUpperLeg",Vector3.ZERO,Vector3(-.25,0,0))
-   _bend("RightUpperLeg",Vector3.ZERO,Vector3(-.3,0,0))
-  if state == "vault":
-   # Pose procedural própria do blockout: recolhe as pernas e apoia os braços.
-   # Não apresenta o idle de guarda como animação de parkour acabada.
-   var tuck = sin(clampf(clock/.8,0,1)*PI)
-   _bend("Chest",Vector3.ZERO,Vector3(.40*tuck,0,0))
-   _bend("LeftUpperLeg",Vector3.ZERO,Vector3(-1.05*tuck,0,-.12*tuck))
-   _bend("RightUpperLeg",Vector3.ZERO,Vector3(-.75*tuck,0,.12*tuck))
-   _bend("LeftLowerLeg",Vector3.ZERO,Vector3(1.1*tuck,0,0))
-   _bend("RightLowerLeg",Vector3.ZERO,Vector3(1.0*tuck,0,0))
-  if state == "hurt":
-   var weight = sin(minf(clock / .40, 1.0) * PI)
-   _bend("Chest", Vector3.ZERO, Vector3(-.20 * weight,.20 * weight,0))
-   _bend("Head", Vector3.ZERO, Vector3(-.22 * weight,0,.16 * weight))
-  if enemy and not aware and not down:
-   _bend("Head", Vector3.ZERO, Vector3(.06, .13 * sin(world.elapsed * .21), .05))
- rig.force_update_all_bone_transforms()
+ # Blockout histórico: as peças seguem a pose por leitura; nenhum osso é escrito.
  for item in procedural_parts:
   var a: Vector3 = rig.get_bone_global_pose(rig.find_bone(item[1])).origin
   var b: Vector3 = rig.get_bone_global_pose(rig.find_bone(item[2])).origin
@@ -268,10 +252,6 @@ func animate(dt: float) -> void:
   warning.text = "!" if state == "windup" else ("◇" if opening > 0 else "?")
   warning.modulate = Color(1,.70,.15) if state == "windup" else Color(.3,.9,1)
 
-func _bend(bone: String, offset: Vector3, angle: Vector3) -> void:
- var id = rig.find_bone(bone)
- rig.set_bone_pose_position(id, rig.get_bone_pose_position(id) + offset)
- rig.set_bone_pose_rotation(id, rig.get_bone_pose_rotation(id) * Quaternion.from_euler(angle))
 
 func make_down() -> void:
  down = true

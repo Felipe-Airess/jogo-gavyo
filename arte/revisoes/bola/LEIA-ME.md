@@ -11,4 +11,4 @@
 - [QA técnico](qa/LEIA-ME.md), [relatório](qa/relatorio.json)
 - [Movimento após reimportar o GLB](rig-exportado/relatorio.json)
 
-Fonte editável: ../../bola_boneco.blend. Exportações: ../../bola_boneco.glb e ../../bola_boneco.fbx. Rascunhos, sem integração no jogo.
+Rascunho anterior arquivado em `../../arquivo-modelos/antes-definitivos-20261105/` (bola_boneco.blend, .glb e .fbx). Substituído pelo FBX definitivo de Felipe; esta revisão histórica não corresponde ao modelo atual do jogo.

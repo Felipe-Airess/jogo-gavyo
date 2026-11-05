@@ -10,7 +10,7 @@ func _initialize() -> void:
  call_deferred("run")
 
 func run() -> void:
- model=load("res://miguel_animado.glb").instantiate()
+ model=load("res://prototipo/arquivo/miguel_animado.glb").instantiate()
  root.add_child(model)
  rig=model.find_children("*","Skeleton3D",true,false)[0]
  ap=model.find_child("AnimationPlayer",true,false)

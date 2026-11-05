@@ -39,24 +39,11 @@ func setup(game: Node3D) -> void:
  var hammock=MeshInstance3D.new(); hammock.mesh=tool.commit()
  var mat=StandardMaterial3D.new(); mat.albedo_color=Color(.23,.38,.36); mat.cull_mode=BaseMaterial3D.CULL_DISABLED
  hammock.material_override=mat; add_child(hammock)
- var packed=load("res://capitulo1/assets/felipe.glb")
- if packed:
-  felipe=packed.instantiate(); add_child(felipe)
-  felipe.position=Vector3(.3,1.04,.6)
-  felipe.basis=Basis(Vector3(0,0,1),Vector3(1,0,0),Vector3(0,1,0))
-  var skeleton: Skeleton3D=felipe.find_children("*","Skeleton3D",true,false)[0]
-  for data in [["LeftUpperArm",Vector3(0,0,-.9)],["RightUpperArm",Vector3(0,0,.9)],["LeftLowerLeg",Vector3(.35,0,0)],["RightLowerLeg",Vector3(.35,0,0)]]:
-   var id=skeleton.find_bone(data[0])
-   if id>=0: skeleton.set_bone_pose_rotation(id,Quaternion.from_euler(data[1]))
- bola=game.PERSON.new()
- bola.cinematic_friend=true
- add_child(bola)
- bola.setup(game,Vector3(-2.6,0,-.5),true)
- bola.collision_layer=0
- bola.model.scale=Vector3(.9,1.01,.9)
- bola.face(Vector3(-2.6,0,-3))
- bola.start_action("prototype/sit")
- bola.animate(.1)
+ felipe=game.PERSON.new();felipe.model_role="felipe";felipe.cinematic_friend=true
+ add_child(felipe);felipe.setup(game,Vector3(.3,0,.6),true);felipe.collision_layer=0
+ bola=game.PERSON.new();bola.model_role="bola";bola.cinematic_friend=true
+ add_child(bola);bola.setup(game,Vector3(-2.6,0,-.5),true)
+ bola.collision_layer=0;bola.face(Vector3(-2.6,0,-3));bola.start_action("prototype/sit");bola.animate(.1)
  _box(Vector3(.8,.4,.8),Vector3(-2.6,.2,-.5),Color(.20,.15,.10))
  var gamepad=_box(Vector3(.24,.06,.12),Vector3(-2.6,.85,-.7),Color(.045,.045,.055))
  phone=_box(Vector3(.15,.02,.26),Vector3(1.8,1.03,.7),Color(.04,.10,.18))
@@ -77,13 +64,5 @@ func update(time: float,dt: float) -> void:
  visible=time>=4
  roof.visible=time<7
  notification.visible=time>=9
- if is_instance_valid(bola):
-  bola.animate(dt)
-  if time>=9:
-   bola._bend("Head",Vector3.ZERO,Vector3(.06,-.55,0))
-   bola._bend("Chest",Vector3.ZERO,Vector3(-.08,-.25,0))
-   bola.rig.force_update_all_bone_transforms()
- if time>=10 and is_instance_valid(felipe):
-  var skeleton: Skeleton3D=felipe.find_children("*","Skeleton3D",true,false)[0]
-  var head=skeleton.find_bone("Head")
-  if head>=0: skeleton.set_bone_pose_rotation(head,Quaternion.from_euler(Vector3(.3,-.35,0)))
+ if is_instance_valid(bola): bola.animate(dt)
+ if is_instance_valid(felipe): felipe.animate(dt)

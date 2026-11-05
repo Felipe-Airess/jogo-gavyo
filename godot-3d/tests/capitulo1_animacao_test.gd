@@ -135,6 +135,7 @@ func interaction_case(kind: String,object: Node3D,contact: Vector3,forward: Vect
  else: actor.position.y=0
  actor.face(actor.position+forward)
  game._begin_interaction(kind,object,contact,forward,clip,index)
+ clip=String(game.interaction.get("clip",clip))
  check(not game.interaction.is_empty(),kind+": aproximação livre aceita")
  var touched:=false
  var contact_seen:=false
@@ -144,7 +145,7 @@ func interaction_case(kind: String,object: Node3D,contact: Vector3,forward: Vect
  var climb_max:=0.0
  var climb_contact:=false
  var climb_seen:=false
- var contact_time: float=.72 if clip.ends_with("Interact") else (.30 if clip.ends_with("PickUp_Table") else .60)
+ var contact_time: float=game.interaction.get("contact_time",.72 if clip.ends_with("Interact") else (.30 if clip.ends_with("PickUp_Table") else .60))
  for i in 360:
   var before: Vector3=actor.position
   var target: Vector3=game.interaction.get("contact",contact)

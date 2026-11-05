@@ -156,4 +156,7 @@ func run() -> void:
  game.paused=true; sound.tick(DT)
  check(not game.breathing.playing,"pausa silencia respiração")
  print("CAPITULO1_AUDIO: %d passed, %d failed"%[passed,failed])
+ game.queue_free();await process_frame
+ # O mixer termina de soltar as vozes antes de encerrar o servidor.
+ await create_timer(.05).timeout
  quit(1 if failed else 0)

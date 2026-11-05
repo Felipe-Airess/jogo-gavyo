@@ -3,7 +3,9 @@ extends RefCounted
 const SAMPLES:=120
 static var cache: Dictionary={}
 static func measure(rig: Skeleton3D,library: AnimationLibrary) -> Dictionary:
- if not cache.is_empty(): return cache.duplicate(true)
+ var cache_key=str(rig.get_parent().get_parent().get_meta("modelo_definitivo","legacy"))
+ if cache.has(cache_key): return cache[cache_key].duplicate(true)
+ var measured: Dictionary={}
  for name in ["Walk","Sprint","Crouch_Fwd","Walking_Backwards","Ascending_Stairs","Running_Up_Stairs","Descending_Stairs","Roll"]:
   var clip=library.get_animation(name)
   var frames: Array=[]
@@ -25,10 +27,11 @@ static func measure(rig: Skeleton3D,library: AnimationLibrary) -> Dictionary:
     support_time+=clip.length/SAMPLES
    curve.append(stride)
   if name!="Roll": stride*=clip.length/maxf(.001,support_time)
-  cache[name]={"stride":maxf(.1,stride),"duration":clip.length,"native_speed":stride/clip.length,"samples":SAMPLES}
-  if name=="Roll": cache[name]["curve"]=curve
+  measured[name]={"stride":maxf(.1,stride),"duration":clip.length,"native_speed":stride/clip.length,"samples":SAMPLES}
+  if name=="Roll": measured[name]["curve"]=curve
   print("PASSO_MEDIDO %s ciclo=%.3f s passo=%.3f m nativo=%.3f m/s"%[name,clip.length,stride,stride/clip.length])
- return cache.duplicate(true)
+ cache[cache_key]=measured
+ return measured.duplicate(true)
 static func feet(rig: Skeleton3D,clip: Animation,time: float,roll:=false) -> Array:
  var locals: Array[Transform3D]=[]; var globals: Array[Transform3D]=[]
  for i in rig.get_bone_count(): locals.append(rig.get_bone_rest(i))
@@ -43,5 +46,5 @@ static func feet(rig: Skeleton3D,clip: Animation,time: float,roll:=false) -> Arr
   globals.append(globals[parent]*locals[i] if parent>=0 else locals[i])
  var result: Array=[]
  for name in (["LeftFoot","RightFoot","LeftHand","RightHand","Spine","Chest","Head"] if roll else ["LeftFoot","RightFoot"]):
-  result.append(globals[rig.find_bone(name)].origin)
+  result.append(rig.global_basis*globals[rig.find_bone(name)].origin)
  return result

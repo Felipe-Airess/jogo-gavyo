@@ -1,5 +1,25 @@
 # Passagem para o Claude — 02/11/2026
 
+## Modelos definitivos integrados — 05/11/2026
+
+Oito FBX de `personagems.zip`, nomes/pastas e fontes intactos. Inventário,
+alturas confirmadas, QA e limitações em
+[RESULTADO.md](../arte/modelos-definitivos/RESULTADO.md). Catálogo de runtime:
+`capitulo1/assets/definitivos/catalogo.json`; galeria debug F10 e botão no menu.
+Miguel, sete cultistas e perseguidor usam os definitivos; Felipe/Bola no final
+já existente. Alessandro/Passa Marcha/Sorriso preparados na galeria, sem novas cenas.
+A abertura continua pendente. O Felipe para ela agora vem do catálogo definitivo.
+
+Godot 4.5.1: BoneMap/SkeletonProfileHumanoid; família de 78 ossos usa
+`retarget_method=2` e RetargetModifier3D nativo em pose global, preservando
+OriginalSkeleton. Não mapear BoneRoot como Root: o pivô está no quadril.
+Mixamo usa `retarget_method=1`. Não escrever pose nem corrigir os arquivos fonte.
+Os defeitos do QA vieram nos originais; sete não passam pelo portão estrito.
+Arquivos anteriores em `arte/arquivo-modelos/antes-definitivos-20261105/`;
+`arte/miguel_animado.glb` original intacto. Protótipo histórico usa cópia própria.
+Saídas completas em [SAIDAS-MODELOS-DEFINITIVOS.md](SAIDAS-MODELOS-DEFINITIVOS.md).
+
+
 ## Objetivos entregues — 03/11/2026
 
 Chave no estoque da cozinha e única tranca no 3 Informática; item opcional de
@@ -28,7 +48,7 @@ sol no rosto, corte brusco para noite no mesmo enquadramento, Miguel acorda.
 Primeiro objetivo: cozinha por fome; depois celular/bolsa, ritual e fuga.
 As três falas aprovadas estão transcritas em `TIMELINE.md`; não reescrever.
 Felipe aparece também na abertura, substituindo a restrição antiga de só aparecer
-no final. Reutilizar `godot-3d/capitulo1/assets/felipe.glb`, encontrado no repositório.
+no final. Reutilizar o papel `felipe` do catálogo definitivo, já preparado; o GLB anterior está arquivado.
 
 A cozinha deve seguir os cinco quadros do storyboard de Felipe: quatro planos
 puláveis e entrega do controle no quinto, com timing por 3–4 coberturas no PC e

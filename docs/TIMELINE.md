@@ -112,6 +112,9 @@ pendências abaixo; os substitutos provisórios foram autorizados nas Partes 1/4
 - **Teste de Felipe:** o caminho e os objetivos fazem sentido?
 
 ### Etapa 5 — Inimigos novos (visual)
+- [x] modelos de Felipe integrados, aguardando teste (05/11/2026).
+  Cultista de 2,00 m nos sete postos; perseguidor de 2,50 m continua condicional.
+  QA dos originais e limitações em `../arte/modelos-definitivos/RESULTADO.md`.
 - [ ] Cultistas comuns conforme a descrição acima.
 - [ ] Perseguidor conforme a descrição acima.
 - **Teste de Felipe:** dão medo?
@@ -134,8 +137,10 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
 - [ ] Mixagem de ambiente, sustos e tensão.
 
 ### Etapa 8 — Miguel
-- [ ] Melhorar o modelo original sem mudar o corpo (o v2 foi reprovado por
-  deformar o peito).
+- [x] modelos de Felipe integrados, aguardando teste (05/11/2026).
+  Miguel definitivo de 1,76 m, malha/textura/pesos preservados; galeria debug F10.
+- [ ] Aprovação visual de Felipe do modelo definitivo; não remodelar o corpo.
+  O original permanece arquivado e `arte/miguel_animado.glb` está intacto.
 
 ### Etapa 9 — Publicar
 - [ ] Build web por PR para a `main` (pasta `capitulo1/`), testada no PC e no
