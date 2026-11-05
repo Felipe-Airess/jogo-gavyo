@@ -150,3 +150,17 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
 ### Etapa 9 — Publicar
 - [ ] Build web por PR para a `main` (pasta `capitulo1/`), testada no PC e no
   celular.
+
+## Decisões de direção — 05/11/2026 (questionário com Felipe)
+
+- **Iluminação:** luar frio (azulado pelas janelas e pátios, interiores mais
+  escuros). O ritual mantém as **velas quentes**, uma ilha laranja perigosa de
+  atravessar. Com a IA nova, luz expõe e sombra esconde.
+- **Cozinha:** passa a ser **obrigatória** (o caminho da chave passa pelo
+  primeiro cultista).
+- **Duração (meta 20–30 min):** mais encontros roteirizados (**biblioteca** e
+  **laboratório**; Claude propõe e Felipe aprova), puzzles de **distração**
+  (jogar objeto, ligar algo para tirar o cultista do caminho) e **fuga longa
+  roteirizada** do perseguidor até o portão (portas batendo, obstáculos).
+- **Morte:** mostrar mais, cruel. **Felipe vai baixar as animações do Mixamo.**
+- **Ordem:** luz → cozinha obrigatória → encontros (biblioteca/laboratório) → fuga.
