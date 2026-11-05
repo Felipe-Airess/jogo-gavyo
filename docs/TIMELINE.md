@@ -187,3 +187,13 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
   - **Sustos:** **jumpscare raro**, poucos e fortes, em momentos-chave.
   - **Vozes dos cultistas:** **murmúrios ininteligíveis** (cantos, sussurros).
   - **Plataforma:** **PC primeiro**; celular só precisa funcionar.
+- **Mais decisões (05/11, questionário 3):**
+  - **A ave:** mistério só visto (ritual e pistas); o significado fica para depois.
+  - **HUD mínimo:** a vigilância só aparece com perigo; o objetivo, ao apertar uma tecla.
+  - **Sem mapa.** A orientação vem da **luz guiando** o caminho principal e de
+    **pensamentos do Miguel** quando o jogador fica perdido muito tempo (textos
+    de Felipe; `[PROVISÓRIO]` até lá).
+  - **Morte:** tudo reinicia no checkpoint, com todos os cultistas nos postos.
+  - **Tela de título cinematográfica:** logo GAVIÃO, a escola à noite ao fundo e a trilha.
+  - **Créditos:** depois, na publicação.
+  - **Sem gancho** para o capítulo 2: termina na casa do Felipe.
