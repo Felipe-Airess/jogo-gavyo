@@ -164,3 +164,12 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
   roteirizada** do perseguidor até o portão (portas batendo, obstáculos).
 - **Morte:** mostrar mais, cruel. **Felipe vai baixar as animações do Mixamo.**
 - **Ordem:** luz → cozinha obrigatória → encontros (biblioteca/laboratório) → fuga.
+- **Encontros aprovados (05/11):**
+  - **Biblioteca — "O leitor":** um cultista anda devagar entre as estantes,
+    lendo em voz baixa. Miguel atravessa usando a distração (jogar um livro ou
+    objeto para um lado e passar pelo outro). Há uma nota do culto opcional na
+    mesa.
+  - **Laboratório — "A cobaia":** um animal preparado pelo culto, vivo e
+    agitado, numa caixa ou tanque. Chegar perto o agita, e o barulho atrai um
+    cultista. Escolha: pegar a pista da ave rápido ou primeiro cobrir a caixa
+    com um pano para acalmar o bicho.
