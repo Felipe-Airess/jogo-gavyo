@@ -68,3 +68,29 @@ Texturas encontradas para os oito modelos, materiais StandardMaterial3D importad
 Foram corrigidos apenas os encerramentos de dois testes para aguardar liberação de recursos/áudio; o runner continua reprovando qualquer `ERROR:`. A captura avança o AnimationTree em quadros de 1/60 s: não altera pose para conseguir imagem ou teste.
 
 Reprodução: `bash scripts/blender-mac.sh --python arte/inventariar_definitivos.py`; `bash scripts/blender-mac.sh --python arte/conferir_definitivos.py`; Godot com janela `--path godot-3d --rendering-method gl_compatibility --resolution 960x640 -s res://tools/capturar_definitivos.gd`. Blender portátil 3.6.23; nenhum arquivo fonte é reexportado.
+
+## Correção de 05/11/2026 (Claude): braços entrando no corpo
+
+**Problema relatado por Felipe:** nas animações, braços e esqueleto entravam no
+corpo. Afetava os quatro modelos com rig Tripo de 78 ossos (Felipe, Passa Marcha,
+Sorriso, Alessandro). Miguel, Bola, cultista e perseguidor (rig Mixamo) estavam bons.
+
+**Causa:** os ossos estão certos dentro da malha (medido: 0,2–1 cm do eixo). O
+erro estava no retarget do Godot para esse rig (método 2, pose global): o braço
+mais caído no repouso afundava no tronco (Passa Marcha 43°, Felipe 20°).
+
+**Correção:** `arte/converter_tripo_para_mixamo.py` (Blender 4.2) gera
+`<nome>_mixamo.fbx` em cada pasta: renomeia e reorganiza a hierarquia para o
+padrão Mixamo e soma os pesos dos ossos auxiliares (twist, share, olhos, pelve,
+raiz) no osso pai. Malha, UV, textura e pose de repouso não mudaram. O Godot
+importa esses arquivos pelo mesmo caminho do Miguel (`mapa_mixamo.tres`).
+O `catalogo.json` aponta para os novos arquivos e guarda o FBX Tripo original
+em `arquivo_tripo_original`. Os originais seguem intactos.
+
+Comparação depois da correção: [folha-rig-corrigido.jpg](../revisoes/definitivos/folha-rig-corrigido.jpg).
+
+Testes (Linux, Godot 4.5.1): capítulo 413/413, percurso 9/9, nível 15/15. Aviso
+intermitente "resources still in use at exit" no áudio e no capítulo aparece e
+some entre execuções iguais, sem relação com os modelos.
+Limite: os ossos de torção somados no pai deixam o antebraço girar como peça
+única. Em giro grande do pulso pode haver um leve amassado.

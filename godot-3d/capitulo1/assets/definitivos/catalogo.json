@@ -2,11 +2,13 @@
   {
     "id": "alessandro",
     "nome": "alessandro",
-    "arquivo": "res://capitulo1/assets/definitivos/alessandro/tripo_convert_56cbc4b5-3398-4311-806a-41d009816d9c.fbx",
+    "arquivo": "res://capitulo1/assets/definitivos/alessandro/alessandro_mixamo.fbx",
     "altura": 1.93,
     "altura_fonte": 0.9999997469619473,
-    "mapa": "tripo",
-    "ossos_fonte": 78
+    "mapa": "mixamo",
+    "ossos_fonte": 52,
+    "arquivo_tripo_original": "res://capitulo1/assets/definitivos/alessandro/tripo_convert_56cbc4b5-3398-4311-806a-41d009816d9c.fbx",
+    "rig_convertido": "tripo78->mixamo, pesos auxiliares somados no pai"
   },
   {
     "id": "bola",
@@ -38,11 +40,13 @@
   {
     "id": "felipe",
     "nome": "felipe",
-    "arquivo": "res://capitulo1/assets/definitivos/felipe/tripo_convert_8b8f3f28-0b6f-47c3-a102-3511d8e639b8.fbx",
+    "arquivo": "res://capitulo1/assets/definitivos/felipe/felipe_mixamo.fbx",
     "altura": 1.73,
     "altura_fonte": 0.9999998215045025,
-    "mapa": "tripo",
-    "ossos_fonte": 78
+    "mapa": "mixamo",
+    "ossos_fonte": 52,
+    "arquivo_tripo_original": "res://capitulo1/assets/definitivos/felipe/tripo_convert_8b8f3f28-0b6f-47c3-a102-3511d8e639b8.fbx",
+    "rig_convertido": "tripo78->mixamo, pesos auxiliares somados no pai"
   },
   {
     "id": "miguel",
@@ -56,19 +60,23 @@
   {
     "id": "passa_marcha",
     "nome": "passa marcha",
-    "arquivo": "res://capitulo1/assets/definitivos/passa marcha/tripo_convert_2b402abc-0561-40c5-9fd8-87b34da42cc5.fbx",
+    "arquivo": "res://capitulo1/assets/definitivos/passa marcha/passa_marcha_mixamo.fbx",
     "altura": 1.71,
     "altura_fonte": 0.9999999418975455,
-    "mapa": "tripo",
-    "ossos_fonte": 78
+    "mapa": "mixamo",
+    "ossos_fonte": 52,
+    "arquivo_tripo_original": "res://capitulo1/assets/definitivos/passa marcha/tripo_convert_2b402abc-0561-40c5-9fd8-87b34da42cc5.fbx",
+    "rig_convertido": "tripo78->mixamo, pesos auxiliares somados no pai"
   },
   {
     "id": "sorriso",
     "nome": "sorriso",
-    "arquivo": "res://capitulo1/assets/definitivos/sorriso/tripo_convert_0a20b434-6027-4c83-8f76-35523ba4516f.fbx",
+    "arquivo": "res://capitulo1/assets/definitivos/sorriso/sorriso_mixamo.fbx",
     "altura": 1.7,
     "altura_fonte": 1.0000004804108755,
-    "mapa": "tripo",
-    "ossos_fonte": 78
+    "mapa": "mixamo",
+    "ossos_fonte": 52,
+    "arquivo_tripo_original": "res://capitulo1/assets/definitivos/sorriso/tripo_convert_0a20b434-6027-4c83-8f76-35523ba4516f.fbx",
+    "rig_convertido": "tripo78->mixamo, pesos auxiliares somados no pai"
   }
 ]
