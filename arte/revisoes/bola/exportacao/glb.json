@@ -1,0 +1,148 @@
+{
+  "arquivo": "/Users/felipe/Projetos/jogo-gavyo/arte/bola_boneco.glb",
+  "rigs": [
+    {
+      "nome": "BolaRig",
+      "ossos": 22,
+      "hierarquia": {
+        "Hips": null,
+        "Spine": "Hips",
+        "Chest": "Spine",
+        "UpperChest": "Chest",
+        "Neck": "UpperChest",
+        "Head": "Neck",
+        "LeftShoulder": "UpperChest",
+        "LeftUpperArm": "LeftShoulder",
+        "LeftLowerArm": "LeftUpperArm",
+        "LeftHand": "LeftLowerArm",
+        "RightShoulder": "UpperChest",
+        "RightUpperArm": "RightShoulder",
+        "RightLowerArm": "RightUpperArm",
+        "RightHand": "RightLowerArm",
+        "LeftUpperLeg": "Hips",
+        "LeftLowerLeg": "LeftUpperLeg",
+        "LeftFoot": "LeftLowerLeg",
+        "LeftToes": "LeftFoot",
+        "RightUpperLeg": "Hips",
+        "RightLowerLeg": "RightUpperLeg",
+        "RightFoot": "RightLowerLeg",
+        "RightToes": "RightFoot"
+      }
+    }
+  ],
+  "malhas": [
+    {
+      "nome": "Bola",
+      "vertices": 9787,
+      "triangulos": 18060,
+      "cores": [
+        "Col"
+      ],
+      "uvs": 1,
+      "materiais": [
+        "BolaCores"
+      ]
+    },
+    {
+      "nome": "Cabelo",
+      "vertices": 4050,
+      "triangulos": 6000,
+      "cores": [
+        "Col"
+      ],
+      "uvs": 1,
+      "materiais": [
+        "BolaCores"
+      ]
+    },
+    {
+      "nome": "Calca",
+      "vertices": 1639,
+      "triangulos": 2588,
+      "cores": [
+        "Col"
+      ],
+      "uvs": 1,
+      "materiais": [
+        "BolaCores"
+      ]
+    },
+    {
+      "nome": "FardaPolo",
+      "vertices": 31380,
+      "triangulos": 58432,
+      "cores": [
+        "Col"
+      ],
+      "uvs": 1,
+      "materiais": [
+        "BolaCores"
+      ]
+    },
+    {
+      "nome": "GolaPolo",
+      "vertices": 202,
+      "triangulos": 256,
+      "cores": [
+        "Col"
+      ],
+      "uvs": 1,
+      "materiais": [
+        "BolaCores"
+      ]
+    },
+    {
+      "nome": "Tenis",
+      "vertices": 10295,
+      "triangulos": 17260,
+      "cores": [
+        "Col"
+      ],
+      "uvs": 1,
+      "materiais": [
+        "BolaCores"
+      ]
+    }
+  ],
+  "pesos": [
+    {
+      "nome": "Bola",
+      "sem_peso": 0,
+      "mais_de_quatro": 0,
+      "erro_soma_maximo": 1.1548399925231934e-07
+    },
+    {
+      "nome": "Cabelo",
+      "sem_peso": 0,
+      "mais_de_quatro": 0,
+      "erro_soma_maximo": 0.0
+    },
+    {
+      "nome": "Calca",
+      "sem_peso": 0,
+      "mais_de_quatro": 0,
+      "erro_soma_maximo": 1.0900839697569609e-07
+    },
+    {
+      "nome": "FardaPolo",
+      "sem_peso": 0,
+      "mais_de_quatro": 0,
+      "erro_soma_maximo": 1.417938619852066e-07
+    },
+    {
+      "nome": "GolaPolo",
+      "sem_peso": 0,
+      "mais_de_quatro": 0,
+      "erro_soma_maximo": 1.2619420886039734e-07
+    },
+    {
+      "nome": "Tenis",
+      "sem_peso": 0,
+      "mais_de_quatro": 0,
+      "erro_soma_maximo": 8.434290066361427e-08
+    }
+  ],
+  "altura_com_cabelo_m": 1.7664017591137338,
+  "passou_pesos": true,
+  "passou_estrutura": true
+}

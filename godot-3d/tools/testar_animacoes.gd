@@ -6,7 +6,7 @@ func _initialize() -> void:
 
 func _testar() -> void:
 	var manifesto: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://miguel_animacoes.json"))
-	var cena: PackedScene = load("res://miguel_animado.glb")
+	var cena: PackedScene = load("res://prototipo/arquivo/miguel_animado.glb")
 	var modelo := cena.instantiate()
 	root.add_child(modelo)
 	var ap := modelo.find_child("AnimationPlayer", true, false) as AnimationPlayer

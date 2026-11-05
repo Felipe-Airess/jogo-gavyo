@@ -1,0 +1,29 @@
+{
+  "foto": "rosto_perfil_direita.jpg",
+  "eye_search_row_px": 340,
+  "metodo": "Semente aproximada da faixa do olho sob o cabelo; somente inicializa a busca. Contorno conectado da face medido em y>=345, x<750 para excluir cabelo superior e manchas do quadro.",
+  "evidencia": "arte/revisoes/bola/perfil-regua.png",
+  "root_inferred_px": [
+    650,
+    340
+  ],
+  "bandas_visiveis": {
+    "ponta": [
+      380,
+      430
+    ],
+    "labio": [
+      445,
+      500
+    ],
+    "dobra": [
+      510,
+      550
+    ],
+    "queixo": [
+      550,
+      600
+    ]
+  },
+  "incerteza": "A raiz anatômica está coberta. Posição aproximada inferida junto à testa; não verificada diretamente. Métrica do perfil mede só o contorno visível após registro, não precisão 3D."
+}

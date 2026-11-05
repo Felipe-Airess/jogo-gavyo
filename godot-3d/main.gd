@@ -2,7 +2,7 @@ extends Node3D
 ## Treino e galeria do Miguel aprovado, com movimentos dos FBX do Mixamo.
 ## Manifesto registra fonte, recorte e duração real de cada ação.
 
-const MODELO := preload("res://miguel_animado.glb")
+const MODELO := preload("res://prototipo/arquivo/miguel_animado.glb")
 const VEL_ANDAR := 1.1      # m/s
 const VEL_CORRER := 3.2
 const SEPARACAO := 0.78     # distancia minima entre os dois corpos (guarda nao se atravessa)

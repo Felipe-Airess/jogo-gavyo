@@ -4,7 +4,7 @@ func _initialize() -> void:
  call_deferred("run")
 
 func run() -> void:
- var model=load("res://miguel_animado.glb").instantiate()
+ var model=load("res://prototipo/arquivo/miguel_animado.glb").instantiate()
  root.add_child(model)
  var ap: AnimationPlayer=model.find_child("AnimationPlayer",true,false)
  var report={"glb":"godot-3d/miguel_animado.glb","clips":[],"prototipo":[]}

@@ -1,0 +1,19 @@
+{
+  "alvo_srgb": [
+    178.0,
+    121.5,
+    90.5
+  ],
+  "render_srgb": [
+    185.5,
+    128.5,
+    95.5
+  ],
+  "diferenca_absoluta": [
+    7.5,
+    7.0,
+    5.0
+  ],
+  "passou_15_por_canal": true,
+  "metodo": "mesmos seis pontos de bochecha; mediana de patches 13x13, render Workbench Standard exposi\u00e7\u00e3o +1,38"
+}

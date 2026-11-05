@@ -1,0 +1,30 @@
+{
+  "ossos": 22,
+  "acoes": [
+    {
+      "nome": "Crouch_To_Stand_BolaRig",
+      "intervalo": [
+        0.0,
+        61.599998474121094
+      ],
+      "desvio_maximo_escala_ossos": 1.6689300537109375e-06
+    },
+    {
+      "nome": "Running_BolaRig",
+      "intervalo": [
+        0.0,
+        39.20000076293945
+      ],
+      "desvio_maximo_escala_ossos": 8.940696716308594e-07
+    },
+    {
+      "nome": "Start_Walking_BolaRig",
+      "intervalo": [
+        0.0,
+        70.4000015258789
+      ],
+      "desvio_maximo_escala_ossos": 5.960464477539062e-07
+    }
+  ],
+  "passou": true
+}

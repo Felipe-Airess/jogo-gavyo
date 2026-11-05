@@ -1,0 +1,23 @@
+[
+  {
+    "clipe": "Start_Walking",
+    "fonte": "arte/mixamo/Start_Walking.fbx",
+    "fim": 176,
+    "fps": 60,
+    "correcoes_de_pose": false
+  },
+  {
+    "clipe": "Running",
+    "fonte": "arte/mixamo/Running.fbx",
+    "fim": 98,
+    "fps": 60,
+    "correcoes_de_pose": false
+  },
+  {
+    "clipe": "Crouch_To_Stand",
+    "fonte": "godot-3d/capitulo1/animacoes/mixamo/Crouch_To_Stand.fbx",
+    "fim": 154,
+    "fps": 60,
+    "correcoes_de_pose": false
+  }
+]

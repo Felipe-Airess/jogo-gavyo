@@ -1,0 +1,40 @@
+{
+ "frente": {
+  "foto": "rosto_frente.jpg",
+  "px_para_xz": [
+   [
+    0.000370326614945157,
+    1.826811692080698e-06,
+    -0.17045829501947854
+   ],
+   [
+    1.8268116920806963e-06,
+    -0.00037032661494515706,
+    0.1719439861964669
+   ]
+  ]
+ },
+ "perfil": {
+  "foto": "rosto_perfil_direita.jpg",
+  "px_para_yz": [
+   [
+    -0.00045048453339971016,
+    0,
+    0.2699047853934168
+   ],
+   [
+    0,
+    -0.00045048453339971016,
+    0.15342915605411056
+   ]
+  ]
+ },
+ "registro_perfil": {
+  "escala": 1.5376538740043442,
+  "v0": -114.1048526646974,
+  "u0": -204.47500080952932,
+  "linha_inicio": 394,
+  "linha_fim": 784,
+  "nota": "Face at\u00e9 o queixo, excluindo pesco\u00e7o. Raiz inferida por estar coberta pelo cabelo."
+ }
+}

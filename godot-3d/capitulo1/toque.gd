@@ -66,6 +66,11 @@ func _layout() -> void:
  root.queue_redraw()
 
 func _input(event: InputEvent) -> void:
+ if is_instance_valid(game.gallery): return
+ if event is InputEventScreenTouch and event.pressed and is_instance_valid(game.hud.gallery_button):
+  var button=game.hud.gallery_button
+  if button.visible and button.get_global_rect().has_point(event.position):
+   game.open_gallery();get_viewport().set_input_as_handled();return
  if event is InputEventScreenTouch:
   _touch(event)
   get_viewport().set_input_as_handled()

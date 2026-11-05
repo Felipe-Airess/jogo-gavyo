@@ -12,78 +12,15 @@ var cinematic_friend:=false
 var activity:=""
 var evidence: Dictionary={}
 
-func _generic_body() -> void:
- # Reaproveita a pele/rig humanoide, substituindo a cabeça e os materiais.
- # Remove índices da cabeça original para não apresentar o rosto de Miguel como cultista.
- style=posmod(style,3)
- var colors=[Color(.20,.16,.15),Color(.13,.18,.18),Color(.20,.20,.14)]
- for visual in model.find_children("*","MeshInstance3D",true,false):
-  var source: Mesh=visual.mesh
-  var mesh=ArrayMesh.new()
-  for surface in source.get_surface_count():
-   var arrays=source.surface_get_arrays(surface)
-   var vertices: PackedVector3Array=arrays[Mesh.ARRAY_VERTEX]
-   var indices: PackedInt32Array=arrays[Mesh.ARRAY_INDEX]
-   var kept=PackedInt32Array()
-   for i in range(0,indices.size(),3):
-    if vertices[indices[i]].y>1.49 or vertices[indices[i+1]].y>1.49 or vertices[indices[i+2]].y>1.49: continue
-    kept.append(indices[i]); kept.append(indices[i+1]); kept.append(indices[i+2])
-   arrays[Mesh.ARRAY_INDEX]=kept
-   mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,arrays)
-   var mat=StandardMaterial3D.new()
-   mat.albedo_color=colors[style] if surface==1 else Color(.09,.10,.105)
-   mat.roughness=1
-   mesh.surface_set_material(surface,mat)
-   visual.set_surface_override_material(surface,null)
-  visual.mesh=mesh
- var head=BoneAttachment3D.new()
- head.bone_name="Head"
- rig.add_child(head)
- var skin=Color(.60,.56,.43) if pursuer else Color(.55,.52,.43)
- _ellipsoid(head,Vector3(0,.025,.02),Vector3(.155,.22,.155),skin)
- if not pursuer and not cinematic_friend:
-  _ellipsoid(head,Vector3(0,.06,-.035),Vector3(.19,.245,.17),colors[style])
-  _part(head,Vector3(0,-.055,.153),Vector3(.25,.17,.06),Color(.12,.11,.10))
- else:
-  _ellipsoid(head,Vector3(0,-.015,.165),Vector3(.03,.065,.045),skin)
-  _ellipsoid(head,Vector3(0,-.105,.15),Vector3(.065,.010,.016),Color(.16,.055,.035))
-  for x in [-.057,.057]:
-   _ellipsoid(head,Vector3(x,.044+.006*signf(x),.15),Vector3(.035,.014,.019),Color(.15,.13,.10))
-   _ellipsoid(head,Vector3(x,.043+.006*signf(x),.17),Vector3(.019,.010,.009),Color(.72,.69,.54))
-   _ellipsoid(head,Vector3(x,.043+.006*signf(x),.178),Vector3(.007,.009,.005),Color(.025,.018,.012))
- # Colar alto cobre a união do pescoço; visual não altera os ossos.
- var collar=BoneAttachment3D.new()
- collar.bone_name="Neck"
- rig.add_child(collar)
- _ellipsoid(collar,Vector3(0,-.025,0),Vector3(.16,.13,.14),colors[style])
-
-func _part(parent: Node3D,at: Vector3,size: Vector3,color: Color) -> void:
- var node=MeshInstance3D.new()
- var mesh=BoxMesh.new()
- mesh.size=size
- node.mesh=mesh
- var mat=StandardMaterial3D.new()
- mat.albedo_color=color
- mat.roughness=1
- node.material_override=mat
- node.position=at
- parent.add_child(node)
-
-func _ellipsoid(parent: Node3D,at: Vector3,size: Vector3,color: Color) -> void:
- var node=MeshInstance3D.new()
- var mesh=SphereMesh.new()
- mesh.radius=1
- mesh.height=2
- mesh.radial_segments=12
- mesh.rings=6
- node.mesh=mesh
- node.scale=size
- var mat=StandardMaterial3D.new()
- mat.albedo_color=color
- mat.roughness=1
- node.material_override=mat
- node.position=at
- parent.add_child(node)
+const DEFINITIVE=preload("res://capitulo1/modelos_definitivos.gd")
+var model_role:=""
+func _role() -> String:
+ if not model_role.is_empty(): return model_role
+ return "cultista_perseguidor" if pursuer else "cultista" if enemy else "miguel"
+func _instantiate_model() -> Node3D:
+ return DEFINITIVE.instantiate(_role())
+func _physical_height() -> float:
+ return float(DEFINITIVE.data(_role()).altura)*.94
 
 func make_down() -> void:
  super.make_down()
@@ -98,26 +35,7 @@ func fist_point() -> Vector3:
  return super.fist_point()
 
 func animate(dt: float) -> void:
- super.animate(dt)
+ motion.advance(dt)
  if warning:
   warning.visible=not dead and not down and (state=="windup" or opening>0 or (suspicion>.1 and not aware))
- if motion.locomotion_visible(): return
- if enemy and health<60 and not down:
-  _bend("Chest",Vector3.ZERO,Vector3(.16,0,.04))
-  _bend("Head",Vector3.ZERO,Vector3(.08,0,0))
-  rig.force_update_all_bone_transforms()
-
- if state=="paired":
-  var backward=get_meta("environment_kind","") in ["parede","armário"]
-  _bend("Chest",Vector3.ZERO,Vector3(-.18 if backward else .22,0,0))
-  _bend("Head",Vector3.ZERO,Vector3(-.12 if backward else .12,0,0))
-  rig.force_update_all_bone_transforms()
- if activity=="ritual" and not aware:
-  _bend("LeftUpperArm",Vector3.ZERO,Vector3(-1.5-.12*sin(world.elapsed),0,-.4))
-  _bend("RightUpperArm",Vector3.ZERO,Vector3(-1.5-.12*sin(world.elapsed),0,.4))
-  _bend("Head",Vector3.ZERO,Vector3(-.15,0,0))
-  rig.force_update_all_bone_transforms()
- if tool_pose and not down:
-  _bend("RightUpperArm",Vector3.ZERO,Vector3(-.55,0,-.15))
-  _bend("RightLowerArm",Vector3.ZERO,Vector3(-.7,0,0))
-  rig.force_update_all_bone_transforms()
+  warning.text="!" if state=="windup" else "?"

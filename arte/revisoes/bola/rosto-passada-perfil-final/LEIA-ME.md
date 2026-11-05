@@ -1,0 +1,1 @@
+Checkpoint de ajuste, não revisão final. As métricas frontais desta execução são simetrizadas. A checagem final inclui a assimetria real e está em ../rosto-conferido/medidas_frente.json; resultado bruto 1,123 mm, ainda acima da meta.

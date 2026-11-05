@@ -1,0 +1,98 @@
+Requirement already satisfied: numpy<1.27 in /private/tmp/gavyo-blender-3.6/Blender.app/Contents/Resources/3.6/python/lib/python3.10/site-packages (1.23.5)
+Collecting scipy==1.10.1
+  WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ProtocolError('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))': /packages/0a/ac/b1f1bbf7b01d96495f35be003b881f10f85bf6559efb6e9578da832c2140/scipy-1.10.1-cp310-cp310-macosx_10_9_x86_64.whl.metadata
+  Downloading scipy-1.10.1-cp310-cp310-macosx_10_9_x86_64.whl.metadata (53 kB)
+Collecting scikit-image==0.21.0
+  Downloading scikit_image-0.21.0-cp310-cp310-macosx_10_9_x86_64.whl.metadata (14 kB)
+Requirement already satisfied: mediapipe==0.10.9 in ./work/venv-modelo/lib/python3.10/site-packages (0.10.9)
+Collecting opencv-contrib-python==4.5.5.64
+  Downloading opencv_contrib_python-4.5.5.64-cp36-abi3-macosx_10_15_x86_64.whl.metadata (18 kB)
+Collecting networkx>=2.8 (from scikit-image==0.21.0)
+  Downloading networkx-3.4.2-py3-none-any.whl.metadata (6.3 kB)
+Requirement already satisfied: pillow>=9.0.1 in ./work/venv-modelo/lib/python3.10/site-packages (from scikit-image==0.21.0) (10.4.0)
+Collecting imageio>=2.27 (from scikit-image==0.21.0)
+  Downloading imageio-2.38.0-py3-none-any.whl.metadata (9.7 kB)
+Collecting tifffile>=2022.8.12 (from scikit-image==0.21.0)
+  Downloading tifffile-2025.5.10-py3-none-any.whl.metadata (31 kB)
+Collecting PyWavelets>=1.1.1 (from scikit-image==0.21.0)
+  Downloading pywavelets-1.8.0-cp310-cp310-macosx_10_9_x86_64.whl.metadata (9.0 kB)
+Requirement already satisfied: packaging>=21 in ./work/venv-modelo/lib/python3.10/site-packages (from scikit-image==0.21.0) (24.1)
+Collecting lazy_loader>=0.2 (from scikit-image==0.21.0)
+  Downloading lazy_loader-0.6-py3-none-any.whl.metadata (6.0 kB)
+Requirement already satisfied: absl-py in ./work/venv-modelo/lib/python3.10/site-packages (from mediapipe==0.10.9) (2.1.0)
+Requirement already satisfied: attrs>=19.1.0 in ./work/venv-modelo/lib/python3.10/site-packages (from mediapipe==0.10.9) (24.2.0)
+Requirement already satisfied: flatbuffers>=2.0 in ./work/venv-modelo/lib/python3.10/site-packages (from mediapipe==0.10.9) (24.3.25)
+Requirement already satisfied: matplotlib in ./work/venv-modelo/lib/python3.10/site-packages (from mediapipe==0.10.9) (3.7.5)
+Collecting protobuf<4,>=3.11 (from mediapipe==0.10.9)
+  Downloading protobuf-3.20.3-py2.py3-none-any.whl.metadata (720 bytes)
+Requirement already satisfied: sounddevice>=0.4.4 in ./work/venv-modelo/lib/python3.10/site-packages (from mediapipe==0.10.9) (0.5.1)
+Requirement already satisfied: CFFI>=1.0 in ./work/venv-modelo/lib/python3.10/site-packages (from sounddevice>=0.4.4->mediapipe==0.10.9) (1.17.1)
+Requirement already satisfied: pycparser in ./work/venv-modelo/lib/python3.10/site-packages (from CFFI>=1.0->sounddevice>=0.4.4->mediapipe==0.10.9) (2.22)
+Requirement already satisfied: contourpy>=1.0.1 in ./work/venv-modelo/lib/python3.10/site-packages (from matplotlib->mediapipe==0.10.9) (1.2.1)
+Requirement already satisfied: cycler>=0.10 in ./work/venv-modelo/lib/python3.10/site-packages (from matplotlib->mediapipe==0.10.9) (0.12.1)
+Requirement already satisfied: fonttools>=4.22.0 in ./work/venv-modelo/lib/python3.10/site-packages (from matplotlib->mediapipe==0.10.9) (4.53.1)
+Requirement already satisfied: kiwisolver>=1.0.1 in ./work/venv-modelo/lib/python3.10/site-packages (from matplotlib->mediapipe==0.10.9) (1.4.5)
+Requirement already satisfied: pyparsing>=2.3.1 in ./work/venv-modelo/lib/python3.10/site-packages (from matplotlib->mediapipe==0.10.9) (3.1.4)
+Requirement already satisfied: python-dateutil>=2.7 in ./work/venv-modelo/lib/python3.10/site-packages (from matplotlib->mediapipe==0.10.9) (2.9.0.post0)
+Requirement already satisfied: six>=1.5 in ./work/venv-modelo/lib/python3.10/site-packages (from python-dateutil>=2.7->matplotlib->mediapipe==0.10.9) (1.16.0)
+Downloading scipy-1.10.1-cp310-cp310-macosx_10_9_x86_64.whl (35.1 MB)
+   ━━                                       2.1/35.1 MB 932.4 kB/s eta 0:00:36
+WARNING: Connection timed out while downloading.
+WARNING: Attempting to resume incomplete download (2.1 MB/35.1 MB, attempt 1)
+Resuming download scipy-1.10.1-cp310-cp310-macosx_10_9_x86_64.whl (2.1 MB/35.1 MB)
+   ━━━━━━━━                                 7.1/35.1 MB 818.1 kB/s eta 0:00:35
+WARNING: Connection timed out while downloading.
+WARNING: Attempting to resume incomplete download (7.1 MB/35.1 MB, attempt 2)
+Resuming download scipy-1.10.1-cp310-cp310-macosx_10_9_x86_64.whl (7.1 MB/35.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸            25.2/35.1 MB 2.3 MB/s eta 0:00:05
+WARNING: Connection timed out while downloading.
+WARNING: Attempting to resume incomplete download (25.2 MB/35.1 MB, attempt 3)
+Resuming download scipy-1.10.1-cp310-cp310-macosx_10_9_x86_64.whl (25.2 MB/35.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━     32.0/35.1 MB 959.4 kB/s eta 0:00:04
+WARNING: Connection timed out while downloading.
+WARNING: Attempting to resume incomplete download (32.0 MB/35.1 MB, attempt 4)
+Resuming download scipy-1.10.1-cp310-cp310-macosx_10_9_x86_64.whl (32.0 MB/35.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  34.3/35.1 MB 290.5 kB/s eta 0:00:03
+WARNING: Connection timed out while downloading.
+WARNING: Attempting to resume incomplete download (34.3 MB/35.1 MB, attempt 5)
+Resuming download scipy-1.10.1-cp310-cp310-macosx_10_9_x86_64.whl (34.3 MB/35.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.1/35.1 MB 1.2 MB/s  0:00:00
+Downloading scikit_image-0.21.0-cp310-cp310-macosx_10_9_x86_64.whl (13.0 MB)
+   ━━━━━━━━                                 2.6/13.0 MB 522.4 kB/s eta 0:00:20
+WARNING: Connection timed out while downloading.
+WARNING: Attempting to resume incomplete download (2.6 MB/13.0 MB, attempt 1)
+Resuming download scikit_image-0.21.0-cp310-cp310-macosx_10_9_x86_64.whl (2.6 MB/13.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.0/13.0 MB 2.5 MB/s  0:00:04
+Downloading opencv_contrib_python-4.5.5.64-cp36-abi3-macosx_10_15_x86_64.whl (55.9 MB)
+   ━━━━━━━━╸                                12.1/55.9 MB 3.5 MB/s eta 0:00:13
+WARNING: Connection timed out while downloading.
+WARNING: Attempting to resume incomplete download (12.1 MB/55.9 MB, attempt 1)
+Resuming download opencv_contrib_python-4.5.5.64-cp36-abi3-macosx_10_15_x86_64.whl (12.1 MB/55.9 MB)
+   ━━━━━━━━╸                                12.3/55.9 MB 37.6 kB/s eta 0:19:20
+WARNING: Connection timed out while downloading.
+WARNING: Attempting to resume incomplete download (12.3 MB/55.9 MB, attempt 2)
+Resuming download opencv_contrib_python-4.5.5.64-cp36-abi3-macosx_10_15_x86_64.whl (12.3 MB/55.9 MB)
+   ━━━━━━━━━━━━━━━                          21.2/55.9 MB 593.0 kB/s eta 0:00:59
+WARNING: Connection timed out while downloading.
+WARNING: Attempting to resume incomplete download (21.2 MB/55.9 MB, attempt 3)
+Resuming download opencv_contrib_python-4.5.5.64-cp36-abi3-macosx_10_15_x86_64.whl (21.2 MB/55.9 MB)
+   ━━━━━━━━━━━━━━━━━━                       25.4/55.9 MB 1.7 MB/s eta 0:00:18
+WARNING: Connection timed out while downloading.
+WARNING: Attempting to resume incomplete download (25.4 MB/55.9 MB, attempt 4)
+Resuming download opencv_contrib_python-4.5.5.64-cp36-abi3-macosx_10_15_x86_64.whl (25.4 MB/55.9 MB)
+   ━━━━━━━━━━━━━━━━━━                       25.4/55.9 MB ? eta -:--:--
+WARNING: Connection timed out while downloading.
+WARNING: Attempting to resume incomplete download (25.4 MB/55.9 MB, attempt 5)
+Resuming download opencv_contrib_python-4.5.5.64-cp36-abi3-macosx_10_15_x86_64.whl (25.4 MB/55.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━                     28.0/55.9 MB 344.8 kB/s eta 0:01:21
+WARNING: Connection timed out while downloading.
+
+[notice] A new release of pip is available: 25.3 -> 26.2.2
+[notice] To update, run: /Users/felipe/Projetos/jogo-gavyo/work/venv-modelo/bin/python -m pip install --upgrade pip
+error: incomplete-download
+
+× Download failed after 6 attempts because not enough bytes were received (28.0 MB/55.9 MB)
+╰─> URL: https://files.pythonhosted.org/packages/6f/60/afa0e03209acfb6ddfe00e4af57d39bb2e9319280c000102f96f3737aedd/opencv_contrib_python-4.5.5.64-cp36-abi3-macosx_10_15_x86_64.whl
+
+note: This is an issue with network connectivity, not pip.
+hint: Use --resume-retries to configure resume attempt limit.
