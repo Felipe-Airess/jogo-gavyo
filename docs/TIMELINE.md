@@ -169,7 +169,8 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
     lendo em voz baixa. Miguel atravessa usando a distração (jogar um livro ou
     objeto para um lado e passar pelo outro). Há uma nota do culto opcional na
     mesa.
-  - **Laboratório — "A cobaia":** um animal preparado pelo culto, vivo e
-    agitado, numa caixa ou tanque. Chegar perto o agita, e o barulho atrai um
-    cultista. Escolha: pegar a pista da ave rápido ou primeiro cobrir a caixa
-    com um pano para acalmar o bicho.
+  - **Laboratório — "Trancado por dentro":** Miguel entra para pegar a pista
+    da ave; um cultista entra logo atrás e tranca a porta. Miguel se esconde
+    sob a bancada ou no armário de jalecos e precisa ficar parado e agachado
+    enquanto ele mexe nos frascos, cada vez mais perto (mover ou sair antes
+    enche a vigilância). Ao sair, o cultista deixa a porta aberta.
