@@ -104,6 +104,7 @@ func build(owner_game: Node3D) -> void:
  add_child(telhados)
  for n in andares.size(): _pisos(n); _paredes(n); _volumes(n)
  _telhados()
+ _mesclar_visual()
  _colisoes()
  _escada()
  _ambientes()
@@ -123,7 +124,45 @@ func build(owner_game: Node3D) -> void:
  env.fog_sky_affect=.85
  env.tonemap_mode=Environment.TONE_MAPPER_FILMIC
  for light in find_children("*","DirectionalLight3D",true,false): light.light_energy=.2
+ limitar_alcance()
  for a in avisos: push_warning("MAPA: "+a)
+
+## Desempenho (web): o GridMap desenha cada tipo de peça em cada octante
+## separado (~1000 desenhos e 23 mil comandos WebGL por quadro, medido no
+## Chrome). Aqui as peças viram poucas malhas grandes por região de 16 m e
+## material. Os GridMaps continuam com os dados (testes/editor), só invisíveis.
+const BLOCO_VISUAL:=16.0
+var visual_mesclado: Node3D
+func _mesclar_visual() -> void:
+ visual_mesclado=Node3D.new();visual_mesclado.name="VisualMesclado";add_child(visual_mesclado)
+ var grupos:={}
+ for gm in [mapa,pisos,telhados]:
+  for cell in gm.get_used_cells():
+   var item=gm.get_cell_item(cell)
+   var mesh: Mesh=gm.mesh_library.get_item_mesh(item)
+   if mesh==null: continue
+   var base=gm.get_basis_with_orthogonal_index(gm.get_cell_item_orientation(cell))
+   var xf: Transform3D=gm.transform*Transform3D(base,gm.map_to_local(cell))*gm.mesh_library.get_item_mesh_transform(item)
+   var bloco=Vector2i(floori(xf.origin.x/BLOCO_VISUAL),floori(xf.origin.z/BLOCO_VISUAL))
+   for i in mesh.get_surface_count():
+    var mat=mesh.surface_get_material(i)
+    var chave=[bloco,mat]
+    if not grupos.has(chave):
+     var st=SurfaceTool.new();st.begin(Mesh.PRIMITIVE_TRIANGLES);st.set_material(mat);grupos[chave]=st
+    grupos[chave].append_from(mesh,i,xf)
+ for chave in grupos:
+  var mi=MeshInstance3D.new();mi.mesh=grupos[chave].commit()
+  visual_mesclado.add_child(mi)
+ for gm in [mapa,pisos,telhados]: gm.visible=false
+
+## Objetos soltos (móveis, placas, portas) somem além de 30 m: a neblina já
+## esconde, mas o navegador os desenhava todos a cada quadro.
+const ALCANCE_OBJETOS:=30.0
+func limitar_alcance() -> void:
+ for m in find_children("*","GeometryInstance3D",true,false):
+  if m.get_parent()==visual_mesclado or m is GridMap: continue
+  m.visibility_range_end=ALCANCE_OBJETOS
+  m.visibility_range_end_margin=2.0
 
 func _aviso(texto: String) -> void:
  avisos.append(texto)
