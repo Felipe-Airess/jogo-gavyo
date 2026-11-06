@@ -10,6 +10,8 @@ func update(dt: float) -> void:
   camera.v_offset=sin(game.elapsed*23.1+.7)*amplitude*.65
 
 func _update_chapter(dt: float) -> void:
+ if not game.started:
+  _titulo(dt); return
  if game.recording and game.phase=="investigate":
   mode="recording"
   camera.global_position=game.recording_eye()
@@ -63,17 +65,50 @@ func _update_chapter(dt: float) -> void:
   at=game.school.gate_at+Vector3(3,2.8,3.5)
   target=game.player.position+Vector3.UP*.9
  elif mode=="ending":
-  if game.ending_clock<4:
-   at=game.player.position+Vector3(1.1,1.6,1.5)
-   target=game.player.bone_point("RightHand")
-  elif game.ending_clock<7:
-   at=game.ending_set.house_at+Vector3(8,6,14)
-   target=game.ending_set.house_at+Vector3(0,1,0)
-  else:
-   at=game.ending_set.house_at+Vector3(0,2.2,3.2)
-   target=game.ending_set.house_at+Vector3(0,1,-.5)
+  var shot: Array=_final(game.ending_clock); at=shot[0]; target=shot[1]; fov=shot[2]
  camera.global_position=at
  if at.distance_squared_to(target)>.0001: camera.look_at(target)
  camera.fov=lerpf(camera.fov,fov,1-exp(-9*dt))
  _update_occluders()
  previous_mode=mode
+
+## Tela de título: passeio lento pela escola à noite (neblina, luar).
+func _titulo(dt: float) -> void:
+ mode="titulo"
+ var t: float=Time.get_ticks_msec()/1000.0
+ var centro: Vector3=game.NIVEL.ponto(game.school,"patio_aberto")
+ var at: Vector3=centro+Vector3(sin(t*.045)*9.0,3.2+sin(t*.07)*.4,cos(t*.045)*9.0)
+ camera.global_position=at
+ camera.look_at(centro+Vector3(0,2.0,0))
+ camera.fov=55
+ game.player.model.visible=false
+
+## Final cinematográfico (decisão de Felipe: mesmo roteiro, mais cinema).
+## [posição, alvo, fov] por plano; cortes secos entre planos.
+func _final(t: float) -> Array:
+ var casa: Vector3=game.ending_set.house_at
+ var p=game.player
+ var fora: Vector3=p.position-game.school.gate_at; fora.y=0; fora=fora.normalized()
+ var lado: Vector3=fora.cross(Vector3.UP).normalized()
+ if t<3.5:
+  # Rua, câmera baixa: Miguel do lado de fora; a escola e o perseguidor atrás da grade.
+  var peito: Vector3=p.position+Vector3.UP*1.2
+  for c in [fora*3.2+lado*1.3+Vector3.UP*.45,fora*3.2-lado*1.3+Vector3.UP*.45,fora*2.2+Vector3.UP*1.0,fora*1.4+Vector3.UP*1.6,Vector3.UP*2.6+fora*.6]:
+   var pos: Vector3=p.position+c
+   if game.visible_between(pos,peito) and game.visible_between(pos,game.school.gate_at+Vector3.UP*1.9):
+    return [pos,game.school.gate_at+Vector3.UP*1.9,52.0]
+  return [p.position+fora*1.2+Vector3.UP*1.7,game.school.gate_at+Vector3.UP*1.9,58.0]
+ if t<6.5:
+  var mao: Vector3=p.bone_point("RightHand")
+  return [mao+(fora+lado*.6).normalized()*.55+Vector3.UP*.25,mao,38.0]
+ if t<9.5:
+  var u: float=clampf((t-6.5)/3.0,0,1)
+  return [(casa+Vector3(8,6,14)).lerp(casa+Vector3(4.5,3.2,8.5),u),casa+Vector3(0,1,0),50.0]
+ if t<13.0:
+  var u2: float=clampf((t-9.5)/3.5,0,1)
+  var fone: Vector3=game.ending_set.phone.global_position
+  return [(casa+Vector3(-1.2,1.7,2.8)).lerp(fone+Vector3(.5,.45,.55),u2),fone.lerp(casa+Vector3(-2.6,1.0,-1.5),1.0-u2),48.0]
+ if t<16.0 and is_instance_valid(game.ending_set.felipe):
+  var h: Vector3=game.ending_set.felipe.bone_point("Head")
+  return [h+Vector3(.15,0,.85),h,36.0]
+ return [casa+Vector3(0,2.2,3.2),casa+Vector3(0,1,-.5),55.0]

@@ -61,8 +61,12 @@ func _box(size: Vector3,at: Vector3,color: Color) -> MeshInstance3D:
  return node
 
 func update(time: float,dt: float) -> void:
- visible=time>=4
- roof.visible=time<7
- notification.visible=time>=9
+ visible=time>=6.5
+ roof.visible=time<9.5
+ notification.visible=time>=10.5
+ # Felipe pega o celular: o rosto acende com a tela.
+ if time>=13.0 and is_instance_valid(felipe):
+  phone.position=felipe.position+Vector3(0,1.35,.38)
+  notification.position=phone.position+Vector3(0,.05,-.05); notification.light_energy=1.3
  if is_instance_valid(bola): bola.animate(dt)
  if is_instance_valid(felipe): felipe.animate(dt)

@@ -38,6 +38,7 @@ var last_distraction_time:=-100.0
 var sighting_seen:=false
 var story_clock:=0.0
 var ending_clock:=0.0
+const FINAL_DURACAO:=19.0
 var ambient_filter: CanvasLayer
 var filter_rect: TextureRect
 var film_enabled:=true
@@ -79,6 +80,7 @@ var biblioteca: RefCounted
 var ventilacao: RefCounted
 var percepcao: RefCounted
 var abertura: RefCounted
+var titulo_audio: AudioStreamPlayer
 var cozinha: RefCounted
 
 func _ready() -> void:
@@ -151,6 +153,11 @@ func _ready() -> void:
   e.activity="ritual"
   e.face(school.ritual_center)
   school.ritual_figures.append(e)
+ # Trilha provisória da tela de título (até chegar a trilha de Felipe).
+ titulo_audio=AudioStreamPlayer.new(); titulo_audio.bus="CapituloAmbiente"
+ var canto: AudioStreamWAV=load("res://capitulo1/assets/culto.wav").duplicate()
+ canto.loop_mode=AudioStreamWAV.LOOP_FORWARD; canto.loop_end=int(canto.get_length()*canto.mix_rate)
+ titulo_audio.stream=canto; titulo_audio.volume_db=-20; add_child(titulo_audio); titulo_audio.play()
  cozinha=COZINHA.new(); cozinha.setup(self)
  percepcao=PERCEPCAO.new(); percepcao.setup(self)
  ventilacao=VENTILACAO.new(); ventilacao.setup(self)
@@ -326,6 +333,7 @@ func _restore_walk_actors() -> void:
 
 func begin() -> void:
  started=true
+ if titulo_audio!=null: titulo_audio.stop()
  paused=false
  Input.mouse_mode=Input.MOUSE_MODE_VISIBLE if qa_mode or touch!=null else Input.MOUSE_MODE_CAPTURED
  if not intro_seen:
@@ -574,9 +582,11 @@ func _physics_process(dt: float) -> void:
   ending_clock+=dt
   ending_set.update(ending_clock,dt)
   if is_instance_valid(pursuer):
-   pursuer.move_toward(school.ritual_approach,3,dt)
-   pursuer.animate(dt)
-  if ending_clock>14:
+   # Parado atrás da grade, olhando Miguel ir embora.
+   var dentro: Vector3=school.gate_at+(school.gate_at-player.position).normalized()*Vector3(1,0,1)*2.2
+   if pursuer.position.distance_to(dentro)>.3: pursuer.position=dentro; pursuer.velocity=Vector3.ZERO
+   pursuer.face(player.position,dt); pursuer.play("guarda"); pursuer.animate(dt)
+  if ending_clock>FINAL_DURACAO:
    phase="escaped"
    Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
   return

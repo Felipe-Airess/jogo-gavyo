@@ -8,6 +8,7 @@ var escape_row: Control
 var escape_black: ColorRect
 
 var luz_label: Label
+var titulo: Label
 var objetivo_ate:=0
 var objetivo_ultimo:=""
 func mostrar_objetivo(segundos:=4.0) -> void:
@@ -20,6 +21,9 @@ func setup(owner_game: Node3D) -> void:
   gallery_button.pressed.connect(game.open_gallery)
  suspicion=label(root,18)
  luz_label=label(root,15)
+ titulo=label(root,72); titulo.text="G A V I Ã O"; titulo.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+ titulo.add_theme_color_override("font_color",Color(.86,.88,.92))
+ titulo.add_theme_color_override("font_outline_color",Color(0,0,0,.8)); titulo.add_theme_constant_override("outline_size",8)
  suspicion_bar=ProgressBar.new(); suspicion_bar.show_percentage=false; root.add_child(suspicion_bar)
  rec=label(root,20)
  escape_prompt=label(root,24)
@@ -43,7 +47,7 @@ func update(dt: float) -> void:
  message.modulate=Color.WHITE
  vitals.visible=not cinematic
  # HUD mínimo (Felipe): objetivo só quando muda (6 s) ou com [Tab].
- objective.visible=not cinematic and (Time.get_ticks_msec()<objetivo_ate or Input.is_physical_key_pressed(KEY_TAB))
+ objective.visible=game.started and not cinematic and (Time.get_ticks_msec()<objetivo_ate or Input.is_physical_key_pressed(KEY_TAB))
  top_bar.visible=cinematic and not game.paused
  bottom_bar.visible=cinematic and not game.paused
  objective.text="Busque a bolsa no terceiro de Informática, no andar superior."
@@ -68,9 +72,10 @@ func update(dt: float) -> void:
  elif game.phase=="discovery": message.text="A gravação continua." if game.discovery_clock<5.7 else "Miguel paralisa por um instante."
  elif game.phase=="gate_jump": message.text=""
  elif game.phase=="ending":
-  if game.ending_clock<4: message.text="Fora da escola, Miguel envia o vídeo aos amigos."
-  elif game.ending_clock<8: message.text="CAPÍTULO 1 CONCLUÍDO"
-  else: message.text="Bola e Felipe recebem a prova.\nO que parecia brincadeira agora precisa ser investigado."
+  var t: float=game.ending_clock
+  if t>=3.5 and t<6.5: message.text="Enviando vídeo…  %d%%"%int(clampf((t-3.5)/2.6,0,1)*100)
+  elif t>=16.0: message.text="CAPÍTULO 1 CONCLUÍDO"
+  else: message.text=""
  suspicion.position=Vector2(18,70)
  var level=game.vigilance_level()
  suspicion.visible=level>.10
@@ -106,6 +111,16 @@ func update(dt: float) -> void:
  elif game.paused and game.started:
   menu.text="PAUSADO\n\n[Esc] Voltar · [R] Checkpoint\n\nWASD mover · mouse olhar\nShift correr · Ctrl agachar\nEspaço interagir / porta / parkour\nAgarrão: repita a sequência com WASD ou setas\nE empanado · V vídeo · L lanterna após bolsa\nT arremessar objeto · F fresta · F3 filtro ligado/desligado"
   if game.touch!=null: menu.text="PAUSADO\n\nToque para voltar\n\nEsquerda: mover (até a borda corre)\nDireita: arrastar para olhar\nBotões: ação,\nagachar, gravar, luz, fresta, comer"
+ # Tela de título: escola à noite ao fundo, logo grande.
+ titulo.visible=not game.started
+ if not game.started:
+  panel.color=Color(.012,.014,.02,.28)
+  titulo.position=Vector2(0,size.y*.16); titulo.size=Vector2(size.x,100)
+  menu.position=Vector2(size.x*.2,size.y*.42)
+  menu.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+  menu.text="DEPOIS DO ALMOÇO\n\nUma escola vazia. Vozes que não deveriam estar ali.\n\n"+("Toque para começar" if game.touch!=null else "[Enter] Começar    ·    [C] Continuar")+"\n\nfones recomendados"
+ else:
+  panel.color=Color(.012,.014,.02,.94); menu.horizontal_alignment=HORIZONTAL_ALIGNMENT_LEFT
  if game.walk_mode:
   rec.text="PASSEIO DEBUG · F9 sair"; rec.position.x=size.x-300; rec.modulate=Color(.8,1,.85)
   if game.paused: menu.text="PASSEIO DEBUG\n\nEsc: voltar\nF9: sair e retomar checkpoint\n\nWASD mover · Shift correr · Ctrl agachar\nEspaço: abrir/fechar porta · F3: filtro"
@@ -133,7 +148,7 @@ func update(dt: float) -> void:
  escape_row.queue_redraw()
  if game.escape.active:
   message.text=""; prompt.text=""; vitals.visible=false; objective.visible=false
- show_escape_blackout(game.escape_blackout>0 or (game.phase=="intro" and game.abertura!=null and game.abertura.preto()) or (game.phase=="duto" and game.ventilacao!=null and game.ventilacao.preto()))
+ show_escape_blackout((game.phase=="ending" and game.ending_clock>=6.5 and game.ending_clock<6.9) or game.escape_blackout>0 or (game.phase=="intro" and game.abertura!=null and game.abertura.preto()) or (game.phase=="duto" and game.ventilacao!=null and game.ventilacao.preto()))
 
 func show_escape_blackout(on: bool) -> void:
  escape_black.size=get_viewport().get_visible_rect().size

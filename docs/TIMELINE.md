@@ -309,3 +309,14 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
   segurar [Tab]. O indicador de sombra/luz só aparece com cultista a menos de
   12 m. A vigilância já só aparecia com perigo.
 - Teste: `tests/capitulo1_celular_test.gd` (10).
+
+### Tela de título e final cinematográfico — feito em 06/11/2026 (Claude), aguardando teste de Felipe
+- [x] **Título:** câmera passeando devagar sobre o pátio à noite, atrás de um
+  painel translúcido; logo "G A V I Ã O" grande, subtítulo e comandos
+  centralizados. Trilha provisória: o canto do culto baixo, até chegar a de Felipe.
+- [x] **Final (19 s, sem falas):** rua, câmera baixa (Miguel fora, o
+  perseguidor parado atrás da grade) → mão com "Enviando vídeo… %" → corte
+  preto → casa por fora, aproximando → dentro, Bola no videogame e o celular
+  acendendo na mesa → Felipe pega o celular, rosto iluminado → "CAPÍTULO 1 CONCLUÍDO".
+- [ ] **Morte cruel:** aguarda as animações do Mixamo que Felipe vai mandar.
+- Captura: [capturas/titulo-final-20261106.jpg](capturas/titulo-final-20261106.jpg).
