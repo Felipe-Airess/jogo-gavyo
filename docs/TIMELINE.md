@@ -205,3 +205,10 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
     audíveis acelerando e lentidão breve depois de um susto.
   - **Parado ou escondido por muito tempo:** um cultista passa a rondar a área.
   - **Cutscenes médias (20–45 s)**, como a abertura atual.
+- **Clima por área (06/11, questionário 5):**
+  - **Pátio aberto e quadra:** neblina baixa com luar; silhuetas aparecem e somem nela.
+  - **Corredores internos:** lâmpadas falhando (algumas piscam, outras queimadas,
+    trechos de breu).
+  - **Andar de cima:** respiro calmo, mais silencioso e escuro; alívio enganoso.
+  - **Sinais do culto:** penas e restos pelo chão e trilhas de velas apagadas
+    levando ao pátio de química.
