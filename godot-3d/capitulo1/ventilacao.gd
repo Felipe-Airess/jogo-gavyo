@@ -143,6 +143,7 @@ func _iniciar_susto() -> void:
  luz_rosto.global_position=para["pos"]+Vector3.UP*.2; luz_rosto.visible=true
  game.sound.emit_at("grito",fora+Vector3.UP*1.6,-2)
  game.view.trauma=maxf(game.view.trauma,.6)
+ if game.medo!=null: game.medo.assustar()
 
 ## Enquadramento: [posição, alvo, fov].
 func shot() -> Array:

@@ -57,6 +57,7 @@ func _eventos(game: Node3D) -> void:
   feitos["grito"]=true
   game.sound.emit_at("grito",game.pursuer.position+Vector3.UP*2.0,0)
   game.view.trauma=maxf(game.view.trauma,.4)
+  if game.medo!=null: game.medo.assustar(.6)
 
 ## Porta aberta mais próxima, atrás de Miguel, bate sozinha.
 func _bater_porta(game: Node3D) -> void:

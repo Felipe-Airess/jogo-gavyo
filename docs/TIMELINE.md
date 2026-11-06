@@ -283,3 +283,18 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
 - Testes: `tests/capitulo1_fuga_test.gd` (8). O percurso corre na fuga e chega
   ao portão sem mortes. Testes que exigiam "vídeo sem alerta não cria
   perseguidor" foram atualizados para a decisão nova.
+
+### Medo e atmosfera — feito em 06/11/2026 (Claude), aguardando teste de Felipe
+- [x] `capitulo1/medo.gd`.
+- [x] **Coração:** som próprio gerado por código (`assets/sons/gerados/coracao.wav`).
+  Acelera de 60 para ~126 bpm e fica mais alto com a pressão, a vigilância, a
+  fuga e os sustos. Soma-se à respiração, ao tremor e à tensão que já existiam.
+- [x] **Lentidão depois de um susto:** 55% da velocidade por ~1,2 s (caixa,
+  rosto na grade, perseguidor observando, grito da fuga).
+- [x] **Jumpscare da caixa de materiais** na salinha: uma ave escura sai voando
+  na cara do jogador, com grito agudo. Só susto, uma vez (amarra com o mistério da ave).
+- [x] **Parado ou escondido por 45 s:** o cultista livre mais próximo vem rondar.
+- [x] **Pensamentos do Miguel:** depois de 2,5 min sem avançar, uma dica do
+  objetivo atual (cozinha → bolsa → ritual → portão), a cada 2 min no máximo.
+  Textos `[PROVISÓRIO]` em `objetivos.json`, para Felipe escrever.
+- Teste: `tests/capitulo1_medo_test.gd` (10).

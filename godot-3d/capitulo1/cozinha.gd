@@ -184,6 +184,7 @@ func _mostrar_perseguidor() -> void:
  contraluz.visible=true
  observador.face(game.player.position,1.0)
  game.sound.emit_at("roupa",observador.position,-12)
+ if game.medo!=null: game.medo.assustar(.8)
 
 func _cortar(dt: float) -> void:
  corte-=dt

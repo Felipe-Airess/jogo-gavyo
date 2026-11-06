@@ -71,6 +71,8 @@ const VENTILACAO=preload("res://capitulo1/ventilacao.gd")
 const BIBLIOTECA=preload("res://capitulo1/biblioteca.gd")
 const LABORATORIO=preload("res://capitulo1/laboratorio.gd")
 const FUGA=preload("res://capitulo1/fuga.gd")
+const MEDO=preload("res://capitulo1/medo.gd")
+var medo: RefCounted
 var fuga=FUGA.new()
 var laboratorio: RefCounted
 var biblioteca: RefCounted
@@ -153,6 +155,7 @@ func _ready() -> void:
  percepcao=PERCEPCAO.new(); percepcao.setup(self)
  ventilacao=VENTILACAO.new(); ventilacao.setup(self)
  laboratorio=LABORATORIO.new(); laboratorio.setup(self)
+ medo=MEDO.new(); medo.setup(self)
  if "--capturar-capitulo" in OS.get_cmdline_user_args(): call_deferred("_capture")
 
 ## Ambiente/respiração sem equivalente permanecem. Efeitos usam o pacote importado.
@@ -347,6 +350,9 @@ func end_intro() -> void:
  player.face(player.position+view.direction())
  hud.say(objectives.text("fome"),7)
 
+func _multiplicador_velocidade() -> float:
+ return medo.multiplicador_velocidade() if medo!=null else 1.0
+
 ## Pular a abertura (Espaço/Enter/toque): mesmo estado do fim natural.
 func skip_intro() -> void:
  if phase=="intro": end_intro()
@@ -462,6 +468,7 @@ func _process(dt: float) -> void:
  if is_instance_valid(gallery): return
  if walk_mode: pressure.reset(self)
  else: pressure.tick(self,dt)
+ if medo!=null: medo.tick(dt)
  if player.dead:
   if objectives!=null: objectives.close_screen()
   player.animate(dt)
@@ -995,6 +1002,7 @@ func interact() -> void:
   vault["climb"]=true; player.clock=float(vault["hang_clock"]); player.state="vault"; return
  if player.state not in ["idle","heal","hang"] and not player.hidden: return
  if objectives.interact(): return
+ if medo!=null and medo.abrir_caixa(): return
  if ventilacao!=null and ventilacao.tentar_entrar(): return
  if not bag_found and player.position.distance_to(school.bag_at)<1.7 and player.position.y>2.5:
   if not objectives.has_key(): hud.say(objectives.text("porta_trancada"),4); return
@@ -1098,6 +1106,7 @@ func context_text() -> String:
  if player.hidden: return "ESCONDIDO · observe e escute · [Espaço] Sair"
  if show_help: return "WASD mover · Espaço interagir · Ctrl agachar · V gravar · L lanterna"
  if ventilacao!=null and not ventilacao.texto().is_empty(): return ventilacao.texto()
+ if medo!=null and not medo.texto().is_empty(): return medo.texto()
  for door in school.doors:
   if _near_looking(door.center(),1.8): return "[Espaço] "+("Fechar " if door.opened else "Abrir ")+door.title+(" · [F] Fresta" if not door.opened else "")
  for item in tools:

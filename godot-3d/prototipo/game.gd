@@ -279,6 +279,10 @@ func _physics_process(dt: float) -> void:
 func raw_movement() -> Vector2:
  return Vector2(float(Input.is_physical_key_pressed(KEY_D))-float(Input.is_physical_key_pressed(KEY_A)),float(Input.is_physical_key_pressed(KEY_S))-float(Input.is_physical_key_pressed(KEY_W))).normalized()
 
+## Capítulos podem reduzir a velocidade (ex.: lentidão depois de um susto).
+func _multiplicador_velocidade() -> float:
+ return 1.0
+
 func _player_tick(dt: float) -> void:
  var raw = raw_movement()
  var direction: Vector3 = view.movement(raw)
@@ -329,7 +333,7 @@ func _player_tick(dt: float) -> void:
  var moving = raw.length() > .01 and player.state != "heal"
  _crouch(Input.is_physical_key_pressed(KEY_CTRL))
  var running = Input.is_physical_key_pressed(KEY_SHIFT) and moving and not player.crouched
- var speed = 1.05 if player.crouched else (3.8 if running else 1.45)
+ var speed = (1.05 if player.crouched else (3.8 if running else 1.45))*_multiplicador_velocidade()
  player.velocity.x = direction.x * speed if moving else 0.0
  player.velocity.z = direction.z * speed if moving else 0.0
  if is_instance_valid(locked):

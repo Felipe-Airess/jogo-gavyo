@@ -158,5 +158,25 @@
     "id": "laboratorio_saida",
     "titulo": "[PROVISÓRIO] Laboratório · depois",
     "texto": "[PROVISÓRIO] Ele saiu e deixou a porta aberta."
+  },
+  {
+    "id": "pensamento_cozinha",
+    "titulo": "[PROVISÓRIO] Pensamento",
+    "texto": "[PROVISÓRIO] (Miguel) A cozinha... fica do outro lado do refeitório."
+  },
+  {
+    "id": "pensamento_bolsa",
+    "titulo": "[PROVISÓRIO] Pensamento",
+    "texto": "[PROVISÓRIO] (Miguel) Minha sala é lá em cima. A escada fica perto do pátio de química."
+  },
+  {
+    "id": "pensamento_ritual",
+    "titulo": "[PROVISÓRIO] Pensamento",
+    "texto": "[PROVISÓRIO] (Miguel) Essas vozes vêm do pátio de química. Preciso gravar isso."
+  },
+  {
+    "id": "pensamento_portao",
+    "titulo": "[PROVISÓRIO] Pensamento",
+    "texto": "[PROVISÓRIO] (Miguel) O portão 1. Tenho que sair por lá, agora."
   }
 ]
