@@ -320,3 +320,15 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
   acendendo na mesa → Felipe pega o celular, rosto iluminado → "CAPÍTULO 1 CONCLUÍDO".
 - [ ] **Morte cruel:** aguarda as animações do Mixamo que Felipe vai mandar.
 - Captura: [capturas/titulo-final-20261106.jpg](capturas/titulo-final-20261106.jpg).
+
+### Publicação (preparo) — 06/11/2026 (Claude)
+- [x] `CREDITOS.md` na raiz e tela de créditos no jogo ([K] no título e no
+  final), com o texto da licença MIT do Godot e os avisos de terceiros
+  (`Engine.get_license_text()`), Work Sans (OFL 1.1), Quaternius (CC0),
+  Mixamo, e sons Kenney/artisticdude/TinyWorlds (CC0).
+- [x] Exportação web sem as versões detalhadas dos personagens (o jogo usa as
+  leves): pacote 71 → 64 MB. Conferido no Chromium: carrega, com textura.
+- [ ] **Antes de publicar oficialmente:** confirmar a origem/licença de
+  `respiracao.wav`, `culto.wav` e `grilos.wav` (provisórios, origem
+  desconhecida) ou trocá-los pela trilha e pelos sons de Felipe.
+- [ ] Publicar: merge do PR para a `main` (o workflow Godot Web exporta e publica).

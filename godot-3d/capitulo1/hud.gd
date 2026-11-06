@@ -9,6 +9,22 @@ var escape_black: ColorRect
 
 var luz_label: Label
 var titulo: Label
+var creditos_painel: Panel
+var creditos_texto: RichTextLabel
+const CREDITOS:="[b]GAVIÃO — CAPÍTULO 1[/b]\n\n[b]Criação[/b]\nFelipe — história, direção, personagens e testes\n\n[b]Animações[/b]\nQuaternius — Universal Animation Library (CC0)\nMixamo (Adobe)\n\n[b]Sons[/b]\nKenney — Impact Sounds, RPG Audio, Interface Sounds (CC0)\nartisticdude — OpenGameArt (CC0)\nTinyWorlds — OpenGameArt (CC0)\nCoração: gerado no projeto\n\n[b]Fonte[/b]\nWork Sans — SIL Open Font License 1.1\n\n[b]Motor[/b]\nGodot Engine — licença MIT\n\n[K] fechar"
+func alternar_creditos() -> void:
+ if creditos_painel==null:
+  creditos_painel=Panel.new(); root.add_child(creditos_painel)
+  var fundo=StyleBoxFlat.new(); fundo.bg_color=Color(.015,.017,.024,.98); fundo.set_corner_radius_all(6)
+  creditos_painel.add_theme_stylebox_override("panel",fundo)
+  creditos_texto=RichTextLabel.new(); creditos_texto.bbcode_enabled=true; creditos_painel.add_child(creditos_texto)
+  creditos_texto.text=CREDITOS+"\n\n[b]Licença do Godot Engine[/b]\n"+Engine.get_license_text()
+  creditos_painel.visible=false
+ creditos_painel.visible=not creditos_painel.visible
+ var tela=get_viewport().get_visible_rect().size
+ creditos_painel.size=tela*Vector2(.8,.86); creditos_painel.position=tela*Vector2(.1,.07)
+ creditos_texto.position=Vector2(24,20); creditos_texto.size=creditos_painel.size-Vector2(48,40)
+ creditos_texto.scroll_to_line(0)
 var objetivo_ate:=0
 var objetivo_ultimo:=""
 func mostrar_objetivo(segundos:=4.0) -> void:
@@ -104,7 +120,7 @@ func update(dt: float) -> void:
  if game.player.state=="attack" and game.fatigue>.35:
   prompt.text="RESPIRAÇÃO PESADA"
  if game.phase=="escaped":
-  menu.text="CAPÍTULO 1 CONCLUÍDO\n\nMiguel escapou com a gravação.\nOs amigos agora sabem do culto.\n\n[Enter] Jogar novamente"
+  menu.text="CAPÍTULO 1 CONCLUÍDO\n\nMiguel escapou com a gravação.\nOs amigos agora sabem do culto.\n\n[Enter] Jogar novamente    ·    [K] Créditos"
   if game.touch!=null: menu.text=menu.text.replace("[Enter]","Toque:")
  elif not game.started and game.touch!=null:
   menu.text="GAVIÃO\nDEPOIS DO ALMOÇO\n\nUma escola vazia. Vozes que não deveriam estar ali.\n\nToque para começar\n\nCelular deitado · fones recomendados"
@@ -112,13 +128,14 @@ func update(dt: float) -> void:
   menu.text="PAUSADO\n\n[Esc] Voltar · [R] Checkpoint\n\nWASD mover · mouse olhar\nShift correr · Ctrl agachar\nEspaço interagir / porta / parkour\nAgarrão: repita a sequência com WASD ou setas\nE empanado · V vídeo · L lanterna após bolsa\nT arremessar objeto · F fresta · F3 filtro ligado/desligado"
   if game.touch!=null: menu.text="PAUSADO\n\nToque para voltar\n\nEsquerda: mover (até a borda corre)\nDireita: arrastar para olhar\nBotões: ação,\nagachar, gravar, luz, fresta, comer"
  # Tela de título: escola à noite ao fundo, logo grande.
- titulo.visible=not game.started
+ titulo.visible=not game.started and not (creditos_painel!=null and creditos_painel.visible)
+ menu.visible=not (creditos_painel!=null and creditos_painel.visible)
  if not game.started:
   panel.color=Color(.012,.014,.02,.28)
   titulo.position=Vector2(0,size.y*.16); titulo.size=Vector2(size.x,100)
   menu.position=Vector2(size.x*.2,size.y*.42)
   menu.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-  menu.text="DEPOIS DO ALMOÇO\n\nUma escola vazia. Vozes que não deveriam estar ali.\n\n"+("Toque para começar" if game.touch!=null else "[Enter] Começar    ·    [C] Continuar")+"\n\nfones recomendados"
+  menu.text="DEPOIS DO ALMOÇO\n\nUma escola vazia. Vozes que não deveriam estar ali.\n\n"+("Toque para começar" if game.touch!=null else "[Enter] Começar    ·    [C] Continuar    ·    [K] Créditos")+"\n\nfones recomendados"
  else:
   panel.color=Color(.012,.014,.02,.94); menu.horizontal_alignment=HORIZONTAL_ALIGNMENT_LEFT
  if game.walk_mode:

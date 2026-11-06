@@ -428,6 +428,8 @@ func _unhandled_input(event: InputEvent) -> void:
    if phase=="escaped": get_tree().reload_current_scene()
    else: begin()
    return
+  if event.keycode==KEY_K and (not started or phase=="escaped"):
+   hud.alternar_creditos(); return
   if event.keycode==KEY_C and not started:
    load_checkpoint(); begin(); return
   if event.keycode==KEY_R and (paused or player.dead):
