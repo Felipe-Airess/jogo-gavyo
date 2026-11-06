@@ -127,6 +127,9 @@ func run() -> void:
      var objeto:=false
      for h in s.hides:
       if Vector2(h["inside"].x,h["inside"].z).distance_to(Vector2(q.position.x,q.position.z))<1.2: objeto=true
+     # Estantes da biblioteca ("O leitor") ocupam piso de propósito.
+     for e in game.biblioteca.estantes:
+      if absf(e.position.x-q.position.x)<.8 and absf(e.position.z-q.position.z)<2.0: objeto=true
      if not objeto: piso_cheio.append(Vector3i(c,r,n))
  print("PAREDE_SEM_COLISAO ",parede_oca.slice(0,10)," PISO_COM_COLISAO ",piso_cheio.slice(0,10))
  check(parede_oca.is_empty(),"toda célula # tem colisão")

@@ -74,7 +74,7 @@ func run() -> void:
  check(inaccessible.is_empty(),"oito postos têm caminho de até 10 m até um esconderijo")
  var marks=true
  for number in range(1,9): marks=marks and s.andares[0].celulas(str(number)).size()==1
- check(marks and game.enemies.size()==7 and game.pursuer==null,"grade tem sete comuns e um posto condicional, sem perseguidor inicial")
+ check(marks and game.enemies.size()==8 and game.pursuer==null,"grade tem sete comuns, o leitor da biblioteca e um posto condicional, sem perseguidor inicial")
  # Reserva um disco de 1 m em TODOS os postos: simula corpo e margem de desvio.
  var occupied: Array=[]
  for at in all_posts:

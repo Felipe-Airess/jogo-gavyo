@@ -1,5 +1,6 @@
 extends RefCounted
 ## Memória individual da caça. Só move corpos e pede clipes ao controlador.
+const BIBLIOTECA=preload("res://capitulo1/biblioteca.gd")
 const RUN:=3.0
 const WALK:=1.1
 const NOTICE:=.4
@@ -132,6 +133,8 @@ func tick(game,e,dt: float) -> void:
  if e.suspicion>.35 and e.memory>0:
   if e.position.distance_to(e.last_seen)>.35: _move(game,e,e.last_seen,.85,dt)
   else: _stop(e); e.face(e.position+Vector3(sin(e.clock),0,cos(e.clock)),dt)
+ elif e.has_meta("rota"):
+  BIBLIOTECA.patrulhar(game,e,dt)
  else:
   e.patrol_clock+=dt
   _move(game,e,e.home+Vector3(0,0,-1.7 if int(e.patrol_clock/5)%2==0 else 1.7),game.NIVEL.WALK,dt)

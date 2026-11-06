@@ -5,7 +5,7 @@ const PLACES={
  "chave":[Vector2(83,38),0], "finalizador":[Vector2(10,7),0],
  "nota_1":[Vector2(98,31),0], "nota_2":[Vector2(49,36),0],
  "nota_3":[Vector2(86,11),0], "nota_4":[Vector2(73,51),0],
- "pista_1":[Vector2(44,7),0], "pista_2":[Vector2(34,53),0]}
+ "pista_1":[Vector2(72,9),0], "pista_2":[Vector2(34,53),0]}
 var game: Node3D
 var texts: Dictionary={}
 var props: Dictionary={}

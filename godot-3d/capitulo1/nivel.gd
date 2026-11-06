@@ -88,7 +88,8 @@ const USOS:=[
  ["livros altos","régua",Vector2(88,9),1.95,Vector3.ZERO],
 ]
 ## Objetos arremessáveis no chão.
-const OBJETOS:=[Vector2(54,39),Vector2(38,30),Vector2(86,31)]
+const OBJETOS:=[Vector2(54,39),Vector2(38,30),Vector2(86,31),
+ Vector2(81,13),Vector2(85,13)] # dois últimos: livros na entrada da biblioteca (distração)
 
 static func ponto(escola: Node3D,nome: String,altura:=0.0) -> Vector3:
  var dado: Array=PONTOS[nome]

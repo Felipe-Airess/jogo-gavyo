@@ -244,3 +244,17 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
 - [ ] Trocar o rastejar provisório pela animação "Crawling" quando Felipe mandar.
 - Teste: `tests/capitulo1_ventilacao_test.gd` (12). Captura:
   [capturas/ventilacao-20261106.jpg](capturas/ventilacao-20261106.jpg).
+
+### Biblioteca — "O leitor" — feito em 06/11/2026 (Claude), aguardando teste de Felipe
+- [x] `capitulo1/biblioteca.gd`: 5 fileiras de estantes (1,9 m, com livros) e
+  corredores no fundo e na frente; a área da porta fica livre.
+- [x] O leitor é o 8º cultista comum: anda devagar (0,7 m/s) pelos corredores e
+  para de 3 a 5,5 s para ler. Percepção, caça e agarrão são os de sempre.
+- [x] Distração: dois livros na entrada para jogar ([T]). O barulho atrai o
+  leitor sem alertá-lo. A regra antiga mandava todo arremesso depois do
+  primeiro direto para a posição do Miguel; agora isso só acontece ao repetir
+  o truque no mesmo lugar em menos de 20 s.
+- [x] Recompensa: a pista da ave 1 foi para o fundo da biblioteca; a nota 3 continua lá.
+- Murmúrios de leitura: hoje só um ruído leve; faltam os sons de voz (Felipe).
+- Teste: `tests/capitulo1_biblioteca_test.gd` (8). Os testes que contavam 7
+  cultistas agora contam os 7 dos postos mais o leitor.

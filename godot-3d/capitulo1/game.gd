@@ -33,6 +33,8 @@ var tools: Array[Dictionary]=[]
 var disturbance:=Vector3.ZERO
 var disturbance_until:=0.0
 var distraction_count:=0
+var last_distraction:=Vector3.ZERO
+var last_distraction_time:=-100.0
 var sighting_seen:=false
 var story_clock:=0.0
 var ending_clock:=0.0
@@ -66,6 +68,8 @@ const ABERTURA=preload("res://capitulo1/abertura.gd")
 const COZINHA=preload("res://capitulo1/cozinha.gd")
 const PERCEPCAO=preload("res://capitulo1/percepcao.gd")
 const VENTILACAO=preload("res://capitulo1/ventilacao.gd")
+const BIBLIOTECA=preload("res://capitulo1/biblioteca.gd")
+var biblioteca: RefCounted
 var ventilacao: RefCounted
 var percepcao: RefCounted
 var abertura: RefCounted
@@ -83,6 +87,8 @@ func _ready() -> void:
   var e=spawn_actor(at,true)
   e.face(at+Vector3.FORWARD)
   enemies.append(e)
+ # Biblioteca: estantes e o leitor (8º cultista comum).
+ biblioteca=BIBLIOTECA.new(); biblioteca.setup(self); biblioteca.criar_leitor()
  # Cada inimigo conserva intenção própria, mas só dois entram no confronto.
  view=CHAPTER_CAMERA.new()
  add_child(view)
@@ -1128,9 +1134,13 @@ func throw_object() -> void:
  var tween=prop.create_tween()
  tween.tween_property(prop,"position",desired,.55)
  tween.tween_callback(func():
+  # Repetir o truque no mesmo lugar em pouco tempo faz o cultista desconfiar
+  # de quem jogou; em outro lugar ou depois de um tempo, a distração funciona.
+  var repetido: bool=distraction_count>0 and prop.position.distance_to(last_distraction)<4.0 and elapsed-last_distraction_time<20.0
+  last_distraction=prop.position; last_distraction_time=elapsed
   disturbance=prop.position; disturbance_until=elapsed+6
   distraction_count+=1
-  if distraction_count>1: disturbance=Vector3(from.x,0,from.z)
+  if repetido: disturbance=Vector3(from.x,0,from.z)
   for item in world_objects:
    if item["node"]==prop: item["taken"]=false
  )

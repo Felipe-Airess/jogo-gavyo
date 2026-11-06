@@ -71,7 +71,7 @@ func run() -> void:
  gallery.free()
  var game=load("res://capitulo1/main.tscn").instantiate();root.add_child(game);game.set_process(false);game.set_physics_process(false)
  check(game.player.model.get_meta("modelo_definitivo","")=="miguel","Miguel no papel jogável")
- check(game.enemies.size()==7 and game.enemies.all(func(actor):return actor.model.get_meta("modelo_definitivo","")=="cultista"),"sete postos usam cultista definitivo")
+ check(game.enemies.size()==8 and game.enemies.all(func(actor):return actor.model.get_meta("modelo_definitivo","")=="cultista"),"sete postos e o leitor da biblioteca usam cultista definitivo")
  var event=InputEventKey.new();event.keycode=KEY_F10;event.pressed=true
  game._unhandled_input(event);check(is_instance_valid(game.gallery),"F10 abre galeria em debug")
  check(game.hud.gallery_button!=null,"menu debug oferece botão de galeria no PC/toque")

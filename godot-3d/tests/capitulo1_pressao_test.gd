@@ -59,7 +59,7 @@ func run() -> void:
  check(game.pursuer==null,"alerta sem vídeo mantém o gatilho existente da apresentação")
  game.video_recorded=true; game.start_chase()
  var pursuer=game.pursuer
- check(is_instance_valid(pursuer) and pursuer.position==game.school.pursuer_post and game.enemies.size()==7,"perseguidor nasce só após alerta, no posto 8, mantendo sete comuns")
+ check(is_instance_valid(pursuer) and pursuer.position==game.school.pursuer_post and game.enemies.size()==8,"perseguidor nasce só após alerta, no posto 8, mantendo sete comuns e o leitor")
  game.start_chase()
  check(game.pursuer==pursuer,"gatilho não cria um segundo perseguidor")
  game.end_discovery(); pursuer.position=game.player.position+Vector3.BACK*2
