@@ -270,3 +270,16 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
 - [x] Câmera baixa ao lado do Miguel: o cultista aparece por cima da bancada.
 - Teste: `tests/capitulo1_laboratorio_test.gd` (11). Captura:
   [capturas/laboratorio-20261106.jpg](capturas/laboratorio-20261106.jpg).
+
+### Fuga final roteirizada — feita em 06/11/2026 (Claude), aguardando teste de Felipe
+- [x] `capitulo1/fuga.gd`. Com o vídeo gravado, o perseguidor **sempre** vem,
+  com ou sem alerta (antes, só com alerta). Ele surge do ritual, atrás de
+  Miguel, nunca no caminho do portão.
+- [x] Pressão colada: fica ~4,5 m atrás de quem corre; quem para ou anda devagar
+  por mais de 1,4 s é alcançado. Não é finalizável; esconder-se continua possível.
+- [x] Eventos pela distância até o portão: 25% uma porta bate atrás · 50% as
+  luzes perto estouram e apagam · 75% um carrinho tomba ao lado do caminho ·
+  perto do portão, ele grita.
+- Testes: `tests/capitulo1_fuga_test.gd` (8). O percurso corre na fuga e chega
+  ao portão sem mortes. Testes que exigiam "vídeo sem alerta não cria
+  perseguidor" foram atualizados para a decisão nova.

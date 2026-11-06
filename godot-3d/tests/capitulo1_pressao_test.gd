@@ -53,13 +53,12 @@ func run() -> void:
  check(game.pressure.value==0 and not game.tension.playing,"fim da última caça apaga tensão após retorno suave")
  check(absf(game.breathing.pitch_scale-base_pitch)<.001 and absf(game.breathing.volume_db-base_db)<.1,"respiração volta ao perfil normal")
  check(is_zero_approx(game.view.camera.h_offset) and is_zero_approx(game.view.camera.v_offset),"câmera volta ao repouso")
- game.video_recorded=true; game.alert_spread=false; game.start_chase()
- check(game.pursuer==null,"vídeo sem alerta não cria perseguidor")
  game.video_recorded=false; game.alert_spread=true; game.start_chase()
  check(game.pursuer==null,"alerta sem vídeo mantém o gatilho existente da apresentação")
- game.video_recorded=true; game.start_chase()
+ # Fuga obrigatória (decisão de Felipe, 05/11): com o vídeo, ele vem mesmo sem alerta.
+ game.video_recorded=true; game.alert_spread=false; game.start_chase()
  var pursuer=game.pursuer
- check(is_instance_valid(pursuer) and pursuer.position==game.school.pursuer_post and game.enemies.size()==8,"perseguidor nasce só após alerta, no posto 8, mantendo sete comuns e o leitor")
+ check(is_instance_valid(pursuer) and pursuer.position==game.school.pursuer_post and game.enemies.size()==8,"com o vídeo gravado o perseguidor nasce no posto 8, mantendo sete comuns e o leitor")
  game.start_chase()
  check(game.pursuer==pursuer,"gatilho não cria um segundo perseguidor")
  game.end_discovery(); pursuer.position=game.player.position+Vector3.BACK*2

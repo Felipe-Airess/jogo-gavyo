@@ -93,10 +93,11 @@ func run() -> void:
  game.player.position=keep
  game.toggle_recording()
  game._story_tick(4.1)
- check(game.video_recorded and game.phase=="investigate" and game.pursuer==null,"rota discreta grava e continua sem perseguidor")
- game.phase="investigate"; game.alert_spread=true; game.video_recorded=true
+ # Fuga obrigatória (decisão de Felipe, 05/11): mesmo sem alerta, o vídeo
+ # gravado chama o perseguidor.
+ check(game.video_recorded and game.phase=="discovery" and is_instance_valid(game.pursuer),"rota discreta grava e a fuga final começa mesmo sem alerta")
  game.start_chase()
- check(game.phase=="discovery" and is_instance_valid(game.pursuer),"alerta espalhado habilita apresentação do perseguidor")
+ check(game.phase=="discovery" and is_instance_valid(game.pursuer),"apresentação do perseguidor sem duplicar")
  check(game.checkpoint_index==2,"perseguição não cria checkpoint adicional")
  game.end_discovery(); game.view.update(1)
  check(game.view.mode=="first_person","controle da perseguição em primeira pessoa")

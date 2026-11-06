@@ -121,6 +121,8 @@ func walk(to: Vector3,label: String,tolerance:=.6,limit:=60*90) -> bool:
   if game.player.dead:
    note("%s: Miguel morreu em %s" % [label,game.player.position]); key(KEY_W,false); return false
   key(KEY_W,true)
+  # Na fuga final, corre (o perseguidor alcança quem anda).
+  key(KEY_SHIFT,game.phase=="chase")
   var target: Vector3=points[i]
   aim(target)
   var flat:=Vector2(game.player.position.x-target.x,game.player.position.z-target.z).length()

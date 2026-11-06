@@ -70,6 +70,8 @@ const PERCEPCAO=preload("res://capitulo1/percepcao.gd")
 const VENTILACAO=preload("res://capitulo1/ventilacao.gd")
 const BIBLIOTECA=preload("res://capitulo1/biblioteca.gd")
 const LABORATORIO=preload("res://capitulo1/laboratorio.gd")
+const FUGA=preload("res://capitulo1/fuga.gd")
+var fuga=FUGA.new()
 var laboratorio: RefCounted
 var biblioteca: RefCounted
 var ventilacao: RefCounted
@@ -618,7 +620,7 @@ func _story_tick(dt: float) -> void:
    if record_time>=4.0:
     recording=false; video_recorded=true
     hud.say("Vídeo salvo. Saia pelo portão 1.",4)
-    if alert_spread: start_chase()
+    start_chase()
  if video_recorded and player.position.distance_to(school.gate_at)<2.4:
   _jump_gate()
  if bag_found and not scare_played and player.position.distance_to(NIVEL.ponto(school,"susto")+Vector3(0,0,posmod(death_count,3)))<3:
@@ -677,7 +679,9 @@ func _jump_gate_now() -> void:
  locked=null
 
 func start_chase() -> void:
- if walk_mode or not alert_spread or not video_recorded or phase!="investigate": return
+ # Fuga obrigatória no fim (decisão de Felipe, 05/11): com o vídeo gravado,
+ # o perseguidor sempre vem, com ou sem alerta espalhado.
+ if walk_mode or not video_recorded or phase!="investigate": return
  phase="discovery"
  discovery_clock=0
  locked=null; protected_target=null; enemy_turn=null
@@ -688,11 +692,19 @@ func start_chase() -> void:
  pursuer.aware=true
  pursuer.last_seen=player.position
  pursuit_memory=12
+ fuga.iniciar(self)
  hud.say("Um cultista o encontra e chama alguém. Passos pesados se aproximam.",4)
  view.trauma=.35
 
 func end_discovery() -> void:
  phase="chase"
+ # Fuga roteirizada: ele sai do ritual, atrás de Miguel, nunca no caminho do portão.
+ if fuga.ativa and is_instance_valid(pursuer):
+  var atras: Vector3=school.ritual_center
+  if atras.distance_to(player.position)<3.0 or atras.distance_to(school.gate_at)<player.position.distance_to(school.gate_at):
+   atras=player.position-(school.gate_at-player.position).normalized()*5.0
+  atras.y=player.position.y
+  pursuer.position=atras; pursuer.velocity=Vector3.ZERO; pursuer.face(player.position)
  recording=false
  player.state="idle"
  view.yaw=atan2(-(school.gate_at-player.position).x,-(school.gate_at-player.position).z)
@@ -1182,6 +1194,10 @@ func _pursuer_tick(dt: float) -> void:
    pursuer.animate(dt)
    if pursuer.position.distance_to(entry)<1.1 and player.hidden and seen_hiding and hidden_spot==index: _grab()
    return
+ # Fuga roteirizada: pressão colada atrás e eventos até o portão.
+ if is_instance_valid(pursuer) and phase=="chase" and fuga.ativa and not player.hidden and pursuer.position.distance_to(player.position)>=.83:
+  fuga.tick(self,dt)
+  return
  # A base para a 0,83 m: aqui aproxima até o contato real das cápsulas.
  if is_instance_valid(pursuer) and phase=="chase" and not player.hidden and pursuer.position.distance_to(player.position)<.83:
   if not _grab_player(pursuer):
@@ -1289,6 +1305,7 @@ func restore_checkpoint() -> void:
  bag_found=bool(checkpoint.get("bag",false))
  if cozinha!=null: cozinha.load_state(checkpoint.get("cozinha",{}))
  if laboratorio!=null: laboratorio.load_state(checkpoint.get("laboratorio",{}))
+ fuga.ativa=false
  if phase in ["cozinha","laboratorio"]: phase="investigate"
  alert_spread=bool(checkpoint.get("alert",false))
  # Ritual volta ao transe se o alerta salvo não existia.
