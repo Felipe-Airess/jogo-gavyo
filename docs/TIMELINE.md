@@ -233,3 +233,14 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
   com contraluz fria, só observando (por cima do ombro → zoom → reação de
   Miguel), e some no corte. Cerca de 6 s.
 - [x] Teste de percurso joga a cozinha; teste da abertura verifica a chave e a aparição.
+
+### Ventilações — feito em 06/11/2026 (Claude), aguardando teste de Felipe
+- [x] `capitulo1/ventilacao.gd`: grades na parede (35 cm do chão), uma em cada sala.
+  - **Materiais de esportes ↔ Estoque da cozinha:** evita o refeitório vigiado.
+  - **Laboratório Informática 2 ↔ Laboratório de hardware:** ala oeste.
+- [x] Totalmente seguras: dentro do duto Miguel fica escondido e ninguém o vê.
+- [x] Jumpscare na primeira saída no estoque: cultista visto de baixo, através
+  da grade, com luz fria e grito; só susto, uma vez por sessão.
+- [ ] Trocar o rastejar provisório pela animação "Crawling" quando Felipe mandar.
+- Teste: `tests/capitulo1_ventilacao_test.gd` (12). Captura:
+  [capturas/ventilacao-20261106.jpg](capturas/ventilacao-20261106.jpg).

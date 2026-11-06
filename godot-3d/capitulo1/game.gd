@@ -65,6 +65,8 @@ var spawn_style:=0
 const ABERTURA=preload("res://capitulo1/abertura.gd")
 const COZINHA=preload("res://capitulo1/cozinha.gd")
 const PERCEPCAO=preload("res://capitulo1/percepcao.gd")
+const VENTILACAO=preload("res://capitulo1/ventilacao.gd")
+var ventilacao: RefCounted
 var percepcao: RefCounted
 var abertura: RefCounted
 var cozinha: RefCounted
@@ -139,6 +141,7 @@ func _ready() -> void:
   school.ritual_figures.append(e)
  cozinha=COZINHA.new(); cozinha.setup(self)
  percepcao=PERCEPCAO.new(); percepcao.setup(self)
+ ventilacao=VENTILACAO.new(); ventilacao.setup(self)
  if "--capturar-capitulo" in OS.get_cmdline_user_args(): call_deferred("_capture")
 
 ## Ambiente/respiração sem equivalente permanecem. Efeitos usam o pacote importado.
@@ -495,6 +498,9 @@ func _physics_process(dt: float) -> void:
   return
  if phase=="cozinha":
   cozinha.tick(dt)
+  return
+ if phase=="duto":
+  ventilacao.tick(dt)
   return
  if phase=="sighting":
   story_clock+=dt
@@ -953,6 +959,7 @@ func interact() -> void:
   vault["climb"]=true; player.clock=float(vault["hang_clock"]); player.state="vault"; return
  if player.state not in ["idle","heal","hang"] and not player.hidden: return
  if objectives.interact(): return
+ if ventilacao!=null and ventilacao.tentar_entrar(): return
  if not bag_found and player.position.distance_to(school.bag_at)<1.7 and player.position.y>2.5:
   if not objectives.has_key(): hud.say(objectives.text("porta_trancada"),4); return
   _begin_interaction("bag",school.bag,school.bag_at,Vector3.ZERO,"novo/PickUp_Table"); return
@@ -1040,7 +1047,7 @@ func _cultist_shout(e: CharacterBody3D) -> void:
 
 func context_text() -> String:
  if escape.active or escape_blackout>0: return ""
- if phase in ["intro","sighting","discovery","gate_jump","ending"]: return ""
+ if phase in ["intro","sighting","discovery","gate_jump","ending","cozinha","duto"]: return ""
  if objectives!=null:
   var nearby=objectives.prompt()
   if not nearby.is_empty(): return nearby
@@ -1054,6 +1061,7 @@ func context_text() -> String:
  if carried!=null: return "[T / clique] Arremessar objeto · clique direito solta a carga"
  if player.hidden: return "ESCONDIDO · observe e escute · [Espaço] Sair"
  if show_help: return "WASD mover · Espaço interagir · Ctrl agachar · V gravar · L lanterna"
+ if ventilacao!=null and not ventilacao.texto().is_empty(): return ventilacao.texto()
  for door in school.doors:
   if _near_looking(door.center(),1.8): return "[Espaço] "+("Fechar " if door.opened else "Abrir ")+door.title+(" · [F] Fresta" if not door.opened else "")
  for item in tools:

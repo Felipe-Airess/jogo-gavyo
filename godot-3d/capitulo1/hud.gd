@@ -119,7 +119,7 @@ func update(dt: float) -> void:
  escape_row.queue_redraw()
  if game.escape.active:
   message.text=""; prompt.text=""; vitals.visible=false; objective.visible=false
- show_escape_blackout(game.escape_blackout>0 or (game.phase=="intro" and game.abertura!=null and game.abertura.preto()))
+ show_escape_blackout(game.escape_blackout>0 or (game.phase=="intro" and game.abertura!=null and game.abertura.preto()) or (game.phase=="duto" and game.ventilacao!=null and game.ventilacao.preto()))
 
 func show_escape_blackout(on: bool) -> void:
  escape_black.size=get_viewport().get_visible_rect().size
