@@ -32,7 +32,7 @@ O robô anda em linha reta, nunca espera patrulha, não lê nada e não visita n
   **obrigatório** um dos encontros opcionais. Por exemplo, a pista da ave da
   biblioteca e a do laboratório passam a abrir o caminho do ritual (o Miguel
   precisa entender o que está gravando). Isso soma ~5–7 min a todos.
-- Decisão pendente de Felipe.
+- **Decisão de Felipe (06/11): deixar opcional.** Quem explora fica na meta; quem corre termina antes.
 
 ## Testes
 
