@@ -143,5 +143,20 @@
     "id": "cozinha_saida",
     "titulo": "[PROVISÓRIO] Cozinha · depois",
     "texto": "[PROVISÓRIO] Com a chave no bolso, Miguel sai da cozinha. Alguém o observa de longe."
+  },
+  {
+    "id": "lab_esconder",
+    "titulo": "[PROVISÓRIO] Laboratório · esconder",
+    "texto": "[PROVISÓRIO] Ele trancou a porta! [Espaço/toque] Esconder atrás da bancada"
+  },
+  {
+    "id": "lab_parado",
+    "titulo": "[PROVISÓRIO] Laboratório · parado",
+    "texto": "[PROVISÓRIO] Fique parado. Não se mexa até ele sair."
+  },
+  {
+    "id": "laboratorio_saida",
+    "titulo": "[PROVISÓRIO] Laboratório · depois",
+    "texto": "[PROVISÓRIO] Ele saiu e deixou a porta aberta."
   }
 ]

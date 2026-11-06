@@ -258,3 +258,15 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
 - Murmúrios de leitura: hoje só um ruído leve; faltam os sons de voz (Felipe).
 - Teste: `tests/capitulo1_biblioteca_test.gd` (8). Os testes que contavam 7
   cultistas agora contam os 7 dos postos mais o leitor.
+
+### Laboratório — "Trancado por dentro" — feito em 06/11/2026 (Claude), aguardando teste de Felipe
+- [x] `capitulo1/laboratorio.gd`, no **Laboratório de matemática** (ao lado da
+  biblioteca, uma porta, uma bancada, sem posto). A pista da ave 2 foi para lá.
+- [x] Pegar a pista → um cultista entra e **tranca a porta**. São 3 s para
+  apertar [Espaço/toque] e se esconder atrás da bancada; sem isso, morte direta.
+- [x] Escondido: tecla de movimento enche a vigilância; parado, só sobe um pouco
+  quando ele está colado. Ele mexe nos frascos em 3 pontos, cada vez mais perto,
+  e sai deixando a porta aberta. Vigilância cheia = morte direta → checkpoint.
+- [x] Câmera baixa ao lado do Miguel: o cultista aparece por cima da bancada.
+- Teste: `tests/capitulo1_laboratorio_test.gd` (11). Captura:
+  [capturas/laboratorio-20261106.jpg](capturas/laboratorio-20261106.jpg).

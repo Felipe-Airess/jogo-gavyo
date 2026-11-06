@@ -69,6 +69,8 @@ const COZINHA=preload("res://capitulo1/cozinha.gd")
 const PERCEPCAO=preload("res://capitulo1/percepcao.gd")
 const VENTILACAO=preload("res://capitulo1/ventilacao.gd")
 const BIBLIOTECA=preload("res://capitulo1/biblioteca.gd")
+const LABORATORIO=preload("res://capitulo1/laboratorio.gd")
+var laboratorio: RefCounted
 var biblioteca: RefCounted
 var ventilacao: RefCounted
 var percepcao: RefCounted
@@ -148,6 +150,7 @@ func _ready() -> void:
  cozinha=COZINHA.new(); cozinha.setup(self)
  percepcao=PERCEPCAO.new(); percepcao.setup(self)
  ventilacao=VENTILACAO.new(); ventilacao.setup(self)
+ laboratorio=LABORATORIO.new(); laboratorio.setup(self)
  if "--capturar-capitulo" in OS.get_cmdline_user_args(): call_deferred("_capture")
 
 ## Ambiente/respiração sem equivalente permanecem. Efeitos usam o pacote importado.
@@ -351,6 +354,11 @@ func cozinha_concluida() -> void:
  phase="investigate"; player.state="idle"
  hud.say(objectives.text("cozinha_saida"),5)
 
+## Laboratório concluído: o cultista saiu e deixou a porta aberta.
+func laboratorio_concluido() -> void:
+ phase="investigate"; player.state="idle"
+ hud.say(objectives.text("laboratorio_saida"),4)
+
 ## Morte direta (cozinha): tela preta e volta ao checkpoint da porta.
 ## [PROVISÓRIO: trocar pela cena de morte quando chegarem as animações]
 func morte_direta() -> void:
@@ -413,6 +421,9 @@ func _unhandled_input(event: InputEvent) -> void:
   skip_intro(); return
  if phase=="cozinha":
   if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_SPACE: cozinha.apertar()
+  return
+ if phase=="laboratorio":
+  if event is InputEventKey and event.pressed and not event.echo and event.keycode==KEY_SPACE: laboratorio.apertar()
   return
  if phase in ["intro","sighting","discovery","gate_jump","ending"]:
   # Cenas obrigatórias protegidas; olhar livre durante a observação inicial.
@@ -508,6 +519,9 @@ func _physics_process(dt: float) -> void:
  if phase=="duto":
   ventilacao.tick(dt)
   return
+ if phase=="laboratorio":
+  laboratorio.tick(dt)
+  return
  if phase=="sighting":
   story_clock+=dt
   _enemy_ticks(dt)
@@ -577,6 +591,10 @@ func _story_tick(dt: float) -> void:
  if walk_mode: return
  if phase!="investigate" and phase!="chase": return
  _unease_beats()
+ if phase=="investigate" and laboratorio!=null and laboratorio.pronto_para_disparar() and checkpoint_safe():
+  _snapshot()
+  phase="laboratorio"; laboratorio.iniciar()
+  return
  if phase=="investigate" and cozinha!=null and cozinha.entrou() and checkpoint_safe():
   checkpoint_index=maxi(checkpoint_index,1); _snapshot()
   phase="cozinha"; cozinha.iniciar()
@@ -1053,7 +1071,7 @@ func _cultist_shout(e: CharacterBody3D) -> void:
 
 func context_text() -> String:
  if escape.active or escape_blackout>0: return ""
- if phase in ["intro","sighting","discovery","gate_jump","ending","cozinha","duto"]: return ""
+ if phase in ["intro","sighting","discovery","gate_jump","ending","cozinha","duto","laboratorio"]: return ""
  if objectives!=null:
   var nearby=objectives.prompt()
   if not nearby.is_empty(): return nearby
@@ -1240,6 +1258,7 @@ func _snapshot(persist:=true) -> void:
  checkpoint["scare"]=scare_played
  checkpoint["sighting"]=sighting_seen
  if cozinha!=null: checkpoint["cozinha"]=cozinha.save_state()
+ if laboratorio!=null: checkpoint["laboratorio"]=laboratorio.save_state()
  if persist:
   var file=FileAccess.open(_save_path(),FileAccess.WRITE)
   if file: file.store_string(JSON.stringify(checkpoint))
@@ -1269,7 +1288,8 @@ func restore_checkpoint() -> void:
  super.restore_checkpoint()
  bag_found=bool(checkpoint.get("bag",false))
  if cozinha!=null: cozinha.load_state(checkpoint.get("cozinha",{}))
- if phase=="cozinha": phase="investigate"
+ if laboratorio!=null: laboratorio.load_state(checkpoint.get("laboratorio",{}))
+ if phase in ["cozinha","laboratorio"]: phase="investigate"
  alert_spread=bool(checkpoint.get("alert",false))
  # Ritual volta ao transe se o alerta salvo não existia.
  ritual_noticed=alert_spread
@@ -1464,6 +1484,7 @@ func _interaction_tick(dt: float) -> void:
 ## Leitura do maior nível existente, com alcance; não move nem corrige a IA.
 func vigilance_level() -> float:
  if phase=="cozinha" and cozinha!=null: return cozinha.vigilancia
+ if phase=="laboratorio" and laboratorio!=null: return laboratorio.vigilancia
  if walk_mode or paused or player.dead or phase not in ["investigate","chase","sighting"]: return 0.0
  var result:=0.0
  var actors: Array=[]; actors.append_array(enemies); actors.append_array(school.ritual_figures)

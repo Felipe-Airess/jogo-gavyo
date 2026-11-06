@@ -19,7 +19,7 @@ func _update_chapter(dt: float) -> void:
   _update_occluders()
   previous_mode=mode
   return
- if game.phase not in ["intro","sighting","discovery","gate_jump","ending","cozinha","duto"]:
+ if game.phase not in ["intro","sighting","discovery","gate_jump","ending","cozinha","duto","laboratorio"]:
   super.update(dt)
   return
  mode=game.phase
@@ -29,6 +29,8 @@ func _update_chapter(dt: float) -> void:
  game.player.model.visible=true
  if mode=="intro" and game.abertura!=null:
   var shot: Array=game.abertura.shot(); at=shot[0]; target=shot[1]; fov=shot[2]
+ elif mode=="laboratorio" and game.laboratorio!=null:
+  var shot: Array=game.laboratorio.shot(); at=shot[0]; target=shot[1]; fov=shot[2]
  elif mode=="duto" and game.ventilacao!=null:
   var shot: Array=game.ventilacao.shot(); at=shot[0]; target=shot[1]; fov=shot[2]
  elif mode=="cozinha" and game.cozinha!=null:

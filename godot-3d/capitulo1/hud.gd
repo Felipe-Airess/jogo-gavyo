@@ -35,7 +35,7 @@ func update(dt: float) -> void:
  if gallery_button!=null:
   gallery_button.visible=not game.started or game.paused
   gallery_button.position=Vector2(maxf(8,size.x-320),size.y-70)
- var cinematic=game.phase in ["intro","sighting","discovery","gate_jump","ending","cozinha"]
+ var cinematic=game.phase in ["intro","sighting","discovery","gate_jump","ending","cozinha","laboratorio"]
  message.modulate=Color.WHITE
  vitals.visible=not cinematic
  objective.visible=not cinematic
@@ -53,6 +53,11 @@ func update(dt: float) -> void:
   if cz.estado=="jogo":
    message.text=game.objectives.text("cozinha_agora") if cz.janela_aberta() else game.objectives.text("cozinha_espera")
    message.modulate=Color(1,.95,.55) if cz.janela_aberta() else Color(.7,.7,.72)
+  else: message.text=""
+ elif game.phase=="laboratorio" and game.laboratorio!=null:
+  var lab=game.laboratorio
+  if lab.estado=="esconder": message.text=game.objectives.text("lab_esconder"); message.modulate=Color(1,.85,.45)
+  elif lab.estado=="escondido": message.text=game.objectives.text("lab_parado"); message.modulate=Color(.75,.75,.8)
   else: message.text=""
  elif game.phase=="sighting": message.text="Um desconhecido segue para o corredor."
  elif game.phase=="discovery": message.text="A gravação continua." if game.discovery_clock<5.7 else "Miguel paralisa por um instante."
