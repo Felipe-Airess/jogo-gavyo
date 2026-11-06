@@ -8,6 +8,10 @@ var escape_row: Control
 var escape_black: ColorRect
 
 var luz_label: Label
+var objetivo_ate:=0
+var objetivo_ultimo:=""
+func mostrar_objetivo(segundos:=4.0) -> void:
+ objetivo_ate=Time.get_ticks_msec()+int(segundos*1000)
 func setup(owner_game: Node3D) -> void:
  super.setup(owner_game)
  if OS.is_debug_build():
@@ -38,7 +42,8 @@ func update(dt: float) -> void:
  var cinematic=game.phase in ["intro","sighting","discovery","gate_jump","ending","cozinha","laboratorio"]
  message.modulate=Color.WHITE
  vitals.visible=not cinematic
- objective.visible=not cinematic
+ # HUD mínimo (Felipe): objetivo só quando muda (6 s) ou com [Tab].
+ objective.visible=not cinematic and (Time.get_ticks_msec()<objetivo_ate or Input.is_physical_key_pressed(KEY_TAB))
  top_bar.visible=cinematic and not game.paused
  bottom_bar.visible=cinematic and not game.paused
  objective.text="Busque a bolsa no terceiro de Informática, no andar superior."
@@ -76,7 +81,9 @@ func update(dt: float) -> void:
  suspicion_bar.visible=suspicion.visible; suspicion_bar.value=level*100
  # Luz sobre Miguel (percepção dos cultistas): sombra esconde, luz expõe.
  var jogando: bool=game.phase in ["investigate","chase"] and not game.paused and not game.player.hidden
- luz_label.visible=jogando and game.percepcao!=null
+ # Só com cultista por perto (HUD mínimo).
+ var algum_perto: bool=game.enemies.any(func(e): return not e.dead and e.position.distance_to(game.player.position)<12.0)
+ luz_label.visible=jogando and game.percepcao!=null and algum_perto
  if luz_label.visible:
   var l: float=game.percepcao.luz
   luz_label.text="◐ na sombra" if l<.3 else ("◑ meia-luz" if l<.65 else "● na luz")
@@ -84,6 +91,8 @@ func update(dt: float) -> void:
   luz_label.position=Vector2(18,118 if suspicion.visible else 70)
  if game.objectives!=null and not cinematic and not game.bag_found:
   objective.text=game.objectives.text("objetivo_bolsa" if game.objectives.has_key() else "objetivo_chave")
+ if objective.text!=objetivo_ultimo:
+  objetivo_ultimo=objective.text; mostrar_objetivo(6.0)
  rec.position=Vector2(size.x-180,25)
  rec.text="● REC %02d s"%int(game.record_time) if game.recording and game.phase in ["investigate","discovery"] else ""
  rec.modulate=Color(.9,.22,.19)

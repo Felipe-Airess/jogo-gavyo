@@ -298,3 +298,14 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
   objetivo atual (cozinha → bolsa → ritual → portão), a cada 2 min no máximo.
   Textos `[PROVISÓRIO]` em `objetivos.json`, para Felipe escrever.
 - Teste: `tests/capitulo1_medo_test.gd` (10).
+
+### Celular e HUD mínimo — feito em 06/11/2026 (Claude), aguardando teste de Felipe
+- [x] **Mensagens dos amigos** (`objetivos.gd::receber`): chegam ao pegar a
+  bolsa (3 não lidas da tarde: Bola 14:12, Felipe 15:40, Bola 18:03), no
+  checkpoint antes do ritual (Felipe) e ao salvar o vídeo (Bola). Aparecem como
+  notificação "CELULAR ·" com vibração e ficam listadas no celular [N].
+  Os textos são `[PROVISÓRIO] (mensagem … a definir por Felipe)`, sem falas inventadas.
+- [x] **HUD mínimo:** o objetivo aparece por 6 s quando muda e depois só ao
+  segurar [Tab]. O indicador de sombra/luz só aparece com cultista a menos de
+  12 m. A vigilância já só aparecia com perigo.
+- Teste: `tests/capitulo1_celular_test.gd` (10).

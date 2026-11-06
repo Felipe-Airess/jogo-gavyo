@@ -12,6 +12,9 @@ var props: Dictionary={}
 var collected: Array[String]=[]
 var defeated: Array[int]=[]
 var unlocked:=false
+## Mensagens dos amigos no celular (textos de Felipe; [PROVISÓRIO] até lá).
+var mensagens: Array[String]=[]
+const MENSAGENS:={"bolsa":["msg_bola_1","msg_felipe_1","msg_bola_2"],"ritual":["msg_felipe_2"],"video":["msg_bola_3"]}
 var spent:=false
 var bag_door: Node3D
 var modal:=false
@@ -119,11 +122,22 @@ func finish(actor: CharacterBody3D) -> bool:
  game.sound.emit_at("agarrao",actor.position,-6)
  game.hud.say(text("finalizado"),3)
  return true
+## Chegam as mensagens de um momento da história (uma vez cada).
+func receber(momento: String) -> void:
+ var novas: Array[String]=[]
+ for id in MENSAGENS.get(momento,[]):
+  if id not in mensagens: mensagens.append(id); novas.append(id)
+ if novas.is_empty(): return
+ game.sound.ui("seta")
+ var aviso: String=text("msg_aviso")%novas.size() if novas.size()>1 else title(novas[0])+": "+text(novas[0])
+ game.hud.say("CELULAR · "+aviso,5)
+
 func save_state() -> Dictionary:
- return {"collected":collected.duplicate(),"unlocked":unlocked,"spent":spent,"defeated":defeated.duplicate()}
+ return {"collected":collected.duplicate(),"unlocked":unlocked,"spent":spent,"defeated":defeated.duplicate(),"mensagens":mensagens.duplicate()}
 func restore_state(state: Dictionary) -> void:
  close_screen()
  collected.assign(state.get("collected",[])); defeated.assign(state.get("defeated",[]))
+ mensagens.assign(state.get("mensagens",[]))
  unlocked=bool(state.get("unlocked",false)); spent=bool(state.get("spent",false))
  bag_door.locked=not unlocked
  if bag_door.locked: bag_door.set_open(false,true)
@@ -169,6 +183,9 @@ func open_screen(id: String) -> void:
   label(title(id)); label(text(id))
  else:
   label(title("celular"))
+  label(text("mensagens")+" (%d)"%mensagens.size())
+  for i in range(mensagens.size()-1,-1,-1):
+   label("· "+title(mensagens[i])+": "+text(mensagens[i]))
   for prefix in ["nota","pista"]:
    label(text("notas" if prefix=="nota" else "pistas")+" %d/%d"%[count(prefix),4 if prefix=="nota" else 2])
    for entry in collected:

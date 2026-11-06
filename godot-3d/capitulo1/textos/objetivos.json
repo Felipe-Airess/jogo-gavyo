@@ -178,5 +178,45 @@
     "id": "pensamento_portao",
     "titulo": "[PROVISÓRIO] Pensamento",
     "texto": "[PROVISÓRIO] (Miguel) O portão 1. Tenho que sair por lá, agora."
+  },
+  {
+    "id": "mensagens",
+    "titulo": "[PROVISÓRIO] Celular",
+    "texto": "[PROVISÓRIO] Mensagens"
+  },
+  {
+    "id": "msg_aviso",
+    "titulo": "[PROVISÓRIO] Celular",
+    "texto": "[PROVISÓRIO] %d mensagens não lidas"
+  },
+  {
+    "id": "msg_bola_1",
+    "titulo": "[PROVISÓRIO] Bola · 14:12",
+    "texto": "[PROVISÓRIO] (mensagem de Bola a definir por Felipe)"
+  },
+  {
+    "id": "msg_felipe_1",
+    "titulo": "[PROVISÓRIO] Felipe · 15:40",
+    "texto": "[PROVISÓRIO] (mensagem de Felipe a definir por Felipe)"
+  },
+  {
+    "id": "msg_bola_2",
+    "titulo": "[PROVISÓRIO] Bola · 18:03",
+    "texto": "[PROVISÓRIO] (mensagem de Bola a definir por Felipe)"
+  },
+  {
+    "id": "msg_felipe_2",
+    "titulo": "[PROVISÓRIO] Felipe · agora",
+    "texto": "[PROVISÓRIO] (mensagem de Felipe a definir por Felipe)"
+  },
+  {
+    "id": "msg_bola_3",
+    "titulo": "[PROVISÓRIO] Bola · agora",
+    "texto": "[PROVISÓRIO] (mensagem de Bola a definir por Felipe)"
+  },
+  {
+    "id": "objetivo_dica",
+    "titulo": "[PROVISÓRIO] Objetivo",
+    "texto": "[PROVISÓRIO] [Tab] objetivo"
   }
 ]

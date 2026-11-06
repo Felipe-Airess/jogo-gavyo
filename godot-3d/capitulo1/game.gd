@@ -451,6 +451,7 @@ func _unhandled_input(event: InputEvent) -> void:
    KEY_V: toggle_recording()
    KEY_T: throw_object()
    KEY_F1: show_help=not show_help
+   KEY_TAB: hud.mostrar_objetivo()
    KEY_F3:
     film_enabled=not film_enabled
     _resize_low()
@@ -613,6 +614,7 @@ func _story_tick(dt: float) -> void:
  if bag_found and not before_ritual and player.position.distance_to(school.ritual_approach)<3 and player.position.y<1 and checkpoint_safe():
   before_ritual=true; checkpoint_index=2; _snapshot()
   hud.say("Checkpoint · algo acontece no pátio de química.",3)
+  get_tree().create_timer(3.5).timeout.connect(func(): if is_instance_valid(objectives): objectives.receber("ritual"))
  if not sighting_seen and player.position.distance_to(NIVEL.ponto(school,"avistamento"))<4 and phase=="investigate":
   phase="sighting"; story_clock=0
   var look: Vector3=enemies[0].position-player.position
@@ -627,6 +629,7 @@ func _story_tick(dt: float) -> void:
    if record_time>=4.0:
     recording=false; video_recorded=true
     hud.say("Vídeo salvo. Saia pelo portão 1.",4)
+    objectives.receber("video")
     start_chase()
  if video_recorded and player.position.distance_to(school.gate_at)<2.4:
   _jump_gate()
@@ -1492,6 +1495,7 @@ func _interaction_tick(dt: float) -> void:
     bag_found=true; school.bag.visible=false; checkpoint_index=1
     sound.emit_at("bolsa",school.bag_at,-5)
     _snapshot(); hud.say("Bolsa e celular recuperados. Desça e procure a origem das vozes.",5)
+    get_tree().create_timer(5.5).timeout.connect(func(): if is_instance_valid(objectives): objectives.receber("bolsa"))
    "door":
     var door=interaction["object"]
     peek_door=null
