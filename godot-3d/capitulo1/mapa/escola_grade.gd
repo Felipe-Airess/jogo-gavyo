@@ -124,7 +124,9 @@ func build(owner_game: Node3D) -> void:
  env.fog_sky_affect=.85
  env.tonemap_mode=Environment.TONE_MAPPER_FILMIC
  for light in find_children("*","DirectionalLight3D",true,false): light.light_energy=.2
+ _trilha_do_culto()
  limitar_alcance()
+ _iluminacao_noite()
  for a in avisos: push_warning("MAPA: "+a)
 
 ## Desempenho (web): o GridMap desenha cada tipo de peça em cada octante
@@ -144,14 +146,17 @@ func _mesclar_visual() -> void:
    var base=gm.get_basis_with_orthogonal_index(gm.get_cell_item_orientation(cell))
    var xf: Transform3D=gm.transform*Transform3D(base,gm.map_to_local(cell))*gm.mesh_library.get_item_mesh_transform(item)
    var bloco=Vector2i(floori(xf.origin.x/BLOCO_VISUAL),floori(xf.origin.z/BLOCO_VISUAL))
+   # Luar só no que está a céu aberto (pisos externos e telhados vistos de cima).
+   var externo: bool=gm==telhados or (gm==pisos and cell.y==0 and _cobertura(andares[0],cell.x,cell.z)=="")
    for i in mesh.get_surface_count():
     var mat=mesh.surface_get_material(i)
-    var chave=[bloco,mat]
+    var chave=[bloco,mat,externo]
     if not grupos.has(chave):
-     var st=SurfaceTool.new();st.begin(Mesh.PRIMITIVE_TRIANGLES);st.set_material(mat);grupos[chave]=st
+     var st=SurfaceTool.new();st.begin(Mesh.PRIMITIVE_TRIANGLES);st.set_material(_luar(mat) if externo else mat);grupos[chave]=st
     grupos[chave].append_from(mesh,i,xf)
  for chave in grupos:
   var mi=MeshInstance3D.new();mi.mesh=grupos[chave].commit()
+  mi.layers=CAMADA_EXTERNA if chave[2] else CAMADA_INTERNA
   visual_mesclado.add_child(mi)
  for gm in [mapa,pisos,telhados]: gm.visible=false
 
@@ -163,6 +168,94 @@ func limitar_alcance() -> void:
   if m.get_parent()==visual_mesclado or m is GridMap: continue
   m.visibility_range_end=ALCANCE_OBJETOS
   m.visibility_range_end_margin=2.0
+  m.layers=CAMADA_EXTERNA if ceu_aberto(m.global_position) else CAMADA_INTERNA
+
+## ---------------------------------------------------------------- iluminação
+## Decisões de Felipe (05–06/11): luar frio no pátio e na quadra com neblina;
+## corredores com lâmpadas falhando; caminho principal iluminado (sem mapa, a
+## luz guia); velas quentes no ritual; trilha de velas apagadas e penas.
+## Camadas: o luar (DirectionalLight) só ilumina a camada externa, então não
+## vaza para dentro das salas sem precisar de sombras (caras na web).
+const CAMADA_EXTERNA:=1
+const CAMADA_INTERNA:=2
+var lampadas: Array=[]
+var lampadas_falhando: Array=[]
+var lua: DirectionalLight3D
+
+## O renderizador de compatibilidade ignora light_cull_mask: uma lua
+## direcional iluminaria também o interior. O luar vira um brilho azulado só
+## nos materiais a céu aberto (pisos externos e telhados).
+var _materiais_luar: Dictionary={}
+func _luar(mat: Material) -> Material:
+ if not mat is StandardMaterial3D: return mat
+ if _materiais_luar.has(mat): return _materiais_luar[mat]
+ var m: StandardMaterial3D=mat.duplicate()
+ m.emission_enabled=true; m.emission=Color(.10,.13,.22); m.emission_energy_multiplier=1.0
+ _materiais_luar[mat]=m
+ return m
+
+func ceu_aberto(pos: Vector3) -> bool:
+ if andar_de(pos)!=0 or andares.is_empty(): return false
+ var v:=celula_de(pos); var g=andares[0]
+ if v.x<0 or v.y<0 or v.x>=g.largura or v.y>=g.altura or g.e_vazio(v.x,v.y): return true
+ if g.e_parede(v.x,v.y): return false
+ return _cobertura(g,v.x,v.y)==""
+
+## Pontos do caminho principal (células do nível + marcas do mapa).
+func _caminho_principal() -> Array:
+ var pts: Array=[spawn,ritual_approach,stairs_bottom,stairs_top,gate_at]
+ for c in NIVEL.ROUTE_NORTH: pts.append(cel(c.x,c.y))
+ for nome in ["frente_3_informatica","patamar","corredor_superior","patio_aberto","refeitorio","vao_do_patio","corredor_aberto"]:
+  if NIVEL.PONTOS.has(nome): pts.append(NIVEL.ponto(self,nome))
+ for nome in ["Cozinha","Estoque da cozinha","Materiais de esportes"]:
+  if rooms.has(nome): pts.append(rooms[nome]["center"])
+ return pts
+
+func _iluminacao_noite() -> void:
+ var env: Environment=find_children("*","WorldEnvironment",true,false)[0].environment
+ env.ambient_light_color=Color(.34,.40,.58)
+ env.ambient_light_energy=.27
+ env.fog_light_color=Color(.075,.095,.15)
+ env.fog_density=.05
+ for l in find_children("*","DirectionalLight3D",true,false):
+  lua=l
+  # À noite a lua direcional fica apagada (vazaria para dentro); de dia a
+  # abertura a usa como sol.
+  l.light_color=Color(.55,.68,1.0); l.light_energy=0.0
+  l.rotation_degrees=Vector3(-38,-35,0)
+  l.light_cull_mask=CAMADA_EXTERNA
+ # Lâmpadas: caminho principal firme; resto parte falha e parte queimada.
+ var caminho:=_caminho_principal()
+ for item in lampadas:
+  var luz: OmniLight3D=item["luz"]
+  var perto:=INF
+  for pt in caminho: perto=minf(perto,Vector2(pt.x-luz.global_position.x,pt.z-luz.global_position.z).length())
+  if perto<5.0: continue
+  var h: float=fposmod(sin(luz.global_position.x*12.9898+luz.global_position.z*78.233)*43758.5453,1.0)
+  if h<.28:
+   luz.visible=false; luz.light_energy=0.0
+   item["lampada"].set_meta("queimada",true)
+  elif h<.62:
+   item["fase"]=h*40.0; lampadas_falhando.append(item)
+
+## Velas apagadas e penas do corredor até o pátio de química (sem jogo extra).
+func _trilha_do_culto() -> void:
+ var trilha: Array=[]
+ for c in NIVEL.ROUTE_SOUTH.slice(-3): trilha.append(cel(c.x,c.y))
+ trilha.append(ritual_approach)
+ var passo:=0
+ for i in trilha.size()-1:
+  var a: Vector3=trilha[i]; var b: Vector3=trilha[i+1]
+  var n:=int(a.distance_to(b)/1.4)
+  for k in n:
+   var t:=float(k)/maxf(1,n)
+   var lado: Vector3=(b-a).normalized().cross(Vector3.UP)*(.65 if passo%2==0 else -.65)
+   var at: Vector3=a.lerp(b,t)+lado
+   box(Vector3(.05,.10+.04*float(passo%3),.05),at+Vector3.UP*.06,"paper",false)
+   if passo%2==0:
+    var pena=box(Vector3(.13,.006,.035),at+Vector3(.18,.004,.1),"paper",false)
+    pena.rotation.y=float(passo)*1.3
+   passo+=1
 
 func _aviso(texto: String) -> void:
  avisos.append(texto)
@@ -619,6 +712,7 @@ func _lamp(at: Vector3,color: Color,reach: float,energy: float) -> void:
  light.shadow_enabled=false
  add_child(light)
  fixtures.append(bulb)
+ lampadas.append({"luz":light,"lampada":bulb,"energia":energy})
 
 ## Itens de jogo sobre blocos do mapa (posições em nivel.gd, em células).
 func _itens() -> void:
@@ -688,3 +782,8 @@ func update(dt: float,time: float) -> void:
  if flicker:
   var n=sin(time*13.1)+sin(time*7.3+1.7)+sin(time*2.9)
   flicker.light_energy=0.0 if n>2.1 else .9
+ for l in lampadas_falhando:
+  var f: float=l["fase"]
+  var n2=sin(time*11.7+f)+sin(time*5.3+f*1.9)+sin(time*1.7+f*.4)
+  var luz: OmniLight3D=l["luz"]
+  luz.light_energy=0.0 if n2>1.55 else (l["energia"]*(.35 if n2>1.1 else 1.0))

@@ -47,7 +47,9 @@ func atualizar_luz(game: Node3D,dt: float) -> void:
   var forca: float=l.light_energy*pow(1.0-d/l.omni_range,1.4)
   if forca<.05: continue
   if game.visible_between(l.global_position,peito): total+=forca*.9
- if game.bag_found and game.phone_light: total+=.55 # quem segura a lanterna aparece
+ if game.bag_found and game.phone_light and game.flashlight.light_energy>.5: total+=.55 # quem segura a lanterna aparece
+ # Luar no pátio e na quadra: a céu aberto expõe mais que um corredor escuro.
+ if game.school.has_method("ceu_aberto") and game.school.ceu_aberto(p.position): total+=.30
  luz=clampf(total,0,1)
 
 func _postura(game: Node3D) -> float:

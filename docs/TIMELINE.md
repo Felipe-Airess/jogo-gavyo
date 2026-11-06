@@ -212,3 +212,16 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
   - **Andar de cima:** respiro calmo, mais silencioso e escuro; alívio enganoso.
   - **Sinais do culto:** penas e restos pelo chão e trilhas de velas apagadas
     levando ao pátio de química.
+
+### Iluminação de luar — feita em 06/11/2026 (Claude), aguardando teste de Felipe
+- [x] Luar frio no pátio e na quadra: brilho azulado nos pisos e telhados a céu
+  aberto, mais uma luz azul fraca que acompanha Miguel do lado de fora. O
+  renderizador de compatibilidade ignora a máscara de luz, então uma lua
+  direcional vazaria para dentro (medido: dobrava o brilho do andar de cima).
+- [x] Interior mais escuro (ambiente 0,27), neblina azulada.
+- [x] Lâmpadas: as do caminho principal ficam firmes (a luz guia); das 40, 9
+  piscam e 12 estão queimadas.
+- [x] Ritual com velas quentes; trilha de velas apagadas e penas até o pátio de química.
+- [x] Lanterna pisca e falha quando a vigilância sobe ou há perseguição.
+- [x] A IA conta o luar: a céu aberto Miguel aparece mais que num corredor escuro.
+- Captura: [capturas/iluminacao-luar-20261106.jpg](capturas/iluminacao-luar-20261106.jpg).

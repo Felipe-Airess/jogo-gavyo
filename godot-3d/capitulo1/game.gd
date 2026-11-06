@@ -99,6 +99,7 @@ func _ready() -> void:
  flashlight.spot_angle=27
  flashlight.shadow_enabled=false
  flashlight.visible=false
+ flashlight.set_meta("energia",flashlight.light_energy)
  add_child(flashlight)
  var hand=BoneAttachment3D.new()
  hand.bone_name="RightHand"
@@ -220,6 +221,31 @@ func _resize_low() -> void:
  if low_view.size!=size: low_view.size=size
  filter_rect.material.set_shader_parameter("low_size",Vector2(size))
  filter_rect.material.set_shader_parameter("intensity",1.0 if film_enabled else 0.0)
+
+## Luar só em quem está a céu aberto (mesma regra do mapa); 3×/s.
+var _camadas_relogio:=0
+var luar_local: OmniLight3D
+func _camadas_luar() -> void:
+ # Luz azul fraca acima de Miguel quando ele está a céu aberto: ilumina ele e
+ # quem estiver perto como o luar (a lua direcional vazaria para dentro).
+ if luar_local==null:
+  luar_local=OmniLight3D.new(); luar_local.light_color=Color(.55,.68,1.0)
+  luar_local.omni_range=9.0; luar_local.light_energy=.85; luar_local.shadow_enabled=false
+  add_child(luar_local)
+ var miguel_fora: bool=school.ceu_aberto(player.position) and phase!="intro"
+ luar_local.visible=miguel_fora
+ if miguel_fora: luar_local.global_position=player.position+Vector3(-1.5,5.0,1.0)
+ _camadas_relogio+=1
+ if _camadas_relogio%20!=0: return
+ var atores: Array=[player]; atores.append_array(enemies); atores.append_array(school.ritual_figures)
+ if is_instance_valid(pursuer): atores.append(pursuer)
+ for a in atores:
+  if not is_instance_valid(a) or a.model==null: continue
+  var fora: bool=school.ceu_aberto(a.position)
+  if a.has_meta("ceu_aberto") and a.get_meta("ceu_aberto")==fora: continue
+  a.set_meta("ceu_aberto",fora)
+  for m in a.model.find_children("*","MeshInstance3D",true,false):
+   m.layers=school.CAMADA_EXTERNA if fora else school.CAMADA_INTERNA
 
 func _sync_low_camera() -> void:
  var cam: Camera3D=view.camera
@@ -422,6 +448,16 @@ func _process(dt: float) -> void:
  hud.update(dt)
  _resize_low()
  flashlight.visible=bag_found and phone_light and not paused
+ # Lanterna sem bateria, mas falha quando a tensão sobe (decisão de Felipe).
+ if flashlight.visible:
+  var tensao: float=maxf(vigilance_level(),1.0 if phase=="chase" else 0.0)
+  if tensao>.3:
+   var n=sin(elapsed*17.3)+sin(elapsed*6.1+1.3)+sin(elapsed*2.3)
+   if n>2.2-tensao*.8: flashlight.light_energy=0.0
+   elif n>1.6-tensao*.6: flashlight.light_energy=flashlight.get_meta("energia",flashlight.light_energy)*.3
+   else: flashlight.light_energy=flashlight.get_meta("energia",flashlight.light_energy)
+  else: flashlight.light_energy=flashlight.get_meta("energia",flashlight.light_energy)
+ _camadas_luar()
  if flashlight.visible:
   # Sai do celular na mão, não da câmera: em terceira pessoa a luz da câmera
   # iluminava as costas de Miguel em vez do caminho.
