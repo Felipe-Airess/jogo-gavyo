@@ -114,7 +114,10 @@ func tick(dt: float) -> void:
    if not olhando_longe: vigilancia+=dt*.9
    if u>=1.0:
     passo=-1.0; p.velocity=Vector3.ZERO; p.play("guarda")
-    if indice>=coberturas.size()-1: estado="saida"; clock=0.0
+    if indice>=coberturas.size()-1:
+     estado="saida"; clock=0.0
+     # A chave está no canto da cozinha: a cena é obrigatória (decisão de Felipe).
+     game.objectives.pegar_na_cena("chave")
   else:
    p.velocity=Vector3.ZERO
    if not olhando_longe: vigilancia+=dt*.05
@@ -131,12 +134,56 @@ func tick(dt: float) -> void:
    cultista.velocity=Vector3.ZERO; _cortar(dt)
   vigilancia=maxf(0,vigilancia-dt*.5)
   if clock>3.0:
-   estado="feito"
-   p.crouched=false; p.state="idle"
+   estado="visto"; clock=0.0
+   p.crouched=false
    p.position=Vector3(porta.x,0,porta.z-1.1)
+   _mostrar_perseguidor()
+ elif estado=="visto":
+  # Primeira aparição do perseguidor: só observa, ao longe, e some no corte.
+  p.velocity=Vector3.ZERO; p.play("guarda")
+  if is_instance_valid(observador):
+   p.face(observador.position,dt*.5)
+   observador.face(p.position,1.0); observador.play("guarda"); observador.animate(dt)
+   if clock>=VISTO_SOME:
+    observador.visible=false
+    if is_instance_valid(contraluz): contraluz.visible=false
+  if clock>=VISTO_FIM:
+   estado="feito"; p.state="idle"
    game.cozinha_concluida()
  p.animate(dt)
  cultista.animate(dt)
+
+const VISTO_SOME:=4.3
+const VISTO_FIM:=6.0
+var observador: CharacterBody3D
+var contraluz: OmniLight3D
+
+## Ponto ao longe, à vista da porta, onde o perseguidor fica parado.
+func _ponto_observador() -> Vector3:
+ var olho: Vector3=Vector3(porta.x,1.5,porta.z-1.1)
+ for dist in [15.0,12.0,9.0,7.0]:
+  for lado in [0.0,3.0,-3.0,6.0,-6.0]:
+   var alvo: Vector3=Vector3(porta.x+lado,0,porta.z-1.1-dist)
+   if game.visible_between(olho,alvo+Vector3.UP*1.8) and game.visible_between(olho,alvo+Vector3.UP*.3): return alvo
+ return Vector3(porta.x,0,porta.z-8.0)
+
+func _mostrar_perseguidor() -> void:
+ if not is_instance_valid(observador):
+  observador=game.PERSON.new(); observador.model_role="cultista_perseguidor"; observador.cinematic_friend=true
+  game.add_child(observador); observador.setup(game,_ponto_observador(),true)
+  observador.collision_layer=0; observador.collision_mask=0
+  for area in observador.hurt_areas: area.collision_layer=0; area.collision_mask=0
+  if observador.warning: observador.warning.visible=false
+ observador.position=_ponto_observador(); observador.visible=true
+ # Contraluz fria atrás dele: silhueta legível na neblina.
+ if not is_instance_valid(contraluz):
+  contraluz=OmniLight3D.new(); contraluz.light_color=Color(.6,.72,1.0); contraluz.light_energy=1.6
+  contraluz.omni_range=4.5; contraluz.shadow_enabled=false; game.add_child(contraluz)
+ var atras: Vector3=(observador.position-game.player.position); atras.y=0
+ contraluz.global_position=observador.position+atras.normalized()*1.4+Vector3.UP*2.2
+ contraluz.visible=true
+ observador.face(game.player.position,1.0)
+ game.sound.emit_at("roupa",observador.position,-12)
 
 func _cortar(dt: float) -> void:
  corte-=dt
@@ -186,6 +233,11 @@ func shot() -> Array:
   if clock<Q2: return [head+Vector3(-.5,.12,-.45),ch,40.0]
   if clock<Q3: return [mesa+Vector3(1.5,.25,2.3),ch,48.0]
   if clock<Q3+.9: return [cultista.position+Vector3(-1.2,1.6,1.8),ch,50.0]
+ if estado=="visto" and is_instance_valid(observador):
+  var oh: Vector3=observador.position+Vector3.UP*2.2
+  if clock<2.0: return [head+(head-oh).normalized()*.9+Vector3(.35,.15,0),oh,50.0]
+  if clock<VISTO_SOME: return [head+Vector3(0,.05,0),oh,16.0]
+  return [head+(oh-head).normalized()*1.1+Vector3(.2,0,.2),head,40.0]
  # Q5 e jogo: plano vertical, Miguel colado na parede, cultista do outro lado.
  var meio: Vector3=(p.position+cultista.position)*.5
  var fundo: float=game.school.rooms["Cozinha"]["rect"].end.y+game.school.ORIGEM.z-.4

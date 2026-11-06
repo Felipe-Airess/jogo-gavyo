@@ -225,3 +225,11 @@ Trilha, respiração humana e canto definitivo não vieram nesse pacote.
 - [x] Lanterna pisca e falha quando a vigilância sobe ou há perseguição.
 - [x] A IA conta o luar: a céu aberto Miguel aparece mais que num corredor escuro.
 - Captura: [capturas/iluminacao-luar-20261106.jpg](capturas/iluminacao-luar-20261106.jpg).
+
+### Cozinha obrigatória e o perseguidor observando — feito em 06/11/2026 (Claude)
+- [x] A chave saiu do estoque e foi para o canto da cozinha; Miguel a pega na
+  cena, ao chegar à última cobertura. Textos dizem "na cozinha" (`[PROVISÓRIO]`).
+- [x] Ao sair, primeira aparição do perseguidor: parado ao longe no corredor,
+  com contraluz fria, só observando (por cima do ombro → zoom → reação de
+  Miguel), e some no corte. Cerca de 6 s.
+- [x] Teste de percurso joga a cozinha; teste da abertura verifica a chave e a aparição.

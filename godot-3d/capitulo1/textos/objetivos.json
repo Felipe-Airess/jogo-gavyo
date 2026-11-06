@@ -7,7 +7,7 @@
   {
     "id": "porta_trancada",
     "titulo": "[PROVISÓRIO] Acesso à bolsa",
-    "texto": "[PROVISÓRIO] A sala foi trancada pelo culto. Procure a chave no estoque da cozinha; a entrada é vigiada."
+    "texto": "[PROVISÓRIO] A sala foi trancada pelo culto. A chave está na cozinha."
   },
   {
     "id": "chave",
@@ -87,7 +87,7 @@
   {
     "id": "objetivo_chave",
     "titulo": "[PROVISÓRIO] Objetivo",
-    "texto": "[PROVISÓRIO] Busque a chave no estoque da cozinha para abrir a sala da bolsa."
+    "texto": "[PROVISÓRIO] Busque a chave na cozinha para abrir a sala da bolsa."
   },
   {
     "id": "objetivo_bolsa",
@@ -142,6 +142,6 @@
   {
     "id": "cozinha_saida",
     "titulo": "[PROVISÓRIO] Cozinha · depois",
-    "texto": "[PROVISÓRIO] Ele voltou para a mesa. Miguel sai da cozinha sem comer."
+    "texto": "[PROVISÓRIO] Com a chave no bolso, Miguel sai da cozinha. Alguém o observa de longe."
   }
 ]

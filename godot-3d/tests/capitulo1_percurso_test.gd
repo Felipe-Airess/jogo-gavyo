@@ -113,6 +113,10 @@ func walk(to: Vector3,label: String,tolerance:=.6,limit:=60*90) -> bool:
    # Cenas de história param o controle; aguarda e continua.
    if game.phase in ["intro","discovery"]:
     await step(); continue
+   # Cozinha obrigatória: joga o timing (aperta só com a janela aberta).
+   if game.phase=="cozinha":
+    if game.cozinha.janela_aberta() and game.cozinha.ciclo>.12: game.cozinha.apertar()
+    await step(); continue
    note("%s: fase mudou para %s" % [label,game.phase]); return game.phase=="gate_jump"
   if game.player.dead:
    note("%s: Miguel morreu em %s" % [label,game.player.position]); key(KEY_W,false); return false

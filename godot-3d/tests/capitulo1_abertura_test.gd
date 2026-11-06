@@ -64,6 +64,8 @@ func run() -> void:
   if cz.janela_aberta() and cz.ciclo>.1: cz.apertar()
   tick(.05); t+=.05
  check(cz.estado=="feito" and game.phase=="investigate","timing certo passa pelas paredes e devolve o controle")
+ check(game.objectives.has_key(),"cozinha obrigatória: a chave é pega na cena")
+ check(is_instance_valid(cz.observador) and not cz.observador.visible,"perseguidor aparece observando e some depois")
  game.player.position=cz.porta+Vector3(0,0,-1.3); tick(.3)
  check(game.phase=="investigate","cozinha concluída não repete")
  print("CAPITULO1_ABERTURA: %d passed, %d failed"%[passed,failed])

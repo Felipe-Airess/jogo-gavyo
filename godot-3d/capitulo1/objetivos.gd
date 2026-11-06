@@ -2,7 +2,7 @@ extends Node
 ## Itens do bloqueio cinza, registros e estado de checkpoint. Não altera ossos.
 const TEXT_PATH="res://capitulo1/textos/objetivos.json"
 const PLACES={
- "chave":[Vector2(98,33),0], "finalizador":[Vector2(10,7),0],
+ "chave":[Vector2(83,38),0], "finalizador":[Vector2(10,7),0],
  "nota_1":[Vector2(98,31),0], "nota_2":[Vector2(49,36),0],
  "nota_3":[Vector2(86,11),0], "nota_4":[Vector2(73,51),0],
  "pista_1":[Vector2(44,7),0], "pista_2":[Vector2(34,53),0]}
@@ -85,6 +85,12 @@ func interact() -> bool:
  var id=nearby()
  if id.is_empty(): return false
  collect(id); return true
+## Coleta dentro de uma cena (sem alcance/olhar): a chave da cozinha.
+func pegar_na_cena(id: String) -> void:
+ if id in collected or not props.has(id): return
+ collected.append(id); props[id].visible=false
+ game.hud.say(text(id),4)
+
 func collect(id: String) -> bool:
  # A ação exige alcance e olhar reais, inclusive quando chamada por teste.
  if not can_collect(id): return false
