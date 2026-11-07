@@ -36,11 +36,11 @@ if ! "$gavyo_godot" --headless --version >> "$launch_log" 2>&1; then
   fail
 fi
 
-if [[ ! -f "$PWD/godot-3d/.godot/imported/miguel_animado.glb-617a1a66fc6524f3556fc197ceecc619.scn" ]] || ! compgen -G "$PWD/godot-3d/.godot/imported/felipe.glb-*.scn" >/dev/null; then
-  printf 'Preparando os recursos na primeira abertura…\n'
-  if ! "$gavyo_godot" --headless --path "$PWD/godot-3d" --import >> "$launch_log" 2>&1; then
-    fail
-  fi
+# Sempre importa antes de abrir: o Godot só processa o que mudou (rápido),
+# e arquivos novos vindos do git pull (modelos, sons) passam a existir para o jogo.
+printf 'Preparando os recursos (só o que mudou)…\n'
+if ! "$gavyo_godot" --headless --path "$PWD/godot-3d" --import >> "$launch_log" 2>&1; then
+  fail
 fi
 
 : > "$game_log"

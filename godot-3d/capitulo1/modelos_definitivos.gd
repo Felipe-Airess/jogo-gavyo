@@ -58,7 +58,13 @@ static func bounds(node: Node3D) -> AABB:
 static func instantiate(id: String) -> Node3D:
  var info=data(id)
  assert(not info.is_empty(),"Modelo sem papel definido: "+id)
- var model: Node3D=load(info.arquivo).instantiate()
+ # Se o arquivo leve ainda não foi importado (ex.: git pull sem reimportar),
+ # usa o detalhado em vez de travar a cena.
+ var cena: PackedScene=load(info.arquivo) if ResourceLoader.exists(info.arquivo) else null
+ if cena==null and info.has("arquivo_detalhado"):
+  push_warning("Modelo leve não importado, usando o detalhado: "+String(info.arquivo))
+  cena=load(info.arquivo_detalhado)
+ var model: Node3D=cena.instantiate()
  model.set_meta("modelo_definitivo",id)
  var arm=model.get_node("Armature")
  arm.name="MiguelRig" # Somente caminho de ligação das bibliotecas existentes.
